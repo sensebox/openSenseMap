@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head lang="en">
+  		<meta charset="utf-8">
+  		<title>OpenSenseMap</title>
+  		<link rel="stylesheet" href="vendor/foundation/foundation.min.css">
+    	<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+	</head>
+	<body ng-app="app">
+		<!-- Header and Nav -->
+	  	<div class="row">
+	    	<div class="large-3 columns">
+	      		<h1><a ng-href="{{'#/'}}" ><img src="images/logo.png"></a></h1>
+	    	</div>
+	    	<div class="large-9 columns">
+	      		<ul class="button-group right">
+	        		<li><a ng-href="{{'#/explore'}}" class="button">Erkunden</a></li>
+	        		<li><a ng-href="{{'#/upload'}}" class="button">Hochladen</a></li>
+	        		<li><a ng-href="{{'#/about'}}" class="button">Über uns</a></li>
+	      		</ul>
+	    	</div>
+	  	</div>
+	  	<!-- End Header and Nav -->
+
+	  	<!-- Angular App starts here -->
+	  	<div>
+	    	<ng-view></ng-view>
+	  	</div>
+	  	<!-- Angular App ends here -->
+
+	  	<!-- Footer -->
+		<footer class="row">
+			<div class="large-12 columns">
+		    	<hr />
+		      	<div class="row">
+		        	<div class="large-6 columns">
+		          		<p>© Copyright no one at all. Go to town.</p>
+		        	</div>
+		      	</div>
+			</div>
+		</footer>
+		<!-- End Footer -->
+
+	  	<script type="text/javascript" src="vendor/angular/angular.min.js"></script>
+	  	<script type="text/javascript" src="vendor/angular/angular-route.js"></script>
+	  	<script type="text/javascript" src="vendor/leaflet/leaflet.js"></script>
+    	<script type="text/javascript" src="vendor/angular/angular-leaflet-directive.min.js"></script>
+	  	<script type="text/javascript" src="app/js/main.js"></script>
+	</body>
+</html>

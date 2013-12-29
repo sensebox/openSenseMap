@@ -1,3 +1,6 @@
+/*global angular */
+'use strict';
+
 var app = angular.module("app", ["ngRoute","leaflet-directive"]);
 
 app.config(function($routeProvider) {
@@ -24,154 +27,54 @@ app.config(function($routeProvider) {
       	})
 });
 
-app.factory('Avengers', function() {
-    var Avengers = {};
-    Avengers.cast = [
-      {
-        name: "Robert Downey Jr.",
-        character: "Tony Stark / Iron Man"
-      },
-      {
-        name: "Chris Evans",
-        character: "Steve Rogers / Captain America"
-      },
-      {
-        name: "Mark Ruffalo",
-        character: "Bruce Banner / The Hulk"
-      },
-      {
-        name: "Chris Hemsworth",
-        character: "Thor"
-      },
-      {
-        name: "Scarlett Johansson",
-        character: "Natasha Romanoff / Black Widow"
-      },
-      {
-        name: "Jeremy Renner",
-        character: "Clint Barton / Hawkeye"
-      },
-      {
-        name: "Tom Hiddleston",
-        character: "Loki"
-      },
-      {
-        name: "Clark Gregg",
-        character: "Agent Phil Coulson"
-      },
-      {
-        name: "Cobie Smulders",
-        character: "Agent Maria Hill"
-      },
-      {
-        name: "Stellan Skarsgard",
-        character: "Selvig"
-      },
-      {
-        name: "Samuel L. Jackson",
-        character: "Nick Fury"
-      },
-      {
-        name: "Gwyneth Paltrow",
-        character: "Pepper Potts"
-      },
-      {
-        name: "Paul Bettany",
-        character: "Jarvis (voice)"
-      },
-      {
-        name: "Alexis Denisof",
-        character: "The Other"
-      },
-      {
-        name: "Tina Benko",
-        character: "NASA Scientist"
-      }
-    ];
-    return Avengers;
-})
-
 app.controller("AppCtrl", function($scope) {
     
 });
 
 app.controller("ExploreCtrl", function($scope) {
-    $scope.model = {
-        message: "Explore Tab !!!"
-    }
+
 });
 
-app.controller('MapCtrl', function ($scope) {
-	
+app.controller('MapCtrl', function ($scope,leafletEvents) {
+  angular.extend($scope, {
+        center: {
+            // autoDiscover: true
+            lat: 40.095,
+            lng: -3.823,
+            zoom: 4
+        },
+        defaults: {
+            tileLayer: "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
+            tileLayerOptions: {
+                opacity: 0.9,
+                detectRetina: true,
+                reuseTiles: true,
+            },
+            scrollWheelZoom: false
+        }
+    });
+
+  $scope.eventDetected = "No events yet...";
+  var mapEvents = leafletEvents.getAvailableMapEvents();
+  for (var k in mapEvents){
+      var eventName = 'leafletDirectiveMap.' + mapEvents[k];
+      $scope.$on(eventName, function(event){
+          $scope.eventDetected = event.name;
+      });
+  }
 });
 
 app.controller('UploadCtrl', function ($scope) {
-	$scope.Avengers = {};
-    $scope.Avengers.cast = [
-      {
-        name: "Robert Downey Jr.",
-        character: "Tony Stark / Iron Man"
-      },
-      {
-        name: "Chris Evans",
-        character: "Steve Rogers / Captain America"
-      },
-      {
-        name: "Mark Ruffalo",
-        character: "Bruce Banner / The Hulk"
-      },
-      {
-        name: "Chris Hemsworth",
-        character: "Thor"
-      },
-      {
-        name: "Scarlett Johansson",
-        character: "Natasha Romanoff / Black Widow"
-      },
-      {
-        name: "Jeremy Renner",
-        character: "Clint Barton / Hawkeye"
-      },
-      {
-        name: "Tom Hiddleston",
-        character: "Loki"
-      },
-      {
-        name: "Clark Gregg",
-        character: "Agent Phil Coulson"
-      },
-      {
-        name: "Cobie Smulders",
-        character: "Agent Maria Hill"
-      },
-      {
-        name: "Stellan Skarsgard",
-        character: "Selvig"
-      },
-      {
-        name: "Samuel L. Jackson",
-        character: "Nick Fury"
-      },
-      {
-        name: "Gwyneth Paltrow",
-        character: "Pepper Potts"
-      },
-      {
-        name: "Paul Bettany",
-        character: "Jarvis (voice)"
-      },
-      {
-        name: "Alexis Denisof",
-        character: "The Other"
-      },
-      {
-        name: "Tina Benko",
-        character: "NASA Scientist"
-      }
-    ];
-    $scope.model = {
-    	message: $scope.Avengers
-    }	
+  $scope.csvHeader = [];
+  $scope.csvData = [];
+
+
+  $scope.parseCSV = function(text){
+    $scope.csvData = CSV.parse(text);
+    console.log($scope.csvData);
+    $scope.csvHeader = $scope.csvData[0];
+    console.log($scope.csvHeader);
+  }
 });
 
 app.controller('AboutCtrl', function ($scope) {

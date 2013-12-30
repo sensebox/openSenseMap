@@ -14,6 +14,10 @@ app.config(function($routeProvider) {
         	templateUrl: "views/explore.html",
         	controller: "ExploreCtrl"
       	})
+        .when('/explore/:state', {
+          templateUrl: "views/explore.html",
+          controller: "ExploreCtrl"
+        })
       	.when('/upload', {
         	templateUrl: "views/upload.html",
         	controller: "UploadCtrl"
@@ -27,12 +31,22 @@ app.config(function($routeProvider) {
       	})
 });
 
+app.run(function ($rootScope) {
+  $rootScope.$on('$viewContentLoaded', function() {
+    $(document).foundation();
+  });
+});
+
 app.controller("AppCtrl", function($scope) {
     
 });
 
-app.controller("ExploreCtrl", function($scope) {
-
+app.controller("ExploreCtrl", function($scope, $routeParams, $location) {
+  $scope.productId = $routeParams.state;
+  $scope.templates =
+    [ { name: 'template1.html', url: 'views/devices.html'}
+    , { name: 'template2.html', url: 'views/sensors.html'} ];
+  $scope.template = $scope.templates[0];
 });
 
 app.controller('MapCtrl', function ($scope,leafletEvents) {
@@ -68,10 +82,8 @@ app.controller('UploadCtrl', function ($scope) {
   $scope.csvHeader = [];
   $scope.csvData = [];
 
-
   $scope.parseCSV = function(text){
     $scope.csvData = CSV.parse(text);
-    console.log($scope.csvData);
     $scope.csvHeader = $scope.csvData[0];
     console.log($scope.csvHeader);
   }

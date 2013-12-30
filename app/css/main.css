@@ -11,3 +11,7 @@
 .drop.drag-over {
     background: darkseagreen;
 }
+
+.row {
+	max-width: 73.5rem;
+}

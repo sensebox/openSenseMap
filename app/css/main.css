@@ -29,14 +29,14 @@
 
 .sidePanel ul.list li {
   position: relative;
-  height: 40px;
+  height: 60px;
   width: 100%;
   border: 1px solid black;
   background-color: yellow;
 }
 
 .sidePanel ul.list li a {
-  position:relative;
+  position:absolute;
   display:block; 
   height:inherit;
   width:inherit;
@@ -46,4 +46,13 @@
 
 .sidePanel ul.list li a:hover{
   background-color: green;
+}
+
+.sidePanel ul.list li a h3 {
+  margin-top: 0px;
+  margin-left: 60px;
+  height: inherit;
+  line-height: 60px;
+  font-size: 22px;
+  font-weight: 400;
 }

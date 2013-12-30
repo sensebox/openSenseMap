@@ -44,8 +44,8 @@ app.controller("AppCtrl", function($scope) {
 app.controller("ExploreCtrl", function($scope, $routeParams, $location) {
   $scope.productId = $routeParams.state;
   $scope.templates =
-    [ { name: 'template1.html', url: 'views/devices.html'}
-    , { name: 'template2.html', url: 'views/sensors.html'} ];
+    [ { name: 'Geräte', url: 'views/devices.html'}
+    , { name: 'Sensoren', url: 'template.html'} ];
   $scope.template = $scope.templates[0];
 });
 

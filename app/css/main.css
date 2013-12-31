@@ -31,8 +31,9 @@
   position: relative;
   height: 60px;
   width: 100%;
-  border: 1px solid black;
-  background-color: yellow;
+  border-bottom: 1px solid black;
+  /*border: 1px solid black;*/
+  background-color: #EFECE7;
 }
 
 .sidePanel ul.list li a {
@@ -45,7 +46,7 @@
 }
 
 .sidePanel ul.list li a:hover{
-  background-color: green;
+  background-color: #B9D1D1;
 }
 
 .sidePanel ul.list li a h3 {

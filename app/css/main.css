@@ -41,12 +41,16 @@
   display:block; 
   height:inherit;
   width:inherit;
-  color:#11333c;
+  /*color:#11333c;*/
   font-weight:400; 
 }
 
 .sidePanel ul.list li a:hover{
   background-color: #B9D1D1;
+  background-image:url('../../images/devices.png');
+  background-repeat: no-repeat;
+  background-position: 2% 50%;
+  background-size: 32px 32px;
 }
 
 .sidePanel ul.list li a h3 {
@@ -56,4 +60,8 @@
   line-height: 60px;
   font-size: 22px;
   font-weight: 400;
+}
+
+.red {
+    background-color: red;
 }

@@ -1,11 +1,11 @@
 <!-- Main Page Content and Sidebar -->
 
-<div class="row" ng-controller="MapCtrl">
+<div class="row" ng-controller="GeoJSONController">
 
 	<!-- Main Blog Content -->
 	<div class="large-7 columns" role="content">
 
-		<leaflet center="center" defaults="defaults" width="100%" height="550px">
+		<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="550px">
 		</leaflet>
 
 	</div>
@@ -18,12 +18,13 @@
 	<aside class="large-5 columns" ng-controller="ExploreCtrl">
 		<!-- TODO Sidebar mit den sich im extent befindeden Stationen/Sensoren anzeigen-->
 		<div>
-	      <select ng-model="template" ng-options="t.name for t in templates">
-	       <option value="">(blank)</option>
-	      </select>
-	      <div class="slide-animate-container">
-	        <div class="slide-animate" ng-include="template.url"></div>
-	      </div>
+	      	<div class="sidePanel">
+    			<ul class="list">
+        			<li ng-repeat="box in data.boxes">
+            			<a href=""><h3>{{box.name}}</h3></a>
+        			</li>
+    			<ul>
+			</div>
 	    </div>
 	</aside>
 

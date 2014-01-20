@@ -1,7 +1,7 @@
 /*global angular */
 'use strict';
 
-var app = angular.module("app", ["ngRoute","leaflet-directive"]);
+var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive"]);
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -31,6 +31,10 @@ app.config(function($routeProvider) {
       	})
 });
 
+app.factory('OpenSenseBoxes', function($resource){
+    return $resource('http://opensensemap.org:8000/boxes', {})
+});
+
 app.run(function ($rootScope) {
   $rootScope.$on('$viewContentLoaded', function() {
     $(document).foundation();
@@ -41,22 +45,32 @@ app.controller("AppCtrl", function($scope) {
     
 });
 
-app.controller("ExploreCtrl", function($scope, $routeParams, $location) {
-  $scope.productId = $routeParams.state;
+app.controller("ExploreCtrl", ["$scope","OpenSenseBoxes", function($scope, OpenSenseBoxes) {
+  $scope.data = {};
+
+  OpenSenseBoxes.query(function(response) {
+    // Assign the response INSIDE the callback
+    $scope.data.boxes = response;
+  });
+
+  // $scope.productId = $routeParams.state;
   $scope.templates =
     [ { name: 'Geräte', url: 'views/devices.html'}
     , { name: 'Sensoren', url: 'template.html'} ];
   $scope.template = $scope.templates[0];
-});
+}]);
 
-app.controller('MapCtrl', function ($scope,leafletEvents) {
-  angular.extend($scope, {
+app.controller("GeoJSONController", [ '$scope', 'OpenSenseBoxes', function($scope, OpenSenseBoxes) {
+    $scope.markers = [];
+
+    angular.extend($scope, {
         center: {
-            // autoDiscover: true
+            // autoDiscover: true,
             lat: 40.095,
             lng: -3.823,
             zoom: 4
         },
+        markers: $scope.markers,
         defaults: {
             tileLayer: "http://a.tile.openstreetmap.org/{z}/{x}/{y}.png",
             tileLayerOptions: {
@@ -68,15 +82,15 @@ app.controller('MapCtrl', function ($scope,leafletEvents) {
         }
     });
 
-  $scope.eventDetected = "No events yet...";
-  var mapEvents = leafletEvents.getAvailableMapEvents();
-  for (var k in mapEvents){
-      var eventName = 'leafletDirectiveMap.' + mapEvents[k];
-      $scope.$on(eventName, function(event){
-          $scope.eventDetected = event.name;
-      });
-  }
-});
+    OpenSenseBoxes.query(function(response){
+      for (var i = response.length - 1; i >= 0; i--) {
+        var tempMarker = {};
+        tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
+        tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
+        $scope.markers.push(tempMarker);
+      };
+    });
+}]);
 
 app.controller('UploadCtrl', function ($scope) {
   $scope.csvHeader = [];

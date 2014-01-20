@@ -1,37 +1,7 @@
-<div class="sidePanel">
+<div class="sidePanel" ng-controller="ExploreCtrl">
     <ul class="list">
-        <li><a href=""><h3>SenseBox 1</h3></a></li>
-        <li><a href=""><h3>SenseBox 2</h3></a></li>
-        <li><a href=""><h3>SenseBox 3</h3></a></li>
-        <li><a href=""><h3>SenseBox 4</h3></a></li>
-        <li><a href=""><h3>SenseBox 5</h3></a></li>
-        <li><a href=""><h3>SenseBox 6</h3></a></li>
-        <li><a href=""><h3>SenseBox 7</h3></a></li>
-        <li><a href=""><h3>SenseBox 8</h3></a></li>
-        <li><a href=""><h3>SenseBox 9</h3></a></li>
-        <li><a href=""><h3>SenseBox 10</h3></a></li>
-        <li><a href=""><h3>SenseBox 11</h3></a></li>
-        <li><a href=""><h3>SenseBox 12</h3></a></li>
-        <li><a href=""><h3>SenseBox 13</h3></a></li>
-        <li><a href=""><h3>SenseBox 14</h3></a></li>
-        <li><a href=""><h3>SenseBox 15</h3></a></li>
-        <li><a href=""><h3>SenseBox 16</h3></a></li>
-        <li><a href=""><h3>SenseBox 17</h3></a></li>
-        <li><a href=""><h3>SenseBox 18</h3></a></li>
-        <li><a href=""><h3>SenseBox 19</h3></a></li>
-        <li><a href=""><h3>SenseBox 20</h3></a></li>
-        <li><a href=""><h3>SenseBox 21</h3></a></li>
-        <li><a href=""><h3>SenseBox 22</h3></a></li>
-        <li><a href=""><h3>SenseBox 23</h3></a></li>
-        <li><a href=""><h3>SenseBox 24</h3></a></li>
-        <li><a href=""><h3>SenseBox 25</h3></a></li>
-        <li><a href=""><h3>SenseBox 26</h3></a></li>
-        <li><a href=""><h3>SenseBox 27</h3></a></li>
-        <li><a href=""><h3>SenseBox 28</h3></a></li>
-        <li><a href=""><h3>SenseBox 29</h3></a></li>
-        <li><a href=""><h3>SenseBox 30</h3></a></li>
-        <li><a href=""><h3>SenseBox 31</h3></a></li>
-        <li><a href=""><h3>SenseBox 32</h3></a></li>
-        <li><a href=""><h3>SenseBox 33</h3></a></li>
+        <li ng-repeat="box in data.boxes">
+            <a href=""><h3>{{box.name}}</h3></a>
+        </li>
     <ul>
 </div>

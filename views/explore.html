@@ -17,7 +17,7 @@
 
 	<aside class="large-5 columns" ng-controller="ExploreCtrl">
 		<!-- TODO Sidebar mit den sich im extent befindeden Stationen/Sensoren anzeigen-->
-		<div>
+		<!-- <div>
 	      	<div class="sidePanel">
     			<ul class="list">
         			<li ng-repeat="box in data.boxes">
@@ -25,7 +25,15 @@
         			</li>
     			<ul>
 			</div>
-	    </div>
+	    </div> -->
+	    <dl class="accordion" data-accordion>
+		  <dd ng-repeat="box in data.boxes">
+		    <a ng-click="show(box._id)">{{box.name}}</a>
+		    <div id={{box._id}} class="content">
+		    	{{box._id}}
+		    </div>
+		  </dd>
+		</dl>
 	</aside>
 
 	<!-- End Sidebar -->

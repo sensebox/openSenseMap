@@ -4,7 +4,9 @@
   		<meta charset="utf-8">
   		<title>OpenSenseMap</title>
   		<link rel="stylesheet" href="vendor/foundation/foundation.min.css">
+  		<link rel="stylesheet" href="vendor/foundation/foundation-icons.css" />
     	<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
+    	<link rel="stylesheet" href="vendor/angular/xeditable.css" />
     	<link rel="stylesheet" href="app/css/main.css" />
 	</head>
 	<body ng-app="app">
@@ -15,9 +17,10 @@
 	    	</div>
 	    	<div class="large-9 columns">
 	      		<ul class="button-group right">
-	        		<li><a ng-href="{{'#/explore'}}" class="button">Erkunden</a></li>
-	        		<li><a ng-href="{{'#/upload'}}" class="button">Hochladen</a></li>
-	        		<li><a ng-href="{{'#/about'}}" class="button">Über uns</a></li>
+	        		<li><a ng-href="{{'#/explore'}}" class="button">Discover</a></li>
+	        		<li><a ng-href="{{'#/upload'}}" class="button">Upload</a></li>
+	        		<li><a ng-href="{{'#/register'}}" class="button">Register</a></li>
+	        		<li><a ng-href="{{'#/about'}}" class="button">About us</a></li>
 	      		</ul>
 	    	</div>
 	  	</div>
@@ -47,10 +50,12 @@
   		<script type="text/javascript" src="vendor/foundation/js/modernizr.js"></script>
   		<script type="text/javascript" src="vendor/foundation/js/foundation.min.js"></script>
   		<script type="text/javascript" src="vendor/foundation/js/foundation/foundation.tab.js"></script>
+  		<script type="text/javascript" src="vendor/foundation/js/foundation/foundation.accordion.js"></script>
 
 	  	<script type="text/javascript" src="vendor/angular/angular.min.js"></script>
 	  	<script type="text/javascript" src="vendor/angular/angular-route.js"></script>
 	  	<script type="text/javascript" src="vendor/angular/angular-resource.js"></script>
+	  	<script type="text/javascript" src="vendor/angular/xeditable.js"></script>
 	  	<script type="text/javascript" src="vendor/leaflet/leaflet.js"></script>
     	<script type="text/javascript" src="vendor/angular/angular-leaflet-directive.min.js"></script>
     	<script type="text/javascript" src="vendor/parser/csv.js"></script>

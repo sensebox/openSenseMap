@@ -1,0 +1,86 @@
+<div class="row">
+	<div class="large-12 columns">
+		<div class="large-8 columns">
+			<h5 id="creating-custom-directives_source_hello">SenseBox Metadata</h5>
+			<div class="large-12 columns">
+				<div class="large-1 columns">
+	  				<label for="left-label" class="left inline">Name</label>
+				</div>
+				<div class="large-11 columns">
+	  				<input type="text" ng-model="newSenseBox.name" id="left-label" placeholder="SenseBox Name">
+				</div>	
+			</div>
+			<div class="large-12 columns">
+				<div class="large-1 columns">
+					<label for="type" class="left inline">Type</label>
+				</div>
+				<div class="large-11 columns">
+					<select id="type" ng-model="newSenseBox.type">
+						<option value="fixed">Fixed</option>
+						<option value="mobile">Mobile</option>
+					</select>	
+				</div>
+			</div>
+		</div>
+		<div class="large-4 columns">
+			<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="250px">
+			</leaflet>
+		</div>
+	<hr style="visibility:hidden">
+	<hr>
+	</div>
+	<div class="large-12 columns">
+		<div class="large-12 columns">
+			<h5 id="creating-custom-directives_source_hello">Sensors <i ng-click="addSensor()" class="step fi-plus size-12"></i></button></h5>
+			<div class="large-12 columns">
+				<table class="table table-bordered table-hover table-condensed">
+    				<tr style="font-weight: bold">
+      					<td style="width:35%">Phenomenom</td>
+      					<td style="width:20%">Unit</td>
+      					<td style="width:20%">Type</td>
+      					<td style="width:25%">Edit</td>
+    				</tr>
+    				<tr ng-repeat="sensor in sensors">
+      					<td>
+          					<!-- editable status (select-local) -->
+        					<span editable-select="sensor.phenomenom" e-name="phenomenom" e-form="rowform" e-ng-options="s.value as s.text for s in phenomenoms">
+          						{{ showStatus(sensor) }}
+        					</span>
+      					</td>
+      					<td>
+        					<!-- editable username (text with validation) -->
+        					<span editable-text="sensor.unit" e-name="unit" e-form="rowform">
+          						{{ sensor.unit || 'empty' }}
+        					</span>
+      					</td>
+      					<td>
+        					<!-- editable group (select-remote) -->
+        					<span editable-text="sensor.type" e-name="type" e-form="rowform">
+          						{{ sensor.type || 'empty' }}
+        					</span>
+      					</td>
+      					<td style="white-space: nowrap">
+        					<!-- form -->
+        					<form editable-form name="rowform" ng-show="rowform.$visible" class="form-buttons form-inline">
+          						<button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary">
+            						save
+          						</button>
+          						<button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+            						cancel
+          						</button>
+        					</form>
+        					<div class="buttons" ng-show="!rowform.$visible">
+          						<button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+          						<button class="btn btn-danger" ng-click="removeSensor($index)">del</button>
+        					</div>  
+      					</td>
+    				</tr>
+  				</table>
+			</div>
+		</div>
+		<hr style="visibility:hidden">
+		<hr>
+		<a href="#/" ng-click="saveToDB()" class="button success">Save</a>
+		<a href="#/" class="button alert">Cancel</a>
+	</div>
+</div>

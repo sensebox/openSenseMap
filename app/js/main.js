@@ -1,7 +1,7 @@
 /*global angular */
 'use strict';
 
-var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable"]);
+var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable"])
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -30,13 +30,17 @@ app.config(function($routeProvider) {
           templateUrl: "views/register.html",
           controller: "RegisterCtrl"
         })
+        .when('/chart', {
+          templateUrl: "views/chart.html",
+          controller: "mainCtrl"
+        })
       	.otherwise({
         	template: "This doesn't exist!"
       	})
 });
 
 app.factory('OpenSenseBoxes', function($resource){
-    return $resource('http://opensensemap.org:8000/boxes', {})
+    return $resource('http://localhost:8000/boxes', {})
 });
 
 app.run(function ($rootScope) {
@@ -49,7 +53,8 @@ app.controller("AppCtrl", function($scope) {
     
 });
 
-app.controller("ExploreCtrl", ["$scope","OpenSenseBoxes", function($scope, OpenSenseBoxes) {
+app.controller("ExploreCtrl", function($scope, OpenSenseBoxes, $http) {
+
   $scope.data = {};
   $scope.accordion = {};
   $scope.accordion.active = "";
@@ -67,6 +72,20 @@ app.controller("ExploreCtrl", ["$scope","OpenSenseBoxes", function($scope, OpenS
 
   $scope.show = function (boxId){
     var elem = "#"+boxId;
+    if (boxId != "") {
+      $http.get("http://localhost:8000/boxes/"+boxId+"/sensors").success(function(data,status,headers,config){
+        console.log(data);
+
+        for (var i = $scope.data.boxes.length - 1; i >= 0; i--) {
+          console.log($scope.data.boxes[i]._id);
+          for (var j = data.length - 1; j >= 0; j--) {
+            if ($scope.data.boxes[i]._id == data[j].boxes_id) {};
+              $scope.data.boxes[i].sensors = data;
+          };
+          break;
+        };
+      });  
+    };
 
     if ($scope.accordion.active == elem) {
       angular.element($scope.accordion.active).removeClass("active");
@@ -80,7 +99,7 @@ app.controller("ExploreCtrl", ["$scope","OpenSenseBoxes", function($scope, OpenS
       $scope.accordion.active = elem;
     };
   }
-}]);
+});
 
 app.controller("GeoJSONController", [ '$scope', 'OpenSenseBoxes', function($scope, OpenSenseBoxes) {
     $scope.markers = [];

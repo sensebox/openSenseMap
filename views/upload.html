@@ -2,7 +2,7 @@
   <textarea ng-model="num" ng-change="parseCSV(num)"></textarea>
   <hr>
   <table>
-    <thead>
+    <thead style="width:100%">
       <tr>
         <th ng-repeat="header in csvHeader">{{header}}</th>
       </tr>
@@ -13,4 +13,5 @@
       </tr>
     </tbody>
   </table>
+  <button>Upload</button>
 </div>

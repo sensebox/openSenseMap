@@ -24,16 +24,8 @@
 		    	<li ng-repeat="sensor in selected">
 		    		{{sensor.title}}: {{sensor.measurements.value}}
 		    	</li>
-		    	<!-- <select ng-model='chartType'>
-					<option value="pie">pie</option>
-					<option value="bar">bar</option>
-					<option value="line">line</option>
-					<option value="point">point</option>
-					<option value="area">area</option>
-				</select>
-		    	<div class='charts'>
-					<div ac-chart="chartType" ac-data="data1" ac-config="config1" id='chart' class='chart'></div>
-				</div> -->
+		    	<!-- <bars></bars> -->
+		    	<canvas chart type="Line" options="options" data="chart" width="450" height="300"></canvas>
 		    </div>
 		  </dd>
 		</dl>

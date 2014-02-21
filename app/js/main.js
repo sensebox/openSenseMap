@@ -1,7 +1,7 @@
 /*global angular */
 'use strict';
 
-var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable"])
+var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable", "angularCharts"])
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -40,7 +40,7 @@ app.config(function($routeProvider) {
 });
 
 app.factory('OpenSenseBoxes', function($resource){
-    return $resource('http://localhost:8000/boxes', {})
+    return $resource('http://opensensemap.org:8000/boxes', {})
 });
 
 app.run(function ($rootScope) {
@@ -58,6 +58,48 @@ app.controller("ExploreCtrl", function($scope, OpenSenseBoxes, $http) {
   $scope.data = {};
   $scope.accordion = {};
   $scope.accordion.active = "";
+  $scope.selected = {};
+
+  $scope.data1 = {
+    series: ['Sales', 'Income', 'Expense', 'Laptops', 'Keyboards'],
+    data : [{
+      x : "Sales",
+      y: [100,500, 0],
+      tooltip:"this is tooltip"
+    },
+    {
+      x : "Not Sales",
+      y: [300, 100, 100]
+    },
+    {
+      x : "Tax",
+      y: [351]
+    },
+    {
+      x : "Not Tax",
+      y: [54, 0, 879]
+    }]     
+  }
+
+  $scope.chartType = 'bar';
+
+  $scope.config = {
+    labels: false,
+    title : "Not Products",
+    legend : {
+      display:true,
+      position:'left'
+    }
+  }
+
+  $scope.config1 = {
+    labels: false,
+    title : "Products",
+    legend : {
+      display:true,
+      position:'right'
+    }
+  }
 
   OpenSenseBoxes.query(function(response) {
     // Assign the response INSIDE the callback
@@ -73,17 +115,18 @@ app.controller("ExploreCtrl", function($scope, OpenSenseBoxes, $http) {
   $scope.show = function (boxId){
     var elem = "#"+boxId;
     if (boxId != "") {
-      $http.get("http://localhost:8000/boxes/"+boxId+"/sensors").success(function(data,status,headers,config){
-        console.log(data);
-
-        for (var i = $scope.data.boxes.length - 1; i >= 0; i--) {
-          console.log($scope.data.boxes[i]._id);
-          for (var j = data.length - 1; j >= 0; j--) {
-            if ($scope.data.boxes[i]._id == data[j].boxes_id) {};
-              $scope.data.boxes[i].sensors = data;
-          };
-          break;
-        };
+      $http.get("http://opensensemap.org:8000/boxes/"+boxId+"/sensors").success(function(data,status,headers,config){
+        // console.log(data);
+        $scope.selected = data;
+        console.log($scope.selected);
+        // for (var i = $scope.data.boxes.length - 1; i >= 0; i--) {
+        //   console.log($scope.data.boxes[i]._id);
+        //   for (var j = data.length - 1; j >= 0; j--) {
+        //     if ($scope.data.boxes[i]._id == data[j].boxes_id) {};
+        //       $scope.data.boxes[i].sensors = data;
+        //   };
+        //   break;
+        // };
       });  
     };
 

@@ -1,19 +1,27 @@
-.drop {
+body {
+  padding-top: 70px;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/*.drop {
     padding: 15px;
     border: 2px #f1f1f1 dashed;
     border-radius: 5px;
     line-height: 34px;
     display: initial;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
-  	font-size: 12px;
-  	color:#777;
+    font-size: 12px;
+    color:#777;
 }
 .drop.drag-over {
     background: darkseagreen;
 }
 
 .row {
-	max-width: 73.5rem;
+  max-width: 73.5rem;
 }
 
 .sidePanel {
@@ -32,7 +40,7 @@
   height: 60px;
   width: 100%;
   border-bottom: 1px solid black;
-  /*border: 1px solid black;*/
+  border: 1px solid black;
   background-color: #EFECE7;
 }
 
@@ -41,7 +49,7 @@
   display:block; 
   height:inherit;
   width:inherit;
-  /*color:#11333c;*/
+  color:#11333c;
   font-weight:400; 
 }
 
@@ -105,7 +113,7 @@
   stroke-width: 1.5px;
 }
 
-/*.chart {
+.chart {
   float:left;
   width: 350px;
   height:250px;

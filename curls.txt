@@ -49,3 +49,6 @@ curl -i -X POST -H "Content-Type: application/json" -d '{"name":"SenseBox AFG","
   211  curl -i -X POST -H "Content-Type: application/json" -d '{"name":"SenseBox AFG","sensors":[{"title":"Temperatur","unit":"°C"},{"title":"Humidity","unit":"%"}],"loc":[{"type":"feature","geometry":{"type":"Point","coordinates":[7.415768,52.8]}}]}' http://localhost:7000/boxes
   212  clear
   213  curl -i -X POST -H "Content-Type: application/json" -d '{"name":"SenseBox AFG","sensors":[{"title":"Temperatur","unit":"°C"},{"title":"Humidity","unit":"%"}],"loc":[{"type":"feature","geometry":{"type":"Point","coordinates":[7.415768,52.8]}}]}' http://localhost:7000/boxes
+
+  =======
+  curl -i -X POST -H "Content-Type: application/json" -d '{"name":"SenseBox AFG","boxType":"fixed","sensors":[{"title":"Temperatur","unit":"°C"},{"title":"Humidity","unit":"%"}],"loc":[{"type":"feature","geometry":{"type":"Point","coordinates":[7.415768,51.976184]}}]}' http://localhost:8000/boxes

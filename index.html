@@ -3,58 +3,50 @@
 	<head lang="en">
   		<meta charset="utf-8">
   		<title>OpenSenseMap</title>
-  		<link rel="stylesheet" href="vendor/foundation/foundation.min.css">
-  		<link rel="stylesheet" href="vendor/foundation/foundation-icons.css" />
+  		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css" />
     	<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     	<link rel="stylesheet" href="vendor/angular/xeditable.css" />
     	<link rel="stylesheet" href="app/css/main.css" />
 	</head>
 	<body ng-app="app">
-		<!-- Header and Nav -->
-	  	<div class="row">
-	    	<div class="large-3 columns">
-	      		<h1><a ng-href="{{'#/'}}" ><img src="images/logo.png"></a></h1>
-	    	</div>
-	    	<div class="large-9 columns">
-	      		<ul class="button-group right">
-	        		<li><a ng-href="{{'#/explore'}}" class="button">Discover</a></li>
-	        		<li><a ng-href="{{'#/upload'}}" class="button">Upload</a></li>
-	        		<li><a ng-href="{{'#/register'}}" class="button">Register</a></li>
-	        		<li><a ng-href="{{'#/about'}}" class="button">About us</a></li>
-	      		</ul>
-	    	</div>
-	  	</div>
-	  	<!-- End Header and Nav -->
+		<!-- Fixed navbar -->
+    	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      		<div class="container">
+        		<div class="navbar-header">
+          			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            			<span class="sr-only">Toggle navigation</span>
+            			<span class="icon-bar"></span>
+            			<span class="icon-bar"></span>
+            			<span class="icon-bar"></span>
+          			</button>
+          			<a class="navbar-brand" href="#/">SenseBox</a>
+        		</div>
+        		<div class="navbar-collapse collapse">
+		        	<ul class="nav navbar-nav navbar-right">
+		            	<li><a href="{{'#/explore'}}">Discover</a></li>
+		            	<li><a href="{{'#/upload'}}">Upload</a></li>
+		            	<li><a href="{{'#/register'}}">Register</a></li>
+		            	<li><a href="{{'#/about'}}">About us</a></li>
+		          	</ul>
+        		</div><!--/.nav-collapse -->
+      		</div>
+    	</div>
 
-	  	<!-- Angular App starts here -->
-	  	<div>
-	    	<ng-view></ng-view>
-	  	</div>
-	  	<!-- Angular App ends here -->
+    	<div class="container">
+    		<ng-view></ng-view>
 
-	  	<!-- Footer -->
-		<footer class="row">
-			<div class="large-12 columns">
-		    	<hr />
-		      	<div class="row">
-		        	<div class="large-6 columns">
-		          		<p>© Copyright no one at all. Go to town.</p>
-		        	</div>
-		      	</div>
-			</div>
-		</footer>
-		<!-- End Footer -->
-
-		<!-- Foundation JS dependencies -->
-  		<script type="text/javascript" src="vendor/foundation/js/jquery.js"></script>	
-  		<script type="text/javascript" src="vendor/foundation/js/modernizr.js"></script>
-  		<script type="text/javascript" src="vendor/foundation/js/foundation.min.js"></script>
-  		<script type="text/javascript" src="vendor/foundation/js/foundation/foundation.tab.js"></script>
-  		<script type="text/javascript" src="vendor/foundation/js/foundation/foundation.accordion.js"></script>
+    		<hr>
+	    	<!-- Site footer -->
+	  		<div class="footer">
+	    		<p>&copy; Company 2014</p>
+	  		</div>
+    	</div> 
 
 	  	<script type="text/javascript" src="vendor/angular/angular.min.js"></script>
 	  	<script type="text/javascript" src="vendor/angular/angular-route.js"></script>
 	  	<script type="text/javascript" src="vendor/angular/angular-resource.js"></script>
+	  	<script type="text/javascript" src="vendor/angular/ui-bootstrap-tpls-0.10.0.js"></script>
 	  	<script type="text/javascript" src="vendor/angular/xeditable.js"></script>
 	  	<script type="text/javascript" src="vendor/leaflet/leaflet.js"></script>
     	<script type="text/javascript" src="vendor/angular/angular-leaflet-directive.min.js"></script>

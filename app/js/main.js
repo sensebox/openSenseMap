@@ -1,7 +1,11 @@
 /*global angular */
 'use strict';
 
-var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable", "angles"])
+var app = angular.module("app", ["ngRoute","ngResource","leaflet-directive", "xeditable", "angles"]);
+
+app.run(function(editableOptions) {
+  editableOptions.theme = 'bs3';
+});
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -45,7 +49,7 @@ app.factory('OpenSenseBoxes', function($resource){
 
 app.run(function ($rootScope) {
   $rootScope.$on('$viewContentLoaded', function() {
-    $(document).foundation();
+    // $(document).foundation();
   });
 });
 
@@ -159,163 +163,96 @@ app.controller('AboutCtrl', function ($scope) {
 });
 
 app.controller('RegisterCtrl', function($scope, $filter, $http) {
- $scope.newSenseBox = {};
+  //new sensebox object
+  $scope.newSenseBox = {
+    name: "",
+    boxType: "",
+    sensors: [],
+    loc: [{
+      "type":"feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[]
+      }
+    }]
+  };
 
- $scope.sensors = [
- ]; 
-
- angular.extend($scope, {
-        center: {
-            lat: 52,
-            lng: 7,
-            zoom: 10
-        },
-        defaults: {
-            scrollWheelZoom: false
-        },
-        markers: {
-            box: {
-                lat: 52,
-                lng: 7,
-                focus: true,
-                draggable: true
-            },
-        }
-    });
+  $scope.sensors = []; 
 
   $scope.phenomenoms = [
     {value: 1, text: 'Temperature'},
     {value: 2, text: 'Humidity'},
-    {value: 3, text: 'Wind direction'},
-    {value: 4, text: 'Wind speed'}
-  ]; 
+    {value: 3, text: 'Wind speed'},
+    {value: 4, text: 'Wind direction'}
+  ];
 
-  $scope.showStatus = function(sensor) {
+  angular.extend($scope, {
+    center: {
+        lat: 52,
+        lng: 7,
+        zoom: 10
+    },
+    defaults: {
+        scrollWheelZoom: false
+    },
+    markers: {
+        box: {
+            lat: 52,
+            lng: 7,
+            focus: true,
+            draggable: true
+        },
+    }
+  }); 
+
+  $scope.showPhenomenom = function(sensor) {
     var selected = [];
-    if(sensor.phenomenom) {
-      selected = $filter('filter')($scope.phenomenoms, {value: sensor.phenomenom});
+    if(sensor.title) {
+      selected = $filter('filter')($scope.phenomenoms, {value: sensor.title});
     }
     return selected.length ? selected[0].text : 'Not set';
   };
 
-  // remove sensor
+  // $scope.saveUser = function(data, id) {
+  //   //$scope.user not updated yet
+  //   angular.extend(data, {id: id});
+  //   return $http.post('/saveUser', data);
+  // };
+
+  // remove user
   $scope.removeSensor = function(index) {
     $scope.sensors.splice(index, 1);
   };
 
-  //build json object fpr api
-  $scope.saveToDB = function() {
-    $scope.newSenseBox.sensors = $scope.sensors;
-    console.log($scope.markers.box.lat+":"+$scope.markers.box.lng);
-    console.log($scope.newSenseBox);
-  };
-
-  // add sensor
+  // add user
   $scope.addSensor = function() {
     $scope.inserted = {
       id: $scope.sensors.length+1,
-      phenomenom: '',
+      title: '',
       unit: null,
-      type: null 
+      sensorType: null 
     };
     $scope.sensors.push($scope.inserted);
   };
-});
 
-app.directive('bars', function ($parse) {
-  return {
-     restrict: 'E',
-     replace: true,
-     template: '<div id="chart"></div>',
-     link: function (scope, element, attrs) {
-        var margin = {top: 0, right: 80, bottom: 30, left: 30},
-            width = 450 - margin.left - margin.right,
-            height = 250 - margin.top - margin.bottom;
+  //build json object for api
+  $scope.saveToDB = function() {
 
-        var parseDate = d3.time.format("%Y%m%d").parse;
+    $scope.newSenseBox.sensors = $scope.sensors;
+    $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
+    $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
 
-        var x = d3.time.scale()
-            .range([0, width]);
-
-        var y = d3.scale.linear()
-            .range([height, 0]);
-
-        var color = d3.scale.category10();
-
-        var xAxis = d3.svg.axis()
-            .scale(x)
-            .orient("bottom");
-
-        var yAxis = d3.svg.axis()
-            .scale(y)
-            .orient("left");
-
-        var line = d3.svg.line()
-            .interpolate("basis")
-            .x(function(d) { return x(d.date); })
-            .y(function(d) { return y(d.temperature); });
-
-        var svg = d3.select("#chart").append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        d3.tsv("data.tsv", function(error, data) {
-          color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
-
-          data.forEach(function(d) {
-            d.date = parseDate(d.date);
-          });
-
-          var cities = color.domain().map(function(name) {
-            return {
-              name: name,
-              values: data.map(function(d) {
-                return {date: d.date, temperature: +d[name]};
-              })
-            };
-          });
-
-          x.domain(d3.extent(data, function(d) { return d.date; }));
-
-          y.domain([
-            d3.min(cities, function(c) { return d3.min(c.values, function(v) { return v.temperature; }); }),
-            d3.max(cities, function(c) { return d3.max(c.values, function(v) { return v.temperature; }); })
-          ]);
-
-          svg.append("g")
-              .attr("class", "x axis")
-              .attr("transform", "translate(0," + height + ")")
-              .call(xAxis);
-
-          svg.append("g")
-              .attr("class", "y axis")
-              .call(yAxis)
-            .append("text")
-              .attr("transform", "rotate(-90)")
-              .attr("y", 6)
-              .attr("dy", ".71em")
-              .style("text-anchor", "end")
-              .text("Temperature (ºF)");
-
-          var city = svg.selectAll(".city")
-              .data(cities)
-            .enter().append("g")
-              .attr("class", "city");
-
-          city.append("path")
-              .attr("class", "line")
-              .attr("d", function(d) { return line(d.values); })
-              .style("stroke", function(d) { return color(d.name); });
-
-          city.append("text")
-              .datum(function(d) { return {name: d.name, value: d.values[d.values.length - 1]}; })
-              .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
-              .attr("x", 3)
-              .attr("dy", ".35em")
-              .text(function(d) { return d.name; });
-        });
-     } 
+    for (var i = 0; i < $scope.sensors.length; i++) {
+      $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
+    };
+    $http.post("http://localhost:8000/boxes",$scope.newSenseBox)
+      .success(function(data) {
+        console.log("success");
+        console.log(data);
+      })
+      .error(function(data) {
+        console.log("error");
+        console.log(data);
+      });
   };
 });

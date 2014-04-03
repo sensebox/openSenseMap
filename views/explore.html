@@ -1,13 +1,115 @@
-<!-- Main Page Content and Sidebar -->
+<div class="row" ng-controller="ExploreCtrl">
 
-<div class="row" ng-controller="GeoJSONController">
+	<div class="row">
+		<div class="col-lg-6">
+			<button type="button" ng-click="collapseMap()" class="btn btn-success xxxl">Karte</button>
+		</div>
+		<div class="col-lg-6">
+			<button type="button" ng-click="collapseList()" class="btn btn-warning xxxl">Liste</button>
+		</div>
+	</div>
+	<hr>
 
-	<!-- Main Blog Content -->
-	<div class="large-7 columns" role="content">
+	<div class="row">
+		<div collapse="isMapCollapsed">
+			<div class="col-lg-12">
+				<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="480px">
+				</leaflet>
+			</div>	
+		</div>	
+	</div>
+	
+	<div class="row">
+		<div collapse="isListCollapsed">
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+			<div class="col-lg-3">
+				<a href="#" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">SenseBox 1</h5>
+				</a>
+			</div>	
+		</div>
+	</div>
 
-		<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="550px">
-		</leaflet>
-
+	<div collapse="areDetailsCollapsed">
+		<hr>
+		<div class="well well-lg">
+			<div class="row">
+				<div class="col-lg-12">
+					<h5>SenseBox Metadata</h5>
+					<div class="col-lg-8">
+						<form class="form-horizontal" role="form">
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-1 control-label">Name</label>
+						    <div class="col-sm-11">
+						      <input type="text" class="form-control" id="inputEmail3" placeholder="SenseBox Name" ng-model="newSenseBox.name">
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputPassword3" class="col-sm-1 control-label">Type</label>
+						    <div class="col-sm-11">
+						    	<select class="form-control" id="inputPassword3" ng-model="newSenseBox.boxType">
+									<option value="fixed">Fixed</option>
+									<option value="mobile">Mobile</option>
+								</select>
+						    </div>
+						  </div>
+						  <div class="form-group">
+						    <label for="inputEmail3" class="col-sm-1 control-label">ID</label>
+						    <div class="col-sm-11">
+						      <input type="text" class="form-control" id="inputEmail3" placeholder="mitgelieferte SenseBox ID" ng-model="newSenseBox.id">
+						    </div>
+						  </div>
+						</form>
+					</div>
+					<div class="col-lg-4">
+						<leaflet center="center" ng-show="showMap" markers="markers" defaults="defaults" width="100%" height="250px">
+						</leaflet>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<!-- End Main Content -->
@@ -15,8 +117,8 @@
 
 	<!-- Sidebar -->
 
-	<aside class="large-5 columns" ng-controller="ExploreCtrl">
-		<!-- TODO Sidebar mit den sich im extent befindeden Stationen/Sensoren anzeigen-->
+	<!-- <aside class="large-5 columns" ng-controller="ExploreCtrl">
+		 TODO Sidebar mit den sich im extent befindeden Stationen/Sensoren anzeigen
 	    <dl class="accordion" data-accordion>
 		  <dd ng-repeat="box in data.boxes">
 		    <a ng-click="show(box._id)">{{box.name}}</a>
@@ -24,12 +126,12 @@
 		    	<li ng-repeat="sensor in selected">
 		    		{{sensor.title}}: {{sensor.measurements.value}}
 		    	</li>
-		    	<!-- <bars></bars> -->
+		    	<bars></bars>
 		    	<canvas chart type="Line" options="options" data="chart" width="450" height="300"></canvas>
 		    </div>
 		  </dd>
 		</dl>
-	</aside>
+	</aside> -->
 
 	<!-- End Sidebar -->
 </div>

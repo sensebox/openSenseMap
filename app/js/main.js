@@ -9,27 +9,27 @@ app.run(function(editableOptions) {
 
 app.config(function($routeProvider) {
     $routeProvider
-    	.when('/',
-      	{
-        	templateUrl: "views/app.html",
-        	controller: "AppCtrl"
-      	})
-      	.when('/explore', {
-        	templateUrl: "views/explore.html",
-        	controller: "ExploreCtrl"
-      	})
+      .when('/',
+        {
+          templateUrl: "views/app.html",
+          controller: "AppCtrl"
+        })
+        .when('/explore', {
+          templateUrl: "views/explore.html",
+          controller: "ExploreCtrl"
+        })
         .when('/explore/:state', {
           templateUrl: "views/explore.html",
           controller: "ExploreCtrl"
         })
-      	.when('/upload', {
-        	templateUrl: "views/upload.html",
-        	controller: "UploadCtrl"
-      	})
-      	.when('/about', {
-        	templateUrl: "views/about.html",
-        	controller: "AboutCtrl"
-      	})
+        .when('/upload', {
+          templateUrl: "views/upload.html",
+          controller: "UploadCtrl"
+        })
+        .when('/about', {
+          templateUrl: "views/about.html",
+          controller: "AboutCtrl"
+        })
         .when('/register', {
           templateUrl: "views/register.html",
           controller: "RegisterCtrl"
@@ -38,13 +38,13 @@ app.config(function($routeProvider) {
           templateUrl: "views/chart.html",
           controller: "mainCtrl"
         })
-      	.otherwise({
-        	template: "This doesn't exist!"
-      	})
+        .otherwise({
+          template: "This doesn't exist!"
+        });
 });
 
 app.factory('OpenSenseBoxes', function($resource){
-    return $resource('http://opensensemap.org:8000/boxes', {})
+    return $resource('http://opensensemap.org:8000/boxes', {});
 });
 
 app.run(function ($rootScope) {
@@ -57,70 +57,13 @@ app.controller("AppCtrl", function($scope) {
     
 });
 
-// app.controller("ExploreCtrl", function($scope, OpenSenseBoxes, $http) {
-
-//   $scope.chart = {
-//     labels : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-//     datasets : [
-//         {
-//             fillColor : "rgba(151,187,205,0)",
-//             strokeColor : "#e67e22",
-//             pointColor : "rgba(151,187,205,0)",
-//             pointStrokeColor : "#e67e22",
-//             data : [45, 32, 51, 44, 63]
-//         },
-//         {
-//             fillColor : "rgba(151,187,205,0)",
-//             strokeColor : "#f1c40f",
-//             pointColor : "rgba(151,187,205,0)",
-//             pointStrokeColor : "#f1c40f",
-//             data : [17.4, 19.8, 20.1, 15.3, 14.5]
-//         }
-//     ], 
-//   };
-
-//   $scope.options = {
-    
-//   }
-
-//   $scope.data = {};
-//   $scope.accordion = {};
-//   $scope.accordion.active = "";
-//   $scope.selected = {};
-
-//   OpenSenseBoxes.query(function(response) {
-//     // Assign the response INSIDE the callback
-//     $scope.data.boxes = response;
-//   });
-
-//   $scope.show = function (boxId){
-//     var elem = "#"+boxId;
-//     if (boxId != "") {
-//       $http.get("http://opensensemap.org:8000/boxes/"+boxId+"/sensors").success(function(data,status,headers,config){
-//         $scope.selected = data;
-//       });  
-//     };
-
-//     if ($scope.accordion.active == elem) {
-//       angular.element($scope.accordion.active).removeClass("active");
-//       $scope.accordion.active = "";
-//     } else {
-//       if ($scope.accordion.active != ""){
-//         angular.element($scope.accordion.active).removeClass("active");
-//       } 
-      
-//       angular.element(elem).addClass("active");
-//       $scope.accordion.active = elem;
-//     };
-//   }
-// });
-
-app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', function($scope, OpenSenseBoxes, leafletEvents, leafletData) {
+app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', function($scope, OpenSenseBoxes, leafletEvents) {
     $scope.areDetailsCollapsed = true;
     $scope.isMapCollapsed = false;
     $scope.isListCollapsed = true;
 
     $scope.markers = [];
+    $scope.pagedMarkers = [];
 
     $scope.center = {
       // autoDiscover: true,
@@ -137,25 +80,49 @@ app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', fun
           reuseTiles: true,
       },
       scrollWheelZoom: false
+    };  
+
+    $scope.totalItems = $scope.markers.length;
+    $scope.currentPage = 1;
+    $scope.maxSize = 10;
+
+    $scope.from = 0;
+    $scope.to = 8;
+    
+    $scope.setPage = function (pageNo) {
+      $scope.currentPage = pageNo;
+      if (pageNo != 1) {
+        $scope.to = 8 * pageNo;
+        $scope.from = $scope.to-8;
+      } else {
+        $scope.from = 0;
+        $scope.to = 8;
+      }
+      $scope.pagedMarkers = $scope.markers.slice($scope.from,$scope.to);
     };
 
     $scope.collapseMap = function() {
       if ($scope.isMapCollapsed) {
         $scope.isMapCollapsed = !$scope.isMapCollapsed; 
-        $scope.isListCollapsed = true; 
+        $scope.isListCollapsed = true;
+        $scope.areDetailsCollapsed = true;
       }
     };
 
     $scope.collapseList = function() {
       if ($scope.isListCollapsed) {
         $scope.isListCollapsed = !$scope.isListCollapsed;
-        $scope.isMapCollapsed = true;  
+        $scope.isMapCollapsed = true;
+        if ($scope.pagedMarkers) {
+          $scope.pagedMarkers = $scope.markers.slice($scope.from,$scope.to);
+        }
       }
     };
 
     $scope.$on('leafletDirectiveMarker.click', function(e, args) {
       // Args will contain the marker name and other relevant information
       $scope.areDetailsCollapsed = !$scope.areDetailsCollapsed;
+      $scope.isMapCollapsed = true;
     });
 
     OpenSenseBoxes.query(function(response){
@@ -164,8 +131,9 @@ app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', fun
         tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
         tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
         tempMarker.id = response[i]._id;
+        tempMarker.name = response[i].name;
         $scope.markers.push(tempMarker);
-      };
+      }
     });
 }]);
 
@@ -177,15 +145,14 @@ app.controller('UploadCtrl', function ($scope) {
     $scope.csvData = CSV.parse(text);
     $scope.csvHeader = $scope.csvData[0];
     console.log($scope.csvHeader);
-  }
+  };
 });
 
 app.controller('AboutCtrl', function ($scope) {
 	
 });
 
-app.controller('RegisterCtrl', function($scope, $filter, $http, leafletData) {
-  
+app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafletEvents', function($scope, $filter, $http, leafletData, leafletEvents){
   $scope.newIsCollapsed = true;
   $scope.editIsCollapsed = true;
   $scope.showMap = false;
@@ -197,7 +164,6 @@ app.controller('RegisterCtrl', function($scope, $filter, $http, leafletData) {
   };
 
   $scope.collapseEditForm = function(test){
-    console.log("edit form");
     $scope.newIsCollapsed = true;
     $scope.editIsCollapsed = false;
   };
@@ -208,6 +174,11 @@ app.controller('RegisterCtrl', function($scope, $filter, $http, leafletData) {
           map.invalidateSize();
       });
     }
+  });
+
+  $scope.$on('leafletDirectiveMap.click', function(e, args) {
+    $scope.markers.box.lat = args.leafletEvent.latlng.lat;
+    $scope.markers.box.lng = args.leafletEvent.latlng.lng;
   });
 
   //new sensebox object
@@ -297,5 +268,5 @@ app.controller('RegisterCtrl', function($scope, $filter, $http, leafletData) {
         console.log("error");
         console.log(data);
       });
-  };
-});
+  };  
+}]);

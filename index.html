@@ -2,8 +2,9 @@
 <html>
 	<head lang="en">
   		<meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
   		<title>OpenSenseMap</title>
-  		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
   		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css" />
     	<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
     	<link rel="stylesheet" href="vendor/angular/xeditable.css" />
@@ -21,13 +22,25 @@
             			<span class="icon-bar"></span>
           			</button>
           			<!-- <a class="navbar-brand" href="#/">SenseBox</a> -->
-                <a class="navbar-brand">SenseBox</a>
+                <a class="navbar-brand">OpenSenseMap</a>
         		</div>
         		<div class="navbar-collapse collapse">
 		        	<ul class="nav navbar-nav navbar-right">
-		            	<li><a href="{{'#/explore'}}">Discover</a></li>
-		            	<li><a href="{{'#/upload'}}">Upload</a></li>
-		            	<li><a href="{{'#/register'}}">Register</a></li>
+		            	<li>
+                    <a href="{{'#/explore'}}">
+                      <span class="glyphicon glyphicon-zoom-in"></span> Erkunden
+                    </a>
+                  </li>
+		            	<li>
+                    <a href="{{'#/upload'}}">
+                      <span class="glyphicon glyphicon-export"></span> Daten hochladen
+                    </a>
+                  </li>
+		            	<li>
+                    <a href="{{'#/register'}}">
+                      <span class="glyphicon glyphicon-barcode"></span> Registrierung
+                    </a>
+                  </li>
 		            	<!-- <li><a href="{{'#/about'}}">About us</a></li> -->
 		          	</ul>
         		</div><!--/.nav-collapse -->
@@ -40,7 +53,7 @@
     		<hr>
 	    	<!-- Site footer -->
 	  		<div class="footer">
-	    		<p>&copy; Company 2014</p>
+	    		<p>&copy; SenseBox 2014</p>
 	  		</div>
     	</div> 
 

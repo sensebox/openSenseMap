@@ -29,7 +29,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-6 col-lg-offset-4">
-				 <pagination total-items="totalItems" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-xl" boundary-links="true" rotate="false" num-pages="numPages"></pagination>		
+				 <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-xl" boundary-links="true" rotate="false"></pagination>		
 			</div>
 		</div>
 	</div>
@@ -47,36 +47,11 @@
 		<div class="well well-lg">
 			<div class="row">
 				<div class="col-lg-12">
-					<h5>SenseBox Metadata</h5>
-					<div class="col-lg-8">
-						<form class="form-horizontal" role="form">
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-1 control-label">Name</label>
-						    <div class="col-sm-11">
-						      <input type="text" class="form-control" id="inputEmail3" placeholder="SenseBox Name" ng-model="newSenseBox.name">
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="inputPassword3" class="col-sm-1 control-label">Type</label>
-						    <div class="col-sm-11">
-						    	<select class="form-control" id="inputPassword3" ng-model="newSenseBox.boxType">
-									<option value="fixed">Fixed</option>
-									<option value="mobile">Mobile</option>
-								</select>
-						    </div>
-						  </div>
-						  <div class="form-group">
-						    <label for="inputEmail3" class="col-sm-1 control-label">ID</label>
-						    <div class="col-sm-11">
-						      <input type="text" class="form-control" id="inputEmail3" placeholder="mitgelieferte SenseBox ID" ng-model="newSenseBox.id">
-						    </div>
-						  </div>
-						</form>
-					</div>
-					<div class="col-lg-4">
-						<leaflet center="center" ng-show="showMap" markers="markers" defaults="defaults" width="100%" height="250px">
-						</leaflet>
-					</div>
+					<tabset justified="true">
+						<tab heading="Justified">Allgemein</tab>
+					    <tab heading="SJ">Short Labeled Justified content</tab>
+					    <tab heading="Long Justified">Long Labeled Justified content</tab>
+					</tabset>
 				</div>
 			</div>
 		</div>

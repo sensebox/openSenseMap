@@ -109,7 +109,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="col-lg-6">
-						<a href="#/"><button href="#/" ng-click="saveToDB()" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span> Speichern</button></a>
+						<a><button ng-click="saveToDB()" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span> Speichern</button></a>
 					</div>
 					<div class="col-lg-6">
 						<a href="#/register/"><button href="#/register/" type="button" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-remove"></span> Abbrechen</button></a>
@@ -125,7 +125,7 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row" collapse="codeIsCollapsed">
 		<div class="col-lg-12">
 			<div class="well well-lg" n-model="code">
 				{{code}}

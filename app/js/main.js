@@ -18,10 +18,10 @@ app.config(function($routeProvider) {
           templateUrl: "views/explore.html",
           controller: "ExploreCtrl"
         })
-        .when('/explore/:state', {
-          templateUrl: "views/explore.html",
-          controller: "ExploreCtrl"
-        })
+        // .when('/explore/:state', {
+        //   templateUrl: "views/explore.html",
+        //   controller: "ExploreCtrl"
+        // })
         .when('/upload', {
           templateUrl: "views/upload.html",
           controller: "UploadCtrl"
@@ -45,7 +45,11 @@ app.config(function($routeProvider) {
 
 app.factory('OpenSenseBoxes', function($resource){
     // return $resource('http://opensensemap.org:8000/boxes', {});
-    return $resource('http://localhost:8000/boxes', {});
+    return $resource('http://opensensemap.org:8000/boxes', {});
+});
+
+app.factory('OpenSenseBoxesSensors', function($resource){
+    return $resource('http://opensensemap.org:8000/boxes/:boxId/sensors', {});
 });
 
 app.run(function ($rootScope) {
@@ -58,13 +62,19 @@ app.controller("AppCtrl", function($scope) {
     
 });
 
-app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', function($scope, OpenSenseBoxes, leafletEvents) {
+app.controller("ExploreCtrl", [ '$scope', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', function($scope, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents) {
     $scope.areDetailsCollapsed = true;
     $scope.isMapCollapsed = false;
     $scope.isListCollapsed = true;
 
+    $scope.selectedMarker = "";
+    $scope.selectedMarkerData = {};
+
     $scope.markers = [];
     $scope.pagedMarkers = [];
+    
+    $scope.prom;
+    $scope.delay = 60000;
 
     $scope.center = {
       // autoDiscover: true,
@@ -81,7 +91,7 @@ app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', fun
           reuseTiles: true,
       },
       scrollWheelZoom: false
-    };  
+    };
 
     $scope.itemsPerPage = 8;
     $scope.totalItems = $scope.markers.length;
@@ -105,9 +115,10 @@ app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', fun
 
     $scope.collapseMap = function() {
       if ($scope.isMapCollapsed) {
-        $scope.isMapCollapsed = !$scope.isMapCollapsed; 
+        $scope.isMapCollapsed = !$scope.isMapCollapsed;
         $scope.isListCollapsed = true;
         $scope.areDetailsCollapsed = true;
+        $scope.stopit();
       }
     };
 
@@ -126,19 +137,33 @@ app.controller("ExploreCtrl", [ '$scope', 'OpenSenseBoxes', 'leafletEvents', fun
       // Args will contain the marker name and other relevant information
       $scope.areDetailsCollapsed = !$scope.areDetailsCollapsed;
       $scope.isMapCollapsed = true;
+      $scope.selectedMarker = args.leafletEvent.target.options.title;
+      $scope.getMeasurements();
     });
 
     OpenSenseBoxes.query(function(response){
-      // $scope.totalItems = response.length;
       for (var i = response.length - 1; i >= 0; i--) {
         var tempMarker = {};
         tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
         tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
-        tempMarker.id = response[i]._id;
+        tempMarker.title = response[i]._id;
         tempMarker.name = response[i].name;
         $scope.markers.push(tempMarker);
       }
     });
+
+    $scope.stopit = function() {
+        $timeout.cancel($scope.prom);  
+    };
+
+    $scope.clickcounter = 0;
+    $scope.getMeasurements = function() {
+      console.log("I am watching");
+      $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
+      OpenSenseBoxesSensors.query({boxId:$scope.selectedMarker}, function(response) {
+        $scope.selectedMarkerData = response;
+      });
+    };
 }]);
 
 app.controller('UploadCtrl', function ($scope) {
@@ -242,12 +267,12 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
   //   return $http.post('/saveUser', data);
   // };
 
-  // remove user
+  // remove sensor
   $scope.removeSensor = function(index) {
     $scope.sensors.splice(index, 1);
   };
 
-  // add user
+  // add sensor
   $scope.addSensor = function() {
     $scope.inserted = {
       id: $scope.sensors.length+1,
@@ -269,7 +294,7 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
       $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
     }
 
-    $http.post("http://localhost:8000/boxes",$scope.newSenseBox)
+    $http.post("http://opensensemap.org:8000/boxes",$scope.newSenseBox)
       .success(function(data) {
         $scope.newIsCollapsed = true;
         $scope.codeIsCollapsed = false;
@@ -307,7 +332,7 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
                       'EthernetClient client;'+
                       'float temperature = 0;'+
                       'float humidity = 0;'+
-                      'int postInterval = 600000; //post sample each 10 minutes'+
+                      'int postInterval = 60000; //post sample each 10 minutes'+
                       'long timeOld = 0;'+
                       'long timeNew = 0;'+
                       'void setup(){'+

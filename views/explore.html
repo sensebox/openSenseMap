@@ -1,5 +1,4 @@
-<div class="row" ng-controller="ExploreCtrl">
-
+<div class="row">
 	<div class="row">
 		<div class="col-lg-6">
 			<button type="button" ng-click="collapseMap()" class="btn btn-success xxxl">Karte</button>
@@ -13,7 +12,7 @@
 		<div class="col-lg-12">
 		<hr>
 			<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="480px">
-			</leaflet>
+	 		</leaflet>
 		</div>	
 	</div>
 	
@@ -21,7 +20,7 @@
 		<hr>
 		<div class="row">
 			<div class="col-lg-3" ng-repeat="marker in pagedMarkers">
-				<a href="#/explore/{{marker.id}}" class="thumbnail">
+				<a href="#/explore/{{marker.title}}" class="thumbnail">
   					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
   					<h5 style="text-align: center;">{{marker.name}}</h5>
 				</a>
@@ -47,11 +46,9 @@
 		<div class="well well-lg">
 			<div class="row">
 				<div class="col-lg-12">
-					<tabset justified="true">
-						<tab heading="Justified">Allgemein</tab>
-					    <tab heading="SJ">Short Labeled Justified content</tab>
-					    <tab heading="Long Justified">Long Labeled Justified content</tab>
-					</tabset>
+					<li ng-repeat="sensor in selectedMarkerData">
+						{{sensor.title}}: {{sensor.measurements.value}} {{sensor.unit}}
+					</li>
 				</div>
 			</div>
 		</div>

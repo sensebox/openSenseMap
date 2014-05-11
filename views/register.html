@@ -1,11 +1,25 @@
 <div ng-controller="RegisterCtrl">
 
 	<div class="row">
-		<div class="col-lg-6">
+		<!-- <div class="col-md-12 col-lg-12">
 			<button type="button" ng-click="collapseNewForm()" class="btn btn-success xxxl">Ich möchte eine neue SenseBox registrieren!</button>
-		</div>
-		<div class="col-lg-6">
+		</div> -->
+		<!-- <div class="col-md-6 col-lg-6">
 			<button type="button" ng-click="collapseEditForm()" class="btn btn-warning xxxl">Ich möchte meine SenseBox anpassen!</button>
+		</div> -->
+		<div class="col-md-6 col-lg-6">
+			<a ng-click='collapseNewForm()' class="thumbnail">
+				<img width="128" height="160" src="/opensensemap/images/manuell.png" alt="...">
+				<h5 style="text-align: center;">Ich möchte manuell eine neue SenseBox anlegen!</h5>
+			</a>
+			<!-- <button type="button" ng-click="collapseNewForm()" class="btn btn-warning xxxl">Ich möchte manuell eine neue SenseBox anlegen!</button> -->
+		</div>
+		<div class="col-md-6 col-lg-6">
+			<a ng-click="collapseNewForm('umwelt')" class="thumbnail">
+				<img width="128" height="160" src="/opensensemap/images/preconfigured.png" alt="...">
+				<h5 style="text-align: center;">Ich möchte eine neue SenseBox Umweltstation anlegen!</h5>
+			</a>
+			<!-- <button type="button" ng-click="collapseNewForm('umwelt')" class="btn btn-warning xxxl">Ich möchte eine neue SenseBox Umweltstation anlegen!</button> -->
 		</div>
 	</div>
 	<hr>
@@ -15,7 +29,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<h5>SenseBox Metadata</h5>
-					<div class="col-lg-8">
+					<div class="col-md-8 col-lg-8">
 						<form class="form-horizontal" role="form">
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-1 control-label">Name</label>
@@ -27,26 +41,26 @@
 						    <label for="inputPassword3" class="col-sm-1 control-label">Typ</label>
 						    <div class="col-sm-11">
 						    	<select class="form-control" id="inputPassword3" ng-model="newSenseBox.boxType">
-									<option value="fixed">Fixed</option>
-									<option value="mobile">Mobile</option>
+									<option value="fixed">Stationär</option>
+									<option value="mobile">Mobil</option>
 								</select>
 						    </div>
 						  </div>
 						  <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-1 control-label">ID</label>
 						    <div class="col-sm-11">
-						      <input type="text" class="form-control" id="inputEmail3" placeholder="mitgelieferte SenseBox ID" ng-model="newSenseBox.id">
+						      <input type="text" class="form-control" id="inputEmail3" placeholder="mitgelieferte SenseBox ID" ng-model="newSenseBox.orderID">
 						    </div>
 						  </div>
-						  <div class="form-group">
+						  <!-- <div class="form-group">
 						    <label for="inputEmail3" class="col-sm-1 control-label">Passwort</label>
 						    <div class="col-sm-11">
 						      <input type="password" class="form-control" id="inputEmail3" placeholder="Passwort" ng-model="newSenseBox.password">
 						    </div>
-						  </div>
+						  </div> -->
 						</form>
 					</div>
-					<div class="col-lg-4">
+					<div class="col-md-4 col-lg-4">
 						<leaflet center="center" ng-show="showMap" markers="markers" defaults="defaults" width="100%" height="250px">
 						</leaflet>
 					</div>
@@ -69,7 +83,7 @@
 				    		<tr ng-repeat="sensor in sensors">
 				      			<td>
 				      				<!-- editable status (select-local) -->
-				        			<span editable-select="sensor.title" e-name="title" e-form="rowform" e-ng-options="s.value as s.text for s in phenomenoms">
+				        			<span editable-select="sensor.title" ng-model="tempPhenomenom" e-name="title" disabled e-form="rowform" e-ng-options="s.value as s.text for s in phenomenoms" e-ng-change="change(sensor)">
 				          				{{ showPhenomenom(sensor) }}
 				        			</span>
 				      			</td>
@@ -108,10 +122,10 @@
 			<hr>
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="col-lg-6">
+					<div class="col-md-6 col-lg-6">
 						<a><button ng-click="saveToDB()" type="button" class="btn btn-success btn-lg btn-block"><span class="glyphicon glyphicon-ok"></span> Speichern</button></a>
 					</div>
-					<div class="col-lg-6">
+					<div class="col-md-6 col-lg-6">
 						<a href="#/register/"><button href="#/register/" type="button" class="btn btn-danger btn-lg btn-block"><span class="glyphicon glyphicon-remove"></span> Abbrechen</button></a>
 					</div>
 				</div>
@@ -128,7 +142,8 @@
 	<div class="row" collapse="codeIsCollapsed">
 		<div class="col-lg-12">
 			<div class="well well-lg" n-model="code">
-				{{code}}
+				Deine Sensebox wurde erfolgreich angelegt.
+				Lade dein UploadScript für die SenseBox <a href="{{download}}" target="_blank">hier</a> herunter.
 			</div>
 		</div>
 	</div>

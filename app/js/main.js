@@ -11,8 +11,8 @@ app.config(function($routeProvider) {
     $routeProvider
       .when('/',
         {
-          templateUrl: "views/app.html",
-          controller: "AppCtrl"
+          templateUrl: "views/explore.html",
+          controller: "ExploreCtrl"
         })
         .when('/explore', {
           templateUrl: "views/explore.html",
@@ -44,12 +44,11 @@ app.config(function($routeProvider) {
 });
 
 app.factory('OpenSenseBoxes', function($resource){
-    // return $resource('http://opensensemap.org:8000/boxes', {});
-    return $resource('http://opensensemap.org:8000/boxes', {});
+    return $resource('http://localhost:8000/boxes', {});
 });
 
 app.factory('OpenSenseBoxesSensors', function($resource){
-    return $resource('http://opensensemap.org:8000/boxes/:boxId/sensors', {});
+    return $resource('http://localhost:8000/boxes/:boxId/sensors', {});
 });
 
 app.run(function ($rootScope) {
@@ -63,9 +62,10 @@ app.controller("AppCtrl", function($scope) {
 });
 
 app.controller("ExploreCtrl", [ '$scope', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', function($scope, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents) {
-    $scope.areDetailsCollapsed = true;
-    $scope.isMapCollapsed = false;
-    $scope.isListCollapsed = true;
+    
+    $scope.mapView = true;
+    $scope.listView = false;
+    $scope.splitView = false;
 
     $scope.selectedMarker = "";
     $scope.selectedMarkerData = {};
@@ -113,32 +113,31 @@ app.controller("ExploreCtrl", [ '$scope', '$timeout', 'OpenSenseBoxes', 'OpenSen
       $scope.pagedMarkers = $scope.markers.slice($scope.from,$scope.to);
     };
 
-    $scope.collapseMap = function() {
-      if ($scope.isMapCollapsed) {
-        $scope.isMapCollapsed = !$scope.isMapCollapsed;
-        $scope.isListCollapsed = true;
-        $scope.areDetailsCollapsed = true;
-        $scope.stopit();
-      }
-    };
-
-    $scope.collapseList = function() {
-      if ($scope.isListCollapsed) {
-        $scope.isListCollapsed = !$scope.isListCollapsed;
-        $scope.isMapCollapsed = true;
+    $scope.changeView = function(view) {
+      if (view == "list") {
+        $scope.mapView = false;
+        $scope.listView = true;
         $scope.totalItems = $scope.markers.length;
         if ($scope.pagedMarkers) {
           $scope.pagedMarkers = $scope.markers.slice($scope.from,$scope.to);
         }
+        $scope.stopit();
+        $scope.splitView = false;
+      }
+      if (view == "map") {
+        $scope.mapView = true;
+        $scope.listView = false;
       }
     };
 
     $scope.$on('leafletDirectiveMarker.click', function(e, args) {
       // Args will contain the marker name and other relevant information
-      $scope.areDetailsCollapsed = !$scope.areDetailsCollapsed;
-      $scope.isMapCollapsed = true;
+      $scope.splitView = true;
       $scope.selectedMarker = args.leafletEvent.target.options.title;
       $scope.getMeasurements();
+      $scope.center.lat = args.leafletEvent.target._latlng.lat;
+      $scope.center.lng = args.leafletEvent.target._latlng.lng;
+      $scope.center.zoom = 8;
     });
 
     OpenSenseBoxes.query(function(response){
@@ -191,7 +190,79 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
   $scope.humId = "";
   $scope.code = "";
 
-  $scope.collapseNewForm = function(test){
+  $scope.phenomenoms = [
+    {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
+    {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
+    {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
+    {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
+    {value: 5, text: 'Helligkeit', unit:'Pegel', type:'GL5528'}
+  ];
+
+  //new sensebox object
+  $scope.newSenseBox = {
+    name: "",
+    boxType: "",
+    sensors: [],
+    orderID: "",
+    loc: [{
+      "type":"feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[]
+      }
+    }]
+  };
+
+  $scope.citzenBox = {
+    boxType: "Stationär",
+    sensors: [
+      { 
+        id: 1,
+        title: 1,
+        unit: "°C",
+        sensorType: "BMP085"
+      },
+      { 
+        id: 2,
+        title: 2,
+        unit: "%",
+        sensorType: "DHT11"
+      },
+      { 
+        id: 3,
+        title: 3,
+        unit: "Pa",
+        sensorType: "BMP085"
+      },
+      { 
+        id: 4,
+        title: 4,
+        unit: "Pegel",
+        sensorType: "LM386"
+      },
+      { 
+        id: 5,
+        title: 5,
+        unit: "Pegel",
+        sensorType: "GL5528"
+      }
+    ],
+    loc: [{
+      "type":"feature",
+      "geometry":{
+        "type":"Point",
+        "coordinates":[]
+      }
+    }]
+  };
+
+  $scope.collapseNewForm = function(type){
+    if (type) {
+      $scope.sensors = $scope.citzenBox.sensors;
+    } else {
+      $scope.sensors = [];
+    }
+    
     $scope.editIsCollapsed = true;
     $scope.newIsCollapsed = false;
     $scope.showMap = true;
@@ -215,27 +286,14 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
     $scope.markers.box.lng = args.leafletEvent.latlng.lng;
   });
 
-  //new sensebox object
-  $scope.newSenseBox = {
-    name: "",
-    boxType: "",
-    sensors: [],
-    loc: [{
-      "type":"feature",
-      "geometry":{
-        "type":"Point",
-        "coordinates":[]
-      }
-    }]
-  };
-
   $scope.sensors = []; 
 
   $scope.phenomenoms = [
-    {value: 1, text: 'Temperature'},
-    {value: 2, text: 'Humidity'},
-    {value: 3, text: 'Wind speed'},
-    {value: 4, text: 'Wind direction'}
+    {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
+    {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
+    {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
+    {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
+    {value: 5, text: 'Helligkeit', unit:'Pegel', type:'GL5528'}
   ];
 
   $scope.center = {
@@ -258,6 +316,7 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
     if(sensor.title) {
       selected = $filter('filter')($scope.phenomenoms, {value: sensor.title});
     }
+    
     return selected.length ? selected[0].text : 'Not set';
   };
 
@@ -272,6 +331,10 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
     $scope.sensors.splice(index, 1);
   };
 
+  $scope.change = function(test) {
+    console.log($scope.tempPhenomenom);
+  }
+
   // add sensor
   $scope.addSensor = function() {
     $scope.inserted = {
@@ -282,6 +345,8 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
     };
     $scope.sensors.push($scope.inserted);
   };
+
+  $scope.download = "";
 
   //build json object for api
   $scope.saveToDB = function() {
@@ -294,116 +359,19 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
       $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
     }
 
-    $http.post("http://opensensemap.org:8000/boxes",$scope.newSenseBox)
+    $http.post("http://localhost:8000/boxes",$scope.newSenseBox)
       .success(function(data) {
         $scope.newIsCollapsed = true;
         $scope.codeIsCollapsed = false;
         $scope.boxId = data._id;
+        $scope.download = $scope.boxId + ".ino";
         for (var i = data.sensors.length - 1; i >= 0; i--) {
-          if (data.sensors[i].title == "Temperature") {$scope.tempId= data.sensors[i]._id;}
-          if (data.sensors[i].title == "Humidity") {$scope.humId = data.sensors[i]._id;}
+          if (data.sensors[i].title == "Temperatur") {$scope.temperatureSensorId= data.sensors[i]._id;}
+          if (data.sensors[i].title == "Luftfeuchtigkeit") {$scope.humiditySensorId = data.sensors[i]._id;}
+          if (data.sensors[i].title == "Helligkeit") {$scope.lightSensorId = data.sensors[i]._id;}
+          if (data.sensors[i].title == "Luftdruck") {$scope.pressureSensorId = data.sensors[i]._id;}
+          if (data.sensors[i].title == "Schall") {$scope.noiseSensorId = data.sensors[i]._id;}
         }
-        $scope.code = '/*Jan Wirwahn, Institute for Geoinformatics, Feb. 2014 ' +
-                      'Arduino Web-Client for pushing temperature and humidity \n' +
-                      'measurements (SHT15) to the OpenSenseMap server. \n' +
-                      'Note that MAC-adress and IP has to be changed according to \n'+ 
-                      'your setup!! \n\n' +
-                      'All comments in Serial monitor are disabled. Uncomment \n' +
-                      'all Serial-functions for feedback in Serial monitor.\n' +
-                      'Disable them for better performance on your stand-alone \n'+
-                      'sensor setup.\n' +
-                      '*/\n' +
-                      '#include <SHT1x.h>'+
-                      '#include <SPI.h>'+
-                      '#include <Ethernet.h>'+
-                      '#define dataPin  5'+
-                      '#define clockPin 4'+
-                      'SHT1x sht15(dataPin, clockPin);'+
-                      '//INDIVIDUAL SETUP'+
-                      '//Change MAC-adress here:'+
-                      'byte mac[] = { 0x__, 0x__, 0x__, 0x__, 0x__, 0x__ }; //__-__-__-__-__-__'+
-                      '//Specify an IP according to your network settings:'+
-                      'IPAddress ip(xxx,xxx,xxx,xxx);'+
-                      '//The following IDs were generated by the OSM-server. Change them to your IDs:'+
-                      'String arduinoId = "'+$scope.boxId+'";'+
-                      'String tempSensorId = "'+$scope.tempId+'";'+
-                      'String humiSensorId = "'+$scope.humId+'";'+
-                      'char server[] = "opensensemap.org";'+ 
-                      'EthernetClient client;'+
-                      'float temperature = 0;'+
-                      'float humidity = 0;'+
-                      'int postInterval = 60000; //post sample each 10 minutes'+
-                      'long timeOld = 0;'+
-                      'long timeNew = 0;'+
-                      'void setup(){'+
-                      '//Serial.begin(9600);'+
-                      '  //Try DHCP first'+
-                      '  if (Ethernet.begin(mac) == 0) {'+
-                      '//Serial.println("Failed to configure Ethernet using DHCP");'+
-                      '    Ethernet.begin(mac, ip);'+
-                      '  }'+
-                      '  delay(1000);'+
-                      '}'+
-                      'void loop(){'+
-                      '  timeNew = millis();'+
-                      '  if (timeNew - timeOld > postInterval){'+
-                      '    float temp = sht15.readTemperatureC();'+
-                      '    postObservation(temp, tempSensorId, arduinoId);'+
-                      '    delay(2000);'+
-                      '    float humi = sht15.readHumidity();'+
-                      '    postObservation(humi, humiSensorId, arduinoId);'+        
-                      '    timeOld = millis();'+
-                      '  }'+
-                      '}'+
-                      'void postObservation(float measurement, String sensorId, String boxId){'+
-                      '  char obs[10];'+
-                      '  dtostrf(measurement, 5, 2, obs);'+
-                      '//Serial.println(obs);'+  
-                      '  //json must look like: {"value":"12.5"} '+
-                      '  //post observation to: http://opensensemap.org:8000/boxes/boxId/sensorId'+
-                      '//Serial.println("connecting...");'+
-                      '  String value = "{\"value\":\"";'+
-                      '  value += obs;'+
-                      '  value += "\"}";'+
-                      '  // if you get a connection, report back via serial:'+
-                      '  boxId += "/";'+
-                       ' if (client.connect(server, 8000)) {'+
-                      '//Serial.println("connected");'+
-                      '    // Make a HTTP Post request:'+
-                      '    client.print("POST /boxes/");'+
-                      '    client.print(boxId);'+
-                      '    client.print(sensorId);'+
-                      '    client.println(" HTTP/1.1");'+
-                      '    // Send the required header parameters'+
-                      '    client.println("Host:opensensemap.org");'+
-                      '    client.println("Content-Type: application/json");'+
-                      '    client.println("Connection: close");'+
-                      '    client.print("Content-Length: ");'+
-                      '    client.println(value.length());'+
-                      '    client.println();'+
-                      '    client.print(value);'+
-                      '    client.println();'+
-                      '  }'+
-                      '  waitForResponse();'+
-                      '}'+
-                      'void waitForResponse(){'+
-                      '  // if there are incoming bytes available '+
-                      '  // from the server, read them and print them:'+
-                      '  boolean repeat = true;'+
-                      '  do{'+
-                      '    if (client.available()) {'+
-                      '      char c = client.read();'+
-                      '//Serial.print(c);'+
-                      '    }'+
-                      '    // if the servers disconnected, stop the client:'+
-                      '    if (!client.connected()) {'+
-                      '//Serial.println();'+
-                      '//Serial.println("disconnecting.");'+
-                      '      client.stop();'+
-                      '      repeat = false;'+
-                      '    }'+
-                      '  }while (repeat);'+
-                      '}';
       })
       .error(function(data) {
         console.log("error");

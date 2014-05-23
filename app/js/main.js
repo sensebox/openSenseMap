@@ -44,11 +44,11 @@ app.config(function($routeProvider) {
 });
 
 app.factory('OpenSenseBoxes', function($resource){
-    return $resource('http://localhost:8000/boxes', {});
+    return $resource('http://opensensemap.org:8000/boxes', {});
 });
 
 app.factory('OpenSenseBoxesSensors', function($resource){
-    return $resource('http://localhost:8000/boxes/:boxId/sensors', {});
+    return $resource('http://opensensemap.org:8000/boxes/:boxId/sensors', {});
 });
 
 app.run(function ($rootScope) {
@@ -137,7 +137,7 @@ app.controller("ExploreCtrl", [ '$scope', '$timeout', 'OpenSenseBoxes', 'OpenSen
       $scope.getMeasurements();
       $scope.center.lat = args.leafletEvent.target._latlng.lat;
       $scope.center.lng = args.leafletEvent.target._latlng.lng;
-      $scope.center.zoom = 8;
+      $scope.center.zoom = 15;
     });
 
     OpenSenseBoxes.query(function(response){
@@ -359,7 +359,7 @@ app.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafle
       $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
     }
 
-    $http.post("http://localhost:8000/boxes",$scope.newSenseBox)
+    $http.post("http://opensensemap.org:8000/boxes",$scope.newSenseBox)
       .success(function(data) {
         $scope.newIsCollapsed = true;
         $scope.codeIsCollapsed = false;

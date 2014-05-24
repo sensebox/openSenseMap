@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="row">
+		<div class="col-md-6 col-lg-6">
+			<button type="button" ng-click="changeView('map')" class="btn btn-success xxxl">Karte</button>
+		</div>
+		<div class="col-md-6 col-lg-6">
+			<button type="button" ng-click="changeView('list')" class="btn btn-warning xxxl">Liste</button>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
+		<!-- Map view -->
+		<div ng-class="{true:'', false:'hidden'}[mapView]">
+			<!-- Map div -->
+			<div ng-class="{true:'col-md-7 col-lg-7', false:'col-lg-12'}[splitView]">
+				<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="480px">
+		 		</leaflet>	
+			</div>
+
+			<!-- Detail -->
+			<div ng-class="{true:'col-md-5 col-lg-5', false:'hidden'}[splitView]">
+				<div class="well well-lg fill">
+					<div class="row">
+						<div class="col-lg-12">
+							<li ng-repeat="sensor in selectedMarkerData">
+								{{sensor.title}}: {{sensor.measurements.value}} {{sensor.unit}}
+							</li>
+						</div>
+					</div>
+				</div>
+			</div>	
+		</div>
+
+		<!-- List view -->
+		<div ng-class="{true:'', false:'hidden'}[listView]">
+			<div class="col-md-3 col-lg-3" ng-repeat="marker in pagedMarkers">
+				<a href="#/explore/{{marker.title}}" class="thumbnail">
+  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
+  					<h5 style="text-align: center;">{{marker.name}}</h5>
+				</a>
+			</div>
+			<!-- <div class="row">
+				<div class="col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-4">
+					 <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-xl" boundary-links="true" rotate="false"></pagination>		
+				</div>
+			</div> -->
+		</div>
+	</div>
+</div>

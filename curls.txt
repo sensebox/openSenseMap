@@ -1,3 +1,0 @@
-  curl -i -X POST -H "Content-Type: application/json" -d '{"name":"SenseBox AFG","boxType":"fixed","sensors":[{"title":"Temperatur","unit":"°C"},{"title":"Humidity","unit":"%"}],"loc":[{"type":"feature","geometry":{"type":"Point","coordinates":[7.415768,51.976184]}}]}' http://localhost:8000/boxes
-
-  curl -i -X POST -H "Content-Type: application/json" -d '{"value":"35"}' http://opensensemap.org:8000/boxes/53067b75c11abfa80c20e736/53067b75c11abfa80c20e737

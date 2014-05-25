@@ -69,6 +69,13 @@ angular.module('openSenseMapApp')
       		}
     	};
 
+      $scope.formatTime = function(time) {
+        $scope.date = new Date(time);
+        $scope.currentTime = new Date();
+        $scope.difference = Math.round(($scope.currentTime-$scope.date)/60000);
+        return $scope.difference;
+      };
+
     	$scope.$on('leafletDirectiveMarker.click', function(e, args) {
       		// Args will contain the marker name and other relevant information
       		$scope.splitView = true;

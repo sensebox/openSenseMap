@@ -22,9 +22,11 @@
 				<div class="well well-lg fill">
 					<div class="row">
 						<div class="col-lg-12">
-							<li ng-repeat="sensor in selectedMarkerData">
-								{{sensor.title}}: {{sensor.measurements.value}} {{sensor.unit}}
-							</li>
+							<ul class="fa-ul">
+								<li ng-repeat="sensor in selectedMarkerData">
+									<i ng-class="{Temperatur:'wi-thermometer fa-2x',Luftfeuchtigkeit:'wi-sprinkles fa-2x',Schall:'fa fa-volume-up fa-2x',Luftdruck:'fa fa-tachometer fa-2x',Helligkeit:'fa fa-lightbulb-o fa-2x'}[sensor.title]"></i> {{sensor.measurements.value}} {{sensor.unit}} letzter Messwert {{ formatTime(sensor.measurements.createdAt) }} Minuten alt
+								</li>
+							</ul>
 						</div>
 					</div>
 				</div>

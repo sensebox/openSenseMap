@@ -77,6 +77,15 @@ angular.module('openSenseMapApp')
     		}]
   		};
 
+      $scope.submitForm = function(isValid) {
+
+        // check to make sure the form is completely valid
+        if (isValid) {
+          alert('our form is amazing');
+        }
+
+      };
+
   		$scope.collapseNewForm = function(type){
     		if (type) {
       			$scope.sensors = $scope.citzenBox.sensors;
@@ -107,7 +116,15 @@ angular.module('openSenseMapApp')
     		$scope.markers.box.lng = args.leafletEvent.latlng.lng;
   		});
 
-  		$scope.sensors = []; 
+  		$scope.sensors = [];
+
+      $scope.canISave = function() {
+        if ($scope.sensors != null) {
+          return true;
+        } else{
+          return false;
+        };
+      } 
 
   		$scope.phenomenoms = [
     		{value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},

@@ -3,7 +3,7 @@
 angular.module('openSenseMapApp')
 	.controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafletEvents', function($scope, $filter, $http, leafletData, leafletEvents){
 		$scope.newIsCollapsed = true;
-  		$scope.editIsCollapsed = true;
+    $scope.editIsCollapsed = true;
 		$scope.codeIsCollapsed = true;
 		$scope.showMap = false;
 		$scope.boxId = "";
@@ -22,7 +22,7 @@ angular.module('openSenseMapApp')
   		//new sensebox object
   		$scope.newSenseBox = {
     		name: "",
-    		boxType: "",
+    		boxType: "fixed",
     		sensors: [],
     		orderID: "",
     		loc: [{
@@ -35,10 +35,10 @@ angular.module('openSenseMapApp')
   		};
 
   		$scope.citzenBox = {
-    		boxType: "Stationär",
+    		boxType: "fixed",
     		sensors: [
       			{ 
-        			id: 1,
+        		  id: 1,
         			title: 1,
         			unit: "°C",
         			sensorType: "BMP085"

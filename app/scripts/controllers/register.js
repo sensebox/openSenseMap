@@ -191,8 +191,11 @@ angular.module('openSenseMapApp')
       			$scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
     		}
 
-    		$http.post("http://opensensemap.org:8000/boxes",$scope.newSenseBox)
+    		$http.post("http://localhost:8000/boxes",$scope.newSenseBox)
       			.success(function(data) {
+
+              console.log("success");
+
         			$scope.newIsCollapsed = true;
         			$scope.codeIsCollapsed = false;
         			$scope.boxId = data._id;

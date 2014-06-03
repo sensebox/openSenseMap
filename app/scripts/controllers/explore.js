@@ -14,10 +14,9 @@ angular.module('openSenseMapApp')
       $scope.delay = 60000;
 
       $scope.center = {
-        // autoDiscover: true,
-        lat: 40.095,
-        lng: -3.823,
-        zoom: 4
+        lat: 51.04139389812637,
+        lng: 10.21728515625,
+        zoom: 6
       };
 
       $scope.defaults = {

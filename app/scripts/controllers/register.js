@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope','$filter','$http','leafletData','leafletEvents',
-    function($scope, $filter, $http, leafletData, leafletEvents){
+  .controller('RegisterCtrl', ['$scope','$filter','$http','leafletData',
+    function($scope, $filter, $http, leafletData){
       $scope.newIsCollapsed = true;
       $scope.editIsCollapsed = true;
       $scope.codeIsCollapsed = true;
@@ -87,6 +87,7 @@ angular.module('openSenseMapApp')
       };
 
       $scope.collapseNewForm = function(type){
+        $scope.center.autoDiscover = true;
         if (type) {
           $scope.sensors = $scope.citzenBox.sensors;
         } else {
@@ -135,9 +136,7 @@ angular.module('openSenseMapApp')
       ];
 
       $scope.center = {
-        lat: 52,
-        lng: 7,
-        zoom: 10
+        autoDiscover: true,
       };
 
       $scope.markers = {
@@ -148,6 +147,20 @@ angular.module('openSenseMapApp')
           draggable: true
         }
       };
+
+      $scope.$on('leafletDirectiveMap.locationfound', function(event){
+        $scope.markers.box.lat = $scope.center.lat;
+        $scope.markers.box.lng = $scope.center.lng;
+      });
+
+      $scope.$on('leafletDirectiveMap.locationerror', function(event){
+        $scope.center.autoDiscover = false;
+        $scope.center.lat = 51.618017;
+        $scope.center.lng = 9.488754;
+        $scope.center.zoom = 6;
+        $scope.markers.box.lat = 51.618017;
+        $scope.markers.box.lng = 9.488754;
+      });
 
       $scope.showPhenomenom = function(sensor) {
         var selected = [];

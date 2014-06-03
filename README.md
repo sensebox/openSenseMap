@@ -13,5 +13,5 @@ bower install
 Now you are good to go and start up the server
 
 ```
-grunt serve
+grunt server
 ```

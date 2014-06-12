@@ -22,32 +22,35 @@
 				<div class="col-lg-12">
 					<h5>SenseBox Metadata</h5>
 					<form name="registerForm" novalidate>
-						<div class="col-md-8 col-lg-8">
-							<!-- NAME -->
-					        <div class="form-group" ng-class="{ 'has-error' : registerForm.name.$invalid && !userForm.name.$pristine }">
-					            <label>Name</label>
-					            <input type="text" name="name" class="form-control" ng-model="newSenseBox.name" placeholder="Bitte geben Sie einen Namen für die SenseBox an." required>
-					        </div>
+						<div class="row">
+							<div class="col-md-8 col-lg-8">
+								<div class="row">
+								<!-- NAME -->
+						        <div class="form-group" ng-class="{ 'has-error' : registerForm.name.$invalid && !userForm.name.$pristine }">
+						            <label>Name</label>
+						            <input type="text" name="name" class="form-control" ng-model="newSenseBox.name" placeholder="Bitte geben Sie einen Namen für die SenseBox an." required>
+						        </div>
 
-					        <!-- Typ -->
-					        <div class="form-group" ng-class="{ 'has-error' : registerForm.type.$invalid && !userForm.name.$pristine }">
-					            <label>Typ</label>
-						    	<select class="form-control" name="type" id="inputType" ng-model="newSenseBox.boxType" required>
-									<option value="fixed">Stationär</option>
-									<option value="mobile">Mobil</option>
-								</select>
-								<p ng-show="registerForm.typ.$invalid" class="help-block">Bitte wählen Sie einen Typen für die SenseBox aus.</p>
-					        </div>
-					        
-					        <!-- ID -->
-					        <div class="form-group" ng-class="{ 'has-error' : registerForm.id.$invalid && !userForm.name.$pristine }">
-					            <label>SenseBox ID <button type="button" data-html="true" popover-placement="top" popover=" Du hast noch keine Sensebox ID? Dann klick <a target='_blank' href='#/getid'>hier</a>!" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-question-sign"></span></button></label>
-					            <input type="text" name="id" class="form-control" id="inputID" placeholder="Bitte geben Sie die ID, die Sie per Mail erhalten haben ein." ng-model="newSenseBox.orderID" required>
-					        </div>
-					    </div>
-					    <div class="col-md-4 col-lg-4">
-							<leaflet center="center" ng-show="showMap" markers="markers" defaults="defaults" width="100%" height="250px">
-							</leaflet>
+						        <!-- Typ -->
+						        <div class="form-group" ng-class="{ 'has-error' : registerForm.type.$invalid && !userForm.name.$pristine }">
+						            <label>Typ</label>
+							    	<select class="form-control" name="type" id="inputType" ng-model="newSenseBox.boxType" required>
+										<option value="fixed">Stationär</option>
+										<option value="mobile">Mobil</option>
+									</select>
+									<p ng-show="registerForm.typ.$invalid" class="help-block">Bitte wählen Sie einen Typen für die SenseBox aus.</p>
+						        </div>
+						        
+						        <!-- ID -->
+						        <div class="form-group" ng-class="{ 'has-error' : registerForm.id.$invalid && !userForm.name.$pristine }">
+						            <label>SenseBox ID <button type="button" data-html="true" popover-placement="top" popover=" Du hast noch keine Sensebox ID? Dann klick <a target='_blank' href='#/getid'>hier</a>!" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-question-sign"></span></button></label>
+						            <input type="text" name="id" class="form-control" id="inputID" placeholder="Bitte geben Sie die ID, die Sie per Mail erhalten haben ein." ng-model="newSenseBox.orderID" required>
+						        </div>
+						    </div>
+						    <div class="col-md-4 col-lg-4">
+								<leaflet center="center" ng-show="showMap" markers="markers" defaults="defaults" width="100%" height="250px">
+								</leaflet>
+							</div>
 						</div>
 					</form>
 					<hr>

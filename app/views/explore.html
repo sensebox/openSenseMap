@@ -1,51 +1,66 @@
 <div class="row">
-	<div class="row">
-		<div class="col-md-6 col-lg-6">
-			<button type="button" ng-click="changeView('map')" class="btn btn-success xxxl">Karte</button>
-		</div>
-		<div class="col-md-6 col-lg-6">
-			<button type="button" ng-click="changeView('list')" class="btn btn-warning xxxl">Liste</button>
-		</div>
-	</div>
-	<hr>
-	<div class="row">
-		<!-- Map view -->
-		<div ng-class="{true:'', false:'hidden'}[mapView]">
-			<!-- Map div -->
-			<div ng-class="{true:'col-md-7 col-lg-7', false:'col-lg-12'}[splitView]">
-				<leaflet center="center" markers="markers" defaults="defaults" width="100%" height="480px">
-		 		</leaflet>	
-			</div>
+	<div class="col-lg-12 fullsize">
+		<leaflet center="center" markers="markers" defaults="defaults" controls="controls" width="100%" height="585px">
+		</leaflet>
 
-			<!-- Detail -->
-			<div ng-class="{true:'col-md-5 col-lg-5', false:'hidden'}[splitView]">
-				<div class="well well-lg fill">
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="list-group">
-								<a class="list-group-item" ng-repeat="sensor in selectedMarkerData">
-									<i ng-class="{Temperatur:'fa wi-thermometer fa-fw',Luftfeuchtigkeit:'fa wi-sprinkles fa-fw',Schall:'fa fa-volume-up fa-fw',Luftdruck:'fa fa-tachometer fa-fw',Helligkeit:'fa fa-lightbulb-o fa-fw'}[sensor.title]"></i>&nbsp; {{sensor.measurements.value}} {{sensor.unit}} letzter Messwert {{ formatTime(sensor.measurements.createdAt) }} Minuten alt	
-								</a>
-							</div>
+		<!-- Sidebar template -->
+		<div class="info box" ng-show="sidebarActive">
+			<h3>
+				<span editable-text="user.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
+			    {{ selectedMarker.name || 'Filter' }}
+			  </span>
+				<i class="fa fa-times pull-right close" ng-click="closeSidebar()"></i>
+				<i class="fa fa-cog pull-right close" ng-show="sidebarDetails" ng-click="collapse('edit')"></i>
+				<i class="fa fa-trash-o pull-right close" ng-show="sidebarDetails" ng-click="collapse('delete')"></i>
+			</h3>
+			<hr>
+			<div collapse="editIsCollapsed">
+				<alert type="warning">
+					Um die Eingeschaften deiner SenseBox zu bearbeiten gib deine <strong>SenseBox ID</strong> ein und klicke auf Bearbeiten:
+					<form name="editSenseBox" ng-submit="archive(selectedMarker,sec)">
+						<div class="form-group" ng-class="{ 'has-error' : secError}">
+							<input class="form-control" type="text" ng-model="sec" required>
+							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
 						</div>
+						<div class="form-group">
+							<button type="submit" ng-click="textBtnForm.$show()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
+						</div>
+					</form>
+				</alert>
+				<hr>
+			</div>
+			<div collapse="deleteIsCollapsed">
+				<alert type="danger">
+					Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+					<form name="deleteSenseBox" ng-submit="archive(selectedMarker,sec)">
+						<div class="form-group" ng-class="{ 'has-error' : secError}">
+							<input class="form-control" type="text" ng-model="sec" placeholder="SenseBox ID" required>
+							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
+						</div>
+						<div class="form-group" ng-class="{ 'has-error' : secError}">
+							<input class="form-control" type="text" ng-model="sec" placeholder="SenseBox Name" required>
+							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
+						</div>
+						<div class="form-group">
+							<button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
+						</div>
+					</form>
+				</alert>
+				<hr>
+			</div>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="list-group" ng-show="sidebarDetails">
+						<a class="list-group-item" ng-repeat="sensor in selectedMarkerData">
+							<i ng-class="{Temperatur:'fa wi-thermometer fa-fw',Luftfeuchtigkeit:'fa wi-sprinkles fa-fw',Schall:'fa fa-volume-up fa-fw',Luftdruck:'fa fa-tachometer fa-fw',Helligkeit:'fa fa-lightbulb-o fa-fw'}[sensor.title]"></i>&nbsp; {{sensor.measurements.value}} {{sensor.unit}} letzter Messwert {{ sensor.measurements.createdAt | date : 'd/M/yy h:mm a' }}
+						</a>
+					</div>
+					<div ng-show="sidebarList">
+						<alert ng-repeat="marker in markers" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
 					</div>
 				</div>
-			</div>	
-		</div>
-
-		<!-- List view -->
-		<div ng-class="{true:'', false:'hidden'}[listView]">
-			<div class="col-md-3 col-lg-3" ng-repeat="marker in pagedMarkers">
-				<a href="#/explore/{{marker.title}}" class="thumbnail">
-  					<img width="128" height="160" src="http://sensebox.uni-muenster.de/wp-content/uploads/sites/12/2013/03/iconmonstr-map-2-icon-256-2.png" alt="...">
-  					<h5 style="text-align: center;">{{marker.name}}</h5>
-				</a>
 			</div>
-			<!-- <div class="row">
-				<div class="col-md-6 col-md-offset-4 col-lg-6 col-lg-offset-4">
-					 <pagination total-items="totalItems" items-per-page="itemsPerPage" page="currentPage" on-select-page="setPage(page)" max-size="maxSize" class="pagination-xl" boundary-links="true" rotate="false"></pagination>		
-				</div>
-			</div> -->
+			<hr>
 		</div>
 	</div>
 </div>

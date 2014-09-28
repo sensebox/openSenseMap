@@ -17,7 +17,10 @@ angular.module('openSenseMapApp')
         {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
         {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
-        {value: 5, text: 'Helligkeit', unit:'Pegel', type:'GL5528'}
+        {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
+        {value: 6, text: 'Digitales Licht', unit: '', type: 'TSL2561'},
+        {value: 7, text: 'UV', unit: '', type: 'SI1145'},
+        {value: 8, text: 'Kamera', unit: '', type: ''},
       ];
 
       //new sensebox object
@@ -78,6 +81,37 @@ angular.module('openSenseMapApp')
         }]
       };
 
+      $scope.photonikBox = {
+        boxType: 'fixed',
+        sensors: [
+          {
+            id: 1,
+            title: 6,
+            unit: '',
+            sensorType: 'TSL2561'
+          },
+          {
+            id: 2,
+            title: 7,
+            unit: '',
+            sensorType: 'SI1145'
+          },
+          {
+            id: 3,
+            title: 8,
+            unit: '',
+            sensorType: ''
+          }
+        ],
+        loc: [{
+          'type':'feature',
+          'geometry':{
+            'type':'Point',
+            'coordinates':[]
+          }
+        }]
+      };
+
       $scope.submitForm = function(isValid) {
 
         // check to make sure the form is completely valid
@@ -88,8 +122,10 @@ angular.module('openSenseMapApp')
 
       $scope.collapseNewForm = function(type){
         $scope.center.autoDiscover = true;
-        if (type) {
+        if (type == 'umwelt') {
           $scope.sensors = $scope.citzenBox.sensors;
+        } else if(type == 'photonik') {
+          $scope.sensors = $scope.photonikBox.sensors;
         } else {
           $scope.sensors = [];
         }
@@ -132,7 +168,7 @@ angular.module('openSenseMapApp')
         {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
         {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
-        {value: 5, text: 'Helligkeit', unit:'Pegel', type:'GL5528'}
+        {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'}
       ];
 
       $scope.center = {
@@ -216,7 +252,7 @@ angular.module('openSenseMapApp')
             for (var i = data.sensors.length - 1; i >= 0; i--) {
               if (data.sensors[i].title === 'Temperatur') {$scope.temperatureSensorId= data.sensors[i]._id;}
               if (data.sensors[i].title === 'Luftfeuchtigkeit') {$scope.humiditySensorId = data.sensors[i]._id;}
-              if (data.sensors[i].title === 'Helligkeit') {$scope.lightSensorId = data.sensors[i]._id;}
+              if (data.sensors[i].title === 'Licht') {$scope.lightSensorId = data.sensors[i]._id;}
               if (data.sensors[i].title === 'Luftdruck') {$scope.pressureSensorId = data.sensors[i]._id;}
               if (data.sensors[i].title === 'Schall') {$scope.noiseSensorId = data.sensors[i]._id;}
             }

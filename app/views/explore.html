@@ -1,12 +1,12 @@
 <div class="row">
 	<div class="col-lg-12 fullsize">
-		<leaflet center="center" markers="markers" defaults="defaults" controls="controls" width="100%" height="585px">
+		<leaflet center="center" markers="mapMarkers" defaults="defaults" controls="controls" width="100%" height="585px">
 		</leaflet>
 
 		<!-- Sidebar template -->
 		<div class="info box" ng-show="sidebarActive">
 			<h3>
-				<span editable-text="user.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
+				<span editable-text="selectedMarker.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
 			    {{ selectedMarker.name || 'Filter' }}
 			  </span>
 				<i class="fa fa-times pull-right close" ng-click="closeSidebar()"></i>
@@ -32,13 +32,13 @@
 			<div collapse="deleteIsCollapsed">
 				<alert type="danger">
 					Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
-					<form name="deleteSenseBox" ng-submit="archive(selectedMarker,sec)">
+					<form name="deleteSenseBox" ng-submit="deleteBox()">
 						<div class="form-group" ng-class="{ 'has-error' : secError}">
-							<input class="form-control" type="text" ng-model="sec" placeholder="SenseBox ID" required>
+							<input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
 							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
 						</div>
 						<div class="form-group" ng-class="{ 'has-error' : secError}">
-							<input class="form-control" type="text" ng-model="sec" placeholder="SenseBox Name" required>
+							<input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
 							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
 						</div>
 						<div class="form-group">
@@ -51,12 +51,24 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="list-group" ng-show="sidebarDetails">
-						<a class="list-group-item" ng-repeat="sensor in selectedMarkerData">
-							<i ng-class="{Temperatur:'fa wi-thermometer fa-fw',Luftfeuchtigkeit:'fa wi-sprinkles fa-fw',Schall:'fa fa-volume-up fa-fw',Luftdruck:'fa fa-tachometer fa-fw',Helligkeit:'fa fa-lightbulb-o fa-fw'}[sensor.title]"></i>&nbsp; {{sensor.measurements.value}} {{sensor.unit}} letzter Messwert {{ sensor.measurements.createdAt | date : 'd/M/yy h:mm a' }}
+						<a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
+							<i ng-class="{Temperatur:'fa wi-thermometer fa-fw',Luftfeuchtigkeit:'fa wi-sprinkles fa-fw',Schall:'fa fa-volume-up fa-fw',Luftdruck:'fa fa-tachometer fa-fw',Licht:'fa fa-lightbulb-o fa-fw'}[sensor.title]"></i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
 						</a>
 					</div>
 					<div ng-show="sidebarList">
-						<alert ng-repeat="marker in markers" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+						<div class="row">
+							<div class="col-lg-4 col-md-12">
+								<select id="dynamic-options" class="nya-selectpicker" ng-model="markers" data-container="body" style="width:110px;">
+					        <option ng-repeat="option in filterOpts" value="{{option.name}}">{{option.name}}</option>
+					      </select>
+							</div>
+							<div class="col-lg-8 col-md-12">
+								<input class="form-control" type="text" ng-model="searchText">
+							</div>
+
+						</div>
+						<hr>
+						<alert ng-repeat="marker in markers | filterPhenomenons:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
 					</div>
 				</div>
 			</div>

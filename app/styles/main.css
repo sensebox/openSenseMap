@@ -35,6 +35,11 @@ a:hover {
   color: black;
 }
 
+.editable-empty:hover, .editable-empty:focus {
+  font-style: normal;
+  color: black;
+}
+
 /* MAP PAGE
 -------------------------------------------------- */
 /* all stylings for map page */

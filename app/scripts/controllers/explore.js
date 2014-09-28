@@ -1,15 +1,22 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents',
-    function($scope, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents) {
+  .controller('ExploreCtrl', [ '$scope', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents',
+    function($scope, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents) {
 
       $scope.selectedMarker = '';
-      $scope.selectedMarkerData = {};
+      $scope.selectedMarkerData = [];
       $scope.markers = [];
+      $scope.mapMarkers = [];
       $scope.pagedMarkers = [];
       $scope.prom;
       $scope.delay = 60000;
+      $scope.searchText = '';
+
+      $scope.filterOpts = [
+        {name:'Phänomen'},
+        {name:'Name'},
+      ];
 
       $scope.sidebarActive = false;
       $scope.sidebarList = false;
@@ -25,6 +32,30 @@ angular.module('openSenseMapApp')
           markerColor: 'red',
         },
       };
+
+      $scope.$watchCollection('searchText', function(newValue, oldValue){
+        if (newValue === oldValue) {
+          return;
+        };
+
+        var data = angular.copy($scope.markers);
+
+        var justGroup = _.filter(data, function(x) {
+          if (newValue == '' | newValue == undefined) {
+            if (!newValue) {
+              return true;
+            } else{
+              $filter('filter')([x.name], newValue).length > 0;
+            };
+          } else {
+            if ($filter('filter')([x.name], newValue).length > 0) {
+              return x;
+            };
+          };
+        });
+        data = justGroup;
+        $scope.mapMarkers = data;
+      });
 
       $scope.closeSidebar = function() {
         $scope.sidebarActive = false;
@@ -50,6 +81,9 @@ angular.module('openSenseMapApp')
           default:
             break;
         }
+      }
+
+      $scope.deleteBox = function() {
       }
 
       $scope.checkName = function(data) {
@@ -104,7 +138,7 @@ angular.module('openSenseMapApp')
           detectRetina: true,
           reuseTiles: true,
         },
-        scrollWheelZoom: false
+        scrollWheelZoom: true
       };
 
       $scope.formatTime = function(time) {
@@ -128,16 +162,21 @@ angular.module('openSenseMapApp')
       });
 
       OpenSenseBoxes.query(function(response){
-        console.log(response);
         for (var i = 0; i <= response.length - 1; i++) {
           var tempMarker = {};
+          tempMarker.phenomenons = []
           tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
           tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
           tempMarker.id = response[i]._id;
           tempMarker.icon = icons.iconC;
           tempMarker.name = response[i].name;
+          tempMarker.sensors = response[i].sensors;
+          for (var j = response[i].sensors.length - 1; j >= 0; j--) {
+            tempMarker.phenomenons.push(response[i].sensors[j].title);
+          };
           $scope.markers.push(tempMarker);
         }
+        $scope.mapMarkers = $scope.markers;
       });
 
       $scope.stopit = function() {

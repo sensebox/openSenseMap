@@ -8,7 +8,10 @@ angular
     'ngRoute',
     'leaflet-directive',
     'ui.bootstrap',
-    'xeditable'
+    'nya.bootstrap.select',
+    'xeditable',
+    'osemFilters',
+    'angular-underscore'
   ])
   .config(function ($routeProvider) {
     $routeProvider

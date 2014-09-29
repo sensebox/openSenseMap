@@ -58,7 +58,7 @@
 					<div ng-show="sidebarList">
 						<div class="row">
 							<div class="col-lg-4 col-md-12">
-								<select id="dynamic-options" class="nya-selectpicker" ng-model="markers" data-container="body" style="width:110px;">
+								<select id="dynamic-options" class="nya-selectpicker" ng-model="selectedFilterOption" data-container="body" style="width:110px;">
 					        <option ng-repeat="option in filterOpts" value="{{option.name}}">{{option.name}}</option>
 					      </select>
 							</div>
@@ -68,7 +68,7 @@
 
 						</div>
 						<hr>
-						<alert ng-repeat="marker in markers | filterPhenomenons:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+						<alert ng-repeat="marker in markers | filterPhenomenons:selectedFilterOption:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
 					</div>
 				</div>
 			</div>

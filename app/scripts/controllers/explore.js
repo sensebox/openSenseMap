@@ -17,6 +17,7 @@ angular.module('openSenseMapApp')
         {name:'Phänomen'},
         {name:'Name'},
       ];
+      $scope.selectedFilterOption = 'Phänomen';
 
       $scope.sidebarActive = false;
       $scope.sidebarList = false;
@@ -41,17 +42,36 @@ angular.module('openSenseMapApp')
         var data = angular.copy($scope.markers);
 
         var justGroup = _.filter(data, function(x) {
-          if (newValue == '' | newValue == undefined) {
-            if (!newValue) {
-              return true;
-            } else{
-              $filter('filter')([x.name], newValue).length > 0;
+          if ($scope.selectedFilterOption == "Phänomen") {
+            if (newValue == '' | newValue == undefined) {
+              if (!newValue) {
+                return true;
+              } else{
+                for(var i in x.sensors) {
+                  $filter('filter')([x.sensors[i].title], newValue).length > 0;
+                }
+              };
+            } else {
+              for(var i in x.sensors) {
+                if ($filter('filter')([x.sensors[i].title], newValue).length > 0) {
+                  return x;
+                };
+              }
             };
-          } else {
-            if ($filter('filter')([x.name], newValue).length > 0) {
-              return x;
+          } else if($scope.selectedFilterOption == "Name") {
+            if (newValue == '' | newValue == undefined) {
+              if (!newValue) {
+                return true;
+              } else{
+                $filter('filter')([x.name], newValue).length > 0;
+              };
+            } else {
+              if ($filter('filter')([x.name], newValue).length > 0) {
+                return x;
+              };
             };
           };
+
         });
         data = justGroup;
         $scope.mapMarkers = data;

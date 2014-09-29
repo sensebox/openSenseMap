@@ -18,8 +18,8 @@
     "weather-icons": "~0.0.1",
     "Leaflet.awesome-markers": "~2.0.2",
     "nya-bootstrap-select": "~1.2.7",
-    "angular-underscore": "*",
-    "underscore": "~1.7.0"
+    "underscore": "~1.7.0",
+    "angular-underscore": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.2.15",

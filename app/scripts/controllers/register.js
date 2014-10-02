@@ -18,8 +18,8 @@ angular.module('openSenseMapApp')
         {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
         {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
-        {value: 6, text: 'Digitales Licht', unit: '', type: 'TSL2561'},
-        {value: 7, text: 'UV', unit: '', type: 'SI1145'},
+        {value: 6, text: 'Licht (digital)', unit: 'Lux', type: 'TSL2561'},
+        {value: 7, text: 'UV', unit: 'UV-Index Skala', type: 'GUVA-S12D'},
         {value: 8, text: 'Kamera', unit: '', type: ''},
       ];
 
@@ -87,21 +87,21 @@ angular.module('openSenseMapApp')
           {
             id: 1,
             title: 6,
-            unit: '',
+            unit: 'Lux',
             sensorType: 'TSL2561'
           },
           {
             id: 2,
             title: 7,
-            unit: '',
-            sensorType: 'SI1145'
-          },
-          {
-            id: 3,
-            title: 8,
-            unit: '',
-            sensorType: ''
+            unit: 'UV-Index Skala',
+            sensorType: 'GUVA-S12D'
           }
+          // {
+          //   id: 3,
+          //   title: 8,
+          //   unit: '',
+          //   sensorType: ''
+          // }
         ],
         loc: [{
           'type':'feature',
@@ -163,13 +163,13 @@ angular.module('openSenseMapApp')
         }
       };
 
-      $scope.phenomenoms = [
-        {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
-        {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
-        {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
-        {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
-        {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'}
-      ];
+      // $scope.phenomenoms = [
+      //   {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
+      //   {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
+      //   {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
+      //   {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
+      //   {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'}
+      // ];
 
       $scope.center = {
         autoDiscover: true,
@@ -240,7 +240,7 @@ angular.module('openSenseMapApp')
           $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
         }
 
-        $http.post('http://opensensemap.org:8000/boxes',$scope.newSenseBox)
+        $http.post('http://localhost:8000/boxes',$scope.newSenseBox)
           .success(function(data) {
 
             console.log('success');

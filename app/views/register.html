@@ -9,15 +9,15 @@
 	<div class="col-md-6 col-lg-6">
 		<a ng-click="collapseNewForm('umwelt')" class="thumbnail">
 			<img width="128" height="160" src="../images/preconfigured.png" alt="...">
-			<h5 style="text-align: center;">Ich möchte eine neue SenseBox Umweltstation anlegen!</h5>
+			<h5 style="text-align: center;">Ich möchte eine neue SenseBox Basic anlegen!</h5>
 		</a>
 	</div>
-	<div class="col-md-6 col-lg-6">
+	<!-- <div class="col-md-6 col-lg-6">
 		<a ng-click="collapseNewForm('photonik')" class="thumbnail">
 			<img width="128" height="160" src="../images/photonik.png" alt="...">
 			<h5 style="text-align: center;">Ich möchte eine neue SenseBox Photonik anlegen!</h5>
 		</a>
-	</div>
+	</div> -->
 </div>
 
 <hr>
@@ -134,9 +134,9 @@
 
 <div class="row" collapse="codeIsCollapsed">
 	<div class="col-lg-12">
-		<div class="well well-lg" n-model="code">
+		<div class="well well-lg" ng-model="code">
 			Deine Sensebox wurde erfolgreich angelegt.
-			Lade dein UploadScript für die SenseBox <strong><a href="{{download}}" download="sensebox.ino">hier</a></strong> herunter.
+			Lade dein UploadScript für die SenseBox <strong><a href="../files/542933a531d07f6678e48d16.ino" download="sensebox.ino">hier</a></strong> herunter.
 		</div>
 	</div>
 </div>

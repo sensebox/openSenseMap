@@ -210,6 +210,7 @@ angular.module('openSenseMapApp')
         $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:$scope.selectedMarker.id}, function(response) {
           $scope.selectedMarkerData = response;
+          console.log($scope.selectedMarkerData);
         });
       };
     }]);

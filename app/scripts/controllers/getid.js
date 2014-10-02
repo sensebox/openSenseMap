@@ -12,14 +12,14 @@ angular.module('openSenseMapApp')
         $scope.alerts.splice(index, 1);
       };
 
-      // function to submit the form after all validation has occurred            
+      // function to submit the form after all validation has occurred
       $scope.submitForm = function(isValid) {
 
         $scope.alerts.length = 0;
 
         // check to make sure the form is completely valid
         if (isValid) {
-          $http.post('http://opensensemap.org:8000/users',$scope.user)
+          $http.post('http://localhost:8000/users',$scope.user)
             .success(function(data) {
               $scope.apikey = data.apikey;
               $scope.alerts.push({type: 'success', msg: 'Deine SenseBox ID lautet: '+data.apikey+'! Du bekommst deine SenseBox ID zur Sicherheit per Mail zugeschickt.'});

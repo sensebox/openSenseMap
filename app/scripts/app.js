@@ -11,6 +11,7 @@ angular
     'nya.bootstrap.select',
     'xeditable',
     'osemFilters',
+    'angular-dimple',
     'angular-underscore'
   ])
   .config(function ($routeProvider) {

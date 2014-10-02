@@ -52,7 +52,10 @@
 				<div class="col-lg-12">
 					<div class="list-group" ng-show="sidebarDetails">
 						<a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
-							<i ng-class="{Temperatur:'fa wi-thermometer fa-fw',Luftfeuchtigkeit:'fa wi-sprinkles fa-fw',Schall:'fa fa-volume-up fa-fw',Luftdruck:'fa fa-tachometer fa-fw',Licht:'fa fa-lightbulb-o fa-fw'}[sensor.title]"></i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
+							<i ng-class="{'fa wi-thermometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
+							<!-- <i ng-class="{'BMP085':'fa wi-thermometer fa-fw','DHT11':'fa wi-sprinkles fa-fw','LM386':'fa fa-volume-up fa-fw','BMP085': 'fa fa-tachometer fa-fw','GL5528':'fa fa-lightbulb-o fa-fw','TSL2561':'fa fa-lightbulb-o','GUVA-S12D': 'fa fa-google-wallet'}[sensor.sensorType]"> -->
+
+							</i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
 						</a>
 					</div>
 					<div ng-show="sidebarList">

@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents',
-    function($scope, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents) {
+  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'validation', 'leafletEvents',
+    function($scope, $http, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, Validation, leafletEvents) {
 
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -24,6 +24,7 @@ angular.module('openSenseMapApp')
       $scope.sidebarDetails = false;
       $scope.editIsCollapsed = true;
       $scope.deleteIsCollapsed = true;
+      $scope.editableMode = false;
 
       var icons = {
         iconC: {
@@ -84,6 +85,7 @@ angular.module('openSenseMapApp')
         $scope.editIsCollapsed = true;
         $scope.deleteIsCollapsed = true;
         $scope.selectedMarker = '';
+        $scope.editableMode = false;
         $scope.stopit();
       }
 
@@ -92,7 +94,8 @@ angular.module('openSenseMapApp')
           case 'edit':
             $scope.editIsCollapsed = !$scope.editIsCollapsed;
             $scope.deleteIsCollapsed = true;
-            $scope.editableForm.show = true;
+            // $scope.editableForm.show = true;
+            $scope.editableMode = !$scope.editableMode;
             break;
           case 'delete':
             $scope.editIsCollapsed = true;
@@ -206,7 +209,7 @@ angular.module('openSenseMapApp')
       $scope.clickcounter = 0;
 
       $scope.getMeasurements = function() {
-        console.log('I am watching');
+        Validation.checkApiKey("54aaa23e6c8bde3c13e23346",'54aaa2366c8bde3c13e23348');
         $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:$scope.selectedMarker.id}, function(response) {
           $scope.selectedMarkerData = response;

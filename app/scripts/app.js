@@ -6,12 +6,12 @@ angular
     'ngResource',
     'ngSanitize',
     'ngRoute',
+    'ngDialog',
     'leaflet-directive',
     'ui.bootstrap',
     'nya.bootstrap.select',
     'xeditable',
     'osemFilters',
-    'angular-dimple',
     'angular-underscore'
   ])
   .config(function ($routeProvider) {

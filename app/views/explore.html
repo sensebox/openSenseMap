@@ -1,84 +1,112 @@
-<div class="row">
-	<div class="col-lg-12 fullsize">
-		<leaflet center="center" markers="mapMarkers" defaults="defaults" controls="controls" width="100%" height="585px">
-		</leaflet>
+<div id="map">
+	<leaflet center="center" markers="mapMarkers" defaults="defaults" controls="controls" id="map_main">
+	</leaflet>
 
-		<!-- Sidebar template -->
-		<div class="info box" ng-show="sidebarActive">
-			<h3>
-				<span editable-text="selectedMarker.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
-			    {{ selectedMarker.name || 'Filter' }}
-			  </span>
-				<i class="fa fa-times pull-right close" ng-click="closeSidebar()"></i>
-				<i class="fa fa-cog pull-right close" ng-show="sidebarDetails" ng-click="collapse('edit')"></i>
-				<i class="fa fa-floppy-o pull-right close" ng-show="editableMode"></i>
-				<i class="fa fa-trash-o pull-right close" ng-show="sidebarDetails" ng-click="collapse('delete')"></i>
-			</h3>
-			<hr>
-			<div collapse="editIsCollapsed">
-				<alert type="warning">
-					Um die Eingeschaften deiner SenseBox zu bearbeiten gib deine <strong>SenseBox ID</strong> ein und klicke auf Bearbeiten:
-					<form name="editSenseBox" ng-submit="archive(selectedMarker,sec)">
-						<div class="form-group" ng-class="{ 'has-error' : secError}">
-							<input class="form-control" type="text" ng-model="sec" required>
-							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
-						</div>
-						<div class="form-group">
-							<button type="submit" ng-click="textBtnForm.$show()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
-						</div>
-					</form>
-				</alert>
-				<hr>
+	<i class="fa fa-info" ng-click="openDialog()" id="app_info_button"></i>
+
+	<div id="sidebar" ng-show="sidebarActive" style="background-position: 0px -5px;">
+		<div ng-show="detailsPanel">
+			<div class="row">
+				<div class="col-xs-12 col-md-8">
+				  <h3>
+				    <span editable-text="selectedMarker.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
+				      {{ selectedMarker.name || 'Filter' }}
+				    </span>
+				  </h3>
+				</div>
+				<div class="col-xs-6 col-md-4">
+				  <h3>
+				    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()"></i>
+				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="collapse('edit')"></i>
+				    <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange()"></i>
+				    <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()"></i>
+				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="collapse('delete')"></i>
+				  </h3>
+				</div>
 			</div>
-			<div collapse="deleteIsCollapsed">
-				<alert type="danger">
-					Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
-					<form name="deleteSenseBox" ng-submit="deleteBox()">
-						<div class="form-group" ng-class="{ 'has-error' : secError}">
-							<input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
-							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
-						</div>
-						<div class="form-group" ng-class="{ 'has-error' : secError}">
-							<input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
-							<p ng-show="secError" class="help-block">{{secErrorText}}</p>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
-						</div>
-					</form>
-				</alert>
+			<div class="row">
 				<hr>
 			</div>
 			<div class="row">
-				<div class="col-lg-12">
-					<img my-holder="holder.js/100%x200/social">
-					<hr>
-					<div class="list-group" ng-show="sidebarDetails">
-						<a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
-							<i ng-class="{'fa wi-thermometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
-							<!-- <i ng-class="{'BMP085':'fa wi-thermometer fa-fw','DHT11':'fa wi-sprinkles fa-fw','LM386':'fa fa-volume-up fa-fw','BMP085': 'fa fa-tachometer fa-fw','GL5528':'fa fa-lightbulb-o fa-fw','TSL2561':'fa fa-lightbulb-o','GUVA-S12D': 'fa fa-google-wallet'}[sensor.sensorType]"> -->
-
-							</i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
-						</a>
-					</div>
-					<div ng-show="sidebarList">
-						<div class="row">
-							<div class="col-lg-4 col-md-12">
-								<select id="dynamic-options" class="nya-selectpicker" ng-model="selectedFilterOption" data-container="body" style="width:110px;">
-					        <option ng-repeat="option in filterOpts" value="{{option.name}}">{{option.name}}</option>
-					      </select>
-							</div>
-							<div class="col-lg-8 col-md-12">
-								<input class="form-control" type="text" ng-model="searchText">
-							</div>
-
-						</div>
-						<hr>
-						<alert ng-repeat="marker in markers | filterPhenomenons:selectedFilterOption:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
-					</div>
+				<div collapse="editIsCollapsed">
+				  <alert type="warning">
+				    Um die Eingeschaften deiner SenseBox zu bearbeiten gib deine <strong>SenseBox ID</strong> ein und klicke auf Bearbeiten:
+				    <form name="">
+				      <div class="form-group">
+				        <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+				      </div>
+				      <div class="form-group">
+				        <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
+				      </div>
+				    </form>
+				  </alert>
+				  <hr>
+				</div>
+				<div collapse="deleteIsCollapsed">
+				  <alert type="danger">
+				    Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+				    <form name="deleteSenseBox" ng-submit="deleteBox()">
+				      <div class="form-group" ng-class="{ 'has-error' : secError}">
+				        <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
+				        <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+				      </div>
+				      <div class="form-group" ng-class="{ 'has-error' : secError}">
+				        <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
+				        <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+				      </div>
+				      <div class="form-group">
+				        <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
+				      </div>
+				    </form>
+				  </alert>
+				  <hr>
 				</div>
 			</div>
-			<hr>
+			<div class="row">
+				<img my-holder="holder.js/100%x200/social">
+				<hr>
+				<div class="list-group">
+				  <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
+				    <i ng-class="{'fa wi-thermometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
+				    </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
+				  </a>
+				</div>
+			</div>
 		</div>
+		<div ng-show="filterPanel">
+      <div class="row">
+      	<div class="col-xs-12 col-md-8">
+      	  <h3>
+      	    Filter
+      	  </h3>
+      	</div>
+      	<div class="col-xs-6 col-md-4">
+      	  <h3>
+      	    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()"></i>
+      	  </h3>
+      	</div>
+      </div>
+      <div class="row">
+				<hr>
+      </div>
+      <div class="row">
+  		  <div class="col-lg-12">
+  		    <div class="input-group">
+  		      <div class="input-group-btn">
+  		        <select id="dynamic-options" class="nya-selectpicker" ng-model="selectedFilterOption" data-container="body" style="width:110px;">
+  		          <option ng-repeat="option in filterOpts" value="{{option.name}}">{{option.name}}</option>
+  		        </select>
+  		      </div>
+  		      <input type="text" class="form-control" ng-model="searchText" aria-label="...">
+  		    </div>
+  		  </div>
+      </div>
+      <div class="row">
+      	<hr>
+      </div>
+      <div class="row">
+      	<alert ng-repeat="marker in markers | filterPhenomenons:selectedFilterOption:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+      </div>
+    </div>
 	</div>
 </div>

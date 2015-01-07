@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'validation', 'leafletEvents',
-    function($scope, $http, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, Validation, leafletEvents) {
+  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', 'validation', 'ngDialog',
+    function($scope, $http, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents, Validation, ngDialog) {
 
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -12,6 +12,8 @@ angular.module('openSenseMapApp')
       $scope.prom;
       $scope.delay = 60000;
       $scope.searchText = '';
+      $scope.detailsPanel = false;
+      $scope.filterPanel = false;
 
       $scope.filterOpts = [
         {name:'Phänomen'},
@@ -20,8 +22,6 @@ angular.module('openSenseMapApp')
       $scope.selectedFilterOption = 'Phänomen';
 
       $scope.sidebarActive = false;
-      $scope.sidebarList = false;
-      $scope.sidebarDetails = false;
       $scope.editIsCollapsed = true;
       $scope.deleteIsCollapsed = true;
       $scope.editableMode = false;
@@ -34,6 +34,14 @@ angular.module('openSenseMapApp')
           markerColor: 'red',
         },
       };
+
+      $scope.openDialog = function () {
+        ngDialog.open({
+          template: '../../views/app_info_modal.html',
+          className: 'ngdialog-theme-default',
+          scope: $scope
+        });
+      }
 
       $scope.$watchCollection('searchText', function(newValue, oldValue){
         if (newValue === oldValue) {
@@ -80,13 +88,20 @@ angular.module('openSenseMapApp')
 
       $scope.closeSidebar = function() {
         $scope.sidebarActive = false;
-        $scope.sidebarList = false;
-        $scope.sidebarDetails = false;
         $scope.editIsCollapsed = true;
         $scope.deleteIsCollapsed = true;
         $scope.selectedMarker = '';
         $scope.editableMode = false;
+        $scope.apikey.key = '';
         $scope.stopit();
+      }
+
+      $scope.saveChange = function () {
+
+      }
+
+      $scope.discardChanges = function () {
+        $scope.editableMode = !$scope.editableMode;
       }
 
       $scope.collapse = function(panel) {
@@ -95,7 +110,6 @@ angular.module('openSenseMapApp')
             $scope.editIsCollapsed = !$scope.editIsCollapsed;
             $scope.deleteIsCollapsed = true;
             // $scope.editableForm.show = true;
-            $scope.editableMode = !$scope.editableMode;
             break;
           case 'delete':
             $scope.editIsCollapsed = true;
@@ -129,8 +143,8 @@ angular.module('openSenseMapApp')
           .on(link, 'click', L.DomEvent.preventDefault)
           .on(link, 'click', function(){
             $scope.sidebarActive = true;
-            $scope.sidebarDetails = false;
-            $scope.sidebarList = true;
+            $scope.detailsPanel = false;
+            $scope.filterPanel = true;
           });
 
         return container;
@@ -140,6 +154,18 @@ angular.module('openSenseMapApp')
       $scope.controls = {
         custom: [ listControl ]
       };
+
+      $scope.apikey = {};
+      $scope.enableEditableMode = function () {
+        Validation.checkApiKey($scope.selectedMarker.id,$scope.apikey.key).then(function(status){
+          if (status === 200) {
+            $scope.editableMode = !$scope.editableMode;
+            $scope.editIsCollapsed = true;
+          } else {
+            $scope.editableMode = !$scope.editableMode;
+          }
+        });
+      }
 
       //helper function to zoomTo object for filter sidebar
       $scope.zoomTo = function(lat,lng) {
@@ -175,8 +201,8 @@ angular.module('openSenseMapApp')
         // Args will contain the marker name and other relevant information
         console.log(args);
         $scope.sidebarActive = true;
-        $scope.sidebarDetails = true;
-        $scope.sidebarList = false;
+        $scope.detailsPanel = true;
+        $scope.filterPanel = false;
         $scope.selectedMarker = $scope.markers[args.markerName];
         $scope.getMeasurements();
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
@@ -209,7 +235,6 @@ angular.module('openSenseMapApp')
       $scope.clickcounter = 0;
 
       $scope.getMeasurements = function() {
-        Validation.checkApiKey("54aaa23e6c8bde3c13e23346",'54aaa2366c8bde3c13e23348');
         $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:$scope.selectedMarker.id}, function(response) {
           $scope.selectedMarkerData = response;

@@ -8,28 +8,32 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-  .factory('validation', function ($http,$resource) {
+  .factory('validation', function ($http, $q) {
+
+    var service = {};
 
     var validApiKey = function (boxId, apiKey) {
-      var User = $resource('http://localhost:8000/users/:boxId', { }, {
-        'query': {
-          method: 'GET',
-          isArray: true,
-          withCredentials: true,
-          headers: {
-            'X-ApiKey':'asdasd'
-          }
+      return $http({
+        method: 'GET',
+        url: 'http://localhost:8000/users/'+boxId,
+        headers: {
+          'X-ApiKey':apiKey
         }
       });
-      return User;
-    }
-
-    return {
-      checkApiKey: function (boxId, apiKey) {
-        var test = validApiKey(boxId,apiKey);
-        test.query({boxId:boxId}, function (response) {
-          console.log(response);
-        });
-      }
     };
+
+    service.checkApiKey = function (boxId, apiKey) {
+      var http = validApiKey(boxId,apiKey);
+      var deferred = $q.defer();
+      http.
+        success( function (data, status) {
+          deferred.resolve(status);
+        }).
+        error( function (data, status) {
+          deferred.resolve(status);
+        });
+      return deferred.promise;
+    };
+
+    return service;
   });

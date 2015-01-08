@@ -1,0 +1,74 @@
+.rc-nav-wizard > li {
+  float: left;
+}
+
+.rc-nav-wizard > li + li {
+  margin-left: 2px;
+}
+
+.rc-nav-wizard > li > a {
+  border-radius: 5px;
+  cursor: default;
+  color: #999;
+}
+
+.rc-nav-wizard > li > a,
+.rc-nav-wizard > li > a:hover,
+.rc-nav-wizard > li > a:focus {
+  background-color: transparent;
+}
+
+.rc-nav-wizard > li > a > .badge {
+  margin-left: 3px;
+  font-size: 18px;
+  padding: 5px 9px;
+  border-radius: 15px;
+}
+
+/* active = current wizard step */
+.rc-nav-wizard > li.active > a,
+.rc-nav-wizard > li.active > a:hover,
+.rc-nav-wizard > li.active > a:focus {
+  color: #428bca;
+  background-color: transparent;
+}
+
+.rc-nav-wizard > .active > a > .badge {
+  color: #ffffff;
+  background-color: #428bca;
+}
+
+/* success = completed wizard step */
+.rc-nav-wizard > li.success > a,
+.rc-nav-wizard > li.success > a:hover,
+.rc-nav-wizard > li.success > a:focus {
+  color: #5cb85c;
+  background-color: transparent;
+}
+
+.rc-nav-wizard > .success > a > .badge {
+  color: #ffffff;
+  background-color: #5cb85c;
+}
+
+/* danger = failed wizard step */
+.rc-nav-wizard > li.danger > a,
+.rc-nav-wizard > li.danger > a:hover,
+.rc-nav-wizard > li.danger > a:focus {
+  color: #d9534f;
+  background-color: transparent;
+}
+
+.rc-nav-wizard > .danger > a > .badge {
+  color: #ffffff;
+  background-color: #d9534f;
+}
+
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  font-size: 13px;
+  font-weight: bold;
+}

@@ -1,16 +1,91 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope','$filter','$http','leafletData',
-    function($scope, $filter, $http, leafletData){
-      $scope.newIsCollapsed = true;
-      $scope.editIsCollapsed = true;
-      $scope.codeIsCollapsed = true;
-      $scope.showMap = false;
-      $scope.boxId = '';
-      $scope.tempId = '';
-      $scope.humId = '';
-      $scope.code = '';
+  .controller('RegisterCtrl', ['$scope', '$q', '$timeout', '$filter', 'leafletData',
+    function($scope, $q, $timeout, $filter, leafletData){
+
+      $scope.editing = false;
+      $scope.tmpSensor = {};
+      $scope.edit = function(index) {
+        $scope.tmpSensor = angular.copy($scope.sensors[index]);
+      }
+
+      $scope.save = function (index) {
+        $scope.sensors[index] = angular.copy($scope.tmpSensor);
+        $scope.tmpSensor = {};
+      }
+
+      $scope.delete = function (index) {
+        $scope.sensors.splice(index,1);
+      }
+
+      $scope.cancel = function(index) {
+        if ($scope.editing !== false) {
+          $scope.editing = false;
+        }
+        $scope.tmpSensor = {};
+      }
+
+      $scope.add = function () {
+        var sensor = {
+          id: $scope.sensors.length + 1,
+          title: '',
+          unit: '',
+          sensorType: ''
+        };
+        $scope.sensors.push(sensor);
+      }
+
+      //new user object
+      $scope.user = {
+        email: '',
+        firstname: '',
+        lastname: ''
+      }
+
+      $scope.fixedBox = true;
+      $scope.change = function () {
+        $scope.fixedBox = !$scope.fixedBox;
+      }
+
+      $scope.sensors = [
+        {
+          id: 1,
+          title: 1,
+          unit: '°C',
+          sensorType: 'BMP085'
+        },
+        {
+          id: 2,
+          title: 2,
+          unit: '%',
+          sensorType: 'DHT11'
+        },
+        {
+          id: 3,
+          title: 3,
+          unit: 'Pa',
+          sensorType: 'BMP085'
+        },
+        {
+          id: 4,
+          title: 4,
+          unit: 'Pegel',
+          sensorType: 'LM386'
+        },
+        {
+          id: 5,
+          title: 6,
+          unit: 'lx',
+          sensorType: 'TSL2561'
+        },
+        {
+          id: 6,
+          title: 7,
+          unit: 'UV-Index',
+          sensorType: 'GUVA-S12D'
+        }
+      ];
 
       $scope.phenomenoms = [
         {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
@@ -18,10 +93,31 @@ angular.module('openSenseMapApp')
         {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
         {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
-        {value: 6, text: 'Licht (digital)', unit: 'Lux', type: 'TSL2561'},
-        {value: 7, text: 'UV', unit: 'UV-Index Skala', type: 'GUVA-S12D'},
+        {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
+        {value: 7, text: 'UV', unit: 'UV-Index', type: 'GUVA-S12D'},
         {value: 8, text: 'Kamera', unit: '', type: ''},
       ];
+
+      $scope.showPhenomenom = function(sensor) {
+        var selected = [];
+        if(sensor.title) {
+          selected = $filter('filter')($scope.phenomenoms, {value: sensor.title});
+        }
+
+        return selected.length ? selected[0].text : 'Not set';
+      };
+
+      $scope.generateID = function () {
+        var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
+        var objectid = timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {
+          return (Math.random() * 16 | 0).toString(16);
+        }).toLowerCase();
+        $scope.newSenseBox.orderID = objectid;
+      }
+
+      $scope.fallback = function(copy) {
+        window.prompt('Press cmd+c to copy the text below.', copy);
+      };
 
       //new sensebox object
       $scope.newSenseBox = {
@@ -36,230 +132,59 @@ angular.module('openSenseMapApp')
             'coordinates':[]
           }
         }]
-      };
+       };
 
-      $scope.citzenBox = {
-        boxType: 'fixed',
-        sensors: [
-          {
-            id: 1,
-            title: 1,
-            unit: '°C',
-            sensorType: 'BMP085'
-          },
-          {
-            id: 2,
-            title: 2,
-            unit: '%',
-            sensorType: 'DHT11'
-          },
-          {
-            id: 3,
-            title: 3,
-            unit: 'Pa',
-            sensorType: 'BMP085'
-          },
-          {
-            id: 4,
-            title: 4,
-            unit: 'Pegel',
-            sensorType: 'LM386'
-          },
-          {
-            id: 5,
-            title: 5,
-            unit: 'Pegel',
-            sensorType: 'GL5528'
-          }
-        ],
-        loc: [{
-          'type':'feature',
-          'geometry':{
-            'type':'Point',
-            'coordinates':[]
-          }
-        }]
-      };
-
-      $scope.photonikBox = {
-        boxType: 'fixed',
-        sensors: [
-          {
-            id: 1,
-            title: 6,
-            unit: 'Lux',
-            sensorType: 'TSL2561'
-          },
-          {
-            id: 2,
-            title: 7,
-            unit: 'UV-Index Skala',
-            sensorType: 'GUVA-S12D'
-          }
-          // {
-          //   id: 3,
-          //   title: 8,
-          //   unit: '',
-          //   sensorType: ''
-          // }
-        ],
-        loc: [{
-          'type':'feature',
-          'geometry':{
-            'type':'Point',
-            'coordinates':[]
-          }
-        }]
-      };
-
-      $scope.submitForm = function(isValid) {
-
-        // check to make sure the form is completely valid
-        if (isValid) {
-          // alert('our form is amazing');
-        }
-      };
-
-      $scope.collapseNewForm = function(type){
-        $scope.center.autoDiscover = true;
-        if (type == 'umwelt') {
-          $scope.sensors = $scope.citzenBox.sensors;
-        } else if(type == 'photonik') {
-          $scope.sensors = $scope.photonikBox.sensors;
-        } else {
-          $scope.sensors = [];
-        }
-
-        $scope.editIsCollapsed = true;
-        $scope.newIsCollapsed = false;
-        $scope.showMap = true;
-      };
-
-      $scope.collapseEditForm = function(test){
-        $scope.newIsCollapsed = true;
-        $scope.editIsCollapsed = false;
-      };
-
-      $scope.$watch('showMap', function(value) {
+      $scope.showMap = false;
+      $scope.$watch("showMap", function(value) {
         if (value === true) {
-          leafletData.getMap().then(function(map) {
-            map.invalidateSize();
-          });
+            leafletData.getMap().then(function(map) {
+                map.invalidateSize();
+            });
         }
       });
+
+      $scope.goToMap = function() {
+        $timeout(function() {
+          leafletData.getMap().then(function(map) {
+            $scope.$watch('$viewContentLoaded', function() {
+              map.invalidateSize();
+            });
+          });
+        }, 100);
+      }
 
       $scope.$on('leafletDirectiveMap.click', function(e, args) {
-        $scope.markers.box.lat = args.leafletEvent.latlng.lat;
-        $scope.markers.box.lng = args.leafletEvent.latlng.lng;
-      });
-
-      $scope.sensors = [];
-
-      $scope.canISave = function() {
-        if ($scope.sensors !== null) {
-          return true;
+        if (Object.keys($scope.markers).length === 0) {
+          $scope.markers.box = {'lat':args.leafletEvent.latlng.lat,'lng':args.leafletEvent.latlng.lng};
         } else {
-          return false;
+          $scope.markers.box.lat = args.leafletEvent.latlng.lat;
+          $scope.markers.box.lng = args.leafletEvent.latlng.lng;
         }
-      };
-
-      // $scope.phenomenoms = [
-      //   {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
-      //   {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
-      //   {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
-      //   {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
-      //   {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'}
-      // ];
+      });
 
       $scope.center = {
         autoDiscover: true,
       };
 
-      $scope.markers = {
-        box: {
-          lat: 52,
-          lng: 7,
-          focus: true,
-          draggable: true
-        }
-      };
+      $scope.markers = {};
 
-      $scope.$on('leafletDirectiveMap.locationfound', function(event){
-        $scope.markers.box.lat = $scope.center.lat;
-        $scope.markers.box.lng = $scope.center.lng;
+      $scope.$on('leafletDirectiveMap.locationfound', function(e, args){
+        if (Object.keys($scope.markers).length === 0) {
+          $scope.markers.box = {'lat':args.leafletEvent.latlng.lat,'lng':args.leafletEvent.latlng.lng};
+        } else {
+          $scope.markers.box.lat = args.leafletEvent.latlng.lat;
+          $scope.markers.box.lng = args.leafletEvent.latlng.lng;
+        }
+        leafletData.getMap().then(function(map) {
+          map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],18);
+        });
       });
 
       $scope.$on('leafletDirectiveMap.locationerror', function(event){
-        $scope.center.autoDiscover = false;
-        $scope.center.lat = 51.618017;
-        $scope.center.lng = 9.488754;
-        $scope.center.zoom = 6;
-        $scope.markers.box.lat = 51.618017;
-        $scope.markers.box.lng = 9.488754;
+        //TODO set alert
       });
 
-      $scope.showPhenomenom = function(sensor) {
-        var selected = [];
-        if(sensor.title) {
-          selected = $filter('filter')($scope.phenomenoms, {value: sensor.title});
-        }
-
-        return selected.length ? selected[0].text : 'Not set';
-      };
-
-      // remove sensor
-      $scope.removeSensor = function(index) {
-        $scope.sensors.splice(index, 1);
-      };
-
-      $scope.change = function(test) {
-        console.log($scope.tempPhenomenom);
-      };
-
-      // add sensor
-      $scope.addSensor = function() {
-        $scope.inserted = {
-          id: $scope.sensors.length+1,
-          title: '',
-          unit: null,
-          sensorType: null
-        };
-        $scope.sensors.push($scope.inserted);
-      };
-
-      $scope.download = '';
-
-      //build json object for api
-      $scope.saveToDB = function() {
-
-        $scope.newSenseBox.sensors = $scope.sensors;
-        $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
-        $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
-
-        for (var i = 0; i < $scope.sensors.length; i++) {
-          $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
-        }
-
-        $http.post('http://localhost:8000/boxes',$scope.newSenseBox)
-          .success(function(data) {
-
-            console.log('success');
-
-            $scope.newIsCollapsed = true;
-            $scope.codeIsCollapsed = false;
-            $scope.boxId = data._id;
-            $scope.download = $scope.boxId + '.ino';
-            for (var i = data.sensors.length - 1; i >= 0; i--) {
-              if (data.sensors[i].title === 'Temperatur') {$scope.temperatureSensorId= data.sensors[i]._id;}
-              if (data.sensors[i].title === 'Luftfeuchtigkeit') {$scope.humiditySensorId = data.sensors[i]._id;}
-              if (data.sensors[i].title === 'Licht') {$scope.lightSensorId = data.sensors[i]._id;}
-              if (data.sensors[i].title === 'Luftdruck') {$scope.pressureSensorId = data.sensors[i]._id;}
-              if (data.sensors[i].title === 'Schall') {$scope.noiseSensorId = data.sensors[i]._id;}
-            }
-          })
-          .error(function(data) {
-            console.log('error');
-            console.log(data);
-          });
-      };
+      $scope.completeWizard = function() {
+        alert('Completed!');
+      }
     }]);

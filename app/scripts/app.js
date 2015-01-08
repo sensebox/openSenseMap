@@ -10,9 +10,11 @@ angular
     'leaflet-directive',
     'ui.bootstrap',
     'nya.bootstrap.select',
-    'xeditable',
     'osemFilters',
-    'angular-underscore'
+    'angular-underscore',
+    'rcWizard',
+    'rcForm',
+    'ngClipboard'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -36,14 +38,14 @@ angular
         redirectTo: '/'
       });
   })
+  .config(['ngClipProvider', function(ngClipProvider) {
+      ngClipProvider.setPath("bower_components/zeroclipboard/dist/ZeroClipboard.swf");
+  }])
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);
     };
-  }])
-  .run(function(editableOptions) {
-    editableOptions.theme = 'bs3';
-  });
+  }]);
 
   // update popover template for binding unsafe html
 angular.module('template/popover/popover.html', []).run(['$templateCache', function ($templateCache) {

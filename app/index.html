@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="bower_components/angular-xeditable/dist/css/xeditable.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
@@ -26,6 +25,7 @@
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
+    <link rel="stylesheet" href="styles/rcWizard.css">
   </head>
   <body ng-app="openSenseMapApp">
     <!--[if lt IE 7]>
@@ -43,7 +43,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">SenseBox</a>
+                    <a class="navbar-brand" href="#/">SenseBox</a>
                 </div>
                 <nav class="hidden-xs">
                     <ul class="nav navbar-nav navbar-right">
@@ -121,7 +121,6 @@
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
     <script src="bower_components/nya-bootstrap-select/src/nya-bootstrap-select.js"></script>
@@ -129,8 +128,17 @@
     <script src="bower_components/angular-underscore/angular-underscore.js"></script>
     <script src="bower_components/holderjs/holder.js"></script>
     <script src="bower_components/ngDialog/js/ngDialog.js"></script>
+    <script src="bower_components/zeroclipboard/dist/ZeroClipboard.js"></script>
+    <script src="bower_components/ng-clip/src/ngClip.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
+
+    <script type="text/javascript" src="scripts/directives/jquery.bootstrap.wizard.js"></script>
+    <script type="text/javascript" src="scripts/directives/rcSubmit.js"></script>
+    <script type="text/javascript" src="scripts/directives/rcForm.js"></script>
+    <script type="text/javascript" src="scripts/directives/rcDisabled.js"></script>
+    <script type="text/javascript" src="scripts/directives/rcWizard.js"></script>
+
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
@@ -144,5 +152,6 @@
         <script src="scripts/directives/myholder.js"></script>
         <script src="scripts/services/validation.js"></script>
         <!-- endbuild -->
-</body>
+
+    </body>
 </html>

@@ -81,7 +81,7 @@ a:hover {
 }
 
 .register {
-  margin-top: 50px;
+  margin-top: 20px;
 }
 
 .editable-empty {
@@ -148,6 +148,14 @@ div.box {
 
 .fa.close:hover {
   color:black;
+}
+
+.col-lg-offset-0-5 {
+  left: 4.166666667%;
+}
+
+#register-map .leaflet-top {
+  top: 0px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */

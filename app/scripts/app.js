@@ -14,7 +14,9 @@ angular
     'angular-underscore',
     'rcWizard',
     'rcForm',
-    'ngClipboard'
+    'ngClipboard',
+    'flow',
+    'ui.checkbox'
   ])
   .config(function ($routeProvider) {
     $routeProvider

@@ -9,61 +9,68 @@
 			<div class="row">
 				<div class="col-xs-12 col-md-8">
 				  <h3>
-				    <span editable-text="selectedMarker.name" onbeforesave="checkName($data)" buttons="no" e-form="textBtnForm">
-				      {{ selectedMarker.name || 'Filter' }}
-				    </span>
+				    <span ng-hide="editableMode">{{ selectedMarker.name || 'Filter' }}</span>
+            <input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
 				  </h3>
 				</div>
 				<div class="col-xs-6 col-md-4">
 				  <h3>
 				    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()"></i>
-				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="collapse('edit')"></i>
+				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false;"></i>
 				    <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange()"></i>
 				    <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()"></i>
-				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="collapse('delete')"></i>
+				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false;"></i>
 				  </h3>
 				</div>
 			</div>
 			<div class="row">
 				<hr>
 			</div>
+      <div class="row" ng-show="editIsCollapsed || deleteIsCollapsed">
+        <alert type="warning" ng-show="editIsCollapsed">
+          Um die Eingeschaften deiner SenseBox zu bearbeiten gib deine <strong>SenseBox ID</strong> ein und klicke auf Bearbeiten:
+          <form>
+            <div class="form-group">
+              <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+            </div>
+            <div class="form-group">
+              <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
+            </div>
+          </form>
+        </alert>
+        <alert type="danger" ng-show="deleteIsCollapsed">
+          Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+          <form name="deleteSenseBox" ng-submit="deleteBox()">
+            <div class="form-group" ng-class="{ 'has-error' : secError}">
+              <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
+              <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-error' : secError}">
+              <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
+              <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
+            </div>
+          </form>
+        </alert>
+        <hr>
+      </div>
 			<div class="row">
-				<div collapse="editIsCollapsed">
-				  <alert type="warning">
-				    Um die Eingeschaften deiner SenseBox zu bearbeiten gib deine <strong>SenseBox ID</strong> ein und klicke auf Bearbeiten:
-				    <form name="">
-				      <div class="form-group">
-				        <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
-				      </div>
-				      <div class="form-group">
-				        <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
-				      </div>
-				    </form>
-				  </alert>
-				  <hr>
-				</div>
-				<div collapse="deleteIsCollapsed">
-				  <alert type="danger">
-				    Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
-				    <form name="deleteSenseBox" ng-submit="deleteBox()">
-				      <div class="form-group" ng-class="{ 'has-error' : secError}">
-				        <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
-				        <p ng-show="secError" class="help-block">{{secErrorText}}</p>
-				      </div>
-				      <div class="form-group" ng-class="{ 'has-error' : secError}">
-				        <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
-				        <p ng-show="secError" class="help-block">{{secErrorText}}</p>
-				      </div>
-				      <div class="form-group">
-				        <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
-				      </div>
-				    </form>
-				  </alert>
-				  <hr>
-				</div>
-			</div>
-			<div class="row">
-				<img my-holder="holder.js/100%x200/social">
+        <div flow-init="{singleFile:true}" flow-file-added="!!{png:1,jpg:1,jpeg:1}[$file.getExtension()]" flow-drop>
+          <div class="thumbnail" ng-show="!$flow.files.length">
+            <img my-holder="holder.js/100%x200/social">
+          </div>
+          <div class="thumbnail" ng-show="$flow.files.length">
+            <img flow-img="$flow.files[0]" />
+          </div>
+          <div ng-show="editableMode">
+            <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
+            <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
+            <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">Remove</span>
+            <p ng-show="editableMode">Only PNG,JPG,JEPG files allowed.</p>
+          </div>
+        </div>
 				<hr>
 				<div class="list-group">
 				  <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">

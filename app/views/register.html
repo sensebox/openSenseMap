@@ -40,6 +40,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine SenseBox zuschicken können.
           </div>
 
           <!-- NAME -->
@@ -65,18 +66,22 @@
         </form>
         <form class="tab-pane" id="second" name="secondForm" rc-submit="goToMap()" rc-step novalidate>
           <hr>
-          <div class="alert alert-info" role="alert">...</div>
+          <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Fülle hier die Zusatzinformationen zu deiner SenseBox aus.
+          </div>
 
           <!-- NAME -->
           <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.boxname) }">
-            <label class="control-label">Name</label>
+            <label class="control-label">Name*</label>
             <input type="text" name="boxname" class="form-control" id="name" placeholder="Bitte geben Sie einen Namen für die SenseBox an." ng-model="newSenseBox.name" required>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">Bitte geben Sie einen Namen für die SenseBox an.</p>
           </div>
 
           <!-- Gruppenkennzeichnung -->
           <div class="form-group">
             <label class="control-label">Gruppenkennzeichnung</label>
-            <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag">
+            <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag" placeholder="Optionales Prefix für eine Gruppe von SenseBoxen.">
           </div>
 
           <!-- Typ -->
@@ -111,7 +116,10 @@
         </form>
         <form class="tab-pane" id="third" name="thirdForm" rc-submit rc-step>
           <hr>
-          <div class="alert alert-info" role="alert">...</div>
+          <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Wähle auf der Karte den geplanten Standort deiner SenseBox aus.
+          </div>
           <div class="form-group" ng-hide="true">
             <label class="control-label">lat</label>
             <input name="lat" class="form-control" type="text" ng-model="markers.box.lat" required />
@@ -126,56 +134,100 @@
         </form>
         <form class="tab-pane" id="fourth" name="fourthForm" rc-step>
           <hr>
-          <div class="alert alert-info" role="alert">...</div>
-          <table class="table table-striped table-bordered">
-            <thead>
-              <tr style="font-weight: bold">
-                <td style="width:35%">Phänomen</td>
-                <td style="width:20%">Einheit</td>
-                <td style="width:20%">Typ</td>
-                <td style="width:25%">Editieren</td>
-                </tr>
-            </thead>
-            <tbody>
-              <tr ng-repeat="sensor in sensors">
-                <td>
-                  <span ng-hide="editMode">{{showPhenomenom(sensor)}}</span>
-                  <select class="form-control" ng-show="editMode" ng-model="tmpSensor.title" ng-options="s.value as s.text for s in phenomenoms" ng-required></select>
-                </td>
-                <td>
-                  <span ng-hide="editMode">{{sensor.unit}}</span>
-                  <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.unit" ng-required />
-                </td>
-                <td>
-                  <span ng-hide="editMode">{{sensor.sensorType}}</span>
-                  <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.sensorType" ng-required />
-                </td>
-                <td style="white-space: nowrap">
-                  <button type="button" class="btn btn-primary" ng-hide="editMode" ng-click="editMode = true; edit($index);">
-                    <span class="glyphicon glyphicon-edit"></span>
-                  </button>
-                  <button type="button" class="btn btn-danger" ng-hide="editMode" ng-click="delete($index);">
-                    <span class="glyphicon glyphicon-minus"></span>
-                  </button>
-                  <button type="button" class="btn btn-primary" ng-show="editMode" ng-click="editMode = false; save($index);">
-                    <span class="glyphicon glyphicon-floppy-save"></span>
-                  </button>
-                  <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="editMode = false; cancel();">
-                    <span class="glyphicon glyphicon-floppy-remove"></span>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="col-lg-12" style="text-align:center;">
-            <button type="button" ng-click="add();" class ="btn btn-default"><i class="fa fa-plus-circle"></i> Weiteren Sensor hinzufügen</button>
-            <hr>
+          <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Wähle den Typen deiner SenseBox aus.
           </div>
-        </form>
-        <form class="tab-pane" id="last" name="lastForm" rc-submit="completeWizard()" rc-step>
-          <hr>
-          <div class="alert alert-info" role="alert">...</div>
 
+          <accordion close-others="true">
+            <accordion-group is-open="open">
+              <accordion-heading>
+                SenseBox Home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
+              </accordion-heading>
+              <checkbox ng-model="models.v2014" ng-change="selectModel('2014');"></checkbox> Version 2014 (gekauft in 2014) <br><br>
+              <checkbox ng-model="models.v2015" ng-change="selectModel('2015');"></checkbox> Version 2015 (gekauft in 2015)
+            </accordion-group>
+            <accordion-group is-open="open2">
+              <accordion-heading>
+                SenseBox Photonik <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
+              </accordion-heading>
+              <checkbox ng-model="models.wifi" ng-change="selectModel('wifi');"></checkbox> Wifi <br><br>
+              <checkbox ng-model="models.ethernet" ng-change="selectModel('ethernet');"></checkbox> Ethernet
+            </accordion-group>
+            <accordion-group is-open="open3">
+              <accordion-heading>
+                Manuell <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
+              </accordion-heading>
+              <checkbox ng-model="models.custom" ng-change="selectModel('custom');"></checkbox> Manuelle Konfiguration <br><br>
+              <table class="table table-striped table-bordered">
+                <thead>
+                  <tr style="font-weight: bold">
+                    <td style="width:35%">Phänomen</td>
+                    <td style="width:20%">Einheit</td>
+                    <td style="width:20%">Typ</td>
+                    <td style="width:25%">Editieren</td>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="sensor in sensors">
+                    <td>
+                      <span ng-hide="editMode">{{showPhenomenom(sensor)}}</span>
+                      <select class="form-control" ng-show="editMode" ng-model="tmpSensor.title" ng-options="s.value as s.text for s in phenomenoms" ng-required></select>
+                    </td>
+                    <td>
+                      <span ng-hide="editMode">{{sensor.unit}}</span>
+                      <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.unit" ng-required />
+                    </td>
+                    <td>
+                      <span ng-hide="editMode">{{sensor.sensorType}}</span>
+                      <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.sensorType" ng-required />
+                    </td>
+                    <td style="white-space: nowrap">
+                      <button type="button" class="btn btn-primary" ng-hide="editMode" ng-click="editMode = true; edit($index);">
+                        <span class="glyphicon glyphicon-edit"></span>
+                      </button>
+                      <button type="button" class="btn btn-danger" ng-hide="editMode" ng-click="delete($index);">
+                        <span class="glyphicon glyphicon-minus"></span>
+                      </button>
+                      <button type="button" class="btn btn-primary" ng-show="editMode" ng-click="editMode = false; save($index);">
+                        <span class="glyphicon glyphicon-floppy-save"></span>
+                      </button>
+                      <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="editMode = false; cancel();">
+                        <span class="glyphicon glyphicon-floppy-remove"></span>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-lg-12" style="text-align:center;">
+                <button type="button" ng-click="add();" class ="btn btn-default"><i class="fa fa-plus-circle"></i> Sensor hinzufügen</button>
+                <hr>
+              </div>
+            </accordion-group>
+          </accordion>
+        </form>
+        <form class="tab-pane" id="last" name="lastForm" rc-submit="completeRegistration()" rc-step>
+          <hr>
+          <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            Um deine SenseBox endültig einzutragen, klicke auf Speichern und du erhälst von uns eine Mail mit den Anweisungen zum Aufbau und Upload der Software auf deine SenseBox. Falls du es dir anders überlegt hast, klicke auf Abbrechen und du gelangst zur Erkundenseite.
+          </div>
+          <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+
+          <h3>Benutzer</h3>
+          <div class="well">
+            {{user.firstname}} {{user.lastname}} <br>
+            {{user.email}}
+          </div>
+          <h3>SenseBox</h3>
+          <div class="well">
+            SenseBox Model: {{modelSelected}} <br>
+            SenseBox Name: {{newSenseBox.name}} <br>
+            Gruppenkennzeichnung: {{newSenseBox.tag}} <br>
+            Typ: {{newSenseBox.boxType}} <br>
+            Aufstellungsort: {{newSenseBox.exposure}} <br>
+            ApiKey: {{newSenseBox.orderID}} <br>
+          </div>
         </form>
       </div>
       <div class="form-group">
@@ -185,8 +237,10 @@
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">Zurück</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="rc.sampleWizard.forward()"
              ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">Weiter</a>
-          <a class="btn btn-primary" ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Fertig</a>
+          <a class="btn btn-danger" href="#/explore"
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Abbrechen</a>
+          <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Speichern</a>
         </div>
       </div>
     </div>

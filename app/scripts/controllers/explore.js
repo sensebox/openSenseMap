@@ -3,7 +3,7 @@
 angular.module('openSenseMapApp')
   .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', 'validation', 'ngDialog',
     function($scope, $http, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents, Validation, ngDialog) {
-
+      $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
       $scope.markers = [];
@@ -15,6 +15,8 @@ angular.module('openSenseMapApp')
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
 
+      $scope.tmpSensor = {};
+
       $scope.filterOpts = [
         {name:'Phänomen'},
         {name:'Name'},
@@ -22,8 +24,8 @@ angular.module('openSenseMapApp')
       $scope.selectedFilterOption = 'Phänomen';
 
       $scope.sidebarActive = false;
-      $scope.editIsCollapsed = true;
-      $scope.deleteIsCollapsed = true;
+      $scope.editIsCollapsed = false;
+      $scope.deleteIsCollapsed = false;
       $scope.editableMode = false;
 
       var icons = {
@@ -97,27 +99,12 @@ angular.module('openSenseMapApp')
       }
 
       $scope.saveChange = function () {
-
+        console.log($scope.tmpSensor);
+        $scope.editableMode = !$scope.editableMode;
       }
 
       $scope.discardChanges = function () {
         $scope.editableMode = !$scope.editableMode;
-      }
-
-      $scope.collapse = function(panel) {
-        switch(panel) {
-          case 'edit':
-            $scope.editIsCollapsed = !$scope.editIsCollapsed;
-            $scope.deleteIsCollapsed = true;
-            // $scope.editableForm.show = true;
-            break;
-          case 'delete':
-            $scope.editIsCollapsed = true;
-            $scope.deleteIsCollapsed = !$scope.deleteIsCollapsed;
-            break;
-          default:
-            break;
-        }
       }
 
       $scope.deleteBox = function() {
@@ -160,9 +147,11 @@ angular.module('openSenseMapApp')
         Validation.checkApiKey($scope.selectedMarker.id,$scope.apikey.key).then(function(status){
           if (status === 200) {
             $scope.editableMode = !$scope.editableMode;
-            $scope.editIsCollapsed = true;
+            $scope.editIsCollapsed = false;
+            $scope.tmpSensor = angular.copy($scope.selectedMarker);
+            console.log($scope.tmpSensor);
           } else {
-            $scope.editableMode = !$scope.editableMode;
+            $scope.editableMode = false;
           }
         });
       }

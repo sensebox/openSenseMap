@@ -1,12 +1,79 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$q', '$timeout', '$filter', 'leafletData',
-    function($scope, $q, $timeout, $filter, leafletData){
+  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData',
+    function($scope, $http, $q, $timeout, $filter, $location, leafletData){
 
+      $scope.alerts = [];
       $scope.editing = false;
       $scope.tmpSensor = {};
-      $scope.edit = function(index) {
+      $scope.models = {
+        v2014: false,
+        v2015: true,
+        wifi: false,
+        ethernet: false,
+        custom: false
+      };
+      $scope.modelSelected = "SenseBox Home 2015";
+      $scope.selectModel = function (model) {
+        switch(model) {
+          case '2014':
+            $scope.modelSelected = "SenseBox Home 2014";
+            $scope.models = {
+              v2014: true,
+              v2015: false,
+              wifi: false,
+              ethernet: false,
+              custom: false
+            };
+            break;
+          case '2015':
+            $scope.modelSelected = "SenseBox Home 2015";
+            $scope.models = {
+              v2014: false,
+              v2015: true,
+              wifi: false,
+              ethernet: false,
+              custom: false
+            };
+            break;
+          case 'wifi':
+            $scope.modelSelected = "SenseBox Photonik Wifi";
+            $scope.models = {
+              v2014: false,
+              v2015: false,
+              wifi: true,
+              ethernet: false,
+              custom: false
+            };
+            break;
+          case 'ethernet':
+            $scope.modelSelected = "SenseBox Photonik Ethernet";
+            $scope.models = {
+              v2014: false,
+              v2015: false,
+              wifi: false,
+              ethernet: true,
+              custom: false
+            };
+            break;
+          case 'custom':
+            $scope.modelSelected = "SenseBox manuelle Konfiguration";
+            $scope.models = {
+              v2014: false,
+              v2015: false,
+              wifi: false,
+              ethernet: false,
+              custom: true
+            };
+            break;
+          default:
+            $scope.modelSelected = false;
+            break;
+        }
+      }
+
+      $scope.edit = function (index) {
         $scope.tmpSensor = angular.copy($scope.sensors[index]);
       }
 
@@ -38,54 +105,54 @@ angular.module('openSenseMapApp')
 
       //new user object
       $scope.user = {
-        email: '',
         firstname: '',
-        lastname: ''
+        lastname: '',
+        email: ''
       }
 
       $scope.fixedBox = true;
       $scope.change = function () {
         $scope.fixedBox = !$scope.fixedBox;
       }
-
-      $scope.sensors = [
-        {
-          id: 1,
-          title: 1,
-          unit: '°C',
-          sensorType: 'BMP085'
-        },
-        {
-          id: 2,
-          title: 2,
-          unit: '%',
-          sensorType: 'DHT11'
-        },
-        {
-          id: 3,
-          title: 3,
-          unit: 'Pa',
-          sensorType: 'BMP085'
-        },
-        {
-          id: 4,
-          title: 4,
-          unit: 'Pegel',
-          sensorType: 'LM386'
-        },
-        {
-          id: 5,
-          title: 6,
-          unit: 'lx',
-          sensorType: 'TSL2561'
-        },
-        {
-          id: 6,
-          title: 7,
-          unit: 'UV-Index',
-          sensorType: 'GUVA-S12D'
-        }
-      ];
+      $scope.sensors = [];
+      // $scope.sensors = [
+      //   {
+      //     id: 1,
+      //     title: 1,
+      //     unit: '°C',
+      //     sensorType: 'BMP085'
+      //   },
+      //   {
+      //     id: 2,
+      //     title: 2,
+      //     unit: '%',
+      //     sensorType: 'DHT11'
+      //   },
+      //   {
+      //     id: 3,
+      //     title: 3,
+      //     unit: 'Pa',
+      //     sensorType: 'BMP085'
+      //   },
+      //   {
+      //     id: 4,
+      //     title: 4,
+      //     unit: 'Pegel',
+      //     sensorType: 'LM386'
+      //   },
+      //   {
+      //     id: 5,
+      //     title: 6,
+      //     unit: 'lx',
+      //     sensorType: 'TSL2561'
+      //   },
+      //   {
+      //     id: 6,
+      //     title: 7,
+      //     unit: 'UV-Index',
+      //     sensorType: 'GUVA-S12D'
+      //   }
+      // ];
 
       $scope.phenomenoms = [
         {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
@@ -124,6 +191,8 @@ angular.module('openSenseMapApp')
         name: '',
         boxType: 'fixed',
         sensors: [],
+        tag: '',
+        exposure: '',
         orderID: '',
         loc: [{
           'type':'feature',
@@ -137,9 +206,9 @@ angular.module('openSenseMapApp')
       $scope.showMap = false;
       $scope.$watch("showMap", function(value) {
         if (value === true) {
-            leafletData.getMap().then(function(map) {
-                map.invalidateSize();
-            });
+          leafletData.getMap().then(function(map) {
+            map.invalidateSize();
+          });
         }
       });
 
@@ -176,7 +245,7 @@ angular.module('openSenseMapApp')
           $scope.markers.box.lng = args.leafletEvent.latlng.lng;
         }
         leafletData.getMap().then(function(map) {
-          map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],18);
+          map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],16);
         });
       });
 
@@ -184,7 +253,47 @@ angular.module('openSenseMapApp')
         //TODO set alert
       });
 
-      $scope.completeWizard = function() {
-        alert('Completed!');
+      $scope.completeRegistration = function () {
+        $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
+        $scope.newSenseBox.user = $scope.user;
+        // $scope.newSenseBox.sensors = $scope.sensors;
+        $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
+        $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
+
+        if ($scope.models.custom) {
+          for (var i = 0; i < $scope.sensors.length; i++) {
+            $scope.newSenseBox.sensors = $scope.sensors;
+            $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
+          }
+        } else {
+          if ($scope.models.v2014) {
+            $scope.newSenseBox.model = "senseboxhome2014";
+          } else if ($scope.models.v2015) {
+            $scope.newSenseBox.model = "senseboxhome2015";
+          } else if ($scope.models.wifi) {
+            $scope.newSenseBox.model = "senseboxphotonikwifi";
+          } else if ($scope.models.ethernet) {
+            $scope.newSenseBox.model = "senseboxphotonikethernet";
+          }
+        }
+
+        $http.post('http://localhost:8000/boxes', $scope.newSenseBox)
+          .success( function (data) {
+            var alert = {
+              type: 'success',
+              msg: 'SenseBox wurde erfolgreich angelegt. Du wirst in 5 Sekunden auf die Erkunden-Seite weitergeleitet!'
+            };
+            $scope.alerts.push(alert);
+            $timeout( function () {
+              $location.path('/explore');
+            },5000);
+          })
+          .error( function (err) {
+            var alert = {
+              type: 'danger',
+              msg: 'Beim speichern ist ein Fehler aufgetreten. Bitte versuch nochmal deine SenseBox zu speichern.'
+            };
+            $scope.alerts.push(alert);
+          });
       }
     }]);

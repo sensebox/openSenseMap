@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', 'validation', 'ngDialog',
-    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents, Validation, ngDialog) {
+  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog',
+    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog) {
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -30,7 +30,17 @@ angular.module('openSenseMapApp')
 
       if ($routeParams.boxid !== undefined) {
         //TODO find boxid
-        $location.path('/explore/4567', false);
+        OpenSenseBox.query({boxId:$routeParams.boxid}, function(response) {
+          $scope.sidebarActive = true;
+          $scope.detailsPanel = true;
+          $scope.filterPanel = false;
+          $scope.selectedMarker = response;
+          $scope.getMeasurements();
+          var lat = response.loc[0].geometry.coordinates[1];
+          var lng = response.loc[0].geometry.coordinates[0];
+          $scope.zoomTo(lat,lng);
+
+        });
       }
 
       $scope.tmpSensor = {};
@@ -114,6 +124,7 @@ angular.module('openSenseMapApp')
         $scope.editableMode = false;
         $scope.apikey.key = '';
         $scope.stopit();
+        $location.path('/explore', false);
       }
 
       $scope.saveChange = function () {
@@ -174,19 +185,6 @@ angular.module('openSenseMapApp')
         });
       }
 
-      //helper function to zoomTo object for filter sidebar
-      // $scope.zoomTo = function(lat,lng) {
-      //   $scope.center.lat = lat;
-      //   $scope.center.lng = lng;
-      //   $scope.center.zoom = 15;
-      // };
-
-      // $scope.center = {
-      //   lat: 51.04139389812637,
-      //   lng: 10.21728515625,
-      //   zoom: 6
-      // };
-
       $scope.defaults = {
         tileLayer: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
         tileLayerOptions: {
@@ -243,8 +241,15 @@ angular.module('openSenseMapApp')
       $scope.clickcounter = 0;
 
       $scope.getMeasurements = function() {
+        console.log($scope.selectedMarker);
+        var box = '';
+        if ($scope.selectedMarker.id) {
+          box = $scope.selectedMarker.id;
+        } else {
+          box = $scope.selectedMarker._id;
+        }
         $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
-        OpenSenseBoxesSensors.query({boxId:$scope.selectedMarker.id}, function(response) {
+        OpenSenseBoxesSensors.query({boxId:box}, function(response) {
           $scope.selectedMarkerData = response;
           console.log($scope.selectedMarkerData);
         });

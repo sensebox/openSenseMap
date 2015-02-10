@@ -36,6 +36,10 @@ angular
         templateUrl: 'views/getid.html',
         controller: 'GetIdCtrl'
       })
+      .when('/explore/:boxid', {
+        templateUrl: 'views/explore.html',
+        controller: 'ExploreCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
@@ -47,18 +51,17 @@ angular
     return function (val) {
       return $sce.trustAsHtml(val);
     };
+  }])
+  .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+    var original = $location.path;
+    $location.path = function (path, reload) {
+      if (reload === false) {
+        var lastRoute = $route.current;
+        var un = $rootScope.$on('$locationChangeSuccess', function () {
+          $route.current = lastRoute;
+          un();
+        });
+      }
+      return original.apply($location, [path]);
+    };
   }]);
-
-  // update popover template for binding unsafe html
-angular.module('template/popover/popover.html', []).run(['$templateCache', function ($templateCache) {
-  $templateCache.put('template/popover/popover.html',
-    '<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n' +
-    '  <div class=\"arrow\"></div>\n' +
-    '\n' +
-    '  <div class=\"popover-inner\">\n' +
-    '      <h3 class=\"popover-title\" ng-bind-html=\"title | unsafe\" ng-show=\"title\"></h3>\n' +
-    '      <div class=\"popover-content\"ng-bind-html=\"content | unsafe\"></div>\n' +
-    '  </div>\n' +
-    '</div>\n' +
-    '');
-}]);

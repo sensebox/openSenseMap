@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', 'validation', 'ngDialog',
-    function($scope, $http, $filter, $timeout, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents, Validation, ngDialog) {
+  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'leafletEvents', 'validation', 'ngDialog',
+    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, leafletEvents, Validation, ngDialog) {
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -14,6 +14,24 @@ angular.module('openSenseMapApp')
       $scope.searchText = '';
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
+
+      $scope.center = {
+        lat: 51.04139389812637,
+        lng: 10.21728515625,
+        zoom: 6
+      };
+
+      //helper function to zoomTo object for filter sidebar
+      $scope.zoomTo = function(lat,lng) {
+        $scope.center.lat = lat;
+        $scope.center.lng = lng;
+        $scope.center.zoom = 15;
+      };
+
+      if ($routeParams.boxid !== undefined) {
+        //TODO find boxid
+        $location.path('/explore/4567', false);
+      }
 
       $scope.tmpSensor = {};
 
@@ -157,17 +175,17 @@ angular.module('openSenseMapApp')
       }
 
       //helper function to zoomTo object for filter sidebar
-      $scope.zoomTo = function(lat,lng) {
-        $scope.center.lat = lat;
-        $scope.center.lng = lng;
-        $scope.center.zoom = 15;
-      };
+      // $scope.zoomTo = function(lat,lng) {
+      //   $scope.center.lat = lat;
+      //   $scope.center.lng = lng;
+      //   $scope.center.zoom = 15;
+      // };
 
-      $scope.center = {
-        lat: 51.04139389812637,
-        lng: 10.21728515625,
-        zoom: 6
-      };
+      // $scope.center = {
+      //   lat: 51.04139389812637,
+      //   lng: 10.21728515625,
+      //   zoom: 6
+      // };
 
       $scope.defaults = {
         tileLayer: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -197,6 +215,7 @@ angular.module('openSenseMapApp')
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
         $scope.center.zoom = 15;
+        $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
 
       OpenSenseBoxes.query(function(response){

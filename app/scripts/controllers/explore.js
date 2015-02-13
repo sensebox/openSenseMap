@@ -14,6 +14,7 @@ angular.module('openSenseMapApp')
       $scope.searchText = '';
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
+      $scope.image = "";
 
       $scope.center = {
         lat: 51.04139389812637,
@@ -27,6 +28,15 @@ angular.module('openSenseMapApp')
         $scope.center.lng = lng;
         $scope.center.zoom = 15;
       };
+
+      $scope.added = function(file,event) {
+        console.log(event);
+        if ((file.getExtension() === "jpg" || file.getExtension() === "png" || file.getExtension() === "jpeg") && file.size < 1500000) {
+          return true;
+        } else {
+          return false;
+        }
+      }
 
       if ($routeParams.boxid !== undefined) {
         //TODO find boxid
@@ -127,9 +137,22 @@ angular.module('openSenseMapApp')
         $location.path('/explore', false);
       }
 
-      $scope.saveChange = function () {
-        console.log($scope.tmpSensor);
-        $scope.editableMode = !$scope.editableMode;
+      $scope.saveChange = function (event) {
+        if ($scope.selectedMarker.id !== undefined) {
+          var boxid = $scope.selectedMarker.id;
+        } else {
+          var boxid = $scope.selectedMarker._id;
+        };
+        var imgsrc = angular.element(document.getElementById("image")).attr('src');
+        $http.put('http://localhost:8000/boxes/'+boxid,{image:imgsrc}).
+          success(function(data,status){
+            $scope.selectedMarker = data;
+            $scope.image = data.image;
+            $scope.editableMode = !$scope.editableMode;
+          }).
+          error(function(data,status){
+
+          });
       }
 
       $scope.discardChanges = function () {
@@ -173,7 +196,13 @@ angular.module('openSenseMapApp')
 
       $scope.apikey = {};
       $scope.enableEditableMode = function () {
-        Validation.checkApiKey($scope.selectedMarker.id,$scope.apikey.key).then(function(status){
+        var boxId = "";
+        if ($scope.selectedMarker.id === undefined) {
+          boxId = $scope.selectedMarker._id;
+        } else {
+          boxId = $scope.selectedMarker.id;
+        }
+        Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
           if (status === 200) {
             $scope.editableMode = !$scope.editableMode;
             $scope.editIsCollapsed = false;
@@ -209,6 +238,7 @@ angular.module('openSenseMapApp')
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
         $scope.selectedMarker = $scope.markers[args.markerName];
+        $scope.image = $scope.selectedMarker.image;
         $scope.getMeasurements();
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;

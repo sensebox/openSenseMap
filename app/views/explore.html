@@ -58,11 +58,10 @@
       </div>
 			<div class="row">
         <div flow-init="{singleFile:true}" flow-file-added="added($file,$event)" flow-drop>
-          <div class="thumbnail" ng-show="!$flow.files.length">
-            <img my-holder="holder.js/100%x200/social" ng-show="editableMode">
-            <img ng-src="{{image}}" alt="" ng-hide="editableMode">
+          <div class="thumbnail" ng-hide="editableMode">
+            <img ng-src="images/{{image}}" alt="" ng-hide="editableMode">
           </div>
-          <div class="thumbnail" ng-show="$flow.files.length">
+          <div class="thumbnail" ng-show="$flow.files.length && editableMode">
             <img id="image" flow-img="$flow.files[0]" />
           </div>
           <div ng-show="editableMode">

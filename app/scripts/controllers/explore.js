@@ -14,7 +14,7 @@ angular.module('openSenseMapApp')
       $scope.searchText = '';
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
-      $scope.image = "";
+      $scope.image = "placeholder.png";
 
       $scope.center = {
         lat: 51.04139389812637,
@@ -30,7 +30,6 @@ angular.module('openSenseMapApp')
       };
 
       $scope.added = function(file,event) {
-        console.log(event);
         if ((file.getExtension() === "jpg" || file.getExtension() === "png" || file.getExtension() === "jpeg") && file.size < 1500000) {
           return true;
         } else {
@@ -45,11 +44,15 @@ angular.module('openSenseMapApp')
           $scope.detailsPanel = true;
           $scope.filterPanel = false;
           $scope.selectedMarker = response;
+          if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
+            $scope.image = "placeholder.png";
+          } else {
+            $scope.image = $scope.selectedMarker.image;
+          }
           $scope.getMeasurements();
           var lat = response.loc[0].geometry.coordinates[1];
           var lng = response.loc[0].geometry.coordinates[0];
           $scope.zoomTo(lat,lng);
-
         });
       }
 
@@ -144,11 +147,16 @@ angular.module('openSenseMapApp')
           var boxid = $scope.selectedMarker._id;
         };
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put('http://localhost:8000/boxes/'+boxid,{image:imgsrc}).
+        $http.put('http://localhost:8000/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
-            $scope.selectedMarker = data;
-            $scope.image = data.image;
             $scope.editableMode = !$scope.editableMode;
+            $scope.selectedMarker = data;
+            if (data.image === "") {
+              $scope.image = "placeholder.png";
+            } else {
+              $scope.image = data.image;
+            }
+
           }).
           error(function(data,status){
 
@@ -157,6 +165,8 @@ angular.module('openSenseMapApp')
 
       $scope.discardChanges = function () {
         $scope.editableMode = !$scope.editableMode;
+        $scope.selectedMarker = $scope.tmpSensor;
+        $scope.image = $scope.tmpSensor.image;
       }
 
       $scope.deleteBox = function() {
@@ -207,7 +217,6 @@ angular.module('openSenseMapApp')
             $scope.editableMode = !$scope.editableMode;
             $scope.editIsCollapsed = false;
             $scope.tmpSensor = angular.copy($scope.selectedMarker);
-            console.log($scope.tmpSensor);
           } else {
             $scope.editableMode = false;
           }
@@ -233,12 +242,16 @@ angular.module('openSenseMapApp')
 
       $scope.$on('leafletDirectiveMarker.click', function(e, args) {
         // Args will contain the marker name and other relevant information
-        console.log(args);
+        // console.log(args);
         $scope.sidebarActive = true;
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
         $scope.selectedMarker = $scope.markers[args.markerName];
-        $scope.image = $scope.selectedMarker.image;
+        if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
+          $scope.image = "placeholder.png";
+        } else {
+          $scope.image = $scope.selectedMarker.image;
+        }
         $scope.getMeasurements();
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
@@ -256,6 +269,7 @@ angular.module('openSenseMapApp')
           tempMarker.icon = icons.iconC;
           tempMarker.name = response[i].name;
           tempMarker.sensors = response[i].sensors;
+          tempMarker.image = response[i].image;
           for (var j = response[i].sensors.length - 1; j >= 0; j--) {
             tempMarker.phenomenons.push(response[i].sensors[j].title);
           };
@@ -271,7 +285,7 @@ angular.module('openSenseMapApp')
       $scope.clickcounter = 0;
 
       $scope.getMeasurements = function() {
-        console.log($scope.selectedMarker);
+        // console.log($scope.selectedMarker);
         var box = '';
         if ($scope.selectedMarker.id) {
           box = $scope.selectedMarker.id;

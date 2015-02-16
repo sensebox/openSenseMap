@@ -17,7 +17,6 @@
     "nya-bootstrap-select": "~1.2.7",
     "underscore": "~1.7.0",
     "angular-underscore": "*",
-    "holderjs": "~2.4.1",
     "ngDialog": "~0.3.8",
     "zeroclipboard": "~2.2.0",
     "ng-clip": "~0.2.6",

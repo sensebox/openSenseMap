@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog',
-    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog) {
+  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
+    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog, leafletData) {
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -220,9 +220,19 @@ angular.module('openSenseMapApp')
         return container;
       };
 
+      var geoCoderControl = L.Control.geocoder({
+        position: 'topleft'
+      });
+
+      geoCoderControl.markGeocode = function (result) {
+        leafletData.getMap().then(function(map) {
+          map.fitBounds(result.bbox);
+        });
+      }
+
       //adds the controls to our map
       $scope.controls = {
-        custom: [ listControl ]
+        custom: [ listControl, geoCoderControl ]
       };
 
       $scope.apikey = {};

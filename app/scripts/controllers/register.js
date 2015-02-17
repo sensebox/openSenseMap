@@ -73,6 +73,28 @@ angular.module('openSenseMapApp')
         }
       }
 
+      var geoCoderControl = L.Control.geocoder({
+        position: 'topleft'
+      });
+
+      geoCoderControl.markGeocode = function (result) {
+        console.log(result);
+        leafletData.getMap().then(function(map) {
+          map.fitBounds(result.bbox);
+          if (Object.keys($scope.markers).length === 0) {
+            $scope.markers.box = {'lat':result.center.lat,'lng':result.center.lng};
+          } else {
+            $scope.markers.box.lat = result.center.lat;
+            $scope.markers.box.lng = result.center.lng;
+          }
+        });
+      }
+
+      //adds the controls to our map
+      $scope.controls = {
+        custom: [ geoCoderControl ]
+      };
+
       $scope.edit = function (index) {
         $scope.tmpSensor = angular.copy($scope.sensors[index]);
       }

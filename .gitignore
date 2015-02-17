@@ -3,5 +3,6 @@ dist
 .tmp
 .sass-cache
 app/bower_components
+app/files/*
 app/images/*.jpeg
 **/**/**/*.db

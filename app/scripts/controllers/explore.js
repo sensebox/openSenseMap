@@ -66,7 +66,9 @@ angular.module('openSenseMapApp')
         Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
           if (status === 200) {
             document.getElementById("downloadlink").href = "files/"+boxId+".ino";
-            document.getElementById("downloadlink").click();
+            $timeout(function() {
+              document.getElementById("downloadlink").click();
+            }, 100);
             $scope.downloadArduino = false;
           } else {
 
@@ -151,7 +153,7 @@ angular.module('openSenseMapApp')
         $scope.sidebarActive = false;
         $scope.editIsCollapsed = false;
         $scope.deleteIsCollapsed = false;
-        $scope.downloadArduino = false;
+        $scope.downloadIsCollapsed = false;
         $scope.selectedMarker = '';
         $scope.editableMode = false;
         $scope.apikey.key = '';

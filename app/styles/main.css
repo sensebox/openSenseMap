@@ -25,6 +25,15 @@ html, body {
   width: 100%;
 }
 
+#downloadlink {
+  color: white;
+  text-decoration: none;
+}
+
+#downloadlink:hover {
+  color: white;
+}
+
 .leaflet-top {
   top: 50px;
 }

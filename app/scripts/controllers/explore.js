@@ -56,6 +56,24 @@ angular.module('openSenseMapApp')
         });
       }
 
+      $scope.downloadArduino = function () {
+        var boxId = "";
+        if ($scope.selectedMarker.id === undefined) {
+          boxId = $scope.selectedMarker._id;
+        } else {
+          boxId = $scope.selectedMarker.id;
+        }
+        Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
+          if (status === 200) {
+            document.getElementById("downloadlink").href = "files/"+boxId+".ino";
+            document.getElementById("downloadlink").click();
+            $scope.downloadArduino = false;
+          } else {
+
+          }
+        });
+      }
+
       $scope.tmpSensor = {};
 
       $scope.filterOpts = [
@@ -131,8 +149,9 @@ angular.module('openSenseMapApp')
 
       $scope.closeSidebar = function() {
         $scope.sidebarActive = false;
-        $scope.editIsCollapsed = true;
-        $scope.deleteIsCollapsed = true;
+        $scope.editIsCollapsed = false;
+        $scope.deleteIsCollapsed = false;
+        $scope.downloadArduino = false;
         $scope.selectedMarker = '';
         $scope.editableMode = false;
         $scope.apikey.key = '';

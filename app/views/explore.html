@@ -112,7 +112,7 @@
       	<hr>
       </div>
       <div class="row">
-      	<alert ng-repeat="marker in markers | filterPhenomenons:selectedFilterOption:searchText" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+      	<alert ng-repeat="marker in (filteredMarkers = (markers | filterPhenomenons:selectedFilterOption:searchText))" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
       </div>
     </div>
 	</div>

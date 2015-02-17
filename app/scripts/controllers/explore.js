@@ -246,7 +246,7 @@ angular.module('openSenseMapApp')
         $scope.sidebarActive = true;
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
-        $scope.selectedMarker = $scope.markers[args.markerName];
+        $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";
         } else {

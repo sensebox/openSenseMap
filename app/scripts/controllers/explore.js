@@ -86,6 +86,14 @@ angular.module('openSenseMapApp')
         });
       }
 
+      if ($location.path() === "/launch") {
+        ngDialog.open({
+          template: '../../views/launch_modal.html',
+          className: 'ngdialog-theme-flat ngdialog-theme-custom',
+          scope: $scope
+        });
+      }
+
       $scope.$watchCollection('searchText', function(newValue, oldValue){
         if (newValue === oldValue) {
           return;

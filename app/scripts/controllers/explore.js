@@ -221,7 +221,8 @@ angular.module('openSenseMapApp')
       };
 
       var geoCoderControl = L.Control.geocoder({
-        position: 'topleft'
+        position: 'topleft',
+        placeholder: 'Adresse suchen...'
       });
 
       geoCoderControl.markGeocode = function (result) {

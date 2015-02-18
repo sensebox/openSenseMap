@@ -6,13 +6,13 @@
         <li class="active">
           <a class="active" href="#first" data-toggle="tab">
             <span class="badge">1</span>
-            <span>SenseBox ID</span>
+            <span>User anlegen</span>
           </a>
         </li>
         <li>
           <a href="#second" data-toggle="tab">
             <span class="badge">2</span>
-            <span>Metadaten</span>
+            <span>Meine Box</span>
           </a>
         </li>
         <li>
@@ -24,13 +24,13 @@
         <li>
           <a href="#fourth" data-toggle="tab">
             <span class="badge">4</span>
-            <span>Sensoren</span>
+            <span>Hardware Setup</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
             <span class="badge">5</span>
-            <span>Fertig stellen</span>
+            <span>Download</span>
           </a>
         </li>
       </ul>
@@ -47,21 +47,21 @@
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname) }">
              <label class="control-label">Vorname*</label>
              <input type="text" name="firstname" class="form-control" ng-model="user.firstname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">Bitte geben Sie einen Vornamen an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">Bitte gib deinen Vornamen an.</p>
            </div>
 
            <!-- USERNAME -->
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname) }">
              <label class="control-label">Nachname*</label>
              <input type="text" name="lastname" class="form-control" ng-model="user.lastname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">Bitte geben Sie ihren Nachnamen an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">Bitte gib deinen Nachnamen an.</p>
            </div>
 
            <!-- EMAIL -->
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email) }">
              <label class="control-label">Email*</label>
              <input type="email" name="email" class="form-control" ng-model="user.email" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">Bitte geben Sie ihre gültige Mailadresse an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">Bitte gib deine gültige Mailadresse an.</p>
            </div>
         </form>
         <form class="tab-pane" id="second" name="secondForm" rc-submit="goToMap()" rc-step novalidate>
@@ -73,9 +73,19 @@
 
           <!-- NAME -->
           <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.boxname) }">
-            <label class="control-label">Name*</label>
-            <input type="text" name="boxname" class="form-control" id="name" placeholder="Bitte geben Sie einen Namen für die SenseBox an." ng-model="newSenseBox.name" required>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">Bitte geben Sie einen Namen für die SenseBox an.</p>
+            <label class="control-label">Name deiner Station*</label>
+            <input type="text" name="boxname" class="form-control" id="name" placeholder="Bitte gib hier einen Namen für deine SenseBox an." ng-model="newSenseBox.name" required>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">Bitte gib hier einen Namen für deine SenseBox an.</p>
+          </div>
+
+          <!-- Aufstellungsort -->
+          <div class="form-group" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure) }">
+            <label class="control-label">Aufstellungsort*</label>
+            <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
+              <option value="indoor">Drinnen</option>
+              <option value="outdoor">Draußen</option>
+            </select>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="help-block">Bitte wähle einen Aufstellungsort für deine SenseBox aus.</p>
           </div>
 
           <!-- Gruppenkennzeichnung -->
@@ -85,23 +95,14 @@
           </div>
 
           <!-- Typ -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.type) }">
+          <!-- <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.type) }">
             <label class="control-label">Typ</label>
             <select class="form-control" name="type" ng-change="change()" id="inputType" ng-model="newSenseBox.boxType" required>
               <option value="fixed">Stationär</option>
               <option value="mobile">Mobil</option>
             </select>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.type)" class="help-block">Bitte wählen Sie einen Typen für die SenseBox aus.</p>
-          </div>
-
-          <!-- Aufstellungsort -->
-          <div class="form-group" ng-show="fixedBox">
-            <label class="control-label">Aufstellungsort</label>
-            <select class="form-control" name="type" id="inputType" ng-model="newSenseBox.exposure">
-              <option value="indoor">Drinnen</option>
-              <option value="outdoor">Draußen</option>
-            </select>
-          </div>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.type)" class="help-block">Bitte wähle einen Typen für deine SenseBox aus.</p>
+          </div> -->
 
           <!-- ID -->
           <div class="form-group">

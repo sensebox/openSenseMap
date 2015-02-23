@@ -32,6 +32,10 @@ angular
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
       })
+      .when('/launch', {
+        templateUrl: 'views/explore.html',
+         controller: 'ExploreCtrl'
+      })
       .when('/getid', {
         templateUrl: 'views/getid.html',
         controller: 'GetIdCtrl'

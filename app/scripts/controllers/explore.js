@@ -22,6 +22,77 @@ angular.module('openSenseMapApp')
         zoom: 6
       };
 
+      $scope.counter = 3;
+      $scope.timeout;
+
+      $scope.stopcountdown = function() {
+        $timeout.cancel($scope.countdown);
+      };
+
+      $scope.countdown = function () {
+        if ($scope.counter === 0) {
+          ngDialog.close();
+          $scope.stopcountdown();
+        } else {
+          $scope.counter--;
+          $scope.timeout = $timeout($scope.countdown,1000);
+          switch($scope.counter){
+            case 1:
+              document.getElementById("zundungheader").innerHTML = "<strong>EINS</strong>";
+              break;
+            case 2:
+              document.getElementById("zundungheader").innerHTML = "<strong>ZWEI</strong>";
+              break;
+            case 3:
+              document.getElementById("zundungheader").innerHTML = "<strong>DREI</strong>";
+              break;
+          }
+        }
+      }
+
+      $scope.launch = function () {
+        document.getElementById("rocket").remove();
+        document.getElementById("zundungheader").innerHTML = "<strong>DREI</strong>";
+        $scope.timeout = $timeout($scope.countdown,1000);
+      }
+
+      var photonikBoxes = ["54e8e1dea807ade00f880978",
+        "54d7c2361b93e97007516a19",
+        "54e5e5e5a807ade00f851f81",
+        "54e5e723a807ade00f852049",
+        "54e9f616a807ade00f89d3cf",
+        "54e4c395a807ade00f84e6e0",
+        "54e6fc60a807ade00f85a918",
+        "54e86f19a807ade00f877342",
+        "54e7a5faa807ade00f868aab",
+        "54eb6d1ea807ade00f8c459e"
+      ];
+
+      $scope.$on('ngDialog.closing', function (e, $dialog) {
+        OpenSenseBoxes.query(function(response){
+          for (var i = 0; i <= response.length - 1; i++) {
+            var tempMarker = {};
+            tempMarker.phenomenons = []
+            tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
+            tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
+            tempMarker.id = response[i]._id;
+            if (_.contains(photonikBoxes, tempMarker.id)) {
+              tempMarker.icon = icons.iconG;
+            } else {
+              tempMarker.icon = icons.iconC;
+            }
+            tempMarker.name = response[i].name;
+            tempMarker.sensors = response[i].sensors;
+            tempMarker.image = response[i].image;
+            for (var j = response[i].sensors.length - 1; j >= 0; j--) {
+              tempMarker.phenomenons.push(response[i].sensors[j].title);
+            };
+            $scope.markers.push(tempMarker);
+          }
+          $scope.mapMarkers = $scope.markers;
+        });
+      });
+
       //helper function to zoomTo object for filter sidebar
       $scope.zoomTo = function(lat,lng) {
         $scope.center.lat = lat;
@@ -76,10 +147,16 @@ angular.module('openSenseMapApp')
           icon: 'cube',
           markerColor: 'red',
         },
+        iconG: {
+          type: 'awesomeMarker',
+          prefix: 'fa',
+          icon: 'cube',
+          markerColor: 'green'
+        }
       };
 
       $scope.openDialog = function () {
-        ngDialog.open({
+        $scope.launchTemp = ngDialog.open({
           template: '../../views/app_info_modal.html',
           className: 'ngdialog-theme-default',
           scope: $scope
@@ -155,7 +232,7 @@ angular.module('openSenseMapApp')
           var boxid = $scope.selectedMarker._id;
         };
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put('http://localhost:8000/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
+        $http.put('http://opensensemap.org:8000/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
             $scope.editableMode = !$scope.editableMode;
             $scope.selectedMarker = data;
@@ -267,6 +344,7 @@ angular.module('openSenseMapApp')
         $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
 
+      if ($location.path() !== "/launch") {
       OpenSenseBoxes.query(function(response){
         for (var i = 0; i <= response.length - 1; i++) {
           var tempMarker = {};
@@ -274,7 +352,11 @@ angular.module('openSenseMapApp')
           tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
           tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
           tempMarker.id = response[i]._id;
-          tempMarker.icon = icons.iconC;
+          if (_.contains(photonikBoxes, tempMarker.id)) {
+            tempMarker.icon = icons.iconG;
+          } else {
+            tempMarker.icon = icons.iconC;
+          }
           tempMarker.name = response[i].name;
           tempMarker.sensors = response[i].sensors;
           tempMarker.image = response[i].image;
@@ -285,7 +367,7 @@ angular.module('openSenseMapApp')
         }
         $scope.mapMarkers = $scope.markers;
       });
-
+      }
       $scope.stopit = function() {
         $timeout.cancel($scope.prom);
       };

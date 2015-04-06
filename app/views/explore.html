@@ -15,12 +15,12 @@
 				</div>
 				<div class="col-xs-6 col-md-5">
 				  <h3>
-				    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()"></i>
-				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false; downloadIsCollapsed = false;"></i>
-				    <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)"></i>
-				    <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()"></i>
-				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;"></i>
-            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;"></i>
+				    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'SETTINGS' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+				    <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)" tooltip="{{'SAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+				    <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()" tooltip="{{'DONTSAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'DELETE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOAD' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
 				  </h3>
 				</div>
 			</div>

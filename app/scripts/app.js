@@ -16,7 +16,8 @@ angular
     'rcForm',
     'ngClipboard',
     'flow',
-    'ui.checkbox'
+    'ui.checkbox',
+    'pascalprecht.translate'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -51,6 +52,25 @@ angular
   .config(['ngClipProvider', function(ngClipProvider) {
       ngClipProvider.setPath("bower_components/zeroclipboard/dist/ZeroClipboard.swf");
   }])
+  .config(function ($translateProvider){
+    $translateProvider.useStaticFilesLoader({
+      prefix: '../translations/',
+      suffix: '.json'
+    });
+
+    $translateProvider.determinePreferredLanguage();
+  })
+  .controller('HeaderCtrl', function ($scope, $translate) {
+    $scope.key = "de";
+    $scope.changeLang = function (key) {
+      $translate.use(key).then(function (key) {
+        console.log("Sprache zu "+ key +" gewechselt.");
+        $scope.key = key.split("_")[0];
+      }, function (key) {
+        console.log("Irgendwas lief schief");
+      });
+    }
+  })
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);

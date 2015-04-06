@@ -20,6 +20,8 @@
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-language/languages.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
@@ -37,7 +39,7 @@
     <![endif]-->
 
     <!-- Fixed navbar -->
-    <header class="navbar navbar-default navbar-fixed-top">
+    <header class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderCtrl">
         <div class="navbar-inner">
             <div class="container">
                 <div class="navbar-header">
@@ -53,7 +55,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="{{'#/explore'}}">
-                                <span class="glyphicon glyphicon-zoom-in"></span> Erkunden
+                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                             </a>
                         </li>
                        <!--  <li>
@@ -63,8 +65,16 @@
                         </li> -->
                         <li>
                             <a href="{{'#/register'}}">
-                                <span class="glyphicon glyphicon-barcode"></span> Registrierung
+                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
+                                <li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
+                                <!-- <li><a ng-click="changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li> -->
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -84,6 +94,14 @@
                             <a href="{{'#/register'}}" ng-click="isCollapsed = !isCollapsed">
                                 <span class="glyphicon glyphicon-barcode"></span> Registrierung
                             </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="#"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
+                                <li><a href="#"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
+                                <li><a href="#"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li>
+                            </ul>
                         </li>
                     </ul>
                 </nav>
@@ -136,6 +154,8 @@
     <script src="bower_components/flow.js/dist/flow.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
     <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

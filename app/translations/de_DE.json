@@ -1,0 +1,19 @@
+{
+  "EXPLORE": "Erkunden",
+  "REGISTER": "Registrierung",
+  "STEP1": "User anlegen",
+  "STEP1_DESCRIPTION": "Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine SenseBox zuschicken können.",
+  "STEP2": "Meine Box",
+  "STEP2_DESCRIPTION": "Fülle hier die Zusatzinformationen zu deiner SenseBox aus.",
+  "STEP3": "Standort",
+  "STEP3_DESCRIPTION": "Wähle auf der Karte den geplanten Standort deiner SenseBox aus.",
+  "STEP4": "Hardware Setup",
+  "STEP4_DESCRIPTION": "Wähle den Typen deiner SenseBox aus.",
+  "STEP5": "Download",
+  "STEP5_DESCRIPTION": "Um deine SenseBox endgültig einzutragen, klicke auf Speichern und du erhälst von uns eine Mail mit den Anweisungen zum Aufbau und Upload der Software auf deine SenseBox. Falls du es dir anders überlegt hast, klicke auf Abbrechen und du gelangst zur Erkundenseite.",
+  "NEXT": "Weiter",
+  "PREVIOUS": "Zurück",
+  "SAVE": "Speichern",
+  "CANCEL": "Abbrechen"
+
+}

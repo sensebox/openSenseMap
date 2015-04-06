@@ -6,31 +6,31 @@
         <li class="active">
           <a class="active" href="#first" data-toggle="tab">
             <span class="badge">1</span>
-            <span>User anlegen</span>
+            <span>{{'STEP1' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#second" data-toggle="tab">
             <span class="badge">2</span>
-            <span>Meine Box</span>
+            <span>{{'STEP2' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#third" data-toggle="tab">
             <span class="badge">3</span>
-            <span>Standort</span>
+            <span>{{'STEP3' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#fourth" data-toggle="tab">
             <span class="badge">4</span>
-            <span>Hardware Setup</span>
+            <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
             <span class="badge">5</span>
-            <span>Download</span>
+            <span>{{'STEP5' | translate}}</span>
           </a>
         </li>
       </ul>
@@ -40,7 +40,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine SenseBox zuschicken können.
+            {{'STEP1_DESCRIPTION' | translate}}
           </div>
 
           <!-- NAME -->
@@ -68,7 +68,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Fülle hier die Zusatzinformationen zu deiner SenseBox aus.
+            {{'STEP2_DESCRIPTION' | translate}}
           </div>
 
           <!-- NAME -->
@@ -119,7 +119,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Wähle auf der Karte den geplanten Standort deiner SenseBox aus.
+            {{'STEP3_DESCRIPTION' | translate}}
           </div>
           <div class="form-group" ng-hide="true">
             <label class="control-label">lat</label>
@@ -137,7 +137,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Wähle den Typen deiner SenseBox aus.
+            {{'STEP4_DESCRIPTION' | translate}}
           </div>
 
           <accordion close-others="true">
@@ -211,7 +211,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Um deine SenseBox endültig einzutragen, klicke auf Speichern und du erhälst von uns eine Mail mit den Anweisungen zum Aufbau und Upload der Software auf deine SenseBox. Falls du es dir anders überlegt hast, klicke auf Abbrechen und du gelangst zur Erkundenseite.
+            {{'STEP5_DESCRIPTION' | translate}}
           </div>
           <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
 
@@ -235,13 +235,13 @@
         <hr>
         <div class="pull-right">
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
-             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">Zurück</a>
+             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">Weiter</a>
+             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Abbrechen</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Speichern</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'SAVE' | translate}}</a>
         </div>
       </div>
     </div>

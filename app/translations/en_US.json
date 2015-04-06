@@ -1,0 +1,18 @@
+{
+  "EXPLORE": "Explore",
+  "REGISTER": "Register",
+  "STEP1": "Create user",
+  "STEP1_DESCRIPTION": "",
+  "STEP2": "My box",
+  "STEP2_DESCRIPTION": "",
+  "STEP3": "Location",
+  "STEP3_DESCRIPTION": "",
+  "STEP4": "Hardware setup",
+  "STEP4_DESCRIPTION": "",
+  "STEP5": "Download",
+  "STEP5_DESCRIPTION": "",
+  "NEXT": "Next",
+  "PREVIOUS": "Back",
+  "SAVE": "Save",
+  "CANCEL": "Cancel"
+}

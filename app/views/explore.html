@@ -7,90 +7,119 @@
 	<div id="sidebar" ng-show="sidebarActive" style="background-position: 0px -5px;">
 		<div ng-show="detailsPanel">
 			<div class="row">
-				<div class="col-xs-12 col-md-7">
+				<div class="col-xs-12 col-md-12">
 				  <h3>
-				    <span ng-hide="editableMode">{{ selectedMarker.name || 'Filter' }}</span>
+				    <span ng-hide="editableMode">
+              {{ selectedMarker.name || 'Filter' }}
+              <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            </span>
+            
             <input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
 				  </h3>
 				</div>
 				<div class="col-xs-6 col-md-5">
 				  <h3>
-				    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-				    <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'SETTINGS' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-				    <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)" tooltip="{{'SAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-				    <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()" tooltip="{{'DONTSAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-				    <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'DELETE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOAD' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
+
 				  </h3>
 				</div>
 			</div>
-			<div class="row">
-				<hr>
-			</div>
-      <div class="row" ng-show="editIsCollapsed || deleteIsCollapsed || downloadIsCollapsed">
-        <alert type="warning" ng-show="downloadIsCollapsed">
-          Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
-          <form>
-            <div class="form-group">
-              <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+
+      <div class="row" role="tabpanel">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+          <li role="presentation" class="active"><a href data-target="#tabMeasurements" aria-controls="tabMeasurements" role="tab" data-toggle="tab">Measurements</a></li>
+          <li role="presentation"><a href data-target="#tabInfo" aria-controls="tabInfo" role="tab" data-toggle="tab">Info</a></li>
+          <li role="presentation"><a href data-target="#tabManage" aria-controls="tabManage" role="tab" data-toggle="tab">Manage</a></li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane active" id="tabMeasurements">
+            
+              <div class="list-group">
+                <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
+                  <i ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
+                  </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
+                </a>
             </div>
-            <div class="form-group">
-              <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download">&nbsp; Herunterladen</i></a></button>
+
+          </div> <!-- end tabMeasurements pange -->
+          <div role="tabpanel" class="tab-pane" id="tabInfo">
+
+            <div flow-init="{singleFile:true}" flow-file-added="added($file,$event)" flow-drop>
+              <div class="thumbnail" ng-hide="editableMode">
+                <img ng-src="images/{{image}}" alt="" ng-hide="editableMode">
+              </div>
+              <div class="thumbnail" ng-show="$flow.files.length && editableMode">
+                <img id="image" flow-img="$flow.files[0]" />
+              </div>
+              <div ng-show="editableMode">
+                <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
+                <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
+                <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">Remove</span>
+                <p ng-show="editableMode">Only PNG,JPG,JPEG files allowed and max size 1.5 MB!</p>
+              </div>
             </div>
-          </form>
-        </alert>
-        <alert type="warning" ng-show="editIsCollapsed">
-          Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Bearbeiten:
-          <form>
-            <div class="form-group">
-              <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
-            </div>
-            <div class="form-group">
-              <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
-            </div>
-          </form>
-        </alert>
-        <alert type="danger" ng-show="deleteIsCollapsed">
-          Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
-          <form name="deleteSenseBox" ng-submit="deleteBox()">
-            <div class="form-group" ng-class="{ 'has-error' : secError}">
-              <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
-              <p ng-show="secError" class="help-block">{{secErrorText}}</p>
-            </div>
-            <div class="form-group" ng-class="{ 'has-error' : secError}">
-              <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
-              <p ng-show="secError" class="help-block">{{secErrorText}}</p>
-            </div>
-            <div class="form-group">
-              <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
-            </div>
-          </form>
-        </alert>
-        <hr>
-      </div>
-			<div class="row">
-        <div flow-init="{singleFile:true}" flow-file-added="added($file,$event)" flow-drop>
-          <div class="thumbnail" ng-hide="editableMode">
-            <img ng-src="images/{{image}}" alt="" ng-hide="editableMode">
-          </div>
-          <div class="thumbnail" ng-show="$flow.files.length && editableMode">
-            <img id="image" flow-img="$flow.files[0]" />
-          </div>
-          <div ng-show="editableMode">
-            <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
-            <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
-            <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">Remove</span>
-            <p ng-show="editableMode">Only PNG,JPG,JPEG files allowed and max size 1.5 MB!</p>
+
+
+          </div> <!-- end tabInfo pange -->
+
+          
+          <div role="tabpanel" class="tab-pane" id="tabManage">
+
+            <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'SETTINGS' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)" tooltip="{{'SAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()" tooltip="{{'DONTSAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'DELETE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOAD' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
+
+            <div class="row" ng-show="editIsCollapsed || deleteIsCollapsed || downloadIsCollapsed">
+              <alert type="warning" ng-show="downloadIsCollapsed">
+                Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
+                <form>
+                  <div class="form-group">
+                    <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+                  </div>
+                  <div class="form-group">
+                    <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download">&nbsp; Herunterladen</i></a></button>
+                  </div>
+                </form>
+              </alert>
+              <alert type="warning" ng-show="editIsCollapsed">
+                Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Bearbeiten:
+                <form>
+                  <div class="form-group">
+                    <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+                  </div>
+                  <div class="form-group">
+                    <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
+                  </div>
+                </form>
+              </alert>
+              <alert type="danger" ng-show="deleteIsCollapsed">
+                Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+                <form name="deleteSenseBox" ng-submit="deleteBox()">
+                  <div class="form-group" ng-class="{ 'has-error' : secError}">
+                    <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
+                    <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error' : secError}">
+                    <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
+                    <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
+                  </div>
+                </form>
+              </alert>
+
+            </div> <!-- end tabManage pange -->
+
           </div>
         </div>
-				<hr>
-				<div class="list-group">
-				  <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
-				    <i ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
-				    </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
-				  </a>
-				</div>
-			</div>
+      </div>
+
+      
 		</div>
 		<div ng-show="filterPanel">
       <div class="row">

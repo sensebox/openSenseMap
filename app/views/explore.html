@@ -17,19 +17,14 @@
             <input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
 				  </h3>
 				</div>
-				<div class="col-xs-6 col-md-5">
-				  <h3>
-
-				  </h3>
-				</div>
 			</div>
 
       <div class="row" role="tabpanel">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="active"><a href data-target="#tabMeasurements" aria-controls="tabMeasurements" role="tab" data-toggle="tab">Measurements</a></li>
-          <li role="presentation"><a href data-target="#tabInfo" aria-controls="tabInfo" role="tab" data-toggle="tab">Info</a></li>
-          <li role="presentation"><a href data-target="#tabManage" aria-controls="tabManage" role="tab" data-toggle="tab">Manage</a></li>
+          <li role="presentation" class="active"><a href data-target="#tabMeasurements" aria-controls="tabMeasurements" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_MEASUREMENTS' | translate }}</a></li>
+          <li role="presentation"><a href data-target="#tabInfo" aria-controls="tabInfo" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_INFO' | translate }}</a></li>
+          <li role="presentation"><a href data-target="#tabManage" aria-controls="tabManage" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_MANAGE' | translate }}</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -39,7 +34,7 @@
               <div class="list-group">
                 <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
                   <i ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
-                  </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}} letzter Messwert {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
+                  </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}}, {{ 'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
                 </a>
             </div>
 
@@ -54,10 +49,10 @@
                 <img id="image" flow-img="$flow.files[0]" />
               </div>
               <div ng-show="editableMode">
-                <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>Select image</span>
-                <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>Change</span>
-                <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">Remove</span>
-                <p ng-show="editableMode">Only PNG,JPG,JPEG files allowed and max size 1.5 MB!</p>
+                <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>
+                <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>{{ 'CHANGE' | translate }}</span>
+                <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">{{ 'REMOVE' | translate }}</span>
+                <p ng-show="editableMode">{{ 'SETTINGS_IMAGE_RESTRICTIONS' | translate }}</p>
               </div>
             </div>
 
@@ -71,17 +66,17 @@
             <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)" tooltip="{{'SAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
             <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()" tooltip="{{'DONTSAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
             <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'DELETE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOAD' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
+            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOADSKETCH' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
 
             <div class="row" ng-show="editIsCollapsed || deleteIsCollapsed || downloadIsCollapsed">
               <alert type="warning" ng-show="downloadIsCollapsed">
-                Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
+                Um die Daten deiner SenseBox herunterzuladen gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
                 <form>
                   <div class="form-group">
                     <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
                   </div>
                   <div class="form-group">
-                    <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download">&nbsp; Herunterladen</i></a></button>
+                    <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Herunterladen</a></button>
                   </div>
                 </form>
               </alert>
@@ -92,7 +87,7 @@
                     <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
                   </div>
                   <div class="form-group">
-                    <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil">&nbsp; Bearbeiten</i></button>
+                    <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil"></i>&nbsp; Bearbeiten</button>
                   </div>
                 </form>
               </alert>
@@ -108,7 +103,7 @@
                     <p ng-show="secError" class="help-block">{{secErrorText}}</p>
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o">&nbsp; Löschen</i></button>
+                    <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o"></i>&nbsp; Löschen</button>
                   </div>
                 </form>
               </alert>
@@ -123,14 +118,10 @@
 		</div>
 		<div ng-show="filterPanel">
       <div class="row">
-      	<div class="col-xs-12 col-md-8">
+      	<div class="col-xs-12 col-md-12">
       	  <h3>
       	    Filter
-      	  </h3>
-      	</div>
-      	<div class="col-xs-6 col-md-4">
-      	  <h3>
-      	    <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()"></i>
+            <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
       	  </h3>
       	</div>
       </div>
@@ -155,6 +146,57 @@
       <div class="row">
       	<alert ng-repeat="marker in (filteredMarkers = (markers | filterPhenomenons:selectedFilterOption:searchText))" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
       </div>
+    </div> <!-- end filterPanel -->
+
+    <div ng-show="downloadPanel">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <h3>
+            Download
+            <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+          </h3>
+        </div>
+      </div>
+      <div class="row">
+        <hr>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
+          <div class="form-group">
+              {{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}
+              <input type="date" class="form-control" ng-model="downloadform.dateFrom">
+              <input type="date" class="form-control" ng-model="downloadform.dateTo">
+              <br>
+              <button class="btn btn-info" ng-click="downloadform.daysAgo = 1">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+              <button class="btn btn-info" ng-click="downloadform.daysAgo = 7">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+              <button class="btn btn-info" ng-click="downloadform.daysAgo = 30">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+              <br><br>
+              {{ "DOWNLOAD_SELECTSENSOR" | translate }}
+              <select class="form-control" ng-model="downloadform.sensorId">
+                <option ng-repeat="p in selectedMarkerData.sensors" value="{{p._id}}">{{p.title | translate}} ({{p.unit}})</option>
+              </select>
+              <br>
+              {{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
+              <select class="form-control" ng-model="downloadform.format" ng-init="downloadform.format='JSON'">
+                <option>JSON</option>
+                <option>CSV</option>
+                <option>Excel</option>
+              </select>
+              <br>
+              <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false; downloadform.pleaseWait = true;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+              <!--<alert type="info" ng-show="downloadform.pleaseWait">
+                <i class="fa fa-spinner fa-pulse"></i> Bitte warten, die Daten werden angefordert...
+              </alert>
+              <alert type="warning" ng-show="downloadform.emptyData">
+                Im ausgewählten Zeitraum liegen für diesen Sensor keine Daten vor.
+              </alert>
+              <alert type="warning" ng-show="downloadform.errorOccured">
+                Es ist ein Fehler aufgetreten.
+              </alert>-->
+          </div>
+        </div>
+      </div>
     </div>
-	</div>
-</div>
+	</div> <!-- end #sidebar -->
+</div> <!-- end #map -->

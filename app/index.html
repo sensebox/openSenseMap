@@ -21,7 +21,6 @@
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-language/languages.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
@@ -63,6 +62,11 @@
                                 <span class="glyphicon glyphicon-export"></span> Daten hochladen
                             </a>
                         </li> -->
+                        <li>
+                            <a href="{{'#/download/'}}{{ box }}">
+                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
+                            </a>
+                        </li>
                         <li>
                             <a href="{{'#/register'}}">
                                 <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}

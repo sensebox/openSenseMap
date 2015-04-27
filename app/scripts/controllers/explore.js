@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
-    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog, leafletData) {
+  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
+    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog, leafletData) {
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -14,7 +14,28 @@ angular.module('openSenseMapApp')
       $scope.searchText = '';
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
+      $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
+
+      // todo: make this globally accessible, used in registration as well
+      $scope.phenomenoms = [
+        {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
+        {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
+        {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
+        {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
+        {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
+        {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
+        {value: 7, text: 'UV', unit: 'UV-Index', type: 'GUVA-S12D'},
+        {value: 8, text: 'Kamera', unit: '', type: ''},
+      ];
+
+      $scope.dateNow = new Date();
+      $scope.downloadform = {};
+      $scope.downloadform.daysAgo = 1;
+      $scope.downloadform.dateTo = new Date();
+      $scope.$watch('downloadform.daysAgo', function(){
+        $scope.downloadform.dateFrom = new Date((new Date()).valueOf() - 1000*60*60*24*$scope.downloadform.daysAgo);
+      });
 
       $scope.center = {
         lat: 51.04139389812637,
@@ -112,9 +133,18 @@ angular.module('openSenseMapApp')
         //TODO find boxid
         OpenSenseBox.query({boxId:$routeParams.boxid}, function(response) {
           $scope.sidebarActive = true;
-          $scope.detailsPanel = true;
+          $scope.detailsPanel = false;
+          $scope.downloadPanel = false;
           $scope.filterPanel = false;
+        
           $scope.selectedMarker = response;
+          $rootScope.selectedBox = $scope.selectedMarker._id;
+          if($location.path().indexOf("/explore") === 0) {
+            $scope.detailsPanel = true;
+          } else if($location.path().indexOf("/download") === 0) {
+            $scope.downloadPanel = true;
+          }
+
           if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
             $scope.image = "placeholder.png";
           } else {
@@ -125,6 +155,12 @@ angular.module('openSenseMapApp')
           var lng = response.loc[0].geometry.coordinates[0];
           $scope.zoomTo(lat,lng);
         });
+      }
+      if($location.path().indexOf("/download") === 0) {
+        $scope.sidebarActive = true;
+        $scope.detailsPanel = false;
+        $scope.filterPanel = false;
+        $scope.downloadPanel = true;
       }
 
       $scope.downloadArduino = function () {
@@ -253,7 +289,7 @@ angular.module('openSenseMapApp')
           var boxid = $scope.selectedMarker._id;
         };
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put('http://opensensemap.org:8000/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
+        $http.put('http://opensensemap.org:8002/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
             $scope.editableMode = !$scope.editableMode;
             $scope.selectedMarker = data;
@@ -300,6 +336,7 @@ angular.module('openSenseMapApp')
             $scope.sidebarActive = true;
             $scope.detailsPanel = false;
             $scope.filterPanel = true;
+            $scope.downloadPanel = false;
           });
 
         return container;
@@ -320,6 +357,14 @@ angular.module('openSenseMapApp')
       $scope.controls = {
         custom: [ listControl, geoCoderControl ]
       };
+
+      $scope.$watch('sidebarActive', function() {
+        if($scope.sidebarActive) {
+          // hide controls
+        } else {
+          // re-enable controls
+        }
+      });
 
       $scope.apikey = {};
       $scope.enableEditableMode = function () {
@@ -363,6 +408,7 @@ angular.module('openSenseMapApp')
         $scope.sidebarActive = true;
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
+        $scope.downloadPanel = false;
         $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";
@@ -373,6 +419,7 @@ angular.module('openSenseMapApp')
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
         $scope.center.zoom = 15;
+        $rootScope.selectedBox = $scope.selectedMarker.id;
         $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
 
@@ -420,4 +467,41 @@ angular.module('openSenseMapApp')
           console.log($scope.selectedMarkerData);
         });
       };
+
+      $scope.dataDownload = function() {
+        var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');
+        var to = $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd');
+        angular.element("body")
+          .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true" style="display:none"></iframe>')
+      }
+      /*
+      $scope.dataDownload = function() {
+        console.log($scope.downloadform);
+        // http://opensensemap.org:8002/boxes/54d726661b93e970075148bd/data/54d726661b93e970075148c0?from-date=2015-02-08&to-date=2015-04-10
+        $http({
+          method: 'get',
+          url: 'http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId,
+          params: {
+            "from-date": $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd'),
+            "to-date": $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd'),
+            download: "true"
+          }
+        })
+        .success(function(data, status) {
+          $scope.downloadform.pleaseWait = false;
+          if(_.size(data) > 0) {
+            // success
+            $scope.downloadform.downloadSuccess = true;
+            $scope.downloadform.data = data;
+            window.open("data:application/octet-stream,"+data, '_self')
+          } else {
+            // data empty
+            $scope.downloadform.emptyData = true;
+          }
+        })
+        .error(function(data, status) {
+          $scope.downloadform.pleaseWait = false;
+          $scope.downloadform.errorOccured = true;
+        });
+      }*/
     }]);

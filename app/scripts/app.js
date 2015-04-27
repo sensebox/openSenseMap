@@ -31,7 +31,7 @@ angular
       })
       .when('/explore', {
         templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl'
+        controller: 'ExploreCtrl',
       })
       .when('/launch', {
         templateUrl: 'views/explore.html',
@@ -42,6 +42,14 @@ angular
         controller: 'GetIdCtrl'
       })
       .when('/explore/:boxid', {
+        templateUrl: 'views/explore.html',
+        controller: 'ExploreCtrl',
+      })
+      .when('/download', {
+        templateUrl: 'views/explore.html',
+        controller: 'ExploreCtrl'
+      })
+      .when('/download/:boxid', {
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
       })
@@ -60,7 +68,7 @@ angular
 
     $translateProvider.determinePreferredLanguage();
   })
-  .controller('HeaderCtrl', function ($scope, $translate) {
+  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
     $scope.key = "de";
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
@@ -70,7 +78,11 @@ angular
         console.log("Irgendwas lief schief");
       });
     }
-  })
+    
+    $rootScope.$watch('selectedBox', function() {
+      $scope.box = $rootScope.selectedBox;
+    });
+  }])
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);
@@ -78,6 +90,7 @@ angular
   }])
   .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     var original = $location.path;
+    $rootScope.selectedBox = {};
     $location.path = function (path, reload) {
       if (reload === false) {
         var lastRoute = $route.current;

@@ -173,15 +173,25 @@ a:hover {
   background-color: #f4f4f4;
 }
 
+.leaflet-control-attribution {
+  display:none;
+}
+
 #sidebar {
-  position: relative;
+  position: absolute;
   padding: 10px 0px 10px 0px;
   width: 450px;
   top: 50px;
-  left: calc(100% - 450px);
+  right: 0;
   height: calc(100% - 50px);
   background: rgba(255, 255, 255, 0.9);
   overflow: auto;
+  z-index: 99;
+}
+@media screen and (max-width: 600px) {
+  #sidebar {
+    width:100%;
+  }
 }
 
 #sidebar .row {

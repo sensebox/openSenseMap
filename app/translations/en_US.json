@@ -1,6 +1,6 @@
 {
   "EXPLORE": "Explore",
-  "REGISTER": "Rgister",
+  "REGISTER": "Register",
   "STEP1": "Create user",
   "STEP1_DESCRIPTION": "Please submit your name and a valid email address, so that after registration we can send you the source code for your SenseBox.",
   "STEP2": "My box",
@@ -25,7 +25,7 @@
   "SIDEBAR_TAB_MANAGE": "Manage",
   "CHANGE": "Change",
   "SETTINGS_SELECTIMAGE": "Select image",
-  "SETTINGS_IMAGE_RESTRICTIONS": "Only PNG, JPG, JPEG files are allowed up to a max size of 1.5 MB",
+  "SETTINGS_IMAGE_RESTRICTIONS": "Only PNG, JPG, JPEG files are allowed up to a max. size of 1.5 MB",
   "LAST_MEASUREMENT_FROM": "last measurement taken",
   "DATADOWNLOAD": "Data download",
   "DOWNLOAD_DOWNLOADFROM": "Downloading data from station",

@@ -407,6 +407,7 @@ angular.module('openSenseMapApp')
       };
 
       $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+        
         // Args will contain the marker name and other relevant information
         // console.log(args);
         $scope.sidebarActive = true;
@@ -414,6 +415,7 @@ angular.module('openSenseMapApp')
         $scope.filterPanel = false;
         $scope.downloadPanel = false;
         $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
+        $location.path('/explore/'+$scope.selectedMarker.id, false);
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";
         } else {
@@ -425,7 +427,6 @@ angular.module('openSenseMapApp')
         $scope.center.zoom = 15;
         $scope.getData();
         $rootScope.selectedBox = $scope.selectedMarker.id;
-        $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
 
       if ($location.path() !== "/launch") {

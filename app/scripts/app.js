@@ -68,6 +68,7 @@ angular
       suffix: '.json'
     });
 
+    $translateProvider.fallbackLanguage('en-us');
     $translateProvider.determinePreferredLanguage();
   })
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {

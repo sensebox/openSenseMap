@@ -476,19 +476,38 @@ angular.module('openSenseMapApp')
       
       $scope.getData = function(selectedSensor){
       	var box = '';
+      	var initDate = new Date();
+      	var endDate = '';
         if ($scope.selectedMarker.id) {
           box = $scope.selectedMarker.id;
         } else {
           box = $scope.selectedMarker._id;
         }
         
+        // Get the date of the last taken measurement for the selected sensor
+        for (var i = 0; i < 6; i++)
+        {
+        	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id)
+        	{
+        		endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
+        		break;
+        	}
+        }
+        
+        // Calculate starting date - 30 days before!
+        initDate = new Date(endDate)-1;
+        
         $scope.lastData.splice(0,$scope.lastData.length);
-      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id}, function(response){
+      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
       	 for (var i = 0; i < response.length; i++)
       	   {  
       	  	 $scope.lastData.push(parseInt(response[i].value)); 
       	   }
       	 });
+      	 
+      	 console.log(new Date(endDate));
+      	 console.log(initDate);
+      	 console.log(temp);
       };
       
       // Update chart data according to the selected sensor(title, yaxis)
@@ -516,6 +535,7 @@ angular.module('openSenseMapApp')
         credits: {
               enabled: false
            },
+
         
         xAxis: {
             type: 'datetime',
@@ -553,8 +573,8 @@ angular.module('openSenseMapApp')
         series: [{
             type: 'area',
             name: '',
-            pointInterval: 3600 * 1000,
-            pointStart: Date.UTC(2014, 1, 25),
+            pointInterval: 3600 * 820,
+            pointStart: Date.UTC(2015, 3, 1),
             data:  $scope.lastData
         }]
         

@@ -415,7 +415,7 @@ angular.module('openSenseMapApp')
         $scope.filterPanel = false;
         $scope.downloadPanel = false;
         $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
-        $location.path('/explore/'+$scope.selectedMarker.id, false);
+
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";
         } else {
@@ -425,8 +425,10 @@ angular.module('openSenseMapApp')
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
         $scope.center.zoom = 15;
-        $scope.getData();
+
         $rootScope.selectedBox = $scope.selectedMarker.id;
+        $location.path('/explore/'+$scope.selectedMarker.id, false);
+        $scope.getData();
       });
 
       if ($location.path() !== "/launch") {
@@ -499,8 +501,18 @@ angular.module('openSenseMapApp')
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
       	 for (var i = 0; i < response.length; i++)
       	   {  
-      	  	 $scope.lastData.push(parseInt(response[i].value)); 
-      	   }
+      	  	var date = response[i].createdAt.split('T');
+                
+                 var date1 = date[0].split('-').map(function(item){
+                     return parseInt(item);
+                 });
+                 
+                 var date2 = date[1].split(':').map(function(item){
+                     return parseInt(item);
+                 });
+                
+                $scope.lastData.push([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
+            }                
       	 });
       };
       
@@ -569,7 +581,7 @@ angular.module('openSenseMapApp')
         var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');
         var to = $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd');
         angular.element("body")
-          .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true" style="display:none"></iframe>')
+          .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true&format='+$scope.downloadform.format+'" style="display:none"></iframe>')
       }
       /*
       $scope.dataDownload = function() {
@@ -601,4 +613,21 @@ angular.module('openSenseMapApp')
           $scope.downloadform.errorOccured = true;
         });
       }*/
+      $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+      };
+      $scope.openDatepicker = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        if($event.currentTarget.id === "datepicker1") {
+          $scope.opened1 = true;
+          $scope.opened2 = false;
+        } else if($event.currentTarget.id === "datepicker2") {
+          $scope.opened2 = true;
+          $scope.opened1 = false;
+        }
+        
+      };
     }]);

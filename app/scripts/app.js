@@ -67,13 +67,13 @@ angular
         prefix: '../translations/',
         suffix: '.json'
       });
-    $translateProvider.use('en_US');
-    $translateProvider.fallbackLanguage('en_US');
-    $translateProvider.preferredLanguage('en_US');
-    $translateProvider.determinePreferredLanguage();
+    $translateProvider.use('de_DE');
+    $translateProvider.fallbackLanguage('de_DE');
+    $translateProvider.preferredLanguage('de_DE');
+    //$translateProvider.determinePreferredLanguage();
   })
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
-    $scope.key = "de";
+    $scope.key="de";
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log("Sprache zu "+ key +" gewechselt.");
@@ -81,10 +81,12 @@ angular
       }, function (key) {
         console.log("Irgendwas lief schief");
       });
+      $scope.changeLang($translate.use());
     }
-    
+
     $rootScope.$watch('selectedBox', function() {
       $scope.box = $rootScope.selectedBox;
+      console.log("box changed to"+$rootScope.selectedBox);
     });
   }])
   .filter('unsafe', ['$sce', function($sce){

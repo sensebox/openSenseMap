@@ -171,8 +171,19 @@
           <span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
           <div class="form-group">
               {{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}
-              <input type="date" class="form-control" ng-model="downloadform.dateFrom">
-              <input type="date" class="form-control" ng-model="downloadform.dateTo">
+
+              <p class="input-group">
+                <input ng-model="downloadform.dateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                  <button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+              <p class="input-group">
+                <input ng-model="downloadform.dateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <span class="input-group-btn">
+                  <button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
               <br>
               <button class="btn btn-info" ng-click="downloadform.daysAgo = 1">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
               <button class="btn btn-info" ng-click="downloadform.daysAgo = 7">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
@@ -184,11 +195,21 @@
               </select>
               <br>
               {{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
+
+              <br>
+              <input ng-model="downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked> 
+              <label for="formatCSV">CSV</label>
+              <br>
+              <input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON"> 
+              <label for="formatJSON">JSON</label>
+
+              <!--
               <select class="form-control" ng-model="downloadform.format" ng-init="downloadform.format='JSON'">
                 <option>JSON</option>
                 <option>CSV</option>
-                <option>Excel</option>
               </select>
+              -->
+              <br>
               <br>
               <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false; downloadform.pleaseWait = true;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
               <!--<alert type="info" ng-show="downloadform.pleaseWait">

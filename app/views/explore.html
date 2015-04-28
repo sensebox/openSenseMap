@@ -30,12 +30,18 @@
         <!-- Tab panes -->
         <div class="tab-content">
           <div role="tabpanel" class="tab-pane active" id="tabMeasurements">
-            
               <div class="list-group">
-                <a class="list-group-item" ng-repeat="sensor in selectedMarkerData.sensors">
-                  <i ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
-                  </i>&nbsp; {{sensor.lastMeasurement.value}} {{sensor.unit}}, {{ 'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
-                </a>
+		      	 <accordion close-others="oneAtATime" >
+		      	 	<accordion-group ng-click = "getData(sensor); update(sensor)" ng-repeat="sensor in selectedMarkerData.sensors">
+		      	 	    <accordion-heading>
+		      	 	    <i ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet': sensor.sensorType == 'GUVA-S12D'}"></i>
+				        {{sensor.lastMeasurement.value}} {{sensor.unit}} , {{'LAST_MEASUREMENT_FROM' | translate }}{{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}
+				        </accordion-heading>
+				        <div style="min-width: 100px; min-height: 100px;margin: 100 auto" >
+                           <highchart id="chart1" config="chartConfig" class="span10"></highchart>
+                       </div>
+                    </accordion-group>
+		      	 </accordion>
             </div>
 
           </div> <!-- end tabMeasurements pange -->

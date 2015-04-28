@@ -1,9 +1,13 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
-    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog, leafletData) {
+  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
+    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData) {
       $scope.isCollapsed = false;
+      $scope.oneAtATime = true;
+      $scope.lastData = [];  //Store data from the selected sensor
+      $scope.values = [];
+      $scope.currentState = ''; //Check state of plots
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
       $scope.markers = [];
@@ -419,6 +423,7 @@ angular.module('openSenseMapApp')
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
         $scope.center.zoom = 15;
+        $scope.getData();
         $rootScope.selectedBox = $scope.selectedMarker.id;
         $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
@@ -467,6 +472,95 @@ angular.module('openSenseMapApp')
           console.log($scope.selectedMarkerData);
         });
       };
+      
+      $scope.getData = function(selectedSensor){
+      	var box = '';
+        if ($scope.selectedMarker.id) {
+          box = $scope.selectedMarker.id;
+        } else {
+          box = $scope.selectedMarker._id;
+        }
+        
+        $scope.lastData.splice(0,$scope.lastData.length);
+      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id}, function(response){
+      	 for (var i = 0; i < response.length; i++)
+      	   {  
+      	  	 $scope.lastData.push(parseInt(response[i].value)); 
+      	   }
+      	 });
+      };
+      
+      // Update chart data according to the selected sensor(title, yaxis)
+      $scope.update = function(sensor){
+      	$scope.chartConfig.options.title.text = sensor.title;
+      	$scope.chartConfig.series[0].name = sensor.unit;
+      };
+      
+      //Print functionality
+       $scope.print = function () {
+        var chart = this.chartConfig.getHighcharts();
+        chart.print();
+      };
+     
+      // Charts
+       $scope.chartConfig = {
+        options: {
+        chart: {
+                zoomType: 'x',
+                backgroundColor:'rgba(255, 255, 255, 0.1)'
+        },
+         title: {
+            text: 'Temperature',
+        },
+        credits: {
+              enabled: false
+           },
+        
+        xAxis: {
+            type: 'datetime',
+        },
+        yAxis: {
+            title: {
+                text: '',
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                    stops: [
+                        [0, Highcharts.getOptions().colors[0]],
+                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                    ]
+                },
+                marker: {
+                    radius: 4
+                },
+                lineWidth: 2,
+                states: {
+                    hover: {
+                        lineWidth: 1
+                    }
+                },
+                threshold: null
+            }
+        },
+        },
+        series: [{
+            type: 'area',
+            name: '',
+            pointInterval: 3600 * 1000,
+            pointStart: Date.UTC(2014, 1, 25),
+            data:  $scope.lastData
+        }]
+        
+    };
+    
+    
+    
 
       $scope.dataDownload = function() {
         var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');

@@ -9,6 +9,7 @@ angular
     'ngDialog',
     'leaflet-directive',
     'ui.bootstrap',
+    'ui.bootstrap.accordion',
     'nya.bootstrap.select',
     'osemFilters',
     'angular-underscore',
@@ -17,6 +18,7 @@ angular
     'ngClipboard',
     'flow',
     'ui.checkbox',
+    'highcharts-ng',
     'pascalprecht.translate'
   ])
   .config(function ($routeProvider) {

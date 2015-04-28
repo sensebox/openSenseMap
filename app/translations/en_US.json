@@ -40,5 +40,22 @@
   "Lautstärke": "Noise",
   "Luftdruck": "Athm. pressure",
   "rel. Luftfeuchte": "Rel. air humiditiy",
-  "Temperatur": "Temperature"
+  "Luftfeuchtigkeit": "Air humiditiy",
+  "Temperatur": "Temperature",
+  "Beleuchtungsstärke": "Illumination level",
+  "FIRSTNAME": "First name",
+  "PLEASE_SPECIFY_FIRSTNAME": "Please add your first name",
+  "LASTNAME": "Last name",
+  "PLEASE_SPECIFY_LASTNAME": "Please add your last name",
+  "EMAIL": "Email address",
+  "PLEASE_SPECIFY_EMAIL": "Please add your email address",
+  "NAME_YOUR_STATION": "Name of your station",
+  "PLEASE_SPECIFY_STATIONNAME": "Please specify a name for your station",
+  "STATION_PLACEMENT": "Location",
+  "PLEASE_SPECIFY_PLACEMENT": "Please specifiy your station's location",
+  "PLEASE_SPECIFY_GROUPID": "Optional prefix for groups of SenseBoxes",
+  "GROUP_NAME": "Group identifier",
+  "USER": "User",
+  "MANUAL_CONFIGURATION":"Manual configuration",
+  "ADD_SENSOR":"Add sensor"
 }

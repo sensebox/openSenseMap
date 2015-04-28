@@ -346,3 +346,16 @@ div.box {
 .sbdblue {
   background-color: #4073BF;
 }
+
+#brand_with_logo img, 
+#brand_with_logo h3 {
+  display:inline-block;
+}
+
+#brand_with_logo {
+  vertical-align: middle;
+}
+
+.navbar-brand {
+  padding:10px;
+}

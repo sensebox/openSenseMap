@@ -495,93 +495,75 @@ angular.module('openSenseMapApp')
         }
         
         // Calculate starting date - 30 days before!
-        initDate = new Date(endDate)-1;
-        
-        $scope.lastData.splice(0,$scope.lastData.length);
+        $scope.lastData.splice(0, $scope.lastData.length);
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
       	 for (var i = 0; i < response.length; i++)
       	   {  
       	  	 $scope.lastData.push(parseInt(response[i].value)); 
       	   }
       	 });
-      	 
-      	 console.log(new Date(endDate));
-      	 console.log(initDate);
-      	 console.log(temp);
       };
       
       // Update chart data according to the selected sensor(title, yaxis)
       $scope.update = function(sensor){
-      	$scope.chartConfig.options.title.text = sensor.title;
-      	$scope.chartConfig.series[0].name = sensor.unit;
-      };
-      
-      //Print functionality
-       $scope.print = function () {
-        var chart = this.chartConfig.getHighcharts();
-        chart.print();
+      	$scope.chartConfig.options.title.text = $filter('translate')(sensor.title);
+      	$scope.chartConfig.series[0].name = $filter('translate')(sensor.unit);
       };
      
       // Charts
-       $scope.chartConfig = {
+      $scope.chartConfig = {
         options: {
-        chart: {
-                zoomType: 'x',
-                backgroundColor:'rgba(255, 255, 255, 0.1)'
-        },
-         title: {
+          chart: {
+            zoomType: 'x',
+            backgroundColor:'rgba(255, 255, 255, 0.1)'
+          },
+          title: {
             text: 'Temperature',
-        },
-        credits: {
-              enabled: false
-           },
-
-        
-        xAxis: {
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
             type: 'datetime',
-        },
-        yAxis: {
+          },
+          yAxis: {
             title: {
                 text: '',
             }
-        },
-        legend: {
+          },
+          legend: {
             enabled: false
-        },
-        plotOptions: {
+          },
+          plotOptions: {
             area: {
-                fillColor: {
-                    linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                    stops: [
-                        [0, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                    ]
-                },
-                marker: {
-                    radius: 4
-                },
-                lineWidth: 2,
-                states: {
-                    hover: {
-                        lineWidth: 1
-                    }
-                },
-                threshold: null
+              fillColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                  stops: [
+                      [0, Highcharts.getOptions().colors[0]],
+                      [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                  ]
+              },
+              marker: {
+                radius: 4
+              },
+              lineWidth: 2,
+              states: {
+                hover: {
+                    lineWidth: 1
+                }
+              },
+              threshold: null
             }
-        },
+          },
         },
         series: [{
             type: 'area',
             name: '',
             pointInterval: 3600 * 820,
             pointStart: Date.UTC(2015, 3, 1),
-            data:  $scope.lastData
+            data: $scope.lastData
         }]
-        
-    };
-    
-    
-    
+      };
 
       $scope.dataDownload = function() {
         var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');

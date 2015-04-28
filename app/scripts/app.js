@@ -64,11 +64,12 @@ angular
   }])
   .config(function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
-      prefix: '../translations/',
-      suffix: '.json'
-    });
-
-    $translateProvider.fallbackLanguage('en-us');
+        prefix: '../translations/',
+        suffix: '.json'
+      });
+    $translateProvider.use('en_US');
+    $translateProvider.fallbackLanguage('en_US');
+    $translateProvider.preferredLanguage('en_US');
     $translateProvider.determinePreferredLanguage();
   })
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {

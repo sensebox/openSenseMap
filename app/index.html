@@ -64,7 +64,7 @@
                             </a>
                         </li> -->
                         <li>
-                            <a href="{{'#/download/'}}{{ box }}">
+                            <a href="{{'#/download/'}}{{ box }}" ng-show="box">
                                 <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
@@ -87,7 +87,12 @@
                     <ul class="nav navbar-nav" collapse="!isCollapsed">
                         <li>
                             <a href="{{'#/explore'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-zoom-in"></span> Erkunden
+                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{'#/download/'}}{{ box }}" ng-click="isCollapsed = !isCollapsed">
+                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
                         <!-- <li>
@@ -97,15 +102,15 @@
                         </li> -->
                         <li>
                             <a href="{{'#/register'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-barcode"></span> Registrierung
+                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
                                 <li><a href="#"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
-                                <li><a href="#"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li>
+                                <!-- <li><a href="#"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li> -->
                             </ul>
                         </li>
                     </ul>

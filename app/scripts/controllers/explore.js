@@ -219,7 +219,10 @@ angular.module('openSenseMapApp')
         $scope.launchTemp = ngDialog.open({
           template: '../../views/app_info_modal.html',
           className: 'ngdialog-theme-default',
-          scope: $scope
+          scope: $scope,
+          controller: ['$scope', '$filter', function($scope, $filter) {
+            // controller logic
+          }]
         });
       }
 
@@ -348,7 +351,7 @@ angular.module('openSenseMapApp')
 
       var geoCoderControl = L.Control.geocoder({
         position: 'topleft',
-        placeholder: 'Adresse suchen...'
+        placeholder: $filter('translate')('SEARCH_ADDRESS')
       });
 
       geoCoderControl.markGeocode = function (result) {
@@ -390,11 +393,12 @@ angular.module('openSenseMapApp')
       }
 
       $scope.defaults = {
-        tileLayer: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        tileLayer: "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg", // Mapquest Open
         tileLayerOptions: {
-          opacity: 0.9,
+          subdomains: "1234",
+          //attribution in info modal
           detectRetina: true,
-          reuseTiles: true,
+          reuseTiles: true
         },
         scrollWheelZoom: true
       };
@@ -469,7 +473,7 @@ angular.module('openSenseMapApp')
         } else {
           box = $scope.selectedMarker._id;
         }
-        $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
+        //$scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:box}, function(response) {
           $scope.selectedMarkerData = response;
           console.log($scope.selectedMarkerData);
@@ -499,21 +503,17 @@ angular.module('openSenseMapApp')
         // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
-      	 for (var i = 0; i < response.length; i++)
-      	   {  
-      	  	var date = response[i].createdAt.split('T');
-                
-                 var date1 = date[0].split('-').map(function(item){
-                     return parseInt(item);
-                 });
-                 
-                 var date2 = date[1].split(':').map(function(item){
-                     return parseInt(item);
-                 });
-                
-                $scope.lastData.push([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
-            }                
-      	 });
+        	for (var i = 0; i < response.length; i++) {  
+            var date = response[i].createdAt.split('T');
+            var date1 = date[0].split('-').map(function(item){
+               return parseInt(item);
+            });
+            var date2 = date[1].split(':').map(function(item){
+               return parseInt(item);
+            });
+            $scope.lastData.push([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
+          }
+      	});
       };
       
       // Update chart data according to the selected sensor(title, yaxis)

@@ -70,7 +70,7 @@ angular
     $translateProvider.use('de_DE');
     $translateProvider.fallbackLanguage('de_DE');
     $translateProvider.preferredLanguage('de_DE');
-    //$translateProvider.determinePreferredLanguage();
+    $translateProvider.determinePreferredLanguage();
   })
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
     $scope.key="de";
@@ -86,7 +86,7 @@ angular
 
     $rootScope.$watch('selectedBox', function() {
       $scope.box = $rootScope.selectedBox;
-      console.log("box changed to"+$rootScope.selectedBox);
+      console.log("box changed to "+$rootScope.selectedBox);
     });
   }])
   .filter('unsafe', ['$sce', function($sce){
@@ -96,7 +96,7 @@ angular
   }])
   .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     var original = $location.path;
-    $rootScope.selectedBox = {};
+    $rootScope.selectedBox = false;
     $location.path = function (path, reload) {
       if (reload === false) {
         var lastRoute = $route.current;

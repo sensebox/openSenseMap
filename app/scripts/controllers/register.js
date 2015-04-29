@@ -300,7 +300,7 @@ angular.module('openSenseMapApp')
           }
         }
 
-        $http.post('http://opensensemap.org:8000/boxes', $scope.newSenseBox)
+        $http.post('http://opensensemap.org:8002/boxes', $scope.newSenseBox)
           .success( function (data) {
             var alert = {
               type: 'success',

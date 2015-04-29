@@ -49,7 +49,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#/">SenseBox</a>
+                    <span id="brand_with_logo"><a class="navbar-brand" href="#/"><img src="images/sensebox_cube.png">&nbsp;OpenSenseMap</a></span>
                 </div>
                 <nav class="hidden-xs">
                     <ul class="nav navbar-nav navbar-right">
@@ -63,6 +63,11 @@
                                 <span class="glyphicon glyphicon-export"></span> Daten hochladen
                             </a>
                         </li> -->
+                        <li>
+                            <a href="{{'#/download/'}}{{ box }}" ng-show="box">
+                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
+                            </a>
+                        </li>
                         <li>
                             <a href="{{'#/register'}}">
                                 <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
@@ -82,7 +87,12 @@
                     <ul class="nav navbar-nav" collapse="!isCollapsed">
                         <li>
                             <a href="{{'#/explore'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-zoom-in"></span> Erkunden
+                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{'#/download/'}}{{ box }}" ng-click="isCollapsed = !isCollapsed">
+                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
                         <!-- <li>
@@ -92,15 +102,15 @@
                         </li> -->
                         <li>
                             <a href="{{'#/register'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-barcode"></span> Registrierung
+                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
                                 <li><a href="#"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
-                                <li><a href="#"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li>
+                                <!-- <li><a href="#"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li> -->
                             </ul>
                         </li>
                     </ul>
@@ -156,6 +166,10 @@
     <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="bower_components/highcharts-release/highcharts.js"></script>
+    <script src="bower_components/highcharts-release/highcharts-more.js"></script>
+    <script src="bower_components/highcharts-release/modules/exporting.js"></script>
+    <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -174,6 +188,7 @@
         <script src="scripts/controllers/explore.js"></script>
         <script src="scripts/services/opensenseboxes.js"></script>
         <script src="scripts/services/opensenseboxessensors.js"></script>
+        <script src="scripts/services/opensensemapdata.js"></script>
         <script src="scripts/services/filters.js"></script>
         <script src="scripts/directives/myholder.js"></script>
         <script src="scripts/services/validation.js"></script>

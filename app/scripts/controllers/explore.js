@@ -481,6 +481,7 @@ angular.module('openSenseMapApp')
       };
       
       $scope.getData = function(selectedSensor){
+        $scope.selectedSensor = selectedSensor;
       	var box = '';
       	var initDate = new Date();
       	var endDate = '';
@@ -496,14 +497,25 @@ angular.module('openSenseMapApp')
         	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id)
         	{
         		endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
+            console.log($scope.selectedMarker);
         		break;
         	}
         }
         
         // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
+        //$scope.lastData = [];
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
-        	for (var i = 0; i < response.length; i++) {  
+          for (var i = 0; i < response.length; i++) {
+            var d = new Date(response[i].createdAt);
+            console.log(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+            var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+            $scope.lastData.push([
+              dd,
+              parseInt(response[i].value)
+            ]);
+          };
+        	/*for (var i = 0; i < response.length; i++) {
             var date = response[i].createdAt.split('T');
             var date1 = date[0].split('-').map(function(item){
                return parseInt(item);
@@ -511,8 +523,11 @@ angular.module('openSenseMapApp')
             var date2 = date[1].split(':').map(function(item){
                return parseInt(item);
             });
+            console.log([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
             $scope.lastData.push([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
-          }
+          }*/
+          //var ago = new Date( new Date().valueOf()-3600*24*30 );
+          //$scope.lastData.push(ago);
       	});
       };
       
@@ -525,12 +540,15 @@ angular.module('openSenseMapApp')
       // Charts
       $scope.chartConfig = {
         options: {
+          tooltip: {
+            xDateFormat: '%Y-%m-%d %H:%M:%S',
+          },
           chart: {
             zoomType: 'x',
-            backgroundColor:'rgba(255, 255, 255, 0.1)'
+            backgroundColor:'rgba(255, 255, 255, 1)'
           },
           title: {
-            text: 'Temperature',
+            text: $scope.selectedSensor,
           },
           credits: {
             enabled: false
@@ -572,7 +590,7 @@ angular.module('openSenseMapApp')
             type: 'area',
             name: '',
             pointInterval: 3600 * 820,
-            pointStart: Date.UTC(2015, 3, 1),
+            //pointStart: $scope.downloadform.dateFrom,
             data: $scope.lastData
         }]
       };

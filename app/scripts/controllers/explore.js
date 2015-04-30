@@ -504,30 +504,15 @@ angular.module('openSenseMapApp')
         
         // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
-        //$scope.lastData = [];
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
           for (var i = 0; i < response.length; i++) {
             var d = new Date(response[i].createdAt);
-            console.log(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
             var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
             $scope.lastData.push([
               dd,
               parseInt(response[i].value)
             ]);
           };
-        	/*for (var i = 0; i < response.length; i++) {
-            var date = response[i].createdAt.split('T');
-            var date1 = date[0].split('-').map(function(item){
-               return parseInt(item);
-            });
-            var date2 = date[1].split(':').map(function(item){
-               return parseInt(item);
-            });
-            console.log([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
-            $scope.lastData.push([Date.UTC(date1[0],date1[1],date1[2],date2[0],date2[1]),parseInt(response[i].value)]);
-          }*/
-          //var ago = new Date( new Date().valueOf()-3600*24*30 );
-          //$scope.lastData.push(ago);
       	});
       };
       

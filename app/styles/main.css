@@ -358,3 +358,8 @@ div.box {
 .navbar-brand {
   padding:10px;
 }
+
+#tabMeasurements h4.panel-title {
+  font-size: 14px;
+  cursor: pointer;
+}

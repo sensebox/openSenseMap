@@ -209,6 +209,7 @@
               </select>
               -->
               <br>
+              <alert type="info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></alert>
               <br>
               <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false; downloadform.pleaseWait = true;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
               <!--<alert type="info" ng-show="downloadform.pleaseWait">

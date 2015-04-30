@@ -76,5 +76,6 @@
   "Name": "Name",
   "INFO_MADE_BY": "Diese Software ist <a href=\"https://github.com/mpfeil/OpenSenseMap\" target=\"_blank\">Open Source</a> und mit <li class=\"fa fa-icon fa-heart\"></li> in Münster gemacht. <br><br>Kartendaten <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap-Mitwirkende</a><br>Kartenkacheln von <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\"><br>Sensordaten: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
   "INFO_LEGEND": "Legende",
-  "INFO_COPYRIGHT_NOTICES": "Copyright Hinweise"
+  "INFO_COPYRIGHT_NOTICES": "Copyright Hinweise",
+  "DOWNLOAD_LICENSE": "Die Daten stehen unter der <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a> und können frei verwendet werden."
 }

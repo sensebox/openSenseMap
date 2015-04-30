@@ -74,7 +74,7 @@
   "FILTER": "Filtr",
   "Phänomen": "Zjawisko",
   "Name": "Imię",
-  "INFO_MADE_BY": "To oprogramowanie jest <a href=\"https://github.com/mpfeil/OpenSenseMap\" target=\"_blank\">Open Source</a> i zostało stworzone <li class=\"fa fa-icon fa-heart\"></li> w Münster.<br><br>Mapy <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap</a><br>Wygląd mapy dzięki <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\"><br>Dane z czujników: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
+  "INFO_MADE_BY": "To oprogramowanie jest <a href=\"https://github.com/mpfeil/OpenSenseMap\" target=\"_blank\">Open Source</a> i zostało stworzone <li class=\"fa fa-icon fa-heart\"></li> w Münster.<br><br>Mapy <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap</a><br>Wygląd mapy dzięki <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\"><br>Country flags by <a href=\"http://www.icondrawer.com\" target=\"_blank\">Icondrawer</a><br>Dane z czujników: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
   "INFO_LEGEND": "Legenda",
   "INFO_COPYRIGHT_NOTICES": "Prawa autorskie"
 }

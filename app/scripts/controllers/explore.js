@@ -4,10 +4,6 @@ angular.module('openSenseMapApp')
   .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
     function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData) {
       $scope.isCollapsed = false;
-      $scope.oneAtATime = true;
-      $scope.lastData = [];  //Store data from the selected sensor
-      $scope.values = [];
-      $scope.currentState = ''; //Check state of plots
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
       $scope.markers = [];
@@ -20,6 +16,12 @@ angular.module('openSenseMapApp')
       $scope.filterPanel = false;
       $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
+
+      // variables for charts
+      $scope.oneAtATime = true;
+      $scope.lastData = [];  //Store data from the selected sensor
+      $scope.values = [];
+      $scope.currentState = ''; //Check state of plots
 
       // todo: make this globally accessible, used in registration as well
       $scope.phenomenoms = [
@@ -432,7 +434,6 @@ angular.module('openSenseMapApp')
 
         $rootScope.selectedBox = $scope.selectedMarker.id;
         $location.path('/explore/'+$scope.selectedMarker.id, false);
-        $scope.getData();
       });
 
       if ($location.path() !== "/launch") {
@@ -505,6 +506,7 @@ angular.module('openSenseMapApp')
         // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
+          $scope.chartConfig.loading = false;
           for (var i = 0; i < response.length; i++) {
             var d = new Date(response[i].createdAt);
             var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
@@ -524,6 +526,7 @@ angular.module('openSenseMapApp')
      
       // Charts
       $scope.chartConfig = {
+        loading: true,
         options: {
           tooltip: {
             xDateFormat: '%Y-%m-%d %H:%M:%S',
@@ -575,7 +578,6 @@ angular.module('openSenseMapApp')
             type: 'area',
             name: '',
             pointInterval: 3600 * 820,
-            //pointStart: $scope.downloadform.dateFrom,
             data: $scope.lastData
         }]
       };
@@ -586,40 +588,12 @@ angular.module('openSenseMapApp')
         angular.element("body")
           .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true&format='+$scope.downloadform.format+'" style="display:none"></iframe>')
       }
-      /*
-      $scope.dataDownload = function() {
-        console.log($scope.downloadform);
-        // http://opensensemap.org:8002/boxes/54d726661b93e970075148bd/data/54d726661b93e970075148c0?from-date=2015-02-08&to-date=2015-04-10
-        $http({
-          method: 'get',
-          url: 'http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId,
-          params: {
-            "from-date": $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd'),
-            "to-date": $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd'),
-            download: "true"
-          }
-        })
-        .success(function(data, status) {
-          $scope.downloadform.pleaseWait = false;
-          if(_.size(data) > 0) {
-            // success
-            $scope.downloadform.downloadSuccess = true;
-            $scope.downloadform.data = data;
-            window.open("data:application/octet-stream,"+data, '_self')
-          } else {
-            // data empty
-            $scope.downloadform.emptyData = true;
-          }
-        })
-        .error(function(data, status) {
-          $scope.downloadform.pleaseWait = false;
-          $scope.downloadform.errorOccured = true;
-        });
-      }*/
+
       $scope.dateOptions = {
         formatYear: 'yy',
         startingDay: 1
       };
+
       $scope.openDatepicker = function($event) {
         $event.preventDefault();
         $event.stopPropagation();

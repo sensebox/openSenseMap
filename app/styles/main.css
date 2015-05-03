@@ -363,3 +363,13 @@ div.box {
   font-size: 14px;
   cursor: pointer;
 }
+
+/* remove highchart-ng "Loading..." text and replace with an image */
+.highcharts-loading span {
+  display:none;
+}
+.highcharts-loading {
+  background-image: url("/images/throbber.gif");
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+}

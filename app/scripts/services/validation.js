@@ -15,7 +15,7 @@ angular.module('openSenseMapApp')
     var validApiKey = function (boxId, apiKey) {
       return $http({
         method: 'GET',
-        url: 'http://localhost:8000/users/'+boxId,
+        url: 'http://opensensemap.org:8002/users/'+boxId,
         headers: {
           'X-ApiKey':apiKey
         }

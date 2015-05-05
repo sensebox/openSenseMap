@@ -6,31 +6,31 @@
         <li class="active">
           <a class="active" href="#first" data-toggle="tab">
             <span class="badge">1</span>
-            <span>User anlegen</span>
+            <span>{{'STEP1' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#second" data-toggle="tab">
             <span class="badge">2</span>
-            <span>Meine Box</span>
+            <span>{{'STEP2' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#third" data-toggle="tab">
             <span class="badge">3</span>
-            <span>Standort</span>
+            <span>{{'STEP3' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#fourth" data-toggle="tab">
             <span class="badge">4</span>
-            <span>Hardware Setup</span>
+            <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
             <span class="badge">5</span>
-            <span>Download</span>
+            <span>{{'STEP5' | translate}}</span>
           </a>
         </li>
       </ul>
@@ -40,58 +40,58 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine SenseBox zuschicken können.
+            {{'STEP1_DESCRIPTION' | translate}}
           </div>
 
           <!-- NAME -->
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname) }">
-             <label class="control-label">Vorname*</label>
+             <label class="control-label">{{ 'FIRSTNAME' | translate}}*</label>
              <input type="text" name="firstname" class="form-control" ng-model="user.firstname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">Bitte gib deinen Vornamen an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}</p>
            </div>
 
            <!-- USERNAME -->
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname) }">
-             <label class="control-label">Nachname*</label>
+             <label class="control-label">{{ 'LASTNAME' | translate }}*</label>
              <input type="text" name="lastname" class="form-control" ng-model="user.lastname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">Bitte gib deinen Nachnamen an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}</p>
            </div>
 
            <!-- EMAIL -->
            <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email) }">
-             <label class="control-label">Email*</label>
+             <label class="control-label">{{ 'EMAIL' | translate }}*</label>
              <input type="email" name="email" class="form-control" ng-model="user.email" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">Bitte gib deine gültige Mailadresse an.</p>
+             <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
            </div>
         </form>
         <form class="tab-pane" id="second" name="secondForm" rc-submit="goToMap()" rc-step novalidate>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Fülle hier die Zusatzinformationen zu deiner SenseBox aus.
+            {{'STEP2_DESCRIPTION' | translate}}
           </div>
 
           <!-- NAME -->
           <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.boxname) }">
-            <label class="control-label">Name deiner Station*</label>
-            <input type="text" name="boxname" class="form-control" id="name" placeholder="Bitte gib hier einen Namen für deine SenseBox an." ng-model="newSenseBox.name" required>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">Bitte gib hier einen Namen für deine SenseBox an.</p>
+            <label class="control-label">{{ 'NAME_YOUR_STATION' | translate }}*</label>
+            <input type="text" name="boxname" class="form-control" id="name" placeholder="{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}" ng-model="newSenseBox.name" required>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}</p>
           </div>
 
           <!-- Aufstellungsort -->
           <div class="form-group" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure) }">
-            <label class="control-label">Aufstellungsort*</label>
+            <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
             <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
-              <option value="indoor">Drinnen</option>
-              <option value="outdoor">Draußen</option>
+              <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+              <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
             </select>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="help-block">Bitte wähle einen Aufstellungsort für deine SenseBox aus.</p>
+            <p ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="help-block">{{'PLEASE_SPECIFY_PLACEMENT'|translate}}</p>
           </div>
 
           <!-- Gruppenkennzeichnung -->
           <div class="form-group">
-            <label class="control-label">Gruppenkennzeichnung</label>
-            <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag" placeholder="Optionales Prefix für eine Gruppe von SenseBoxen.">
+            <label class="control-label">{{'GROUP_NAME'|translate}}</label>
+            <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
           </div>
 
           <!-- Typ -->
@@ -119,7 +119,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Wähle auf der Karte den geplanten Standort deiner SenseBox aus.
+            {{'STEP3_DESCRIPTION' | translate}}
           </div>
           <div class="form-group" ng-hide="true">
             <label class="control-label">lat</label>
@@ -137,7 +137,7 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Wähle den Typen deiner SenseBox aus.
+            {{'STEP4_DESCRIPTION' | translate}}
           </div>
 
           <accordion close-others="true">
@@ -157,23 +157,23 @@
             </accordion-group>
             <accordion-group is-open="open3">
               <accordion-heading>
-                Manuell <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
+                {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
               </accordion-heading>
-              <checkbox ng-model="models.custom" ng-change="selectModel('custom');"></checkbox> Manuelle Konfiguration <br><br>
+              <checkbox ng-model="models.custom" ng-change="selectModel('custom');"></checkbox> {{'MANUAL_CONFIGURATION'|translate}} <br><br>
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="font-weight: bold">
-                    <td style="width:35%">Phänomen</td>
-                    <td style="width:20%">Einheit</td>
-                    <td style="width:20%">Typ</td>
-                    <td style="width:25%">Editieren</td>
+                    <td style="width:35%">{{'CONFIG_PHENOMENON'|translate}}</td>
+                    <td style="width:20%">{{'CONFIG_UNIT'|translate}}</td>
+                    <td style="width:20%">{{'CONFIG_TYPE'|translate}}</td>
+                    <td style="width:25%">{{'CONFIG_EDIT'|translate}}</td>
                     </tr>
                 </thead>
                 <tbody>
                   <tr ng-repeat="sensor in sensors">
                     <td>
                       <span ng-hide="editMode">{{showPhenomenom(sensor)}}</span>
-                      <select class="form-control" ng-show="editMode" ng-model="tmpSensor.title" ng-options="s.value as s.text for s in phenomenoms" ng-required></select>
+                      <select class="form-control" ng-show="editMode" ng-model="tmpSensor.title" ng-options="s.value as (s.text | translate) for s in phenomenoms" ng-required></select>
                     </td>
                     <td>
                       <span ng-hide="editMode">{{sensor.unit}}</span>
@@ -201,7 +201,7 @@
                 </tbody>
               </table>
               <div class="col-lg-12" style="text-align:center;">
-                <button type="button" ng-click="add();" class ="btn btn-default"><i class="fa fa-plus-circle"></i> Sensor hinzufügen</button>
+                <button type="button" ng-click="add();" class ="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                 <hr>
               </div>
             </accordion-group>
@@ -211,11 +211,11 @@
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            Um deine SenseBox endültig einzutragen, klicke auf Speichern und du erhälst von uns eine Mail mit den Anweisungen zum Aufbau und Upload der Software auf deine SenseBox. Falls du es dir anders überlegt hast, klicke auf Abbrechen und du gelangst zur Erkundenseite.
+            {{'STEP5_DESCRIPTION' | translate}}
           </div>
           <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
 
-          <h3>Benutzer</h3>
+          <h3>{{'USER'|translate}}</h3>
           <div class="well">
             {{user.firstname}} {{user.lastname}} <br>
             {{user.email}}
@@ -224,24 +224,25 @@
           <div class="well">
             SenseBox Model: {{modelSelected}} <br>
             SenseBox Name: {{newSenseBox.name}} <br>
-            Gruppenkennzeichnung: {{newSenseBox.tag}} <br>
+            {{'GROUP_NAME'|translate}}: {{newSenseBox.tag}} <br>
             Typ: {{newSenseBox.boxType}} <br>
-            Aufstellungsort: {{newSenseBox.exposure}} <br>
+            {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
             ApiKey: {{newSenseBox.orderID}} <br>
           </div>
+          <alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></alert>
         </form>
       </div>
       <div class="form-group">
         <hr>
         <div class="pull-right">
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
-             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">Zurück</a>
+             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">Weiter</a>
+             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Abbrechen</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">Speichern</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'FINISH' | translate}}</a>
         </div>
       </div>
     </div>

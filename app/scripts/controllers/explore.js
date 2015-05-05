@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
-    function($scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, leafletEvents, Validation, ngDialog, leafletData) {
+  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
+    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData) {
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -14,7 +14,34 @@ angular.module('openSenseMapApp')
       $scope.searchText = '';
       $scope.detailsPanel = false;
       $scope.filterPanel = false;
+      $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
+
+      // variables for charts
+      $scope.oneAtATime = true;
+      $scope.lastData = [];  //Store data from the selected sensor
+      $scope.values = [];
+      $scope.currentState = ''; //Check state of plots
+
+      // todo: make this globally accessible, used in registration as well
+      $scope.phenomenoms = [
+        {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
+        {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
+        {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
+        {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
+        {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
+        {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
+        {value: 7, text: 'UV', unit: 'UV-Index', type: 'GUVA-S12D'},
+        {value: 8, text: 'Kamera', unit: '', type: ''},
+      ];
+
+      $scope.dateNow = new Date();
+      $scope.downloadform = {};
+      $scope.downloadform.daysAgo = 1;
+      $scope.downloadform.dateTo = new Date();
+      $scope.$watch('downloadform.daysAgo', function(){
+        $scope.downloadform.dateFrom = new Date((new Date()).valueOf() - 1000*60*60*24*$scope.downloadform.daysAgo);
+      });
 
       $scope.center = {
         lat: 51.04139389812637,
@@ -112,9 +139,18 @@ angular.module('openSenseMapApp')
         //TODO find boxid
         OpenSenseBox.query({boxId:$routeParams.boxid}, function(response) {
           $scope.sidebarActive = true;
-          $scope.detailsPanel = true;
+          $scope.detailsPanel = false;
+          $scope.downloadPanel = false;
           $scope.filterPanel = false;
+        
           $scope.selectedMarker = response;
+          $rootScope.selectedBox = $scope.selectedMarker._id;
+          if($location.path().indexOf("/explore") === 0) {
+            $scope.detailsPanel = true;
+          } else if($location.path().indexOf("/download") === 0) {
+            $scope.downloadPanel = true;
+          }
+
           if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
             $scope.image = "placeholder.png";
           } else {
@@ -125,6 +161,12 @@ angular.module('openSenseMapApp')
           var lng = response.loc[0].geometry.coordinates[0];
           $scope.zoomTo(lat,lng);
         });
+      }
+      if($location.path().indexOf("/download") === 0) {
+        $scope.sidebarActive = true;
+        $scope.detailsPanel = false;
+        $scope.filterPanel = false;
+        $scope.downloadPanel = true;
       }
 
       $scope.downloadArduino = function () {
@@ -179,7 +221,10 @@ angular.module('openSenseMapApp')
         $scope.launchTemp = ngDialog.open({
           template: '../../views/app_info_modal.html',
           className: 'ngdialog-theme-default',
-          scope: $scope
+          scope: $scope,
+          controller: ['$scope', '$filter', function($scope, $filter) {
+            // controller logic
+          }]
         });
       }
 
@@ -253,7 +298,7 @@ angular.module('openSenseMapApp')
           var boxid = $scope.selectedMarker._id;
         };
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put('http://opensensemap.org:8000/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
+        $http.put('http://opensensemap.org:8002/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
             $scope.editableMode = !$scope.editableMode;
             $scope.selectedMarker = data;
@@ -300,6 +345,7 @@ angular.module('openSenseMapApp')
             $scope.sidebarActive = true;
             $scope.detailsPanel = false;
             $scope.filterPanel = true;
+            $scope.downloadPanel = false;
           });
 
         return container;
@@ -307,7 +353,7 @@ angular.module('openSenseMapApp')
 
       var geoCoderControl = L.Control.geocoder({
         position: 'topleft',
-        placeholder: 'Adresse suchen...'
+        placeholder: $filter('translate')('SEARCH_ADDRESS')
       });
 
       geoCoderControl.markGeocode = function (result) {
@@ -320,6 +366,14 @@ angular.module('openSenseMapApp')
       $scope.controls = {
         custom: [ listControl, geoCoderControl ]
       };
+
+      $scope.$watch('sidebarActive', function() {
+        if($scope.sidebarActive) {
+          // hide controls
+        } else {
+          // re-enable controls
+        }
+      });
 
       $scope.apikey = {};
       $scope.enableEditableMode = function () {
@@ -341,11 +395,12 @@ angular.module('openSenseMapApp')
       }
 
       $scope.defaults = {
-        tileLayer: 'http://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        tileLayer: "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg", // Mapquest Open
         tileLayerOptions: {
-          opacity: 0.9,
+          subdomains: "1234",
+          //attribution in info modal
           detectRetina: true,
-          reuseTiles: true,
+          reuseTiles: true
         },
         scrollWheelZoom: true
       };
@@ -358,12 +413,15 @@ angular.module('openSenseMapApp')
       };
 
       $scope.$on('leafletDirectiveMarker.click', function(e, args) {
+        
         // Args will contain the marker name and other relevant information
         // console.log(args);
         $scope.sidebarActive = true;
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
+        $scope.downloadPanel = false;
         $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
+
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";
         } else {
@@ -373,6 +431,8 @@ angular.module('openSenseMapApp')
         $scope.center.lat = args.leafletEvent.target._latlng.lat;
         $scope.center.lng = args.leafletEvent.target._latlng.lng;
         $scope.center.zoom = 15;
+
+        $rootScope.selectedBox = $scope.selectedMarker.id;
         $location.path('/explore/'+$scope.selectedMarker.id, false);
       });
 
@@ -414,10 +474,137 @@ angular.module('openSenseMapApp')
         } else {
           box = $scope.selectedMarker._id;
         }
-        $scope.prom = $timeout($scope.getMeasurements, $scope.delay);
+        //$scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:box}, function(response) {
           $scope.selectedMarkerData = response;
           console.log($scope.selectedMarkerData);
         });
+      };
+      
+      $scope.getData = function(selectedSensor){
+        $scope.selectedSensor = selectedSensor;
+      	var box = '';
+      	var initDate = new Date();
+      	var endDate = '';
+        if ($scope.selectedMarker.id) {
+          box = $scope.selectedMarker.id;
+        } else {
+          box = $scope.selectedMarker._id;
+        }
+        
+        // Get the date of the last taken measurement for the selected sensor
+        for (var i = 0; i < 6; i++)
+        {
+        	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id)
+        	{
+        		endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
+            console.log($scope.selectedMarker);
+        		break;
+        	}
+        }
+        
+        // Calculate starting date - 30 days before!
+        $scope.lastData.splice(0, $scope.lastData.length);
+      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
+          $scope.chartConfig.loading = false;
+          for (var i = 0; i < response.length; i++) {
+            var d = new Date(response[i].createdAt);
+            var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+            $scope.lastData.push([
+              dd,
+              parseInt(response[i].value)
+            ]);
+          };
+      	});
+      };
+      
+      // Update chart data according to the selected sensor(title, yaxis)
+      $scope.update = function(sensor){
+      	$scope.chartConfig.options.title.text = $filter('translate')(sensor.title);
+      	$scope.chartConfig.series[0].name = $filter('translate')(sensor.unit);
+      };
+     
+      // Charts
+      $scope.chartConfig = {
+        loading: true,
+        options: {
+          tooltip: {
+            xDateFormat: '%Y-%m-%d %H:%M:%S',
+          },
+          chart: {
+            zoomType: 'x',
+            backgroundColor:'rgba(255, 255, 255, 1)'
+          },
+          title: {
+            text: $scope.selectedSensor,
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            type: 'datetime',
+          },
+          yAxis: {
+            title: {
+                text: '',
+            }
+          },
+          legend: {
+            enabled: false
+          },
+          plotOptions: {
+            area: {
+              fillColor: {
+                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
+                  stops: [
+                      [0, Highcharts.getOptions().colors[0]],
+                      [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                  ]
+              },
+              marker: {
+                radius: 4
+              },
+              lineWidth: 2,
+              states: {
+                hover: {
+                    lineWidth: 1
+                }
+              },
+              threshold: null
+            }
+          },
+        },
+        series: [{
+            type: 'area',
+            name: '',
+            pointInterval: 3600 * 820,
+            data: $scope.lastData
+        }]
+      };
+
+      $scope.dataDownload = function() {
+        var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');
+        var to = $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd');
+        angular.element("body")
+          .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true&format='+$scope.downloadform.format+'" style="display:none"></iframe>')
+      }
+
+      $scope.dateOptions = {
+        formatYear: 'yy',
+        startingDay: 1
+      };
+
+      $scope.openDatepicker = function($event) {
+        $event.preventDefault();
+        $event.stopPropagation();
+
+        if($event.currentTarget.id === "datepicker1") {
+          $scope.opened1 = true;
+          $scope.opened2 = false;
+        } else if($event.currentTarget.id === "datepicker2") {
+          $scope.opened2 = true;
+          $scope.opened1 = false;
+        }
+        
       };
     }]);

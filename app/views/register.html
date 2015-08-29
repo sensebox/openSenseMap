@@ -44,25 +44,25 @@
           </div>
 
           <!-- NAME -->
-           <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname) }">
-             <label class="control-label">{{ 'FIRSTNAME' | translate}}*</label>
-             <input type="text" name="firstname" class="form-control" ng-model="user.firstname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}</p>
-           </div>
+          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname) }">
+           <label class="control-label">{{ 'FIRSTNAME' | translate}}*</label>
+           <input type="text" name="firstname" class="form-control" ng-model="user.firstname" required>
+           <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}</p>
+          </div>
 
-           <!-- USERNAME -->
-           <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname) }">
-             <label class="control-label">{{ 'LASTNAME' | translate }}*</label>
-             <input type="text" name="lastname" class="form-control" ng-model="user.lastname" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}</p>
-           </div>
+          <!-- USERNAME -->
+          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname) }">
+           <label class="control-label">{{ 'LASTNAME' | translate }}*</label>
+           <input type="text" name="lastname" class="form-control" ng-model="user.lastname" required>
+           <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}</p>
+          </div>
 
-           <!-- EMAIL -->
-           <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email) }">
-             <label class="control-label">{{ 'EMAIL' | translate }}*</label>
-             <input type="email" name="email" class="form-control" ng-model="user.email" required>
-             <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
-           </div>
+          <!-- EMAIL -->
+          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email) }">
+           <label class="control-label">{{ 'EMAIL' | translate }}*</label>
+           <input type="email" name="email" class="form-control" ng-model="user.email" required>
+           <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
+          </div>
         </form>
         <form class="tab-pane" id="second" name="secondForm" rc-submit="goToMap()" rc-step novalidate>
           <hr>
@@ -105,7 +105,7 @@
           </div> -->
 
           <!-- ID -->
-          <div class="form-group">
+          <!-- <div class="form-group">
             <label class="control-label">SenseBox ID</label>
             <div class="input-group">
                 <input type="text" name="id" class="form-control" ng-model="newSenseBox.orderID" readonly>
@@ -113,7 +113,7 @@
                   <button class="btn btn-default" clip-copy="newSenseBox.orderID" clip-click-fallback="fallback(copy)" type="button"><i class="fa fa-clipboard"></i></button>
                 </span>
               </div>
-          </div>
+          </div> -->
         </form>
         <form class="tab-pane" id="third" name="thirdForm" rc-submit rc-step>
           <hr>
@@ -130,7 +130,7 @@
             <input name="lng" class="form-control" type="text" ng-model="markers.box.lng" required />
           </div>
           <div id="register-map">
-            <leaflet controls="controls" center="center" markers="markers" width="100%" height="350px"></leaflet>
+            <leaflet controls="controls" center="center" markers="markers" defaults="defaults" width="100%" height="350px"></leaflet>
           </div>
         </form>
         <form class="tab-pane" id="fourth" name="fourthForm" rc-step>

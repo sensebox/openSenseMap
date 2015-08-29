@@ -55,7 +55,7 @@
   "PLEASE_SPECIFY_EMAIL": "Bitte gib deine E-Mail-Adresse an",
   "NAME_YOUR_STATION": "Name deiner Station",
   "PLEASE_SPECIFY_STATIONNAME": "Bitte gib hier einen Namen für deine SenseBox an.",
-  "STATION_PLACEMENT": "Aufstellungsort",
+  "STATION_PLACEMENT": "Geplanter Aufstellungsort",
   "PLEASE_SPECIFY_PLACEMENT": "Bitte wähle einen Aufstellungsort für deine SenseBox aus.",
   "GROUP_NAME": "Gruppenkennzeichnung",
   "PLEASE_SPECIFY_GROUPID": "Optionales Prefix für eine Gruppe von SenseBoxen",

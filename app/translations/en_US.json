@@ -55,7 +55,7 @@
   "PLEASE_SPECIFY_EMAIL": "Please add your email address",
   "NAME_YOUR_STATION": "Name of your station",
   "PLEASE_SPECIFY_STATIONNAME": "Please specify a name for your station",
-  "STATION_PLACEMENT": "Location",
+  "STATION_PLACEMENT": "Planned location",
   "PLEASE_SPECIFY_PLACEMENT": "Please specifiy your station's location",
   "PLEASE_SPECIFY_GROUPID": "Optional prefix for groups of SenseBoxes",
   "GROUP_NAME": "Group identifier",

@@ -31,7 +31,7 @@ angular.module('openSenseMapApp')
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
         {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
         {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
-        {value: 7, text: 'UV', unit: 'UV-Index', type: 'GUVA-S12D'},
+        {value: 7, text: 'UV', unit: 'µW/cm²', type: 'GUVA-S12D'},
         {value: 8, text: 'Kamera', unit: '', type: ''},
       ];
 

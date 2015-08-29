@@ -222,6 +222,7 @@ angular.module('openSenseMapApp')
           template: '../../views/app_info_modal.html',
           className: 'ngdialog-theme-default',
           scope: $scope,
+          showClose: false,
           controller: ['$scope', '$filter', function($scope, $filter) {
             // controller logic
           }]

@@ -73,6 +73,27 @@ angular.module('openSenseMapApp')
         }
       }
 
+      $scope.defaults = {
+        tileLayer: "http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg", // Mapquest Open
+        tileLayerOptions: {
+          subdomains: "1234",
+          //attribution in info modal
+          detectRetina: true,
+          reuseTiles: true
+        },
+        scrollWheelZoom: true,
+        center: {
+          lat: 51.04139389812637,
+          lng: 10.21728515625,
+          zoom: 5
+        }
+      };
+      angular.extend($scope, {
+          center: {
+              autoDiscover: true
+          }
+      });
+
       var geoCoderControl = L.Control.geocoder({
         position: 'topleft',
         placeholder: 'Adresse suchen...'
@@ -184,7 +205,7 @@ angular.module('openSenseMapApp')
         {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
         {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
         {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
-        {value: 7, text: 'UV', unit: 'UV-Index', type: 'GUVA-S12D'},
+        {value: 7, text: 'UV', unit: 'µW/cm²', type: 'GUVA-S12D'},
         {value: 8, text: 'Kamera', unit: '', type: ''},
       ];
 
@@ -247,25 +268,31 @@ angular.module('openSenseMapApp')
 
       $scope.$on('leafletDirectiveMap.click', function(e, args) {
         if (Object.keys($scope.markers).length === 0) {
-          $scope.markers.box = {'lat':args.leafletEvent.latlng.lat,'lng':args.leafletEvent.latlng.lng};
+          $scope.markers.box = {
+            'lat': args.leafletEvent.latlng.lat,
+            'lng': args.leafletEvent.latlng.lng,
+            'draggable': true
+          };
         } else {
           $scope.markers.box.lat = args.leafletEvent.latlng.lat;
           $scope.markers.box.lng = args.leafletEvent.latlng.lng;
+          $scope.markers.box.draggable = true;
         }
       });
-
-      $scope.center = {
-        autoDiscover: true,
-      };
 
       $scope.markers = {};
 
       $scope.$on('leafletDirectiveMap.locationfound', function(e, args){
         if (Object.keys($scope.markers).length === 0) {
-          $scope.markers.box = {'lat':args.leafletEvent.latlng.lat,'lng':args.leafletEvent.latlng.lng};
+          $scope.markers.box = {
+            'lat': args.leafletEvent.latlng.lat,
+            'lng': args.leafletEvent.latlng.lng,
+            'draggable': true
+          };
         } else {
           $scope.markers.box.lat = args.leafletEvent.latlng.lat;
           $scope.markers.box.lng = args.leafletEvent.latlng.lng;
+          $scope.markers.box.draggable = true;
         }
         leafletData.getMap().then(function(map) {
           map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],16);

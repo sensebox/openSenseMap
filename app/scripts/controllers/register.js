@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData',
-    function($scope, $http, $q, $timeout, $filter, $location, leafletData){
+  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI',
+    function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI){
+      $scope.osemapi = OpenSenseBoxAPI;
 
       $scope.alerts = [];
       $scope.editing = false;
@@ -327,7 +328,7 @@ angular.module('openSenseMapApp')
           }
         }
 
-        $http.post('http://opensensemap.org:8000/boxes', $scope.newSenseBox)
+        $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
           .success( function (data) {
             var alert = {
               type: 'success',

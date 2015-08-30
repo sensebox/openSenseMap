@@ -1,6 +1,6 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .factory('OpenSenseBoxes', function ($resource) {
-    return $resource('http://opensensemap.org:8002/boxes', {});
-  });
+  .factory('OpenSenseBoxes', function ($resource, OpenSenseBoxAPI) {
+      return $resource(OpenSenseBoxAPI.url+'/boxes', {});
+    });

@@ -1,8 +1,9 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData',
-    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData) {
+  .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData', 'OpenSenseBoxAPI',
+    function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData, OpenSenseBoxAPI) {
+      $scope.osemapi = OpenSenseBoxAPI;
       $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
@@ -299,7 +300,7 @@ angular.module('openSenseMapApp')
           var boxid = $scope.selectedMarker._id;
         };
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put('http://opensensemap.org:8002/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
+        $http.put($scope.osemapi.url+'/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
             $scope.editableMode = !$scope.editableMode;
             $scope.selectedMarker = data;
@@ -587,7 +588,7 @@ angular.module('openSenseMapApp')
         var from = $filter('date')(new Date($scope.downloadform.dateFrom),'yyyy-MM-dd');
         var to = $filter('date')(new Date($scope.downloadform.dateTo),'yyyy-MM-dd');
         angular.element("body")
-          .append('<iframe src="http://opensensemap.org:8002/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true&format='+$scope.downloadform.format+'" style="display:none"></iframe>')
+          .append('<iframe src="'+$scope.osemapi.url+'/boxes/'+$rootScope.selectedBox+'/data/'+$scope.downloadform.sensorId+'?from-date='+from+'&to-date='+to+'&download=true&format='+$scope.downloadform.format+'" style="display:none"></iframe>')
       }
 
       $scope.dateOptions = {

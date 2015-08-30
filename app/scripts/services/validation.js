@@ -8,14 +8,14 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-  .factory('validation', function ($http, $q) {
+  .factory('validation', function ($http, $q, OpenSenseBoxAPI) {
 
     var service = {};
 
     var validApiKey = function (boxId, apiKey) {
       return $http({
         method: 'GET',
-        url: 'http://opensensemap.org:8002/users/'+boxId,
+        url: OpenSenseBoxAPI.url+'/users/'+boxId,
         headers: {
           'X-ApiKey':apiKey
         }

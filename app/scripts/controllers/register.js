@@ -6,8 +6,8 @@ angular.module('openSenseMapApp')
       $scope.osemapi = OpenSenseBoxAPI;
 
       $scope.alerts = [];
-      $scope.editing = false;
-      $scope.tmpSensor = {};
+      $scope.editing = {};
+      $scope.isCustom = {};
       $scope.models = {
         v2014: false,
         v2015: true,
@@ -119,28 +119,33 @@ angular.module('openSenseMapApp')
       };
 
       $scope.edit = function (index) {
-        $scope.tmpSensor = angular.copy($scope.sensors[index]);
+        $scope.editing[index]=true;
       }
 
       $scope.save = function (index) {
-        $scope.sensors[index] = angular.copy($scope.tmpSensor);
-        $scope.tmpSensor = {};
+        $scope.editing[index]=false;
       }
 
-      $scope.delete = function (index) {
+      $scope.remove = function (index) {
         $scope.sensors.splice(index,1);
+        $scope.isCustom[index]=false;
+        $scope.editing[index]=false;
+        for(var i=0; i < $scope.sensors.length; i++){
+          $scope.sensors[i].id=i;
+        }
       }
 
-      $scope.cancel = function(index) {
-        if ($scope.editing !== false) {
-          $scope.editing = false;
+      $scope.makeCustom = function(title, index) {
+        if(title=="Anderer"){
+          $scope.isCustom[index]=true;
+        } else {
+          return false;
         }
-        $scope.tmpSensor = {};
       }
 
       $scope.add = function () {
         var sensor = {
-          id: $scope.sensors.length + 1,
+          id: $scope.sensors.length,
           title: '',
           unit: '',
           sensorType: ''
@@ -208,15 +213,19 @@ angular.module('openSenseMapApp')
         {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
         {value: 7, text: 'UV', unit: 'µW/cm²', type: 'GUVA-S12D'},
         {value: 8, text: 'Kamera', unit: '', type: ''},
+        {value: 99, text: 'Anderer', unit: '', type: ''},
       ];
 
       $scope.showPhenomenom = function(sensor) {
+        if(sensor.title.trim().length==0){
+          return 'Not set';
+        }
         var selected = [];
         if(sensor.title) {
-          selected = $filter('filter')($scope.phenomenoms, {value: sensor.title});
+          selected = $filter('filter')($scope.phenomenoms, {text: sensor.title});
         }
 
-        return selected.length ? selected[0].text : 'Not set';
+        return selected.length ? selected[0].text : sensor.title;
       };
 
       $scope.generateID = function () {
@@ -314,7 +323,7 @@ angular.module('openSenseMapApp')
         if ($scope.models.custom) {
           for (var i = 0; i < $scope.sensors.length; i++) {
             $scope.newSenseBox.sensors = $scope.sensors;
-            $scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].title-1].text;
+            //$scope.sensors[i].title = $scope.phenomenoms[$scope.sensors[i].id-1].text;
           }
         } else {
           if ($scope.models.v2014) {
@@ -325,6 +334,8 @@ angular.module('openSenseMapApp')
             $scope.newSenseBox.model = "senseboxphotonikwifi";
           } else if ($scope.models.ethernet) {
             $scope.newSenseBox.model = "senseboxphotonikethernet";
+          } else if($scope.models.custom) {
+            $scope.newSenseBox.model = "custom";
           }
         }
 

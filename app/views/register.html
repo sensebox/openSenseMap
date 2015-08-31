@@ -172,36 +172,37 @@
                 <tbody>
                   <tr ng-repeat="sensor in sensors">
                     <td>
-                      <span ng-hide="editMode">{{showPhenomenom(sensor)}}</span>
-                      <select class="form-control" ng-show="editMode" ng-model="tmpSensor.title" ng-options="s.value as (s.text | translate) for s in phenomenoms" ng-required></select>
+                      <span ng-hide="editing[sensor.id]">{{showPhenomenom(sensor)}}</span>
+                      <input class="form-control" ng-show="editing[sensor.id] && isCustom[sensor.id]" ng-model="sensor.title">
+                      <select class="form-control" ng-show="editing[sensor.id] && !isCustom[sensor.id]" ng-change="makeCustom(sensor.title, sensor.id)" ng-model="sensor.title" ng-required>
+                        <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
+                      </select>
+                    </td>
+                    <td>{{sensor.id}}
+                      <span ng-hide="editing[sensor.id]">{{sensor.unit}}</span>
+                      <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.unit" ng-required />
                     </td>
                     <td>
-                      <span ng-hide="editMode">{{sensor.unit}}</span>
-                      <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.unit" ng-required />
-                    </td>
-                    <td>
-                      <span ng-hide="editMode">{{sensor.sensorType}}</span>
-                      <input type="text" class="form-control" ng-show="editMode" ng-model="tmpSensor.sensorType" ng-required />
+                      <span ng-hide="editing[sensor.id]">{{sensor.sensorType}}</span>
+                      <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.sensorType" ng-required />
                     </td>
                     <td style="white-space: nowrap">
-                      <button type="button" class="btn btn-primary" ng-hide="editMode" ng-click="editMode = true; edit($index);">
-                        <span class="glyphicon glyphicon-edit"></span>
+                      <button type="button" class="btn btn-primary" ng-hide="editing[sensor.id]" ng-click="edit(sensor.id);">
+                        <span class="glyphicon glyphicon-edit"></span> Ändern
                       </button>
-                      <button type="button" class="btn btn-danger" ng-hide="editMode" ng-click="delete($index);">
-                        <span class="glyphicon glyphicon-minus"></span>
+                      <button type="button" class="btn btn-danger" ng-hide="editing[sensor.id]" ng-click="remove(sensor.id);">
+                        <span class="glyphicon glyphicon-minus"></span> Löschen
                       </button>
-                      <button type="button" class="btn btn-primary" ng-show="editMode" ng-click="editMode = false; save($index);">
-                        <span class="glyphicon glyphicon-floppy-save"></span>
+                      <button type="button" class="btn btn-primary" ng-show="editing[sensor.id]" ng-click="save(sensor.id);">
+                        <span class="glyphicon glyphicon-floppy-disk"></span> Speichern
                       </button>
-                      <button type="button" class="btn btn-danger" ng-show="editMode" ng-click="editMode = false; cancel();">
-                        <span class="glyphicon glyphicon-floppy-remove"></span>
-                      </button>
+                      {{editMode}}
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <div class="col-lg-12" style="text-align:center;">
-                <button type="button" ng-click="add();" class ="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
+              <div class="col-lg-12">
+                <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                 <hr>
               </div>
             </accordion-group>
@@ -227,7 +228,7 @@
             {{'GROUP_NAME'|translate}}: {{newSenseBox.tag}} <br>
             Typ: {{newSenseBox.boxType}} <br>
             {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
-            ApiKey: {{newSenseBox.orderID}} <br>
+            API-Key: {{newSenseBox.orderID}} <br>
           </div>
           <alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></alert>
         </form>

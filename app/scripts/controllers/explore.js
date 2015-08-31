@@ -438,29 +438,31 @@ angular.module('openSenseMapApp')
       });
 
       if ($location.path() !== "/launch") {
-      OpenSenseBoxes.query(function(response){
-        for (var i = 0; i <= response.length - 1; i++) {
-          var tempMarker = {};
-          tempMarker.phenomenons = []
-          tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
-          tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
-          tempMarker.id = response[i]._id;
-          if (_.contains(photonikBoxes, tempMarker.id)) {
-            tempMarker.icon = icons.iconG;
-          } else {
-            tempMarker.icon = icons.iconC;
+        OpenSenseBoxes.query(function(response){
+          for (var i = 0; i <= response.length - 1; i++) {
+            var tempMarker = {};
+            tempMarker.phenomenons = []
+            tempMarker.lng = response[i].loc[0].geometry.coordinates[0];
+            tempMarker.lat = response[i].loc[0].geometry.coordinates[1];
+            tempMarker.id = response[i]._id;
+            if (_.contains(photonikBoxes, tempMarker.id)) {
+              tempMarker.icon = icons.iconG;
+            } else {
+              tempMarker.icon = icons.iconC;
+            }
+            tempMarker.name = response[i].name;
+            tempMarker.sensors = response[i].sensors;
+            tempMarker.image = response[i].image;
+            for (var j = response[i].sensors.length - 1; j >= 0; j--) {
+              tempMarker.phenomenons.push(response[i].sensors[j].title);
+
+            };
+            $scope.markers.push(tempMarker);
           }
-          tempMarker.name = response[i].name;
-          tempMarker.sensors = response[i].sensors;
-          tempMarker.image = response[i].image;
-          for (var j = response[i].sensors.length - 1; j >= 0; j--) {
-            tempMarker.phenomenons.push(response[i].sensors[j].title);
-          };
-          $scope.markers.push(tempMarker);
-        }
-        $scope.mapMarkers = $scope.markers;
-      });
+          $scope.mapMarkers = $scope.markers;
+        });
       }
+
       $scope.stopit = function() {
         $timeout.cancel($scope.prom);
       };
@@ -469,31 +471,28 @@ angular.module('openSenseMapApp')
 
       $scope.getMeasurements = function() {
         // console.log($scope.selectedMarker);
-        var box = '';
-        if ($scope.selectedMarker.id) {
-          box = $scope.selectedMarker.id;
-        } else {
-          box = $scope.selectedMarker._id;
-        }
+        var box = $scope.selectedMarker.id || $scope.selectedMarker._id
+        $scope.chartConfigs = [];
+
         //$scope.prom = $timeout($scope.getMeasurements, $scope.delay);
         OpenSenseBoxesSensors.query({boxId:box}, function(response) {
           $scope.selectedMarkerData = response;
-          console.log($scope.selectedMarkerData);
         });
       };
 
       $scope.getData = function(selectedSensor){
-        //$scope.chartConfig.loading = true;
         $scope.selectedSensor = selectedSensor;
       	var initDate = new Date();
       	var endDate = '';
         var box = $scope.selectedMarker.id || $scope.selectedMarker._id;
         
         // Get the date of the last taken measurement for the selected sensor
-        for (var i = 0; i < 6; i++)
-        {
-        	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id)
-        	{
+        for (var i = 0; i < $scope.selectedMarker.sensors.length; i++){
+        	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id){
+            
+            console.log($scope.selectedMarker);
+            $scope.chartConfigs[$scope.selectedMarker.sensors[i]._id] = chartConfigDefaults;
+            
             if($scope.selectedMarker.sensors[i].lastMeasurement != null) { // means that there is no data for this sensor
               endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
             }
@@ -502,36 +501,42 @@ angular.module('openSenseMapApp')
         	}
         }
         
-        // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate})
           .$promise.then(function(response){
             for (var i = 0; i < response.length; i++) {
               var d = new Date(response[i].createdAt);
-              var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
               $scope.lastData.push([
-                dd,
-                parseInt(response[i].value)
+                Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds()),
+                parseFloat(response[i].value)
               ]);
             };
-            $scope.chartConfig.loading = false;
             $scope.updateCharts(selectedSensor);
           });
       };
       
       // Update chart data according to the selected sensor(title, yaxis)
       $scope.updateCharts = function(sensor){
-      	$scope.chartConfig.options.title.text = $filter('translate')(sensor.title);
-        $scope.chartConfig.series[0].name = $filter('translate')(sensor.unit);
-      	$scope.chartConfig.options.yAxis.title.text = $filter('translate')(sensor.unit);
+      	$scope.chartConfigs[sensor._id].options.title.text = $filter('translate')(sensor.title);
+        $scope.chartConfigs[sensor._id].series[0].name = $filter('translate')(sensor.unit);
+      	$scope.chartConfigs[sensor._id].options.yAxis.title.text = $filter('translate')(sensor.unit);
+        $scope.chartConfigs[sensor._id].loading = false;
       };
      
       // Charts
-      $scope.chartConfig = {
+      $scope.chartConfigs = [];
+      var chartConfigDefaults = {
         loading: true,
         options: {
           tooltip: {
-            xDateFormat: '%Y-%m-%d %H:%M:%S',
+            formatter: function(){
+              var d = new Date(this.x);
+              var htmlstring = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S.', d) +
+                '<br><span style="color:'+this.series.color+'">●</span> ' + 
+                this.y + ' ' + this.series.name;
+              return htmlstring;
+            },
+            xDateFormat: '%Y-%m-%d %H:%M:%S'
           },
           chart: {
             zoomType: 'x',
@@ -553,12 +558,18 @@ angular.module('openSenseMapApp')
           },
           legend: {
             enabled: false
+          },
+          plotOptions: {
+            scatter: {
+              animation: false,
+              marker: { radius: 2 },
+            }
           }
         },
         series: [{
           type: 'scatter',
           name: '',
-          pointInterval: 3600 * 820,
+          pointInterval: 3600 * 24 * 15,
           data: $scope.lastData
         }]
       };

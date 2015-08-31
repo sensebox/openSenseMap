@@ -38,7 +38,7 @@
                     {{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span></span>
                   </accordion-heading>
                   <div style="min-width: 100px; min-height: 100px;margin: 100 auto" >
-                    <highchart config="chartConfig" class="span10"></highchart>
+                    <highchart config="chartConfigs[sensor._id]" class="span10"></highchart>
                   </div>
                 </accordion-group>
               </accordion>

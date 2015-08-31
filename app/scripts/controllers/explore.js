@@ -4,7 +4,6 @@ angular.module('openSenseMapApp')
   .controller('ExploreCtrl', [ '$rootScope', '$scope', '$http', '$filter', '$timeout', '$location', '$routeParams', 'OpenSenseBoxes', 'OpenSenseBoxesSensors', 'OpenSenseBox', 'OpenSenseBoxData', 'leafletEvents', 'validation', 'ngDialog', 'leafletData', 'OpenSenseBoxAPI',
     function($rootScope, $scope, $http, $filter, $timeout, $location, $routeParams, OpenSenseBoxes, OpenSenseBoxesSensors, OpenSenseBox, OpenSenseBoxData, leafletEvents, Validation, ngDialog, leafletData, OpenSenseBoxAPI) {
       $scope.osemapi = OpenSenseBoxAPI;
-      $scope.isCollapsed = false;
       $scope.selectedMarker = '';
       $scope.selectedMarkerData = [];
       $scope.markers = [];
@@ -17,6 +16,12 @@ angular.module('openSenseMapApp')
       $scope.filterPanel = false;
       $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
+
+      // side panel statuses
+      $scope.sidebarActive = false;
+      $scope.editIsCollapsed = true;
+      $scope.deleteIsCollapsed = true;
+      $scope.editableMode = false;
 
       // variables for charts
       $scope.oneAtATime = true;
@@ -198,10 +203,7 @@ angular.module('openSenseMapApp')
       ];
       $scope.selectedFilterOption = 'Phänomen';
 
-      $scope.sidebarActive = false;
-      $scope.editIsCollapsed = false;
-      $scope.deleteIsCollapsed = false;
-      $scope.editableMode = false;
+      
 
       var icons = {
         iconC: {
@@ -294,13 +296,14 @@ angular.module('openSenseMapApp')
       }
 
       $scope.saveChange = function (event) {
-        if ($scope.selectedMarker.id !== undefined) {
-          var boxid = $scope.selectedMarker.id;
-        } else {
-          var boxid = $scope.selectedMarker._id;
-        };
+        console.log("Saving change");
+        var boxid = $scope.selectedMarker.id || $scope.selectedMarker._id;
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
-        $http.put($scope.osemapi.url+'/boxes/'+boxid,{image:imgsrc},{headers: {'X-ApiKey':$scope.apikey.key}}).
+        var newBoxData = {
+          tmpSensorName: $scope.tmpSensor.name, 
+          image:imgsrc
+        }
+        $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, {headers: {'X-ApiKey':$scope.apikey.key}}).
           success(function(data,status){
             $scope.editableMode = !$scope.editableMode;
             $scope.selectedMarker = data;
@@ -309,10 +312,9 @@ angular.module('openSenseMapApp')
             } else {
               $scope.image = data.image;
             }
-
           }).
           error(function(data,status){
-
+            // todo: display an error message
           });
       }
 
@@ -323,6 +325,7 @@ angular.module('openSenseMapApp')
       }
 
       $scope.deleteBox = function() {
+        // to do
       }
 
       $scope.checkName = function(data) {
@@ -379,12 +382,8 @@ angular.module('openSenseMapApp')
 
       $scope.apikey = {};
       $scope.enableEditableMode = function () {
-        var boxId = "";
-        if ($scope.selectedMarker.id === undefined) {
-          boxId = $scope.selectedMarker._id;
-        } else {
-          boxId = $scope.selectedMarker.id;
-        }
+        var boxId = $scope.selectedMarker._id || $scope.selectedMarker.id;
+
         Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
           if (status === 200) {
             $scope.editableMode = !$scope.editableMode;

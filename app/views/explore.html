@@ -34,8 +34,8 @@
               <accordion close-others="oneAtATime">
                 <accordion-group ng-click="getData(sensor);" ng-repeat="sensor in selectedMarkerData.sensors">
                   <accordion-heading>
-                    <i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i>
-                    {{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span>
+                    <span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i>
+                    {{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span></span>
                   </accordion-heading>
                   <div style="min-width: 100px; min-height: 100px;margin: 100 auto" >
                     <highchart config="chartConfig" class="span10"></highchart>
@@ -47,15 +47,12 @@
           <div role="tabpanel" class="tab-pane" id="tabInfo">
 
             <div flow-init="{singleFile:true}" flow-file-added="added($file,$event)" flow-drop>
-              <div class="thumbnail" ng-hide="editableMode">
-                <img ng-src="images/{{image}}" alt="" ng-hide="editableMode">
-              </div>
-              <div class="thumbnail" ng-show="$flow.files.length && editableMode">
-                <img id="image" flow-img="$flow.files[0]" />
+              <div class="thumbnail">
+                <img ng-src="/userimages/{{image}}" ng-hide="$flow.files.length && editableMode" alt="Image for {{ selectedMarker.name || 'Filter' }}">
+                <img id="image" flow-img="$flow.files[0]" ng-show="$flow.files.length && editableMode">
               </div>
               <div ng-show="editableMode">
-                <span class="btn btn-primary" ng-show="!$flow.files.length" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>
-                <span class="btn btn-info" ng-show="$flow.files.length" flow-btn>{{ 'CHANGE' | translate }}</span>
+                <span class="btn btn-primary" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>
                 <span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">{{ 'REMOVE' | translate }}</span>
                 <p ng-show="editableMode">{{ 'SETTINGS_IMAGE_RESTRICTIONS' | translate }}</p>
               </div>
@@ -67,15 +64,41 @@
           
           <div role="tabpanel" class="tab-pane" id="tabManage">
 
-            <i class="fa fa-cog pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="editIsCollapsed = !editIsCollapsed; deleteIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'SETTINGS' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-floppy-o pull-right close" ng-show="editableMode" ng-click="saveChange($event)" tooltip="{{'SAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-times-circle pull-right close" ng-show="editableMode" ng-click="discardChanges()" tooltip="{{'DONTSAVE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-trash-o pull-right close" ng-hide="editableMode" ng-show="sidebarDetails" ng-click="deleteIsCollapsed = !deleteIsCollapsed; editIsCollapsed = false; downloadIsCollapsed = false;" tooltip="{{'DELETE' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
-            <i class="fa fa-download pull-right close" ng-click="downloadIsCollapsed = !downloadIsCollapsed; deleteIsCollapsed = false; editIsCollapsed = false;" tooltip="{{'DOWNLOADSKETCH' | translate}}" tooltip-trigger tooltip-placement="bottom"> </i>
+            <div class="row">
+              <alert type="default">
+                Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Bearbeiten:
+                <form>
+                  <div class="form-group">
+                    <input name="apiKey" class="form-control" type="text" ng-model="apikey.key" placeholder="SenseBox ApiKey">
+                  </div>
+                  <div class="form-group">
+                    <button ng-show="!editableMode" ng-click="enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp; Bearbeiten</button>
+                    <button ng-show="editableMode" ng-click="saveChange()" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Speichern</button>
+                    <button ng-show="editableMode" ng-click="discardChanges()" class="btn btn-warning col-md-6"><i class="fa fa-times"></i>&nbsp; Abbrechen</button>
+                  </div>
+                </form>
+              </alert>
+            </div>
 
-            <div class="row" ng-show="editIsCollapsed || deleteIsCollapsed || downloadIsCollapsed">
-              <alert type="warning" ng-show="downloadIsCollapsed">
-                Um die Daten deiner SenseBox herunterzuladen gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
+            <div class="row" ng-show="editableMode">
+              <alert type="info">
+                Du kannst jetzt den Titel deiner Sensebox ändern und das Bild im Abschnitt "Information" ändern. Klicke im Anschluss auf <b>Speichern</b>.
+              </alert>
+            </div>
+
+            <div class="row" ng-show="editableMode">
+              <alert type="default">
+                <form>
+                  <div class="form-group">
+                    <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Sketch erunterladen</a></button>
+                  </div>
+                </form>
+              </alert>
+            </div>
+            
+            <!--<div class="row" ng-show="editableMode">
+              <alert type="warning">
+                Um den Sketch deiner SenseBox herunterzuladen gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Herunterladen:
                 <form>
                   <div class="form-group">
                     <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
@@ -85,19 +108,8 @@
                   </div>
                 </form>
               </alert>
-              <alert type="warning" ng-show="editIsCollapsed">
-                Um die Eingeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox ApiKey</strong> ein und klicke auf Bearbeiten:
-                <form>
-                  <div class="form-group">
-                    <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
-                  </div>
-                  <div class="form-group">
-                    <button ng-click="enableEditableMode()" class="btn btn-warning form-control"><i class="fa fa-pencil"></i>&nbsp; Bearbeiten</button>
-                  </div>
-                </form>
-              </alert>
-              <alert type="danger" ng-show="deleteIsCollapsed">
-                Um deine SenseBox und alle Messdaten zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+              <alert type="danger" ng-show="editableMode">
+                Um deine SenseBox und alle Messdaten unwiderruflich zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
                 <form name="deleteSenseBox" ng-submit="deleteBox()">
                   <div class="form-group" ng-class="{ 'has-error' : secError}">
                     <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
@@ -108,10 +120,10 @@
                     <p ng-show="secError" class="help-block">{{secErrorText}}</p>
                   </div>
                   <div class="form-group">
-                    <button type="submit" class="btn btn-danger form-control"><i class="fa fa-trash-o"></i>&nbsp; Löschen</button>
+                    <button type="submit" ng-click="deleteBox()" class="btn btn-danger form-control"><i class="fa fa-trash-o"></i>&nbsp; Löschen</button>
                   </div>
                 </form>
-              </alert>
+              </alert>-->
 
             </div> <!-- end tabManage pange -->
 
@@ -126,7 +138,7 @@
       	<div class="col-xs-12 col-md-12">
       	  <h3>
       	    {{'FILTER'|translate}}
-            <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
       	  </h3>
       	</div>
       </div>
@@ -158,7 +170,7 @@
         <div class="col-xs-12 col-md-12">
           <h3>
             Download
-            <i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+            <i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
           </h3>
         </div>
       </div>

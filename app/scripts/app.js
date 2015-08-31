@@ -71,6 +71,7 @@ angular
     $translateProvider.fallbackLanguage('de_DE');
     $translateProvider.preferredLanguage('de_DE');
     $translateProvider.determinePreferredLanguage();
+    $translateProvider.useSanitizeValueStrategy('escaped');
   })
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
     $scope.key="de";

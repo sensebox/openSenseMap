@@ -482,48 +482,49 @@ angular.module('openSenseMapApp')
           console.log($scope.selectedMarkerData);
         });
       };
-      
+
       $scope.getData = function(selectedSensor){
+        //$scope.chartConfig.loading = true;
         $scope.selectedSensor = selectedSensor;
-      	var box = '';
       	var initDate = new Date();
       	var endDate = '';
-        if ($scope.selectedMarker.id) {
-          box = $scope.selectedMarker.id;
-        } else {
-          box = $scope.selectedMarker._id;
-        }
+        var box = $scope.selectedMarker.id || $scope.selectedMarker._id;
         
         // Get the date of the last taken measurement for the selected sensor
         for (var i = 0; i < 6; i++)
         {
         	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id)
         	{
-        		endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
-            console.log($scope.selectedMarker);
+            if($scope.selectedMarker.sensors[i].lastMeasurement != null) { // means that there is no data for this sensor
+              endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
+            }
+            //console.log($scope.selectedMarker);
         		break;
         	}
         }
         
         // Calculate starting date - 30 days before!
         $scope.lastData.splice(0, $scope.lastData.length);
-      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate}, function(response){
-          $scope.chartConfig.loading = false;
-          for (var i = 0; i < response.length; i++) {
-            var d = new Date(response[i].createdAt);
-            var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
-            $scope.lastData.push([
-              dd,
-              parseInt(response[i].value)
-            ]);
-          };
-      	});
+      	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate})
+          .$promise.then(function(response){
+            for (var i = 0; i < response.length; i++) {
+              var d = new Date(response[i].createdAt);
+              var dd = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds());
+              $scope.lastData.push([
+                dd,
+                parseInt(response[i].value)
+              ]);
+            };
+            $scope.chartConfig.loading = false;
+            $scope.updateCharts(selectedSensor);
+          });
       };
       
       // Update chart data according to the selected sensor(title, yaxis)
-      $scope.update = function(sensor){
+      $scope.updateCharts = function(sensor){
       	$scope.chartConfig.options.title.text = $filter('translate')(sensor.title);
-      	$scope.chartConfig.series[0].name = $filter('translate')(sensor.unit);
+        $scope.chartConfig.series[0].name = $filter('translate')(sensor.unit);
+      	$scope.chartConfig.options.yAxis.title.text = $filter('translate')(sensor.unit);
       };
      
       // Charts
@@ -538,49 +539,28 @@ angular.module('openSenseMapApp')
             backgroundColor:'rgba(255, 255, 255, 1)'
           },
           title: {
-            text: $scope.selectedSensor,
+            text: ''
           },
           credits: {
             enabled: false
           },
           xAxis: {
-            type: 'datetime',
+            type: 'datetime'
           },
           yAxis: {
             title: {
-                text: '',
+              text: ''
             }
           },
           legend: {
             enabled: false
-          },
-          plotOptions: {
-            area: {
-              fillColor: {
-                  linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1},
-                  stops: [
-                      [0, Highcharts.getOptions().colors[0]],
-                      [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                  ]
-              },
-              marker: {
-                radius: 4
-              },
-              lineWidth: 2,
-              states: {
-                hover: {
-                    lineWidth: 1
-                }
-              },
-              threshold: null
-            }
-          },
+          }
         },
         series: [{
-            type: 'area',
-            name: '',
-            pointInterval: 3600 * 820,
-            data: $scope.lastData
+          type: 'scatter',
+          name: '',
+          pointInterval: 3600 * 820,
+          data: $scope.lastData
         }]
       };
 

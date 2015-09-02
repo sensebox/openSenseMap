@@ -178,7 +178,7 @@
                         <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
                       </select>
                     </td>
-                    <td>{{sensor.id}}
+                    <td>
                       <span ng-hide="editing[sensor.id]">{{sensor.unit}}</span>
                       <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.unit" ng-required />
                     </td>

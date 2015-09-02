@@ -343,12 +343,12 @@ angular.module('openSenseMapApp')
           .success( function (data) {
             var alert = {
               type: 'success',
-              msg: 'SenseBox wurde erfolgreich angelegt. Du wirst in 5 Sekunden auf die Erkunden-Seite weitergeleitet!'
+              msg: 'SenseBox wurde erfolgreich angelegt und du erhälst gleich eine Email mit allen wichtigen Informationen. Du wirst in 10 Sekunden auf die Erkunden-Seite weitergeleitet!'
             };
             $scope.alerts.push(alert);
             $timeout( function () {
               $location.path('/explore');
-            },5000);
+            },10000);
           })
           .error( function (err) {
             var alert = {

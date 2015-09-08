@@ -416,12 +416,12 @@ angular.module('openSenseMapApp')
       $scope.$on('leafletDirectiveMarker.click', function(e, args) {
         
         // Args will contain the marker name and other relevant information
-        // console.log(args);
+        //console.log(args);
         $scope.sidebarActive = true;
         $scope.detailsPanel = true;
         $scope.filterPanel = false;
         $scope.downloadPanel = false;
-        $scope.selectedMarker = $scope.filteredMarkers[args.markerName];
+        $scope.selectedMarker = $scope.filteredMarkers[args.modelName]; // see explore.html:160
 
         if ($scope.selectedMarker.image === undefined || $scope.selectedMarker.image === "") {
           $scope.image = "placeholder.png";

@@ -373,3 +373,8 @@ div.box {
   background-repeat: no-repeat;
   background-position: 50% 50%;
 }
+
+.panel-title > .accordion-toggle span:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

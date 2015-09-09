@@ -145,21 +145,35 @@
               <accordion-heading>
                 SenseBox Home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
               </accordion-heading>
-              <checkbox ng-model="models.v2014" ng-change="selectModel('2014');"></checkbox> Version 2014 (gekauft in 2014) <br><br>
-              <checkbox ng-model="models.v2015" ng-change="selectModel('2015');"></checkbox> Version 2015 (gekauft in 2015)
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()"> SenseBox Home mit Ethernet
+              </label>
+              <!--<br/>
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()"> SenseBox Home mit WLAN
+              </label>-->
             </accordion-group>
             <accordion-group is-open="open2">
               <accordion-heading>
-                SenseBox Photonik <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
+                SenseBox Basic <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
               </accordion-heading>
-              <checkbox ng-model="models.wifi" ng-change="selectModel('wifi');"></checkbox> Wifi <br><br>
-              <checkbox ng-model="models.ethernet" ng-change="selectModel('ethernet');"></checkbox> Ethernet
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicEthernet'" ng-change="checked()"> SenseBox Basic mit Ethernet
+              </label>
+              <!--<br/>
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicWifi'" ng-change="checked()"> SenseBox Basic mit WLAN
+              </label>-->
             </accordion-group>
             <accordion-group is-open="open3">
               <accordion-heading>
                 {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
               </accordion-heading>
-              <checkbox ng-model="models.custom" ng-change="selectModel('custom');"></checkbox> {{'MANUAL_CONFIGURATION'|translate}} <br><br>
+              <label class="checkbox-inline">
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'custom'" ng-change="checked()"> {{'MANUAL_CONFIGURATION'|translate}}
+              </label>
+              <br>
+              <br>
               <table class="table table-striped table-bordered">
                 <thead>
                   <tr style="font-weight: bold">
@@ -223,7 +237,7 @@
           </div>
           <h3>SenseBox</h3>
           <div class="well">
-            SenseBox Model: {{modelSelected}} <br>
+            SenseBox Model: {{modelSelected.name}} <br>
             SenseBox Name: {{newSenseBox.name}} <br>
             {{'GROUP_NAME'|translate}}: {{newSenseBox.tag}} <br>
             Typ: {{newSenseBox.boxType}} <br>
@@ -239,7 +253,7 @@
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength" ng-disabled="rc.sampleWizard.currentIndex == 3 && modelSelected.id==false">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"

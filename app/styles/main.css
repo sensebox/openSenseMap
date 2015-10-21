@@ -355,8 +355,16 @@ div.box {
   vertical-align: middle;
 }
 
-.navbar-brand {
+.navbar-default .navbar-brand {
   padding:10px;
+  font-family: BrixSlab-Bold;
+  font-size: 1.5em;
+  color: #4EAF47;
+}
+
+.navbar-default .navbar-brand img {
+  max-height: 36px;
+  margin-right: 10px;
 }
 
 #tabMeasurements h4.panel-title {

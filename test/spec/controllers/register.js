@@ -17,6 +17,9 @@ describe('Controller: RegisterCtrl', function () {
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {
-    expect(scope.awesomeThings.length).toBe(3);
+    expect(scope.alerts.length).toBe(0);
+    expect(scope.editing).toBeDefined();
+    expect(scope.isCustom).toBeDefined();
+    expect(scope.models).toBeDefined();
   });
 });

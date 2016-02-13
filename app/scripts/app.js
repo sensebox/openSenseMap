@@ -19,10 +19,15 @@ angular
     'flow',
     'ui.checkbox',
     'highcharts-ng',
-    'pascalprecht.translate'
+    'pascalprecht.translate',
+    'ui.router'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
+  .config(function ($stateProvider, $urlRouterProvider) {
+
+    $urlRouterProvider.otherwise('/explore');
+
+    //$routeProvider
+    /*$urlRouterProvider
       .when('/', {
         templateUrl: 'views/explore.html',
         controller: 'ExploreCtrl'
@@ -57,11 +62,32 @@ angular
       })
       .otherwise({
         redirectTo: '/'
+      });*/
+
+    $stateProvider
+      .state('explore.main', {
+        url: "/",
+        templateUrl: "views/explore.html",
+        controller: 'ExploreCtrl'
+      })
+      .state('explore', {
+        url: "/explore",
+        templateUrl: "views/explore.html",
+        controller: 'ExploreCtrl'
+      })
+      .state('explore.test', {
+        url: "/explore/filter",
+        templateUrl: "views/explore.test.html",
+        controller: function($scope) {
+          $scope.items = ["A", "List", "Of", "Items"];
+        }
       });
   })
+
   .config(['ngClipProvider', function(ngClipProvider) {
       ngClipProvider.setPath("bower_components/zeroclipboard/dist/ZeroClipboard.swf");
   }])
+
   .config(function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
         prefix: '../translations/',
@@ -73,6 +99,7 @@ angular
     $translateProvider.determinePreferredLanguage();
     $translateProvider.useSanitizeValueStrategy('escaped');
   })
+
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
     $scope.key="de";
     $scope.changeLang = function (key) {
@@ -90,11 +117,13 @@ angular
       console.log("box changed to "+$rootScope.selectedBox);
     });
   }])
+  
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);
     };
   }])
+
   .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     var original = $location.path;
     $rootScope.selectedBox = false;

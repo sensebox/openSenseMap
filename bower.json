@@ -22,7 +22,7 @@
     "ng-clip": "~0.2.6",
     "ng-flow": "~2",
     "angular-bootstrap-checkbox": "~0.4.0",
-    "font-awesome": "~4.2.0",
+    "font-awesome": "~4.4.0",
     "weather-icons": "~2.0",
     "bootstrap-languages": "https://github.com/usrz/bootstrap-languages.git#3ac2a3d",
     "angular-translate": "~2.9",
@@ -36,6 +36,22 @@
     "angular-scenario": "1.5"
   },
   "resolutions": {
-    "angular": "1.5"
+    "angular": "1.5",
+    "font-awesome": "~4.4.0"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
+        "less/bootstrap.less"
+      ]
+    },
+    "font-awesome": {
+      "main": [
+        "./css/font-awesome.css",
+        "./fonts/*"
+      ]
+    }
   }
 }

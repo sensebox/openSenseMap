@@ -1,0 +1,230 @@
+<div id="sidebar" ng-show="sidebarActive" style="background-position: 0px -5px;">
+	<div ng-show="detailsPanel">
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<h3>
+					<span ng-hide="editableMode">
+						{{ selectedMarker.name || 'Filter' }}
+						<i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+					</span>
+					
+					<input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
+				</h3>
+			</div>
+		</div>
+
+		<div class="row" role="tabpanel">
+			<!-- Nav tabs -->
+			<ul class="nav nav-tabs nav-justified" role="tablist">
+				<li role="presentation" class="active"><a href data-target="#tabMeasurements" aria-controls="tabMeasurements" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_MEASUREMENTS' | translate }}</a></li>
+				<li role="presentation"><a href data-target="#tabInfo" aria-controls="tabInfo" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_INFO' | translate }}</a></li>
+				<li role="presentation"><a href data-target="#tabManage" aria-controls="tabManage" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_MANAGE' | translate }}</a></li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content">
+				<div role="tabpanel" class="tab-pane active" id="tabMeasurements">
+					<div class="list-group">
+						<accordion close-others="oneAtATime">
+							<accordion-group ng-click="getData(sensor);" ng-repeat="sensor in selectedMarkerData.sensors">
+							<accordion-heading>
+							<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i>
+								{{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span></span>
+							</accordion-heading>
+							<div style="min-width: 100px; min-height: 100px;margin: 100 auto" >
+								<highchart config="chartConfigs[sensor._id]" class="span10"></highchart>
+							</div>
+						</accordion-group>
+					</accordion>
+				</div> <!-- end .list-group -->
+			</div> <!-- end #tabMeasurements pane -->
+
+			<div role="tabpanel" class="tab-pane" id="tabInfo">
+
+				<div flow-init="{singleFile:true}" flow-file-added="added($file,$event)" flow-drop>
+					<div class="thumbnail">
+						<img ng-src="/userimages/{{image}}" ng-hide="$flow.files.length && editableMode" alt="Image for {{ selectedMarker.name || 'Filter' }}">
+						<img id="image" flow-img="$flow.files[0]" ng-show="$flow.files.length && editableMode">
+					</div>
+					<div ng-show="editableMode">
+						<span class="btn btn-primary" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>
+						<span class="btn btn-danger" ng-show="$flow.files.length" ng-click="$flow.cancel()">{{ 'REMOVE' | translate }}</span>
+						<p ng-show="editableMode">{{ 'SETTINGS_IMAGE_RESTRICTIONS' | translate }}</p>
+					</div>
+				</div>
+			</div> <!-- end tabInfo pange -->
+			
+			<div role="tabpanel" class="tab-pane" id="tabManage">
+
+				<div class="row">
+					<alert type="default">
+						Um die Eigeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox API-Key</strong> ein und klicke auf Bearbeiten:
+						<form>
+							<div class="form-group">
+								<input name="apiKey" class="form-control" type="text" ng-model="apikey.key" placeholder="SenseBox ApiKey">
+							</div>
+							<div class="form-group">
+								<button ng-show="!editableMode" ng-click="enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp; Bearbeiten</button>
+								<button ng-show="editableMode" ng-click="saveChange()" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Speichern</button>
+								<button ng-show="editableMode" ng-click="discardChanges()" class="btn btn-warning col-md-6"><i class="fa fa-times"></i>&nbsp; Abbrechen</button>
+							</div>
+						</form>
+					</alert>
+				</div>
+
+				<div class="row" ng-show="editableMode">
+					<alert type="info">
+						Du kannst jetzt den Titel deiner Sensebox ändern und das Bild im Abschnitt "Information" ändern. Klicke im Anschluss auf <b>Speichern</b>.
+					</alert>
+				</div>
+
+				<div class="row" ng-show="editableMode">
+					<alert type="default">
+						<form>
+							<div class="form-group">
+								<button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Sketch erunterladen</a></button>
+							</div>
+						</form>
+					</alert>
+				</div>
+				
+        <!--<div class="row" ng-show="editableMode">
+          <alert type="warning">
+            Um den Sketch deiner SenseBox herunterzuladen gib deinen <strong>SenseBox API-Key</strong> ein und klicke auf Herunterladen:
+            <form>
+              <div class="form-group">
+                <input name="apiKey" class="form-control" type="text" ng-model="apikey.key">
+              </div>
+              <div class="form-group">
+                <button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Herunterladen</a></button>
+              </div>
+            </form>
+          </alert>
+          <alert type="danger" ng-show="editableMode">
+            Um deine SenseBox und alle Messdaten unwiderruflich zu löschen gib deine <strong>SenseBox ID und SenseBox Namen</strong> ein:
+            <form name="deleteSenseBox" ng-submit="deleteBox()">
+              <div class="form-group" ng-class="{ 'has-error' : secError}">
+                <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxid" placeholder="SenseBox ID" required>
+                <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : secError}">
+                <input class="form-control" type="text" ng-model="deleteSenseBox.senseboxname" placeholder="SenseBox Name" required>
+                <p ng-show="secError" class="help-block">{{secErrorText}}</p>
+              </div>
+              <div class="form-group">
+                <button type="submit" ng-click="deleteBox()" class="btn btn-danger form-control"><i class="fa fa-trash-o"></i>&nbsp; Löschen</button>
+              </div>
+            </form>
+        </alert>-->
+
+    </div> <!-- end tabManage pange -->
+</div>
+</div>
+
+
+</div>
+<div ng-show="filterPanel">
+	<div class="row">
+		<div class="col-xs-12 col-md-12">
+			<h3>
+				{{'FILTER'|translate}}
+				<i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<hr>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="input-group">
+				<div class="input-group-btn">
+					<select id="dynamic-options" class="nya-selectpicker" ng-model="selectedFilterOption" data-container="body" style="width:110px;">
+						<option ng-repeat="option in filterOpts" value="{{option.name}}">{{option.name|translate}}</option>
+					</select>
+				</div>
+				<input type="text" class="form-control" ng-model="searchText" aria-label="...">
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<hr>
+	</div>
+	<div class="row">
+		<alert ng-repeat="marker in (filteredMarkers = (markers | filterPhenomenons:selectedFilterOption:searchText))" type="success">{{marker.name}} <i class="fa fa-rocket pull-right close" ng-click="zoomTo(marker.lat,marker.lng)"></i></alert>
+	</div>
+</div> <!-- end filterPanel -->
+
+<div ng-show="downloadPanel">
+	<div class="row">
+		<div class="col-xs-12 col-md-12">
+			<h3>
+				Download
+				<i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<hr>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
+			<div class="form-group">
+				{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}
+
+				<p class="input-group">
+					<input ng-model="downloadform.dateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+					<span class="input-group-btn">
+						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+				<p class="input-group">
+					<input ng-model="downloadform.dateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+					<span class="input-group-btn">
+						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+				<br>
+				<button class="btn btn-info" ng-click="downloadform.daysAgo = 1">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+				<button class="btn btn-info" ng-click="downloadform.daysAgo = 7">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+				<button class="btn btn-info" ng-click="downloadform.daysAgo = 30">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+				<br><br>
+				{{ "DOWNLOAD_SELECTSENSOR" | translate }}
+				<select class="form-control" ng-model="downloadform.sensorId">
+					<option ng-repeat="p in selectedMarkerData.sensors" value="{{p._id}}">{{p.title | translate}} ({{p.unit}})</option>
+				</select>
+				<br>
+				{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
+
+				<br>
+				<input ng-model="downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked> 
+				<label for="formatCSV">CSV</label>
+				<br>
+				<input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON"> 
+				<label for="formatJSON">JSON</label>
+
+          <!--
+          <select class="form-control" ng-model="downloadform.format" ng-init="downloadform.format='JSON'">
+            <option>JSON</option>
+            <option>CSV</option>
+          </select>
+      -->
+      <br>
+      <alert type="info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></alert>
+      <br>
+      <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false; downloadform.pleaseWait = true;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+          <!--<alert type="info" ng-show="downloadform.pleaseWait">
+            <i class="fa fa-spinner fa-pulse"></i> Bitte warten, die Daten werden angefordert...
+          </alert>
+          <alert type="warning" ng-show="downloadform.emptyData">
+            Im ausgewählten Zeitraum liegen für diesen Sensor keine Daten vor.
+          </alert>
+          <alert type="warning" ng-show="downloadform.errorOccured">
+            Es ist ein Fehler aufgetreten.
+        </alert>-->
+    </div>
+</div>
+</div>
+</div>
+</div> <!-- end #sidebar -->

@@ -24,7 +24,7 @@ angular
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise('/explore');
+    $urlRouterProvider.otherwise('/');
 
     //$routeProvider
     /*$urlRouterProvider
@@ -65,22 +65,28 @@ angular
       });*/
 
     $stateProvider
-      .state('explore.main', {
-        url: "/",
-        templateUrl: "views/explore.html",
-        controller: 'ExploreCtrl'
-      })
       .state('explore', {
-        url: "/explore",
-        templateUrl: "views/explore.html",
-        controller: 'ExploreCtrl'
-      })
-      .state('explore.test', {
-        url: "/explore/filter",
-        templateUrl: "views/explore.test.html",
-        controller: function($scope) {
-          $scope.items = ["A", "List", "Of", "Items"];
+        url: '/',
+        views: {
+          '': {
+            controller: 'ExploreCtrl',
+            templateUrl: 'views/explore2.html'
+          },
+          // using @ to access the nested views within the "explore" state in explore2.html
+          'map@explore': {
+            controller: 'MapCtrl',
+            templateUrl: 'views/explore2.map.html'
+          },
+          'sidebar@explore': {
+            controller: 'SidebarCtrl',
+            templateUrl: 'views/explore2.sidebar.html'
+          }
         }
+      })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'views/register.html',
+        controller: 'RegisterCtrl'
       });
   })
 
@@ -125,6 +131,8 @@ angular
   }])
 
   .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+    $rootScope.$on("$stateChangeError", console.log.bind(console)); // TODO: remove
+
     var original = $location.path;
     $rootScope.selectedBox = false;
     $location.path = function (path, reload) {
@@ -138,3 +146,4 @@ angular
       return original.apply($location, [path]);
     };
   }]);
+

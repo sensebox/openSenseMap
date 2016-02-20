@@ -12,13 +12,13 @@ angular.module('openSenseMapApp')
       $scope.prom;
       $scope.delay = 60000;
       $scope.searchText = '';
-      $scope.detailsPanel = false;
+      $scope.detailsPanel = true; // TODO: set to false
       $scope.filterPanel = false;
       $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
 
       // side panel statuses
-      $scope.sidebarActive = false;
+      $scope.sidebarActive = true; // TODO: set to false
       $scope.editIsCollapsed = true;
       $scope.deleteIsCollapsed = true;
       $scope.editableMode = false;

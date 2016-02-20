@@ -8,6 +8,7 @@
     <title>openSenseMap</title>
     <meta name="description" content="OpenSenseMap is a platform for publishing and visualizing environmental sensor data.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <base href="/">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="icon" href="/images/sensebox-favicon.png" type="image/png">
@@ -54,6 +55,16 @@
                 </div>
                 <nav class="hidden-xs">
                     <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a ui-sref="explore">
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> Something
+                            </a>
+                        </li>
+                        <li>
+                            <a ui-sref="explore.filter">
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> Filter
+                            </a>
+                        </li>
                         <li>
                             <a href="{{'#/explore'}}">
                                 <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}

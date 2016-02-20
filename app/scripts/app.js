@@ -22,7 +22,8 @@ angular
     'pascalprecht.translate',
     'ui.router'
   ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+    $locationProvider.html5Mode(true);
 
     $urlRouterProvider.otherwise('/');
 
@@ -79,12 +80,51 @@ angular
           },
           'sidebar@explore': {
             controller: 'SidebarCtrl',
-            templateUrl: 'views/explore2.sidebar.html'
+            templateUrl: 'views/explore2.sidebar.html',
+          },
+          'panel@sidebar@explore': {
+            controller: function($scope) { $scope.thing = "something here"; },
+            templateUrl: 'views/explore2.sidebar.test.html'
+          }
+
+        }
+      })
+      .state('explore.boxdetails', {
+        url: 'explore/:id',
+        //templateUrl: 'views/explore2.test.html',
+        //controller: 'BoxdetailsCtrl'
+        views: {
+            'sidebar@explore': {
+              controller: function($scope) { $scope.thing = "BoxdetailsCtrl"; },
+              templateUrl: 'views/explore2.sidebar.test.html'
           }
         }
       })
+      .state('explore.filter', {
+        url: 'filter',
+        //templateUrl: 'views/explore2.test.html',
+        //controller: 'FilterCtrl'
+        views: {
+          'sidebar@explore': {
+            controller: function($scope) { $scope.thing = "FilterCtrl"; },
+            templateUrl: 'views/explore2.sidebar.test.html'
+          }
+        }
+      })
+      .state('explore.download', {
+        url: 'download/:id',
+        templateUrl: 'views/explore2.sidebar.test.html',
+        //controller: 'DownloadCtrl'
+        controller: function($scope) { $scope.thing = "DownloadCtrl"; }
+      })
+      .state('interpolation', {
+        url: 'interpolation',
+        parent: 'explore',
+        templateUrl: 'views/explore2.sidebar.test.html',
+        controller: function($scope){ $scope.thing = "InterpolationCtrl"; }
+      })
       .state('register', {
-        url: '/register',
+        url: 'register',
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
       });
@@ -130,7 +170,7 @@ angular
     };
   }])
 
-  .run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
+  /*.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
     $rootScope.$on("$stateChangeError", console.log.bind(console)); // TODO: remove
 
     var original = $location.path;
@@ -145,5 +185,5 @@ angular
       }
       return original.apply($location, [path]);
     };
-  }]);
+  }]);*/
 

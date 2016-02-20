@@ -8,6 +8,8 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+  var modRewrite = require('connect-modrewrite');
+  var serveStatic = require('serve-static');
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -82,7 +84,16 @@ module.exports = function (grunt) {
           base: [
             '.tmp',
             '<%= yeoman.app %>'
-          ]
+          ],
+          middleware: function(connect, options) {
+            var middlewares = [];
+
+            middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+            options.base.forEach(function(base) {
+              middlewares.push(serveStatic(base));
+            });
+            return middlewares;
+          }
         }
       },
       test: {

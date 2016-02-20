@@ -1,0 +1,74 @@
+<div id="sidebar" style="background-position: 0px -5px;">
+	<div>
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<h3>
+					Download
+					<i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+				</h3>
+			</div>
+		</div>
+		<div class="row">
+			<hr>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
+				<div class="form-group">
+					{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}
+
+					<p class="input-group">
+						<input ng-model="downloadform.dateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+						<span class="input-group-btn">
+							<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
+					<p class="input-group">
+						<input ng-model="downloadform.dateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+						<span class="input-group-btn">
+							<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</p>
+					<br>
+					<button class="btn btn-info" ng-click="downloadform.daysAgo = 1">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+					<button class="btn btn-info" ng-click="downloadform.daysAgo = 7">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+					<button class="btn btn-info" ng-click="downloadform.daysAgo = 30">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+					<br><br>
+					{{ "DOWNLOAD_SELECTSENSOR" | translate }}
+					<select class="form-control" ng-model="downloadform.sensorId">
+						<option ng-repeat="p in selectedMarkerData.sensors" value="{{p._id}}">{{p.title | translate}} ({{p.unit}})</option>
+					</select>
+					<br>
+					{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
+
+					<br>
+					<input ng-model="downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked> 
+					<label for="formatCSV">CSV</label>
+					<br>
+					<input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON"> 
+					<label for="formatJSON">JSON</label>
+
+			  <!--
+			  <select class="form-control" ng-model="downloadform.format" ng-init="downloadform.format='JSON'">
+				<option>JSON</option>
+				<option>CSV</option>
+			  </select>
+			  -->
+			  <br>
+			  <uib-alert type="info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></uib-alert>
+			  <br>
+			  <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false; downloadform.pleaseWait = true;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+				  <!--<alert type="info" ng-show="downloadform.pleaseWait">
+					<i class="fa fa-spinner fa-pulse"></i> Bitte warten, die Daten werden angefordert...
+				  </alert>
+				  <alert type="warning" ng-show="downloadform.emptyData">
+					Im ausgewählten Zeitraum liegen für diesen Sensor keine Daten vor.
+				  </alert>
+				  <alert type="warning" ng-show="downloadform.errorOccured">
+					Es ist ein Fehler aufgetreten.
+				</alert>-->
+			</div>
+		</div>
+	</div>
+	</div>
+</div>

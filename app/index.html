@@ -18,11 +18,13 @@
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
+    <link rel="stylesheet" href="bower_components/nya-bootstrap-select/dist/css/nya-bs-select.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-language/languages.min.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
@@ -57,7 +59,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a ui-sref="explore">
-                                <span class="glyphicon glyphicon glyphicon-cloud"></span> Something
+                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                             </a>
                         </li>
                         <li>
@@ -66,22 +68,12 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{'#/explore'}}">
-                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
-                            </a>
-                        </li>
-                       <!--  <li>
-                            <a href="{{'#/upload'}}">
-                                <span class="glyphicon glyphicon-export"></span> Daten hochladen
-                            </a>
-                        </li> -->
-                        <li>
-                            <a href="{{'#/download/'}}{{ box }}" ng-show="box">
+                            <a ui-sref="explore.download">
                                 <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
                         <li>
-                            <a href="{{'#/register'}}">
+                            <a ui-sref="register">
                                 <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
                         </li>
@@ -156,6 +148,7 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -164,10 +157,8 @@
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
-    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-    <script src="bower_components/nya-bootstrap-select/src/nya-bootstrap-select.js"></script>
+    <script src="bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular-underscore/angular-underscore.js"></script>
     <script src="bower_components/ngDialog/js/ngDialog.js"></script>
@@ -182,6 +173,7 @@
     <script src="bower_components/highcharts-release/highcharts-more.js"></script>
     <script src="bower_components/highcharts-release/modules/exporting.js"></script>
     <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

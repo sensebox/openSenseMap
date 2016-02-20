@@ -27,44 +27,6 @@ angular
 
     $urlRouterProvider.otherwise('/');
 
-    //$routeProvider
-    /*$urlRouterProvider
-      .when('/', {
-        templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl'
-      })
-      .when('/register', {
-        templateUrl: 'views/register.html',
-        controller: 'RegisterCtrl'
-      })
-      .when('/explore', {
-        templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl',
-      })
-      .when('/launch', {
-        templateUrl: 'views/explore.html',
-         controller: 'ExploreCtrl'
-      })
-      .when('/getid', {
-        templateUrl: 'views/getid.html',
-        controller: 'GetIdCtrl'
-      })
-      .when('/explore/:boxid', {
-        templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl',
-      })
-      .when('/download', {
-        templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl'
-      })
-      .when('/download/:boxid', {
-        templateUrl: 'views/explore.html',
-        controller: 'ExploreCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });*/
-
     $stateProvider
       .state('explore', {
         url: '/',
@@ -81,50 +43,44 @@ angular
           'sidebar@explore': {
             controller: 'SidebarCtrl',
             templateUrl: 'views/explore2.sidebar.html',
-          },
-          'panel@sidebar@explore': {
-            controller: function($scope) { $scope.thing = "something here"; },
-            templateUrl: 'views/explore2.sidebar.test.html'
           }
-
         }
       })
       .state('explore.boxdetails', {
-        url: 'explore/:id',
-        //templateUrl: 'views/explore2.test.html',
-        //controller: 'BoxdetailsCtrl'
+        url: '/explore/:id',
         views: {
             'sidebar@explore': {
               controller: function($scope) { $scope.thing = "BoxdetailsCtrl"; },
-              templateUrl: 'views/explore2.sidebar.test.html'
+              templateUrl: 'views/explore2.sidebar.box.html'
           }
         }
       })
       .state('explore.filter', {
-        url: 'filter',
-        //templateUrl: 'views/explore2.test.html',
-        //controller: 'FilterCtrl'
         views: {
           'sidebar@explore': {
             controller: function($scope) { $scope.thing = "FilterCtrl"; },
-            templateUrl: 'views/explore2.sidebar.test.html'
+            templateUrl: 'views/explore2.sidebar.filter.html'
           }
         }
       })
       .state('explore.download', {
-        url: 'download/:id',
-        templateUrl: 'views/explore2.sidebar.test.html',
-        //controller: 'DownloadCtrl'
-        controller: function($scope) { $scope.thing = "DownloadCtrl"; }
+        views: {
+          'sidebar@explore': {
+            controller: function($scope) { $scope.thing = "DownloadCtrl"; },
+            templateUrl: 'views/explore2.sidebar.download.html'
+          }
+        }
       })
-      .state('interpolation', {
-        url: 'interpolation',
-        parent: 'explore',
-        templateUrl: 'views/explore2.sidebar.test.html',
-        controller: function($scope){ $scope.thing = "InterpolationCtrl"; }
+      .state('explore.interpolation', {
+        views: {
+          'sidebar@explore': {
+            controller: function($scope){ $scope.thing = "InterpolationCtrl"; },
+            templateUrl: 'views/explore2.sidebar.test.html',
+          }
+        }
       })
       .state('register', {
-        url: 'register',
+        url: '/register',
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
       });

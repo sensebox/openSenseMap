@@ -4,13 +4,11 @@
 			<div class="col-xs-12 col-md-12">
 				<h3>
 					<span ng-hide="editableMode">
-						{{ selectedMarker }}
+						{{ selectedMarker.name }}
 						<i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
 					</span>
 					
 					<input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
-
-
 				</h3>
 			</div>
 		</div>
@@ -27,17 +25,17 @@
 			<div class="tab-content">
 				<div role="tabpanel" class="tab-pane active" id="tabMeasurements">
 					<div class="list-group">
-						<accordion close-others="oneAtATime">
-							<accordion-group ng-click="getData(sensor);" ng-repeat="sensor in selectedMarkerData.sensors">
-							<accordion-heading>
+						<uib-accordion close-others="oneAtATime">
+							<uib-accordion-group ng-click="getData(sensor);" ng-repeat="sensor in selectedMarkerData.sensors">
+							<uib-accordion-heading>
 							<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i>
 								{{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span></span>
-							</accordion-heading>
+							</uib-accordion-heading>
 							<div style="min-width: 100px; min-height: 100px;margin: 100 auto" >
 								<highchart config="chartConfigs[sensor._id]" class="span10"></highchart>
 							</div>
-						</accordion-group>
-					</accordion>
+						</uib-accordion-group>
+					</uib-accordion>
 				</div> <!-- end .list-group -->
 			</div> <!-- end #tabMeasurements pane -->
 
@@ -91,7 +89,6 @@
 				</div>
 				
 		    </div> <!-- end tabManage pange -->
-		</div>
 		</div>
 	</div> <!-- end ng-show="detailsPanel" -->
 </div> <!-- end #sidebar -->

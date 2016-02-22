@@ -29,7 +29,7 @@ angular
 
     $stateProvider
       .state('explore', {
-        url: '/',
+        url: '',
         views: {
           '': {
             //controller: 'ExploreCtrl',

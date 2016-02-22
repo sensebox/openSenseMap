@@ -32,7 +32,7 @@ angular
         url: '/',
         views: {
           '': {
-            controller: 'ExploreCtrl',
+            //controller: 'ExploreCtrl',
             templateUrl: 'views/explore2.html'
           },
           // using @ to access the nested views within the "explore" state in explore2.html
@@ -41,8 +41,8 @@ angular
             templateUrl: 'views/explore2.map.html'
           },
           'sidebar@explore': {
-            controller: 'SidebarCtrl',
-            templateUrl: 'views/explore2.sidebar.html',
+            //controller: 'SidebarBoxDetailsCtrl',
+            //templateUrl: 'views/explore2.sidebar.html',
           }
         }
       })
@@ -50,7 +50,7 @@ angular
         url: '/explore/:id',
         views: {
             'sidebar@explore': {
-              controller: function($scope) { $scope.thing = "BoxdetailsCtrl"; },
+              controller: 'SidebarBoxDetailsCtrl',
               templateUrl: 'views/explore2.sidebar.box.html'
           }
         }

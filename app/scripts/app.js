@@ -29,7 +29,7 @@ angular
 
     $stateProvider
       .state('explore', {
-        url: '',
+        url: '/',
         views: {
           '': {
             //controller: 'ExploreCtrl',
@@ -47,7 +47,7 @@ angular
         }
       })
       .state('explore.boxdetails', {
-        url: '/explore/:id',
+        url: 'explore/:id', // no leading / because it is a child of the 'explore' state
         views: {
             'sidebar@explore': {
               controller: 'SidebarBoxDetailsCtrl',

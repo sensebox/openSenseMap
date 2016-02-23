@@ -23,6 +23,21 @@ angular.module('openSenseMapApp')
 		zoom: 6
 	};
 
+	var icons = {
+		iconRed: {
+			type: 'awesomeMarker',
+			prefix: 'fa',
+			icon: 'cube',
+			markerColor: 'red',
+		},
+		iconGreen: {
+			type: 'awesomeMarker',
+			prefix: 'fa',
+			icon: 'cube',
+			markerColor: 'green'
+		}
+	};
+
 	$scope.controls = {};
 
 	/*
@@ -34,6 +49,7 @@ angular.module('openSenseMapApp')
 		console.log(response);
 		$scope.mapMarkers = response.map(function(obj){
 			return {
+				icon: icons.iconGreen,
 				lng: obj.loc[0].geometry.coordinates[0],
 				lat: obj.loc[0].geometry.coordinates[1],
 				station: {

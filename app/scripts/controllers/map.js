@@ -35,23 +35,40 @@ angular.module('openSenseMapApp')
 			prefix: 'fa',
 			icon: 'cube',
 			markerColor: 'green'
+		},
+		iconGray: {
+			type: 'awesomeMarker',
+			prefix: 'fa',
+			icon: 'cube',
+			markerColor: 'lightgray'
 		}
 	};
 
 	$scope.controls = {};
 
 	/*
-		Load markers
+		Query markers from API and put them in the $scope.mapMarkers array 
+		which the map uses to display markers
+
+		Inactive markers (no measurements in 30 days) are displayed with a gray icon instead of green
 	*/
 	$scope.markers = [];
 	$scope.mapMarkers = [];
 	OpenSenseBoxes.query(function(response){
 		console.log(response);
 		$scope.mapMarkers = response.map(function(obj){
+			var isActive = obj.sensors.some(function(cv, i, arr){
+				var now = Date.now();
+				return cv.lastMeasurement && 
+						cv.lastMeasurement.updatedAt && 
+						now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
+			});
 			return {
-				icon: icons.iconGreen,
+				icon: (isActive) ? icons.iconGreen : icons.iconGray,
 				lng: obj.loc[0].geometry.coordinates[0],
 				lat: obj.loc[0].geometry.coordinates[1],
+				opacity: (isActive) ? 1 : 0.7,
+				riseOnHover: true,
 				station: {
 					id: obj._id,
 					name: obj.name,
@@ -59,6 +76,7 @@ angular.module('openSenseMapApp')
 				}
 			};
 		});
+		console.log($scope.mapMarkers);
 	});
 
 	/*

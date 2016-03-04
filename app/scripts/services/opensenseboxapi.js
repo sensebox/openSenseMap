@@ -10,7 +10,7 @@
 angular.module('openSenseMapApp')
   .factory('OpenSenseBoxAPI', function ($resource) {
   	var api = {
-  		//url: 'http://opensensemap.org:8000'
+  		//url: 'http://api.opensensemap.org'
   		url: 'http://localhost:8000'
   	};
     return api;

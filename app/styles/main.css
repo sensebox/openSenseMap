@@ -172,10 +172,6 @@ a:hover {
   background-color: #f4f4f4;
 }
 
-.leaflet-control-attribution {
-  display:none;
-}
-
 #sidebar {
   position: absolute;
   padding: 10px 0px 10px 0px;
@@ -185,7 +181,7 @@ a:hover {
   height: calc(100% - 50px);
   background: rgba(255, 255, 255, 0.9);
   overflow: auto;
-  z-index: 99;
+  z-index: 1001;
 }
 @media screen and (max-width: 600px) {
   #sidebar {

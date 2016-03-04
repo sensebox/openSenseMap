@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', function($scope, $state, OpenSenseBoxes){
+  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', function($scope, $state, OpenSenseBoxes, leafletData){
 
   	/*
 		Set map defaults
@@ -10,19 +10,29 @@ angular.module('openSenseMapApp')
 		tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
 		tileLayerOptions: {
 			subdomains: '1234',
-			//attribution in info modal
 			detectRetina: true,
-			reuseTiles: true
+			reuseTiles: true,
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
 		},
 		scrollWheelZoom: true
 	};
 
+	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)
+	$scope.events = {
+        map: {
+            enable: ['click', 'load', 'zoomstart'],
+            logic: 'broadcast'
+        }
+    };
+
+    // Map center on load
 	$scope.center = {
 		lat: 51.04139389812637,
 		lng: 10.21728515625,
 		zoom: 6
 	};
 
+	// Icons for map markers: For active and inactive boxes
 	var icons = {
 		iconRed: {
 			type: 'awesomeMarker',
@@ -43,8 +53,6 @@ angular.module('openSenseMapApp')
 			markerColor: 'lightgray'
 		}
 	};
-
-	$scope.controls = {};
 
 	/*
 		Query markers from API and put them in the $scope.mapMarkers array 
@@ -80,16 +88,41 @@ angular.module('openSenseMapApp')
 	});
 
 	/*
+		Show a label next to/on top of markers when mouse cursor is pointing at it
+	*/
+	$scope.hoverlabel = {
+		left: 0,
+		top: 0,
+		name: ''
+	};
+
+	$scope.$on('leafletDirectiveMarker.map_main.mouseover', function(e, args){
+        var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
+		$scope.hoverlabel = {
+			left: markerBounds.left,
+			top: markerBounds.top,
+			name: args.leafletEvent.target.options.station.name
+		};
+	});
+
+	$scope.$on('leafletDirectiveMarker.map_main.mouseout', function(e, args){
+		$scope.hoverlabel = {
+			left: 0,
+			top: 0,
+			name: ''
+		};
+	});
+
+	/*
 		When you click on a map marker, the sidebar will open with more possibilities/details for this station
 	*/
-	$scope.$on('leafletDirectiveMarker.click', function(e, args) {
+	$scope.$on('leafletDirectiveMarker.map_main.click', function(e, args) {
 		// Args will contain the marker name and other relevant information
 		//$scope.getMeasurements();
 		$scope.center.lat = args.leafletEvent.target._latlng.lat;
 		$scope.center.lng = args.leafletEvent.target._latlng.lng;
 		$scope.center.zoom = 15;
 		$state.go('explore.boxdetails', { id: args.leafletEvent.target.options.station.id });
-		console.log(args);
 	});
 
 }]);

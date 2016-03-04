@@ -11,7 +11,7 @@
     "angular-cookies": "1.5",
     "angular-sanitize": "1.5",
     "angular-route": "1.5",
-    "angular-leaflet-directive": "0.7.11",
+    "angular-leaflet-directive": "0.10.0",
     "angular-bootstrap": "~1.1.0",
     "Leaflet.awesome-markers": "~2.0.2",
     "nya-bootstrap-select": "~2.1",

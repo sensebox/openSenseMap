@@ -1,2 +1,2 @@
-<leaflet center="center" markers="mapMarkers" defaults="defaults" controls="controls" id="map_main"></leaflet>
-<i class="fa fa-info" ng-click="openDialog()" id="app_info_button"></i>
+<leaflet center="center" markers="mapMarkers" defaults="defaults" id="map_main" event-broadcast="events"></leaflet>
+<div id="marker-label" style="position: absolute;z-index:1002; background-color: white; min-width: 50px; padding: 4px; border: 2px solid #4EAF47;" ng-style="{ left: hoverlabel.left, top: hoverlabel.top-33 }">{{ hoverlabel.name }}</div>

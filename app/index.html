@@ -53,22 +53,22 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <span id="brand_with_logo"><a class="navbar-brand" ui-sref="explore"><img src="images/sensebox-favicon.png">&nbsp;openSenseMap</a></span>
+                    <span id="brand_with_logo"><a class="navbar-brand" ui-sref="explore.map"><img src="images/sensebox-favicon.png">&nbsp;openSenseMap</a></span>
                 </div>
                 <nav class="hidden-xs">
                     <ul class="nav navbar-nav navbar-right">
                         <li>
-                            <a ui-sref="explore">
+                            <a ui-sref="explore.map">
                                 <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                             </a>
                         </li>
                         <li>
-                            <a ui-sref="explore.filter">
+                            <a ui-sref="explore.map.filter">
                                 <span class="glyphicon glyphicon glyphicon-cloud"></span> Filter
                             </a>
                         </li>
                         <li>
-                            <a ui-sref="explore.download">
+                            <a ui-sref="explore.map.download">
                                 <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
@@ -189,10 +189,10 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/register.js"></script>
-        <script src="scripts/controllers/explore.js"></script>
         <script src="scripts/controllers/map.js"></script>
         <script src="scripts/controllers/sidebar.js"></script>
         <script src="scripts/controllers/sidebar.boxdetails.js"></script>
+        <script src="scripts/controllers/sidebar.filter.js"></script>
         <script src="scripts/services/opensenseboxapi.js"></script>
         <script src="scripts/services/opensenseboxes.js"></script>
         <script src="scripts/services/opensenseboxessensors.js"></script>

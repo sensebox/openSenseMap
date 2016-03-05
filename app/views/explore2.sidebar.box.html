@@ -5,7 +5,7 @@
 				<h3>
 					<span ng-hide="editableMode">
 						{{ selectedMarker.name }}
-						<i class="fa fa-times pull-right close" ng-hide="editableMode" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i>
+						<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 					</span>
 					
 					<input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">

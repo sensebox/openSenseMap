@@ -30,50 +30,58 @@ angular
     $stateProvider
       .state('explore', {
         url: '/',
-        views: {
-          '': {
-            //controller: 'ExploreCtrl',
-            templateUrl: 'views/explore2.html'
-          },
+        //templateUrl: 'views/explore2.html',
+        abstract: true,
+        controller: 'MapCtrl',
+        templateUrl: 'views/explore2.html'
+        
           // using @ to access the nested views within the "explore" state in explore2.html
-          'map@explore': {
-            controller: 'MapCtrl',
-            templateUrl: 'views/explore2.map.html'
-          },
-          'sidebar@explore': {
-            //controller: 'SidebarBoxDetailsCtrl',
-            //templateUrl: 'views/explore2.sidebar.html',
-          }
-        }
+          //'map': {
+          //  controller: 'MapCtrl',
+          //  templateUrl: 'views/explore2.map.html',
+          //},
+          //'sidebar@explore': {
+          //  //controller: 'SidebarBoxDetailsCtrl',
+          //  //templateUrl: 'views/explore2.sidebar.html',
+          //},
+          //'legend@explore': {
+          //  templateUrl: 'views/explore2.map.legend.html'
+          //}
+        //}
       })
-      .state('explore.boxdetails', {
+      .state('explore.map', {
+        url: '',
+        controller: 'MapCtrl',
+        templateUrl: 'views/explore2.map.html'
+      })
+      .state('explore.map.boxdetails', {
         url: 'explore/:id', // no leading / because it is a child of the 'explore' state
         views: {
-            'sidebar@explore': {
-              controller: 'SidebarBoxDetailsCtrl',
-              templateUrl: 'views/explore2.sidebar.box.html'
+          'sidebar': {
+            controller: 'SidebarBoxDetailsCtrl',
+            templateUrl: 'views/explore2.sidebar.box.html'
           }
         }
       })
-      .state('explore.filter', {
+      .state('explore.map.filter', {
         views: {
-          'sidebar@explore': {
-            controller: function($scope) { $scope.thing = "FilterCtrl"; },
+          'sidebar': {
+            controller: 'SidebarFilterCtrl',
             templateUrl: 'views/explore2.sidebar.filter.html'
           }
         }
       })
-      .state('explore.download', {
+      .state('explore.map.download', {
         views: {
-          'sidebar@explore': {
+          'sidebar': {
             controller: function($scope) { $scope.thing = "DownloadCtrl"; },
             templateUrl: 'views/explore2.sidebar.download.html'
           }
         }
       })
-      .state('explore.interpolation', {
+      .state('explore.map.interpolation', {
         views: {
-          'sidebar@explore': {
+          'sidebar': {
             controller: function($scope){ $scope.thing = "InterpolationCtrl"; },
             templateUrl: 'views/explore2.sidebar.test.html',
           }
@@ -125,21 +133,3 @@ angular
       return $sce.trustAsHtml(val);
     };
   }])
-
-  /*.run(['$route', '$rootScope', '$location', function ($route, $rootScope, $location) {
-    $rootScope.$on("$stateChangeError", console.log.bind(console)); // TODO: remove
-
-    var original = $location.path;
-    $rootScope.selectedBox = false;
-    $location.path = function (path, reload) {
-      if (reload === false) {
-        var lastRoute = $route.current;
-        var un = $rootScope.$on('$locationChangeSuccess', function () {
-          $route.current = lastRoute;
-          un();
-        });
-      }
-      return original.apply($location, [path]);
-    };
-  }]);*/
-

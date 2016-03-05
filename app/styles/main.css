@@ -162,6 +162,38 @@ a:hover {
   border-radius: 5px;
 }
 
+.info.sensebox-legend {
+  background: none;
+}
+
+.info .sensebox-legend-entry {
+  background-color: #fff;
+  padding: 3px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.info .sensebox-legend-entry label {
+  font-weight: normal;
+}
+
+.sensebox-legend-marker.awesome-marker.awesome-marker-icon-green {
+  width:35px;
+  height:46px;
+  position:relative;
+  display:inline-block;
+  vertical-align: middle;
+}
+.sensebox-legend-marker.awesome-marker.awesome-marker-icon-gray {
+  width:35px;
+  height:46px;
+  position:relative;
+  display:inline-block;
+  opacity:0.7;
+  vertical-align: middle;
+}
+
+
 .leaflet-control-my-location {
   width:26px;
   height:26px;
@@ -170,6 +202,10 @@ a:hover {
 
 .leaflet-control-my-location:hover {
   background-color: #f4f4f4;
+}
+
+.leaflet-control-layers {
+  visibility: hidden !important;
 }
 
 #sidebar {
@@ -381,4 +417,14 @@ div.box {
 .panel-title > .accordion-toggle span:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.filter-entry.activeMarker {
+  color: #4EAF47;
+}
+
+.filter-entry.inactiveMarker,
+.filter-entry.oldMarker {
+  color: #666;
+  opacity: 0.8;
 }

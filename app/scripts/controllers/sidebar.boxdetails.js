@@ -9,9 +9,15 @@ angular.module('openSenseMapApp')
  	
   	OpenSenseBox.query({ boxId: $stateParams.id }, function(response){
   		$scope.selectedMarker = response;
+      console.log(response);
+      $scope.$parent.center = {
+        lng: response.loc[0].geometry.coordinates[0],
+        lat: response.loc[0].geometry.coordinates[1],
+        zoom: 14
+      };
   	});
   	OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
-		$scope.selectedMarkerData = response;
+		  $scope.selectedMarkerData = response;
     });
 
   	$scope.apikey = {};

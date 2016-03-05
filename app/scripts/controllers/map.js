@@ -1,11 +1,13 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', function($scope, $state, OpenSenseBoxes, leafletData){
+  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$filter', 'filterFilter', 
+  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $filter, filterFilter){
+  	$scope.showAllMarkers = true;
 
-  	/*
+	/*
 		Set map defaults
-  	*/
+	*/
 	$scope.defaults = {
 		tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
 		tileLayerOptions: {
@@ -19,17 +21,10 @@ angular.module('openSenseMapApp')
 
 	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)
 	$scope.events = {
-        map: {
-            enable: ['click', 'load', 'zoomstart'],
-            logic: 'broadcast'
-        }
-    };
-
-    // Map center on load
-	$scope.center = {
-		lat: 51.04139389812637,
-		lng: 10.21728515625,
-		zoom: 6
+		map: {
+			enable: ['click', 'load', 'zoomstart'],
+			logic: 'broadcast'
+		}
 	};
 
 	// Icons for map markers: For active and inactive boxes
@@ -54,28 +49,92 @@ angular.module('openSenseMapApp')
 		}
 	};
 
+	angular.extend($scope, {
+		center: {
+			lat: 51.04139389812637,
+			lng: 10.21728515625,
+			zoom: 6
+		},
+		layers: {
+			baselayers: {
+				mapquest: {
+					name: 'MapQuest Open',
+					type: 'xyz',
+					url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
+					layerOptions: {
+						subdomains: ['1', '2', '3', '4'],
+						detectRetina: true,
+						reuseTiles: true,
+						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+						showOnSelector: false
+					}
+				}
+			},
+			overlays: {
+				activeMarker: {
+					type: 'group',
+					name: 'activeMarker',
+					visible: true
+				},
+				inactiveMarker: {
+					type: 'group',
+					name: 'inactiveMarker',
+					visible: true
+				},
+				oldMarker: {
+					type: 'group',
+					name: 'oldMarker',
+					visible: true
+				}
+			}
+		},
+		markers: {
+		},
+		toggleLayer: function(type) {
+			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
+		}
+	});
+
 	/*
 		Query markers from API and put them in the $scope.mapMarkers array 
 		which the map uses to display markers
 
 		Inactive markers (no measurements in 30 days) are displayed with a gray icon instead of green
 	*/
-	$scope.markers = [];
-	$scope.mapMarkers = [];
+	var opts = function(isActive, isInactive){
+		if(isActive) { 
+			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1 };
+		} else if(!isActive && !isInactive) { 
+			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75 };
+		} else { 
+			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75 };
+		}
+	};
 	OpenSenseBoxes.query(function(response){
-		console.log(response);
-		$scope.mapMarkers = response.map(function(obj){
+		angular.extend($scope.markers, response.map(function(obj){
+			// decide wheter a box is active, inactive or "dead" by looking at the last measurement's date
 			var isActive = obj.sensors.some(function(cv, i, arr){
 				var now = Date.now();
 				return cv.lastMeasurement && 
 						cv.lastMeasurement.updatedAt && 
 						now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
 			});
-			return {
-				icon: (isActive) ? icons.iconGreen : icons.iconGray,
+			var isInactive = false; // track boxes that have been inactive for a long time
+			if(!isActive){
+				isInactive = obj.sensors.some(function(cv, i, arr){
+					var now = Date.now();
+					return !cv.lastMeasurement || 
+							!cv.lastMeasurement.updatedAt || 
+							now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
+				});
+			}
+			var markerOpts = opts(isActive, isInactive);
+			var marker = {
+				layer: markerOpts.layer,
+				icon: markerOpts.marker,
 				lng: obj.loc[0].geometry.coordinates[0],
 				lat: obj.loc[0].geometry.coordinates[1],
-				opacity: (isActive) ? 1 : 0.7,
+				opacity: markerOpts.opacity,
 				riseOnHover: true,
 				station: {
 					id: obj._id,
@@ -83,8 +142,8 @@ angular.module('openSenseMapApp')
 					sensors: obj.sensors
 				}
 			};
-		});
-		console.log($scope.mapMarkers);
+			return marker;
+		}));
 	});
 
 	/*
@@ -97,7 +156,7 @@ angular.module('openSenseMapApp')
 	};
 
 	$scope.$on('leafletDirectiveMarker.map_main.mouseover', function(e, args){
-        var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
+		var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
 		$scope.hoverlabel = {
 			left: markerBounds.left,
 			top: markerBounds.top,
@@ -122,7 +181,31 @@ angular.module('openSenseMapApp')
 		$scope.center.lat = args.leafletEvent.target._latlng.lat;
 		$scope.center.lng = args.leafletEvent.target._latlng.lng;
 		$scope.center.zoom = 15;
-		$state.go('explore.boxdetails', { id: args.leafletEvent.target.options.station.id });
+		$state.go('explore.map.boxdetails', { id: args.leafletEvent.target.options.station.id });
 	});
 
+	/*
+		Custom legend control
+	*/
+	$scope.controls = {
+		custom: []
+	};
+
+	var info = L.control({ position:'bottomleft' });
+	info.onAdd = function (map) {
+	    this._div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
+	    return this._div;
+	};
+	$scope.controls.custom.push(info);
+
+	$templateRequest('views/explore2.map.legend.html').then(function(html) {
+		var template = angular.element(html);
+		var infoDiv = angular.element(info._div);
+		var infoContainer = angular.element(info._container);
+		infoDiv.append(template);
+		infoContainer.append(template);
+		$compile(template)($scope);	
+	});
+
+	$scope.markersFiltered = $scope.markers;
 }]);

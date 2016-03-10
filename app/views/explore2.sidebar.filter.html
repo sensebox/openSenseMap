@@ -13,12 +13,16 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="input-group">
-				Name: <input type="text" class="form-control" ng-model="searchText" aria-label="Search" ng-change="liveSearch()">
+				Name (leave blank to not filter): 
+				<input type="text" class="form-control" ng-model="searchText" aria-label="Search" ng-change="liveSearch()">
 			</div>
 			<div class="input-group">
-				Last Measurement after: 
-				<input type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="100" ng-model="daterange" ng-change="liveSearch()"/> 
-				{{ daterange | date:'yyyy-MM-dd' }}
+				Has Measurement around this date: 
+				<input type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="daterange" ng-change="liveSearch()"/> 
+				{{ daterange | date:'yyyy-MM-dd HH:mm:ss' }}
+			</div>
+			<div class="input-group">
+				<button ng-click="resetFilter()">Reset filter</button>
 			</div>
 		</div>
 	</div>

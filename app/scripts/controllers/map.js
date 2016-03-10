@@ -110,41 +110,48 @@ angular.module('openSenseMapApp')
 			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75 };
 		}
 	};
-	OpenSenseBoxes.query(function(response){
-		angular.extend($scope.markers, response.map(function(obj){
-			// decide wheter a box is active, inactive or "dead" by looking at the last measurement's date
-			var isActive = obj.sensors.some(function(cv, i, arr){
-				var now = Date.now();
-				return cv.lastMeasurement && 
-						cv.lastMeasurement.updatedAt && 
-						now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
-			});
-			var isInactive = false; // track boxes that have been inactive for a long time
-			if(!isActive){
-				isInactive = obj.sensors.some(function(cv, i, arr){
+
+	$scope.fetchMarkers = function(date, phenomenon) {
+		$scope.markersFiltered = $scope.markers = {};
+		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
+			angular.extend($scope.markers, response.map(function(obj){
+				// decide wheter a box is active, inactive or "dead" by looking at the last measurement's date
+				var isActive = obj.sensors.some(function(cv, i, arr){
 					var now = Date.now();
-					return !cv.lastMeasurement || 
-							!cv.lastMeasurement.updatedAt || 
-							now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
+					return cv.lastMeasurement && 
+							cv.lastMeasurement.updatedAt && 
+							now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
 				});
-			}
-			var markerOpts = opts(isActive, isInactive);
-			var marker = {
-				layer: markerOpts.layer,
-				icon: markerOpts.marker,
-				lng: obj.loc[0].geometry.coordinates[0],
-				lat: obj.loc[0].geometry.coordinates[1],
-				opacity: markerOpts.opacity,
-				riseOnHover: true,
-				station: {
-					id: obj._id,
-					name: obj.name,
-					sensors: obj.sensors
+				var isInactive = false; // track boxes that have been inactive for a long time
+				if(!isActive){
+					isInactive = obj.sensors.some(function(cv, i, arr){
+						var now = Date.now();
+						return !cv.lastMeasurement || 
+								!cv.lastMeasurement.updatedAt || 
+								now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
+					});
 				}
-			};
-			return marker;
-		}));
-	});
+				var markerOpts = opts(isActive, isInactive);
+				var marker = {
+					layer: markerOpts.layer,
+					icon: markerOpts.marker,
+					lng: obj.loc[0].geometry.coordinates[0],
+					lat: obj.loc[0].geometry.coordinates[1],
+					opacity: markerOpts.opacity,
+					riseOnHover: true,
+					station: {
+						id: obj._id,
+						name: obj.name,
+						sensors: obj.sensors
+					}
+				};
+				return marker;
+			}));
+			$scope.markersFiltered = $scope.markers;
+		});
+	}
+	//fetchMarkers("2016-03-07T01:50", "Temperatur");
+	$scope.fetchMarkers("", "");
 
 	/*
 		Show a label next to/on top of markers when mouse cursor is pointing at it
@@ -206,6 +213,4 @@ angular.module('openSenseMapApp')
 		infoContainer.append(template);
 		$compile(template)($scope);	
 	});
-
-	$scope.markersFiltered = $scope.markers;
 }]);

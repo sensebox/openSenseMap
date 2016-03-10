@@ -83,7 +83,7 @@ angular
         views: {
           'sidebar': {
             controller: function($scope){ $scope.thing = "InterpolationCtrl"; },
-            templateUrl: 'views/explore2.sidebar.test.html',
+            templateUrl: 'views/explore2.sidebar.interpolation.html',
           }
         }
       })

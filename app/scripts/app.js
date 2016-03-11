@@ -82,7 +82,7 @@ angular
       .state('explore.map.interpolation', {
         views: {
           'sidebar': {
-            controller: function($scope){ $scope.thing = "InterpolationCtrl"; },
+            controller: 'InterpolationCtrl',
             templateUrl: 'views/explore2.sidebar.interpolation.html',
           }
         }

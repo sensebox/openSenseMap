@@ -29,15 +29,15 @@
     "angular-translate-loader-static-files": "~2.9",
     "highcharts-release": "4.2",
     "highcharts-ng": "0.0.11",
-    "angular-ui-router": "~0.2.18"
+    "angular-ui-router": "~0.2.18",
+    "opencpu": "*"
   },
   "devDependencies": {
     "angular-mocks": "1.5",
     "angular-scenario": "1.5"
   },
   "resolutions": {
-    "angular": "1.5",
-    "font-awesome": "~4.4.0"
+    "angular": "1.5"
   },
   "overrides": {
     "bootstrap": {

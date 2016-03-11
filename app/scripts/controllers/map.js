@@ -142,7 +142,8 @@ angular.module('openSenseMapApp')
 					station: {
 						id: obj._id,
 						name: obj.name,
-						sensors: obj.sensors
+						sensors: obj.sensors,
+						exposure: obj.exposure
 					}
 				};
 				return marker;

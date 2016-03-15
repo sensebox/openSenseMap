@@ -13,8 +13,8 @@ angular.module('openSenseMapApp')
 
               var imageBounds;
               var imageBoundsLegend;
-              var overlayImage = null;
-              var overlayImageLegend = null;
+              $scope.$parent.overlayImageLegend;
+              $scope.$parent.overlayImage;
               $scope.idp = 0;
               $scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -47,10 +47,10 @@ angular.module('openSenseMapApp')
 	      
 	        $scope.loading = true;
 
-	        if (overlayImage != null) {
+	        if ($scope.$parent.overlayImage != null) {
 	          leafletData.getMap().then(function(map) {
-	                map.removeLayer(overlayImage);
-	                map.removeLayer(overlayImageLegend);
+	                map.removeLayer($scope.$parent.overlayImage);
+	                map.removeLayer($scope.$parent.overlayImageLegend);
 	              });
 	        };
 
@@ -71,11 +71,11 @@ angular.module('openSenseMapApp')
 	                $scope.loading = false;
 
 	                leafletData.getMap().then(function(map) {
-	                  overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-	                  map.addLayer(overlayImage);
+	                  $scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
+	                  map.addLayer($scope.$parent.overlayImage);
 	                  if ($scope.idp != 0) {
-	                    overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-	                    map.addLayer(overlayImageLegend);
+	                    $scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+	                    map.addLayer($scope.$parent.overlayImageLegend);
 	                  };
 	                });
 
@@ -89,10 +89,10 @@ angular.module('openSenseMapApp')
 
 	        $scope.loading = true;
 
-	        if (overlayImage != null) {
+	        if ($scope.$parent.overlayImage != null) {
 	          leafletData.getMap().then(function(map) {
-	                map.removeLayer(overlayImage);
-	                map.removeLayer(overlayImageLegend);
+	                map.removeLayer($scope.$parent.overlayImage);
+	                map.removeLayer($scope.$parent.overlayImageLegend);
 	              });
 	        };
 
@@ -112,10 +112,10 @@ angular.module('openSenseMapApp')
 	              $scope.loading = false;
 
 	              leafletData.getMap().then(function(map) {
-	                  overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-	                  map.addLayer(overlayImage);
-	                  overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-	                  map.addLayer(overlayImageLegend);
+	                  $scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
+	                  map.addLayer($scope.$parent.overlayImage);
+	                  $scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+	                  map.addLayer($scope.$parent.overlayImageLegend);
 	                });
 
 

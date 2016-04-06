@@ -13,12 +13,6 @@ angular.module('openSenseMapApp')
 		// $scope.inputFilter.Exposure
 		// $scope.inputFilter.Phenomenon
 		$scope.inputFilter = $scope.inputFilter || {};
-		//$scope.$parent.inputFilterPhenomenon = $scope.inputFilter.Phenomenon;
-
-		//$scope.date = new Date();
-		//$scope.dateMax = $scope.date.getTime();
-		//$scope.dateMin = new Date($scope.date.getTime()-(1000*3600*24*90)).getTime();
-		//$scope.inputFilter.Date = $scope.dateMin;
 
 		$scope.filterByDate = function(box) {
 				return box.station.sensors.some(function(cv, i, arr){
@@ -36,9 +30,9 @@ angular.module('openSenseMapApp')
 					exposure: $scope.inputFilter.Exposure
 				} 
 			};
+			if($scope.inputFilter.DateTo && $scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom && $scope.inputFilter.DateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilter.DateFrom.toISOString(), $scope.inputFilter.DateTo.toISOString()], "");
 			if($scope.inputFilter.Name !== '' || $scope.inputFilter.Grouptag !== '' || $scope.inputFilter.Exposure !== '') $scope.$parent.markersFiltered = boxFilter($scope.$parent.markers, nameexpr);
 			if($scope.inputFilter.Phenomenon !== '') $scope.$parent.markersFiltered = phenomenonsFilter($scope.$parent.markersFiltered, $scope.inputFilter.Phenomenon);
-			if($scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilter.DateFrom.toISOString(), $scope.inputFilter.DateTo.toISOString()], "");
 		};
 
 		/*

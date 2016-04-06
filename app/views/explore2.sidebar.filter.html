@@ -32,11 +32,6 @@
 			</div>
 			<div class="input-group">
 				<label for="inputFilterDate">Has Measurement around this date: </label>
-				<!--
-				<input id="inputFilterDate" class="form-control" type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="inputFilter.Date" ng-change="liveSearch()"/> 
-				<br/>
-				{{ inputFilterDate | date:'yyyy-MM-dd HH:mm:ss' }}
-				-->
 
 				<p class="input-group">
 					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />

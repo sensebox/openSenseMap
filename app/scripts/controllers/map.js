@@ -4,7 +4,7 @@ angular.module('openSenseMapApp')
   .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile',
   	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
   	$scope.showAllMarkers = true;
-  	$scope.inputFilter = $scope.inputFilter || { name: "joe" };
+  	$scope.inputFilter = $scope.inputFilter || { };
 
 	/*
 		Set map defaults

@@ -112,10 +112,11 @@ angular.module('openSenseMapApp')
 	};
 
 	$scope.fetchMarkers = function(date, phenomenon) {
+		if(date!=='' && Array.isArray(date)) date = date.join(',');
 		$scope.markersFiltered = $scope.markers = {};
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
 			angular.extend($scope.markers, response.map(function(obj){
-				// decide wheter a box is active, inactive or "dead" by looking at the last measurement's date
+				// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
 				var isActive = obj.sensors.some(function(cv, i, arr){
 					var now = Date.now();
 					return cv.lastMeasurement && 
@@ -142,16 +143,17 @@ angular.module('openSenseMapApp')
 					station: {
 						id: obj._id,
 						name: obj.name,
+						exposure: obj.exposure,
+						grouptag: obj.grouptag,
 						sensors: obj.sensors
 					}
 				};
 				return marker;
 			}));
-			$scope.markersFiltered = $scope.markers;
 		});
-	}
+	};
 	//fetchMarkers("2016-03-07T01:50", "Temperatur");
-	$scope.fetchMarkers("", "");
+	$scope.fetchMarkers("", ""); // fetch all markers in the database
 
 	/*
 		Show a label next to/on top of markers when mouse cursor is pointing at it
@@ -187,7 +189,7 @@ angular.module('openSenseMapApp')
 		//$scope.getMeasurements();
 		$scope.center.lat = args.leafletEvent.target._latlng.lat;
 		$scope.center.lng = args.leafletEvent.target._latlng.lng;
-		$scope.center.zoom = 15;
+		$scope.center.zoom = 15; // TODO: if current level is already higher -> dont change
 		$state.go('explore.map.boxdetails', { id: args.leafletEvent.target.options.station.id });
 	});
 
@@ -212,5 +214,10 @@ angular.module('openSenseMapApp')
 		infoDiv.append(template);
 		infoContainer.append(template);
 		$compile(template)($scope);	
+	});
+
+	leafletData.getMap("map_main").then(function(map) {
+    	console.log(map);
+    	console.log(map.getBounds().toBBoxString());
 	});
 }]);

@@ -140,11 +140,11 @@
             {{'STEP4_DESCRIPTION' | translate}}
           </div>
 
-          <accordion close-others="true">
-            <accordion-group is-open="open">
-              <accordion-heading>
+          <uib-accordion close-others="true">
+            <uib-accordion-group is-open="open">
+              <uib-accordion-heading>
                 senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()"> senseBox:home mit Ethernet
               </label>
@@ -152,11 +152,11 @@
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()"> senseBox:home mit WLAN
               </label>-->
-            </accordion-group>
-            <!--<accordion-group is-open="open2">
-              <accordion-heading>
+            </uib-accordion-group>
+            <!--<uib-accordion-group is-open="open2">
+              <uib-accordion-heading>
                 SenseBox Basic <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicEthernet'" ng-change="checked()"> SenseBox Basic mit Ethernet
               </label>
@@ -164,11 +164,11 @@
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicWifi'" ng-change="checked()"> SenseBox Basic mit WLAN
               </label>
-            </accordion-group>-->
-            <accordion-group is-open="open3">
-              <accordion-heading>
+            </uib-accordion-group>-->
+            <uib-accordion-group is-open="open3">
+              <uib-accordion-heading>
                 {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'custom'" ng-change="checked()"> {{'MANUAL_CONFIGURATION'|translate}}
               </label>
@@ -219,8 +219,8 @@
                 <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                 <hr>
               </div>
-            </accordion-group>
-          </accordion>
+            </uib-accordion-group>
+          </uib-accordion>
         </form>
         <form class="tab-pane" id="last" name="lastForm" rc-submit="completeRegistration()" rc-step>
           <hr>
@@ -228,7 +228,7 @@
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             {{'STEP5_DESCRIPTION' | translate}}
           </div>
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 
           <h3>{{'USER'|translate}}</h3>
           <div class="well">

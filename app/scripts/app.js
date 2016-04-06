@@ -30,24 +30,8 @@ angular
     $stateProvider
       .state('explore', {
         url: '/',
-        //templateUrl: 'views/explore2.html',
         abstract: true,
-        controller: 'MapCtrl',
         templateUrl: 'views/explore2.html'
-        
-          // using @ to access the nested views within the "explore" state in explore2.html
-          //'map': {
-          //  controller: 'MapCtrl',
-          //  templateUrl: 'views/explore2.map.html',
-          //},
-          //'sidebar@explore': {
-          //  //controller: 'SidebarBoxDetailsCtrl',
-          //  //templateUrl: 'views/explore2.sidebar.html',
-          //},
-          //'legend@explore': {
-          //  templateUrl: 'views/explore2.map.legend.html'
-          //}
-        //}
       })
       .state('explore.map', {
         url: '',
@@ -82,8 +66,8 @@ angular
       .state('explore.map.interpolation', {
         views: {
           'sidebar': {
-            controller: function($scope){ $scope.thing = "InterpolationCtrl"; },
-            templateUrl: 'views/explore2.sidebar.interpolation.html',
+            controller: 'InterpolationCtrl',
+            templateUrl: 'views/explore2.sidebar.interpolation.html'
           }
         }
       })

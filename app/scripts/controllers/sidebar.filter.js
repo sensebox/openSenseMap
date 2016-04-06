@@ -2,34 +2,47 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarFilterCtrl', 
-		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter',
-		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter){
+		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter',
+		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter){
 
-		//$scope.date = new Date('2016-03-07T00:11:30.780Z');
-		//$scope.dateMax = new Date($scope.date.getTime()+(3600*24*1000)).getTime();
-		//$scope.dateMin = new Date($scope.date.getTime()-(3600*24*1000)).getTime();
-		$scope.date = new Date();
-		$scope.dateMax = $scope.date.getTime();
-		$scope.dateMin = new Date($scope.date.getTime()-(1000*3600*24*90)).getTime();
-		$scope.daterange = $scope.dateMin;
+		// form user inputs:
+		// $scope.inputFilterName
+		// $scope.inputFilterGrouptag
+		// $scope.inputFilterDateFrom
+		// $scope.inputFilterDateTo
+		// $scope.inputFilterExposure
+		// $scope.inputFilterPhenomenon
+
+		//$scope.date = new Date();
+		//$scope.dateMax = $scope.date.getTime();
+		//$scope.dateMin = new Date($scope.date.getTime()-(1000*3600*24*90)).getTime();
+		//$scope.inputFilterDate = $scope.dateMin;
 
 		$scope.filterByDate = function(box) {
 				return box.station.sensors.some(function(cv, i, arr){
 					return cv.lastMeasurement && 
 							cv.lastMeasurement.updatedAt && 
-							Date.parse(cv.lastMeasurement.updatedAt) > $scope.daterange
+							Date.parse(cv.lastMeasurement.updatedAt) > $scope.inputFilterDate
 				});
 		};
 		
 		$scope.performFilter = function(){
-			var nameexpr = { station: { name: $scope.searchText } };
-			console.log($scope.daterange);
-			var date = new Date($scope.daterange*1);
-			$scope.$parent.fetchMarkers(date.toISOString(), "Temperatur");
-			$scope.$parent.markersFiltered = filterFilter($scope.$parent.markers, nameexpr);
-			//$scope.$parent.markersFiltered = $filter('filter')($scope.$parent.markersFiltered, $scope.filterByDate);
+			console.log($scope.inputFilterDateFrom);
+			var nameexpr = { 
+				station: { 
+					name: $scope.inputFilterName, 
+					grouptag: $scope.inputFilterGrouptag,
+					exposure: $scope.inputFilterExposure
+				} 
+			};
+			if($scope.inputFilterName !== '' || $scope.inputFilterGrouptag !== '' || $scope.inputFilterExposure !== '') $scope.$parent.markersFiltered = filterFilter($scope.$parent.markersFiltered, nameexpr);
+			if($scope.inputFilterPhenomenon !== '') $scope.$parent.markersFiltered = phenomenonsFilter($scope.$parent.markersFiltered, $scope.inputFilterPhenomenon);
+			if($scope.inputFilterDateTo !== '' && $scope.inputDateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilterDateFrom.toISOString(), $scope.inputFilterDateTo.toISOString()], "");
 		};
 
+		/*
+			Wait 500ms after each additional change/input and then execute the search 
+		*/
 		var _timeout;
 		$scope.liveSearch = function() {
 			if(_timeout){
@@ -42,7 +55,30 @@ angular.module('openSenseMapApp')
 		};
 
 		$scope.resetFilter = function(){
-			$scope.searchText = "";
-			$scope.$parent.fetchMarkers("", "");
+			$scope.inputFilterName = "";
+			$scope.inputFilterGrouptag = "";
+			$scope.inputFilterDateFrom = "";
+			$scope.inputFilterDateTo = "";
+			$scope.inputFilterExposure = "";
+			$scope.inputFilterPhenomenon = "";
+			//$scope.$parent.fetchMarkers("", "");
 		};
+		$scope.refreshData = function(){
+			$scope.$parent.fetchMarkers("", "");
+		}
+		$scope.resetFilter();
+
+		$scope.openDatepicker = function($event) {
+	        $event.preventDefault();
+	        $event.stopPropagation();
+
+	        // prevent both date pickers from being opened at the same time
+	        if($event.currentTarget.id === "datepicker1") {
+	          $scope.opened1 = true;
+	          $scope.opened2 = false;
+	        } else if($event.currentTarget.id === "datepicker2") {
+	          $scope.opened2 = true;
+	          $scope.opened1 = false;
+	        }
+      	};
 }]);

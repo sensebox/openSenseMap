@@ -2,7 +2,8 @@
 	<div class="row">
 		<div class="col-xs-12 col-md-12">
 			<h3>
-				{{'FILTER'|translate}}
+				Search and Filter
+				<!--{{'FILTER'|translate}}-->
 				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 			</h3>
 		</div>
@@ -12,22 +13,72 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
+			<div class="alert alert-info" role="alert">
+			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+			Select criteria by which you want to filter stations.
+		  </div>
+		</div>
+		<div class="col-lg-12">
 			<div class="input-group">
-				Name (leave blank to not filter): 
-				<input type="text" class="form-control" ng-model="searchText" aria-label="Search" ng-change="liveSearch()">
+				<label for="inputFilterName">Name</label>
+				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilterName" aria-label="Search" ng-change="liveSearch()">
 			</div>
 			<div class="input-group">
-				Has Measurement around this date: 
-				<input type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="daterange" ng-change="liveSearch()"/> 
-				{{ daterange | date:'yyyy-MM-dd HH:mm:ss' }}
+				<label for="inputFilterGrouptag">Group tag</label>
+				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilterGrouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
+				<datalist id="grouptagSuggestions">
+					<option ng-repeat="m in $parent.markersFiltered | uniqueGrouptags" value="{{ m }}">
+				</datalist>
 			</div>
 			<div class="input-group">
-				<button ng-click="resetFilter()">Reset filter</button>
+				<label for="inputFilterDate">Has Measurement around this date: </label>
+				<!--
+				<input id="inputFilterDate" class="form-control" type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="inputFilterDate" ng-change="liveSearch()"/> 
+				<br/>
+				{{ inputFilterDate | date:'yyyy-MM-dd HH:mm:ss' }}
+				-->
+
+				<p class="input-group">
+					<input uib-datepicker-popup ng-model="inputFilterDateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<span class="input-group-btn">
+						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+				<p class="input-group">
+					<input uib-datepicker-popup ng-model="inputFilterDateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<span class="input-group-btn">
+						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+			</div>
+			<div class="input-group">
+				<label for="inputFilterExposure">Exposure:</label>
+				<select id="inputFilterExposure" class="form-control" ng-model="inputFilterExposure" ng-change="liveSearch()">
+					<option value=""></option>
+					<option value="indoor">Indoor</option>
+					<option value="outdoor">Outdoor</option>
+				</select>
+			</div>
+			<div class="input-group">
+				<label for="inputFilterPhenomenon">Station should have these types of sensors/phenomemons:</label>
+				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilterPhenomenon" ng-change="liveSearch()">
+					<option value=""></option>
+					<option ng-repeat="m in $parent.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
+				</select>
+			</div>
+			<div class="input-group">
+				<br/>
+				<button class="btn btn-info" ng-click="performFilter()">Filter</button>
+				<button class="btn btn-warning" ng-click="resetFilter();refreshData()">Reset filters</button>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<hr/>
-		<div ng-repeat="m in $parent.markersFiltered" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
+		<div class="col-xs-12 col-md-12">
+		<h4>Filter Results</h4>
+			<uib-alert type="info" ng-show="$parent.markersFiltered.length == 0">Unfortunately, there were no results matching your filters</uib-alert>
+			<div ng-repeat="m in $parent.markersFiltered" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
+		</div>
 	</div>
 </div>

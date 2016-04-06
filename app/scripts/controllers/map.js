@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$filter', 'filterFilter', 
-  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $filter, filterFilter){
+  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile',
+  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
   	$scope.showAllMarkers = true;
+  	$scope.inputFilter = $scope.inputFilter || { name: "joe" };
 
 	/*
 		Set map defaults
@@ -85,6 +86,14 @@ angular.module('openSenseMapApp')
 					type: 'group',
 					name: 'oldMarker',
 					visible: true
+				},
+				// create inivisible markers for filtering/sorting because of a bug in angular-directive: need to keep the marker ordering in the array
+				// https://github.com/tombatossals/angular-leaflet-directive/issues/512
+				// https://github.com/tombatossals/angular-leaflet-directive/issues/1041
+				temporary: {
+					type: 'group',
+					name: 'temporary',
+					visible: false
 				}
 			}
 		},
@@ -113,7 +122,8 @@ angular.module('openSenseMapApp')
 
 	$scope.fetchMarkers = function(date, phenomenon) {
 		if(date!=='' && Array.isArray(date)) date = date.join(',');
-		$scope.markersFiltered = $scope.markers = {};
+		$scope.markersFiltered = {};
+		$scope.markers = {};
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
 			angular.extend($scope.markers, response.map(function(obj){
 				// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
@@ -150,6 +160,7 @@ angular.module('openSenseMapApp')
 				};
 				return marker;
 			}));
+			$scope.markersFiltered = angular.copy($scope.markers);
 		});
 	};
 	//fetchMarkers("2016-03-07T01:50", "Temperatur");

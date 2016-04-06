@@ -2,42 +2,43 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarFilterCtrl', 
-		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter',
-		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter){
+		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter', 'boxFilter',
+		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter){
 
 		// form user inputs:
-		// $scope.inputFilterName
-		// $scope.inputFilterGrouptag
-		// $scope.inputFilterDateFrom
-		// $scope.inputFilterDateTo
-		// $scope.inputFilterExposure
-		// $scope.inputFilterPhenomenon
+		// $scope.inputFilter.Name
+		// $scope.inputFilter.Grouptag
+		// $scope.inputFilter.DateFrom
+		// $scope.inputFilter.DateTo
+		// $scope.inputFilter.Exposure
+		// $scope.inputFilter.Phenomenon
+		$scope.inputFilter = $scope.inputFilter || {};
+		//$scope.$parent.inputFilterPhenomenon = $scope.inputFilter.Phenomenon;
 
 		//$scope.date = new Date();
 		//$scope.dateMax = $scope.date.getTime();
 		//$scope.dateMin = new Date($scope.date.getTime()-(1000*3600*24*90)).getTime();
-		//$scope.inputFilterDate = $scope.dateMin;
+		//$scope.inputFilter.Date = $scope.dateMin;
 
 		$scope.filterByDate = function(box) {
 				return box.station.sensors.some(function(cv, i, arr){
 					return cv.lastMeasurement && 
 							cv.lastMeasurement.updatedAt && 
-							Date.parse(cv.lastMeasurement.updatedAt) > $scope.inputFilterDate
+							Date.parse(cv.lastMeasurement.updatedAt) > $scope.inputFilter.Date
 				});
 		};
 		
 		$scope.performFilter = function(){
-			console.log($scope.inputFilterDateFrom);
 			var nameexpr = { 
 				station: { 
-					name: $scope.inputFilterName, 
-					grouptag: $scope.inputFilterGrouptag,
-					exposure: $scope.inputFilterExposure
+					name: $scope.inputFilter.Name, 
+					grouptag: $scope.inputFilter.Grouptag,
+					exposure: $scope.inputFilter.Exposure
 				} 
 			};
-			if($scope.inputFilterName !== '' || $scope.inputFilterGrouptag !== '' || $scope.inputFilterExposure !== '') $scope.$parent.markersFiltered = filterFilter($scope.$parent.markersFiltered, nameexpr);
-			if($scope.inputFilterPhenomenon !== '') $scope.$parent.markersFiltered = phenomenonsFilter($scope.$parent.markersFiltered, $scope.inputFilterPhenomenon);
-			if($scope.inputFilterDateTo !== '' && $scope.inputDateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilterDateFrom.toISOString(), $scope.inputFilterDateTo.toISOString()], "");
+			if($scope.inputFilter.Name !== '' || $scope.inputFilter.Grouptag !== '' || $scope.inputFilter.Exposure !== '') $scope.$parent.markersFiltered = boxFilter($scope.$parent.markers, nameexpr);
+			if($scope.inputFilter.Phenomenon !== '') $scope.$parent.markersFiltered = phenomenonsFilter($scope.$parent.markersFiltered, $scope.inputFilter.Phenomenon);
+			if($scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilter.DateFrom.toISOString(), $scope.inputFilter.DateTo.toISOString()], "");
 		};
 
 		/*
@@ -55,18 +56,18 @@ angular.module('openSenseMapApp')
 		};
 
 		$scope.resetFilter = function(){
-			$scope.inputFilterName = "";
-			$scope.inputFilterGrouptag = "";
-			$scope.inputFilterDateFrom = "";
-			$scope.inputFilterDateTo = "";
-			$scope.inputFilterExposure = "";
-			$scope.inputFilterPhenomenon = "";
+			$scope.inputFilter.Name = "";
+			$scope.inputFilter.Grouptag = "";
+			$scope.inputFilter.DateFrom = "";
+			$scope.inputFilter.DateTo = "";
+			$scope.inputFilter.Exposure = "";
+			$scope.inputFilter.Phenomenon = "";
 			//$scope.$parent.fetchMarkers("", "");
 		};
 		$scope.refreshData = function(){
 			$scope.$parent.fetchMarkers("", "");
-		}
-		$scope.resetFilter();
+		};
+		//$scope.resetFilter();
 
 		$scope.openDatepicker = function($event) {
 	        $event.preventDefault();

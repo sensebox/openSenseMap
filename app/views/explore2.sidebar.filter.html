@@ -21,31 +21,31 @@
 		<div class="col-lg-12">
 			<div class="input-group">
 				<label for="inputFilterName">Name</label>
-				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilterName" aria-label="Search" ng-change="liveSearch()">
+				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
 			</div>
 			<div class="input-group">
 				<label for="inputFilterGrouptag">Group tag</label>
-				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilterGrouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
+				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
 				<datalist id="grouptagSuggestions">
-					<option ng-repeat="m in $parent.markersFiltered | uniqueGrouptags" value="{{ m }}">
+					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
 				</datalist>
 			</div>
 			<div class="input-group">
 				<label for="inputFilterDate">Has Measurement around this date: </label>
 				<!--
-				<input id="inputFilterDate" class="form-control" type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="inputFilterDate" ng-change="liveSearch()"/> 
+				<input id="inputFilterDate" class="form-control" type="range" min="{{ dateMin }}" max="{{ dateMax }}" step="1000" ng-model="inputFilter.Date" ng-change="liveSearch()"/> 
 				<br/>
 				{{ inputFilterDate | date:'yyyy-MM-dd HH:mm:ss' }}
 				-->
 
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilterDateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
 					<span class="input-group-btn">
 						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
 				</p>
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilterDateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
 					<span class="input-group-btn">
 						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
@@ -53,7 +53,7 @@
 			</div>
 			<div class="input-group">
 				<label for="inputFilterExposure">Exposure:</label>
-				<select id="inputFilterExposure" class="form-control" ng-model="inputFilterExposure" ng-change="liveSearch()">
+				<select id="inputFilterExposure" class="form-control" ng-model="inputFilter.Exposure" ng-change="liveSearch()">
 					<option value=""></option>
 					<option value="indoor">Indoor</option>
 					<option value="outdoor">Outdoor</option>
@@ -61,9 +61,9 @@
 			</div>
 			<div class="input-group">
 				<label for="inputFilterPhenomenon">Station should have these types of sensors/phenomemons:</label>
-				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilterPhenomenon" ng-change="liveSearch()">
+				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="liveSearch()">
 					<option value=""></option>
-					<option ng-repeat="m in $parent.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
+					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>
 			</div>
 			<div class="input-group">
@@ -77,8 +77,8 @@
 		<hr/>
 		<div class="col-xs-12 col-md-12">
 		<h4>Filter Results</h4>
-			<uib-alert type="info" ng-show="$parent.markersFiltered.length == 0">Unfortunately, there were no results matching your filters</uib-alert>
-			<div ng-repeat="m in $parent.markersFiltered" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
+			<uib-alert type="info" ng-show="($parent.markersFiltered | filter:{layer:'!temporary'}).length == 0">Unfortunately, there were no results matching your filters</uib-alert>
+			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!temporary'}" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
 		</div>
 	</div>
 </div>

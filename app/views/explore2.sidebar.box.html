@@ -7,7 +7,7 @@
 						{{ selectedMarker.name }}
 						<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 					</span>
-					
+					<a ng-click="openEditDialog()">Edit me</a>
 					<input ng-show="editableMode" class="form-control" type="text" name="" ng-model="tmpSensor.name">
 				</h3>
 			</div>
@@ -79,7 +79,7 @@
 						<alert type="default">
 							<form>
 								<div class="form-group">
-									<button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Sketch erunterladen</a></button>
+									<button ng-click="downloadArduino()" class="btn btn-warning form-control"><a id="downloadlink" href="" download="sensebox.ino"><i class="fa fa-download"></i>&nbsp; Sketch herunterladen</a></button>
 								</div>
 							</form>
 						</alert>

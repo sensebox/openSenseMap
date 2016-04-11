@@ -2,8 +2,8 @@
 
 angular.module('openSenseMapApp')
   .controller('SidebarBoxDetailsCtrl', 
-  	['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 
-  	function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation){
+  	['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', 
+  	function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog){
 
   	$scope.osemapi = OpenSenseBoxAPI;
  	
@@ -20,42 +20,15 @@ angular.module('openSenseMapApp')
 		  $scope.selectedMarkerData = response;
     });
 
-  	$scope.apikey = {};
-  	$scope.enableEditableMode = function () {
-  		var boxId = $scope.selectedMarker._id || $scope.selectedMarker.id;
-
-  		Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
-  			if (status === 200) {
-  				$scope.editableMode = true;
-  				$scope.tmpSensor = angular.copy($scope.selectedMarker);
-  				return true;
-  			} else {
-  				$scope.editableMode = false;
-  				return false;
-  			}
-  		});
-  	};
-
-  	$scope.saveChange = function (event) {
-  		console.log("Saving change");
-  		var boxid = $scope.selectedMarker.id || $scope.selectedMarker._id;
-  		var imgsrc = angular.element(document.getElementById('image')).attr('src');
-  		var newBoxData = {
-  			tmpSensorName: $scope.tmpSensor.name, 
-  			image: imgsrc
-  		};
-  		$http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } }).
-  		success(function(data, status){
-  			$scope.editableMode = false;
-  			$scope.selectedMarker = data;
-  			if (data.image === "") {
-  				$scope.image = "placeholder.png";
-  			} else {
-  				$scope.image = data.image;
-  			}
-  		}).error(function(data, status){
-			// todo: display an error message
-		});
-  	};
+    $scope.openEditDialog = function () {
+      $scope.launchTemp = ngDialog.open({
+        template: '/views/editbox.html',
+        className: 'ngdialog-theme-default',
+        scope: $scope,
+        showClose: false,
+        closeByDocument: false,
+        controller: 'EditboxCtrl'
+      });
+    };
 
 }]);

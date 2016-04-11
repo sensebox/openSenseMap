@@ -429,6 +429,6 @@ div.box {
   opacity: 0.8;
 }
 
-#loading-alert {
-  
+.ngdialog-message {
+  padding:10px;
 }

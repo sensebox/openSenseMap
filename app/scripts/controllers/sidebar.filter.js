@@ -30,9 +30,10 @@ angular.module('openSenseMapApp')
 					exposure: $scope.inputFilter.Exposure
 				} 
 			};
-			if($scope.inputFilter.DateTo && $scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom && $scope.inputFilter.DateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilter.DateFrom.toISOString(), $scope.inputFilter.DateTo.toISOString()], "");
+			if($scope.needsRefresh && $scope.inputFilter.DateTo && $scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom && $scope.inputFilter.DateFrom !== '') $scope.$parent.fetchMarkers([$scope.inputFilter.DateFrom.toISOString(), $scope.inputFilter.DateTo.toISOString()], "");
 			if($scope.inputFilter.Name !== '' || $scope.inputFilter.Grouptag !== '' || $scope.inputFilter.Exposure !== '') $scope.$parent.markersFiltered = boxFilter($scope.$parent.markers, nameexpr);
 			if($scope.inputFilter.Phenomenon !== '') $scope.$parent.markersFiltered = phenomenonsFilter($scope.$parent.markersFiltered, $scope.inputFilter.Phenomenon);
+			$scope.needsRefresh = false;
 		};
 
 		/*

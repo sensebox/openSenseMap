@@ -34,13 +34,13 @@
 				<label for="inputFilterDate">Has Measurement around this date: </label>
 
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Starting date" />
 					<span class="input-group-btn">
 						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
 				</p>
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" />
+					<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Ending date" />
 					<span class="input-group-btn">
 						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
@@ -55,7 +55,7 @@
 				</select>
 			</div>
 			<div class="input-group">
-				<label for="inputFilterPhenomenon">Station should have these types of sensors/phenomemons:</label>
+				<label for="inputFilterPhenomenon">Station should have this type of sensors:</label>
 				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="liveSearch()">
 					<option value=""></option>
 					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
@@ -63,16 +63,18 @@
 			</div>
 			<div class="input-group">
 				<br/>
-				<button class="btn btn-info" ng-click="performFilter()">Filter</button>
-				<button class="btn btn-warning" ng-click="resetFilter();refreshData()">Reset filters</button>
+				<uib-alert type="info" ng-show="needsRefresh">Click 'Apply Filter' to apply your filter settings</uib-alert>
+				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">Apply Filter</button>&nbsp;
+				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">Reset filters</button> <br/><br/>
+				<uib-alert type="warning" ng-show="loading">Fetching data, please wait <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<hr/>
 		<div class="col-xs-12 col-md-12">
-		<h4>Filter Results</h4>
-			<uib-alert type="info" ng-show="($parent.markersFiltered | filter:{layer:'!temporary'}).length == 0">Unfortunately, there were no results matching your filters</uib-alert>
+		<h4>Results</h4>
+			<uib-alert type="info" ng-show="(($parent.markersFiltered | filter:{layer:'!temporary'}).length == 0) && !loading">Unfortunately, there were no results matching your filters</uib-alert>
 			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!temporary'}" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
 		</div>
 	</div>

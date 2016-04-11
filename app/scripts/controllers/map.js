@@ -4,7 +4,7 @@ angular.module('openSenseMapApp')
   .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile',
   	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
   	$scope.showAllMarkers = true;
-  	$scope.inputFilter = $scope.inputFilter || { };
+  	$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
 	/*
 		Set map defaults
@@ -121,6 +121,7 @@ angular.module('openSenseMapApp')
 	};
 
 	$scope.fetchMarkers = function(date, phenomenon) {
+		$scope.loading = true;
 		if(date!=='' && Array.isArray(date)) date = date.join(',');
 		$scope.markersFiltered = {};
 		$scope.markers = {};
@@ -161,6 +162,7 @@ angular.module('openSenseMapApp')
 				return marker;
 			}));
 			$scope.markersFiltered = angular.copy($scope.markers);
+			$scope.loading = false;
 		});
 	};
 	//fetchMarkers("2016-03-07T01:50", "Temperatur");

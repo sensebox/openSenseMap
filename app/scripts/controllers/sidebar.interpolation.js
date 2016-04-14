@@ -36,19 +36,22 @@ angular.module('openSenseMapApp')
 
 		var boxes = [];
 		console.log(boxes);
+		
+		
 		angular.forEach($scope.$parent.markersFiltered, function(value, key) {
-			var boxesJSON = {}; 
-			for (var i = 0; i < value.station.sensors.length; i++) {
-				if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
-					boxesJSON.latitude = value.lat;
-					boxesJSON.longitude = value.lng;
-					boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
+		var boxesJSON = {}; 
+		for (var i = 0; i < value.station.sensors.length; i++) {
+			if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
+				boxesJSON.latitude = value.lat;
+				boxesJSON.longitude = value.lng;
+				boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
 
-					boxes.push(boxesJSON);
-				};
+				boxes.push(boxesJSON);
+			};
 
 			};
 		});
+		
 		console.log(boxes);
 
 		$scope.makeIDW = function(){
@@ -64,7 +67,7 @@ angular.module('openSenseMapApp')
 				input : boxes
 			}, function(outtxt){
 				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
+				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
 			});
 
 			var req = ocpu.call("inteRidwIdp", {
@@ -106,7 +109,7 @@ angular.module('openSenseMapApp')
 				input : boxes
 			}, function(outtxt){
 				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
+				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
 			});
 
 			var req = ocpu.call("inteRtp", {

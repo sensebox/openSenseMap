@@ -92,7 +92,6 @@ angular.module('osemFilters', [])
     var results = [];
     angular.forEach(markers, function(marker, key) {
       var a = filterFilter([marker], expression);
-      console.log("hello", a);
       if(a.length>0) {
         results.push(marker);
       } else {

@@ -1,5 +1,6 @@
 <div class="ngdialog-message">
 	<div class="row">
+		<h3>Sensebox ändern</h3>
 		<alert type="default">
 			Um die Eigeschaften deiner SenseBox zu bearbeiten gib deinen <strong>SenseBox API-Key</strong> ein:
 			<form>
@@ -9,15 +10,109 @@
 				<div class="form-group">
 					<button ng-show="!editableMode" ng-click="enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp; Fortfahren</button>
 					<button ng-show="editableMode" ng-click="saveChange()" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp; Speichern</button>
-					<button ng-show="editableMode" ng-click="discardChanges()" class="btn btn-warning col-md-6"><i class="fa fa-times"></i>&nbsp; Abbrechen</button>
+					<button ng-show="editableMode" ng-click="editableMode = false;" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; Abbrechen</button>
 					<uib-alert type="warning" ng-show="apikeyIssue">It looks like that API key is wrong, please try again</uib-alert>
 				</div>
 			</form>
 		</alert>
 	</div>
-	<div class="row">
-		<alert type="info">
-			Du kannst jetzt den Titel deiner Sensebox ändern und das Bild im Abschnitt "Information" ändern. Klicke im Anschluss auf <b>Speichern</b>.
-		</alert>
+	<div ng-show="editableMode">
+		<div class="row">
+			<uib-alert type="info" ng-show="editableMode">
+				Du kannst jetzt die Details deiner Sensebox ändern und das Bild ändern. Klicke im Anschluss auf <b>Speichern</b>.
+			</uib-alert>
+		</div>
+		<div class="row">
+			<h3>Script herunterladen</h3>
+			<a ng-click="downloadArduino()" ng-show="!boxScript">Hier klicken</a>
+			<textarea ng-show="boxScript" class="form-control" ng-model="boxScript" onclick="this.select()" style="height:200px;font-family:monospace;font-size:80%"></textarea>
+		</div>
+		<div class="row">
+			<h3>Name und Beschreibung</h3>
+			<label for="editName">Name</label>
+			<input name="editName" class="form-control" type="text" ng-model="editingMarker.name">
+
+			<label for="editGrouptag">Grouptag</label>
+			<input name="editGrouptag" class="form-control" type="text" ng-model="editingMarker.grouptag">
+
+			<label for="editExposure">Exposure</label>
+			<select ng-model="editingMarker.exposure" name="editExposure" class="form-control">
+				<option value="indoor">indoor</option>			
+				<option value="outdoor">outdoor</option>			
+			</select>
+
+			<label for="editDescription">Description</label>
+			<input name="editDescription" maxlength="300" class="form-control" type="text" ng-model="editingMarker.description" placeholder="Description (max. 300 char)" value="{{ editingMarker.description }}">
+
+			<label for="editWeblink">Website</label>
+			<input name="editWeblink" class="form-control" type="text" ng-model="editingMarker.weblink" placeholder="http://..." value="{{ editingMarker.weblink }}">
+		</div>
+		<div class="row">
+			<h3>Position</h3>
+			<leaflet controls="controls" center="boxPosition" markers="editMarker" defaults="editMapDefaults" width="100%" height="250px"></leaflet>
+		</div>
+		<div class="row">
+			<h3>Sensoren ändern</h3>
+			Daten gelöschter Sensoren werden gelöscht. Im Anschluss erhälst du eine Email mit deinen neuen Sensor-IDs für dein Sensebox-Script.
+			<table class="table table-striped table-condensed">
+				<thead>
+					<td>Type</td>
+					<td>Title</td>
+					<td>Unit</td>
+					<td></td>
+				</thead>
+				<tbody>
+					<tr ng-repeat="sensor in editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
+						<td>
+							<span ng-hide="sensor.editing">{{ sensor.sensorType }}</span>
+							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.sensorType" />
+						</td>
+						<td>
+							<span ng-hide="sensor.editing">{{ sensor.title }}</span>
+							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.title" />
+						</td>
+						<td>
+							<span ng-hide="sensor.editing">{{ sensor.unit }}</span>
+							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.unit" />
+						</td>
+						<td>
+							<button type="button" class="btn btn-xs btn-primary" ng-click="editSensor(sensor)" ng-show="!sensor.editing">
+								<span class="glyphicon glyphicon-edit"></span> Ändern
+							</button>
+							<button type="button" class="btn btn-xs btn-danger" ng-click="deleteSensor(sensor)" ng-show="!sensor.editing">
+								<span class="glyphicon glyphicon-minus"></span> Löschen
+							</button>
+							<button type="button" class="btn btn-xs btn-primary" ng-click="saveSensor(sensor)" ng-show="sensor.editing">
+								<span class="glyphicon glyphicon-floppy-disk"></span> Speichern
+							</button>
+							<button type="button" class="btn btn-xs btn-danger" ng-click="cancelSensor(sensor)" ng-show="sensor.editing && sensor.new">
+								<span class="glyphicon glyphicon-minus"></span> Abbrechen
+							</button>
+						</td>
+					</tr>
+					<tr><td colspan="4"><button ng-click="addSensor()" class="btn btn-xs btn-primary">+ neuer Sensor</button></td></tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="row">
+			<h3>Bild hochladen</h3>
+			Wenn du ein neues Bild hochlädst wird das alte ersetzt.
+			<div flow-init="{singleFile:true}" flow-file-added="flowFileAdded($file,$event)" flow-drop>
+				<div class="thumbnail">
+					<img ng-src="/userimages/{{editingMarker.image}}" ng-hide="$flow.files.length || !editingMarker.image" alt="Image for {{ editingMarker.name || 'Filter' }}">
+					<img id="flowUploadImage" flow-img="$flow.files[0]">
+				</div>
+				<div>
+					<span class="btn btn-primary" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>
+					<p>{{ 'SETTINGS_IMAGE_RESTRICTIONS' | translate }}</p>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<h3>Station löschen</h3>
+			Wenn du deine Station löschen möchtest, tippe zum Bestätigen "DELETE" in das Feld - alle zugehörigen Messdaten werden gelöscht.
+			<input name="editDeleteConfirm" class="form-control" type="text" ng-model="editing.delete">
+			<button ng-show="editing.delete == 'DELETE'" ng-click="deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; Sensebox Löschen</button>
+		</div>
 	</div>
 </div>

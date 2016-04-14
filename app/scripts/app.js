@@ -20,7 +20,8 @@ angular
     'ui.checkbox',
     'highcharts-ng',
     'pascalprecht.translate',
-    'ui.router'
+    'ui.router',
+    'gridshore.c3js.chart'
   ])
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode(true);

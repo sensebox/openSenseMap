@@ -44,7 +44,7 @@ html, body {
   color: white;
 }
 
-.leaflet-top {
+#map_main .leaflet-top {
   top: 50px;
 }
 
@@ -431,4 +431,9 @@ div.box {
 
 .ngdialog-message {
   padding:10px;
+  background-color: white;
 }
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  background-color: white;
+}
+

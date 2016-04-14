@@ -30,7 +30,8 @@
     "highcharts-release": "4.2",
     "highcharts-ng": "0.0.11",
     "angular-ui-router": "~0.2.18",
-    "opencpu": "*"
+    "opencpu": "*",
+    "c3-angular": "~1.2.0"
   },
   "devDependencies": {
     "angular-mocks": "1.5",

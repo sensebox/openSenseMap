@@ -56,7 +56,7 @@
 			</div>
 			<div class="input-group">
 				<label for="inputFilterPhenomenon">Station should have this type of sensors:</label>
-				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="liveSearch()">
+				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="needsRefresh=true">
 					<option value=""></option>
 					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>

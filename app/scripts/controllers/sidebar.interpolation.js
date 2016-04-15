@@ -34,24 +34,30 @@ angular.module('openSenseMapApp')
 
 		console.log($scope.$parent.markersFiltered);
 
-		var boxes = [];
+		var boxes;
 		console.log(boxes);
-		angular.forEach($scope.$parent.markersFiltered, function(value, key) {
-			var boxesJSON = {}; 
-			for (var i = 0; i < value.station.sensors.length; i++) {
-				if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
-					boxesJSON.latitude = value.lat;
-					boxesJSON.longitude = value.lng;
-					boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
+		$scope.prepare = function() {
+			boxes = [];
+			angular.forEach($scope.$parent.markersFiltered, function(value, key) {
+				var boxesJSON = {}; 
+				for (var i = 0; i < value.station.sensors.length; i++) {
+					if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
+						boxesJSON.latitude = value.lat;
+						boxesJSON.longitude = value.lng;
+						boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
 
-					boxes.push(boxesJSON);
+						boxes.push(boxesJSON);
+					};
+
 				};
-
-			};
-		});
-		console.log(boxes);
+			});
+			console.log(boxes);	
+		}
+		
 
 		$scope.makeIDW = function(){
+			$scope.prepare();
+
 			$scope.loading = true;
 			if ($scope.$parent.overlayImage != null) {
 				leafletData.getMap().then(function(map) {
@@ -92,6 +98,7 @@ angular.module('openSenseMapApp')
 		};
 
 		$scope.makeTP = function(){
+			$scope.prepare();
 
 			$scope.loading = true;
 

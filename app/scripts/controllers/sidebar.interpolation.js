@@ -70,7 +70,7 @@ angular.module('openSenseMapApp')
 				input : boxes
 			}, function(outtxt){
 				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
+				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
 			});
 
 			var req = ocpu.call("inteRidwIdp", {
@@ -113,7 +113,7 @@ angular.module('openSenseMapApp')
 				input : boxes
 			}, function(outtxt){
 				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 5], [outtxt[2], outtxt[3] + 5]];
+				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
 			});
 
 			var req = ocpu.call("inteRtp", {

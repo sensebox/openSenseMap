@@ -414,9 +414,15 @@ div.box {
   background-position: 50% 50%;
 }
 
-.panel-title > .accordion-toggle span:hover {
+.panel-title > .accordion-toggle:hover {
   cursor: pointer;
+}
+.sensor-measurement-info:hover {
   text-decoration: underline;
+}
+.sensor-measurement-info-date,
+.sensor-measurement-info-nomeasurements {
+  float:right;
 }
 
 .filter-entry.activeMarker {
@@ -437,3 +443,17 @@ div.box {
   background-color: white;
 }
 
+#tabMeasurements .panel-heading {
+  padding: 5px 5px;
+  background-color: #f5f5f5;
+}
+#tabMeasurements .panel-heading:hover {
+  background-color: #f0f0f0;
+}
+#tabMeasurements .panel-group .panel {
+  margin-bottom: 3px;
+}
+#tabMeasurements .row {
+  margin-left: 2px;
+  margin-right: 2px;
+}

@@ -28,21 +28,32 @@
 				<div role="tabpanel" class="tab-pane active" id="tabMeasurements">
 					<div class="list-group">
 						<uib-accordion close-others="false">
-							<uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-click="getData(sensor._id, isOpen)" ng-init="isOpen = false" is-open="isOpen">
-								<uib-accordion-heading>
-								<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i>
-									{{sensor.lastMeasurement.value}} {{sensor.unit}}<span ng-if="sensor.lastMeasurement.createdAt">, {{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'd/M/yy h:mm a' }}</span></span>
+							<uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
+								<uib-accordion-heading >
+								<div class="row" ng-click="getData(sensor._id, !isOpen)">
+									<div class="col-xs-1">
+										<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i></span>
+									</div>
+									<div class="col-xs-11 sensor-measurement-info">
+										<div>{{sensor.title}}</div><br/>
+										<span ng-if="sensor.lastMeasurement.createdAt" style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+										<span ng-if="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date">{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'short' }}</span>
+										<span ng-if="!sensor.lastMeasurement.createdAt" class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+									</div>
+								</div>
 								</uib-accordion-heading>
 								<div>
+									<uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">Fetching data, please wait <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
 									<uib-alert type="info" ng-hide="sensor.lastMeasurement">There is no data for this sensor</uib-alert>
-									<c3chart transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="mydata[sensor._id]" chart-columns="colums" ng-show="sensor.lastMeasurement" ng-if="chartDone[sensor._id]">
-										<chart-size chart-height="150"/>
+									<c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]">
+										<chart-size chart-height="200"/>
 	                  					<chart-axes values-x="dates"/>
 	                  					<chart-axis>
 	                  						<chart-axis-x axis-id="x" axis-type="timeseries">
-	                  							<chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formateDate"/>
+	                  							<chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
 	                  						</chart-axis-x>
 	                  					</chart-axis>
+	                  					<chart-tooltip title-format-function="formatDateFull"/>
 	                  					<chart-legend show-legend="false"/>
 									</c3chart>
 									

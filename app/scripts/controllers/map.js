@@ -120,52 +120,65 @@ angular.module('openSenseMapApp')
 		}
 	};
 
-	$scope.fetchMarkers = function(date, phenomenon) {
+	/*
+		Fetch a set of markers from the server/backend
+
+		If date & phenomenon are set it will download a dataset according to these filters:
+			fetchMarkers("2016-03-07T01:50", "Temperatur");
+		If filteredOnly is set, then only the $scope.filteredMarkers array will be changed
+	*/
+	var filterfunc = function(obj){
+		// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
+		var isActive = obj.sensors.some(function(cv, i, arr){
+			var now = Date.now();
+			return cv.lastMeasurement && 
+					cv.lastMeasurement.updatedAt && 
+					now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
+		});
+		var isInactive = false; // track boxes that have been inactive for a long time
+		if(!isActive){
+			isInactive = obj.sensors.some(function(cv, i, arr){
+				var now = Date.now();
+				return !cv.lastMeasurement || 
+						!cv.lastMeasurement.updatedAt || 
+						now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
+			});
+		}
+		var markerOpts = opts(isActive, isInactive);
+		var marker = {
+			layer: markerOpts.layer,
+			icon: markerOpts.marker,
+			lng: obj.loc[0].geometry.coordinates[0],
+			lat: obj.loc[0].geometry.coordinates[1],
+			opacity: markerOpts.opacity,
+			riseOnHover: true,
+			station: {
+				id: obj._id,
+				name: obj.name,
+				exposure: obj.exposure,
+				grouptag: obj.grouptag,
+				sensors: obj.sensors
+			}
+		};
+		return marker;
+	};
+	$scope.fetchMarkers = function(date, phenomenon, filteredOnly) {
+		filteredOnly = filteredOnly || false;
+
 		$scope.loading = true;
 		if(date!=='' && Array.isArray(date)) date = date.join(',');
 		$scope.markersFiltered = {};
-		$scope.markers = {};
+		if(!filteredOnly) $scope.markers = {};
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
-			angular.extend($scope.markers, response.map(function(obj){
-				// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
-				var isActive = obj.sensors.some(function(cv, i, arr){
-					var now = Date.now();
-					return cv.lastMeasurement && 
-							cv.lastMeasurement.updatedAt && 
-							now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
-				});
-				var isInactive = false; // track boxes that have been inactive for a long time
-				if(!isActive){
-					isInactive = obj.sensors.some(function(cv, i, arr){
-						var now = Date.now();
-						return !cv.lastMeasurement || 
-								!cv.lastMeasurement.updatedAt || 
-								now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
-					});
-				}
-				var markerOpts = opts(isActive, isInactive);
-				var marker = {
-					layer: markerOpts.layer,
-					icon: markerOpts.marker,
-					lng: obj.loc[0].geometry.coordinates[0],
-					lat: obj.loc[0].geometry.coordinates[1],
-					opacity: markerOpts.opacity,
-					riseOnHover: true,
-					station: {
-						id: obj._id,
-						name: obj.name,
-						exposure: obj.exposure,
-						grouptag: obj.grouptag,
-						sensors: obj.sensors
-					}
-				};
-				return marker;
-			}));
-			$scope.markersFiltered = angular.copy($scope.markers);
+			if(!filteredOnly) {
+				angular.extend($scope.markers, response.map(filterfunc));
+				$scope.markersFiltered = angular.copy($scope.markers);
+			} else {
+				angular.extend($scope.markersFiltered, response.map(filterfunc));
+			}
 			$scope.loading = false;
 		});
 	};
-	//fetchMarkers("2016-03-07T01:50", "Temperatur");
 	$scope.fetchMarkers("", ""); // fetch all markers in the database
 
 	/*

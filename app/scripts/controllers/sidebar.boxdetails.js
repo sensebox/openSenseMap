@@ -35,39 +35,37 @@ angular.module('openSenseMapApp')
 
 
     /* CHARTS */
-
-    $scope.colums = [{"id": "data", "type": "scatter"}, {"id": "dates", "type": "date"}];
-    $scope.mydata = {};
+    $scope.columns = [];
+    $scope.sensordata = {};
     $scope.chartDone = {};
     $scope.getData = function(sensorId, panelOpen){
-      if(!panelOpen) return;
+      if(!panelOpen) return; // panel is in closing transition, don't fetch new data
 
       var initDate = new Date();
       var endDate = '';
       var box = $scope.selectedMarker._id;
+      $scope.chartDone[sensorId] = false;
       
       // Get the date of the last taken measurement for the selected sensor
       for (var i = 0; i < $scope.selectedMarker.sensors.length; i++){
         if(sensorId === $scope.selectedMarker.sensors[i]._id){
-          //$scope.mydata[sensorId] = [{ 'data': [], 'dates': [] }];
-          $scope.mydata[sensorId] = [];
-          $scope.chartDone[sensorId] = false;
-          
+          var title = $scope.selectedMarker.sensors[i].title;
+          $scope.columns[sensorId] = [{"id": title, "type": "scatter"}, {"id": "dates", "type": "date"}];
+          $scope.sensordata[sensorId] = [];
+
           if(!$scope.selectedMarker.sensors[i].lastMeasurement) {
             continue;
           }
           endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
-          //console.log($scope.selectedMarker);
-
+          
           OpenSenseBoxData.query({boxId:box, sensorId: sensorId, date1: '', date2: endDate})
           .$promise.then(function(response){
             for (var j = 0; j < response.length; j++) {
               var d = new Date(response[j].createdAt);
-              $scope.mydata[sensorId].push( { 'data': parseFloat(response[j].value), 'dates': d } );
-              //$scope.mydata[sensorId][0].data.push( parseFloat(response[j].value) );
-              //$scope.mydata[sensorId][0].dates.push( response[j].createdAt );
-                /*Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds())
-              );*/
+              var dataPair = {};
+              dataPair[title] = parseFloat(response[j].value);
+              dataPair.dates = d;
+              $scope.sensordata[sensorId].push(dataPair);
             }
             $scope.chartDone[sensorId] = true;
           });
@@ -75,8 +73,10 @@ angular.module('openSenseMapApp')
       }
     };
 
-    $scope.formateDate = function(input){
-      //console.log(input);
+    $scope.formatDate = function(input){
       return d3.time.format("%Y-%m-%d")(new Date(input));
+    };
+    $scope.formatDateFull = function(input){
+      return d3.time.format("%Y-%m-%d %H:%M:%S")(new Date(input));
     };
 }]);

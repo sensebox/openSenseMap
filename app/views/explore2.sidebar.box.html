@@ -1,17 +1,16 @@
 <div id="sidebar" style="background-position: 0px -5px;">
 	<div class="row" ng-show="boxNotFound">
+		<h3><a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a></h3>
 		<div class="col-xs-12 col-md-12">
-		<uib-alert type="danger">Sensebox not found</uib-alert>
+			<uib-alert type="danger">Sensebox not found</uib-alert>
 		</div>
 	</div>
 	<div ng-show="!boxNotFound">
 		<div class="row">
 			<div class="col-xs-12 col-md-12">
 				<h3>
-					<span ng-hide="editableMode">
-						{{ selectedMarker.name }}
-						<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
-					</span>
+					{{ selectedMarker.name }}
+					<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 				</h3>
 			</div>
 		</div>
@@ -56,7 +55,7 @@
 	                  					<chart-tooltip title-format-function="formatDateFull"/>
 	                  					<chart-legend show-legend="false"/>
 									</c3chart>
-									
+									<!--<span style="float:right;cursor:pointer;" ng-if="sensor.lastMeasurement && chartDone[sensor._id]"><span class="glyphicon glyphicon-floppy-save"></span> <a ng-click="downloadSensordata(selectedMarker._id, sensor._id)">Download</a></span>-->
 								</div>
 							</uib-accordion-group>
 						</uib-accordion>

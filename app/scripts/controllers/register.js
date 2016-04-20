@@ -22,9 +22,26 @@ angular.module('openSenseMapApp')
         name: false 
       };
       
-      $scope.validatThirdStep = function() {
-        // disable the 'next' button on the 3rd step registration wizard conditionally
-        return ($scope.modelSelected.id !== false && $scope.modelSelected.id !== 'custom') || ($scope.modelSelected.id==='custom' && $scope.sensors.length > 0);
+      $scope.invalidHardware = false;
+      $scope.validateHardware = function() {
+        if($scope.rc.sampleWizard.currentIndex !== 1){
+          $scope.rc.sampleWizard.forward();
+        } else if($scope.rc.sampleWizard.currentIndex === 1 &&
+          (($scope.modelSelected.id !== false && $scope.modelSelected.id !== 'custom') || ($scope.modelSelected.id==='custom' && $scope.sensors.length > 0))){
+          
+          $scope.invalidHardware = false;
+          $scope.sensorIncomplete = false;
+          for(var i=0; i < $scope.sensors.length; i++){
+            var sensor = $scope.sensors[i];
+            if(sensor.unit === '' || sensor.sensorType === '' || sensor.title === ''){
+              $scope.invalidHardware = true;
+              $scope.sensorIncomplete = true;
+            }
+          }
+          if(!$scope.invalidHardware) $scope.rc.sampleWizard.forward();
+        } else {
+          $scope.invalidHardware = true;
+        }
       };
 
       $scope.$watch('modelSelected.id', function(newValue, oldValue) {
@@ -135,7 +152,18 @@ angular.module('openSenseMapApp')
       };
 
       $scope.save = function (index) {
-        $scope.editing[index]=false;
+        for(var i=0; i < $scope.sensors.length; i++){
+          if($scope.sensors[i].id==index){
+            var sensor = $scope.sensors[i];
+            if(sensor.unit !== '' && sensor.sensorType !== '' && sensor.title !== ''){
+              $scope.editing[sensor.id]=false;
+              $scope.sensorIncomplete = false;
+            } else {
+              $scope.sensorIncomplete = true;
+            }
+
+          }
+        }
       };
 
       $scope.remove = function (index) {
@@ -177,44 +205,6 @@ angular.module('openSenseMapApp')
         $scope.fixedBox = !$scope.fixedBox;
       };
       $scope.sensors = [];
-      // $scope.sensors = [
-      //   {
-      //     id: 1,
-      //     title: 1,
-      //     unit: '°C',
-      //     sensorType: 'BMP085'
-      //   },
-      //   {
-      //     id: 2,
-      //     title: 2,
-      //     unit: '%',
-      //     sensorType: 'DHT11'
-      //   },
-      //   {
-      //     id: 3,
-      //     title: 3,
-      //     unit: 'Pa',
-      //     sensorType: 'BMP085'
-      //   },
-      //   {
-      //     id: 4,
-      //     title: 4,
-      //     unit: 'Pegel',
-      //     sensorType: 'LM386'
-      //   },
-      //   {
-      //     id: 5,
-      //     title: 6,
-      //     unit: 'lx',
-      //     sensorType: 'TSL2561'
-      //   },
-      //   {
-      //     id: 6,
-      //     title: 7,
-      //     unit: 'UV-Index',
-      //     sensorType: 'GUVA-S12D'
-      //   }
-      // ];
 
       // example sensor list used for custom setup
       $scope.phenomenoms = [
@@ -361,4 +351,5 @@ angular.module('openSenseMapApp')
             $scope.alerts.push(alert);
           });
       }
-    }]);
+
+}]);

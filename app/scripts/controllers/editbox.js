@@ -1,11 +1,11 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('EditboxCtrl', ['$scope', 'Validation', '$http',
-  	function($scope, Validation, $http){
+  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI',
+  	function($scope, Validation, $http, OpenSenseBoxAPI){
 
+  	$scope.osemapi = OpenSenseBoxAPI;
   	$scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
-  	console.log($scope.editingMarker);
 
   	$scope.boxPosition = {
 	  lng: $scope.editingMarker.loc[0].geometry.coordinates[0],
@@ -61,7 +61,7 @@ angular.module('openSenseMapApp')
 
   		$http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
   		.success(function(data, status){
-  			//$scope.editableMode = false;
+  			$scope.editableMode = false;
   			$scope.editingMarker = data;
   			if (data.image === "") {
   				$scope.image = "placeholder.png";
@@ -98,28 +98,41 @@ angular.module('openSenseMapApp')
 	$scope.editSensor = function(sensor) {
 		sensor.restore = angular.copy(sensor);
 		sensor.editing = true;
+		console.log(sensor);
 	};
 
 	$scope.saveSensor = function(sensor) {
 		if(sensor.name === "" || sensor.sensorType === "" || sensor.unit === "") {
-			alert("Please fill all fields");
+			sensor.incomplete = true;
 			return false;
 		} else {
 			sensor.editing = false;
+			sensor.incomplete = false;
+			sensor.edited = true;
 		}
 	};
 
 	$scope.deleteSensor = function(sensor) {
-		var index = $scope.editingMarker.sensors.indexOf(sensor);
-		if(index !== -1) {
-			$scope.editingMarker.sensors.splice(index, 1);
+		if(sensor.new){
+			var index = $scope.editingMarker.sensors.indexOf(sensor);
+			if(index !== -1) {
+				$scope.editingMarker.sensors.splice(index, 1);
+			}
+		} else {
+			sensor.deleted = true;
+			sensor.incomplete = false;
 		}
+		
 	};
 
 	$scope.cancelSensor = function(sensor) {
 		if(sensor.name === "" || sensor.sensorType === "" || sensor.unit === "") {
-			$scope.deleteSensor(sensor);
+			var index = $scope.editingMarker.sensors.indexOf(sensor);
+			if(index !== -1) {
+				$scope.editingMarker.sensors.splice(index, 1);
+			}
 		} else {
+			sensor.incomplete = false;
 			sensor.editing = false;
 		}
 	};
@@ -131,6 +144,17 @@ angular.module('openSenseMapApp')
   			$scope.boxScript = data;
   		}).error(function(data, status){
 			// todo: display an error message
+		});
+	};
+
+	$scope.deleteBox = function(){
+		var boxid = $scope.editingMarker._id;
+		$http.delete($scope.osemapi.url+'/boxes/'+boxid+'', { headers: { 'X-ApiKey': $scope.apikey.key } })
+  		.success(function(data, status){
+  			$scope.boxdeleted = true;
+  			$scope.editableMode = false;
+  		}).error(function(data, status){
+			$scope.errorDuringDelete = true;
 		});
 	}
 }]);

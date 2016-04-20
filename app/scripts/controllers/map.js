@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile',
-  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
+  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$stateParams',
+  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
   	$scope.showAllMarkers = true;
   	$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -53,8 +53,8 @@ angular.module('openSenseMapApp')
 	angular.extend($scope, {
 		center: {
 			lat: 51.04139389812637,
-			lng: 10.21728515625,
-			zoom: 6
+          	lng: 10.21728515625,
+          	zoom: 6
 		},
 		layers: {
 			baselayers: {
@@ -174,7 +174,7 @@ angular.module('openSenseMapApp')
 				angular.extend($scope.markers, response.map(filterfunc));
 				$scope.markersFiltered = angular.copy($scope.markers);
 			} else {
-				angular.extend($scope.markersFiltered, response.map(filterfunc));
+				$scope.markersFiltered = response.map(filterfunc);
 			}
 			$scope.loading = false;
 		});

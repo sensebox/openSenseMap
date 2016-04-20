@@ -49,6 +49,7 @@ angular
         }
       })
       .state('explore.map.filter', {
+        url: 'filter',
         views: {
           'sidebar': {
             controller: 'SidebarFilterCtrl',
@@ -57,14 +58,16 @@ angular
         }
       })
       .state('explore.map.download', {
+        url: 'download',
         views: {
           'sidebar': {
-            controller: function($scope) { $scope.thing = "DownloadCtrl"; },
+            controller: 'SidebarDownloadCtrl',
             templateUrl: 'views/explore2.sidebar.download.html'
           }
         }
       })
       .state('explore.map.interpolation', {
+        url: 'interpolation',
         views: {
           'sidebar': {
             controller: 'InterpolationCtrl',

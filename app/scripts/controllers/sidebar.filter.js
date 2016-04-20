@@ -5,6 +5,8 @@ angular.module('openSenseMapApp')
 		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter', 'boxFilter',
 		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter){
 
+		console.log($scope.$parent);
+
 		// form user inputs:
 		// $scope.inputFilter.Name
 		// $scope.inputFilter.Grouptag
@@ -76,5 +78,13 @@ angular.module('openSenseMapApp')
 	          $scope.opened2 = true;
 	          $scope.opened1 = false;
 	        }
+      	};
+
+      	$scope.checkPhenomNeedsRefresh = function(){
+      		if(($scope.inputFilter.DateFrom && $scope.inputFilter.DateFrom !== '') || ($scope.inputFilter.DateTo && $scope.inputFilter.DateTo !== '')) {
+      			$scope.needsRefresh=true;
+      		} else {
+      			$scope.performFilter();
+      		}
       	};
 }]);

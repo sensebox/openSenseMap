@@ -20,18 +20,7 @@
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
-				<label for="inputFilterName">Name</label>
-				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
-			</div>
-			<div class="input-group">
-				<label for="inputFilterGrouptag">Group tag</label>
-				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
-				<datalist id="grouptagSuggestions">
-					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
-				</datalist>
-			</div>
-			<div class="input-group">
-				<label for="inputFilterDate">Has Measurement around this date: </label>
+				<label for="inputFilterDate">Find stations with measurements between these dates (this might take a minute): </label>
 
 				<p class="input-group">
 					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Starting date" />
@@ -46,6 +35,20 @@
 					</span>
 				</p>
 			</div>
+			<hr/>
+		</div>
+		<div class="col-lg-12">
+			<div class="input-group">
+				<label for="inputFilterName">Name</label>
+				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
+			</div>
+			<div class="input-group">
+				<label for="inputFilterGrouptag">Group tag</label>
+				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
+				<datalist id="grouptagSuggestions">
+					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
+				</datalist>
+			</div>
 			<div class="input-group">
 				<label for="inputFilterExposure">Exposure:</label>
 				<select id="inputFilterExposure" class="form-control" ng-model="inputFilter.Exposure" ng-change="liveSearch()">
@@ -56,7 +59,7 @@
 			</div>
 			<div class="input-group">
 				<label for="inputFilterPhenomenon">Station should have this type of sensors:</label>
-				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="needsRefresh=true">
+				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="checkPhenomNeedsRefresh()">
 					<option value=""></option>
 					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>

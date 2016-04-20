@@ -14,6 +14,7 @@
 					<uib-alert type="warning" ng-show="apikeyIssue">It looks like that API key is wrong, please try again</uib-alert>
 				</div>
 			</form>
+			<uib-alert role="success" ng-show="boxdeleted">Your senseBox has been deleted.</uib-alert>
 		</alert>
 	</div>
 	<div ng-show="editableMode">
@@ -53,7 +54,7 @@
 		</div>
 		<div class="row">
 			<h3>Sensoren ändern</h3>
-			Daten gelöschter Sensoren werden gelöscht. Im Anschluss erhälst du eine Email mit deinen neuen Sensor-IDs für dein Sensebox-Script.
+			Daten gelöschter Sensoren werden gelöscht. Wenn du neue Sensoren hinzugefügt hast, solltest du dir dein neues senseBox Script herunterladen (siehe weiter oben).
 			<table class="table table-striped table-condensed">
 				<thead>
 					<td>Type</td>
@@ -76,6 +77,9 @@
 							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.unit" />
 						</td>
 						<td>
+							<span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>
+							<span ng-show="sensor.incomplete">Please fill all fields</span>
+							<span ng-hide="sensor.deleted">
 							<button type="button" class="btn btn-xs btn-primary" ng-click="editSensor(sensor)" ng-show="!sensor.editing">
 								<span class="glyphicon glyphicon-edit"></span> Ändern
 							</button>
@@ -88,9 +92,15 @@
 							<button type="button" class="btn btn-xs btn-danger" ng-click="cancelSensor(sensor)" ng-show="sensor.editing && sensor.new">
 								<span class="glyphicon glyphicon-minus"></span> Abbrechen
 							</button>
+							</span>
 						</td>
 					</tr>
-					<tr><td colspan="4"><button ng-click="addSensor()" class="btn btn-xs btn-primary">+ neuer Sensor</button></td></tr>
+					<tr>
+						<td colspan="4">
+						<button type="button" ng-click="addSensor();" class="btn btn-xs btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
+						</td>
+					</tr>
+					
 				</tbody>
 			</table>
 		</div>
@@ -113,6 +123,7 @@
 			Wenn du deine Station löschen möchtest, tippe zum Bestätigen "DELETE" in das Feld - alle zugehörigen Messdaten werden gelöscht.
 			<input name="editDeleteConfirm" class="form-control" type="text" ng-model="editing.delete">
 			<button ng-show="editing.delete == 'DELETE'" ng-click="deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; Sensebox Löschen</button>
+			<uib-alert role="danger" ng-show="errorDuringDelete">Could not delete your senseBox, please contact us via email</uib-alert>
 		</div>
 	</div>
 </div>

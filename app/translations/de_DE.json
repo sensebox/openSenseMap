@@ -134,5 +134,8 @@
   "INFO": "Info",
 
   "CHART_NODATA": "Dieser Sensor hat keine Messdaten",
-  "BOX_BOXDETAILSINFO": "Hier stehen weitere Informationen zu dieser senseBox, der Besitzer dieser Station hat jedoch nichts hinterlegt."
+  "BOX_BOXDETAILSINFO": "Hier stehen weitere Informationen zu dieser senseBox, der Besitzer dieser Station hat jedoch nichts hinterlegt.",
+  "CUSTOMBOX": "Hier kannst du deine eigene senseBox zusammenbauen. Füge Sensoren zu deiner Sensebox hinzu und bestimme deren Phänomen (was wird gemessen?), die Einheit der Messung sowie den Typ des Bauteils.<br/> Ein Temperatursensor könnte so aussehen:<br/> <ul> <li>Phänomen: Temperatur</li> <li>Einheit: °C</li> <li>Typ: LM35</li> </ul>",
+  "CUSTOMBOX_SENSORINCOMPLETE": "Die Sensoren sind unvollständig, bitte überprüfe, ob du alle Felder (Phänomen, Einheit und Typ) ausgefüllt hast",
+  "REG_HARDWAREINCOMPLETE": "Das Hardwaresetup ist unvollständig, bitte wähle eine senseBox Variante"
 }

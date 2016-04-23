@@ -476,3 +476,11 @@ div.box {
   color: #4EAF47;
   font-family: BrixSlab-Bold;
 }
+
+li.menuitem.filteractive > a {
+  padding: 5px;
+}
+
+li.menuitem.filteractive > a .fa-exclamation-triangle {
+  color: #b00;
+}

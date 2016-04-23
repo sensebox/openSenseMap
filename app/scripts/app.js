@@ -107,3 +107,7 @@ angular
       return $sce.trustAsHtml(val);
     };
   }])
+
+  .factory('FilterActiveService', function(){
+    return { active: false }
+  });

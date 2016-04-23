@@ -2,10 +2,10 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarFilterCtrl', 
-		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter', 'boxFilter',
-		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter){
+		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter', 'boxFilter', 'FilterActiveService',
+		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter, FilterActiveService){
 
-		console.log($scope.$parent);
+		$scope.filterActive = FilterActiveService;
 
 		// form user inputs:
 		// $scope.inputFilter.Name
@@ -33,6 +33,7 @@ angular.module('openSenseMapApp')
 		};
 		
 		$scope.performFilter = function(){
+			$scope.filterActive.active = true;
 			var nameexpr = { 
 				station: { 
 					name: $scope.inputFilter.Name, 
@@ -68,6 +69,7 @@ angular.module('openSenseMapApp')
 			$scope.inputFilter.Exposure = "";
 			$scope.inputFilter.Phenomenon = "";
 			//$scope.$parent.fetchMarkers("", "");
+			$scope.filterActive.active = false;
 		};
 		$scope.refreshData = function(){
 			$scope.$parent.fetchMarkers("", "");

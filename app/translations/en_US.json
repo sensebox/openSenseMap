@@ -4,7 +4,7 @@
   "STEP1": "Create user",
   "STEP1_DESCRIPTION": "Please submit your name and a valid email address, so that after registration we can send you the source code for your senseBox.",
   "STEP2": "My box",
-  "STEP2_DESCRIPTION": "Please submit additional information about your senseBox.",
+  "STEP2_DESCRIPTION": "Please submit additional information about your senseBox. This information can be changed after registration as well.",
   "STEP3": "Location",
   "STEP3_DESCRIPTION": "Click on the map to choose a location for your senseBox.",
   "STEP4": "Hardware Setup",
@@ -133,5 +133,6 @@
   "INTERPOLATION": "Interpolation",
   "INFO": "About",
 
-  "CHART_NODATA": "There is no data for this sensor"
+  "CHART_NODATA": "There is no data for this sensor",
+  "BOX_BOXDETAILSINFO": "Some information about this senseBox is shown here. This senseBox owner has not yet provided additional information."
 }

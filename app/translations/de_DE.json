@@ -4,7 +4,7 @@
   "STEP1": "User anlegen",
   "STEP1_DESCRIPTION": "Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine senseBox zuschicken können.",
   "STEP2": "Meine Box",
-  "STEP2_DESCRIPTION": "Fülle hier die Zusatzinformationen zu deiner senseBox aus.",
+  "STEP2_DESCRIPTION": "Fülle hier die Zusatzinformationen zu deiner senseBox aus. Diese Informationen können später noch geändert werden.",
   "STEP3": "Standort",
   "STEP3_DESCRIPTION": "Klicke auf die Karte, um den geplanten Standort deiner senseBox zu bestimmen.",
   "STEP4": "Hardware Setup",
@@ -133,5 +133,6 @@
   "INTERPOLATION": "Interpolation",
   "INFO": "Info",
 
-  "CHART_NODATA": "Dieser Sensor hat keine Messdaten"
+  "CHART_NODATA": "Dieser Sensor hat keine Messdaten",
+  "BOX_BOXDETAILSINFO": "Hier stehen weitere Informationen zu dieser senseBox, der Besitzer dieser Station hat jedoch nichts hinterlegt."
 }

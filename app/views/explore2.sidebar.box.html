@@ -66,6 +66,10 @@
 
 				<div role="tabpanel" class="tab-pane" id="tabInfo">
 					<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
+						<uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
+							<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+							{{'BOX_BOXDETAILSINFO'|translate}}
+						</uib-alert>
 						<div class="thumbnail">
 							<img id="image" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
 							<span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>

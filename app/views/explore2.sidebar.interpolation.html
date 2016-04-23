@@ -25,7 +25,7 @@
 					{{'CONFIG_PHENOMENON'|translate}}: {{ inputFilter.Phenomenon }}<br/>
 					{{'TIMEFRAME'|translate}}: {{ inputFilter.DateFrom | date:"short" }} - {{ inputFilter.DateTo | date:"short" }}<br/>
 					<br/>
-					{{'INTERP_INFO'}}<br/>
+					{{'INTERP_INFO'|translate}}<br/>
 					<input id="inputFilterDate" class="form-control" type="range" min="{{ Interp.DateFrom }}" max="{{ Interp.DateTo }}" step="1000" ng-model="Interp.DateSelect" ng-change="liveSearch()"/> 
 					<br/>
 					{{ Interp.DateSelect | date:'yyyy-MM-dd HH:mm:ss' }}
@@ -36,8 +36,8 @@
 	          	<select class="form-control" ng-model="idp">
 	                <option ng-repeat="p in idpPool" value="{{p}}">{{p}}</option>
 	          	</select> 
-				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3"/>
-	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3"/>
+				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3 || loading"/>
+	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || $parent.markersFiltered.length < 3 || loading"/>
 	          	<img id="mySpinner" src="/images/ajax-loader.gif" ng-show="loading" /> <br>
 	          	<br/>
 	          	<uib-alert role="warning" ng-show="$parent.markersFiltered.length < 3">{{'INTERP_NOTENOUGH'|translate}}</uib-alert>

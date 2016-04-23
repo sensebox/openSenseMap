@@ -48,15 +48,19 @@
         <div class="navbar-inner">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="isCollapsed = !isCollapsed">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
                     <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png">&nbsp;openSenseMap</a></span>
+                    <div style="display: inline-block;padding:3px 4px;">
+                        <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+                        <span class="sensebox-stats">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+                    </div>
                 </div>
-                <nav class="hidden-xs">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
                         <li ui-sref-active-eq="active" class="menuitem">
                             <a ui-sref="explore.map">
@@ -65,12 +69,12 @@
                         </li>
                         <li ui-sref-active-eq="active" class="menuitem">
                             <a ui-sref="explore.map.interpolation">
-                                <span class="glyphicon glyphicon glyphicon-cloud"></span> Interpolation
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                             </a>
                         </li>
                         <li ui-sref-active-eq="active" class="menuitem"> 
                             <a ui-sref="explore.map.filter">
-                                <span class="glyphicon glyphicon glyphicon-cloud"></span> Filter
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
                             </a>
                         </li>
                         <li ui-sref-active-eq="active" class="menuitem">
@@ -83,48 +87,19 @@
                                 <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
                         </li>
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="info">
+                                <span class="glyphicon glyphicon-barcode"></span> {{'INFO' | translate}}
+                            </a>
+                        </li>
                         <li class="dropdown dropdown-languages">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">Sprache wechseln</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><!-- languages-end -->
                             </ul>
                         </li>
                     </ul>
-                </nav>
-                <nav class="visible-xs" collapse="!isCollapsed">
-                    <ul class="nav navbar-nav" collapse="!isCollapsed">
-                        <li>
-                            <a href="{{'#/explore'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{'#/download/'}}{{ box }}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="{{'#/upload'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-export"></span> Daten hochladen
-                            </a>
-                        </li> -->
-                        <li>
-                            <a href="{{'#/register'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
-                                <li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
-                                <li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li>
-                                <li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li>
-                                <li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+                </div>
             </div>
         </div>
     </header>
@@ -206,6 +181,7 @@
         <script src="scripts/controllers/sidebar.interpolation.js"></script>
         <script src="scripts/controllers/sidebar.download.js"></script>
         <script src="scripts/controllers/editbox.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <script src="scripts/services/opensenseboxapi.js"></script>
         <script src="scripts/services/opensenseboxes.js"></script>
         <script src="scripts/services/opensenseboxessensors.js"></script>

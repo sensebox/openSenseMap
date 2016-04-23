@@ -32,11 +32,11 @@ angular.module('openSenseMapApp')
 		$scope.idp = 0;
 		$scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-		console.log($scope.$parent.markersFiltered);
+		//console.log($scope.$parent.markersFiltered);
 
 		var boxes;
-		console.log(boxes);
 		$scope.prepare = function() {
+			$scope.failedCalc = false;
 			boxes = [];
 			angular.forEach($scope.$parent.markersFiltered, function(value, key) {
 				var boxesJSON = {}; 
@@ -93,6 +93,7 @@ angular.module('openSenseMapApp')
 
 			}).fail(function(){
 				console.log("R returned an error: " + req.responseText); 
+				$scope.failedCalc = true;
 			});
 
 		};
@@ -133,6 +134,7 @@ angular.module('openSenseMapApp')
 
 			}).fail(function(){
 				console.log("R returned an error: " + req.responseText); 
+				$scope.failedCalc = true;
 			});
 		};
 

@@ -12,6 +12,11 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
+			<div class="alert alert-info" role="alert">
+				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+				{{ "DOWNLOAD_INTRO" | translate }}
+		  	</div>
+			
 			<span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
 			<div class="form-group">
 				
@@ -54,18 +59,19 @@
 		  <br>
 		  <uib-alert type="info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></uib-alert>
 		  <uib-alert type="warning">
-		  	Downloading data from {{ count }} stations*<br/>
-		  	<small>* Not all stations might have data in the selected time period. Use the <a ui-sref="explore.map.filter">Filter</a> to find boxes and sensors that you want.</small>
+		  	<!--<span ng-bind-html="'DOWNLOAD_WARNING'|translate"></span>-->
+		  	<p translate="DOWNLOAD_WARNING" translate-value-count="{{count}}"></p>
+	  	    
 		  </uib-alert>
-		  <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false;"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+		  <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false;" ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom || !inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
 			  <uib-alert type="info" ng-show="downloadform.pleaseWait">
-				<i class="fa fa-spinner fa-pulse"></i> Bitte warten, die Daten werden angefordert...
+				<i class="fa fa-spinner fa-pulse"></i> {{ "PLEASE_WAIT_DATA" | translate }}
 			  </uib-alert>
 			  <uib-alert type="warning" ng-show="downloadform.emptyData">
-				Im ausgewählten Zeitraum liegen keine Daten vor.
+				{{ "DOWNLOAD_NODATA" | translate }}
 			  </uib-alert>
 			  <uib-alert type="warning" ng-show="downloadform.errorOccured">
-				Es ist ein Fehler aufgetreten.
+				{{ "COMMON_ERROR" | translate }}
 			  </uib-alert>
 		</div>
 	</div>

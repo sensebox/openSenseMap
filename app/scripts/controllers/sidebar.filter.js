@@ -16,12 +16,20 @@ angular.module('openSenseMapApp')
 		// $scope.inputFilter.Phenomenon
 		$scope.inputFilter = $scope.inputFilter || {};
 
+		if($scope.inputFilter.DateTo && $scope.inputFilter.DateTo !== '' && $scope.inputFilter.DateFrom && $scope.inputFilter.DateFrom !== '') $scope.needsRefresh = true;
+
 		$scope.filterByDate = function(box) {
 				return box.station.sensors.some(function(cv, i, arr){
 					return cv.lastMeasurement && 
 							cv.lastMeasurement.updatedAt && 
 							Date.parse(cv.lastMeasurement.updatedAt) > $scope.inputFilter.Date
 				});
+		};
+		
+		$scope.endingDate = function(numDays){
+			$scope.inputFilter.DateTo = new Date();
+			$scope.inputFilter.DateFrom = new Date((new Date()).valueOf() - 1000*60*60*24*numDays);
+			$scope.needsRefresh = true;
 		};
 		
 		$scope.performFilter = function(){

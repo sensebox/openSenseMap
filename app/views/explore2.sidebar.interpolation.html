@@ -12,30 +12,36 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-
+			<uib-alert type="info">
+				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+				{{'INTERP_INTRO'|translate}}
+			</uib-alert>
 			<uib-alert type="warning" ng-hide="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
-				Please filter markers by date and phenomenon first under <b><a ui-sref="explore.map.filter">Filters</a></b>
+				<span ng-bind-html="'INTERP_PLEASEFILTER'|translate"></span>
 			</uib-alert>
 
 			<div ng-show="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
 				<uib-alert type="info">
-					Sensortype: {{ inputFilter.Phenomenon }}<br/>
-					Date range: {{ inputFilter.DateFrom | date:"short" }} - {{ inputFilter.DateTo | date:"short" }}<br/>
+					{{'CONFIG_PHENOMENON'|translate}}: {{ inputFilter.Phenomenon }}<br/>
+					{{'TIMEFRAME'|translate}}: {{ inputFilter.DateFrom | date:"short" }} - {{ inputFilter.DateTo | date:"short" }}<br/>
 					<br/>
-					Select an exact date (somewhere in your filter date range), we will try to find boxes around that time that have measurements according to your filters.<br/>
+					{{'INTERP_INFO'}}<br/>
 					<input id="inputFilterDate" class="form-control" type="range" min="{{ Interp.DateFrom }}" max="{{ Interp.DateTo }}" step="1000" ng-model="Interp.DateSelect" ng-change="liveSearch()"/> 
 					<br/>
 					{{ Interp.DateSelect | date:'yyyy-MM-dd HH:mm:ss' }}
 				</uib-alert>
 
 	          	<br>
-	          	Auswahl des Parameters p für die IDW Interpolation:
+	          	{{"INTERP_IDWPARAM"|translate}}
 	          	<select class="form-control" ng-model="idp">
 	                <option ng-repeat="p in idpPool" value="{{p}}">{{p}}</option>
 	          	</select> 
-				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()'/>
-	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()'/>
+				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3"/>
+	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3"/>
 	          	<img id="mySpinner" src="/images/ajax-loader.gif" ng-show="loading" /> <br>
+	          	<br/>
+	          	<uib-alert role="warning" ng-show="$parent.markersFiltered.length < 3">{{'INTERP_NOTENOUGH'|translate}}</uib-alert>
+	          	<uib-alert role="warning" ng-show="failedCalc">{{'COMMON_ERROR'|translate}}</uib-alert>
           	</div>
           <br>
 		</div>

@@ -6,6 +6,9 @@ angular.module('openSenseMapApp')
 	function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxAPI, leafletData){
 
 	$scope.markersFiltered = $scope.$parent.markersFiltered;
+	$scope.$watch('$parent.loading', function() {
+        $scope.markersFiltered = $scope.$parent.markersFiltered;
+    });
 
 	$scope.osemapi = OpenSenseBoxAPI;
 	$scope.inputFilter = $scope.inputFilter || {};
@@ -51,7 +54,7 @@ angular.module('openSenseMapApp')
 			}
 		});
 		return boxids;
-	}
+	};
 
 	$scope.dataDownload = function(){
 		$scope.downloadform.pleaseWait = true;
@@ -76,12 +79,16 @@ angular.module('openSenseMapApp')
 		        }
 		        $scope.downloadform.pleaseWait = false;
 			})
-			.error(function(err) {
+			.error(function(data, err) {
 				$scope.downloadform.pleaseWait = false;
-				$scope.downloadform.errorOccured = true;
-				console.log(err);
+				if(data.length===0 && err === 404){
+					$scope.downloadform.emptyData=true;
+				} else {
+					$scope.downloadform.errorOccured = true;
+					console.log(err);
+				}
 			});
 		});
-
 	};
+
 }]);

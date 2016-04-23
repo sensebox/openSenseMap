@@ -62,22 +62,28 @@ angular.module('openSenseMapApp')
   		$http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
   		.success(function(data, status){
   			$scope.editableMode = false;
-  			$scope.editingMarker = data;
+  			$scope.savedSuccessfully = true;
+			$scope.savedError = false;
   			if (data.image === "") {
   				$scope.image = "placeholder.png";
   			} else {
   				$scope.image = data.image;
   			}
+  			$scope.editingMarker = angular.copy(data);
+  			$scope.$parent.selectedMarker = angular.copy(data);
   		}).error(function(data, status){
-			// todo: display an error message
+  			$scope.savedError = true;
 		});
   	};
 
   	$scope.flowFileAdded = function(file,event) {
+  		console.log("A")
 		if ((file.getExtension().toLowerCase() === "jpg" || file.getExtension().toLowerCase() === "png" || file.getExtension().toLowerCase() === "jpeg") && file.size < 512000) {
 			return true;
+  			console.log("B")
 		} else {
 			return false;
+  			console.log("C")
 		}
 	};
 

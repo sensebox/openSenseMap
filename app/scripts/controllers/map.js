@@ -242,8 +242,8 @@ angular.module('openSenseMapApp')
 		$compile(template)($scope);	
 	});
 
-	leafletData.getMap("map_main").then(function(map) {
+	/*leafletData.getMap("map_main").then(function(map) {
     	console.log(map);
     	console.log(map.getBounds().toBBoxString());
-	});
+	});*/
 }]);

@@ -79,6 +79,10 @@ angular
         url: '/register',
         templateUrl: 'views/register.html',
         controller: 'RegisterCtrl'
+      })
+      .state('info', {
+        url: '/info',
+        templateUrl: 'views/info.html'
       });
   })
 
@@ -98,24 +102,6 @@ angular
     $translateProvider.useSanitizeValueStrategy('escaped');
   })
 
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', function ($scope, $rootScope, $translate, $route) {
-    $scope.key="de";
-    $scope.changeLang = function (key) {
-      $translate.use(key).then(function (key) {
-        console.log("Sprache zu "+ key +" gewechselt.");
-        $scope.key = key.split("_")[0];
-      }, function (key) {
-        console.log("Irgendwas lief schief");
-      });
-      $scope.changeLang($translate.use());
-    }
-
-    $rootScope.$watch('selectedBox', function() {
-      $scope.box = $rootScope.selectedBox;
-      console.log("box changed to "+$rootScope.selectedBox);
-    });
-  }])
-  
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);

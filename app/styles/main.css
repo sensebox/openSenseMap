@@ -336,6 +336,11 @@ div.box {
     border-bottom: 0;
   }
 }
+@media (max-width: 767px) {
+  .languages-select.visible-xs {
+    display:inline-block !important;
+  }
+}
 
 .form-signin {
   max-width: 440px;
@@ -465,4 +470,9 @@ div.box {
 .navbar-default .navbar-nav > .menuitem.active > a {
   box-sizing: border-box;
   box-shadow: 0px -3px 0px #4EAF47 inset;
+}
+
+.sensebox-stats {
+  color: #4EAF47;
+  font-family: BrixSlab-Bold;
 }

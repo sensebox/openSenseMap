@@ -2,7 +2,7 @@
 	<div class="row">
 		<div class="col-xs-12 col-md-12">
 			<h3>
-				Search and Filter
+				{{'SEARCH_AND_FILTER' | translate}}
 				<!--{{'FILTER'|translate}}-->
 				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 			</h3>
@@ -15,12 +15,12 @@
 		<div class="col-lg-12">
 			<div class="alert alert-info" role="alert">
 			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-			Select criteria by which you want to filter stations.
-		  </div>
+			{{'SAF_INTRO' | translate}}
+	  		</div>
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
-				<label for="inputFilterDate">Find stations with measurements between these dates (this might take a minute): </label>
+				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }} </label>
 
 				<p class="input-group">
 					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Starting date" />
@@ -35,30 +35,33 @@
 					</span>
 				</p>
 			</div>
+			<button class="btn btn-info" ng-click="endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+			<button class="btn btn-info" ng-click="endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+			<button class="btn btn-info" ng-click="endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
 			<hr/>
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
-				<label for="inputFilterName">Name</label>
+				<label for="inputFilterName">{{ "BOX_NAME" | translate }}</label>
 				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
 			</div>
 			<div class="input-group">
-				<label for="inputFilterGrouptag">Group tag</label>
+				<label for="inputFilterGrouptag">{{ "GROUP" | translate }}</label>
 				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
 				<datalist id="grouptagSuggestions">
 					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
 				</datalist>
 			</div>
 			<div class="input-group">
-				<label for="inputFilterExposure">Exposure:</label>
+				<label for="inputFilterExposure">{{ "BOX_EXPOSURE" | translate }}</label>
 				<select id="inputFilterExposure" class="form-control" ng-model="inputFilter.Exposure" ng-change="liveSearch()">
 					<option value=""></option>
-					<option value="indoor">Indoor</option>
-					<option value="outdoor">Outdoor</option>
+					<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+					<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
 				</select>
 			</div>
 			<div class="input-group">
-				<label for="inputFilterPhenomenon">Station should have this type of sensors:</label>
+				<label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
 				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="checkPhenomNeedsRefresh()">
 					<option value=""></option>
 					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
@@ -66,10 +69,18 @@
 			</div>
 			<div class="input-group">
 				<br/>
-				<uib-alert type="info" ng-show="needsRefresh">Click 'Apply Filter' to apply your filter settings</uib-alert>
-				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">Apply Filter</button>&nbsp;
-				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">Reset filters</button> <br/><br/>
-				<uib-alert type="warning" ng-show="loading">Fetching data, please wait <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
+				<uib-alert type="info" ng-show="needsRefresh">
+					{{ "SAF_HELP" | translate }}
+				</uib-alert>
+				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">
+					{{"SAF_APPLY"|translate}}
+				</button>&nbsp;
+				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">
+					{{"SAF_RESET"|translate}}
+				</button> <br/><br/>
+				<uib-alert type="warning" ng-show="loading">
+					{{"PLEASE_WAIT_DATA"|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" />
+				</uib-alert>
 			</div>
 		</div>
 	</div>

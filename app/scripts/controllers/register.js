@@ -319,6 +319,7 @@ angular.module('openSenseMapApp')
       });
 
       $scope.completeRegistration = function () {
+        console.log($scope.newSenseBox);
         $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
         $scope.newSenseBox.user = $scope.user;
         $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
@@ -339,6 +340,7 @@ angular.module('openSenseMapApp')
               msg: 'SenseBox wurde erfolgreich angelegt und du erhälst gleich eine Email mit allen wichtigen Informationen. Du wirst in 10 Sekunden auf die Erkunden-Seite weitergeleitet!'
             };
             $scope.alerts.push(alert);
+            $scope.regSuccess = true;
             $timeout( function () {
               $location.path('/explore');
             },10000);

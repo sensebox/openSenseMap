@@ -1,5 +1,5 @@
 <div class="row register">
-  <div class="col-lg-7 col-lg-offset-2 col-lg-offset-0-5">
+  <div class="col-lg-7 col-lg-offset-2">
     <div rc-wizard="sampleWizard" rc-disabled="rc.firstForm.submitInProgress">
       <div class="center">
       <ul class="nav rc-nav-wizard">
@@ -223,7 +223,7 @@
              ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
-          <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"
+          <a class="btn btn-success" ng-click="!regSuccess && rc.sampleWizard.forward()"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'FINISH' | translate}}</a>
         </div>
       </div>

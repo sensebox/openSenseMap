@@ -131,6 +131,7 @@
   "SENSEBOXES": "senseBoxes",
   "MEASUREMENTS": "measurements",
   "INTERPOLATION": "Interpolation",
-  "INFO": "About"
+  "INFO": "About",
 
+  "CHART_NODATA": "There is no data for this sensor"
 }

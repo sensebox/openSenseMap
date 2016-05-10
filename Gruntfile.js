@@ -72,11 +72,14 @@ module.exports = function (grunt) {
 
     // The actual grunt server settings
     connect: {
+      keepalive: true,
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
-        livereload: 35729
+        hostname: '0.0.0.0',
+        //livereload: 35729,
+        keepalive: true,
+        base: 'app'
       },
       livereload: {
         options: {
@@ -371,8 +374,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'languages',
-      'connect:livereload',
-      'watch'
+      'connect:keepalive'
     ]);
   });
 

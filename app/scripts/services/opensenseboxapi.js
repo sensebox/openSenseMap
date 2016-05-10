@@ -11,8 +11,8 @@ angular.module('openSenseMapApp')
   .factory('OpenSenseBoxAPI', function ($resource) {
   	var api = {
   		//url: 'http://api.opensensemap.org'
-  		//url: '//demoapi.opensensemap.org'
-  		url: 'http://localhost:8000'
+  		url: '//demoapi.opensensemap.org'
+  		//url: 'http://localhost:8000'
   	};
     return api;
   });

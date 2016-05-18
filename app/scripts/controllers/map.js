@@ -112,11 +112,11 @@ angular.module('openSenseMapApp')
 	*/
 	var opts = function(isActive, isInactive){
 		if(isActive) {
-			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1 };
+			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 };
 		} else if(!isActive && !isInactive) {
-			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75 };
+			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 100 };
 		} else {
-			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75 };
+			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 0};
 		}
 	};
 
@@ -158,7 +158,8 @@ angular.module('openSenseMapApp')
 				exposure: obj.exposure,
 				grouptag: obj.grouptag,
 				sensors: obj.sensors
-			}
+			},
+			zIndexOffset: markerOpts.zIndexOffset
 		};
 		return marker;
 	};

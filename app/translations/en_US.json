@@ -1,6 +1,7 @@
 {
   "EXPLORE": "Explore",
   "REGISTER": "Register",
+  "CHANGE_LANG": "Change language",
   "STEP1": "Create user",
   "STEP1_DESCRIPTION": "Please submit your name and a valid email address, so that after registration we can send you the source code for your senseBox.",
   "STEP2": "My box",

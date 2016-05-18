@@ -1,6 +1,7 @@
 {
   "EXPLORE": "Erkunden",
   "REGISTER": "Registrierung",
+  "CHANGE_LANG": "Sprache wechseln",
   "STEP1": "User anlegen",
   "STEP1_DESCRIPTION": "Gib hier deinen Namen und eine gültige E-Mail Adresse an, damit wir dir im Anschluss an die Registrierung die Software für deine senseBox zuschicken können.",
   "STEP2": "Meine Box",

@@ -72,7 +72,7 @@
                                 <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                             </a>
                         </li>
-                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}"> 
+                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}">
                             <a ui-sref="explore.map.filter">
                                 <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
                                 <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
@@ -94,7 +94,7 @@
                             </a>
                         </li>
                         <li class="dropdown dropdown-languages">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">Sprache wechseln</span> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><!-- languages-end -->
                             </ul>

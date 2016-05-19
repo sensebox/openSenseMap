@@ -28,7 +28,9 @@ angular.module('openSenseMapApp')
 		var imageBounds;
 		var imageBoundsLegend;
 		$scope.$parent.overlayImageLegend;
+		$scope.$parent.ImageLegend;
 		$scope.$parent.overlayImage;
+		$scope.legend = false;
 		$scope.idp = 0;
 		$scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -86,8 +88,10 @@ angular.module('openSenseMapApp')
 					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
 					map.addLayer($scope.$parent.overlayImage);
 					if ($scope.idp != 0) {
-						$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-						map.addLayer($scope.$parent.overlayImageLegend);
+						//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+						//map.addLayer($scope.$parent.overlayImageLegend);
+						$scope.legend = true;
+						$scope.$parent.ImageLegend = session.getFileURL("legend.png");
 					};
 				});
 
@@ -128,8 +132,10 @@ angular.module('openSenseMapApp')
 				leafletData.getMap().then(function(map) {
 					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
 					map.addLayer($scope.$parent.overlayImage);
-					$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-					map.addLayer($scope.$parent.overlayImageLegend);
+					//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
+					//map.addLayer($scope.$parent.overlayImageLegend);
+					$scope.legend = true;
+					$scope.$parent.ImageLegend = session.getFileURL("legend.png");
 				});
 
 			}).fail(function(){

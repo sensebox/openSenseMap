@@ -40,8 +40,8 @@
 	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || $parent.markersFiltered.length < 3 || loading"/>
 	          	<img id="mySpinner" src="/images/ajax-loader.gif" ng-show="loading" /> <br>
 	          	<br/>
-	          	<h3 ng-show="legend" style="text-align:center">Legend</h3>
-	          	<img ng-src={{$parent.ImageLegend}} /> <br>
+	          	<h3 ng-show="legend">Legend</h3>
+	          	<img style="margin-left: -80px; max-height: 140px;" ng-src={{$parent.ImageLegend}} /> <br>
 	          	<uib-alert role="warning" ng-show="$parent.markersFiltered.length < 3">{{'INTERP_NOTENOUGH'|translate}}</uib-alert>
 	          	<uib-alert role="warning" ng-show="failedCalc">{{'COMMON_ERROR'|translate}}</uib-alert>
           	</div>

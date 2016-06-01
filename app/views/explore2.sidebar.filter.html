@@ -1,0 +1,95 @@
+<div id="sidebar" style="background-position: 0px -5px;">
+	<div class="row">
+		<div class="col-xs-12 col-md-12">
+			<h3>
+				{{'SEARCH_AND_FILTER' | translate}}
+				<!--{{'FILTER'|translate}}-->
+				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+			</h3>
+		</div>
+	</div>
+	<div class="row">
+		<hr>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="alert alert-info" role="alert">
+			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+			{{'SAF_INTRO' | translate}}
+	  		</div>
+		</div>
+		<div class="col-lg-12">
+			<div class="input-group">
+				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }} </label>
+
+				<p class="input-group">
+					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Starting date" />
+					<span class="input-group-btn">
+						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+				<p class="input-group">
+					<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Ending date" />
+					<span class="input-group-btn">
+						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</p>
+			</div>
+			<button class="btn btn-info" ng-click="endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+			<button class="btn btn-info" ng-click="endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+			<button class="btn btn-info" ng-click="endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+			<hr/>
+		</div>
+		<div class="col-lg-12">
+			<div class="input-group">
+				<label for="inputFilterName">{{ "BOX_NAME" | translate }}</label>
+				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
+			</div>
+			<div class="input-group">
+				<label for="inputFilterGrouptag">{{ "GROUP" | translate }}</label>
+				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
+				<datalist id="grouptagSuggestions">
+					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
+				</datalist>
+			</div>
+			<div class="input-group">
+				<label for="inputFilterExposure">{{ "BOX_EXPOSURE" | translate }}</label>
+				<select id="inputFilterExposure" class="form-control" ng-model="inputFilter.Exposure" ng-change="liveSearch()">
+					<option value=""></option>
+					<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+					<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
+				</select>
+			</div>
+			<div class="input-group">
+				<label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
+				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="checkPhenomNeedsRefresh()">
+					<option value=""></option>
+					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
+				</select>
+			</div>
+			<div class="input-group">
+				<br/>
+				<uib-alert type="info" ng-show="needsRefresh">
+					{{ "SAF_HELP" | translate }}
+				</uib-alert>
+				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">
+					{{"SAF_APPLY"|translate}}
+				</button>&nbsp;
+				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">
+					{{"SAF_RESET"|translate}}
+				</button> <br/><br/>
+				<uib-alert type="warning" ng-show="loading">
+					{{"PLEASE_WAIT_DATA"|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" />
+				</uib-alert>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<hr/>
+		<div class="col-xs-12 col-md-12">
+		<h4>Results</h4>
+			<uib-alert type="info" ng-show="(($parent.markersFiltered | filter:{layer:'!temporary'}).length == 0) && !loading">Unfortunately, there were no results matching your filters</uib-alert>
+			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!temporary'}" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
+		</div>
+	</div>
+</div>

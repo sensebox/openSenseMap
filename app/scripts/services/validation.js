@@ -8,7 +8,7 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-  .factory('validation', function ($http, $q, OpenSenseBoxAPI) {
+  .factory('Validation', function ($http, $q, OpenSenseBoxAPI) {
 
     var service = {};
 

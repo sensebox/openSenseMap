@@ -44,7 +44,7 @@ html, body {
   color: white;
 }
 
-.leaflet-top {
+#map_main .leaflet-top {
   top: 50px;
 }
 
@@ -162,6 +162,38 @@ a:hover {
   border-radius: 5px;
 }
 
+.info.sensebox-legend {
+  background: none;
+}
+
+.info .sensebox-legend-entry {
+  background-color: #fff;
+  padding: 3px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.info .sensebox-legend-entry label {
+  font-weight: normal;
+}
+
+.sensebox-legend-marker.awesome-marker.awesome-marker-icon-green {
+  width:35px;
+  height:46px;
+  position:relative;
+  display:inline-block;
+  vertical-align: middle;
+}
+.sensebox-legend-marker.awesome-marker.awesome-marker-icon-gray {
+  width:35px;
+  height:46px;
+  position:relative;
+  display:inline-block;
+  opacity:0.7;
+  vertical-align: middle;
+}
+
+
 .leaflet-control-my-location {
   width:26px;
   height:26px;
@@ -172,8 +204,8 @@ a:hover {
   background-color: #f4f4f4;
 }
 
-.leaflet-control-attribution {
-  display:none;
+.leaflet-control-layers {
+  visibility: hidden !important;
 }
 
 #sidebar {
@@ -185,7 +217,7 @@ a:hover {
   height: calc(100% - 50px);
   background: rgba(255, 255, 255, 0.9);
   overflow: auto;
-  z-index: 99;
+  z-index: 1001;
 }
 @media screen and (max-width: 600px) {
   #sidebar {
@@ -304,6 +336,11 @@ div.box {
     border-bottom: 0;
   }
 }
+@media (max-width: 767px) {
+  .languages-select.visible-xs {
+    display:inline-block !important;
+  }
+}
 
 .form-signin {
   max-width: 440px;
@@ -382,7 +419,68 @@ div.box {
   background-position: 50% 50%;
 }
 
-.panel-title > .accordion-toggle span:hover {
+.panel-title > .accordion-toggle:hover {
   cursor: pointer;
+}
+.sensor-measurement-info:hover {
   text-decoration: underline;
+}
+.sensor-measurement-info-date,
+.sensor-measurement-info-nomeasurements {
+  float:right;
+}
+
+.filter-entry.activeMarker {
+  color: #4EAF47;
+}
+
+.filter-entry.inactiveMarker,
+.filter-entry.oldMarker {
+  color: #666;
+  opacity: 0.8;
+}
+
+.ngdialog-message {
+  padding:10px;
+  background-color: white;
+}
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  background-color: white;
+}
+
+#tabMeasurements .panel-heading {
+  padding: 5px 5px;
+  background-color: #f5f5f5;
+}
+#tabMeasurements .panel-heading:hover {
+  background-color: #f0f0f0;
+}
+#tabMeasurements .panel-group .panel {
+  margin-bottom: 3px;
+}
+#tabMeasurements .row {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.dropdown-languages li a {
+  cursor: pointer;
+}
+
+.navbar-default .navbar-nav > .menuitem.active > a {
+  box-sizing: border-box;
+  box-shadow: 0px -3px 0px #4EAF47 inset;
+}
+
+.sensebox-stats {
+  color: #4EAF47;
+  font-family: BrixSlab-Bold;
+}
+
+li.menuitem.filteractive > a {
+  padding: 5px;
+}
+
+li.menuitem.filteractive > a .fa-exclamation-triangle {
+  color: #b00;
 }

@@ -8,6 +8,8 @@
 // 'test/spec/**/*.js'
 
 module.exports = function (grunt) {
+  var modRewrite = require('connect-modrewrite');
+  var serveStatic = require('serve-static');
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -38,16 +40,23 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      jsTest: {
-        files: ['test/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
-      },
+      //jsTest: {
+      //  files: ['test/spec/{,*/}*.js'],
+      //  tasks: ['newer:jshint:test', 'karma']
+      //},
       styles: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.css'],
         tasks: ['newer:copy:styles', 'autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
+      },
+      html: {
+        files: ['<%= yeoman.app %>/index.html'],
+        tasks: ['dev'],
+        options: {
+          livereload: true
+        }
       },
       livereload: {
         options: {
@@ -75,7 +84,16 @@ module.exports = function (grunt) {
           base: [
             '.tmp',
             '<%= yeoman.app %>'
-          ]
+          ],
+          middleware: function(connect, options) {
+            var middlewares = [];
+
+            middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+            options.base.forEach(function(base) {
+              middlewares.push(serveStatic(base));
+            });
+            return middlewares;
+          }
         }
       },
       test: {

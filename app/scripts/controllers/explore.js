@@ -12,13 +12,13 @@ angular.module('openSenseMapApp')
       $scope.prom;
       $scope.delay = 60000;
       $scope.searchText = '';
-      $scope.detailsPanel = false;
+      $scope.detailsPanel = true; // TODO: set to false
       $scope.filterPanel = false;
       $scope.downloadPanel = false;
       $scope.image = "placeholder.png";
 
       // side panel statuses
-      $scope.sidebarActive = false;
+      $scope.sidebarActive = true; // TODO: set to false
       $scope.editIsCollapsed = true;
       $scope.deleteIsCollapsed = true;
       $scope.editableMode = false;
@@ -148,7 +148,7 @@ angular.module('openSenseMapApp')
           $scope.detailsPanel = false;
           $scope.downloadPanel = false;
           $scope.filterPanel = false;
-        
+
           $scope.selectedMarker = response;
           $rootScope.selectedBox = $scope.selectedMarker._id;
           if($location.path().indexOf("/explore") === 0) {
@@ -203,7 +203,7 @@ angular.module('openSenseMapApp')
       ];
       $scope.selectedFilterOption = 'Phänomen';
 
-      
+
 
       var icons = {
         iconC: {
@@ -300,7 +300,7 @@ angular.module('openSenseMapApp')
         var boxid = $scope.selectedMarker.id || $scope.selectedMarker._id;
         var imgsrc = angular.element(document.getElementById("image")).attr('src');
         var newBoxData = {
-          tmpSensorName: $scope.tmpSensor.name, 
+          tmpSensorName: $scope.tmpSensor.name,
           image:imgsrc
         }
         $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, {headers: {'X-ApiKey':$scope.apikey.key}}).
@@ -414,7 +414,7 @@ angular.module('openSenseMapApp')
       };
 
       $scope.$on('leafletDirectiveMarker.click', function(e, args) {
-        
+
         // Args will contain the marker name and other relevant information
         //console.log(args);
         $scope.sidebarActive = true;
@@ -485,14 +485,14 @@ angular.module('openSenseMapApp')
       	var initDate = new Date();
       	var endDate = '';
         var box = $scope.selectedMarker.id || $scope.selectedMarker._id;
-        
+
         // Get the date of the last taken measurement for the selected sensor
         for (var i = 0; i < $scope.selectedMarker.sensors.length; i++){
         	if ($scope.selectedMarker.sensors[i]._id == selectedSensor._id){
-            
+
             console.log($scope.selectedMarker);
             $scope.chartConfigs[$scope.selectedMarker.sensors[i]._id] = chartConfigDefaults;
-            
+
             if($scope.selectedMarker.sensors[i].lastMeasurement != null) { // means that there is no data for this sensor
               endDate = $scope.selectedMarker.sensors[i].lastMeasurement.createdAt;
             }
@@ -500,7 +500,7 @@ angular.module('openSenseMapApp')
         		break;
         	}
         }
-        
+
         $scope.lastData.splice(0, $scope.lastData.length);
       	OpenSenseBoxData.query({boxId:box, sensorId: selectedSensor._id, date1: '', date2: endDate})
           .$promise.then(function(response){
@@ -514,7 +514,7 @@ angular.module('openSenseMapApp')
             $scope.updateCharts(selectedSensor);
           });
       };
-      
+
       // Update chart data according to the selected sensor(title, yaxis)
       $scope.updateCharts = function(sensor){
       	$scope.chartConfigs[sensor._id].options.title.text = $filter('translate')(sensor.title);
@@ -522,7 +522,7 @@ angular.module('openSenseMapApp')
       	$scope.chartConfigs[sensor._id].options.yAxis.title.text = $filter('translate')(sensor.unit);
         $scope.chartConfigs[sensor._id].loading = false;
       };
-     
+
       // Charts
       $scope.chartConfigs = [];
       var chartConfigDefaults = {
@@ -532,7 +532,7 @@ angular.module('openSenseMapApp')
             formatter: function(){
               var d = new Date(this.x);
               var htmlstring = Highcharts.dateFormat('%Y-%m-%d %H:%M:%S.', d) +
-                '<br><span style="color:'+this.series.color+'">●</span> ' + 
+                '<br><span style="color:'+this.series.color+'">●</span> ' +
                 this.y + ' ' + this.series.name;
               return htmlstring;
             },
@@ -597,6 +597,6 @@ angular.module('openSenseMapApp')
           $scope.opened2 = true;
           $scope.opened1 = false;
         }
-        
+
       };
     }]);

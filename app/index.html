@@ -8,6 +8,7 @@
     <title>openSenseMap</title>
     <meta name="description" content="OpenSenseMap is a platform for publishing and visualizing environmental sensor data.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <base href="/">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <link rel="icon" href="/images/sensebox-favicon.png" type="image/png">
@@ -15,13 +16,16 @@
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-select/dist/css/bootstrap-select.css" />
+    <link rel="stylesheet" href="bower_components/nya-bootstrap-select/dist/css/nya-bs-select.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-language/languages.min.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
+    <link rel="stylesheet" href="bower_components/c3/c3.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
@@ -44,89 +48,70 @@
         <div class="navbar-inner">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-3" ng-click="isCollapsed = !isCollapsed">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <span id="brand_with_logo"><a class="navbar-brand" href="#/"><img src="images/sensebox-favicon.png">&nbsp;openSenseMap</a></span>
+                    <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png">&nbsp;openSenseMap</a></span>
+                    <div style="display: inline-block;padding:3px 4px;">
+                        <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+                        <span class="sensebox-stats">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+                    </div>
                 </div>
-                <nav class="hidden-xs">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="{{'#/explore'}}">
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="explore.map">
                                 <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                             </a>
                         </li>
-                       <!--  <li>
-                            <a href="{{'#/upload'}}">
-                                <span class="glyphicon glyphicon-export"></span> Daten hochladen
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="explore.map.interpolation">
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                             </a>
-                        </li> -->
-                        <li>
-                            <a href="{{'#/download/'}}{{ box }}" ng-show="box">
+                        </li>
+                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}"> 
+                            <a ui-sref="explore.map.filter">
+                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
+                                <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+                            </a>
+                        </li>
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="explore.map.download">
                                 <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                             </a>
                         </li>
-                        <li>
-                            <a href="{{'#/register'}}">
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="register">
                                 <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                             </a>
                         </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="caret"></span></a>
+                        <li ui-sref-active-eq="active" class="menuitem">
+                            <a ui-sref="info">
+                                <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
+                            </a>
+                        </li>
+                        <li class="dropdown dropdown-languages">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">Sprache wechseln</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
                                 <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><!-- languages-end -->
                             </ul>
                         </li>
                     </ul>
-                </nav>
-                <nav class="visible-xs" collapse="!isCollapsed">
-                    <ul class="nav navbar-nav" collapse="!isCollapsed">
-                        <li>
-                            <a href="{{'#/explore'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{'#/download/'}}{{ box }}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
-                            </a>
-                        </li>
-                        <!-- <li>
-                            <a href="{{'#/upload'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-export"></span> Daten hochladen
-                            </a>
-                        </li> -->
-                        <li>
-                            <a href="{{'#/register'}}" ng-click="isCollapsed = !isCollapsed">
-                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
-                            </a>
-                        </li>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Language <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li>
-                                <li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li>
-                                <li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li>
-                                <li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li>
-                                <li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </nav>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- Add your site or application content here -->
     <div class="container">
-        <ng-view></ng-view>
+        <div ui-view></div>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <script>
+     <!--<script>
        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -134,7 +119,7 @@
 
        ga('create', 'UA-XXXXX-X');
        ga('send', 'pageview');
-    </script>
+    </script>-->
 
     <!--[if lt IE 9]>
     <script src="bower_components/es5-shim/es5-shim.js"></script>
@@ -145,6 +130,7 @@
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/json3/lib/json3.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-cookies/angular-cookies.js"></script>
@@ -154,8 +140,7 @@
     <script src="bower_components/angular-leaflet-directive/dist/angular-leaflet-directive.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
-    <script src="bower_components/bootstrap-select/dist/js/bootstrap-select.js"></script>
-    <script src="bower_components/nya-bootstrap-select/src/nya-bootstrap-select.js"></script>
+    <script src="bower_components/nya-bootstrap-select/dist/js/nya-bs-select.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
     <script src="bower_components/angular-underscore/angular-underscore.js"></script>
     <script src="bower_components/ngDialog/js/ngDialog.js"></script>
@@ -170,6 +155,11 @@
     <script src="bower_components/highcharts-release/highcharts-more.js"></script>
     <script src="bower_components/highcharts-release/modules/exporting.js"></script>
     <script src="bower_components/highcharts-ng/dist/highcharts-ng.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/opencpu/opencpu-0.5.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/c3/c3.js"></script>
+    <script src="bower_components/c3-angular/c3-angular.min.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -185,7 +175,14 @@
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
         <script src="scripts/controllers/register.js"></script>
-        <script src="scripts/controllers/explore.js"></script>
+        <script src="scripts/controllers/map.js"></script>
+        <script src="scripts/controllers/sidebar.js"></script>
+        <script src="scripts/controllers/sidebar.boxdetails.js"></script>
+        <script src="scripts/controllers/sidebar.filter.js"></script>
+        <script src="scripts/controllers/sidebar.interpolation.js"></script>
+        <script src="scripts/controllers/sidebar.download.js"></script>
+        <script src="scripts/controllers/editbox.js"></script>
+        <script src="scripts/controllers/header.js"></script>
         <script src="scripts/services/opensenseboxapi.js"></script>
         <script src="scripts/services/opensenseboxes.js"></script>
         <script src="scripts/services/opensenseboxessensors.js"></script>

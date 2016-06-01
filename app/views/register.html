@@ -1,5 +1,5 @@
 <div class="row register">
-  <div class="col-lg-7 col-lg-offset-2 col-lg-offset-0-5">
+  <div class="col-lg-7 col-lg-offset-2">
     <div rc-wizard="sampleWizard" rc-disabled="rc.firstForm.submitInProgress">
       <div class="center">
       <ul class="nav rc-nav-wizard">
@@ -12,31 +12,19 @@
         <li>
           <a href="#second" data-toggle="tab">
             <span class="badge">2</span>
-            <span>{{'STEP2' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#third" data-toggle="tab">
-            <span class="badge">3</span>
-            <span>{{'STEP3' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#fourth" data-toggle="tab">
-            <span class="badge">4</span>
             <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
-            <span class="badge">5</span>
+            <span class="badge">3</span>
             <span>{{'STEP5' | translate}}</span>
           </a>
         </li>
       </ul>
       </div>
       <div class="tab-content">
-        <form class="tab-pane active" id="first" name="firstForm" rc-submit="generateID();" rc-step novalidate>
+        <form class="tab-pane active" id="first" name="firstForm" rc-submit="generateID();" rc-step novalidate rc-disabled="invalidHardware">
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -63,8 +51,7 @@
            <input type="email" name="email" class="form-control" ng-model="user.email" required>
            <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
           </div>
-        </form>
-        <form class="tab-pane" id="second" name="secondForm" rc-submit="goToMap()" rc-step novalidate>
+
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -72,20 +59,20 @@
           </div>
 
           <!-- NAME -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.boxname) }">
+          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.boxname) }">
             <label class="control-label">{{ 'NAME_YOUR_STATION' | translate }}*</label>
             <input type="text" name="boxname" class="form-control" id="name" placeholder="{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}" ng-model="newSenseBox.name" required>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.boxname)" class="help-block">{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}</p>
+            <p ng-show="rc.firstForm.needsAttention(firstForm.boxname)" class="help-block">{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}</p>
           </div>
 
           <!-- Aufstellungsort -->
-          <div class="form-group" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure) }">
+          <div class="form-group" ng-show="fixedBox" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.exposure) }">
             <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
             <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
               <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
               <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
             </select>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="help-block">{{'PLEASE_SPECIFY_PLACEMENT'|translate}}</p>
+            <p ng-show="rc.firstForm.needsAttention(firstForm.exposure)" class="help-block">{{'PLEASE_SPECIFY_PLACEMENT'|translate}}</p>
           </div>
 
           <!-- Gruppenkennzeichnung -->
@@ -94,28 +81,6 @@
             <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
           </div>
 
-          <!-- Typ -->
-          <!-- <div class="form-group" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.type) }">
-            <label class="control-label">Typ</label>
-            <select class="form-control" name="type" ng-change="change()" id="inputType" ng-model="newSenseBox.boxType" required>
-              <option value="fixed">Stationär</option>
-              <option value="mobile">Mobil</option>
-            </select>
-            <p ng-show="rc.secondForm.needsAttention(secondForm.type)" class="help-block">Bitte wähle einen Typen für deine SenseBox aus.</p>
-          </div> -->
-
-          <!-- ID -->
-          <!-- <div class="form-group">
-            <label class="control-label">SenseBox ID</label>
-            <div class="input-group">
-                <input type="text" name="id" class="form-control" ng-model="newSenseBox.orderID" readonly>
-                <span class="input-group-btn">
-                  <button class="btn btn-default" clip-copy="newSenseBox.orderID" clip-click-fallback="fallback(copy)" type="button"><i class="fa fa-clipboard"></i></button>
-                </span>
-              </div>
-          </div> -->
-        </form>
-        <form class="tab-pane" id="third" name="thirdForm" rc-submit rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -133,18 +98,19 @@
             <leaflet controls="controls" center="center" markers="markers" defaults="defaults" width="100%" height="350px"></leaflet>
           </div>
         </form>
-        <form class="tab-pane" id="fourth" name="fourthForm" rc-step>
+
+        <form class="tab-pane" id="second" name="fourthForm" rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             {{'STEP4_DESCRIPTION' | translate}}
           </div>
 
-          <accordion close-others="true">
-            <accordion-group is-open="open">
-              <accordion-heading>
+          <uib-accordion close-others="true">
+            <uib-accordion-group is-open="open">
+              <uib-accordion-heading>
                 senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()"> senseBox:home mit Ethernet
               </label>
@@ -152,11 +118,11 @@
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()"> senseBox:home mit WLAN
               </label>-->
-            </accordion-group>
-            <!--<accordion-group is-open="open2">
-              <accordion-heading>
+            </uib-accordion-group>
+            <!--<uib-accordion-group is-open="open2">
+              <uib-accordion-heading>
                 SenseBox Basic <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicEthernet'" ng-change="checked()"> SenseBox Basic mit Ethernet
               </label>
@@ -164,15 +130,17 @@
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicWifi'" ng-change="checked()"> SenseBox Basic mit WLAN
               </label>
-            </accordion-group>-->
-            <accordion-group is-open="open3">
-              <accordion-heading>
+            </uib-accordion-group>-->
+            <uib-accordion-group is-open="open3">
+              <uib-accordion-heading>
                 {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
-              </accordion-heading>
+              </uib-accordion-heading>
               <label class="checkbox-inline">
                 <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'custom'" ng-change="checked()"> {{'MANUAL_CONFIGURATION'|translate}}
               </label>
               <br>
+              <uib-alert type="info" ng-bind-html="'CUSTOMBOX'|translate">
+              </uib-alert>
               <br>
               <table class="table table-striped table-bordered">
                 <thead>
@@ -202,25 +170,26 @@
                     </td>
                     <td style="white-space: nowrap">
                       <button type="button" class="btn btn-primary" ng-hide="editing[sensor.id]" ng-click="edit(sensor.id);">
-                        <span class="glyphicon glyphicon-edit"></span> Ändern
+                        <span class="glyphicon glyphicon-edit"></span> {{'CHANGE'|translate}}
                       </button>
                       <button type="button" class="btn btn-danger" ng-hide="editing[sensor.id]" ng-click="remove(sensor.id);">
-                        <span class="glyphicon glyphicon-minus"></span> Löschen
+                        <span class="glyphicon glyphicon-minus"></span> {{'DELETE'|translate}}
                       </button>
                       <button type="button" class="btn btn-primary" ng-show="editing[sensor.id]" ng-click="save(sensor.id);">
-                        <span class="glyphicon glyphicon-floppy-disk"></span> Speichern
+                        <span class="glyphicon glyphicon-floppy-disk"></span> {{'SAVE'|translate}}
                       </button>
-                      {{editMode}}
                     </td>
                   </tr>
                 </tbody>
               </table>
+              <uib-alert type="warning" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
               <div class="col-lg-12">
                 <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                 <hr>
               </div>
-            </accordion-group>
-          </accordion>
+            </uib-accordion-group>
+            <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
+          </uib-accordion>
         </form>
         <form class="tab-pane" id="last" name="lastForm" rc-submit="completeRegistration()" rc-step>
           <hr>
@@ -228,7 +197,7 @@
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             {{'STEP5_DESCRIPTION' | translate}}
           </div>
-          <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</alert>
+          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 
           <h3>{{'USER'|translate}}</h3>
           <div class="well">
@@ -244,7 +213,7 @@
             {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
             API-Key: {{newSenseBox.orderID}} <br>
           </div>
-          <alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></alert>
+          <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
         </form>
       </div>
       <div class="form-group">
@@ -252,11 +221,11 @@
         <div class="pull-right">
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
-          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength" ng-disabled="rc.sampleWizard.currentIndex == 3 && modelSelected.id==false">{{'NEXT' | translate}}</a>
+          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="validateHardware()"
+             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
-          <a class="btn btn-success" ng-click="rc.sampleWizard.forward()"
+          <a class="btn btn-success" ng-click="!regSuccess && rc.sampleWizard.forward()"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'FINISH' | translate}}</a>
         </div>
       </div>

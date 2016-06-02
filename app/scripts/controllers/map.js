@@ -127,21 +127,23 @@ angular.module('openSenseMapApp')
 			fetchMarkers("2016-03-07T01:50", "Temperatur");
 		If filteredOnly is set, then only the $scope.filteredMarkers array will be changed
 	*/
+	var ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
+	var ONE_YEAR = ONE_MONTH * 12;
+
 	var filterfunc = function(obj){
 		// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
+		var now = Date.now();
 		var isActive = obj.sensors.some(function(cv, i, arr){
-			var now = Date.now();
 			return cv.lastMeasurement &&
 					cv.lastMeasurement.updatedAt &&
-					now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
+					now - Date.parse(cv.lastMeasurement.updatedAt) < ONE_MONTH; // 30 days
 		});
 		var isInactive = false; // track boxes that have been inactive for a long time
 		if(!isActive){
 			isInactive = obj.sensors.some(function(cv, i, arr){
-				var now = Date.now();
 				return !cv.lastMeasurement ||
 						!cv.lastMeasurement.updatedAt ||
-						now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
+						now - Date.parse(cv.lastMeasurement.updatedAt) > ONE_YEAR;
 			});
 		}
 		var markerOpts = opts(isActive, isInactive);

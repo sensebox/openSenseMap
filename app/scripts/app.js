@@ -23,7 +23,10 @@ angular
     'ui.router',
     'gridshore.c3js.chart'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
+    $compileProvider.debugInfoEnabled(false);
+    $logProvider.debugEnabled(false);
+
     $locationProvider.html5Mode(true);
 
     $urlRouterProvider.otherwise('/');

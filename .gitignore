@@ -6,3 +6,9 @@ app/bower_components
 app/files/*
 app/images/*.jpeg
 **/**/**/*.db
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+Session.vim
+.netrwhist
+*~
+tags

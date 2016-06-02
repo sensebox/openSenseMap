@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('SidebarBoxDetailsCtrl', 
+	.controller('SidebarBoxDetailsCtrl',
 		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', '$timeout', 'OpenSenseBoxData',
 		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData){
 
 		$scope.osemapi = OpenSenseBoxAPI;
 		$scope.true = true;
-	
+
 		OpenSenseBox.query({ boxId: $stateParams.id }, function(response){
+			var markerLatLng = [
+				response.loc[0].geometry.coordinates[1],
+				response.loc[0].geometry.coordinates[0]
+			];
+			$scope.$parent.centerLatLng(markerLatLng);
 			$scope.selectedMarker = response;
-			$scope.$parent.center = {
-				lng: response.loc[0].geometry.coordinates[0],
-				lat: response.loc[0].geometry.coordinates[1],
-				zoom: 14
-			};
 		}, function(error){
 			$scope.boxNotFound = true;
 		});
@@ -46,7 +46,7 @@ angular.module('openSenseMapApp')
 			var box = $scope.selectedMarker._id;
 			$scope.chartDone[sensorId] = false;
 			$scope.chartError[sensorId] = false;
-			
+
 			// Get the date of the last taken measurement for the selected sensor
 			for (var i = 0; i < $scope.selectedMarkerData.sensors.length; i++){
 				if(sensorId === $scope.selectedMarkerData.sensors[i]._id){
@@ -58,7 +58,7 @@ angular.module('openSenseMapApp')
 						continue;
 					}
 					endDate = $scope.selectedMarkerData.sensors[i].lastMeasurement.createdAt;
-					
+
 					OpenSenseBoxData.query({boxId:box, sensorId: sensorId, date1: '', date2: endDate})
 					.$promise.then(function(response){
 						for (var j = 0; j < response.length; j++) {

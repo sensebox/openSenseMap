@@ -96,7 +96,7 @@ angular
         suffix: '.json'
       });
     $translateProvider.use('de_DE');
-    $translateProvider.fallbackLanguage('de_DE');
+    $translateProvider.fallbackLanguage('en_US');
     $translateProvider.preferredLanguage('de_DE');
     $translateProvider.determinePreferredLanguage();
     $translateProvider.useSanitizeValueStrategy('escaped');

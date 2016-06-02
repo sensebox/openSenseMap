@@ -5,16 +5,15 @@ angular.module('openSenseMapApp')
   function ($scope, $rootScope, $translate, $route, OpenSenseBoxAPI, $http, FilterActiveService) {
   	$scope.osemapi = OpenSenseBoxAPI;
 
-    $scope.key="de";
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log("Sprache zu "+ key +" gewechselt.");
-        $scope.key = key.split("_")[0];
+        $scope.key = key.split('_')[0];
       }, function (key) {
-        console.log("Irgendwas lief schief");
+        console.log("Fehler beim wechseln zur Sprache " + key);
       });
-      $scope.changeLang($translate.use());
     }
+    $scope.changeLang('de_DE');
 
     $rootScope.$watch('selectedBox', function() {
       $scope.box = $rootScope.selectedBox;

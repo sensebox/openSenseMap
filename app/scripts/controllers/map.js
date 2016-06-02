@@ -105,18 +105,18 @@ angular.module('openSenseMapApp')
 	});
 
 	/*
-		Query markers from API and put them in the $scope.mapMarkers array 
+		Query markers from API and put them in the $scope.mapMarkers array
 		which the map uses to display markers
 
 		Inactive markers (no measurements in 30 days) are displayed with a gray icon instead of green
 	*/
 	var opts = function(isActive, isInactive){
-		if(isActive) { 
-			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1 };
-		} else if(!isActive && !isInactive) { 
-			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75 };
-		} else { 
-			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75 };
+		if(isActive) {
+			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 };
+		} else if(!isActive && !isInactive) {
+			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 100 };
+		} else {
+			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 0};
 		}
 	};
 
@@ -131,16 +131,16 @@ angular.module('openSenseMapApp')
 		// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
 		var isActive = obj.sensors.some(function(cv, i, arr){
 			var now = Date.now();
-			return cv.lastMeasurement && 
-					cv.lastMeasurement.updatedAt && 
+			return cv.lastMeasurement &&
+					cv.lastMeasurement.updatedAt &&
 					now - Date.parse(cv.lastMeasurement.updatedAt) < 30*24*3600000 // 30 days
 		});
 		var isInactive = false; // track boxes that have been inactive for a long time
 		if(!isActive){
 			isInactive = obj.sensors.some(function(cv, i, arr){
 				var now = Date.now();
-				return !cv.lastMeasurement || 
-						!cv.lastMeasurement.updatedAt || 
+				return !cv.lastMeasurement ||
+						!cv.lastMeasurement.updatedAt ||
 						now - Date.parse(cv.lastMeasurement.updatedAt) > 356*24*3600000
 			});
 		}
@@ -158,7 +158,8 @@ angular.module('openSenseMapApp')
 				exposure: obj.exposure,
 				grouptag: obj.grouptag,
 				sensors: obj.sensors
-			}
+			},
+			zIndexOffset: markerOpts.zIndexOffset
 		};
 		return marker;
 	};
@@ -212,10 +213,7 @@ angular.module('openSenseMapApp')
 	*/
 	$scope.$on('leafletDirectiveMarker.map_main.click', function(e, args) {
 		// Args will contain the marker name and other relevant information
-		//$scope.getMeasurements();
-		$scope.center.lat = args.leafletEvent.target._latlng.lat;
-		$scope.center.lng = args.leafletEvent.target._latlng.lng;
-		$scope.center.zoom = 15; // TODO: if current level is already higher -> dont change
+		$scope.centerLatLng(args.leafletEvent.target._latlng);
 		$state.go('explore.map.boxdetails', { id: args.leafletEvent.target.options.station.id });
 	});
 
@@ -239,11 +237,17 @@ angular.module('openSenseMapApp')
 		var infoContainer = angular.element(info._container);
 		infoDiv.append(template);
 		infoContainer.append(template);
-		$compile(template)($scope);	
+		$compile(template)($scope);
 	});
 
-	/*leafletData.getMap("map_main").then(function(map) {
-    	console.log(map);
-    	console.log(map.getBounds().toBBoxString());
-	});*/
+	// centers a latlng (marker) on the map while reserving space for the sidebar
+	$scope.centerLatLng = function(latlng) {
+		leafletData.getMap('map_main').then(function(map) {
+			map.fitBounds([latlng, latlng], {
+				paddingTopLeft: [0,0],
+				paddingBottomRight: [450, 0] // sidebar width: 450px
+			});
+		});
+	}
+
 }]);

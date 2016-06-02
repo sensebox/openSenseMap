@@ -2,7 +2,7 @@ OpenSenseMap
 ============
 
 ## DEPRECATION NOTICE
-Sooner or later the implementation in this repository will be replaced. Please do not fork!
+Please be aware that active development of this branch will be stopped on 1st of August 2016. Afterwards, it will be renamed.
 
 ## Installation
 

@@ -61,7 +61,7 @@ angular.module('openSenseMapApp')
 				mapquest: {
 					name: 'MapQuest Open',
 					type: 'xyz',
-					url: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
+					url: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
 					layerOptions: {
 						subdomains: ['1', '2', '3', '4'],
 						detectRetina: true,

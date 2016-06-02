@@ -1,6 +1,9 @@
 OpenSenseMap
 ============
 
+## DEPRECATION NOTICE
+Sooner or later the implementation in this repository will be replaced. Please do not fork!
+
 ## Installation
 
 Go to the cloned repository and run

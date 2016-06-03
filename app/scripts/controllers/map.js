@@ -11,7 +11,7 @@ angular.module('openSenseMapApp')
 	*/
 	$scope.defaults = {
 		maxZoom: 17,
-		tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
+		tileLayer: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
 		tileLayerOptions: {
 			subdomains: '1234',
 			detectRetina: true,

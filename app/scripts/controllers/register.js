@@ -17,18 +17,18 @@ angular.module('openSenseMapApp')
         ethernet: false
       };
 
-      $scope.modelSelected = { 
-        id: false, 
-        name: false 
+      $scope.modelSelected = {
+        id: false,
+        name: false
       };
-      
+
       $scope.invalidHardware = false;
       $scope.validateHardware = function() {
         if($scope.rc.sampleWizard.currentIndex !== 1){
           $scope.rc.sampleWizard.forward();
         } else if($scope.rc.sampleWizard.currentIndex === 1 &&
           (($scope.modelSelected.id !== false && $scope.modelSelected.id !== 'custom') || ($scope.modelSelected.id==='custom' && $scope.sensors.length > 0))){
-          
+
           $scope.invalidHardware = false;
           $scope.sensorIncomplete = false;
           for(var i=0; i < $scope.sensors.length; i++){
@@ -104,7 +104,8 @@ angular.module('openSenseMapApp')
       });
 
       $scope.defaults = {
-        tileLayer: 'http://otile{s}.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
+        maxZoom: 17,
+        tileLayer: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
         tileLayerOptions: {
           subdomains: '1234',
           //attribution in info modal

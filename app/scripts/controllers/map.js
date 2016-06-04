@@ -3,7 +3,7 @@
 angular.module('openSenseMapApp')
   .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$stateParams',
   	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
-  	$scope.showAllMarkers = true;
+  	$scope.showAllMarkers = false;
   	$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
 	/*
@@ -42,6 +42,12 @@ angular.module('openSenseMapApp')
 			prefix: 'fa',
 			icon: 'cube',
 			markerColor: 'green'
+		},
+		iconDarkGreen: {
+			type: 'awesomeMarker',
+			prefix: 'fa',
+			icon: 'cube',
+			markerColor: 'darkgreen'
 		},
 		iconGray: {
 			type: 'awesomeMarker',
@@ -104,20 +110,23 @@ angular.module('openSenseMapApp')
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
 		}
 	});
+	// apply correct state for $scope.showAllMarkers
+	$scope.toggleLayer('oldMarker');
 
 	/*
 		Query markers from API and put them in the $scope.mapMarkers array
 		which the map uses to display markers
 
-		Inactive markers (no measurements in 30 days) are displayed with a gray icon instead of green
+		Inactive markers (no measurements in 7 days) are displayed with a dark green icon instead of green
+    Markers without measurement in 30 days are displayed in gray
 	*/
 	var opts = function(isActive, isInactive){
 		if(isActive) {
 			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 };
 		} else if(!isActive && !isInactive) {
-			return { layer: 'inactiveMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 100 };
+			return { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 };
 		} else {
-			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.75, zIndexOffset: 0};
+			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0};
 		}
 	};
 
@@ -128,23 +137,24 @@ angular.module('openSenseMapApp')
 			fetchMarkers("2016-03-07T01:50", "Temperatur");
 		If filteredOnly is set, then only the $scope.filteredMarkers array will be changed
 	*/
-	var ONE_MONTH = 1000 * 60 * 60 * 24 * 30;
-	var ONE_YEAR = ONE_MONTH * 12;
+	var ONE_DAY = 1000 * 60 * 60 * 24;
+	var SEVEN_DAYS = ONE_DAY * 7;
+	var THIRTY_DAYS = ONE_DAY * 30;
 
 	var filterfunc = function(obj){
 		// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
 		var now = Date.now();
-		var isActive = obj.sensors.some(function(cv, i, arr){
+		var isActive = obj.sensors.some(function(cv){
 			return cv.lastMeasurement &&
 					cv.lastMeasurement.updatedAt &&
-					now - Date.parse(cv.lastMeasurement.updatedAt) < ONE_MONTH; // 30 days
+					now - Date.parse(cv.lastMeasurement.updatedAt) < SEVEN_DAYS;
 		});
 		var isInactive = false; // track boxes that have been inactive for a long time
 		if(!isActive){
-			isInactive = obj.sensors.some(function(cv, i, arr){
+			isInactive = obj.sensors.some(function(cv){
 				return !cv.lastMeasurement ||
 						!cv.lastMeasurement.updatedAt ||
-						now - Date.parse(cv.lastMeasurement.updatedAt) > ONE_YEAR;
+						now - Date.parse(cv.lastMeasurement.updatedAt) > THIRTY_DAYS;
 			});
 		}
 		var markerOpts = opts(isActive, isInactive);

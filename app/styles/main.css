@@ -177,22 +177,13 @@ a:hover {
   font-weight: normal;
 }
 
-.sensebox-legend-marker.awesome-marker.awesome-marker-icon-green {
+.sensebox-legend-marker.awesome-marker {
   width:35px;
   height:46px;
   position:relative;
   display:inline-block;
   vertical-align: middle;
 }
-.sensebox-legend-marker.awesome-marker.awesome-marker-icon-gray {
-  width:35px;
-  height:46px;
-  position:relative;
-  display:inline-block;
-  opacity:0.7;
-  vertical-align: middle;
-}
-
 
 .leaflet-control-my-location {
   width:26px;
@@ -383,7 +374,7 @@ div.box {
   background-color: #4073BF;
 }
 
-#brand_with_logo img, 
+#brand_with_logo img,
 #brand_with_logo h3 {
   display:inline-block;
 }

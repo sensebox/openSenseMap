@@ -125,9 +125,10 @@
   "INTERP_IDWPARAM": "Auswahl des Parameters p für die IDW Interpolation:",
   "INTERP_NOTENOUGH": "Es sind nicht genügend Stationen mit Messwerten auf der Karte.",
 
-  "LEGEND_ACTIVE": "Aktive Messstation",
-  "LEGEND_INACTIVE": "Inaktive Messstation",
-  "LEGEND_SHOWALL": "Alle anzeigen",
+  "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
+  "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",
+  "LEGEND_INACTIVE": "Inaktive Messstation (> 30 Tage)",
+  "LEGEND_SHOWALL": "anzeigen",
 
   "SENSEBOXES": "senseBoxen",
   "MEASUREMENTS": "Messungen",

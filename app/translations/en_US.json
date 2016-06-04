@@ -125,9 +125,10 @@
   "INTERP_IDWPARAM": "Select the p-parameter for the IDW interpolation:",
   "INTERP_NOTENOUGH": "There aren't enough senseBoxes on the map",
 
-  "LEGEND_ACTIVE": "Active senseBox",
-  "LEGEND_INACTIVE": "Inactive senseBox",
-  "LEGEND_SHOWALL": "Show all",
+  "LEGEND_ACTIVE": "Active senseBox (< 7 Days)",
+  "LEGEND_ACTIVE_30": "Inactive senseBox (> 7 Days)",
+  "LEGEND_INACTIVE": "Inactive senseBox (> 30 Days)",
+  "LEGEND_SHOWALL": "Show",
 
   "SENSEBOXES": "senseBoxes",
   "MEASUREMENTS": "measurements",

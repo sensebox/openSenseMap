@@ -81,7 +81,7 @@ angular.module('rcDisabled', [])
 angular.module('rcDisabledBootstrap', ['rcDisabled'])
 .provider('rcDisabled', rcDisabledProvider)
 .directive(rcDisabledDirective)
-.config(['rcDisabledProvider', function(rcDisabledProvider) {
+.config(["rcDisabledProvider", function(rcDisabledProvider) {
   rcDisabledProvider.onDisable(function(rootElement, isDisabled) {
     var jqElement = jQuery(rootElement);
       

@@ -86,7 +86,7 @@ angular.module('osemFilters', [])
   };
 })
 
-.filter('box', [ 'filterFilter', function(filterFilter) {
+.filter('box', ["filterFilter", function(filterFilter) {
   'use strict';
   return function(markers, expression) {
     var results = [];

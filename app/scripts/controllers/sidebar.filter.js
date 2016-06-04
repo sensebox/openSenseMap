@@ -2,8 +2,7 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarFilterCtrl', 
-		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'filterFilter', '$timeout', '$filter', 'phenomenonsFilter', 'boxFilter', 'FilterActiveService',
-		function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter, FilterActiveService){
+		["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "Validation", "filterFilter", "$timeout", "$filter", "phenomenonsFilter", "boxFilter", "FilterActiveService", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, filterFilter, $timeout, $filter, phenomenonsFilter, boxFilter, FilterActiveService){
 
 		$scope.filterActive = FilterActiveService;
 

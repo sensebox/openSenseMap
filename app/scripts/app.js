@@ -22,7 +22,7 @@ angular
     'ui.router',
     'gridshore.c3js.chart'
   ])
-  .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
+  .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
     $compileProvider.debugInfoEnabled(false);
     $logProvider.debugEnabled(false);
 
@@ -86,13 +86,13 @@ angular
         url: '/info',
         templateUrl: 'views/info.html'
       });
-  })
+  }])
 
-  .config(['ngClipProvider', function(ngClipProvider) {
+  .config(["ngClipProvider", function(ngClipProvider) {
       ngClipProvider.setPath("bower_components/zeroclipboard/dist/ZeroClipboard.swf");
   }])
 
-  .config(function ($translateProvider){
+  .config(["$translateProvider", function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
         prefix: '../translations/',
         suffix: '.json'
@@ -102,9 +102,9 @@ angular
     $translateProvider.preferredLanguage('de_DE');
     $translateProvider.determinePreferredLanguage();
     $translateProvider.useSanitizeValueStrategy('escaped');
-  })
+  }])
 
-  .filter('unsafe', ['$sce', function($sce){
+  .filter('unsafe', ["$sce", function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);
     };

@@ -2,8 +2,7 @@
 
 angular.module('openSenseMapApp')
   .controller('SidebarDownloadCtrl', 
-	['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxAPI', 'leafletData',
-	function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxAPI, leafletData){
+	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxAPI", "leafletData", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxAPI, leafletData){
 
 	$scope.markersFiltered = $scope.$parent.markersFiltered;
 	$scope.$watch('$parent.loading', function() {

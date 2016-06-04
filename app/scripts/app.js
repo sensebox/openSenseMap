@@ -18,7 +18,6 @@ angular
     'ngClipboard',
     'flow',
     'ui.checkbox',
-    'highcharts-ng',
     'pascalprecht.translate',
     'ui.router',
     'gridshore.c3js.chart'

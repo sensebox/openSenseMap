@@ -295,13 +295,58 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/*'
+            'images/{,*/}*.{gif}',
+            'fonts/*.*',
+            'fonts/webfonts/*.*',
+            'translations/*.json'
           ]
         }, {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/leaflet/dist',
+            src: ['images/*.*'],
+            dest: '<%= yeoman.dist %>/styles/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/font-awesome',
+            src: ['fonts/*.*'],
+            dest: '<%= yeoman.dist %>'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/bootstrap/dist',
+            src: ['fonts/*.*'],
+            dest: '<%= yeoman.dist %>'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/bootstrap-languages',
+            src: ['languages.png'],
+            dest: '<%= yeoman.dist %>/styles/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['ajax-loader.gif'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/Leaflet.awesome-markers/dist',
+            src: ['images/*.*'],
+            dest: '<%= yeoman.dist %>/styles/'
         }]
       },
       styles: {

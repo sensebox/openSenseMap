@@ -12,8 +12,7 @@ RUN npm install
 COPY bower.json .bowerrc* /usr/src/app/
 RUN bower install
 COPY . /usr/src/app/
-RUN grunt build --force
-ENV NODE_ENV production
+RUN grunt build
 
 WORKDIR /usr/src/app/dist
 

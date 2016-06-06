@@ -143,9 +143,11 @@ angular.module('openSenseMapApp')
       };
 
       //adds the controls to our map
-      $scope.controls = {
-        custom: [ geoCoderControl ]
-      };
+      angular.extend($scope, {
+          controls: {
+              custom: [ geoCoderControl ]
+          }
+      });
 
       $scope.edit = function (index) {
         $scope.editing[index]=true;

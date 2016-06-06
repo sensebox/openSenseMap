@@ -338,7 +338,21 @@ module.exports = function (grunt) {
             expand: true,
             dot: true,
             cwd: '<%= yeoman.app %>/images',
-            src: ['ajax-loader.gif'],
+            src: ['*.gif'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['*.jpg'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['*.png'],
             dest: '<%= yeoman.dist %>/images/'
         },
         {

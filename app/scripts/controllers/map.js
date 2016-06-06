@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$stateParams',
-  	function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
-  	$scope.showAllMarkers = false;
-  	$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
+	 .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$stateParams',
+		function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
+		$scope.showAllMarkers = true;
+		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
 	/*
 		Set map defaults
@@ -110,8 +110,6 @@ angular.module('openSenseMapApp')
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
 		}
 	});
-	// apply correct state for $scope.showAllMarkers
-	$scope.toggleLayer('oldMarker');
 
 	/*
 		Query markers from API and put them in the $scope.mapMarkers array

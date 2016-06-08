@@ -8,11 +8,9 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-  .factory('OpenSenseBoxAPI', function ($resource) {
-  	var api = {
-  		//url: 'http://api.opensensemap.org'
-  		url: 'http://opensensemap.org:9000'
-  		//url: 'http://localhost:8000'
-  	};
-    return api;
-  });
+	.factory('OpenSenseBoxAPI', function ($resource) {
+		var api = {
+			url: 'https://api.opensensemap.org'
+		};
+		return api;
+	});

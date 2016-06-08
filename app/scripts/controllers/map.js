@@ -105,7 +105,7 @@ angular.module('openSenseMapApp')
 		},
 		markers: {
 		},
-		controls: {},
+    controls: { custom: [] },
 		toggleLayer: function(type) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
 		}
@@ -231,30 +231,23 @@ angular.module('openSenseMapApp')
 	/*
 		Custom legend control
 	*/
-	leafletData.getMap().then(function() {
+	leafletData.getMap("map_main").then(function (map) {
 		var info = L.control({ position:'bottomleft' });
 		info.onAdd = function (map) {
-		    this._div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
-		    return this._div;
-		};
-		//$scope.controls.custom.push(info);
-
-		$templateRequest('views/explore2.map.legend.html').then(function(html) {
+			var _div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
+			this._div = _div;
+			$templateRequest('views/explore2.map.legend.html').then(function(html) {
 			var template = angular.element(html);
-			var infoDiv = angular.element(info._div);
+			var infoDiv = angular.element(_div);
 			var infoContainer = angular.element(info._container);
 			infoDiv.append(template);
 			infoContainer.append(template);
 			$compile(template)($scope);
 		});
-		angular.extend($scope, {
-			custom: [info]
-		})
+		return this._div;
+		};
+		map.addControl(info);
 	});
-	//$scope.controls = {
-	//	custom: []
-	//};
-
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {

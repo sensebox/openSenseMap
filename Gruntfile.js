@@ -20,6 +20,14 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    sed: {
+      dist: {
+        path: "<%= yeoman.dist %>/views/explore2.map.html",
+        pattern: "controls",
+        replacement: 'controls="controls"'
+      }
+    },
+
     // Project settings
     yeoman: {
       // configurable paths
@@ -180,6 +188,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '!<%= yeoman.dist %>/images/placeholder.png',
             '<%= yeoman.dist %>/styles/fonts/*'
           ]
         }
@@ -464,7 +473,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'sed'
   ]);
 
   grunt.registerTask('default', [

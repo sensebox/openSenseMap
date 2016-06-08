@@ -16,7 +16,7 @@ angular.module('openSenseMapApp')
 			subdomains: '1234',
 			detectRetina: true,
 			reuseTiles: true,
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">'
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">'
 		},
 		scrollWheelZoom: true
 	};
@@ -73,7 +73,7 @@ angular.module('openSenseMapApp')
 						subdomains: ['1', '2', '3', '4'],
 						detectRetina: true,
 						reuseTiles: true,
-						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="http://developer.mapquest.com/content/osm/mq_logo.png">',
+						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">',
 						showOnSelector: false
 					}
 				}

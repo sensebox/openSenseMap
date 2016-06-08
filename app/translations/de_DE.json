@@ -75,7 +75,7 @@
   "FILTER": "Filter",
   "Phänomen": "Phänomen",
   "Name": "Name",
-  "INFO_MADE_BY": "Kartendaten <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap-Mitwirkende</a><br>Kartenkacheln von <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"http://developer.mapquest.com/content/osm/mq_logo.png\"><br>Country flags by <a href=\"http://www.icondrawer.com\" target=\"_blank\">Icondrawer</a><br>Sensordaten: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
+  "INFO_MADE_BY": "Kartendaten <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© OpenStreetMap-Mitwirkende</a><br>Kartenkacheln von <a href=\"http://www.mapquest.com/\" target=\"_blank\">MapQuest</a> <img src=\"https://developer.mapquest.com/content/osm/mq_logo.png\"><br>Country flags by <a href=\"http://www.icondrawer.com\" target=\"_blank\">Icondrawer</a><br>Sensordaten: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
   "INFO_LEGEND": "Legende",
   "INFO_COPYRIGHT_NOTICES": "Copyright Hinweise",
   "DOWNLOAD_LICENSE": "Die Daten stehen unter der <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a> und können frei verwendet werden.",

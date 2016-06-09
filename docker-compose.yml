@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  web:
+    image: webwurst/caddy:0.8.3
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./certs:/etc/caddy/certs
+    volumes_from:
+      - osem_static:ro
+  osem_static:
+    image: opensensemap
+    command: "/bin/true"

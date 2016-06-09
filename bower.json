@@ -28,7 +28,7 @@
     "angular-translate": "~2.11",
     "angular-translate-loader-static-files": "~2.11",
     "angular-ui-router": "~0.2.18",
-    "opencpu": "*",
+    "opencpu": "https://github.com/sensebox/opencpu.js.git",
     "c3-angular": "~1.2.0"
   },
   "devDependencies": {

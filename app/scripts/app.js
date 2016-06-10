@@ -15,7 +15,6 @@ angular
     'angular-underscore',
     'rcWizard',
     'rcForm',
-    'ngClipboard',
     'flow',
     'ui.checkbox',
     'pascalprecht.translate',
@@ -86,10 +85,6 @@ angular
         url: '/info',
         templateUrl: 'views/info.html'
       });
-  }])
-
-  .config(["ngClipProvider", function(ngClipProvider) {
-      ngClipProvider.setPath("bower_components/zeroclipboard/dist/ZeroClipboard.swf");
   }])
 
   .config(["$translateProvider", function ($translateProvider){

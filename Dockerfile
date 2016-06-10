@@ -13,4 +13,6 @@ RUN grunt build
 
 VOLUME /usr/src/app/dist
 
-CMD ["/bin/true"]
+ENV API_URL https://api.opensensemap.org
+
+CMD sed -i "s|OPENSENSEMAP_API_URL|$API_URL|" /usr/src/app/dist/scripts/*.scripts.js || /bin/true

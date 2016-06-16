@@ -112,11 +112,13 @@
                 senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
               </uib-accordion-heading>
               <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()"> senseBox:home mit Ethernet
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()">
+                senseBox:home (Ethernet)
               </label>
               <br/>
               <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()"> senseBox:home mit WLAN
+                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()">
+                senseBox:home (WiFi)
               </label>
             </uib-accordion-group>
             <!--<uib-accordion-group is-open="open2">

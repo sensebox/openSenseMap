@@ -20,6 +20,14 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    sed: {
+      dist: {
+        path: "<%= yeoman.dist %>/views/explore2.map.html",
+        pattern: "controls",
+        replacement: 'controls="controls"'
+      }
+    },
+
     // Project settings
     yeoman: {
       // configurable paths
@@ -72,11 +80,14 @@ module.exports = function (grunt) {
 
     // The actual grunt server settings
     connect: {
+      keepalive: true,
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: 'localhost',
-        livereload: 35729
+        hostname: '0.0.0.0',
+        //livereload: 35729,
+        keepalive: true,
+        base: 'app'
       },
       livereload: {
         options: {
@@ -177,6 +188,7 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '!<%= yeoman.dist %>/images/placeholder.png',
             '<%= yeoman.dist %>/styles/fonts/*'
           ]
         }
@@ -223,7 +235,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg,gif}',
+          src: '{,*/}*.{png,jpg,jpeg}',
           dest: '<%= yeoman.dist %>/images'
         }]
       }
@@ -292,13 +304,72 @@ module.exports = function (grunt) {
             '*.html',
             'views/{,*/}*.html',
             'images/{,*/}*.{webp}',
-            'fonts/*'
+            'images/{,*/}*.{gif}',
+            'fonts/*.*',
+            'fonts/webfonts/*.*',
+            'translations/*.json'
           ]
         }, {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/leaflet/dist',
+            src: ['images/*.*'],
+            dest: '<%= yeoman.dist %>/styles/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/font-awesome',
+            src: ['fonts/*.*'],
+            dest: '<%= yeoman.dist %>'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/bootstrap/dist',
+            src: ['fonts/*.*'],
+            dest: '<%= yeoman.dist %>'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/bootstrap-languages',
+            src: ['languages.png'],
+            dest: '<%= yeoman.dist %>/styles/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['*.gif'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['*.jpg'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/images',
+            src: ['*.png'],
+            dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+            expand: true,
+            dot: true,
+            cwd: '<%= yeoman.app %>/bower_components/Leaflet.awesome-markers/dist',
+            src: ['images/*.*'],
+            dest: '<%= yeoman.dist %>/styles/'
         }]
       },
       styles: {
@@ -371,8 +442,7 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'languages',
-      'connect:livereload',
-      'watch'
+      'connect:keepalive'
     ]);
   });
 
@@ -403,7 +473,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'htmlmin'
+    'htmlmin',
+    'sed'
   ]);
 
   grunt.registerTask('default', [

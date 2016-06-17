@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "dependencies": {
     "angular": "1.5",
-    "json3": "~3.3",
     "es5-shim": "~4.5",
     "jquery": "~1.12.0",
     "bootstrap": "~3.3",
@@ -18,8 +17,6 @@
     "underscore": "~1.8.0",
     "angular-underscore": "~0.5",
     "ngDialog": "~0.5",
-    "zeroclipboard": "~2.2.0",
-    "ng-clip": "~0.2.6",
     "ng-flow": "~2",
     "angular-bootstrap-checkbox": "~0.4.0",
     "font-awesome": "~4.4.0",
@@ -28,7 +25,7 @@
     "angular-translate": "~2.11",
     "angular-translate-loader-static-files": "~2.11",
     "angular-ui-router": "~0.2.18",
-    "opencpu": "*",
+    "opencpu": "https://github.com/sensebox/opencpu.js.git",
     "c3-angular": "~1.2.0"
   },
   "devDependencies": {

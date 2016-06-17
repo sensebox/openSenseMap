@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	 .controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$stateParams',
-		function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
+	.controller('MapCtrl', ["$scope", "$state", "OpenSenseBoxes", "leafletData", "$templateRequest", "$compile", "$stateParams", function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -106,6 +105,7 @@ angular.module('openSenseMapApp')
 		},
 		markers: {
 		},
+    controls: { custom: [] },
 		toggleLayer: function(type) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
 		}
@@ -231,24 +231,22 @@ angular.module('openSenseMapApp')
 	/*
 		Custom legend control
 	*/
-	$scope.controls = {
-		custom: []
-	};
-
-	var info = L.control({ position:'bottomleft' });
-	info.onAdd = function (map) {
-	    this._div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
-	    return this._div;
-	};
-	$scope.controls.custom.push(info);
-
-	$templateRequest('views/explore2.map.legend.html').then(function(html) {
-		var template = angular.element(html);
-		var infoDiv = angular.element(info._div);
-		var infoContainer = angular.element(info._container);
-		infoDiv.append(template);
-		infoContainer.append(template);
-		$compile(template)($scope);
+	leafletData.getMap("map_main").then(function (map) {
+		var info = L.control({ position:'bottomleft' });
+		info.onAdd = function (map) {
+			var _div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
+			this._div = _div;
+			$templateRequest('views/explore2.map.legend.html').then(function(html) {
+			var template = angular.element(html);
+			var infoDiv = angular.element(_div);
+			var infoContainer = angular.element(info._container);
+			infoDiv.append(template);
+			infoContainer.append(template);
+			$compile(template)($scope);
+		});
+		return this._div;
+		};
+		map.addControl(info);
 	});
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar

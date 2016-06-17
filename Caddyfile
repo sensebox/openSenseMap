@@ -1,0 +1,14 @@
+localhost.localdomain:80 {
+  tls off
+  root /usr/src/app/dist
+  rewrite {
+    if {file} not favicon.ico
+    if {file} not files/*
+    if {file} not userimages/*
+    to {path} {path}/ /index.html
+  }
+  gzip {
+    not /images /userimages /fonts
+  }
+}
+

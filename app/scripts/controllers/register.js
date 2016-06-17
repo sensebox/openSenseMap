@@ -1,8 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI',
-    function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI){
+  .controller('RegisterCtrl', ["$scope", "$http", "$q", "$timeout", "$filter", "$location", "leafletData", "OpenSenseBoxAPI", function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI){
       $scope.osemapi = OpenSenseBoxAPI;
 
       $scope.alerts = [];
@@ -125,28 +124,33 @@ angular.module('openSenseMapApp')
           }
       });
 
-      var geoCoderControl = L.Control.geocoder({
-        position: 'topleft',
-        placeholder: 'Adresse suchen...'
-      });
-
-      geoCoderControl.markGeocode = function (result) {
-        console.log(result);
-        leafletData.getMap().then(function(map) {
-          map.fitBounds(result.bbox);
-          if (Object.keys($scope.markers).length === 0) {
-            $scope.markers.box = {'lat':result.center.lat,'lng':result.center.lng};
-          } else {
-            $scope.markers.box.lat = result.center.lat;
-            $scope.markers.box.lng = result.center.lng;
-          }
+      leafletData.getMap("map_main").then(function (map) {
+        var geoCoderControl = L.Control.geocoder({
+          position: 'topleft',
+          placeholder: 'Adresse suchen...'
         });
-      };
 
-      //adds the controls to our map
-      $scope.controls = {
-        custom: [ geoCoderControl ]
-      };
+        geoCoderControl.markGeocode = function (result) {
+          console.log(result);
+          leafletData.getMap().then(function(map) {
+            map.fitBounds(result.bbox);
+            if (Object.keys($scope.markers).length === 0) {
+              $scope.markers.box = {'lat':result.center.lat,'lng':result.center.lng};
+            } else {
+              $scope.markers.box.lat = result.center.lat;
+              $scope.markers.box.lng = result.center.lng;
+            }
+          });
+        };
+
+        //adds the controls to our map
+        //angular.extend($scope, {
+        //    controls: {
+        //        custom: [ geoCoderControl ]
+        //    }
+        //});
+        //map.addControl(geoCoderControl);
+      });
 
       $scope.edit = function (index) {
         $scope.editing[index]=true;

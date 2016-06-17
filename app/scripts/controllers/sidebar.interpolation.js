@@ -3,8 +3,7 @@ ocpu.seturl("https://public.opencpu.org/ocpu/github/mdragunski/inteRsense/R");
 
 angular.module('openSenseMapApp')
 .controller('InterpolationCtrl', 
-	['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'leafletData', '$timeout',
-	function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, leafletData, $timeout){
+	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "leafletData", "$timeout", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, leafletData, $timeout){
 
 		$scope.inputFilter = $scope.inputFilter || {};
 		$scope.Interp = {};

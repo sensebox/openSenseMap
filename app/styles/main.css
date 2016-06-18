@@ -210,11 +210,6 @@ a:hover {
   overflow: auto;
   z-index: 1001;
 }
-@media screen and (max-width: 600px) {
-  #sidebar {
-    width:100%;
-  }
-}
 
 #sidebar .row {
   margin-left: 15px;
@@ -464,4 +459,18 @@ li.menuitem.filteractive > a {
 
 li.menuitem.filteractive > a .fa-exclamation-triangle {
   color: #b00;
+}
+
+.brand-stats {
+  display: inline-block;
+  padding: 3px 4px;
+}
+@media screen and (max-width: 600px) {
+  #sidebar {
+    width:100%;
+  }
+  .brand-stats {
+    font-size: 70%;
+    padding: 12px 4px;
+  }
 }

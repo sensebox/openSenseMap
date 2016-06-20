@@ -1,8 +1,8 @@
 'use strict';
-ocpu.seturl("https://public.opencpu.org/ocpu/github/mdragunski/inteRsense/R");
+ocpu.seturl("OPENCPU_ENDPOINT");
 
 angular.module('openSenseMapApp')
-.controller('InterpolationCtrl', 
+.controller('InterpolationCtrl',
 	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "leafletData", "$timeout", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, leafletData, $timeout){
 
 		$scope.inputFilter = $scope.inputFilter || {};
@@ -40,7 +40,7 @@ angular.module('openSenseMapApp')
 			$scope.failedCalc = false;
 			boxes = [];
 			angular.forEach($scope.$parent.markersFiltered, function(value, key) {
-				var boxesJSON = {}; 
+				var boxesJSON = {};
 				for (var i = 0; i < value.station.sensors.length; i++) {
 					if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
 						boxesJSON.latitude = value.lat;
@@ -52,9 +52,9 @@ angular.module('openSenseMapApp')
 
 				};
 			});
-			console.log(boxes);	
+			console.log(boxes);
 		}
-		
+
 
 		$scope.makeIDW = function(){
 			$scope.prepare();
@@ -95,7 +95,7 @@ angular.module('openSenseMapApp')
 				});
 
 			}).fail(function(){
-				console.log("R returned an error: " + req.responseText); 
+				console.log("R returned an error: " + req.responseText);
 				$scope.failedCalc = true;
 			});
 
@@ -138,7 +138,7 @@ angular.module('openSenseMapApp')
 				});
 
 			}).fail(function(){
-				console.log("R returned an error: " + req.responseText); 
+				console.log("R returned an error: " + req.responseText);
 				$scope.failedCalc = true;
 			});
 		};

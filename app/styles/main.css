@@ -1,3 +1,7 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
 /* Space out content a bit */
 body {
   padding-top: 50px;
@@ -11,11 +15,6 @@ html, body {
 .center {
   margin-left: auto;
   margin-right: auto;
-}
-
-#zundung {
-  width: 100%;
-  line-height: 2.5;
 }
 
 #map {

@@ -2,7 +2,6 @@
 
 angular
   .module('openSenseMapApp', [
-    'ngCookies',
     'ngResource',
     'ngSanitize',
     'ngRoute',
@@ -10,7 +9,6 @@ angular
     'leaflet-directive',
     'ui.bootstrap',
     'ui.bootstrap.accordion',
-    'nya.bootstrap.select',
     'osemFilters',
     'angular-underscore',
     'rcWizard',

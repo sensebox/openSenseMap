@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('SidebarDownloadCtrl', 
+  .controller('SidebarDownloadCtrl',
 	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxAPI", "leafletData", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxAPI, leafletData){
 
 	$scope.markersFiltered = $scope.$parent.markersFiltered;
@@ -55,6 +55,14 @@ angular.module('openSenseMapApp')
 		return boxids;
 	};
 
+	function stampDownload () {
+		try {
+			return "-" + new Date().toISOString().replace(/-|:|\.\d*Z/g,"").replace("T","_");
+		} catch (e) {
+			return "";
+		}
+	}
+
 	$scope.dataDownload = function(){
 		$scope.downloadform.pleaseWait = true;
 		leafletData.getMap("map_main").then(function(map) {
@@ -68,15 +76,18 @@ angular.module('openSenseMapApp')
 			.success(function(data) {
 				console.log(data.length);
 				if(data.length>0){
-					var blob = new Blob([data],{type:'text/csv'});
+					var blob = new Blob([data],{type:'text/csv;charset=utf-8;'});
 					var link = document.createElement('a');
 					link.href = window.URL.createObjectURL(blob);
-					link.download = $scope.inputFilter.Phenomenon+'.csv';
+					link.download = "opensensemap_org-download-" + encodeURI($scope.inputFilter.Phenomenon) + stampDownload() +'.csv';
+					link.style.visibility = 'hidden';
+					document.body.appendChild(link);
 					link.click();
-		        } else {
-		        	$scope.downloadform.emptyData=true;
-		        }
-		        $scope.downloadform.pleaseWait = false;
+					document.body.removeChild(link);
+				} else {
+					$scope.downloadform.emptyData=true;
+				}
+				$scope.downloadform.pleaseWait = false;
 			})
 			.error(function(data, err) {
 				$scope.downloadform.pleaseWait = false;

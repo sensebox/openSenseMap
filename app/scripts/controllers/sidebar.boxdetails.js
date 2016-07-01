@@ -49,7 +49,8 @@ angular.module('openSenseMapApp')
 			// Get the date of the last taken measurement for the selected sensor
 			for (var i = 0; i < $scope.selectedMarkerData.sensors.length; i++){
 				if(sensorId === $scope.selectedMarkerData.sensors[i]._id){
-					var title = $scope.selectedMarkerData.sensors[i].title;
+					var title = $scope.selectedMarkerData.sensors[i].title.toString().replace(".","");
+
 					$scope.columns[sensorId] = [{"id": title, "type": "scatter"}, {"id": "dates", "type": "date"}];
 					$scope.sensordata[sensorId] = [];
 
@@ -60,6 +61,8 @@ angular.module('openSenseMapApp')
 
 					OpenSenseBoxData.query({boxId:box, sensorId: sensorId, date1: '', date2: endDate})
 					.$promise.then(function(response){
+						console.log('===response===');
+						console.log(response);
 						for (var j = 0; j < response.length; j++) {
 							var d = new Date(response[j].createdAt);
 							var dataPair = {};
@@ -69,6 +72,8 @@ angular.module('openSenseMapApp')
 						}
 						$scope.chartDone[sensorId] = true;
 					}, function(error){
+						console.log('===Error===');
+						console.log(error);
 						$scope.chartError[sensorId] = true;
 						$scope.chartDone[sensorId] = true;
 					});

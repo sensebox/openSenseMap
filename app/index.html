@@ -21,10 +21,12 @@
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.css" />
+    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.css" />
-    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css">
-    <link rel="stylesheet" href="styles/Control.Geocoder.css">
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -106,18 +108,6 @@
         <div ui-view></div>
     </div>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
-     <!--<script>
-       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-       m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-       })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-       ga('create', 'UA-XXXXX-X');
-       ga('send', 'pageview');
-    </script>-->
-
-
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -172,6 +162,24 @@
     <script src="scripts/services/validation.js"></script>
     <script src="scripts/services/opensensebox.js"></script>
     <!-- endbuild -->
+
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.opensensemap.org"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//52.58.198.66/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 2]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//52.58.198.66/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
 
     </body>
 </html>

@@ -21,6 +21,8 @@ angular.module('openSenseMapApp')
         name: false
       };
 
+      $scope.markers = {};
+
       $scope.invalidHardware = false;
       $scope.validateHardware = function() {
         if($scope.rc.sampleWizard.currentIndex !== 1){
@@ -285,6 +287,11 @@ angular.module('openSenseMapApp')
         }, 100);
       };
 
+      $scope.$on('leafletDirectiveMarker.dragend', function(e, args) {
+        $scope.markers[args.modelName].lat = args.model.lat;
+        $scope.markers[args.modelName].lng = args.model.lng;
+      });
+
       $scope.$on('leafletDirectiveMap.click', function(e, args) {
         if (Object.keys($scope.markers).length === 0) {
           $scope.markers.box = {
@@ -298,8 +305,6 @@ angular.module('openSenseMapApp')
           $scope.markers.box.draggable = true;
         }
       });
-
-      $scope.markers = {};
 
       $scope.$on('leafletDirectiveMap.locationfound', function(e, args){
         if (Object.keys($scope.markers).length === 0) {

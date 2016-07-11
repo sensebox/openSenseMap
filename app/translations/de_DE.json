@@ -102,7 +102,7 @@
   "EDIT_IMAGE": "Bild hochladen",
   "EDIT_IMAGEINFO": "Wenn du ein neues Bild hochlädst wird das alte ersetzt.",
   "EDIT_DELETEINFO": "Wenn du deine Station löschen möchtest, tippe zum Bestätigen \"DELETE\" in das Feld - alle zugehörigen Messdaten werden gelöscht.",
-  "EDIT_DELETE": "Sensebox löschen",
+  "EDIT_DELETE": "senseBox löschen",
   "EDIT_DELETEERROR": "Deine senseBox konnte nicht gelöscht werden, bitte schreib uns eine Email",
   "CONTINUE": "Weiter",
 
@@ -137,7 +137,7 @@
 
   "CHART_NODATA": "Dieser Sensor hat keine Messdaten",
   "BOX_BOXDETAILSINFO": "Hier stehen weitere Informationen zu dieser senseBox, der Besitzer dieser Station hat jedoch nichts hinterlegt.",
-  "CUSTOMBOX": "Hier kannst du deine eigene senseBox zusammenbauen. Füge Sensoren zu deiner Sensebox hinzu und bestimme deren Phänomen (was wird gemessen?), die Einheit der Messung sowie den Typ des Bauteils.<br/> Ein Temperatursensor könnte so aussehen:<br/> <ul> <li>Phänomen: Temperatur</li> <li>Einheit: °C</li> <li>Typ: LM35</li> </ul>",
+  "CUSTOMBOX": "Hier kannst du deine eigene senseBox zusammenbauen. Füge Sensoren zu deiner senseBox hinzu und bestimme deren Phänomen (was wird gemessen?), die Einheit der Messung sowie den Typ des Bauteils.<br/> Ein Temperatursensor könnte so aussehen:<br/> <ul> <li>Phänomen: Temperatur</li> <li>Einheit: °C</li> <li>Typ: LM35</li> </ul>",
   "CUSTOMBOX_SENSORINCOMPLETE": "Die Sensoren sind unvollständig, bitte überprüfe, ob du alle Felder (Phänomen, Einheit und Typ) ausgefüllt hast",
   "REG_HARDWAREINCOMPLETE": "Das Hardwaresetup ist unvollständig, bitte wähle eine senseBox Variante"
 }

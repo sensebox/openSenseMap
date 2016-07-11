@@ -61,8 +61,6 @@ angular.module('openSenseMapApp')
 
 					OpenSenseBoxData.query({boxId:box, sensorId: sensorId, date1: '', date2: endDate})
 					.$promise.then(function(response){
-						console.log('===response===');
-						console.log(response);
 						for (var j = 0; j < response.length; j++) {
 							var d = new Date(response[j].createdAt);
 							var dataPair = {};
@@ -72,8 +70,6 @@ angular.module('openSenseMapApp')
 						}
 						$scope.chartDone[sensorId] = true;
 					}, function(error){
-						console.log('===Error===');
-						console.log(error);
 						$scope.chartError[sensorId] = true;
 						$scope.chartDone[sensorId] = true;
 					});

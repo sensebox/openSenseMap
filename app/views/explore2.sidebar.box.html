@@ -46,7 +46,7 @@
 									<uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
 									<uib-alert type="danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
 									<uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
-									<c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]">
+									<c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]" enable-zoom="true">
 										<chart-size chart-height="200"/>
 	                  					<chart-axes values-x="dates"/>
 	                  					<chart-axis>

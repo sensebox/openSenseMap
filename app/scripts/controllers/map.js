@@ -15,7 +15,7 @@ angular.module('openSenseMapApp')
 			subdomains: 'abc',
 			detectRetina: true,
 			reuseTiles: true,
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>'
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>'
 		},
 		scrollWheelZoom: true
 	};
@@ -72,7 +72,7 @@ angular.module('openSenseMapApp')
 						subdomains: ['a', 'b', 'c'],
 						detectRetina: true,
 						reuseTiles: true,
-						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>',
+						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
 						showOnSelector: false,
 						maxZoom: 22
 					}

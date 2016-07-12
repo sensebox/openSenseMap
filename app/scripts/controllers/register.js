@@ -106,10 +106,10 @@ angular.module('openSenseMapApp')
 
       $scope.defaults = {
         maxZoom: 17,
-        tileLayer: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
+        tileLayer: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
         tileLayerOptions: {
-          subdomains: '1234',
-          //attribution in info modal
+          subdomains: 'abc',
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>',
           detectRetina: true,
           reuseTiles: true
         },

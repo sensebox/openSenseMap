@@ -9,13 +9,13 @@ angular.module('openSenseMapApp')
 		Set map defaults
 	*/
 	$scope.defaults = {
-		maxZoom: 17,
-		tileLayer: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg', // Mapquest Open
+		maxZoom: 18,
+		tileLayer: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
 		tileLayerOptions: {
-			subdomains: '1234',
+			subdomains: 'abc',
 			detectRetina: true,
 			reuseTiles: true,
-			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">'
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>'
 		},
 		scrollWheelZoom: true
 	};
@@ -64,15 +64,15 @@ angular.module('openSenseMapApp')
 		},
 		layers: {
 			baselayers: {
-				mapquest: {
-					name: 'MapQuest Open',
+				mapbox: {
+					name: 'Mapbox Streets',
 					type: 'xyz',
-					url: 'https://otile{s}-s.mqcdn.com/tiles/1.0.0/map/{z}/{x}/{y}.jpeg',
+					url: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
 					layerOptions: {
-						subdomains: ['1', '2', '3', '4'],
+						subdomains: ['a', 'b', 'c'],
 						detectRetina: true,
 						reuseTiles: true,
-						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img src="https://developer.mapquest.com/content/osm/mq_logo.png">',
+						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>',
 						showOnSelector: false
 					}
 				}

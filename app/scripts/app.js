@@ -17,7 +17,8 @@ angular
     'ui.checkbox',
     'pascalprecht.translate',
     'ui.router',
-    'gridshore.c3js.chart'
+    'gridshore.c3js.chart',
+    'angularMoment'
   ])
   .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
     $compileProvider.debugInfoEnabled(false);

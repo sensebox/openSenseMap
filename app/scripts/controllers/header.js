@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ["$scope", "$rootScope", "$translate", "$route", "OpenSenseBoxAPI", "$http", "FilterActiveService", function ($scope, $rootScope, $translate, $route, OpenSenseBoxAPI, $http, FilterActiveService) {
+  .controller('HeaderCtrl', ["$scope", "$rootScope", "$translate", "$route", "OpenSenseBoxAPI", "$http", "FilterActiveService", "amMoment", function ($scope, $rootScope, $translate, $route, OpenSenseBoxAPI, $http, FilterActiveService, amMoment) {
   	$scope.osemapi = OpenSenseBoxAPI;
 
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log("Sprache zu "+ key +" gewechselt.");
         $scope.key = key.split('_')[0];
+        amMoment.changeLocale($scope.key);
       }, function (key) {
         console.log("Fehler beim wechseln zur Sprache " + key);
       });

@@ -2,7 +2,7 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarBoxDetailsCtrl',
-		["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "Validation", "ngDialog", "$timeout", "OpenSenseBoxData", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData){
+		["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "Validation", "ngDialog", "$timeout", "OpenSenseBoxData", "moment", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData, moment){
 
 		$scope.osemapi = OpenSenseBoxAPI;
 		$scope.true = true;

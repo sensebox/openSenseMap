@@ -1,6 +1,8 @@
 <div id="sidebar" style="background-position: 0px -5px;">
 	<div class="row" ng-show="boxNotFound">
-		<h3><a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a></h3>
+		<h3>
+			<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+		</h3>
 		<div class="col-xs-12 col-md-12">
 			<uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
 		</div>
@@ -10,75 +12,62 @@
 			<div class="col-xs-12 col-md-12">
 				<h3>
 					{{ selectedMarker.name }}
-					<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+					<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-placement="bottom"></i></a>
+					<a ng-click="openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog pull-right close" uib-tooltip="{{'EDITBOX' | translate}}" tooltip-placement="bottom" aria-hidden="true"></i></a>
 				</h3>
 				<span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="text-muted">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}<br/><br/></span>
-			</div>
-		</div>
 
-		<div class="row" role="tabpanel">
-			<!-- Nav tabs -->
-			<ul class="nav nav-tabs nav-justified" role="tablist">
-				<li role="presentation" class="active"><a href data-target="#tabMeasurements" aria-controls="tabMeasurements" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_MEASUREMENTS' | translate }}</a></li>
-				<li role="presentation"><a href data-target="#tabInfo" aria-controls="tabInfo" role="tab" data-toggle="tab">{{ 'SIDEBAR_TAB_INFO' | translate }}</a></li>
-			</ul>
+				<hr>
 
-			<!-- Tab panes -->
-			<div class="tab-content">
-				<div role="tabpanel" class="tab-pane active" id="tabMeasurements">
-					<div class="list-group">
-						<uib-accordion close-others="false">
-							<uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
-								<uib-accordion-heading >
-								<div class="row" ng-click="getData(sensor._id, !isOpen)">
-									<div class="col-xs-1">
-										<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i></span>
-									</div>
-									<div class="col-xs-11 sensor-measurement-info">
-										<div>{{sensor.title}}</div><br/>
-										<span ng-if="sensor.lastMeasurement.createdAt" style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
-										<span ng-if="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date">{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | date : 'short' }}</span>
-										<span ng-if="!sensor.lastMeasurement.createdAt" class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
-									</div>
-								</div>
-								</uib-accordion-heading>
-								<div>
-									<uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
-									<uib-alert type="danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
-									<uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
-									<c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]" enable-zoom="true">
-										<chart-size chart-height="200"/>
-	                  					<chart-axes values-x="dates"/>
-	                  					<chart-axis>
-	                  						<chart-axis-x axis-id="x" axis-type="timeseries">
-	                  							<chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
-	                  						</chart-axis-x>
-	                  					</chart-axis>
-	                  					<chart-tooltip title-format-function="formatDateFull"/>
-	                  					<chart-legend show-legend="false"/>
-									</c3chart>
-									<!--<span style="float:right;cursor:pointer;" ng-if="sensor.lastMeasurement && chartDone[sensor._id]"><span class="glyphicon glyphicon-floppy-save"></span> <a ng-click="downloadSensordata(selectedMarker._id, sensor._id)">Download</a></span>-->
-								</div>
-							</uib-accordion-group>
-						</uib-accordion>
-					</div> <!-- end .list-group -->
-				</div> <!-- end #tabMeasurements pane -->
-
-				<div role="tabpanel" class="tab-pane" id="tabInfo">
-					<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
-						<uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
-							<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-							{{'BOX_BOXDETAILSINFO'|translate}}
-						</uib-alert>
-						<div class="thumbnail">
-							<img id="image" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
-							<span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>
-							<span ng-show="selectedMarker.weblink && selectedMarker.weblink != ''"><br/><br/><a href="{{ selectedMarker.weblink }}" target="_blank">{{ selectedMarker.weblink }}</a></span>
-						</div>
+				<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
+					<uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						{{'BOX_BOXDETAILSINFO'|translate}}
+					</uib-alert>
+					<div class="thumbnail">
+						<img id="image" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
+						<span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>
+						<span ng-show="selectedMarker.weblink && selectedMarker.weblink != ''"><br/><br/><a href="{{ selectedMarker.weblink }}" target="_blank">{{ selectedMarker.weblink }}</a></span>
 					</div>
-					<a ng-click="openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog" aria-hidden="true"></i> {{ 'SIDEBAR_TAB_MANAGE' | translate }}</a>
-				</div> <!-- end tabInfo pange -->
+				</div>
 
+				<hr>
+
+				<div class="list-group">
+					<uib-accordion close-others="false">
+						<uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
+							<uib-accordion-heading >
+							<div class="row" ng-click="getData(sensor._id, !isOpen)">
+								<div class="col-xs-1">
+									<span title="{{sensor.title | translate}}"><i class="fa fa-bar-chart fa-fw" ng-class="{'fa wi-thermometer fa-fw': (sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur','fa wi-sprinkles fa-fw': sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit','fa fa-volume-up fa-fw': sensor.sensorType == 'LM386','fa fa-tachometer fa-fw': sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck' ,'fa fa-lightbulb-o fa-fw': sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561','fa fa-google-wallet fa-fw': sensor.sensorType == 'GUVA-S12D'}"></i></span>
+								</div>
+								<div class="col-xs-11 sensor-measurement-info">
+									<div>{{sensor.title}}</div><br/>
+									<span ng-if="sensor.lastMeasurement.createdAt" style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+									<span ng-if="sensor.lastMeasurement.createdAt" am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date" title="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}"></span>
+									<span ng-if="!sensor.lastMeasurement.createdAt" class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+								</div>
+							</div>
+							</uib-accordion-heading>
+							<div>
+								<uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
+								<uib-alert type="danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
+								<uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
+								<c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]" enable-zoom="true">
+									<chart-size chart-height="200"/>
+                  					<chart-axes values-x="dates"/>
+                  					<chart-axis>
+                  						<chart-axis-x axis-id="x" axis-type="timeseries">
+                  							<chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
+                  						</chart-axis-x>
+                  					</chart-axis>
+                  					<chart-tooltip title-format-function="formatDateFull"/>
+                  					<chart-legend show-legend="false"/>
+								</c3chart>
+							</div>
+						</uib-accordion-group>
+					</uib-accordion>
+				</div>
 			</div>
 		</div>
 	</div> 

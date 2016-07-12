@@ -211,8 +211,8 @@ a:hover {
 }
 
 #sidebar .row {
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 /* styling for sidebar */

@@ -83,6 +83,7 @@
   "INFO_ABOUT": "Die openSenseMap ist eine Plattform für offene Sensordaten, an der jeder teilnehmen kann.<br/> Das Projekt entstand 2015 im Rahmen von GI@School am Institut für Geoinformatik in Münster, wo es zusammen mit der <a href=\"http://www.sensebox.de/de/products/\" target=\"_blank\">senseBox</a> eingesetzt wird, um Schülern und interessierten Bürgern eine Plattform zu bieten, um ihre Messdaten zu sammeln und zu veröffentlichen.<br/><br/> <a href=\"https://github.com/sensebox/OpenSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> Diese Webseite</a> sowie <a href=\"https://github.com/sensebox/OpenSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> die API</a> sind quelloffene Software, Verbesserungsvorschläge sind jederzeit willkommen.<br/>",
   "SENSEBOX_NOT_FOUND": "senseBox nicht gefunden",
   "GROUP": "Gruppe",
+  "EDITBOX": "Verwalten",
   "EDITBOX_INFO": "Um die Eigeschaften deiner senseBox zu bearbeiten gib deinen <strong>senseBox API-Key</strong>",
   "EDITBOX_APIKEYISSUE": "Der API-Key scheint falsch zu sein, versuche es noch einmal.",
   "EDITBOX_SAVED": "Änderungen erfolgreich gespeichert.",

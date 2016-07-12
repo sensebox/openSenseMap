@@ -9,7 +9,7 @@ angular.module('openSenseMapApp')
 		Set map defaults
 	*/
 	$scope.defaults = {
-		maxZoom: 18,
+		maxZoom: 22,
 		tileLayer: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
 		tileLayerOptions: {
 			subdomains: 'abc',
@@ -73,7 +73,8 @@ angular.module('openSenseMapApp')
 						detectRetina: true,
 						reuseTiles: true,
 						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapquest.com/" target="_blank">Mapbox</a>',
-						showOnSelector: false
+						showOnSelector: false,
+						maxZoom: 22
 					}
 				}
 			},

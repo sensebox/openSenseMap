@@ -10,7 +10,7 @@ angular.module('openSenseMapApp')
 	*/
 	$scope.defaults = {
 		maxZoom: 22,
-		tileLayer: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
+		tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
 		tileLayerOptions: {
 			subdomains: 'abc',
 			detectRetina: true,
@@ -67,7 +67,7 @@ angular.module('openSenseMapApp')
 				mapbox: {
 					name: 'Mapbox Streets',
 					type: 'xyz',
-					url: 'https://{s}.tiles.mapbox.com/v4/mapbox.streets/{z}/{x}/{y}.png?access_token=pk.eyJ1Ijoic2Vuc2Vib3giLCJhIjoiY2lxajNoYnNsMDBlOWkybmh2ZnhxZmMwZyJ9.inXfNk5nJf92mgUeBIEmtA',
+					url: 'OPENSENSEMAP_MAPTILES_URL',
 					layerOptions: {
 						subdomains: ['a', 'b', 'c'],
 						detectRetina: true,

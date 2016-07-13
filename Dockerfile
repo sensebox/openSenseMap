@@ -13,8 +13,6 @@ RUN grunt build
 
 VOLUME /usr/src/app/dist
 
-ENV API_URL https://api.opensensemap.org
-
 COPY ./run.sh /
 
 CMD ["./run.sh"]

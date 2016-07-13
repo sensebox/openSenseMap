@@ -255,7 +255,8 @@ angular.module('openSenseMapApp')
 		leafletData.getMap('map_main').then(function(map) {
 			map.fitBounds([latlng, latlng], {
 				paddingTopLeft: [0,0],
-				paddingBottomRight: [450, 0] // sidebar width: 450px
+				paddingBottomRight: [450, 0], // sidebar width: 450px
+				maxZoom: 17
 			});
 		});
 	}

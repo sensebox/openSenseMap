@@ -48,6 +48,12 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+      translations: {
+        files: ['<%= yeoman.app %>/translations/{,*/}*.json'],
+        options: {
+          livereload: true
+        }
+      },
       //jsTest: {
       //  files: ['test/spec/{,*/}*.js'],
       //  tasks: ['newer:jshint:test', 'karma']
@@ -61,7 +67,6 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['<%= yeoman.app %>/index.html'],
-        tasks: ['dev'],
         options: {
           livereload: true
         }
@@ -80,13 +85,11 @@ module.exports = function (grunt) {
 
     // The actual grunt server settings
     connect: {
-      keepalive: true,
       options: {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
-        hostname: '0.0.0.0',
-        //livereload: 35729,
-        keepalive: true,
+        hostname: 'localhost',
+        livereload: 35729,
         base: 'app'
       },
       livereload: {
@@ -442,7 +445,8 @@ module.exports = function (grunt) {
       'concurrent:server',
       'autoprefixer',
       'languages',
-      'connect:keepalive'
+      'connect:livereload',
+      'watch'
     ]);
   });
 

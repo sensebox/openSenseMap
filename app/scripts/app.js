@@ -18,7 +18,8 @@ angular
     'pascalprecht.translate',
     'ui.router',
     'gridshore.c3js.chart',
-    'angularMoment'
+    'angularMoment',
+    'tmh.dynamicLocale'
   ])
   .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
     $compileProvider.debugInfoEnabled(false);
@@ -85,7 +86,9 @@ angular
         templateUrl: 'views/info.html'
       });
   }])
-
+  .config(function (tmhDynamicLocaleProvider) {
+    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
+  })
   .config(["$translateProvider", function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
         prefix: '../translations/',

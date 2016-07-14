@@ -16,20 +16,20 @@
 				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 				{{ "DOWNLOAD_INTRO" | translate }}
 		  	</div>
-			
+
 			<span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
 			<div class="form-group">
-				
+
 				<div class="input-group">
 				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}</label>
 					<p class="input-group">
-						<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Starting date" />
+						<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate }}" />
 						<span class="input-group-btn">
 							<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>
 					</p>
 					<p class="input-group">
-						<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" close-text="Close" ng-change="needsRefresh=true" placeholder="Ending date" />
+						<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate }}" />
 						<span class="input-group-btn">
 							<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 						</span>

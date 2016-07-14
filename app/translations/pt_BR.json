@@ -76,7 +76,7 @@
   "FILTER": "Filtrar",
   "Phänomen": "Fenômeno",
   "Name": "Nome",
-  "INFO_MADE_BY": "Este software é <a href=\"https://github.com/mpfeil/OpenSenseMap\" target=\"_blank\">Open Source</a> e foi desenvolvido <li class=\"fa fa-icon fa-heart\"></li> em Münster.<br><br>Dados espacias <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© Contrubuidores do OpenStreetMap </a><br>Os map tiles são cortesia da <a href=\"http://www.mapbox.com/\" target=\"_blank\">Mapbox</a><br>Country flags by <a href=\"http://www.icondrawer.com\" target=\"_blank\">Icondrawer</a><br>Sensor data: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
+  "INFO_MADE_BY": "Este software é <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\">Open Source</a> e foi desenvolvido <li class=\"fa fa-icon fa-heart\"></li> em Münster.<br><br>Dados espacias <a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">© Contrubuidores do OpenStreetMap </a><br>Os map tiles são cortesia da <a href=\"http://www.mapbox.com/\" target=\"_blank\">Mapbox</a><br>Country flags by <a href=\"http://www.icondrawer.com\" target=\"_blank\">Icondrawer</a><br>Sensor data: <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a>",
   "INFO_LEGEND": "Legenda",
   "INFO_COPYRIGHT_NOTICES": "Observação sobre direitos autorais."
 }

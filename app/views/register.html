@@ -95,7 +95,7 @@
             <input name="lng" class="form-control" type="text" ng-model="markers.box.lng" required />
           </div>
           <div id="register-map">
-            <leaflet controls="controls" center="center" markers="markers" defaults="defaults" width="100%" height="350px"></leaflet>
+            <leaflet controls="controls" id="map_register" center="center" markers="markers" defaults="defaults" event-broadcast="events" width="100%" height="350px"></leaflet>
           </div>
         </form>
 

@@ -6,7 +6,7 @@ angular
     'ngSanitize',
     'ngRoute',
     'ngDialog',
-    'leaflet-directive',
+    'ui-leaflet',
     'ui.bootstrap',
     'ui.bootstrap.accordion',
     'osemFilters',

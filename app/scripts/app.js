@@ -21,13 +21,15 @@ angular
     'angularMoment',
     'tmh.dynamicLocale'
   ])
-  .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider) {
+  .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", "tmhDynamicLocaleProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);
     $logProvider.debugEnabled(false);
 
     $locationProvider.html5Mode(true);
 
     $urlRouterProvider.otherwise('/');
+
+    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
 
     $stateProvider
       .state('explore', {
@@ -86,9 +88,6 @@ angular
         templateUrl: 'views/info.html'
       });
   }])
-  .config(function (tmhDynamicLocaleProvider) {
-    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
-  })
   .config(["$translateProvider", function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
         prefix: '../translations/',

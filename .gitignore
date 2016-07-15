@@ -12,3 +12,4 @@ Session.vim
 .netrwhist
 *~
 tags
+npm-debug.log

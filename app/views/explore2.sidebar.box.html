@@ -1,7 +1,7 @@
 <div id="sidebar" style="background-position: 0px -5px;">
 	<div class="row" ng-show="boxNotFound">
 		<h3>
-			<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+			<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 		</h3>
 		<div class="col-xs-12 col-md-12">
 			<uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
@@ -44,7 +44,7 @@
 								<div class="col-xs-11 sensor-measurement-info">
 									<div>{{sensor.title}}</div><br/>
 									<span ng-if="sensor.lastMeasurement.createdAt" style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
-									<span ng-if="sensor.lastMeasurement.createdAt" am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date" title="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}"></span>
+									<span ng-if="sensor.lastMeasurement.createdAt" am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-left"></span>
 									<span ng-if="!sensor.lastMeasurement.createdAt" class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
 								</div>
 							</div>

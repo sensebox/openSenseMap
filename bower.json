@@ -32,7 +32,8 @@
     "angular-scenario": "1.5"
   },
   "resolutions": {
-    "angular": "1.5"
+    "angular": "1.5",
+    "angular-translate": "~2.11"
   },
   "overrides": {
     "bootstrap": {

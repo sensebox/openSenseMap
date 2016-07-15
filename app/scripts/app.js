@@ -29,7 +29,7 @@ angular
 
     $urlRouterProvider.otherwise('/');
 
-    tmhDynamicLocaleProvider.localeLocationPattern('bower_components/angular-i18n/angular-locale_{{locale}}.js');
+    tmhDynamicLocaleProvider.localeLocationPattern('translations/angular/angular-locale_{{locale}}.js');
 
     $stateProvider
       .state('explore', {

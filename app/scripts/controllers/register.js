@@ -105,6 +105,7 @@ angular.module('openSenseMapApp')
       });
 
       $scope.defaults = {
+        minZoom: 2,
         maxZoom: 22,
         tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
         tileLayerOptions: {
@@ -114,6 +115,7 @@ angular.module('openSenseMapApp')
           reuseTiles: true,
           maxZoom: 22,
         },
+        worldCopyJump: true,
         scrollWheelZoom: true,
         center: {
           lat: 51.04139389812637,

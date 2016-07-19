@@ -9,6 +9,7 @@ angular.module('openSenseMapApp')
 		Set map defaults
 	*/
 	$scope.defaults = {
+		minZoom: 2,
 		maxZoom: 22,
 		tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
 		tileLayerOptions: {
@@ -17,7 +18,8 @@ angular.module('openSenseMapApp')
 			reuseTiles: true,
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>'
 		},
-		scrollWheelZoom: true
+		scrollWheelZoom: true,
+		worldCopyJump: true
 	};
 
 	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)

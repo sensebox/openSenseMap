@@ -100,6 +100,7 @@
   "EDITBOX_NAMEANDDESC": "Name und Beschreibung",
   "BOX_NAME": "Name",
   "BOX_DESCRIPTION": "Beschreibung",
+  "BOX_DESCRIPTION_PLACEHOLDER": "Beschreibung (max. 300 Zeichen)",
   "BOX_EXPOSURE": "Standort",
   "BOX_WEBSITE": "Webseite",
   "BOX_POSITION": "Standort",

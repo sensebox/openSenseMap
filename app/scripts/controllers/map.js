@@ -112,7 +112,8 @@ angular.module('openSenseMapApp')
     controls: { custom: [] },
 		toggleLayer: function(type) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
-		}
+		},
+		watchOptions: { markers: { type: null, individual: { type: null } } }
 	});
 
 	/*

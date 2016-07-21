@@ -1,31 +1,53 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('EditboxCtrl', ["$scope", "Validation", "$http", "OpenSenseBoxAPI", function($scope, Validation, $http, OpenSenseBoxAPI){
+  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI', function($scope, Validation, $http, OpenSenseBoxAPI){
 
-    $scope.osemapi = OpenSenseBoxAPI;
-    $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
+  $scope.osemapi = OpenSenseBoxAPI;
+  $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
 
-    $scope.boxPosition = {
-    lng: $scope.editingMarker.loc[0].geometry.coordinates[0],
-    lat: $scope.editingMarker.loc[0].geometry.coordinates[1],
-    zoom: 13
+  $scope.boxPosition = {
+    lng: parseFloat($scope.editingMarker.loc[0].geometry.coordinates[0].toFixed(6)),
+    lat: parseFloat($scope.editingMarker.loc[0].geometry.coordinates[1].toFixed(6)),
+    zoom: 17
   };
-  $scope.editMarker = {
-        m1: {
-            lng: $scope.boxPosition.lng,
-            lat: $scope.boxPosition.lat,
-            draggable: true
-        }
-    };
-    $scope.$on('leafletDirectiveMarker.dragend', function (e, args) {
-    $scope.editMarker.m1.lng = args.model.lng;
-    $scope.editMarker.m1.lat = args.model.lat;
+
+  $scope.editMarkerInput =  angular.copy($scope.boxPosition);
+
+  $scope.resetPosition = function () {
+    $scope.editMarker = { m1: angular.copy($scope.boxPosition) };
+    $scope.editMarkerInput =  angular.copy($scope.boxPosition);
+    $scope.editMarker.m1.draggable = true;
+    delete $scope.editMarker.m1.zoom;
+  };
+
+
+  $scope.resetPosition();
+  $scope.$watchCollection('editMarkerInput', function (newValue) {
+    if (newValue && newValue.lat && newValue.lng) {
+      $scope.editMarker.m1.lng = newValue.lng;
+      $scope.editMarker.m1.lat = newValue.lat;
+    }
   });
+
+  $scope.$on('leafletDirectiveMap.editbox_map.click', function (e, args) {
+    $scope.editMarker.m1.lng = parseFloat(args.leafletEvent.latlng.lng.toFixed(6));
+    $scope.editMarker.m1.lat = parseFloat(args.leafletEvent.latlng.lat.toFixed(6));
+    $scope.editMarkerInput.lng = $scope.editMarker.m1.lng;
+    $scope.editMarkerInput.lat = $scope.editMarker.m1.lat;
+  });
+
+  $scope.$on('leafletDirectiveMarker.editbox_map.dragend', function (e, args) {
+    $scope.editMarker.m1.lng = parseFloat(args.model.lng.toFixed(6));
+    $scope.editMarker.m1.lat = parseFloat(args.model.lat.toFixed(6));
+    $scope.editMarkerInput.lng = $scope.editMarker.m1.lng;
+    $scope.editMarkerInput.lat = $scope.editMarker.m1.lat;
+  });
+
   $scope.editMapDefaults = angular.copy($scope.defaults);
   $scope.editMapDefaults.scrollWheelZoom = false;
 
-    $scope.apikey = {};
+  $scope.apikey = {};
   $scope.enableEditableMode = function () {
     var boxId = $scope.editingMarker._id;
 
@@ -56,13 +78,13 @@ angular.module('openSenseMapApp')
         image: imgsrc
       };
 
-      $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
+    $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data, status){
         $scope.editableMode = false;
         $scope.savedSuccessfully = true;
       $scope.savedError = false;
-        if (data.image === "") {
-          $scope.image = "placeholder.png";
+        if (data.image === '') {
+          $scope.image = 'placeholder.png';
         } else {
           $scope.image = data.image;
         }
@@ -71,10 +93,10 @@ angular.module('openSenseMapApp')
       }).error(function(data, status){
         $scope.savedError = true;
     });
-    };
+  };
 
-    $scope.flowFileAdded = function(file,event) {
-    if ((file.getExtension().toLowerCase() === "jpg" || file.getExtension().toLowerCase() === "png" || file.getExtension().toLowerCase() === "jpeg") && file.size < 512000) {
+  $scope.flowFileAdded = function(file,event) {
+    if ((file.getExtension().toLowerCase() === 'jpg' || file.getExtension().toLowerCase() === 'png' || file.getExtension().toLowerCase() === 'jpeg') && file.size < 512000) {
       return true;
     } else {
       return false;
@@ -101,7 +123,7 @@ angular.module('openSenseMapApp')
   };
 
   $scope.saveSensor = function(sensor) {
-    if(sensor.name === "" || sensor.sensorType === "" || sensor.unit === "") {
+    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
       sensor.incomplete = true;
       return false;
     } else {
@@ -125,7 +147,7 @@ angular.module('openSenseMapApp')
   };
 
   $scope.cancelSensor = function(sensor) {
-    if(sensor.name === "" || sensor.sensorType === "" || sensor.unit === "") {
+    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
       var index = $scope.editingMarker.sensors.indexOf(sensor);
       if(index !== -1) {
         $scope.editingMarker.sensors.splice(index, 1);
@@ -155,5 +177,5 @@ angular.module('openSenseMapApp')
       }).error(function(data, status){
       $scope.errorDuringDelete = true;
     });
-  }
+  };
 }]);

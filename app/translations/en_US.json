@@ -146,5 +146,8 @@
   "CUSTOMBOX": "Here you can set up your own senseBox. Add sensors to your setup and specify their phenomenon (what is being measured?), unit and type (component name).<br/> A temperature sensor might look like this:<br/> <ul> <li>Phenomenon: Temperature</li> <li>Unit: °C</li> <li>Type: LM35</li> </ul>",
   "CUSTOMBOX_SENSORINCOMPLETE": "Your sensor setup is incomplete, please check if you have filled all fields (phenomenon, unit and type)",
   "REG_HARDWAREINCOMPLETE": "Your hardware setup is incomplete, please select a model",
-	"EDITBOX_TITLE": "Edit senseBox"
+	"EDITBOX_TITLE": "Edit senseBox",
+  "BOX_LATITUDE": "Latitude",
+  "BOX_LONGITUDE": "Longitude",
+  "BOX_POSITION_RESET": "Reset location"
 }

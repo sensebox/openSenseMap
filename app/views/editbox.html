@@ -4,7 +4,7 @@
 		<span ng-bind-html="'EDITBOX_INFO'|translate"></span>
 		<form>
 			<div class="form-group">
-				<input name="apiKey" class="form-control" type="text" ng-model="apikey.key" placeholder="SenseBox API-Key" ng-disabled="editableMode">
+				<input name="apiKey" class="form-control" type="text" ng-model="apikey.key" placeholder="senseBox API-Key" ng-disabled="editableMode">
 			</div>
 			<div class="form-group">
 				<button ng-show="!editableMode" ng-click="enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp;
@@ -45,19 +45,30 @@
 
 			<label for="editExposure">{{'BOX_EXPOSURE'|translate}}</label>
 			<select ng-model="editingMarker.exposure" name="editExposure" class="form-control">
-			  <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
-              <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
+				<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+				<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
 			</select>
 
 			<label for="editDescription">{{'BOX_DESCRIPTION'|translate}}</label>
 			<input name="editDescription" maxlength="300" class="form-control" type="text" ng-model="editingMarker.description" placeholder="Description (max. 300 char)" value="{{ editingMarker.description }}">
 
 			<label for="editWeblink">{{'BOX_WEBSITE'|translate}}</label>
-			<input name="editWeblink" class="form-control" type="text" ng-model="editingMarker.weblink" placeholder="http://..." value="{{ editingMarker.weblink }}">
+			<input name="editWeblink" class="form-control" type="text" ng-model="editingMarker.weblink" placeholder="https://..." value="{{ editingMarker.weblink }}">
 		</div>
 		<div class="row">
 			<h3>{{'BOX_POSITION'|translate}}</h3>
-			<leaflet controls="controls" center="boxPosition" markers="editMarker" defaults="editMapDefaults" width="100%" height="250px"></leaflet>
+			<leaflet id="editbox_map" controls="controls" center="boxPosition" markers="editMarker" defaults="editMapDefaults" width="100%" height="250px" lf-center="editMarker.m1"></leaflet>
+      <form name="box_position">
+        <div ng-class="{'has-error': box_position.boxLat.$invalid}" class="col-md-6">
+					<label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
+          <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="editMarkerInput.lat" step="0.000001" required>
+        </div>
+        <div ng-class="{'has-error': box_position.boxLong.$invalid}" class="col-md-6">
+					<label for="boxLong">{{'BOX_LONGITUDE'|translate}}</label>
+          <input name="boxLong" class="form-control" type="number" min="-180" max="180" ng-model="editMarkerInput.lng" step="0.000001" required>
+        </div>
+      </form>
+      <button type="button" class="btn btn-link" ng-click="resetPosition()">{{'BOX_POSITION_RESET'|translate}}</button>
 		</div>
 		<div class="row">
 			<h3>{{'EDIT_CHANGESENSORS'|translate}}</h3>

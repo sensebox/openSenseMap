@@ -50,6 +50,7 @@
            <label class="control-label">{{ 'EMAIL' | translate }}*</label>
            <input type="email" name="email" class="form-control" ng-model="user.email" required>
            <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
+           <p class="help-block">{{ 'STEP1_EMAIL_INFO' | translate }}</p>
           </div>
 
           <hr>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ["$scope", "$http", "$q", "$timeout", "$filter", "$location", "leafletData", "OpenSenseBoxAPI", function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI){
+  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', '$translate', function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, $translate){
       $scope.osemapi = OpenSenseBoxAPI;
 
       $scope.alerts = [];
@@ -39,13 +39,15 @@ angular.module('openSenseMapApp')
               $scope.sensorIncomplete = true;
             }
           }
-          if(!$scope.invalidHardware) $scope.rc.sampleWizard.forward();
+          if (!$scope.invalidHardware) {
+            $scope.rc.sampleWizard.forward();
+          }
         } else {
           $scope.invalidHardware = true;
         }
       };
 
-      $scope.$watch('modelSelected.id', function(newValue, oldValue) {
+      $scope.$watch('modelSelected.id', function(newValue) {
         console.log('Selected ' + newValue);
         switch(newValue) {
           case 'homeEthernet':
@@ -110,7 +112,7 @@ angular.module('openSenseMapApp')
         tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
         tileLayerOptions: {
           subdomains: 'abc',
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
+          attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
           detectRetina: true,
           reuseTiles: true,
           maxZoom: 22,
@@ -135,7 +137,7 @@ angular.module('openSenseMapApp')
         }
       });
 
-      leafletData.getMap("map_register").then(function (map) {
+      leafletData.getMap('map_register').then(function (map) {
         var geoCoderControl = L.Control.geocoder({
           position: 'topleft',
           placeholder: 'Adresse suchen...'
@@ -143,7 +145,7 @@ angular.module('openSenseMapApp')
 
         geoCoderControl.markGeocode = function (result) {
           console.log(result);
-          leafletData.getMap("map_register").then(function(map) {
+          leafletData.getMap('map_register').then(function(map) {
             map.fitBounds(result.bbox);
             if (Object.keys($scope.markers).length === 0) {
               $scope.markers.box = {'lat':result.center.lat,'lng':result.center.lng};
@@ -280,7 +282,7 @@ angular.module('openSenseMapApp')
       $scope.showMap = false;
       $scope.$watch('showMap', function(value) {
         if (value === true) {
-          leafletData.getMap("map_register").then(function(map) {
+          leafletData.getMap('map_register').then(function(map) {
             map.invalidateSize();
           });
         }
@@ -288,7 +290,7 @@ angular.module('openSenseMapApp')
 
       $scope.goToMap = function() {
         $timeout(function() {
-          leafletData.getMap("map_register").then(function(map) {
+          leafletData.getMap('map_register').then(function(map) {
             $scope.$watch('$viewContentLoaded', function() {
               map.invalidateSize();
             });
@@ -327,7 +329,7 @@ angular.module('openSenseMapApp')
           $scope.markers.box.lng = args.leafletEvent.latlng.lng;
           $scope.markers.box.draggable = true;
         }
-        leafletData.getMap("map_register").then(function(map) {
+        leafletData.getMap('map_register').then(function(map) {
           map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],16);
         });
       });
@@ -354,23 +356,23 @@ angular.module('openSenseMapApp')
 
         $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
           .success( function (data) {
-            var alert = {
-              type: 'success',
-              msg: 'SenseBox wurde erfolgreich angelegt und du erhälst gleich eine Email mit allen wichtigen Informationen. Du wirst in 10 Sekunden auf die Erkunden-Seite weitergeleitet!'
-            };
-            $scope.alerts.push(alert);
-            $scope.regSuccess = true;
-            $timeout( function () {
-              $location.path('/explore');
-            },10000);
+            $translate('REGISTRATION_SUCCESS').then(function (msg) {
+              var alert = {
+                type: 'success',
+                msg: msg
+              };
+              $scope.alerts.push(alert);
+              $scope.regSuccess = true;
+            });
           })
           .error( function (err) {
-            var alert = {
-              type: 'danger',
-              msg: 'Beim speichern ist ein Fehler aufgetreten. Bitte versuch es zu einem späteren Zeitpunkt noch einmal.'
-            };
-            $scope.alerts.push(alert);
+            $translate('REGISTRATION_FAIL').then(function (msg) {
+              var alert = {
+                type: 'danger',
+                msg: msg
+              };
+              $scope.alerts.push(alert);
+            });
           });
-      }
-
+      };
 }]);

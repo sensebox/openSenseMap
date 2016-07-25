@@ -12,13 +12,19 @@
         <li>
           <a href="#second" data-toggle="tab">
             <span class="badge">2</span>
-            <span>{{'STEP4' | translate}}</span>
+            <span>{{'STEP2' | translate}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#third" data-toggle="tab">
+            <span class="badge">3</span>
+            <span>{{'STEP3' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
-            <span class="badge">3</span>
-            <span>{{'STEP5' | translate}}</span>
+            <span class="badge">4</span>
+            <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
       </ul>
@@ -32,27 +38,33 @@
           </div>
 
           <!-- NAME -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname) }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname), 'has-success' :  !rc.firstForm.needsAttention(firstForm.firstname) && user.firstname!='' }">
            <label class="control-label">{{ 'FIRSTNAME' | translate}}*</label>
-           <input type="text" name="firstname" class="form-control" ng-model="user.firstname" required>
-           <p ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="help-block">{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}</p>
+           <input type="text" name="firstname" class="form-control" ng-model="user.firstname" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" required>
+           <span ng-show="!rc.firstForm.needsAttention(firstForm.firstname) && user.firstname!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
 
           <!-- USERNAME -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname) }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname), 'has-success' : !rc.firstForm.needsAttention(firstForm.lastname) && user.lastname!='' }">
            <label class="control-label">{{ 'LASTNAME' | translate }}*</label>
-           <input type="text" name="lastname" class="form-control" ng-model="user.lastname" required>
-           <p ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="help-block">{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}</p>
+           <input type="text" name="lastname" class="form-control" ng-model="user.lastname" title="{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}" required>
+           <span ng-show="!rc.firstForm.needsAttention(firstForm.lastname) && user.lastname!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
 
           <!-- EMAIL -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email) }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email), 'has-success' : !rc.firstForm.needsAttention(firstForm.email) && user.email!='' }">
            <label class="control-label">{{ 'EMAIL' | translate }}*</label>
-           <input type="email" name="email" class="form-control" ng-model="user.email" required>
-           <p ng-show="rc.firstForm.needsAttention(firstForm.email)" class="help-block">{{ 'PLEASE_SPECIFY_EMAIL' | translate }}</p>
-           <p class="help-block">{{ 'STEP1_EMAIL_INFO' | translate }}</p>
+           <input type="email" name="email" class="form-control" ng-model="user.email" title="{{ 'PLEASE_SPECIFY_EMAIL' | translate }}" required>
+           <span ng-show="!rc.firstForm.needsAttention(firstForm.email) && user.email!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="rc.firstForm.needsAttention(firstForm.email)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+           <br>
+           <div class="alert alert-warning" role="alert">{{ 'STEP1_EMAIL_INFO' | translate }}</div>
           </div>
+        </form>
 
+        <form class="tab-pane" id="second" name="secondForm" rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -98,14 +110,6 @@
           <div id="register-map">
             <leaflet controls="controls" id="map_register" center="center" markers="markers" defaults="defaults" event-broadcast="events" width="100%" height="350px"></leaflet>
           </div>
-        </form>
-
-        <form class="tab-pane" id="second" name="fourthForm" rc-step>
-          <hr>
-          <div class="alert alert-info" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP4_DESCRIPTION' | translate}}
-          </div>
 
           <uib-accordion close-others="true">
             <uib-accordion-group is-open="open">
@@ -122,18 +126,6 @@
                 senseBox:home (WiFi)
               </label>
             </uib-accordion-group>
-            <!--<uib-accordion-group is-open="open2">
-              <uib-accordion-heading>
-                SenseBox Basic <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open2, 'glyphicon-chevron-right': !open2}"></i>
-              </uib-accordion-heading>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicEthernet'" ng-change="checked()"> SenseBox Basic mit Ethernet
-              </label>
-              <!--<br/>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'basicWifi'" ng-change="checked()"> SenseBox Basic mit WLAN
-              </label>
-            </uib-accordion-group>-->
             <uib-accordion-group is-open="open3">
               <uib-accordion-heading>
                 {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
@@ -194,11 +186,37 @@
             <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
           </uib-accordion>
         </form>
+
+        <form class="tab-pane" id="third" name="thirdForm" rc-step>
+          <hr>
+          <div class="alert alert-info" role="alert">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            {{'STEP3_DESCRIPTION' | translate}}
+          </div>
+          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+
+          <h3>{{'USER'|translate}}</h3>
+          <div class="well">
+            {{user.firstname}} {{user.lastname}} <br>
+            {{user.email}}
+          </div>
+          <h3>senseBox</h3>
+          <div class="well">
+            senseBox Model: {{modelSelected.name}} <br>
+            senseBox Name: {{newSenseBox.name}} <br>
+            {{'GROUP_NAME'|translate}}: {{newSenseBox.tag}} <br>
+            Typ: {{newSenseBox.boxType}} <br>
+            {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
+            API-Key: {{newSenseBox.orderID}} <br>
+          </div>
+          <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
+        </form>
+
         <form class="tab-pane" id="last" name="lastForm" rc-submit="completeRegistration()" rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP5_DESCRIPTION' | translate}}
+            {{'STEP4_DESCRIPTION' | translate}}
           </div>
           <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 

@@ -51,7 +51,7 @@ angular.module('openSenseMapApp')
         console.log('Selected ' + newValue);
         switch(newValue) {
           case 'homeEthernet':
-            $scope.modelSelected.name = 'SenseBox Home Ethernet';
+            $scope.modelSelected.name = 'senseBox Home Ethernet';
             $scope.models = {
               home: true,
               basic: false,
@@ -61,7 +61,7 @@ angular.module('openSenseMapApp')
             };
             break;
           case 'homeWifi':
-            $scope.modelSelected.name = 'SenseBox Home Wifi';
+            $scope.modelSelected.name = 'senseBox Home Wifi';
             $scope.models = {
               home: true,
               basic: false,
@@ -71,7 +71,7 @@ angular.module('openSenseMapApp')
             };
             break;
           case 'basicEthernet':
-            $scope.modelSelected.name = 'SenseBox Basic Ethernet';
+            $scope.modelSelected.name = 'senseBox Basic Ethernet';
             $scope.models = {
               home: false,
               basic: true,
@@ -81,7 +81,7 @@ angular.module('openSenseMapApp')
             };
             break;
           case 'basicWifi':
-            $scope.modelSelected.name = 'SenseBox Basic Wifi';
+            $scope.modelSelected.name = 'senseBox Basic Wifi';
             $scope.models = {
               home: false,
               basic: true,
@@ -91,7 +91,7 @@ angular.module('openSenseMapApp')
             };
             break;
           case 'custom':
-            $scope.modelSelected.name = 'SenseBox manuelle Konfiguration';
+            $scope.modelSelected.name = 'senseBox manuelle Konfiguration';
             $scope.models = {
               home: false,
               basic: false,

@@ -510,3 +510,13 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
     display:block !important;
   }
 }
+
+.oSeM-brand {
+  display: inline;
+}
+
+@media (max-width: 340px) {
+  .oSeM-brand {
+    display: none;
+  }
+}

@@ -464,6 +464,12 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline-block;
   padding: 3px 4px;
 }
+
+#location .row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
 @media screen and (max-width: 600px) {
   #sidebar {
     width:100%;

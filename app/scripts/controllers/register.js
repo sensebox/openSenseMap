@@ -23,8 +23,44 @@ angular.module('openSenseMapApp')
 
       $scope.markers = {};
 
+      //new user object
+      $scope.user = {
+        firstname: '',
+        lastname: '',
+        email: ''
+      };
+
+      //new sensebox object
+      $scope.newSenseBox = {
+        name: '',
+        model: '',
+        boxType: 'fixed',
+        sensors: [],
+        tag: '',
+        exposure: '',
+        orderID: '',
+        loc: [{
+          'type':'feature',
+          'geometry': {
+            'type':'Point',
+            'coordinates':[]
+          }
+        }]
+       };
+
+      $scope.editMarkerInput =  angular.copy($scope.markers);
+      $scope.$watchCollection('editMarkerInput.box', function (newValue) {
+        if (newValue && newValue.lat && newValue.lng) {
+          if ($scope.markers.box === undefined) {
+            $scope.markers.box = {};
+          }
+          $scope.markers.box.lng = newValue.lng;
+          $scope.markers.box.lat = newValue.lat;
+        }
+      });
+
       $scope.invalidHardware = false;
-      $scope.validateHardware = function() {
+      $scope.validateSetup = function() {
         if($scope.rc.sampleWizard.currentIndex !== 1){
           $scope.rc.sampleWizard.forward();
         } else if($scope.rc.sampleWizard.currentIndex === 1 &&
@@ -45,6 +81,24 @@ angular.module('openSenseMapApp')
         } else {
           $scope.invalidHardware = true;
         }
+      };
+
+      $scope.submit = function() {
+        if($scope.rc.sampleWizard.currentIndex !== 1) {
+          this.generateID();
+          this.goToMap();
+        }
+        $scope.rc.sampleWizard.forward();
+      };
+
+      $scope.goToMap = function() {
+        $timeout(function() {
+          leafletData.getMap().then(function(map) {
+            $scope.$watch('$viewContentLoaded', function() {
+              map.invalidateSize();
+            });
+          });
+        }, 100);
       };
 
       $scope.$watch('modelSelected.id', function(newValue) {
@@ -137,34 +191,6 @@ angular.module('openSenseMapApp')
         }
       });
 
-      leafletData.getMap('map_register').then(function (map) {
-        var geoCoderControl = L.Control.geocoder({
-          position: 'topleft',
-          placeholder: 'Adresse suchen...'
-        });
-
-        geoCoderControl.markGeocode = function (result) {
-          console.log(result);
-          leafletData.getMap('map_register').then(function(map) {
-            map.fitBounds(result.bbox);
-            if (Object.keys($scope.markers).length === 0) {
-              $scope.markers.box = {'lat':result.center.lat,'lng':result.center.lng};
-            } else {
-              $scope.markers.box.lat = result.center.lat;
-              $scope.markers.box.lng = result.center.lng;
-            }
-          });
-        };
-
-        //adds the controls to our map
-        //angular.extend($scope, {
-        //    controls: {
-        //        custom: [ geoCoderControl ]
-        //    }
-        //});
-        //map.addControl(geoCoderControl);
-      });
-
       $scope.edit = function (index) {
         $scope.editing[index]=true;
       };
@@ -211,13 +237,6 @@ angular.module('openSenseMapApp')
         $scope.sensors.push(sensor);
       };
 
-      //new user object
-      $scope.user = {
-        firstname: '',
-        lastname: '',
-        email: ''
-      };
-
       $scope.fixedBox = true;
       $scope.change = function () {
         $scope.fixedBox = !$scope.fixedBox;
@@ -261,24 +280,6 @@ angular.module('openSenseMapApp')
         window.prompt('Press cmd+c to copy the text below.', copy);
       };
 
-      //new sensebox object
-      $scope.newSenseBox = {
-        name: '',
-        model: '',
-        boxType: 'fixed',
-        sensors: [],
-        tag: '',
-        exposure: '',
-        orderID: '',
-        loc: [{
-          'type':'feature',
-          'geometry': {
-            'type':'Point',
-            'coordinates':[]
-          }
-        }]
-       };
-
       $scope.showMap = false;
       $scope.$watch('showMap', function(value) {
         if (value === true) {
@@ -299,39 +300,42 @@ angular.module('openSenseMapApp')
       };
 
       $scope.$on('leafletDirectiveMarker.map_register.dragend', function(e, args) {
-        $scope.markers[args.modelName].lat = args.model.lat;
-        $scope.markers[args.modelName].lng = args.model.lng;
+        $scope.markers[args.modelName].lat = parseFloat(args.model.lat.toFixed(6));
+        $scope.markers[args.modelName].lng = parseFloat(args.model.lng.toFixed(6));
+        $scope.editMarkerInput =  angular.copy($scope.markers);
       });
 
       $scope.$on('leafletDirectiveMap.map_register.click', function(e, args) {
         if (Object.keys($scope.markers).length === 0) {
           $scope.markers.box = {
-            'lat': args.leafletEvent.latlng.lat,
-            'lng': args.leafletEvent.latlng.lng,
+            'lat': parseFloat(args.leafletEvent.latlng.lat.toFixed(6)),
+            'lng': parseFloat(args.leafletEvent.latlng.lng.toFixed(6)),
             'draggable': true
           };
         } else {
-          $scope.markers.box.lat = args.leafletEvent.latlng.lat;
-          $scope.markers.box.lng = args.leafletEvent.latlng.lng;
+          $scope.markers.box.lat = parseFloat(args.leafletEvent.latlng.lat.toFixed(6));
+          $scope.markers.box.lng = parseFloat(args.leafletEvent.latlng.lng.toFixed(6));
           $scope.markers.box.draggable = true;
         }
+        $scope.editMarkerInput =  angular.copy($scope.markers);
       });
 
       $scope.$on('leafletDirectiveMap.map_register.locationfound', function(e, args){
         if (Object.keys($scope.markers).length === 0) {
           $scope.markers.box = {
-            'lat': args.leafletEvent.latlng.lat,
-            'lng': args.leafletEvent.latlng.lng,
+            'lat': parseFloat(args.leafletEvent.latlng.lat.toFixed(6)),
+            'lng': parseFloat(args.leafletEvent.latlng.lng.toFixed(6)),
             'draggable': true
           };
         } else {
-          $scope.markers.box.lat = args.leafletEvent.latlng.lat;
-          $scope.markers.box.lng = args.leafletEvent.latlng.lng;
+          $scope.markers.box.lat = parseFloat(args.leafletEvent.latlng.lat.toFixed(6));
+          $scope.markers.box.lng = parseFloat(args.leafletEvent.latlng.lng.toFixed(6));
           $scope.markers.box.draggable = true;
         }
         leafletData.getMap('map_register').then(function(map) {
           map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],16);
         });
+        $scope.editMarkerInput =  angular.copy($scope.markers);
       });
 
       $scope.$on('leafletDirectiveMap.map_register.locationerror', function(event){

@@ -30,7 +30,7 @@
       </ul>
       </div>
       <div class="tab-content">
-        <form class="tab-pane active" id="first" name="firstForm" rc-submit="generateID();" rc-step novalidate rc-disabled="invalidHardware">
+        <form class="tab-pane active" id="first" name="firstForm" rc-submit rc-step novalidate>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -64,41 +64,84 @@
           </div>
         </form>
 
-        <form class="tab-pane" id="second" name="secondForm" rc-step>
+        <form class="tab-pane" id="second" name="secondForm" rc-step rc-submit>
           <hr>
-          <div class="alert alert-info" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP2_DESCRIPTION' | translate}}
-          </div>
+          <div id="general">
+            <div class="text-center">
+              <h1><small>{{ 'STEP2_SUB1' | translate }}</small></h1>
+            </div>
+            <div class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              {{'STEP2_SUB1_DESCRIPTION' | translate}}
+            </div>
 
-          <!-- NAME -->
-          <div class="form-group" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.boxname) }">
-            <label class="control-label">{{ 'NAME_YOUR_STATION' | translate }}*</label>
-            <input type="text" name="boxname" class="form-control" id="name" placeholder="{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}" ng-model="newSenseBox.name" required>
-            <p ng-show="rc.firstForm.needsAttention(firstForm.boxname)" class="help-block">{{ 'PLEASE_SPECIFY_STATIONNAME' | translate }}</p>
-          </div>
+            <!-- NAME -->
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.name), 'has-success' :  !rc.secondForm.needsAttention(secondForm.name) && newSenseBox.name!='' }">
+              <label class="control-label">{{ 'NAME_YOUR_STATION' | translate}}*</label>
+              <input type="text" name="name" class="form-control" ng-model="newSenseBox.name" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" required>
+              <span ng-show="!rc.secondForm.needsAttention(secondForm.name) && newSenseBox.name!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="rc.secondForm.needsAttention(secondForm.name)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
 
-          <!-- Aufstellungsort -->
-          <div class="form-group" ng-show="fixedBox" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.exposure) }">
-            <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
-            <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
-              <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
-              <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
-            </select>
-            <p ng-show="rc.firstForm.needsAttention(firstForm.exposure)" class="help-block">{{'PLEASE_SPECIFY_PLACEMENT'|translate}}</p>
-          </div>
+            <!-- Aufstellungsort -->
+            <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure), 'has-success' :  !rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!='' }">
+              <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
+              <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
+                <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+                <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
+              </select>
+              <span ng-show="!rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
 
-          <!-- Gruppenkennzeichnung -->
-          <div class="form-group">
-            <label class="control-label">{{'GROUP_NAME'|translate}}</label>
-            <input type="text" name="name" class="form-control" ng-model="newSenseBox.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
+            <!-- Gruppenkennzeichnung -->
+            <div class="form-group">
+              <label class="control-label">{{'GROUP_NAME'|translate}}</label>
+              <input type="text" name="tag" class="form-control" ng-model="newSenseBox.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
+            </div>
           </div>
-
           <hr>
-          <div class="alert alert-info" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP3_DESCRIPTION' | translate}}
+          <div id="location">
+            <div class="text-center">
+              <h1><small>{{ 'STEP2_SUB2' | translate }}</small></h1>
+            </div>
+            <div class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              {{'STEP2_SUB2_DESCRIPTION' | translate}}
+            </div>
+            <div id="register-map" class="row">
+              <leaflet controls="controls" id="map_register" center="center" markers="markers" defaults="defaults" event-broadcast="events" width="100%" height="350px"></leaflet>
+            </div>
+            <div id="boxPosition" class="row">
+              <div class="col-md-6">
+                <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.boxLat), 'has-success' :  !rc.secondForm.needsAttention(secondForm.boxLat) && editMarkerInput.box!==undefined}">
+                  <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
+                  <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="editMarkerInput.box.lat" step="0.000001" required>
+                  <span ng-show="!rc.secondForm.needsAttention(secondForm.boxLat) && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="rc.secondForm.needsAttention(secondForm.boxLat)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.boxLng), 'has-success' :  !rc.secondForm.needsAttention(secondForm.boxLng) && editMarkerInput.box!==undefined}">
+                  <label for="boxLng">{{'BOX_LONGITUDE'|translate}}</label>
+                  <input name="boxLng" class="form-control" type="number" min="-180" max="180" ng-model="editMarkerInput.box.lng" step="0.000001" required>
+                  <span ng-show="!rc.secondForm.needsAttention(secondForm.boxLng) && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="rc.secondForm.needsAttention(secondForm.boxLng)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                </div>
+              </div>
+            </div>
           </div>
+          <hr>
+          <div id="hardware">
+            <div class="text-center">
+              <h1><small>{{ 'STEP2_SUB3' | translate }}</small></h1>
+            </div>
+            <div class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              {{'STEP2_SUB3_DESCRIPTION' | translate}}
+            </div>
+          </div>
+          <!--
           <div class="form-group" ng-hide="true">
             <label class="control-label">lat</label>
             <input name="lat" class="form-control" type="text" ng-model="markers.box.lat" required />
@@ -110,7 +153,7 @@
           <div id="register-map">
             <leaflet controls="controls" id="map_register" center="center" markers="markers" defaults="defaults" event-broadcast="events" width="100%" height="350px"></leaflet>
           </div>
-
+          <hr>
           <uib-accordion close-others="true">
             <uib-accordion-group is-open="open">
               <uib-accordion-heading>
@@ -184,7 +227,7 @@
               </div>
             </uib-accordion-group>
             <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
-          </uib-accordion>
+          </uib-accordion> -->
         </form>
 
         <form class="tab-pane" id="third" name="thirdForm" rc-step>
@@ -242,7 +285,7 @@
         <div class="pull-right">
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
-          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="validateHardware()"
+          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
              ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>

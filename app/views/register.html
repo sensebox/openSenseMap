@@ -140,94 +140,81 @@
               <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
               {{'STEP2_SUB3_DESCRIPTION' | translate}}
             </div>
-          </div>
-          <!--
-          <div class="form-group" ng-hide="true">
-            <label class="control-label">lat</label>
-            <input name="lat" class="form-control" type="text" ng-model="markers.box.lat" required />
-          </div>
-          <div class="form-group" ng-hide="true">
-            <label class="control-label">lng</label>
-            <input name="lng" class="form-control" type="text" ng-model="markers.box.lng" required />
-          </div>
-          <div id="register-map">
-            <leaflet controls="controls" id="map_register" center="center" markers="markers" defaults="defaults" event-broadcast="events" width="100%" height="350px"></leaflet>
-          </div>
-          <hr>
-          <uib-accordion close-others="true">
-            <uib-accordion-group is-open="open">
-              <uib-accordion-heading>
-                senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
-              </uib-accordion-heading>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()">
-                senseBox:home (Ethernet)
-              </label>
-              <br/>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()">
-                senseBox:home (WiFi)
-              </label>
-            </uib-accordion-group>
-            <uib-accordion-group is-open="open3">
-              <uib-accordion-heading>
-                {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
-              </uib-accordion-heading>
-              <label class="checkbox-inline">
-                <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'custom'" ng-change="checked()"> {{'MANUAL_CONFIGURATION'|translate}}
-              </label>
-              <br>
-              <uib-alert type="info" ng-bind-html="'CUSTOMBOX'|translate">
-              </uib-alert>
-              <br>
-              <table class="table table-striped table-bordered" ng-show="modelSelected.id=='custom'">
-                <thead>
-                  <tr style="font-weight: bold">
-                    <td style="width:35%">{{'CONFIG_PHENOMENON'|translate}}</td>
-                    <td style="width:20%">{{'CONFIG_UNIT'|translate}}</td>
-                    <td style="width:20%">{{'CONFIG_TYPE'|translate}}</td>
-                    <td style="width:25%">{{'CONFIG_EDIT'|translate}}</td>
+            <uib-accordion close-others="true">
+              <uib-accordion-group is-open="open">
+                <uib-accordion-heading>
+                  senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open, 'glyphicon-chevron-right': !open}"></i>
+                </uib-accordion-heading>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeEthernet'" ng-change="checked()">
+                  senseBox:home (Ethernet)
+                </label>
+                <br/>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'homeWifi'" ng-change="checked()">
+                  senseBox:home (WiFi)
+                </label>
+              </uib-accordion-group>
+              <uib-accordion-group is-open="open3">
+                <uib-accordion-heading>
+                  {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open3, 'glyphicon-chevron-right': !open3}"></i>
+                </uib-accordion-heading>
+                <label class="checkbox-inline">
+                  <input type="checkbox" ng-model="modelSelected.id" ng-true-value="'custom'" ng-change="checked()"> {{'MANUAL_CONFIGURATION'|translate}}
+                </label>
+                <br>
+                <uib-alert type="info" ng-bind-html="'CUSTOMBOX'|translate">
+                </uib-alert>
+                <br>
+                <table class="table table-striped table-bordered" ng-show="modelSelected.id=='custom'">
+                  <thead>
+                    <tr style="font-weight: bold">
+                      <td style="width:35%">{{'CONFIG_PHENOMENON'|translate}}</td>
+                      <td style="width:20%">{{'CONFIG_UNIT'|translate}}</td>
+                      <td style="width:20%">{{'CONFIG_TYPE'|translate}}</td>
+                      <td style="width:25%">{{'CONFIG_EDIT'|translate}}</td>
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="sensor in sensors">
+                      <td>
+                        <span ng-hide="editing[sensor.id]">{{showPhenomenom(sensor)}}</span>
+                        <input class="form-control" ng-show="editing[sensor.id] && isCustom[sensor.id]" ng-model="sensor.title">
+                        <select class="form-control" ng-show="editing[sensor.id] && !isCustom[sensor.id]" ng-change="makeCustom(sensor.title, sensor.id)" ng-model="sensor.title" ng-required>
+                          <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
+                        </select>
+                      </td>
+                      <td>
+                        <span ng-hide="editing[sensor.id]">{{sensor.unit}}</span>
+                        <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.unit" ng-required />
+                      </td>
+                      <td>
+                        <span ng-hide="editing[sensor.id]">{{sensor.sensorType}}</span>
+                        <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.sensorType" ng-required />
+                      </td>
+                      <td style="white-space: nowrap">
+                        <button type="button" class="btn btn-primary" ng-hide="editing[sensor.id]" ng-click="edit(sensor.id);">
+                          <span class="glyphicon glyphicon-edit"></span> {{'CHANGE'|translate}}
+                        </button>
+                        <button type="button" class="btn btn-danger" ng-hide="editing[sensor.id]" ng-click="remove(sensor.id);">
+                          <span class="glyphicon glyphicon-minus"></span> {{'DELETE'|translate}}
+                        </button>
+                        <button type="button" class="btn btn-primary" ng-show="editing[sensor.id]" ng-click="save(sensor.id);">
+                          <span class="glyphicon glyphicon-floppy-disk"></span> {{'SAVE'|translate}}
+                        </button>
+                      </td>
                     </tr>
-                </thead>
-                <tbody>
-                  <tr ng-repeat="sensor in sensors">
-                    <td>
-                      <span ng-hide="editing[sensor.id]">{{showPhenomenom(sensor)}}</span>
-                      <input class="form-control" ng-show="editing[sensor.id] && isCustom[sensor.id]" ng-model="sensor.title">
-                      <select class="form-control" ng-show="editing[sensor.id] && !isCustom[sensor.id]" ng-change="makeCustom(sensor.title, sensor.id)" ng-model="sensor.title" ng-required>
-                        <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
-                      </select>
-                    </td>
-                    <td>
-                      <span ng-hide="editing[sensor.id]">{{sensor.unit}}</span>
-                      <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.unit" ng-required />
-                    </td>
-                    <td>
-                      <span ng-hide="editing[sensor.id]">{{sensor.sensorType}}</span>
-                      <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.sensorType" ng-required />
-                    </td>
-                    <td style="white-space: nowrap">
-                      <button type="button" class="btn btn-primary" ng-hide="editing[sensor.id]" ng-click="edit(sensor.id);">
-                        <span class="glyphicon glyphicon-edit"></span> {{'CHANGE'|translate}}
-                      </button>
-                      <button type="button" class="btn btn-danger" ng-hide="editing[sensor.id]" ng-click="remove(sensor.id);">
-                        <span class="glyphicon glyphicon-minus"></span> {{'DELETE'|translate}}
-                      </button>
-                      <button type="button" class="btn btn-primary" ng-show="editing[sensor.id]" ng-click="save(sensor.id);">
-                        <span class="glyphicon glyphicon-floppy-disk"></span> {{'SAVE'|translate}}
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <uib-alert type="warning" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
-              <div class="col-lg-12" ng-show="modelSelected.id=='custom'">
-                <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
-                <hr>
-              </div>
-            </uib-accordion-group>
-            <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
-          </uib-accordion> -->
+                  </tbody>
+                </table>
+                <uib-alert type="warning" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
+                <div class="col-lg-12" ng-show="modelSelected.id=='custom'">
+                  <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
+                  <hr>
+                </div>
+              </uib-accordion-group>
+              <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
+            </uib-accordion>
+          </div>
         </form>
 
         <form class="tab-pane" id="third" name="thirdForm" rc-step>

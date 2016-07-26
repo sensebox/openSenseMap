@@ -87,8 +87,25 @@ angular.module('openSenseMapApp')
         if($scope.rc.sampleWizard.currentIndex !== 1) {
           this.generateID();
           this.goToMap();
+          $scope.rc.sampleWizard.forward();
+        } else if($scope.rc.sampleWizard.currentIndex === 1 &&
+          (($scope.modelSelected.id !== false && $scope.modelSelected.id !== 'custom') || ($scope.modelSelected.id==='custom' && $scope.sensors.length > 0))){
+
+          $scope.invalidHardware = false;
+          $scope.sensorIncomplete = false;
+          for(var i=0; i < $scope.sensors.length; i++){
+            var sensor = $scope.sensors[i];
+            if(sensor.unit === '' || sensor.sensorType === '' || sensor.title === ''){
+              $scope.invalidHardware = true;
+              $scope.sensorIncomplete = true;
+            }
+          }
+          if (!$scope.invalidHardware) {
+            $scope.rc.sampleWizard.forward();
+          }
+        } else {
+          $scope.invalidHardware = true;
         }
-        $scope.rc.sampleWizard.forward();
       };
 
       $scope.goToMap = function() {

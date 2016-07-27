@@ -471,7 +471,18 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 }
 
 .icon {
-  width: 100%;
+  position: absolute;
+  display: inline-block;
+  left: 35%;
+  top: 30%;
+  z-index: 5;
+}
+
+.icon-caret {
+  position: absolute;
+  right: 40%;
+  top: 45%;
+  z-index: 5;
 }
 
 @media screen and (max-width: 600px) {

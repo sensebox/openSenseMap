@@ -181,10 +181,10 @@
                       <td>
                         <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
                         <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!='' }">
-                          <div class="btn-group has-error xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
-                            <button type="button" class="btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
-                              <span ng-class="sensor.icon"></span><span class="caret"></span>
-                            </button>
+                          <div class="btn-group xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
+                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
+                              <span class="icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
+                            </input>
                             <ul class="dropdown-menu list-inline" role="menu">
                               <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
                                 <span ng-class="icon.name"></span>

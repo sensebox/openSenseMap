@@ -169,38 +169,58 @@
                 <table class="table table-striped table-bordered" ng-show="modelSelected.id=='custom'">
                   <thead>
                     <tr style="font-weight: bold">
+                      <td style="width:15%">{{'CONFIG_ICON'|translate}}</td>
                       <td style="width:35%">{{'CONFIG_PHENOMENON'|translate}}</td>
                       <td style="width:20%">{{'CONFIG_UNIT'|translate}}</td>
                       <td style="width:20%">{{'CONFIG_TYPE'|translate}}</td>
-                      <td style="width:25%">{{'CONFIG_EDIT'|translate}}</td>
+                      <td style="width:25%">&nbsp;</td>
                       </tr>
                   </thead>
                   <tbody>
                     <tr ng-repeat="sensor in sensors">
                       <td>
-                        <span ng-hide="editing[sensor.id]">{{showPhenomenom(sensor)}}</span>
-                        <input class="form-control" ng-show="editing[sensor.id] && isCustom[sensor.id]" ng-model="sensor.title">
-                        <select class="form-control" ng-show="editing[sensor.id] && !isCustom[sensor.id]" ng-change="makeCustom(sensor.title, sensor.id)" ng-model="sensor.title" ng-required>
-                          <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
-                        </select>
+                        <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
+                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!='' }">
+                          <div class="btn-group has-error xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
+                            <button type="button" class="btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
+                              <span ng-class="sensor.icon"></span><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu list-inline" role="menu">
+                              <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
+                                <span ng-class="icon.name"></span>
+                              </li>
+                            </ul>
+                          </div>
+                          <span ng-show="!rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="rc.secondForm.needsAttention(secondForm.icon{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
                       </td>
                       <td>
-                        <span ng-hide="editing[sensor.id]">{{sensor.unit}}</span>
-                        <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.unit" ng-required />
+                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}) && sensor.title!='' }">
+                          <select class="form-control" name="exposure{{sensor.id}}" id="inputType" ng-model="sensor.title" required>
+                            <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
+                          </select>
+                          <span ng-show="!rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}) && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
                       </td>
                       <td>
-                        <span ng-hide="editing[sensor.id]">{{sensor.sensorType}}</span>
-                        <input type="text" class="form-control" ng-show="editing[sensor.id]" ng-model="sensor.sensorType" ng-required />
+                        <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}), 'has-success' :  !rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}) && sensor.unit!==''}">
+                          <input name="unit{{sensor.id}}" class="form-control" type="text" ng-model="sensor.unit" required>
+                          <span ng-show="!rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}) && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="rc.secondForm.needsAttention(secondForm.unit{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}), 'has-success' :  !rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}) && sensor.sensorType!==''}">
+                          <input name="sensorType{{sensor.id}}" class="form-control" type="text" ng-model="sensor.sensorType" required>
+                          <span ng-show="!rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}) && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
                       </td>
                       <td style="white-space: nowrap">
-                        <button type="button" class="btn btn-primary" ng-hide="editing[sensor.id]" ng-click="edit(sensor.id);">
-                          <span class="glyphicon glyphicon-edit"></span> {{'CHANGE'|translate}}
-                        </button>
-                        <button type="button" class="btn btn-danger" ng-hide="editing[sensor.id]" ng-click="remove(sensor.id);">
-                          <span class="glyphicon glyphicon-minus"></span> {{'DELETE'|translate}}
-                        </button>
-                        <button type="button" class="btn btn-primary" ng-show="editing[sensor.id]" ng-click="save(sensor.id);">
-                          <span class="glyphicon glyphicon-floppy-disk"></span> {{'SAVE'|translate}}
+                        <button type="button" class="btn btn-danger" ng-show="editing[sensor.id]" ng-click="remove(sensor.id);">
+                          <span class="glyphicon glyphicon-trash"></span>
                         </button>
                       </td>
                     </tr>

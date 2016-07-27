@@ -76,6 +76,7 @@
   "ADD_SENSOR": "Sensor hinzufügen",
   "STATION_PLACEMENT_INDOOR": "Drinnen",
   "STATION_PLACEMENT_OUTDOOR": "Draußen",
+  "CONFIG_ICON": "Symbol",
   "CONFIG_PHENOMENON": "Phänomen",
   "CONFIG_UNIT": "Einheit",
   "CONFIG_TYPE": "Typ",

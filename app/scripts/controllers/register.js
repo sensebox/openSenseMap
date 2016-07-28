@@ -2,8 +2,6 @@
 
 angular.module('openSenseMapApp')
   .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', '$translate', function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, $translate){
-    var vm = this;
-
     $scope.osemapi = OpenSenseBoxAPI;
 
     $scope.alerts = [];
@@ -34,6 +32,7 @@ angular.module('openSenseMapApp')
 
     //new sensebox object
     $scope.newSenseBox = {
+      id: '',
       name: '',
       model: '',
       boxType: 'fixed',
@@ -349,6 +348,17 @@ angular.module('openSenseMapApp')
       console.log(event);
     });
 
+    var downloadArduino = function () {
+      var boxid = $scope.newSenseBox.id;
+      var apikey = $scope.newSenseBox.apikey;
+      $http.get($scope.osemapi.url+'/boxes/'+boxid+'/script', { headers: { 'X-ApiKey': apikey } })
+        .success(function(data, status){
+          $scope.boxScript = data;
+        }).error(function(data, status){
+          // todo: display an error message
+      });
+    };
+
     $scope.completeRegistration = function () {
       console.log($scope.newSenseBox);
       $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
@@ -366,6 +376,7 @@ angular.module('openSenseMapApp')
 
       $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
         .success( function (data) {
+          $scope.newSenseBox.id = data.boxes[0];
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
             var alert = {
               type: 'success',
@@ -374,6 +385,7 @@ angular.module('openSenseMapApp')
             $scope.alerts.push(alert);
             $scope.regSuccess = true;
           });
+          downloadArduino();
         })
         .error( function (err) {
           $translate('REGISTRATION_FAIL').then(function (msg) {

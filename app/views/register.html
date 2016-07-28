@@ -282,7 +282,15 @@
             {{'GROUP_NAME'|translate}}: {{newSenseBox.tag}} <br>
             Typ: {{newSenseBox.boxType}} <br>
             {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
-            API-Key: {{newSenseBox.orderID}} <br>
+            API-Key: <strong>{{newSenseBox.orderID}}</strong> <br>
+          </div>
+          <h3>Arduino Code</h3>
+          <div class="well">
+            <uib-alert type="warning" ng-show="!boxScript">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
+            <textarea ng-show="boxScript" class="form-control" ng-model="boxScript" onclick="this.select()" style="resize:none;height:200px;font-family:monospace;font-size:80%"></textarea>
+          </div>
+          <h3>Nützliche Links</h3>
+          <div class="well">
           </div>
           <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
         </form>

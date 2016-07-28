@@ -237,7 +237,7 @@
           </div>
         </form>
 
-        <form class="tab-pane" id="third" name="thirdForm" rc-step>
+        <form class="tab-pane" id="third" name="thirdForm" rc-step rc-submit="completeRegistration()">
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -291,13 +291,13 @@
         <hr>
         <div class="pull-right">
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
-             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex">{{'PREVIOUS' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex && rc.sampleWizard.currentIndex <= rc.sampleWizard.navigationLength-1">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength">{{'NEXT' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'CANCEL' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="!regSuccess && rc.sampleWizard.forward()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength">{{'FINISH' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}</a>
         </div>
       </div>
     </div>

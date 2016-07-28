@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', '$translate', function($scope, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, $translate){
+  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', '$translate', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, $translate){
     $scope.osemapi = OpenSenseBoxAPI;
 
     $scope.alerts = [];
@@ -347,6 +347,10 @@ angular.module('openSenseMapApp')
       //TODO set alert
       console.log(event);
     });
+
+    $scope.goToBox = function () {
+      $state.go('explore.map.boxdetails', { id: $scope.newSenseBox.id });
+    };
 
     var downloadArduino = function () {
       var boxid = $scope.newSenseBox.id;

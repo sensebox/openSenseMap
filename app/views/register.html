@@ -264,10 +264,6 @@
 
         <form class="tab-pane" id="last" name="lastForm" rc-step>
           <hr>
-          <div class="alert alert-info" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP4_DESCRIPTION' | translate}}
-          </div>
           <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
 
           <h3>{{'USER'|translate}}</h3>
@@ -291,6 +287,10 @@
           </div>
           <h3>Nützliche Links</h3>
           <div class="well">
+            <ul>
+              <li><a href="https://books.sensebox.de">Anleitungen</a></li>
+              <li><a href="" ng-click="goToBox()">Deine senseBox</a></li>
+            </ul>
           </div>
           <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
         </form>

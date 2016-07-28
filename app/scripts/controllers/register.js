@@ -252,8 +252,8 @@ angular.module('openSenseMapApp')
     };
 
     $scope.setSensorIcon = function(sensor,newIcon) {
-      sensor.icon = newIcon.name
-    }
+      sensor.icon = newIcon.name;
+    };
 
     $scope.fixedBox = true;
     $scope.change = function () {
@@ -273,18 +273,6 @@ angular.module('openSenseMapApp')
       {value: 8, text: 'Kamera', unit: '', type: ''},
       {value: 99, text: 'Anderer', unit: '', type: ''},
     ];
-
-    // $scope.showPhenomenom = function(sensor) {
-    //   if(sensor.title.trim().length===0){
-    //     return 'Not set';
-    //   }
-    //   var selected = [];
-    //   if(sensor.title) {
-    //     selected = $filter('filter')($scope.phenomenoms, {text: sensor.title});
-    //   }
-
-    //   return selected.length ? selected[0].text : sensor.title;
-    // };
 
     $scope.generateID = function () {
       var timestamp = (new Date().getTime() / 1000 | 0).toString(16);

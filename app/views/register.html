@@ -151,7 +151,7 @@
             <uib-accordion close-others="true">
               <uib-accordion-group is-open="open.collapse1">
                 <uib-accordion-heading>
-                  senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse2, 'glyphicon-chevron-right': !open.collapse2}"></i>
+                  senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse1, 'glyphicon-chevron-right': !open.collapse1}"></i>
                 </uib-accordion-heading>
                 <div class="radio">
                   <label>
@@ -170,9 +170,9 @@
                 <uib-accordion-heading>
                   {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse2, 'glyphicon-chevron-right': !open.collapse2}"></i>
                 </uib-accordion-heading>
-                <div class="radio" ng-hide="true">
+                <div class="radio">
                   <label>
-                    <input type="radio" name="model" id="optionsRadios2" value="custom" ng-model="modelSelected.id" ng-checked="open.collapse2" required>
+                    <input type="radio" name="model" id="optionsRadios2" value="custom" ng-model="modelSelected.id" required>
                     {{'MANUAL_CONFIGURATION'|translate}}
                   </label>
                 </div>

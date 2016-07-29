@@ -2,7 +2,7 @@
   <div class="col-lg-7 col-lg-offset-2">
     <div rc-wizard="sampleWizard" rc-disabled="rc.firstForm.submitInProgress">
       <div class="center">
-      <ul class="nav rc-nav-wizard">
+      <ul class="nav rc-nav-wizard nav-wizard">
         <li class="active">
           <a class="active" href="#first" data-toggle="tab">
             <span class="badge">1</span>
@@ -183,11 +183,11 @@
                         <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!='' }">
                           <div class="btn-group xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
                             <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
-                              <span class="icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
+                              <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
                             </input>
                             <ul class="dropdown-menu list-inline" role="menu">
                               <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
-                                <span ng-class="icon.name"></span>
+                                <span class="osem-icon" ng-class="icon.name"></span>
                               </li>
                             </ul>
                           </div>

@@ -1,0 +1,153 @@
+@font-face {
+  font-family: 'opensensemap';
+  src:  url('../fonts/opensensemap.eot?c4s51t');
+  src:  url('../fonts/opensensemap.eot?c4s51t#iefix') format('embedded-opentype'),
+    url('../fonts/opensensemap.ttf?c4s51t') format('truetype'),
+    url('../fonts/opensensemap.woff?c4s51t') format('woff'),
+    url('../fonts/opensensemap.svg?c4s51t#opensensemap') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.osem-icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'opensensemap' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.osem-moisture:before {
+  content: "\f01c";
+}
+.osem-temperature-celsius:before {
+  content: "\f03c";
+}
+.osem-temperature-fahrenheit:before {
+  content: "\f045";
+}
+.osem-thermometer:before {
+  content: "\f055";
+}
+.osem-windspeed:before {
+  content: "\f056";
+}
+.osem-sprinkles:before {
+  content: "\f064";
+}
+.osem-brightness:before {
+  content: "\f06e";
+}
+.osem-barometer:before {
+  content: "\f079";
+}
+.osem-humidity:before {
+  content: "\f07a";
+}
+.osem-not-available:before {
+  content: "\f07b";
+}
+.osem-gauge:before {
+  content: "\f07c";
+}
+.osem-umberella:before {
+  content: "\f084";
+}
+.osem-clock:before {
+  content: "\f08d";
+}
+.osem-shock:before {
+  content: "\f0c6";
+}
+.osem-fire:before {
+  content: "\f0c7";
+}
+.osem-check:before {
+  content: "\f00c";
+}
+.osem-close:before {
+  content: "\f00d";
+}
+.osem-remove:before {
+  content: "\f00d";
+}
+.osem-times:before {
+  content: "\f00d";
+}
+.osem-cog:before {
+  content: "\f013";
+}
+.osem-gear:before {
+  content: "\f013";
+}
+.osem-trash-o:before {
+  content: "\f014";
+}
+.osem-refresh:before {
+  content: "\f021";
+}
+.osem-volume-up:before {
+  content: "\f028";
+}
+.osem-barcode:before {
+  content: "\f02a";
+}
+.osem-times-circle:before {
+  content: "\f057";
+}
+.osem-check-circle:before {
+  content: "\f058";
+}
+.osem-question-circle:before {
+  content: "\f059";
+}
+.osem-info-circle:before {
+  content: "\f05a";
+}
+.osem-twitter-square:before {
+  content: "\f081";
+}
+.osem-facebook-square:before {
+  content: "\f082";
+}
+.osem-github:before {
+  content: "\f09b";
+}
+.osem-globe:before {
+  content: "\f0ac";
+}
+.osem-filter:before {
+  content: "\f0b0";
+}
+.osem-cloud:before {
+  content: "\f0c2";
+}
+.osem-floppy-o:before {
+  content: "\f0c8";
+}
+.osem-save:before {
+  content: "\f0c8";
+}
+.osem-dashboard:before {
+  content: "\f0e4";
+}
+.osem-tachometer:before {
+  content: "\f0e4";
+}
+.osem-spinner:before {
+  content: "\f110";
+}
+.osem-cube:before {
+  content: "\f1b2";
+}
+.osem-pause-circle:before {
+  content: "\f28b";
+}
+

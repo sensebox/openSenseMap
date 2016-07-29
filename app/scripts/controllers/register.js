@@ -50,16 +50,24 @@ angular.module('openSenseMapApp')
     };
 
     $scope.icons = [
-      { name: 'glyphicon glyphicon-cutlery' },
-      { name: 'glyphicon glyphicon-eye-open'},
-      { name: 'glyphicon glyphicon-flag'},
-      { name: 'glyphicon glyphicon-flash'},
-      { name: 'glyphicon glyphicon-glass'},
-      { name: 'glyphicon glyphicon-fire'},
-      { name: 'glyphicon glyphicon-hand-right'},
-      { name: 'glyphicon glyphicon-heart'},
-      { name: 'glyphicon glyphicon-heart-empty'},
-      { name: 'glyphicon glyphicon-leaf'}
+      { name: 'osem-moisture' },
+      { name: 'osem-temperature-celsius'},
+      { name: 'osem-temperature-fahrenheit'},
+      { name: 'osem-thermometer'},
+      { name: 'osem-windspeed'},
+      { name: 'osem-sprinkles'},
+      { name: 'osem-brightness'},
+      { name: 'osem-barometer'},
+      { name: 'osem-humidity'},
+      { name: 'osem-not-available'},
+      { name: 'osem-gauge'},
+      { name: 'osem-umberella'},
+      { name: 'osem-clock'},
+      { name: 'osem-shock'},
+      { name: 'osem-fire'},
+      { name: 'osem-volume-up'},
+      { name: 'osem-cloud'},
+      { name: 'osem-dashboard'}
     ];
 
     $scope.editMarkerInput =  angular.copy($scope.markers);

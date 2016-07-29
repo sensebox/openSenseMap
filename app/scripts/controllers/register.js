@@ -281,6 +281,16 @@ angular.module('openSenseMapApp')
       }
     });
 
+    $scope.open = {
+      collapse1: true,
+      collapse2: false
+    }
+    $scope.$watchCollection('open.collapse2',function (newValue) {
+      if (newValue) {
+        $scope.modelSelected.id = 'custom';
+      }
+    });
+
     $scope.goToMap = function() {
       $timeout(function() {
         leafletData.getMap('map_register').then(function(map) {

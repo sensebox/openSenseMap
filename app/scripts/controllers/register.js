@@ -365,6 +365,7 @@ angular.module('openSenseMapApp')
 
     $scope.completeRegistration = function () {
       console.log($scope.newSenseBox);
+      $scope.alerts = [];
       $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
       $scope.newSenseBox.user = $scope.user;
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
@@ -381,6 +382,7 @@ angular.module('openSenseMapApp')
       $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
         .success( function (data) {
           $scope.newSenseBox.id = data.boxes[0];
+          $scope.rc.sampleWizard.forward();
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
             var alert = {
               type: 'success',

@@ -237,7 +237,7 @@
           </div>
         </form>
 
-        <form class="tab-pane" id="third" name="thirdForm" rc-step rc-submit="completeRegistration()">
+        <form class="tab-pane" id="third" name="thirdForm" rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -304,7 +304,7 @@
              ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="#/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
-          <a class="btn btn-success" ng-click="!regSuccess && rc.sampleWizard.forward()"
+          <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}</a>
         </div>
       </div>

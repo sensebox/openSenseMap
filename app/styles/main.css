@@ -485,6 +485,11 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   z-index: 5;
 }
 
+.nav-wizard {
+  width: 75%;
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 600px) {
   #sidebar {
     width:100%;

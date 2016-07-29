@@ -86,10 +86,18 @@
             <!-- Aufstellungsort -->
             <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure), 'has-success' :  !rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!='' }">
               <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
-              <select class="form-control" name="exposure" id="inputType" ng-model="newSenseBox.exposure" required>
-                <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
-                <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
-              </select>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="exposure" id="optionsRadios1" value="indoor" ng-model="newSenseBox.exposure" required>
+                  {{'STATION_PLACEMENT_INDOOR'|translate}}
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" name="exposure" id="optionsRadios2" value="outdoor" ng-model="newSenseBox.exposure" required>
+                  {{'STATION_PLACEMENT_OUTDOOR'|translate}}
+                </label>
+              </div>
               <span ng-show="!rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
               <span ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
             </div>

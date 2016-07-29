@@ -1,9 +1,10 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI', function($scope, Validation, $http, OpenSenseBoxAPI){
+  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI', 'SensorIcons', function($scope, Validation, $http, OpenSenseBoxAPI, SensorIcons){
 
   $scope.osemapi = OpenSenseBoxAPI;
+  $scope.icons = SensorIcons;
   $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
 
   $scope.boxPosition = {

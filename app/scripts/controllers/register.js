@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', '$translate', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, $translate){
+  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', 'SensorIcons', '$translate', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, SensorIcons, $translate){
     $scope.osemapi = OpenSenseBoxAPI;
-
+    $scope.icons = SensorIcons;
     $scope.alerts = [];
     $scope.editing = {};
     $scope.isCustom = {};
@@ -48,27 +48,6 @@ angular.module('openSenseMapApp')
         }
       }]
     };
-
-    $scope.icons = [
-      { name: 'osem-moisture' },
-      { name: 'osem-temperature-celsius'},
-      { name: 'osem-temperature-fahrenheit'},
-      { name: 'osem-thermometer'},
-      { name: 'osem-windspeed'},
-      { name: 'osem-sprinkles'},
-      { name: 'osem-brightness'},
-      { name: 'osem-barometer'},
-      { name: 'osem-humidity'},
-      { name: 'osem-not-available'},
-      { name: 'osem-gauge'},
-      { name: 'osem-umberella'},
-      { name: 'osem-clock'},
-      { name: 'osem-shock'},
-      { name: 'osem-fire'},
-      { name: 'osem-volume-up'},
-      { name: 'osem-cloud'},
-      { name: 'osem-dashboard'}
-    ];
 
     $scope.editMarkerInput =  angular.copy($scope.markers);
     $scope.$watchCollection('editMarkerInput.box', function (newValue) {

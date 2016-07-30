@@ -265,7 +265,8 @@ angular.module('openSenseMapApp')
 			map.fitBounds([latlng, latlng], {
 				paddingTopLeft: [0,0],
 				paddingBottomRight: [padding, 0],
-				maxZoom: 17
+				maxZoom: 17,
+				animate: false
 			});
 		});
 	}

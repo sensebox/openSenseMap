@@ -257,9 +257,14 @@ angular.module('openSenseMapApp')
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {
 		leafletData.getMap('map_main').then(function(map) {
+			var padding = 450; // sidebar width: 450px
+			// consider smaller devices
+			if (document.body.clientWidth <= padding) {
+				padding = 0;
+			}
 			map.fitBounds([latlng, latlng], {
 				paddingTopLeft: [0,0],
-				paddingBottomRight: [450, 0], // sidebar width: 450px
+				paddingBottomRight: [padding, 0],
 				maxZoom: 17
 			});
 		});

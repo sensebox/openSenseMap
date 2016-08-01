@@ -258,10 +258,9 @@ angular.module('openSenseMapApp')
 	$scope.centerLatLng = function(latlng) {
 		leafletData.getMap('map_main').then(function(map) {
 			var padding = 450; // sidebar width: 450px
-			// consider smaller devices
-			if (document.body.clientWidth <= padding) {
-				padding = 0;
-			}
+			// consider smaller devices (250px min map-width + 450px sidebar-width)
+			if (document.body.clientWidth <= 700) padding = 0;
+
 			map.fitBounds([latlng, latlng], {
 				paddingTopLeft: [0,0],
 				paddingBottomRight: [padding, 0],

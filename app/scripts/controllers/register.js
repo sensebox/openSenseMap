@@ -358,6 +358,16 @@ angular.module('openSenseMapApp')
       });
     };
 
+    var loadSensors = function () {
+      var boxid = $scope.newSenseBox.id;
+      $http.get($scope.osemapi.url+'/boxes/'+boxid, {})
+        .success(function(data, status){
+          $scope.registeredSensors = data["sensors"];
+        }).error(function(data, status){
+          // todo: display an error message
+      });
+    }
+
     $scope.completeRegistration = function () {
       console.log($scope.newSenseBox);
       $scope.alerts = [];
@@ -387,6 +397,7 @@ angular.module('openSenseMapApp')
             $scope.regSuccess = true;
           });
           downloadArduino();
+          loadSensors();
         })
         .error( function (err) {
           $translate('REGISTRATION_FAIL').then(function (msg) {

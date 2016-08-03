@@ -7,6 +7,7 @@ angular.module('openSenseMapApp')
     $scope.alerts = [];
     $scope.editing = {};
     $scope.isCustom = {};
+    $scope.sensorSetup = "";
     $scope.models = {
       home: false,
       basic: false,
@@ -63,30 +64,23 @@ angular.module('openSenseMapApp')
     $scope.invalidHardware = false;
 
     $scope.submit = function() {
-      console.log($scope.sensors);
       if($scope.rc.sampleWizard.currentIndex !== 1) {
         this.generateID();
         this.goToMap();
+      } else if ($scope.rc.sampleWizard.currentIndex === 1) {
+        if ($scope.modelSelected.id === false) {
+          $scope.invalidHardware = true;
+        } else {
+          $scope.invalidHardware = false;
+        }
+
+        if ($scope.sensors.length === 0) {
+          $scope.sensorIncomplete = true;
+        } else {
+          $scope.sensorIncomplete = false;
+        }
       }
       $scope.rc.sampleWizard.forward();
-      // else if($scope.rc.sampleWizard.currentIndex === 1 &&
-      //   (($scope.modelSelected.id !== false && $scope.modelSelected.id !== 'custom') || ($scope.modelSelected.id==='custom' && $scope.sensors.length > 0))){
-
-      //   $scope.invalidHardware = false;
-      //   $scope.sensorIncomplete = false;
-      //   for(var i=0; i < $scope.sensors.length; i++){
-      //     var sensor = $scope.sensors[i];
-      //     if(sensor.unit === '' || sensor.sensorType === '' || sensor.title === ''){
-      //       $scope.invalidHardware = true;
-      //       $scope.sensorIncomplete = true;
-      //     }
-      //   }
-      //   if (!$scope.invalidHardware) {
-      //     $scope.rc.sampleWizard.forward();
-      //   }
-      // } else {
-      //   $scope.invalidHardware = true;
-      // }
     };
 
     $scope.goToMap = function() {
@@ -111,6 +105,8 @@ angular.module('openSenseMapApp')
             wifi: false,
             ethernet: true
           };
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'homeWifi':
           $scope.modelSelected.name = 'senseBox Home Wifi';
@@ -121,6 +117,8 @@ angular.module('openSenseMapApp')
             wifi: true,
             ethernet: false
           };
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'basicEthernet':
           $scope.modelSelected.name = 'senseBox Basic Ethernet';
@@ -131,6 +129,8 @@ angular.module('openSenseMapApp')
             wifi: false,
             ethernet: true
           };
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'basicWifi':
           $scope.modelSelected.name = 'senseBox Basic Wifi';
@@ -141,6 +141,8 @@ angular.module('openSenseMapApp')
             wifi: true,
             ethernet: false
           };
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'custom':
           $scope.modelSelected.name = 'senseBox manuelle Konfiguration';
@@ -151,11 +153,13 @@ angular.module('openSenseMapApp')
             wifi: false,
             ethernet: false
           };
+          $scope.sensorSetup = "";
           break;
         default:
           $scope.modelSelected.name = false;
           break;
       }
+      $scope.invalidHardware = false;
     });
 
     $scope.defaults = {
@@ -193,27 +197,18 @@ angular.module('openSenseMapApp')
       $scope.editing[index]=true;
     };
 
-    // $scope.save = function (index) {
-    //   for(var i=0; i < $scope.sensors.length; i++){
-    //     if($scope.sensors[i].id==index){
-    //       var sensor = $scope.sensors[i];
-    //       if(sensor.unit !== '' && sensor.sensorType !== '' && sensor.title !== ''){
-    //         $scope.editing[sensor.id]=false;
-    //         $scope.sensorIncomplete = false;
-    //       } else {
-    //         $scope.sensorIncomplete = true;
-    //       }
-
-    //     }
-    //   }
-    // };
-
     $scope.remove = function (index) {
       $scope.sensors.splice(index,1);
       $scope.isCustom[index]=false;
       $scope.editing[index]=false;
       for(var i=0; i < $scope.sensors.length; i++){
         $scope.sensors[i].id=i;
+      }
+      if ( $scope.sensors.length === 0) {
+        $scope.sensorSetup = "";
+        $scope.sensorIncomplete = true;
+      } else {
+        $scope.sensorSetup = JSON.stringify($scope.sensors);  
       }
     };
 
@@ -234,7 +229,9 @@ angular.module('openSenseMapApp')
         sensorType: ''
       };
       $scope.sensors.push(sensor);
+      $scope.sensorSetup = JSON.stringify($scope.sensors);
       this.edit(sensor.id);
+      $scope.sensorIncomplete = false;
     };
 
     $scope.setSensorIcon = function(sensor,newIcon) {
@@ -284,7 +281,8 @@ angular.module('openSenseMapApp')
     $scope.open = {
       collapse1: true,
       collapse2: false
-    }
+    };
+
     $scope.$watchCollection('open.collapse2',function (newValue) {
       if (newValue) {
         $scope.modelSelected.id = 'custom';

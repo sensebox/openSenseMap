@@ -171,11 +171,12 @@
                   {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse2, 'glyphicon-chevron-right': !open.collapse2}"></i>
                 </uib-accordion-heading>
                 <div class="radio">
-                  <label>
+                  <label ng-hide="true">
                     <input type="radio" name="model" id="optionsRadios2" value="custom" ng-model="modelSelected.id" required>
                     {{'MANUAL_CONFIGURATION'|translate}}
                   </label>
                 </div>
+                <textarea ng-hide="true" name="sensorsetup" id="" cols="30" rows="10" required ng-model="sensorSetup"></textarea>
                 <br>
                 <uib-alert type="info" ng-bind-html="'CUSTOMBOX'|translate">
                 </uib-alert>
@@ -240,13 +241,13 @@
                     </tr>
                   </tbody>
                 </table>
-                <uib-alert type="warning" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
+                <uib-alert type="danger" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
                 <div class="col-lg-12" ng-show="modelSelected.id=='custom'">
                   <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                   <hr>
                 </div>
               </uib-accordion-group>
-              <uib-alert type="warning" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
+              <uib-alert type="danger" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
             </uib-accordion>
           </div>
         </form>

@@ -28,7 +28,8 @@ angular.module('openSenseMapApp')
     $scope.user = {
       firstname: '',
       lastname: '',
-      email: ''
+      email: '',
+      lang: 'de_DE'
     };
 
     //new sensebox object
@@ -47,8 +48,7 @@ angular.module('openSenseMapApp')
           'type':'Point',
           'coordinates':[]
         }
-      }],
-      lang: 'de_DE'
+      }]
     };
 
     $scope.editMarkerInput =  angular.copy($scope.markers);
@@ -376,7 +376,7 @@ angular.module('openSenseMapApp')
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
       if ($translate.proposedLanguage() !== undefined) {
-        $scope.newSenseBox["lang"] = $translate.proposedLanguage();
+        $scope.newSenseBox.user["lang"] = $translate.proposedLanguage();
       }
       if ($scope.modelSelected.id === 'custom') {
         for (var i = 0; i < $scope.sensors.length; i++) {

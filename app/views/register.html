@@ -274,6 +274,14 @@
             {{'STATION_PLACEMENT'|translate}}: {{newSenseBox.exposure}} <br>
             API-Key: <strong>{{newSenseBox.orderID}}</strong> <br>
           </div>
+          <h3>Sensoren</h3>
+          <div class="well">
+            <ul>
+              <li ng-repeat="sensor in sensors">
+                {{sensor.title}} ({{sensor.unit}})
+              </li>
+            </ul>
+          </div>
           <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
         </form>
 

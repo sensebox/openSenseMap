@@ -325,7 +325,7 @@
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex && rc.sampleWizard.currentIndex <= rc.sampleWizard.navigationLength-1">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
              ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
-          <a class="btn btn-danger" href="#/explore"
+          <a class="btn btn-danger" href="/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}</a>

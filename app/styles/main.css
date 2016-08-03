@@ -490,6 +490,10 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   margin: 0 auto;
 }
 
+.form-control-feedback {
+  width: 44px;
+}
+
 @media screen and (max-width: 600px) {
   #sidebar {
     width:100%;

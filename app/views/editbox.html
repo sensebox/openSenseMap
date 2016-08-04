@@ -75,16 +75,26 @@
 			{{'EDIT_CHANGESENSORSINFO'|translate}}
 			<table class="table table-striped table-condensed">
 				<thead>
-					<td>{{'CONFIG_TYPE'|translate}}</td>
+					<td>{{'CONFIG_ICON'|translate}}</td>
 					<td>{{'CONFIG_PHENOMENON'|translate}}</td>
 					<td>{{'CONFIG_UNIT'|translate}}</td>
+					<td>{{'CONFIG_TYPE'|translate}}</td>
 					<td></td>
 				</thead>
 				<tbody>
 					<tr ng-repeat="sensor in editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
 						<td>
-							<span ng-hide="sensor.editing">{{ sensor.sensorType }}</span>
-							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.sensorType" />
+							<span ng-hide="sensor.editing" class="osem-icon" ng-class="sensor.icon"></span>
+							<div ng-show="sensor.editing" class="btn-group xxxl">
+                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
+                              <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret" style="right: 20%;"></span>
+                            </input>
+                            <ul class="dropdown-menu list-inline" role="menu">
+                              <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
+                                <span class="osem-icon" ng-class="icon.name"></span>
+                              </li>
+                            </ul>
+                          </div>
 						</td>
 						<td>
 							<span ng-hide="sensor.editing">{{ sensor.title }}</span>
@@ -93,6 +103,10 @@
 						<td>
 							<span ng-hide="sensor.editing">{{ sensor.unit }}</span>
 							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.unit" />
+						</td>
+						<td>
+							<span ng-hide="sensor.editing">{{ sensor.sensorType }}</span>
+							<input ng-show="sensor.editing" class="form-control" ng-model="sensor.sensorType" />
 						</td>
 						<td>
 							<span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>

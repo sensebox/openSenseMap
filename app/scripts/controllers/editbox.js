@@ -64,6 +64,10 @@ angular.module('openSenseMapApp')
     });
   };
 
+  $scope.setSensorIcon = function(sensor,newIcon) {
+    sensor.icon = newIcon.name;
+  };
+
   $scope.saveChange = function (event) {
       var boxid = $scope.editingMarker._id;
       var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');

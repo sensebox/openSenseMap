@@ -36,20 +36,18 @@ angular.module('openSenseMapApp')
 			if (sensor.icon !== undefined) {
 				return sensor.icon;
 			} else {
-				if ((sensor.sensorType == 'BMP085' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur') {
-					return 'wi wi-thermometer';
-				} else if (sensor.sensorType == 'DHT11' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit') { 
-					return 'wi wi-sprinkle';
+				if ((sensor.sensorType == 'HDC1008' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur') {
+					return 'osem-thermometer';
+				} else if (sensor.sensorType == 'HDC1008' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit') { 
+					return 'osem-humidity';
 				} else if (sensor.sensorType == 'LM386') {
-					return 'fa fa-volume-up fa-fw';
-				} else if (sensor.sensorType == 'BMP085' && sensor.title == 'Luftdruck') {
-					return 'fa fa-tachometer fa-fw';
-				} else if (sensor.sensorType == 'GL5528' || sensor.sensorType == 'TSL2561') {
-					return 'fa fa-lightbulb-o fa-fw';
-				} else if (sensor.sensorType == 'GUVA-S12D') {
-					return 'fa fa-google-wallet fa-fw';
+					return 'osem-volume-up';
+				} else if (sensor.sensorType == 'BMP280' && sensor.title == 'Luftdruck') {
+					return 'osem-barometer';
+				} else if (sensor.sensorType == 'TSL45315' || sensor.sensorType == 'VEML6070') {
+					return 'osem-brightness';
 				} else {
-					return 'fa fa-bar-chart fa-fw';
+					return 'osem-dashboard';
 				}
 			}
 		};

@@ -4,33 +4,61 @@
       <div class="center">
       <ul class="nav rc-nav-wizard nav-wizard">
         <li class="active">
-          <a class="active" href="#first" data-toggle="tab">
+          <a class="active" href="#intro" data-toggle="tab">
             <span class="badge">1</span>
+            <span>{{'STEP0' | translate}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#first" data-toggle="tab">
+            <span class="badge">2</span>
             <span>{{'STEP1' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#second" data-toggle="tab">
-            <span class="badge">2</span>
+            <span class="badge">3</span>
             <span>{{'STEP2' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#third" data-toggle="tab">
-            <span class="badge">3</span>
+            <span class="badge">4</span>
             <span>{{'STEP3' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
-            <span class="badge">4</span>
+            <span class="badge">5</span>
             <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
       </ul>
       </div>
       <div class="tab-content">
-        <form class="tab-pane active" id="first" name="firstForm" rc-submit rc-step novalidate>
+        <form class="tab-pane active" id="intro" name="introForm" rc-submit rc-step novalidate>
+          <hr>
+          <div id="general">
+            <div class="text-center">
+              <h1><small>{{ 'STEP2_SUB1' | translate }}</small></h1>
+            </div>
+            <div class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              {{'STEP0_INTRO_DESCRIPTION' | translate}}
+            </div>
+          </div>
+          <hr>
+          <div id="privacy">
+            <div class="text-center">
+              <h1><small>{{ 'STEP0_INTRO_PRIVACY' | translate }}</small></h1>
+            </div>
+            <div class="alert alert-info" role="alert">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+              {{'STEP0_INTRO_DESCRIPTION' | translate}}
+            </div>
+          </div>
+        </form>
+        <form class="tab-pane" id="first" name="firstForm" rc-submit rc-step novalidate>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>

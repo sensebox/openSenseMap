@@ -124,6 +124,8 @@
   "SAF_HELP": "Click 'Apply Filter' to apply your filter settings",
   "SAF_APPLY": "Apply filter",
   "SAF_RESET": "Reset filters",
+  "RESULTS": "Results",
+  "NO_RESULTS": "Unfortunately, there were no results matching your filters.",
 
   "INTERP_INTRO": "Here you can visualize senseBox measurement data.",
   "INTERP_PLEASEFILTER": "Please filter markers by date and phenomenon first under <b><a href=\"/filter\">Filters</a></b>",

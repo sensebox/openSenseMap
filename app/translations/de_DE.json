@@ -124,6 +124,8 @@
   "SAF_HELP": "Klicke 'Filter anwenden', um deine Filtereinstellungen anzuwenden.",
   "SAF_APPLY": "Filter anwenden",
   "SAF_RESET": "Filter zurücksetzen",
+  "RESULTS": "Ergebnisse",
+  "NO_RESULTS": "Es wurden leider keine Boxen mit diesen Filtereinstellungen gefunden.",
 
   "INTERP_INTRO": "Hier kannst du senseBox Messungen visualisieren.",
   "INTERP_PLEASEFILTER": "Filtere bitte zunächst Stationen nach Zeitraum und Sensor beim <b><a href=\"/filter\">Filter</a></b>",

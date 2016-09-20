@@ -61,7 +61,7 @@ angular.module('openSenseMapApp')
 
 			$scope.loading = true;
 			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap().then(function(map) {
+				leafletData.getMap('map_main').then(function(map) {
 					map.removeLayer($scope.$parent.overlayImage);
 					map.removeLayer($scope.$parent.overlayImageLegend);
 				});
@@ -83,7 +83,7 @@ angular.module('openSenseMapApp')
 
 				$scope.loading = false;
 
-				leafletData.getMap().then(function(map) {
+				leafletData.getMap('map_main').then(function(map) {
 					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
 					map.addLayer($scope.$parent.overlayImage);
 					if ($scope.idp != 0) {
@@ -107,7 +107,7 @@ angular.module('openSenseMapApp')
 			$scope.loading = true;
 
 			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap().then(function(map) {
+				leafletData.getMap('map_main').then(function(map) {
 					map.removeLayer($scope.$parent.overlayImage);
 					map.removeLayer($scope.$parent.overlayImageLegend);
 				});
@@ -128,7 +128,7 @@ angular.module('openSenseMapApp')
 
 				$scope.loading = false;
 
-				leafletData.getMap().then(function(map) {
+				leafletData.getMap('map_main').then(function(map) {
 					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
 					map.addLayer($scope.$parent.overlayImage);
 					//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);

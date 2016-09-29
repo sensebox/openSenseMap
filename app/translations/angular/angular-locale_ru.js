@@ -22,8 +22,8 @@ function getVF(n, opt_precision) {
 $provide.value("$locale", {
   "DATETIME_FORMATS": {
     "AMPMS": [
-      "AM",
-      "PM"
+      "до полудня",
+      "после полудня"
     ],
     "DAY": [
       "Воскресенье",
@@ -35,8 +35,8 @@ $provide.value("$locale", {
       "Суббота"
     ],
     "ERANAMES": [
-      "Before Christ",
-      "Anno Domini"
+      "До Рождества Христова",
+      "Нашей Эры"
     ],
     "ERAS": [
       "BC",
@@ -81,18 +81,18 @@ $provide.value("$locale", {
       "Дек"
     ],
     "STANDALONEMONTH": [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December"
+      "Январь",
+      "Февраль",
+      "Март",
+      "Апрель",
+      "Май",
+      "Июнь",
+      "Июль",
+      "Август",
+      "Сентябрь",
+      "Октябрь",
+      "Ноябрь",
+      "Декабрь"
     ],
     "WEEKENDRANGE": [
       5,
@@ -103,8 +103,8 @@ $provide.value("$locale", {
     "medium": "MMM d, y h:mm:ss a",
     "mediumDate": "MMM d, y",
     "mediumTime": "h:mm:ss a",
-    "short": "M/d/yy h:mm a",
-    "shortDate": "M/d/yy",
+    "short": "d.m.yy h:mm a",
+    "shortDate": "d.m.yy",
     "shortTime": "h:mm a"
   },
   "NUMBER_FORMATS": {
@@ -136,8 +136,8 @@ $provide.value("$locale", {
       }
     ]
   },
-  "id": "en",
-  "localeID": "en",
+  "id": "ru",
+  "localeID": "ru",
   "pluralCat": function(n, opt_precision) {  var i = n | 0;  var vf = getVF(n, opt_precision);  if (i == 1 && vf.v == 0) {    return PLURAL_CATEGORY.ONE;  }  return PLURAL_CATEGORY.OTHER;}
 });
 }]);

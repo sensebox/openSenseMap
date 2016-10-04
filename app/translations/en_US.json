@@ -113,7 +113,7 @@
   "EDIT_DELETEERROR": "Could not delete your senseBox, please contact us via email",
   "CONTINUE": "Continue",
 
-  "DOWNLOAD_INTRO": "You can download data from senseBoxes that you see on the map. Move or zoom the map to change your selection, then select a timeframe and phenomeon that you want to download. The file format is CSV, downloading the data might take some time.",
+  "DOWNLOAD_INTRO": "You can download data from senseBoxes that you see on the map. Move or zoom the map to change your selection, then select a timeframe and phenomenon that you want to download. The file format is CSV, downloading the data might take some time.",
   "DOWNLOAD_WARNING": "Downloading data from {{ count }} stations*<br/><small>* Not all stations might have data in the selected time period. Use the <a ui-sref=\"explore.map.filter\">Filter</a> to find boxes and sensors that you want.</small>",
   "PLEASE_WAIT_DATA": "Please wait, loading data...",
   "DOWNLOAD_NODATA": "There is no data in the selected time frame.",

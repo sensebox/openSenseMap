@@ -149,15 +149,15 @@ angular.module('openSenseMapApp')
 		var now = Date.now();
 		var isActive = obj.sensors.some(function(cv){
 			return cv.lastMeasurement &&
-					cv.lastMeasurement.updatedAt &&
-					now - Date.parse(cv.lastMeasurement.updatedAt) < SEVEN_DAYS;
+					cv.lastMeasurement.createdAt &&
+					now - Date.parse(cv.lastMeasurement.createdAt) < SEVEN_DAYS;
 		});
 		var isInactive = false; // track boxes that have been inactive for a long time
 		if(!isActive){
 			isInactive = obj.sensors.some(function(cv){
 				return !cv.lastMeasurement ||
-						!cv.lastMeasurement.updatedAt ||
-						now - Date.parse(cv.lastMeasurement.updatedAt) > THIRTY_DAYS;
+						!cv.lastMeasurement.createdAt ||
+						now - Date.parse(cv.lastMeasurement.createdAt) > THIRTY_DAYS;
 			});
 		}
 		var markerOpts = opts(isActive, isInactive);

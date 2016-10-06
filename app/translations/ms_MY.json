@@ -84,9 +84,7 @@
   "INFO_LEGEND": "Petunjuk",
   "INFO_COPYRIGHT_NOTICES": "Notis Hakcipta",
   "DOWNLOAD_LICENSE": "Semua data dibawah lesen <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a> dan bebas untuk diguna.",
-
-  "INFO_ABOUT": "openSenseMap ialah platform untuk data pengesan terbuka di mana semua orang boleh mengambil bahagian.<br/> Projek ini di mulakan pada tahun 2015 di lab GI@School di Institute for Geoinformatics di Münster, Di mana, ia digunakan bersama dengan <a href=\"http://www.sensebox.de/de/products/\" target=\"_blank\">senseBox</a> untuk mendidik para pelajar dan masyarakat, dan menawarkan kepada mereka platform untuk berkongsi data pengesan.<br/><br/> <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> Laman web ini</a> dan <a href=\"https://github.com/sensebox/openSenseMap-API\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> data API ini</a> adalah perisian sumber terbuka. cadangan untuk penambahbaikan adalah sentiasa dialu-alukan.
-<br/>",
+  "INFO_ABOUT": "openSenseMap ialah platform untuk data pengesan terbuka di mana semua orang boleh mengambil bahagian.<br/> Projek ini di mulakan pada tahun 2015 di lab GI@School di Institute for Geoinformatics di Münster, Di mana, ia digunakan bersama dengan <a href=\"http://www.sensebox.de/de/products/\" target=\"_blank\">senseBox</a> untuk mendidik para pelajar dan masyarakat, dan menawarkan kepada mereka platform untuk berkongsi data pengesan.<br/><br/> <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> Laman web ini</a> dan <a href=\"https://github.com/sensebox/openSenseMap-API\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> data API ini</a> adalah perisian sumber terbuka. cadangan untuk penambahbaikan adalah sentiasa dialu-alukan.<br/>",
   "SENSEBOX_NOT_FOUND": "senseBox tidak ditemui",
   "GROUP": "Kumpulan",
   "EDITBOX": "Sunting",

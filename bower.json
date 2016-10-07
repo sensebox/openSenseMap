@@ -55,7 +55,12 @@
         "locale/de.js",
         "locale/es.js",
         "locale/pl.js",
-        "locale/pt.js"
+        "locale/pt.js",
+        "locale/it.js",
+        "locale/fr.js",
+        "locale/ms.js",
+        "locale/nl.js",
+        "locale/ru.js"
       ]
     }
   }

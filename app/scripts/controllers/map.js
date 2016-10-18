@@ -62,8 +62,8 @@ angular.module('openSenseMapApp')
 	angular.extend($scope, {
 		center: {
 			lat: 51.04139389812637,
-          	lng: 10.21728515625,
-          	zoom: 6
+			lng: 10.21728515625,
+			zoom: 6
 		},
 		layers: {
 			baselayers: {
@@ -109,7 +109,7 @@ angular.module('openSenseMapApp')
 		},
 		markers: {
 		},
-    controls: { custom: [] },
+		controls: { custom: [] },
 		toggleLayer: function(type) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
 		},
@@ -121,21 +121,16 @@ angular.module('openSenseMapApp')
 		which the map uses to display markers
 
 		Inactive markers (no measurements in 7 days) are displayed with a dark green icon instead of green
-    Markers without measurement in 30 days are displayed in gray
+		Markers without measurement in 30 days are displayed in gray
 	*/
-	var opts = function(isActive, isInactive){
-		if(isActive) {
-			return { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 };
-		} else if(!isActive && !isInactive) {
-			return { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 };
-		} else {
-			return { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0};
-		}
+	var MARKER_STATE_OPTS = {
+		'old': { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0},
+		'inactive': { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 },
+		'active': { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 }
 	};
 
 	/*
 		Fetch a set of markers from the server/backend
-
 		If date & phenomenon are set it will download a dataset according to these filters:
 			fetchMarkers("2016-03-07T01:50", "Temperatur");
 		If filteredOnly is set, then only the $scope.filteredMarkers array will be changed
@@ -147,20 +142,30 @@ angular.module('openSenseMapApp')
 	var filterfunc = function(obj){
 		// decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
 		var now = Date.now();
-		var isActive = obj.sensors.some(function(cv){
-			return cv.lastMeasurement &&
-					cv.lastMeasurement.createdAt &&
-					now - Date.parse(cv.lastMeasurement.createdAt) < SEVEN_DAYS;
-		});
-		var isInactive = false; // track boxes that have been inactive for a long time
-		if(!isActive){
-			isInactive = obj.sensors.some(function(cv){
-				return !cv.lastMeasurement ||
-						!cv.lastMeasurement.createdAt ||
-						now - Date.parse(cv.lastMeasurement.createdAt) > THIRTY_DAYS;
-			});
-		}
-		var markerOpts = opts(isActive, isInactive);
+		var markerOpts = obj.sensors.reduceRight(function (previous, sensor, index) {
+			if (sensor.lastMeasurement &&
+				sensor.lastMeasurement.createdAt) {
+
+					var createdAt = Date.parse(sensor.lastMeasurement.createdAt);
+
+					// if its 'old' try to determine if other sensors are newer..
+					if (previous === 'old' && (now - createdAt < THIRTY_DAYS)) {
+						previous = 'inactive';
+					}
+
+					// if its 'inactive' try to determine if other sensors are newer..
+					if (previous === 'inactive' && (now - createdAt < SEVEN_DAYS)) {
+						previous = 'active';
+					}
+			}
+
+			if (index === 0) { //finally return the correct options
+				return MARKER_STATE_OPTS[previous];
+			} else { // else just return the state of the previous sensor
+				return previous;
+			}
+		}, 'old');
+
 		var marker = {
 			layer: markerOpts.layer,
 			icon: markerOpts.marker,

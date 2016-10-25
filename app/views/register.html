@@ -4,33 +4,44 @@
       <div class="center">
       <ul class="nav rc-nav-wizard nav-wizard">
         <li class="active">
-          <a class="active" href="#first" data-toggle="tab">
+          <a class="active" href="#intro" data-toggle="tab">
             <span class="badge">1</span>
+            <span>{{'STEP0' | translate}}</span>
+          </a>
+        </li>
+        <li>
+          <a href="#first" data-toggle="tab">
+            <span class="badge">2</span>
             <span>{{'STEP1' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#second" data-toggle="tab">
-            <span class="badge">2</span>
+            <span class="badge">3</span>
             <span>{{'STEP2' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#third" data-toggle="tab">
-            <span class="badge">3</span>
+            <span class="badge">4</span>
             <span>{{'STEP3' | translate}}</span>
           </a>
         </li>
         <li>
           <a href="#last" data-toggle="tab">
-            <span class="badge">4</span>
+            <span class="badge">5</span>
             <span>{{'STEP4' | translate}}</span>
           </a>
         </li>
       </ul>
       </div>
       <div class="tab-content">
-        <form class="tab-pane active" id="first" name="firstForm" rc-submit rc-step novalidate>
+        <form class="tab-pane active" id="intro" name="introForm" rc-submit rc-step novalidate>
+          <hr>
+          <uib-alert type="warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></uib-alert>
+        </form>
+
+        <form class="tab-pane" id="first" name="firstForm" rc-submit rc-step novalidate>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -375,10 +386,12 @@
       <div class="form-group">
         <hr>
         <div class="pull-right">
+          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
+             ng-show="rc.sampleWizard.currentIndex == 0">{{'STEP0_ACCEPT' | translate}}</a>
           <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
              ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex && rc.sampleWizard.currentIndex <= rc.sampleWizard.navigationLength-1">{{'PREVIOUS' | translate}}</a>
           <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
-             ng-show="rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
+             ng-show="rc.sampleWizard.currentIndex != 0 && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
           <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()"

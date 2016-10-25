@@ -8,6 +8,7 @@ angular
     'ngDialog',
     'ui-leaflet',
     'ui.bootstrap',
+    'ui.checkbox',
     'osemFilters',
     'angular-underscore',
     'rcWizard',

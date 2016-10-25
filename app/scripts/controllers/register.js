@@ -51,6 +51,15 @@ angular.module('openSenseMapApp')
       }]
     };
 
+    $scope.mqttEnabled = false;
+    $scope.mqtt = {
+      url: '',
+      topic: '',
+      messageFormat: '',
+      decodeOptions: '',
+      connectionOptions: ''
+    };
+
     $scope.editMarkerInput =  angular.copy($scope.markers);
     $scope.$watchCollection('editMarkerInput.box', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
@@ -163,6 +172,10 @@ angular.module('openSenseMapApp')
       }
       $scope.invalidHardware = false;
     });
+
+    $scope.enableMQTT = function () {
+      $scope.mqttEnabled = !$scope.mqttEnabled;
+    }
 
     $scope.defaults = {
       minZoom: 2,
@@ -282,7 +295,8 @@ angular.module('openSenseMapApp')
 
     $scope.open = {
       collapse1: true,
-      collapse2: false
+      collapse2: false,
+      collapse3: false
     };
 
     $scope.$watchCollection('open.collapse2',function (newValue) {
@@ -374,6 +388,9 @@ angular.module('openSenseMapApp')
       $scope.alerts = [];
       $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
       $scope.newSenseBox.user = $scope.user;
+      if ($scope.mqttEnabled) {
+        $scope.newSenseBox.mqtt = $scope.mqtt;
+      }
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
       if ($translate.proposedLanguage() !== undefined) {

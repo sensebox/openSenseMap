@@ -22,8 +22,8 @@ module.exports = function (grunt) {
 
     sed: {
       dist: {
-        path: "<%= yeoman.dist %>/views/explore2.map.html",
-        pattern: "controls",
+        path: '<%= yeoman.dist %>/views/explore2.map.html',
+        pattern: 'controls',
         replacement: 'controls="controls"'
       }
     },
@@ -491,24 +491,24 @@ module.exports = function (grunt) {
   grunt.registerTask('languages','',function(){
       var fs = require('fs');
       var done = this.async();
-      fs.readFile("app/index.html", 'utf8', function (err,data) {
+      fs.readFile('app/index.html', 'utf8', function (err,data) {
         if (err) {
           return console.log(err);
         }
-        var html = "";
-        grunt.file.recurse("app/translations/", function(abspath, rootdir, subdir, filename){
+        var html = '';
+        grunt.file.recurse('app/translations/', function(abspath, rootdir, subdir, filename){
           if (subdir !== undefined) { return; }
-          var languageCode = filename.split(".")[0];
-          var language = languageCode.split("_")[0];
+          var languageCode = filename.split('.')[0];
+          var language = languageCode.split('_')[0];
           html += '<li><a ng-click="changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
         });
-        var resultStart = data.split("<!-- languages-start -->");
-        var resultEnd = data.split("<!-- languages-end -->");
-        var res = resultStart[0] + "<!-- languages-start -->" + html + "<!-- languages-end -->" + resultEnd[1];
+        var resultStart = data.split('<!-- languages-start -->');
+        var resultEnd = data.split('<!-- languages-end -->');
+        var res = resultStart[0] + '<!-- languages-start -->' + html + '<!-- languages-end -->' + resultEnd[1];
 
-        fs.writeFile(".tmp/index.html", res, 'utf8', function (err) {
-           if (err) return console.log(err);
-           grunt.file.copy(".tmp/index.html","app/index.html");
+        fs.writeFile('.tmp/index.html', res, 'utf8', function (err) {
+           if (err) { return console.log(err); }
+           grunt.file.copy('.tmp/index.html','app/index.html');
            done();
         });
       });

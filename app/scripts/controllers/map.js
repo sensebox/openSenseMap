@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ["$scope", "$state", "OpenSenseBoxes", "leafletData", "$templateRequest", "$compile", "$stateParams", function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $stateParams){
+	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -183,9 +183,9 @@ angular.module('openSenseMapApp')
 		filteredOnly = filteredOnly || false;
 
 		$scope.loading = true;
-		if(date!=='' && Array.isArray(date)) date = date.join(',');
+		if(date!=='' && Array.isArray(date)) { date = date.join(','); }
 		$scope.markersFiltered = {};
-		if(!filteredOnly) $scope.markers = {};
+		if(!filteredOnly) { $scope.markers = {}; }
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
 			if(!filteredOnly) {
 				angular.extend($scope.markers, response.map(filterfunc));
@@ -196,7 +196,7 @@ angular.module('openSenseMapApp')
 			$scope.loading = false;
 		});
 	};
-	$scope.fetchMarkers("", ""); // fetch all markers in the database
+	$scope.fetchMarkers('', ''); // fetch all markers in the database
 
 	/*
 		Show a label next to/on top of markers when mouse cursor is pointing at it
@@ -207,7 +207,7 @@ angular.module('openSenseMapApp')
 		name: ''
 	};
 
-	$scope.$on('leafletDirectiveMarker.map_main.mouseover', function(e, args){
+	$scope.$on('leafletDirectiveMarker.map_main.mouseover', function (e, args){
 		var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
 		$scope.hoverlabel = {
 			left: markerBounds.left,
@@ -216,7 +216,7 @@ angular.module('openSenseMapApp')
 		};
 	});
 
-	$scope.$on('leafletDirectiveMarker.map_main.mouseout', function(e, args){
+	$scope.$on('leafletDirectiveMarker.map_main.mouseout', function (){
 		$scope.hoverlabel = {
 			left: 0,
 			top: 0,
@@ -236,9 +236,9 @@ angular.module('openSenseMapApp')
 	/*
 		Custom legend control
 	*/
-	leafletData.getMap("map_main").then(function (map) {
+	leafletData.getMap('map_main').then(function (map) {
 		var info = L.control({ position:'bottomleft' });
-		info.onAdd = function (map) {
+		info.onAdd = function () {
 			var _div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
 			this._div = _div;
 			$templateRequest('views/explore2.map.legend.html').then(function(html) {
@@ -263,6 +263,5 @@ angular.module('openSenseMapApp')
 				maxZoom: 17
 			});
 		});
-	}
-
+	};
 }]);

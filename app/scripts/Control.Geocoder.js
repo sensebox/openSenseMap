@@ -1,3 +1,5 @@
+'use strict';
+
 /*
 Copyright (c) 2012 sa3m (https://github.com/sa3m)
 Copyright (c) 2013 Per Liedman

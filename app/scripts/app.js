@@ -19,7 +19,7 @@ angular
     'angularMoment',
     'tmh.dynamicLocale'
   ])
-  .config(["$stateProvider", "$urlRouterProvider", "$locationProvider", "$compileProvider", "$logProvider", "tmhDynamicLocaleProvider", function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
+  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);
     $logProvider.debugEnabled(false);
 
@@ -86,7 +86,7 @@ angular
         templateUrl: 'views/info.html'
       });
   }])
-  .config(["$translateProvider", function ($translateProvider){
+  .config(['$translateProvider', function ($translateProvider){
     $translateProvider.useStaticFilesLoader({
         prefix: '../translations/',
         suffix: '.json'
@@ -98,12 +98,12 @@ angular
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
 
-  .filter('unsafe', ["$sce", function($sce){
+  .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);
     };
   }])
 
   .factory('FilterActiveService', function(){
-    return { active: false }
+    return { active: false };
   });

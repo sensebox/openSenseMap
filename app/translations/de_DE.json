@@ -122,6 +122,8 @@
   "BOX_EXPOSURE": "Standort",
   "BOX_WEBSITE": "Webseite",
   "BOX_POSITION": "Standort",
+  "EDIT_MQTTOPTIONS": "MQTT Einstellungen",
+  "EDIT_MQTTOPTIONSINFO": "",
   "EDIT_CHANGESENSORS": "Sensoren ändern",
   "EDIT_CHANGESENSORSINFO": "Daten gelöschter Sensoren werden gelöscht. Wenn du neue Sensoren hinzugefügt hast, solltest du dir dein neues senseBox Script herunterladen (siehe weiter oben).",
   "EDIT_IMAGE": "Bild hochladen",

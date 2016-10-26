@@ -6,6 +6,8 @@ angular.module('openSenseMapApp')
   $scope.osemapi = OpenSenseBoxAPI;
   $scope.icons = SensorIcons;
   $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
+  $scope.mqtt = {};
+  $scope.mqttEnabled = false;
 
   $scope.boxPosition = {
     lng: parseFloat($scope.editingMarker.loc[0].geometry.coordinates[0].toFixed(6)),
@@ -21,7 +23,6 @@ angular.module('openSenseMapApp')
     $scope.editMarker.m1.draggable = true;
     delete $scope.editMarker.m1.zoom;
   };
-
 
   $scope.resetPosition();
   $scope.$watchCollection('editMarkerInput', function (newValue) {
@@ -52,11 +53,15 @@ angular.module('openSenseMapApp')
   $scope.enableEditableMode = function () {
     var boxId = $scope.editingMarker._id;
 
-    Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
+    Validation.checkApiKey(boxId,$scope.apikey.key).then(function(response){
       $scope.apikeyIssue = false;
-      if (status === 200) {
+      if (response.status === 200) {
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
+        if (response.data.mqtt !== undefined) {
+          $scope.mqttEnabled = true;
+          $scope.mqtt = response.data.mqtt;
+        }
       } else {
         $scope.apikeyIssue = true;
         $scope.editableMode = false;
@@ -69,23 +74,31 @@ angular.module('openSenseMapApp')
   };
 
   $scope.saveChange = function (event) {
-      var boxid = $scope.editingMarker._id;
-      var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
-      var newBoxData = {
-        _id: $scope.editingMarker._id,
-        name: $scope.editingMarker.name,
-        sensors: $scope.editingMarker.sensors,
-        description: $scope.editingMarker.description,
-        weblink: $scope.editingMarker.weblink,
-        grouptag: $scope.editingMarker.grouptag,
-        exposure: $scope.editingMarker.exposure,
-        loc: $scope.editMarker.m1,
-        image: imgsrc
-      };
+    var boxid = $scope.editingMarker._id;
+    var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
+    var newBoxData = {
+      _id: $scope.editingMarker._id,
+      name: $scope.editingMarker.name,
+      sensors: $scope.editingMarker.sensors,
+      description: $scope.editingMarker.description,
+      weblink: $scope.editingMarker.weblink,
+      grouptag: $scope.editingMarker.grouptag,
+      exposure: $scope.editingMarker.exposure,
+      loc: $scope.editMarker.m1,
+      image: imgsrc
+    };
+
+    if ($scope.mqttEnabled) {
+      newBoxData.mqtt = $scope.mqtt;
+    } else {
+      newBoxData.mqtt = null;
+    }
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data, status){
         $scope.editableMode = false;
+        $scope.mqtt = {};
+        $scope.mqttEnabled = false;
         $scope.savedSuccessfully = true;
       $scope.savedError = false;
         if (data.image === '') {

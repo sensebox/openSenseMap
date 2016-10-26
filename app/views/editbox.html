@@ -132,9 +132,52 @@
 						<button type="button" ng-click="addSensor();" class="btn btn-xs btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
 						</td>
 					</tr>
-
 				</tbody>
 			</table>
+		</div>
+		<div class="row">
+			<h3>{{'EDIT_MQTTOPTIONS'|translate}}</h3>
+			{{'EDIT_MQTTOPTIONSINFO'|translate}}
+			<checkbox id="checkbox0" ng-model="mqttEnabled" ng-change="enableMQTT()"></checkbox>
+			<label>MQTT aktivieren</label>
+			<form name="mqtt_form">
+				<!-- MQTT URL -->
+				<div class="form-group">
+				  <label class="control-label">{{ 'MQTT_URL' | translate}}*</label>
+				  <input type="url" name="url" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+				</div>
+				<!-- MQTT TOPIC -->
+				<div class="form-group">
+				  <label class="control-label">{{ 'MQTT_TOPIC' | translate}}*</label>
+				  <input type="text" name="topic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+				</div>
+				<!-- MQTT MessageFormat -->
+				<div class="form-group"
+				  <label class="control-label">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
+				  <div class="radio">
+				    <label>
+				      <input type="radio" name="messageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+				      {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
+				    </label>
+				  </div>
+				  <div class="radio">
+				    <label>
+				      <input type="radio" name="messageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+				      {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
+				    </label>
+				  </div>
+				</div>
+				<!-- MQTT DecodeOptions -->
+				<div class="form-group">
+				  <label class="control-label">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
+				  <input type="text" name="decodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqttEnabled">
+				</div>
+				<!-- MQTT ConnectionOptions -->
+				<div class="form-group">
+				  <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
+				  <input type="text" name="connectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqttEnabled">
+				</div>
+			</form>
 		</div>
 		<div class="row">
 			<h3>{{'EDIT_IMAGE'|translate}}</h3>

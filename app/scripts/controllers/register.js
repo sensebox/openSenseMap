@@ -74,7 +74,6 @@ angular.module('openSenseMapApp')
     $scope.invalidHardware = false;
 
     $scope.submit = function() {
-      console.log($scope.mqttEnabled);
       if($scope.rc.sampleWizard.currentIndex === 1) {
         this.generateID();
         this.goToMap();

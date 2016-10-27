@@ -8,6 +8,7 @@ angular.module('openSenseMapApp')
   $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
   $scope.mqtt = {};
   $scope.mqttEnabled = false;
+  $scope.sensorsEditMode = false;
 
   $scope.boxPosition = {
     lng: parseFloat($scope.editingMarker.loc[0].geometry.coordinates[0].toFixed(6)),
@@ -73,7 +74,7 @@ angular.module('openSenseMapApp')
     sensor.icon = newIcon.name;
   };
 
-  $scope.saveChange = function (event) {
+  $scope.saveChange = function (form) {
     var boxid = $scope.editingMarker._id;
     var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
     var newBoxData = {
@@ -127,21 +128,26 @@ angular.module('openSenseMapApp')
 
   $scope.addSensor = function() {
     $scope.editingMarker.sensors.push({
+      icon: '',
       sensorType: '',
       title: '',
       unit: '',
       editing: true,
       new: true
     });
+
+    setSensorsEditMode();
   };
 
   $scope.editSensor = function(sensor) {
     sensor.restore = angular.copy(sensor);
     sensor.editing = true;
+
+    setSensorsEditMode();
   };
 
   $scope.saveSensor = function(sensor) {
-    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
+    if(sensor.icon === '' || sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
       sensor.incomplete = true;
       return false;
     } else {
@@ -149,6 +155,8 @@ angular.module('openSenseMapApp')
       sensor.incomplete = false;
       sensor.edited = true;
     }
+
+    setSensorsEditMode();
   };
 
   $scope.deleteSensor = function(sensor) {
@@ -161,11 +169,10 @@ angular.module('openSenseMapApp')
       sensor.deleted = true;
       sensor.incomplete = false;
     }
-
   };
 
   $scope.cancelSensor = function(sensor) {
-    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
+    if(sensor.new) {
       var index = $scope.editingMarker.sensors.indexOf(sensor);
       if(index !== -1) {
         $scope.editingMarker.sensors.splice(index, 1);
@@ -173,7 +180,13 @@ angular.module('openSenseMapApp')
     } else {
       sensor.incomplete = false;
       sensor.editing = false;
+      for (var key in sensor.restore) {
+        var value = sensor.restore[key];
+        sensor[key] = value;
+      }
     }
+
+    setSensorsEditMode();
   };
 
   $scope.downloadArduino = function () {
@@ -196,4 +209,14 @@ angular.module('openSenseMapApp')
       $scope.errorDuringDelete = true;
     });
   };
+
+  var setSensorsEditMode = function () {
+    for (var i = $scope.editingMarker.sensors.length - 1; i >= 0; i--) {
+      if ($scope.editingMarker.sensors[i].editing) {
+        $scope.sensorsEditMode = true;
+        return;
+      }
+    }
+    $scope.sensorsEditMode = false;
+  }
 }]);

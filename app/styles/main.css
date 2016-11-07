@@ -464,6 +464,36 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline-block;
   padding: 3px 4px;
 }
+
+#location .row {
+  margin-right: 0px;
+  margin-left: 0px;
+}
+
+.icon {
+  position: absolute;
+  display: inline-block;
+  left: 35%;
+  top: 30%;
+  z-index: 5;
+}
+
+.icon-caret {
+  position: absolute;
+  right: 40%;
+  top: 45%;
+  z-index: 5;
+}
+
+.nav-wizard {
+  width: 75%;
+  margin: 0 auto;
+}
+
+.form-control-feedback {
+  width: 44px;
+}
+
 @media screen and (max-width: 600px) {
   #sidebar {
     width:100%;

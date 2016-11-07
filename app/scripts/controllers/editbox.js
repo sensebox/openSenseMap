@@ -1,10 +1,14 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI', function($scope, Validation, $http, OpenSenseBoxAPI){
+  .controller('EditboxCtrl', ['$scope', 'Validation', '$http', 'OpenSenseBoxAPI', 'SensorIcons', function($scope, Validation, $http, OpenSenseBoxAPI, SensorIcons){
 
   $scope.osemapi = OpenSenseBoxAPI;
+  $scope.icons = SensorIcons;
   $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
+  $scope.mqtt = {};
+  $scope.mqttEnabled = false;
+  $scope.sensorsEditMode = false;
 
   $scope.boxPosition = {
     lng: parseFloat($scope.editingMarker.loc[0].geometry.coordinates[0].toFixed(6)),
@@ -20,7 +24,6 @@ angular.module('openSenseMapApp')
     $scope.editMarker.m1.draggable = true;
     delete $scope.editMarker.m1.zoom;
   };
-
 
   $scope.resetPosition();
   $scope.$watchCollection('editMarkerInput', function (newValue) {
@@ -51,11 +54,15 @@ angular.module('openSenseMapApp')
   $scope.enableEditableMode = function () {
     var boxId = $scope.editingMarker._id;
 
-    Validation.checkApiKey(boxId,$scope.apikey.key).then(function(status){
+    Validation.checkApiKey(boxId,$scope.apikey.key).then(function(response){
       $scope.apikeyIssue = false;
-      if (status === 200) {
+      if (response.status === 200) {
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
+        if (!angular.equals({}, response.data.mqtt)) {
+          $scope.mqttEnabled = true;
+          $scope.mqtt = response.data.mqtt;
+        }
       } else {
         $scope.apikeyIssue = true;
         $scope.editableMode = false;
@@ -63,26 +70,45 @@ angular.module('openSenseMapApp')
     });
   };
 
-  $scope.saveChange = function (event) {
-      var boxid = $scope.editingMarker._id;
-      var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
-      var newBoxData = {
-        _id: $scope.editingMarker._id,
-        name: $scope.editingMarker.name,
-        sensors: $scope.editingMarker.sensors,
-        description: $scope.editingMarker.description,
-        weblink: $scope.editingMarker.weblink,
-        grouptag: $scope.editingMarker.grouptag,
-        exposure: $scope.editingMarker.exposure,
-        loc: $scope.editMarker.m1,
-        image: imgsrc
-      };
+  $scope.setSensorIcon = function(sensor,newIcon) {
+    sensor.icon = newIcon.name;
+  };
+
+  $scope.cancelChange = function () {
+    $scope.editableMode = false;
+    delete $scope.editingMarker;
+    $scope.closeThisDialog();
+  }
+
+  $scope.saveChange = function (form) {
+    $scope.savedSuccessfully = false;
+    $scope.savedError = false;
+
+    var boxid = $scope.editingMarker._id;
+    var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
+    var newBoxData = {
+      _id: $scope.editingMarker._id,
+      name: $scope.editingMarker.name,
+      sensors: $scope.editingMarker.sensors,
+      description: $scope.editingMarker.description,
+      weblink: $scope.editingMarker.weblink,
+      grouptag: $scope.editingMarker.grouptag,
+      exposure: $scope.editingMarker.exposure,
+      loc: $scope.editMarker.m1,
+      image: imgsrc
+    };
+
+    if ($scope.mqttEnabled) {
+      newBoxData.mqtt = $scope.mqtt;
+    } else {
+      newBoxData.mqtt = null;
+      $scope.mqtt = {};
+    }
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data, status){
-        $scope.editableMode = false;
         $scope.savedSuccessfully = true;
-      $scope.savedError = false;
+        $scope.savedError = false;
         if (data.image === '') {
           $scope.image = 'placeholder.png';
         } else {
@@ -103,27 +129,28 @@ angular.module('openSenseMapApp')
     }
   };
 
-  $scope.logThis = function() {
-    console.log($scope.editingMarker);
-  };
-
   $scope.addSensor = function() {
     $scope.editingMarker.sensors.push({
+      icon: '',
       sensorType: '',
       title: '',
       unit: '',
       editing: true,
       new: true
     });
+
+    setSensorsEditMode();
   };
 
   $scope.editSensor = function(sensor) {
     sensor.restore = angular.copy(sensor);
     sensor.editing = true;
+
+    setSensorsEditMode();
   };
 
   $scope.saveSensor = function(sensor) {
-    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
+    if(sensor.icon === '' || sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
       sensor.incomplete = true;
       return false;
     } else {
@@ -131,6 +158,8 @@ angular.module('openSenseMapApp')
       sensor.incomplete = false;
       sensor.edited = true;
     }
+
+    setSensorsEditMode();
   };
 
   $scope.deleteSensor = function(sensor) {
@@ -143,11 +172,10 @@ angular.module('openSenseMapApp')
       sensor.deleted = true;
       sensor.incomplete = false;
     }
-
   };
 
   $scope.cancelSensor = function(sensor) {
-    if(sensor.name === '' || sensor.sensorType === '' || sensor.unit === '') {
+    if(sensor.new) {
       var index = $scope.editingMarker.sensors.indexOf(sensor);
       if(index !== -1) {
         $scope.editingMarker.sensors.splice(index, 1);
@@ -155,7 +183,13 @@ angular.module('openSenseMapApp')
     } else {
       sensor.incomplete = false;
       sensor.editing = false;
+      for (var key in sensor.restore) {
+        var value = sensor.restore[key];
+        sensor[key] = value;
+      }
     }
+
+    setSensorsEditMode();
   };
 
   $scope.downloadArduino = function () {
@@ -178,4 +212,34 @@ angular.module('openSenseMapApp')
       $scope.errorDuringDelete = true;
     });
   };
+
+  $scope.getIcon = function(sensor) {
+    if (sensor.icon !== undefined) {
+      return sensor.icon;
+    } else {
+      if ((sensor.sensorType == 'HDC1008' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur') {
+        return 'osem-thermometer';
+      } else if (sensor.sensorType == 'HDC1008' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit') { 
+        return 'osem-humidity';
+      } else if (sensor.sensorType == 'LM386') {
+        return 'osem-volume-up';
+      } else if (sensor.sensorType == 'BMP280' && sensor.title == 'Luftdruck') {
+        return 'osem-barometer';
+      } else if (sensor.sensorType == 'TSL45315' || sensor.sensorType == 'VEML6070') {
+        return 'osem-brightness';
+      } else {
+        return 'osem-dashboard';
+      }
+    }
+  };
+
+  var setSensorsEditMode = function () {
+    for (var i = $scope.editingMarker.sensors.length - 1; i >= 0; i--) {
+      if ($scope.editingMarker.sensors[i].editing) {
+        $scope.sensorsEditMode = true;
+        return;
+      }
+    }
+    $scope.sensorsEditMode = false;
+  }
 }]);

@@ -8,7 +8,7 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-  .factory('Validation', ["$http", "$q", "OpenSenseBoxAPI", function ($http, $q, OpenSenseBoxAPI) {
+  .factory('Validation', ['$http', '$q', 'OpenSenseBoxAPI', function ($http, $q, OpenSenseBoxAPI) {
 
     var service = {};
 
@@ -18,6 +18,9 @@ angular.module('openSenseMapApp')
         url: OpenSenseBoxAPI.url+'/users/'+boxId,
         headers: {
           'X-ApiKey':apiKey
+        },
+        params: {
+          returnBox: true
         }
       });
     };
@@ -27,10 +30,10 @@ angular.module('openSenseMapApp')
       var deferred = $q.defer();
       http.
         success( function (data, status) {
-          deferred.resolve(status);
+          deferred.resolve({data: data, status: status});
         }).
         error( function (data, status) {
-          deferred.resolve(status);
+          deferred.resolve({data: data, status: status});
         });
       return deferred.promise;
     };

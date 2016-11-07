@@ -8,7 +8,7 @@
  * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-	.factory('OpenSenseBoxAPI', function ($resource) {
+	.factory('OpenSenseBoxAPI', function () {
 		var api = {
 			url: 'OPENSENSEMAP_API_URL'
 		};

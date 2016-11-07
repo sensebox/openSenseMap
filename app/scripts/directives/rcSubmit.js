@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * @ngdoc directive
  * @name ng.directive:rcSubmit

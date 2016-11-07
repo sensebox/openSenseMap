@@ -59,7 +59,7 @@ angular.module('openSenseMapApp')
       if (response.status === 200) {
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
-        if (response.data.mqtt !== undefined) {
+        if (!angular.equals({}, response.data.mqtt)) {
           $scope.mqttEnabled = true;
           $scope.mqtt = response.data.mqtt;
         }
@@ -74,7 +74,16 @@ angular.module('openSenseMapApp')
     sensor.icon = newIcon.name;
   };
 
+  $scope.cancelChange = function () {
+    $scope.editableMode = false;
+    delete $scope.editingMarker;
+    $scope.closeThisDialog();
+  }
+
   $scope.saveChange = function (form) {
+    $scope.savedSuccessfully = false;
+    $scope.savedError = false;
+
     var boxid = $scope.editingMarker._id;
     var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
     var newBoxData = {
@@ -93,15 +102,13 @@ angular.module('openSenseMapApp')
       newBoxData.mqtt = $scope.mqtt;
     } else {
       newBoxData.mqtt = null;
+      $scope.mqtt = {};
     }
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data, status){
-        $scope.editableMode = false;
-        $scope.mqtt = {};
-        $scope.mqttEnabled = false;
         $scope.savedSuccessfully = true;
-      $scope.savedError = false;
+        $scope.savedError = false;
         if (data.image === '') {
           $scope.image = 'placeholder.png';
         } else {
@@ -120,10 +127,6 @@ angular.module('openSenseMapApp')
     } else {
       return false;
     }
-  };
-
-  $scope.logThis = function() {
-    console.log($scope.editingMarker);
   };
 
   $scope.addSensor = function() {

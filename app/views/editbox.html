@@ -13,7 +13,7 @@
 				<button type="submit" ng-click="saveChange(editBox)" ng-show="editableMode" ng-disabled="editBox.$invalid || sensorsEditMode" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;
 					{{'SAVE'|translate}}
 				</button>
-				<button ng-show="editableMode" ng-click="editableMode = false;" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp;
+				<button ng-show="editableMode" ng-click="cancelChange()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp;
 					{{'CANCEL'|translate}}
 				</button>
 			</div>

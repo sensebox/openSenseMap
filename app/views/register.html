@@ -271,7 +271,7 @@
                   MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse3, 'glyphicon-chevron-right': !open.collapse3}"></i>
                 </uib-accordion-heading>
                 <checkbox id="checkbox0" ng-model="mqttEnabled" ng-change="enableMQTT()"></checkbox>
-                <label>MQTT aktivieren</label>
+                <label>{{ 'MQTT_ENABLE' | translate }}</label>
                 
                 <!-- MQTT URL -->
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.url), 'has-success' :  !rc.secondForm.needsAttention(secondForm.url) && mqtt.url!='' }">

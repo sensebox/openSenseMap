@@ -16,6 +16,7 @@
   "STEP2_SUB3": "Hardware",
   "STEP2_SUB3_DESCRIPTION": "Wähle den Typ deiner senseBox aus.",
   "STEP2_SUB4": "Erweitert",
+  "MQTT_ENABLE": "MQTT aktivieren",
   "MQTT_URL": "Url",
   "MQTT_TOPIC": "Topic",
   "MQTT_MESSAGEFORMAT": "Nachrichtenformat",

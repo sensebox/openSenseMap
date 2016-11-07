@@ -146,7 +146,7 @@
 					<h3>{{'EDIT_MQTTOPTIONS'|translate}}</h3>
 					{{'EDIT_MQTTOPTIONSINFO'|translate}}
 					<checkbox id="checkbox0" ng-model="mqttEnabled" ng-change="enableMQTT()"></checkbox>
-					<label>MQTT aktivieren</label>
+					<label>{{ 'MQTT_ENABLE' | translate }}</label>
 
 					<!-- MQTT URL -->
 					<div ng-class="{'has-error': editBox.mqttURL.$invalid, 'has-success': editBox.mqttURL.$valid }">
@@ -178,13 +178,13 @@
 					</div>
 
 					<!-- MQTT DecodeOptions -->
-					<div ng-class="{'has-error': editBox.mqttDecodeOptions.$invalid, 'has-success': editBox.mqttDecodeOptions.$valid }">
+					<div>
 					  <label for="mqttDecodeOptions">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
 					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqttEnabled">
 					</div>
 
 					<!-- MQTT ConnectionOptions -->
-			 		<div ng-class="{'has-error': editBox.mqttConnectionOptions.$invalid, 'has-success': editBox.mqttConnectionOptions.$valid }">
+			 		<div>
 					  <label for="mqttConnectionOptions">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
 					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqttEnabled">
 					</div>

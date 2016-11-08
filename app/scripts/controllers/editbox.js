@@ -59,7 +59,7 @@ angular.module('openSenseMapApp')
       if (response.status === 200) {
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
-        if (!angular.equals({}, response.data.mqtt)) {
+        if (!angular.equals({}, response.data.mqtt) && !response.data.mqtt === undefined) {
           $scope.mqttEnabled = true;
           $scope.mqtt = response.data.mqtt;
         }

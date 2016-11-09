@@ -88,8 +88,10 @@
 		<hr/>
 		<div class="col-xs-12 col-md-12">
 		<h4>{{"RESULTS"|translate}}</h4>
-			<uib-alert type="info" ng-show="(($parent.markersFiltered | filter:{layer:'!temporary'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</uib-alert>
-			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!temporary'}" class="row"><a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a></div>
+			<uib-alert type="info" ng-show="(($parent.markersFiltered | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</uib-alert>
+			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!hidden'}" class="row">
+				<a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
+			</div>
 		</div>
 	</div>
 </div>

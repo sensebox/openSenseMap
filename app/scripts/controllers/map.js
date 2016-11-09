@@ -100,14 +100,16 @@ angular.module('openSenseMapApp')
 				// create inivisible markers for filtering/sorting because of a bug in angular-directive: need to keep the marker ordering in the array
 				// https://github.com/tombatossals/angular-leaflet-directive/issues/512
 				// https://github.com/tombatossals/angular-leaflet-directive/issues/1041
-				temporary: {
+				hiddenMarker: {
 					type: 'group',
-					name: 'temporary',
+					name: 'hiddenMarker',
 					visible: false
 				}
 			}
 		},
 		markers: {
+		},
+		filtered: {
 		},
 		controls: { custom: [] },
 		toggleLayer: function(type) {
@@ -124,6 +126,7 @@ angular.module('openSenseMapApp')
 		Markers without measurement in 30 days are displayed in gray
 	*/
 	var MARKER_STATE_OPTS = {
+		'hidden': {layer: 'hiddenMarker', marker: null, opacity: 0, zIndexOffset: 300},
 		'old': { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0},
 		'inactive': { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 },
 		'active': { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 }
@@ -184,19 +187,70 @@ angular.module('openSenseMapApp')
 		};
 		return marker;
 	};
+
+	var hiddenFunc = function (obj) {
+		var markerOpts = MARKER_STATE_OPTS['hidden'];
+		var marker = {
+			layer: markerOpts.layer,
+			icon: markerOpts.marker,
+			lng: obj.lng,
+			lat: obj.lat,
+			opacity: markerOpts.opacity,
+			riseOnHover: true,
+			station: {
+				id: obj.station.id,
+				name: obj.station.name,
+				exposure: obj.station.exposure,
+				grouptag: obj.station.grouptag,
+				sensors: obj.station.sensors
+			},
+			zIndexOffset: markerOpts.zIndexOffset
+		};
+		return marker;
+	};
+
+	var insertFunc = function (obj) {
+		for (var key in $scope.markers) {
+			var box = $scope.markers[key];
+			if (box.station.id === obj.station.id) {
+				box.layer = obj.layer;
+				box.icon = obj.icon;
+				box.opacity = obj.opacity;
+				return;
+			}
+		}
+	};
+
 	$scope.fetchMarkers = function(date, phenomenon, filteredOnly) {
 		filteredOnly = filteredOnly || false;
 
 		$scope.loading = true;
-		if(date!=='' && Array.isArray(date)) { date = date.join(','); }
+		if(date!=='' && Array.isArray(date)) { 
+			date = date.join(','); 
+		}
 		$scope.markersFiltered = {};
-		if(!filteredOnly) { $scope.markers = {}; }
+		if (!filteredOnly) { 
+			$scope.markers = {}; 
+		} else {
+			$scope.filtered = {};
+		}
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
+			$scope.markersFiltered = {};
 			if(!filteredOnly) {
 				angular.extend($scope.markers, response.map(filterfunc));
 				$scope.markersFiltered = angular.copy($scope.markers);
 			} else {
-				$scope.markersFiltered = response.map(filterfunc);
+				// Hack for https://github.com/sensebox/openSenseMap/issues/112
+				// 1. Copy all markers
+				var markersTemp = [];
+				angular.extend(markersTemp, $scope.markers);
+				// 2. Hide all markers
+				var markersTemp = markersTemp.map(hiddenFunc);
+				angular.extend($scope.markers, markersTemp);
+				// 3. Classify filtered markers and insert them in $scope.markers
+				var markersClassified = response.map(filterfunc);
+				markersClassified.map(insertFunc);
+				$scope.markersFiltered = angular.copy($scope.markers);
 			}
 			$scope.loading = false;
 		});

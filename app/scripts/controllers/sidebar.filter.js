@@ -70,10 +70,10 @@ angular.module('openSenseMapApp')
 			//$scope.$parent.fetchMarkers("", "");
 			$scope.filterActive.active = false;
 		};
+
 		$scope.refreshData = function(){
 			$scope.$parent.fetchMarkers("", "");
 		};
-		//$scope.resetFilter();
 
 		$scope.openDatepicker = function($event) {
 	        $event.preventDefault();

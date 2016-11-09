@@ -3,7 +3,7 @@
 // https://github.com/tombatossals/angular-leaflet-directive/issues/512
 // https://github.com/tombatossals/angular-leaflet-directive/issues/1041
 var trash = {
-  layer: 'temporary',
+  layer: 'hiddenMarker',
   icon: {},
   lng: 2000,
   lat: 2000,

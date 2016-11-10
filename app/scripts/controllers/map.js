@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile){
+	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -235,6 +235,7 @@ angular.module('openSenseMapApp')
 			$scope.filtered = {};
 		}
 		OpenSenseBoxes.query({ date: date, phenomenon: phenomenon }, function(response){
+			OpenSenseMapData.boxes = [];
 			$scope.markersFiltered = {};
 			if(!filteredOnly) {
 				angular.extend($scope.markers, response.map(filterfunc));
@@ -253,6 +254,10 @@ angular.module('openSenseMapApp')
 				$scope.markersFiltered = angular.copy($scope.markers);
 			}
 			$scope.loading = false;
+			for (var key in $scope.markers) {
+				var box = $scope.markers[key];
+				OpenSenseMapData.boxes.push(box);
+			}
 		});
 	};
 	$scope.fetchMarkers('', ''); // fetch all markers in the database

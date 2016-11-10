@@ -1,8 +1,10 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$route', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', function ($scope, $rootScope, $translate, $route, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale) {
+  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', function ($scope, $rootScope, $translate, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state) {
   	$scope.osemapi = OpenSenseBoxAPI;
+
+    $scope.selected = undefined;
 
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
@@ -16,11 +18,6 @@ angular.module('openSenseMapApp')
     };
     $scope.changeLang('de_DE');
 
-    $rootScope.$watch('selectedBox', function() {
-      $scope.box = $rootScope.selectedBox;
-      console.log('box changed to '+$rootScope.selectedBox);
-    });
-
   	$scope.counts = {
   		boxes: '',
   		measurements : ''
@@ -32,4 +29,14 @@ angular.module('openSenseMapApp')
       }).error(function(){
   	});
     $scope.filterActive = FilterActiveService;
+
+    $scope.getBoxes = function(val) {
+      var boxes = OpenSenseMapData.boxes;
+      return boxes;
+    };
+
+    $scope.selectBox = function ($item) {
+      console.log($item);
+      $state.go('explore.map.boxdetails', { id: $item.station.id });
+    };
 }]);

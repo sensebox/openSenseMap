@@ -6,6 +6,8 @@ angular.module('openSenseMapApp')
 
 		$scope.osemapi = OpenSenseBoxAPI;
 		$scope.true = true;
+		$scope.prom;
+		$scope.delay = 60000;
 
 		OpenSenseBox.query({ boxId: $stateParams.id }, function(response){
 			var markerLatLng = [
@@ -14,12 +16,14 @@ angular.module('openSenseMapApp')
 			];
 			$scope.$parent.centerLatLng(markerLatLng);
 			$scope.selectedMarker = response;
+			getMeasurements();
 		}, function(error){
 			$scope.boxNotFound = true;
 		});
-		OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
-			$scope.selectedMarkerData = response;
-		});
+
+		$scope.closeSidebar = function () {
+			$timeout.cancel($scope.prom);
+		};
 
 		$scope.openEditDialog = function () {
 			$scope.launchTemp = ngDialog.open({
@@ -101,5 +105,12 @@ angular.module('openSenseMapApp')
 		};
 		$scope.formatDateFull = function(input){
 			return d3.time.format("%Y-%m-%d %H:%M:%S")(new Date(input));
+		};
+
+		var getMeasurements = function () {
+			$scope.prom = $timeout(getMeasurements, $scope.delay);
+			OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
+				$scope.selectedMarkerData = response;
+			});
 		};
 }]);

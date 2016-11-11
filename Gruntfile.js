@@ -20,6 +20,10 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
 
+    eslint: {
+      target: ['./app/scripts/controllers/sidebar.js']
+    },
+
     sed: {
       dist: {
         path: '<%= yeoman.dist %>/views/explore2.map.html',

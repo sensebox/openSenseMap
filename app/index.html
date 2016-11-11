@@ -103,10 +103,11 @@
                     <form class="navbar-form">
                         <div class="form-group" style="display: inline;">
                             <div class="input-group" style="display: table; padding: 0px 12px;">
-                                <span class="input-group-addon" style="width:1%;padding-left: 0px;padding-right: 10px; background-color: none; border: none;">
+                                <span class="input-group-addon" style="width:1%;padding-left: 0px;padding-right: 10px; background-color: white; border: none;">
                                     <span class=""></span>
                                 </span>
-                                <input type="text" style="border-radius: 4px;" ng-model="asyncSelected" placeholder="{{'SEARCH' | translate}}" uib-typeahead="boxes.station.name for boxes in getBoxes($viewValue) | filter:$viewValue | limitTo:5" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                                <input type="text" style="border-radius: 4px;" ng-model="asyncSelected" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control">
+                                <!-- boxes.station.name for boxes in getLocations($viewValue) | filter:$viewValue | limitTo:5 -->
                             </div>
                         </div>
                     </form>
@@ -205,6 +206,4 @@
     </script>
     <noscript><p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p></noscript>
     <!-- End Piwik Code -->
-
-    </body>
 </html>

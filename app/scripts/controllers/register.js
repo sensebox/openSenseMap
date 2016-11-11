@@ -7,7 +7,7 @@ angular.module('openSenseMapApp')
     $scope.alerts = [];
     $scope.editing = {};
     $scope.isCustom = {};
-    $scope.sensorSetup = "";
+    $scope.sensorSetup = '';
     $scope.models = {
       home: false,
       basic: false,
@@ -163,7 +163,7 @@ angular.module('openSenseMapApp')
             wifi: false,
             ethernet: false
           };
-          $scope.sensorSetup = "";
+          $scope.sensorSetup = '';
           break;
         default:
           $scope.modelSelected.name = false;
@@ -174,7 +174,7 @@ angular.module('openSenseMapApp')
 
     $scope.enableMQTT = function () {
       $scope.mqttEnabled = !$scope.mqttEnabled;
-    }
+    };
 
     $scope.defaults = {
       minZoom: 2,
@@ -219,7 +219,7 @@ angular.module('openSenseMapApp')
         $scope.sensors[i].id=i;
       }
       if ( $scope.sensors.length === 0) {
-        $scope.sensorSetup = "";
+        $scope.sensorSetup = '';
         $scope.sensorIncomplete = true;
       } else {
         $scope.sensorSetup = JSON.stringify($scope.sensors);  
@@ -366,9 +366,9 @@ angular.module('openSenseMapApp')
       var boxid = $scope.newSenseBox.id;
       var apikey = $scope.newSenseBox.apikey;
       $http.get($scope.osemapi.url+'/boxes/'+boxid+'/script', { headers: { 'X-ApiKey': apikey } })
-        .success(function(data, status){
+        .success(function(data){
           $scope.boxScript = data;
-        }).error(function(data, status){
+        }).error(function(){
           // todo: display an error message
       });
     };
@@ -376,12 +376,12 @@ angular.module('openSenseMapApp')
     var loadSensors = function () {
       var boxid = $scope.newSenseBox.id;
       $http.get($scope.osemapi.url+'/boxes/'+boxid, {})
-        .success(function(data, status){
-          $scope.registeredSensors = data["sensors"];
-        }).error(function(data, status){
+        .success(function(data){
+          $scope.registeredSensors = data['sensors'];
+        }).error(function(){
           // todo: display an error message
       });
-    }
+    };
 
     $scope.completeRegistration = function () {
       $scope.alerts = [];
@@ -393,7 +393,7 @@ angular.module('openSenseMapApp')
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
       if ($translate.proposedLanguage() !== undefined) {
-        $scope.newSenseBox.user["lang"] = $translate.proposedLanguage();
+        $scope.newSenseBox.user['lang'] = $translate.proposedLanguage();
       }
       if ($scope.modelSelected.id === 'custom') {
         for (var i = 0; i < $scope.sensors.length; i++) {
@@ -418,7 +418,7 @@ angular.module('openSenseMapApp')
           downloadArduino();
           loadSensors();
         })
-        .error( function (err) {
+        .error( function () {
           $translate('REGISTRATION_FAIL').then(function (msg) {
             var alert = {
               type: 'danger',

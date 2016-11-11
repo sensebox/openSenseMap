@@ -22,10 +22,10 @@ angular.module('osemFilters', [])
 .filter('phenomenons', function() {
   'use strict';
   return function(markers, input) {
-    var searchText = input || "";
+    var searchText = input || '';
     var boxes = [];
-    angular.forEach(markers, function(marker, key) {
-      var comp = marker.station.sensors.some(function(sensor, index, array){
+    angular.forEach(markers, function(marker) {
+      var comp = marker.station.sensors.some(function(sensor){
         return sensor.hasOwnProperty('title') && sensor.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
       });
       if(comp) {
@@ -44,8 +44,8 @@ angular.module('osemFilters', [])
 .filter('marker', function() {
   'use strict';
   return function(markers, input) {
-    var searchText = input || "";
-    angular.forEach(markers, function(value, key) {
+    var searchText = input || '';
+    angular.forEach(markers, function(value) {
       var comp = value.station.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1;
       return comp && value;
     });
@@ -59,8 +59,8 @@ angular.module('osemFilters', [])
   'use strict';
   return function(markers) {
     var phenoms = [];
-    angular.forEach(markers, function(marker, key) {
-      angular.forEach(marker.station.sensors, function(sensor, key) {
+    angular.forEach(markers, function(marker) {
+      angular.forEach(marker.station.sensors, function(sensor) {
         if(phenoms.indexOf(sensor.title) === -1) {
           phenoms.push(sensor.title);
         }
@@ -77,7 +77,7 @@ angular.module('osemFilters', [])
   'use strict';
   return function(markers) {
     var grouptags = [];
-    angular.forEach(markers, function(marker, key) {
+    angular.forEach(markers, function(marker) {
       if(grouptags.indexOf(marker.station.grouptag) === -1) {
         grouptags.push(marker.station.grouptag);
       }
@@ -86,11 +86,11 @@ angular.module('osemFilters', [])
   };
 })
 
-.filter('box', ["filterFilter", function(filterFilter) {
+.filter('box', ['filterFilter', function(filterFilter) {
   'use strict';
   return function(markers, expression) {
     var results = [];
-    angular.forEach(markers, function(marker, key) {
+    angular.forEach(markers, function(marker) {
       var a = filterFilter([marker], expression);
       if(a.length>0) {
         results.push(marker);

@@ -4,8 +4,6 @@ angular.module('openSenseMapApp')
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
   	$scope.osemapi = OpenSenseBoxAPI;
 
-    $scope.selected = undefined;
-
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log('Sprache zu '+ key +' gewechselt.');
@@ -38,13 +36,10 @@ angular.module('openSenseMapApp')
     // centers a latlng (marker) on the map while reserving space for the sidebar
     $scope.centerLatLng = function(latlng) {
       leafletData.getMap('map_main').then(function(map) {
-        // var padding = 450; // sidebar width: 450px
-        // // consider smaller devices (250px min map-width + 450px sidebar-width)
-        // if (document.body.clientWidth <= 700) padding = 0;
-
         map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
           paddingTopLeft: [0,0],
-          animate: false
+          animate: false,
+          zoom: 20
         });
       });
     };
@@ -57,25 +52,37 @@ angular.module('openSenseMapApp')
       getterSetter: true
     };
 
-    $scope.getLocations = function (val) {
+    $scope.getLocations = function (searchstring) {
       return $http.get('//locationiq.org/v1/search.php', {
         params: {
           format: 'json',
           key: '23e12b10d8c3aad04e8e',
           addressdetails: 1,
-          limit: 5,
-          q: val
+          limit: 4,
+          q: searchstring
         }
       }).then(function(response){
-        return response.data.map(function (item) {
+        var results = response.data.map(function (item) {
           return item;
         });
+        OpenSenseMapData.boxes.filter(function (value) {
+          if (value.station.name.match(new RegExp(searchstring, 'i'))) {
+            var newStructured = {
+              'display_name': value.station.name,
+              'boxId': value.station.id
+            };
+            results.unshift(newStructured);
+          }
+        });
+        return results;
       });
     };
 
     $scope.selectBox = function ($item) {
-      console.log($item);
-      // $state.go('explore.map.boxdetails', { id: $item.station.id });
-      this.centerLatLng($item.boundingbox);
+      if ($item.boundingbox === undefined) {
+        $state.go('explore.map.boxdetails', { id: $item.boxId });  
+      } else {
+        this.centerLatLng($item.boundingbox);  
+      }
     };
 }]);

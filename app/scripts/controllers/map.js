@@ -225,12 +225,12 @@ angular.module('openSenseMapApp')
 		filteredOnly = filteredOnly || false;
 
 		$scope.loading = true;
-		if(date!=='' && Array.isArray(date)) { 
-			date = date.join(','); 
+		if(date!=='' && Array.isArray(date)) {
+			date = date.join(',');
 		}
 		$scope.markersFiltered = {};
-		if (!filteredOnly) { 
-			$scope.markers = {}; 
+		if (!filteredOnly) {
+			$scope.markers = {};
 		} else {
 			$scope.filtered = {};
 		}

@@ -5,9 +5,13 @@
    aria-hidden="{{!isOpen()}}">
 
   <ul class="dropdown-menu" role="listbox">
-    <li class="uib-typeahead-match" ng-repeat="match in matches track by $index" ng-class="{active: isActive($index) }"
-      ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
-      <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl"></div>
-    </li>
+    <div class="dropdown-menu-entry" ng-repeat="match in matches track by $index">
+      <li class="uib-typeahead-match" ng-class="{active: isActive($index), box: match.model.boxId !== undefined, address: match.model.boxId === undefined }"
+        ng-mouseenter="selectActive($index)" ng-click="selectMatch($index)" role="option" id="{{::match.id}}">
+        <div uib-typeahead-match index="$index" match="match" query="query" template-url="templateUrl">
+        </div>
+      </li>
+      <hr ng-class="match.model.boxId === undefined ? 'invisible' : ( matches[$index+1].model.boxId !== undefined ? 'invisible' : ( matches[$index+1] === undefined ? 'invisible' : '' ) ) ">
+    </div>
   </ul>
 </div>

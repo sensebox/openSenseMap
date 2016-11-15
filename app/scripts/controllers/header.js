@@ -46,7 +46,7 @@ angular.module('openSenseMapApp')
 
     $scope.modelOptions = {
       debounce: {
-        default: 500,
+        default: 300,
         blur: 250
       },
       getterSetter: true
@@ -65,8 +65,13 @@ angular.module('openSenseMapApp')
         var results = response.data.map(function (item) {
           return item;
         });
+        var boxresults = 0;
         OpenSenseMapData.boxes.filter(function (value) {
+          if (boxresults === 4) {
+            return;
+          }
           if (value.station.name.match(new RegExp(searchstring, 'i'))) {
+            boxresults++;
             var newStructured = {
               'display_name': value.station.name,
               'boxId': value.station.id

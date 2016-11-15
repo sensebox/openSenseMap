@@ -103,10 +103,10 @@
                     <form class="navbar-form">
                         <div class="form-group typeahead-search" style="display: inline;">
                             <div class="input-group" style="display: table; padding: 0px 12px;">
-                                <span class="input-group-addon" style="width:1%;padding-left: 0px;padding-right: 10px; background-color: white; border: none;">
+                                <span class="input-group-addon" style="width:1%;padding-right: 10px; background-color: #f8f8f8; border: none;">
                                     <span class=""></span>
                                 </span>
-                                <input type="text" style="border-radius: 4px;" ng-model="asyncSelected" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html">
+                                <input type="text" style="border-radius: 4px;" ng-model="asyncSelected" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
                             </div>
                         </div>
                     </form>

@@ -2,12 +2,19 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarBoxDetailsCtrl',
-		["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "Validation", "ngDialog", "$timeout", "OpenSenseBoxData", "moment", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData, moment){
+		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', '$timeout', 'OpenSenseBoxData', function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData){
 
 		$scope.osemapi = OpenSenseBoxAPI;
 		$scope.true = true;
 		$scope.prom;
 		$scope.delay = 60000;
+
+		var getMeasurements = function () {
+			$scope.prom = $timeout(getMeasurements, $scope.delay);
+			OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
+				$scope.selectedMarkerData = response;
+			});
+		};
 
 		OpenSenseBox.query({ boxId: $stateParams.id }, function(response){
 			var markerLatLng = [
@@ -17,7 +24,7 @@ angular.module('openSenseMapApp')
 			$scope.$parent.centerLatLng(markerLatLng);
 			$scope.selectedMarker = response;
 			getMeasurements();
-		}, function(error){
+		}, function(){
 			$scope.boxNotFound = true;
 		});
 
@@ -40,15 +47,15 @@ angular.module('openSenseMapApp')
 			if (sensor.icon !== undefined) {
 				return sensor.icon;
 			} else {
-				if ((sensor.sensorType == 'HDC1008' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur') {
+				if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
 					return 'osem-thermometer';
-				} else if (sensor.sensorType == 'HDC1008' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit') { 
+				} else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') { 
 					return 'osem-humidity';
-				} else if (sensor.sensorType == 'LM386') {
+				} else if (sensor.sensorType === 'LM386') {
 					return 'osem-volume-up';
-				} else if (sensor.sensorType == 'BMP280' && sensor.title == 'Luftdruck') {
+				} else if (sensor.sensorType === 'BMP280' && sensor.title === 'Luftdruck') {
 					return 'osem-barometer';
-				} else if (sensor.sensorType == 'TSL45315' || sensor.sensorType == 'VEML6070') {
+				} else if (sensor.sensorType === 'TSL45315' || sensor.sensorType === 'VEML6070') {
 					return 'osem-brightness';
 				} else {
 					return 'osem-dashboard';
@@ -62,8 +69,9 @@ angular.module('openSenseMapApp')
 		$scope.chartDone = {};
 		$scope.chartError = {};
 		$scope.getData = function(sensorId, panelOpen){
-			if(!panelOpen) return; // panel is in closing transition, don't fetch new data
-			var initDate = new Date();
+			if(!panelOpen) {
+				return; // panel is in closing transition, don't fetch new data
+			}
 			var endDate = '';
 			var box = $scope.selectedMarker._id;
 			$scope.chartDone[sensorId] = false;
@@ -72,9 +80,9 @@ angular.module('openSenseMapApp')
 			// Get the date of the last taken measurement for the selected sensor
 			for (var i = 0; i < $scope.selectedMarkerData.sensors.length; i++){
 				if(sensorId === $scope.selectedMarkerData.sensors[i]._id){
-					var title = $scope.selectedMarkerData.sensors[i].title.toString().replace(".","");
+					var title = $scope.selectedMarkerData.sensors[i].title.toString().replace('.','');
 
-					$scope.columns[sensorId] = [{"id": title, "type": "scatter"}, {"id": "dates", "type": "date"}];
+					$scope.columns[sensorId] = [{'id': title, 'type': 'scatter'}, {'id': 'dates', 'type': 'date'}];
 					$scope.sensordata[sensorId] = [];
 
 					if(!$scope.selectedMarkerData.sensors[i].lastMeasurement) {
@@ -92,7 +100,7 @@ angular.module('openSenseMapApp')
 							$scope.sensordata[sensorId].push(dataPair);
 						}
 						$scope.chartDone[sensorId] = true;
-					}, function(error){
+					}, function(){
 						$scope.chartError[sensorId] = true;
 						$scope.chartDone[sensorId] = true;
 					});
@@ -101,16 +109,9 @@ angular.module('openSenseMapApp')
 		};
 
 		$scope.formatDate = function(input){
-			return d3.time.format("%Y-%m-%d")(new Date(input));
+			return d3.time.format('%Y-%m-%d')(new Date(input));
 		};
 		$scope.formatDateFull = function(input){
-			return d3.time.format("%Y-%m-%d %H:%M:%S")(new Date(input));
-		};
-
-		var getMeasurements = function () {
-			$scope.prom = $timeout(getMeasurements, $scope.delay);
-			OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
-				$scope.selectedMarkerData = response;
-			});
+			return d3.time.format('%Y-%m-%d %H:%M:%S')(new Date(input));
 		};
 }]);

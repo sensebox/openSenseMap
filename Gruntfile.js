@@ -498,9 +498,9 @@ module.exports = function (grunt) {
         var html = '';
         grunt.file.recurse('app/translations/', function(abspath, rootdir, subdir, filename){
           if (subdir !== undefined) { return; }
-          if (filename.indexOf("disabled") === -1) {
-            var languageCode = filename.split(".")[0];
-            var language = languageCode.split("_")[0];
+          if (filename.indexOf('disabled') === -1) {
+            var languageCode = filename.split('.')[0];
+            var language = languageCode.split('_')[0];
             html += '<li><a ng-click="changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
           }
         });

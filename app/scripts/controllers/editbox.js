@@ -78,9 +78,9 @@ angular.module('openSenseMapApp')
     $scope.editableMode = false;
     delete $scope.editingMarker;
     $scope.closeThisDialog();
-  }
+  };
 
-  $scope.saveChange = function (form) {
+  $scope.saveChange = function () {
     $scope.savedSuccessfully = false;
     $scope.savedError = false;
 
@@ -106,7 +106,7 @@ angular.module('openSenseMapApp')
     }
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
-      .success(function(data, status){
+      .success(function(data){
         $scope.savedSuccessfully = true;
         $scope.savedError = false;
         if (data.image === '') {
@@ -116,17 +116,27 @@ angular.module('openSenseMapApp')
         }
         $scope.editingMarker = angular.copy(data);
         $scope.$parent.selectedMarker = angular.copy(data);
-      }).error(function(data, status){
+      }).error(function(){
         $scope.savedError = true;
     });
   };
 
-  $scope.flowFileAdded = function(file,event) {
+  $scope.flowFileAdded = function(file) {
     if ((file.getExtension().toLowerCase() === 'jpg' || file.getExtension().toLowerCase() === 'png' || file.getExtension().toLowerCase() === 'jpeg') && file.size < 512000) {
       return true;
     } else {
       return false;
     }
+  };
+
+  var setSensorsEditMode = function () {
+    for (var i = $scope.editingMarker.sensors.length - 1; i >= 0; i--) {
+      if ($scope.editingMarker.sensors[i].editing) {
+        $scope.sensorsEditMode = true;
+        return;
+      }
+    }
+    $scope.sensorsEditMode = false;
   };
 
   $scope.addSensor = function() {
@@ -195,9 +205,9 @@ angular.module('openSenseMapApp')
   $scope.downloadArduino = function () {
     var boxid = $scope.editingMarker._id;
     $http.get($scope.osemapi.url+'/boxes/'+boxid+'/script', { headers: { 'X-ApiKey': $scope.apikey.key } })
-      .success(function(data, status){
+      .success(function(data){
         $scope.boxScript = data;
-      }).error(function(data, status){
+      }).error(function(){
       // todo: display an error message
     });
   };
@@ -205,10 +215,10 @@ angular.module('openSenseMapApp')
   $scope.deleteBox = function(){
     var boxid = $scope.editingMarker._id;
     $http.delete($scope.osemapi.url+'/boxes/'+boxid+'', { headers: { 'X-ApiKey': $scope.apikey.key } })
-      .success(function(data, status){
+      .success(function(){
         $scope.boxdeleted = true;
         $scope.editableMode = false;
-      }).error(function(data, status){
+      }).error(function(){
       $scope.errorDuringDelete = true;
     });
   };
@@ -217,29 +227,19 @@ angular.module('openSenseMapApp')
     if (sensor.icon !== undefined) {
       return sensor.icon;
     } else {
-      if ((sensor.sensorType == 'HDC1008' || sensor.sensorType == 'DHT11')  && sensor.title == 'Temperatur') {
+      if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
         return 'osem-thermometer';
-      } else if (sensor.sensorType == 'HDC1008' || sensor.title == 'rel. Luftfeuchte' || sensor.title == 'Luftfeuchtigkeit') { 
+      } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') { 
         return 'osem-humidity';
-      } else if (sensor.sensorType == 'LM386') {
+      } else if (sensor.sensorType === 'LM386') {
         return 'osem-volume-up';
-      } else if (sensor.sensorType == 'BMP280' && sensor.title == 'Luftdruck') {
+      } else if (sensor.sensorType === 'BMP280' && sensor.title === 'Luftdruck') {
         return 'osem-barometer';
-      } else if (sensor.sensorType == 'TSL45315' || sensor.sensorType == 'VEML6070') {
+      } else if (sensor.sensorType === 'TSL45315' || sensor.sensorType === 'VEML6070') {
         return 'osem-brightness';
       } else {
         return 'osem-dashboard';
       }
     }
   };
-
-  var setSensorsEditMode = function () {
-    for (var i = $scope.editingMarker.sensors.length - 1; i >= 0; i--) {
-      if ($scope.editingMarker.sensors[i].editing) {
-        $scope.sensorsEditMode = true;
-        return;
-      }
-    }
-    $scope.sensorsEditMode = false;
-  }
 }]);

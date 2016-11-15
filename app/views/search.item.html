@@ -1,0 +1,5 @@
+<a>
+  <i class="fa fa-road" aria-hidden="true" ng-show="match.model.boxId === undefined"></i>
+  <i class="fa fa-cube" aria-hidden="true" ng-show="match.model.boxId !== undefined"></i>
+  <span style="white-space: normal;" ng-bind-html="match.label | uibTypeaheadHighlight:query"></span>
+</a>

@@ -12,7 +12,17 @@ angular.module('openSenseMapApp')
 		var getMeasurements = function () {
 			$scope.prom = $timeout(getMeasurements, $scope.delay);
 			OpenSenseBoxesSensors.query({ boxId: $stateParams.id }, function(response) {
-				$scope.selectedMarkerData = response;
+				if ($scope.selectedMarkerData === undefined) {
+					$scope.selectedMarkerData = response;
+				} else {
+					$scope.selectedMarkerData.sensors.map(function (value) {
+						for (var i = 0; i < response.sensors.length; i++) {
+							if (value._id === response.sensors[i]._id) {
+								angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
+							}
+						}
+					});
+				}
 			});
 		};
 

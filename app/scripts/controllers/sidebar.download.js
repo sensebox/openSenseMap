@@ -67,11 +67,13 @@ angular.module('openSenseMapApp')
 		$scope.downloadform.pleaseWait = true;
 		leafletData.getMap("map_main").then(function(map) {
 			var boxids = $scope.countBbox(map);
-			$http.post($scope.osemapi.url+'/boxes/data',{
-				boxid: boxids.join(','),
-				'to-date': $scope.inputFilter.DateTo,
-				'from-date': $scope.inputFilter.DateFrom,
-				phenomenon: $scope.inputFilter.Phenomenon
+			$http.get($scope.osemapi.url+'/boxes/data', {
+				params: {
+					boxid: boxids.join(','),
+					'to-date': $scope.inputFilter.DateTo,
+					'from-date': $scope.inputFilter.DateFrom,
+					phenomenon: $scope.inputFilter.Phenomenon	
+				}
 			})
 			.success(function(data) {
 				console.log(data.length);

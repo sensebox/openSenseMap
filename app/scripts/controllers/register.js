@@ -179,7 +179,7 @@ angular.module('openSenseMapApp')
     $scope.defaults = {
       minZoom: 2,
       maxZoom: 22,
-      tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
       tileLayerOptions: {
         subdomains: 'abc',
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',

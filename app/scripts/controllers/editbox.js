@@ -6,8 +6,14 @@ angular.module('openSenseMapApp')
   $scope.osemapi = OpenSenseBoxAPI;
   $scope.icons = SensorIcons;
   $scope.editingMarker = angular.copy($scope.$parent.selectedMarker);
-  $scope.mqtt = {};
-  $scope.mqttEnabled = false;
+  $scope.mqtt = {
+    enabled: false,
+    url: '',
+    topic: '',
+    messageFormat: '',
+    decodeOptions: '',
+    connectionOptions: ''
+  };
   $scope.sensorsEditMode = false;
 
   $scope.boxPosition = {
@@ -59,10 +65,7 @@ angular.module('openSenseMapApp')
       if (response.status === 200) {
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
-        if (!angular.equals({}, response.data.mqtt) && !response.data.mqtt === undefined) {
-          $scope.mqttEnabled = true;
-          $scope.mqtt = response.data.mqtt;
-        }
+        $scope.mqtt = response.data.mqtt;
       } else {
         $scope.apikeyIssue = true;
         $scope.editableMode = false;
@@ -95,15 +98,9 @@ angular.module('openSenseMapApp')
       grouptag: $scope.editingMarker.grouptag,
       exposure: $scope.editingMarker.exposure,
       loc: $scope.editMarker.m1,
-      image: imgsrc
+      image: imgsrc,
+      mqtt: $scope.mqtt
     };
-
-    if ($scope.mqttEnabled) {
-      newBoxData.mqtt = $scope.mqtt;
-    } else {
-      newBoxData.mqtt = null;
-      $scope.mqtt = {};
-    }
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data){
@@ -229,7 +226,7 @@ angular.module('openSenseMapApp')
     } else {
       if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
         return 'osem-thermometer';
-      } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') { 
+      } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') {
         return 'osem-humidity';
       } else if (sensor.sensorType === 'LM386') {
         return 'osem-volume-up';

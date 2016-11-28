@@ -41,7 +41,7 @@
           <uib-alert type="warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></uib-alert>
         </form>
 
-        <form class="tab-pane" id="first" name="firstForm" rc-submit rc-step novalidate>
+        <form class="tab-pane" id="first" name="firstForm" ng-keypress="enterEvent($event)" rc-submit rc-step novalidate>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -75,7 +75,7 @@
           </div>
         </form>
 
-        <form class="tab-pane" id="second" name="secondForm" rc-step rc-submit>
+        <form class="tab-pane" id="second" name="secondForm" ng-keypress="enterEvent($event)" rc-step rc-submit novalidate>
           <hr>
           <div id="general">
             <div class="text-center">
@@ -318,7 +318,7 @@
           </div>
         </form>
 
-        <form class="tab-pane" id="third" name="thirdForm" rc-step>
+        <form class="tab-pane" id="third" name="thirdForm" ng-keypress="enterEvent($event)" rc-submit rc-step>
           <hr>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>

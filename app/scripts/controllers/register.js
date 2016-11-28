@@ -73,6 +73,30 @@ angular.module('openSenseMapApp')
 
     $scope.invalidHardware = false;
 
+    $scope.enterEvent = function(keyEvent) {
+      if (keyEvent.which === 13)
+        if($scope.rc.sampleWizard.currentIndex === 0) {
+          $scope.rc.sampleWizard.forward();
+        } else if ($scope.rc.sampleWizard.currentIndex === 1) {
+          this.generateID();
+          this.goToMap();
+        } else if ($scope.rc.sampleWizard.currentIndex === 2) {
+          if ($scope.modelSelected.id === false) {
+            $scope.invalidHardware = true;
+          } else {
+            $scope.invalidHardware = false;
+          }
+
+          if ($scope.sensors.length === 0) {
+            $scope.sensorIncomplete = true;
+          } else {
+            $scope.sensorIncomplete = false;
+          }
+        } else if ($scope.rc.sampleWizard.currentIndex === 3) {
+          $scope.completeRegistration();
+        }
+    }
+
     $scope.submit = function() {
       if($scope.rc.sampleWizard.currentIndex === 1) {
         this.generateID();

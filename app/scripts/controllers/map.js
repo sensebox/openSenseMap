@@ -126,7 +126,7 @@ angular.module('openSenseMapApp')
 		Markers without measurement in 30 days are displayed in gray
 	*/
 	var MARKER_STATE_OPTS = {
-		'hidden': {layer: 'hiddenMarker', marker: null, opacity: 0, zIndexOffset: 300},
+		'hidden': {layer: 'hiddenMarker', marker: icons.iconGray, opacity: 0, zIndexOffset: 300},
 		'old': { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0},
 		'inactive': { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 },
 		'active': { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 }

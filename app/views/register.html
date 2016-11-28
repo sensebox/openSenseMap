@@ -268,20 +268,20 @@
                 <uib-accordion-heading>
                   MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse3, 'glyphicon-chevron-right': !open.collapse3}"></i>
                 </uib-accordion-heading>
-                <checkbox id="checkbox0" ng-model="mqttEnabled" ng-change="enableMQTT()"></checkbox>
+                <checkbox id="checkbox0" ng-model="mqtt.enabled"></checkbox>
                 <label>{{ 'MQTT_ENABLE' | translate }}</label>
-                
+
                 <!-- MQTT URL -->
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.url), 'has-success' :  !rc.secondForm.needsAttention(secondForm.url) && mqtt.url!='' }">
                   <label class="control-label">{{ 'MQTT_URL' | translate}}*</label>
-                  <input type="url" name="url" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+                  <input type="url" name="url" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
                   <span ng-show="!rc.secondForm.needsAttention(secondForm.url) && mqtt.url!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                   <span ng-show="rc.secondForm.needsAttention(secondForm.url)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
                 <!-- MQTT TOPIC -->
                 <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.topic), 'has-success' :  !rc.secondForm.needsAttention(secondForm.topic) && mqtt.topic!='' }">
                   <label class="control-label">{{ 'MQTT_TOPIC' | translate}}*</label>
-                  <input type="text" name="topic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+                  <input type="text" name="topic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
                   <span ng-show="!rc.secondForm.needsAttention(secondForm.topic) && mqtt.topic!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                   <span ng-show="rc.secondForm.needsAttention(secondForm.topic)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
@@ -290,13 +290,13 @@
                   <label class="control-label">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="messageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+                      <input type="radio" name="messageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
                       {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
                     </label>
                   </div>
                   <div class="radio">
                     <label>
-                      <input type="radio" name="messageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+                      <input type="radio" name="messageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
                       {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
                     </label>
                   </div>
@@ -306,12 +306,12 @@
                 <!-- MQTT DecodeOptions -->
                 <div class="form-group">
                   <label class="control-label">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
-                  <input type="text" name="decodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqttEnabled">
+                  <input type="text" name="decodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
                 </div>
                 <!-- MQTT ConnectionOptions -->
                 <div class="form-group">
                   <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-                  <input type="text" name="connectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqttEnabled">
+                  <input type="text" name="connectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
                 </div>
               </uib-accordion-group>
             </uib-accordion>

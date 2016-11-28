@@ -51,8 +51,8 @@ angular.module('openSenseMapApp')
       }]
     };
 
-    $scope.mqttEnabled = false;
     $scope.mqtt = {
+      enabled: false,
       url: '',
       topic: '',
       messageFormat: '',
@@ -172,14 +172,10 @@ angular.module('openSenseMapApp')
       $scope.invalidHardware = false;
     });
 
-    $scope.enableMQTT = function () {
-      $scope.mqttEnabled = !$scope.mqttEnabled;
-    };
-
     $scope.defaults = {
       minZoom: 2,
       maxZoom: 22,
-      tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
       tileLayerOptions: {
         subdomains: 'abc',
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
@@ -222,7 +218,7 @@ angular.module('openSenseMapApp')
         $scope.sensorSetup = '';
         $scope.sensorIncomplete = true;
       } else {
-        $scope.sensorSetup = JSON.stringify($scope.sensors);  
+        $scope.sensorSetup = JSON.stringify($scope.sensors);
       }
     };
 
@@ -374,9 +370,7 @@ angular.module('openSenseMapApp')
       $scope.alerts = [];
       $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
       $scope.newSenseBox.user = $scope.user;
-      if ($scope.mqttEnabled) {
-        $scope.newSenseBox.mqtt = $scope.mqtt;
-      }
+      $scope.newSenseBox.mqtt = $scope.mqtt;
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
       if ($translate.proposedLanguage() !== undefined) {

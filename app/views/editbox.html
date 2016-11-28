@@ -24,13 +24,13 @@
 			<uib-alert role="success" ng-show="boxdeleted">{{'EDITBOX_BOXDELETED'|translate}}</uib-alert>
 
 			<div ng-show="editableMode">
-				
+
 				<div>
 					<uib-alert type="info" ng-show="editableMode">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <span ng-bind-html="'EDITBOX_EDITABLE'|translate"></span>
 					</uib-alert>
 				</div>
-				
+
 				<div>
 					<h3>{{'EDITBOX_DOWNLOADSCRIPT'|translate}}</h3>
 					<a ng-click="downloadArduino()" ng-show="!boxScript" style="cursor:pointer;">{{'EDITBOX_DOWNLOADSCRIPTLINK'|translate}}</a>
@@ -41,18 +41,18 @@
 					<h3>{{'EDITBOX_NAMEANDDESC'|translate}}</h3>
 					<div ng-class="{'has-error': editBox.boxName.$invalid, 'has-success': editBox.boxName.$valid }">
 						<label for="boxName">{{'BOX_NAME'|translate}}*</label>
-						<input name="boxName" class="form-control" type="text" ng-model="editingMarker.name" required>	
+						<input name="boxName" class="form-control" type="text" ng-model="editingMarker.name" required>
 					</div>
-					
+
 					<label for="editGrouptag">{{'GROUP_NAME'|translate}}</label>
 					<input name="editGrouptag" class="form-control" type="text" ng-model="editingMarker.grouptag">
-					
+
 					<div ng-class="{'has-error': editBox.boxExposure.$invalid, 'has-success': editBox.boxExposure.$valid }">
 						<label for="boxExposure">{{'BOX_EXPOSURE'|translate}}*</label>
 						<select ng-model="editingMarker.exposure" name="boxExposure" class="form-control" required>
 							<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
 							<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
-						</select>	
+						</select>
 					</div>
 
 					<label for="editDescription">{{'BOX_DESCRIPTION'|translate}}</label>
@@ -61,7 +61,7 @@
 					<label for="editWeblink">{{'BOX_WEBSITE'|translate}}</label>
 					<input name="editWeblink" class="form-control" type="url" ng-model="editingMarker.weblink" placeholder="https://..." value="{{ editingMarker.weblink }}">
 				</div>
-				
+
 				<div>
 					<h3>{{'BOX_POSITION'|translate}}</h3>
 					<leaflet id="editbox_map" controls="controls" center="boxPosition" markers="editMarker" defaults="editMapDefaults" width="100%" height="250px" lf-center="editMarker.m1"></leaflet>
@@ -145,19 +145,19 @@
 				<div>
 					<h3>{{'EDIT_MQTTOPTIONS'|translate}}</h3>
 					{{'EDIT_MQTTOPTIONSINFO'|translate}}
-					<checkbox id="checkbox0" ng-model="mqttEnabled" ng-change="enableMQTT()"></checkbox>
+					<checkbox id="checkbox0" ng-model="mqtt.enabled"></checkbox>
 					<label>{{ 'MQTT_ENABLE' | translate }}</label>
 
 					<!-- MQTT URL -->
 					<div ng-class="{'has-error': editBox.mqttURL.$invalid, 'has-success': editBox.mqttURL.$valid }">
 					  <label for="mqttURL">{{ 'MQTT_URL' | translate}}*</label>
-					  <input type="url" name="mqttURL" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+					  <input type="url" name="mqttURL" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
 					</div>
 
 					<!-- MQTT TOPIC -->
 					<div ng-class="{'has-error': editBox.mqttTopic.$invalid, 'has-success': editBox.mqttTopic.$valid }">
 					  <label for="mqttTopic">{{ 'MQTT_TOPIC' | translate}}*</label>
-					  <input type="text" name="mqttTopic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+					  <input type="text" name="mqttTopic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
 					</div>
 
 					<!-- MQTT MessageFormat -->
@@ -165,13 +165,13 @@
 					  <label for="mqttMessageFormat">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
 					  <div class="radio">
 					    <label>
-					      <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+					      <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
 					      {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
 					    </label>
 					  </div>
 					  <div class="radio">
 					    <label>
-					      <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqttEnabled" ng-disabled="!mqttEnabled">
+					      <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
 					      {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
 					    </label>
 					  </div>
@@ -180,13 +180,13 @@
 					<!-- MQTT DecodeOptions -->
 					<div>
 					  <label for="mqttDecodeOptions">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqttEnabled">
+					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
 					</div>
 
 					<!-- MQTT ConnectionOptions -->
 			 		<div>
 					  <label for="mqttConnectionOptions">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqttEnabled">
+					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
 					</div>
 				</div>
 

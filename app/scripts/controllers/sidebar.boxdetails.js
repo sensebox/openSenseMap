@@ -17,7 +17,7 @@ angular.module('openSenseMapApp')
 				} else {
 					$scope.selectedMarkerData.sensors.map(function (value) {
 						for (var i = 0; i < response.sensors.length; i++) {
-							if (value._id === response.sensors[i]._id) {
+							if (value._id === response.sensors[i]._id && value.lastMeasurement !== undefined) {
 								angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
 							}
 						}
@@ -59,7 +59,7 @@ angular.module('openSenseMapApp')
 			} else {
 				if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
 					return 'osem-thermometer';
-				} else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') { 
+				} else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') {
 					return 'osem-humidity';
 				} else if (sensor.sensorType === 'LM386') {
 					return 'osem-volume-up';

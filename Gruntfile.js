@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     eslint: {
-      target: ['./app/scripts/controllers/sidebar.js']
+      target: ['./app/scripts/controllers/header.js']
     },
 
     sed: {
@@ -505,7 +505,7 @@ module.exports = function (grunt) {
           if (filename.indexOf("disabled") === -1) {
             var languageCode = filename.split(".")[0];
             var language = languageCode.split("_")[0];
-            html += '<li><a ng-click="changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
+            html += '<li><a ng-click="header.changeLanguage(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
           }
         });
         var resultStart = data.split('<!-- languages-start -->');

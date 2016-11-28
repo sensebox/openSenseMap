@@ -258,19 +258,6 @@ angular.module('openSenseMapApp')
     };
     $scope.sensors = [];
 
-    // example sensor list used for custom setup
-    $scope.phenomenoms = [
-      {value: 1, text: 'Temperatur', unit:'°C', type:'BMP085'},
-      {value: 2, text: 'Luftfeuchtigkeit', unit:'%', type:'DHT11'},
-      {value: 3, text: 'Luftdruck', unit:'Pa', type:'BMP085'},
-      {value: 4, text: 'Schall', unit:'Pegel', type:'LM386'},
-      {value: 5, text: 'Licht', unit:'Pegel', type:'GL5528'},
-      {value: 6, text: 'Licht (digital)', unit: 'lx', type: 'TSL2561'},
-      {value: 7, text: 'UV-Intensität', unit: 'µW/cm²', type: 'GUVA-S12D'},
-      {value: 8, text: 'Kamera', unit: '', type: ''},
-      {value: 99, text: 'Anderer', unit: '', type: ''},
-    ];
-
     $scope.generateID = function () {
       var timestamp = (new Date().getTime() / 1000 | 0).toString(16);
       var objectid = timestamp + 'xxxxxxxxxxxxxxxx'.replace(/[x]/g, function() {

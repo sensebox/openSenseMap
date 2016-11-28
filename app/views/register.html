@@ -222,12 +222,10 @@
                         </div>
                       </td>
                       <td>
-                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}) && sensor.title!='' }">
-                          <select class="form-control" name="exposure{{sensor.id}}" id="inputType" ng-model="sensor.title" required>
-                            <option ng-repeat="p in phenomenoms" ng-value="p.text">{{p.text | translate}}</option>
-                          </select>
-                          <span ng-show="!rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}}) && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                          <span ng-show="rc.secondForm.needsAttention(secondForm.exposure{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}) && sensor.title!='' }">
+                          <input name="phenomenom{{sensor.id}}" class="form-control" type="text" ng-model="sensor.title" required>
+                          <span ng-show="!rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}) && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         </div>
                       </td>
                       <td>

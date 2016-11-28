@@ -43,7 +43,7 @@
     <![endif]-->
 
     <!-- Fixed navbar -->
-    <header class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderCtrl">
+    <header class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
         <div class="navbar-inner">
             <div class="container">
                 <div class="navbar-header">
@@ -55,8 +55,8 @@
                     </button>
                     <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png"><div class='oSeM-brand'>&nbsp;openSenseMap</div></a></span>
                     <div class="ng-cloak brand-stats">
-                        <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
-                        <span class="sensebox-stats">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+                        <span class="sensebox-stats">{{ header.counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+                        <span class="sensebox-stats">{{ header.counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -93,9 +93,9 @@
                             </a>
                         </li>
                         <li class="dropdown dropdown-languages">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span> <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{header.key}}"></span> <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span> <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li><!-- languages-end -->
+                                <!-- languages-start --><li><a ng-click="header.changeLanguage('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="header.changeLanguage('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="header.changeLanguage('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="header.changeLanguage('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="header.changeLanguage('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="header.changeLanguage('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="header.changeLanguage('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="header.changeLanguage('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="header.changeLanguage('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="header.changeLanguage('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li><!-- languages-end -->
                             </ul>
                         </li>
                     </ul>

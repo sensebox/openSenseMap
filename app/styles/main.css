@@ -619,3 +619,8 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 .invisible {
   display: none;
 }
+
+/* fix for overlay scrolling in firefox  https://github.com/likeastore/ngDialog/issues/94 */
+.ngdialog-content {
+  z-index: 10001;
+}

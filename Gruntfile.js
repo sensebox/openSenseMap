@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     eslint: {
-      target: ['./app/scripts/controllers/header.js']
+      target: ['./app/scripts/controllers/map.js']
     },
 
     sed: {

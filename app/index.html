@@ -106,7 +106,9 @@
                                 <span class="input-group-addon" style="width:1%;padding-right: 10px; background-color: #f8f8f8; border: none;">
                                     <span class=""></span>
                                 </span>
-                                <input type="text" style="border-radius: 4px;" ng-model="asyncSelected" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+
+                                <input type="text" style="border-radius: 4px;" ng-model="header.asyncSelected" ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in header.getLocations($viewValue)" typeahead-on-select="header.selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                                
                             </div>
                         </div>
                     </form>
@@ -168,15 +170,6 @@
     <script type="text/javascript" src="scripts/directives/rcDisabled.js"></script>
     <script type="text/javascript" src="scripts/directives/rcWizard.js"></script>
     <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/register.js"></script>
-    <script src="scripts/controllers/map.js"></script>
-    <script src="scripts/controllers/sidebar.js"></script>
-    <script src="scripts/controllers/sidebar.boxdetails.js"></script>
-    <script src="scripts/controllers/sidebar.filter.js"></script>
-    <script src="scripts/controllers/sidebar.interpolation.js"></script>
-    <script src="scripts/controllers/sidebar.download.js"></script>
-    <script src="scripts/controllers/editbox.js"></script>
-    <script src="scripts/controllers/header.js"></script>
     <script src="scripts/services/opensenseboxapi.js"></script>
     <script src="scripts/services/opensenseboxes.js"></script>
     <script src="scripts/services/opensenseboxessensors.js"></script>
@@ -186,6 +179,15 @@
     <script src="scripts/services/validation.js"></script>
     <script src="scripts/services/opensensebox.js"></script>
     <script src="scripts/services/sensoricons.js"></script>
+    <script src="scripts/controllers/register.js"></script>
+    <script src="scripts/controllers/map.js"></script>
+    <script src="scripts/controllers/sidebar.js"></script>
+    <script src="scripts/controllers/sidebar.boxdetails.js"></script>
+    <script src="scripts/controllers/sidebar.filter.js"></script>
+    <script src="scripts/controllers/sidebar.interpolation.js"></script>
+    <script src="scripts/controllers/sidebar.download.js"></script>
+    <script src="scripts/controllers/editbox.js"></script>
+    <script src="scripts/controllers/header.js"></script>
     <!-- endbuild -->
 
     <!-- Piwik -->

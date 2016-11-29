@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('SidebarBoxDetailsCtrl',
+	.controller('SidebarBoxDetailsController',
 		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', '$timeout', 'OpenSenseBoxData', function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData){
 
 		$scope.osemapi = OpenSenseBoxAPI;

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData){
+	.controller('MapController', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 

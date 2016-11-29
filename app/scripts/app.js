@@ -24,7 +24,12 @@
     .config(routeConfig)
     .config(translateConfig)
 
-  function routeConfig ($stateProvider) {
+  function routeConfig ($locationProvider, $stateProvider, $urlRouterProvider) {
+
+    $locationProvider.html5Mode(true)
+
+    $urlRouterProvider.otherwise('/')
+
     $stateProvider
       .state('explore', {
         url: '/',

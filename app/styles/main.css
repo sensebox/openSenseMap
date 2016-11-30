@@ -352,6 +352,10 @@ div.box {
   z-index: 2;
 }
 
+.sbgreen {
+  background-color: #4EAF47;
+}
+
 .sborange {
   background-color: #E77817;
 }

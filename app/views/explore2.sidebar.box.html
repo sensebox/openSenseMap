@@ -7,7 +7,7 @@
 			<uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
 		</div>
 	</div>
-	<div ng-show="!boxNotFound">
+	<div ng-show="!boxNotFound" ng-cloak>
 		<div class="row">
 			<div class="col-xs-12 col-md-12">
 				<h3>
@@ -15,8 +15,8 @@
 					<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-placement="left"></i></a>
 					<a ng-click="openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog pull-right close" uib-tooltip="{{'EDITBOX' | translate}}" tooltip-placement="left" aria-hidden="true"></i></a>
 				</h3>
-				<span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="text-muted">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}<br/><br/></span>
-
+				<span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="badge sbblue">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}</span>
+				<span class="badge sbgreen">{{'STATION_PLACEMENT_'+selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
 				<hr>
 
 				<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>

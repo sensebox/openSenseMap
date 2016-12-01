@@ -53,6 +53,14 @@ angular.module('openSenseMapApp')
 			});
 		};
 
+    $scope.getBadgeColor = function (exposure) {
+      if (exposure === 'indoor') {
+        return 'orange';
+      } else {
+        return 'olive';
+      }
+    };
+
 		$scope.getIcon = function(sensor) {
 			if (sensor.icon !== undefined) {
 				return sensor.icon;

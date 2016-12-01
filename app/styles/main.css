@@ -372,6 +372,14 @@ div.box {
   background-color: #4073BF;
 }
 
+.olive {
+  background-color: #3D9970;
+}
+
+.orange {
+  background-color: #FF851B;
+}
+
 #brand_with_logo img,
 #brand_with_logo h3 {
   display:inline-block;

@@ -24,7 +24,7 @@
 
       <div class="input-group xxxl">
         <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
-        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="Suche nach einem Phänomen" ng-model="selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
+        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
       </div>
 		</div>
 	</div>
@@ -32,19 +32,13 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="col-lg-6" style="padding-left: 0px;">
-        <label for="interpolationPicker">Zeitpunkt</label>
+        <label for="interpolationPicker">{{'INTERP_TIMESTAMP'|translate}}</label>
         <div class="input-group">
           <input id="interpolationPicker" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPicker.date" is-open="interpolationPicker.open" button-bar="interpolationPicker.buttonBar" timepicker-options="interpolationPicker.timepickerOptions" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPicker')"><i class="fa fa-calendar"></i></button>
           </span>
         </div>
-        <!-- <p class="input-group">
-          <input uib-datepicker-popup ng-model="interpolationDate" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
-          <span class="input-group-btn">
-            <button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-          </span>
-        </p> -->
       </div>
       <div class="col-lg-6" style="padding-right: 0px;">
         <label for="exposure">{{'STATION_PLACEMENT' | translate}}</label>
@@ -60,7 +54,7 @@
   <hr>
 	<div class="row">
     <div class="col-lg-12">
-      <button class="btn btn-info xxxl" ng-disabled="selectedPhenomenon === '' || calculating" ng-click="calculateInterpolation()">Erstelle Interpolation
+      <button class="btn btn-info xxxl" ng-disabled="selectedPhenomenon === '' || calculating" ng-click="calculateInterpolation()">{{'INTERP_CREATE'|translate}}
         <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="calculating"></i>
         <span class="sr-only">Loading...</span>
       </button>

@@ -155,6 +155,9 @@
   "TIMEFRAME": "Zeitraum",
   "INTERP_IDWPARAM": "Auswahl des Parameters p für die IDW Interpolation:",
   "INTERP_NOTENOUGH": "Es sind nicht genügend Stationen mit Messwerten auf der Karte.",
+  "INTERP_TIMESTAMP": "Zeitpunkt",
+  "INTERP_PHENOMENOM_SEARCH": "Suche nach einem Phänomen",
+  "INTERP_CREATE": "Erstelle Interpolation",
 
   "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
   "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",

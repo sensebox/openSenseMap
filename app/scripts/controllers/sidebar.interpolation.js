@@ -1,5 +1,4 @@
 'use strict';
-ocpu.seturl("OPENCPU_ENDPOINT");
 
 angular.module('openSenseMapApp')
 .controller('InterpolationCtrl',

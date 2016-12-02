@@ -9,6 +9,7 @@ angular
     'ui-leaflet',
     'ui.bootstrap',
     'ui.checkbox',
+    'ui.bootstrap.datetimepicker',
     'osemFilters',
     'angular-underscore',
     'rcWizard',

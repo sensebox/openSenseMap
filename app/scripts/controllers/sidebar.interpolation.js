@@ -56,8 +56,8 @@ angular.module('openSenseMapApp')
           }
         })
         .then(function (response) {
-          const colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
-          const breaks = response.data.data.breaks;
+          var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+          var breaks = response.data.data.breaks;
 
           // Set legend title
           switch ($scope.selectedPhenomenon) {
@@ -79,8 +79,8 @@ angular.module('openSenseMapApp')
           }
 
           // Generate legend
-          for (let j = 0; j < breaks.length; j++) {
-            let caption = "";
+          for (var j = 0; j < breaks.length; j++) {
+            var caption = "";
             if (j === breaks.length-1) {
               caption = "> " + breaks[j].toFixed(2);
             } else {
@@ -97,12 +97,12 @@ angular.module('openSenseMapApp')
           // Create IDW Layer
           $scope.idwLayer = L.geoJson(response.data.data.featureCollection, {
             style: function (feature) {
-              let props = feature.properties;
-              for (let key in props) {
-                const z = props[key];
+              var props = feature.properties;
+              for (var key in props) {
+                var z = props[key];
                 if (!Number.isNaN(z)) {
-                  let fillColor = colors[0];
-                  for (let i = 0; i < breaks.length; i++) {
+                  var fillColor = colors[0];
+                  for (var i = 0; i < breaks.length; i++) {
                     if (z >= breaks[i]) {
                       fillColor = colors[i];
                     } else {
@@ -112,7 +112,7 @@ angular.module('openSenseMapApp')
                   return {
                     weight: 0.1,
                     fillOpacity: 0.6,
-                    fillColor
+                    fillColor: fillColor
                   }
                 }
                 return {

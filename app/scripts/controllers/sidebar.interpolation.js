@@ -3,144 +3,161 @@ ocpu.seturl("OPENCPU_ENDPOINT");
 
 angular.module('openSenseMapApp')
 .controller('InterpolationCtrl',
-	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "leafletData", "$timeout", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, leafletData, $timeout){
+	["$scope", "$stateParams", "$http", "OpenSenseBoxAPI", "leafletData", "$timeout", "moment", function($scope, $stateParams, $http, OpenSenseBoxAPI, leafletData, $timeout, moment){
 
-		$scope.inputFilter = $scope.inputFilter || {};
-		$scope.Interp = {};
-		if($scope.inputFilter.DateFrom && $scope.inputFilter.DateTo) {
-			$scope.Interp.DateFrom = new Date($scope.inputFilter.DateFrom).getTime();
-			$scope.Interp.DateTo = new Date($scope.inputFilter.DateTo).getTime();
-		}
+    $scope.calculating = false;
+    $scope.interpolationPicker = {
+        date: moment().toDate(),
+        open: false,
+        buttonBar: {
+          show: false
+        },
+        timepickerOptions: {
+          readonlyInput: false,
+          showMeridian: false,
+          max: moment().toDate()
+        }
+    };
 
-		var _timeout;
-		$scope.liveSearch = function() {
-			if(_timeout){
-				$timeout.cancel(_timeout);
-			}
-			_timeout = $timeout(function(){
-				var timestamp = new Date(parseInt($scope.Interp.DateSelect));
-				$scope.$parent.fetchMarkers(timestamp.toISOString(), $scope.inputFilter.Phenomenon);
-				_timeout = null;
-			}, 500);
-		};
+    $scope.legendTitle = '';
+    $scope.legendEntries = [];
 
-		var imageBounds;
-		var imageBoundsLegend;
-		$scope.$parent.overlayImageLegend;
-		$scope.$parent.ImageLegend;
-		$scope.$parent.overlayImage;
-		$scope.legend = false;
-		$scope.idp = 0;
-		$scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    $scope.alerts = [];
+    $scope.closeAlert = function(index) {
+      $scope.alerts.splice(index, 1);
+    };
+    $scope.exposure = "outdoor";
+    $scope.idwLayer;
+    $scope.selectedPhenomenon = "";
+    $scope.map;
+    $scope.calculateInterpolation = function () {
+      $scope.calculating = true;
+      $scope.alerts.length = 0;
+      $scope.legendEntries.length = 0;
+      $scope.legendTitle = '';
 
-		//console.log($scope.$parent.markersFiltered);
+      leafletData.getMap('map_main').then(function (map) {
+        if (!angular.isUndefined($scope.idwLayer)) {
+          map.removeLayer($scope.idwLayer);
+        }
+        $scope.map = map;
+        return map.getBounds().toBBoxString();
+      }).then(function (bbox) {
+        $http.get(OpenSenseBoxAPI.url+'/statistics/idw', {
+          params: {
+            'phenomenon': $scope.selectedPhenomenon,
+            'from-date': moment($scope.interpolationPicker.date).subtract(1, 'm').toISOString(),
+            'to-date': moment($scope.interpolationPicker.date).toISOString(),
+            'exposure': $scope.exposure,
+            'cellWidth': 1,
+            'power': 3,
+            'numClasses': 6,
+            'bbox': bbox,
+            'numTimeSteps': 1
+          }
+        })
+        .then(function (response) {
+          const colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+          const breaks = response.data.data.breaks;
 
-		var boxes;
-		$scope.prepare = function() {
-			$scope.failedCalc = false;
-			boxes = [];
-			angular.forEach($scope.$parent.markersFiltered, function(value, key) {
-				var boxesJSON = {};
-				for (var i = 0; i < value.station.sensors.length; i++) {
-					if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
-						boxesJSON.latitude = value.lat;
-						boxesJSON.longitude = value.lng;
-						boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
+          // Set legend title
+          switch ($scope.selectedPhenomenon) {
+            case 'Temperatur':
+              $scope.legendTitle = $scope.selectedPhenomenon + " in °C"
+              break;
+            case 'rel. Luftfeuchte':
+              $scope.legendTitle = $scope.selectedPhenomenon + " in %"
+              break;
+            case 'Luftdruck':
+              $scope.legendTitle = $scope.selectedPhenomenon + " in hPa"
+              break;
+            case 'Beleuchtungsstärke':
+              $scope.legendTitle = $scope.selectedPhenomenon + " in lx"
+              break;
+            case 'UV-Intensität':
+              $scope.legendTitle = $scope.selectedPhenomenon + " in μW/cm²"
+              break;
+          }
 
-						boxes.push(boxesJSON);
-					};
+          // Generate legend
+          for (let j = 0; j < breaks.length; j++) {
+            let caption = "";
+            if (j === breaks.length-1) {
+              caption = "> " + breaks[j].toFixed(2);
+            } else {
+              caption = breaks[j].toFixed(2) +' - '+ breaks[j+1].toFixed(2);
+            }
+            $scope.legendEntries.push({
+              caption: caption,
+              style:{
+                'background': colors[j]
+              }
+            });
+          }
 
-				};
-			});
-			console.log(boxes);
-		}
+          // Create IDW Layer
+          $scope.idwLayer = L.geoJson(response.data.data.featureCollection, {
+            style: function (feature) {
+              let props = feature.properties;
+              for (let key in props) {
+                const z = props[key];
+                if (!Number.isNaN(z)) {
+                  let fillColor = colors[0];
+                  for (let i = 0; i < breaks.length; i++) {
+                    if (z >= breaks[i]) {
+                      fillColor = colors[i];
+                    } else {
+                      break;
+                    }
+                  }
+                  return {
+                    weight: 0.1,
+                    fillOpacity: 0.6,
+                    fillColor
+                  }
+                }
+                return {
+                  weight: 0,
+                  fillColor: "red",
+                  fillOpacity: 1
+                };
+              }
+            }
+          });
+          $scope.map.addLayer($scope.idwLayer);
+        }, function (error) {
+          switch (error.data.message) {
+            case "computation too expensive ((area in square kilometers / cellWidth) > 2500)":
+              $scope.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
+              break;
+            case "Invalid time frame specified: to-date is in the future":
+              $scope.alerts.push({msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!'});
+              break;
+            case "no senseBoxes found":
+              $scope.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'});
+              break;
+          }
+        })
+        .finally(function () {
+          $scope.calculating = false;
+        });
+      });
+    };
 
+    $scope.openCalendar = function(e, picker) {
+      e.preventDefault();
+      e.stopPropagation();
+      $scope.interpolationPicker.open = true;
+      $scope.interpolationPicker.timepickerOptions.max = moment().toDate();
+    };
 
-		$scope.makeIDW = function(){
-			$scope.prepare();
+    $scope.selectExposure = function (exposure) {
+      $scope.exposure = exposure;
+    };
 
-			$scope.loading = true;
-			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap('map_main').then(function(map) {
-					map.removeLayer($scope.$parent.overlayImage);
-					map.removeLayer($scope.$parent.overlayImageLegend);
-				});
-			};
-
-			var req2 = ocpu.rpc("imageBounds",{
-				input : boxes
-			}, function(outtxt){
-				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
-			});
-
-			var req = ocpu.call("inteRidwIdp", {
-
-				input : boxes,
-				x : $scope.idp
-
-			}, function(session) {
-
-				$scope.loading = false;
-
-				leafletData.getMap('map_main').then(function(map) {
-					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-					map.addLayer($scope.$parent.overlayImage);
-					if ($scope.idp != 0) {
-						//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-						//map.addLayer($scope.$parent.overlayImageLegend);
-						$scope.legend = true;
-						$scope.$parent.ImageLegend = session.getFileURL("legend.png");
-					};
-				});
-
-			}).fail(function(){
-				console.log("R returned an error: " + req.responseText);
-				$scope.failedCalc = true;
-			});
-
-		};
-
-		$scope.makeTP = function(){
-			$scope.prepare();
-
-			$scope.loading = true;
-
-			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap('map_main').then(function(map) {
-					map.removeLayer($scope.$parent.overlayImage);
-					map.removeLayer($scope.$parent.overlayImageLegend);
-				});
-			};
-
-			var req2 = ocpu.rpc("imageBounds",{
-				input : boxes
-			}, function(outtxt){
-				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
-			});
-
-			var req = ocpu.call("inteRtp", {
-
-				input : boxes
-
-			}, function(session) {
-
-				$scope.loading = false;
-
-				leafletData.getMap('map_main').then(function(map) {
-					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-					map.addLayer($scope.$parent.overlayImage);
-					//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-					//map.addLayer($scope.$parent.overlayImageLegend);
-					$scope.legend = true;
-					$scope.$parent.ImageLegend = session.getFileURL("legend.png");
-				});
-
-			}).fail(function(){
-				console.log("R returned an error: " + req.responseText);
-				$scope.failedCalc = true;
-			});
-		};
-
-	}]);
+    $scope.closeSidebar = function () {
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.idwLayer)) {
+        $scope.map.removeLayer($scope.idwLayer);
+      }
+    }
+}]);

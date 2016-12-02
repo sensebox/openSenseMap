@@ -11,44 +11,70 @@
 		<hr>
 	</div>
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12 col-md-12">
 			<uib-alert type="info">
 				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 				{{'INTERP_INTRO'|translate}}
 			</uib-alert>
-			<uib-alert type="warning" ng-hide="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
-				<span ng-bind-html="'INTERP_PLEASEFILTER'|translate"></span>
-			</uib-alert>
 
-			<div ng-show="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
-				<uib-alert type="info">
-					{{'CONFIG_PHENOMENON'|translate}}: {{ inputFilter.Phenomenon }}<br/>
-					{{'TIMEFRAME'|translate}}: {{ inputFilter.DateFrom | date:"short" }} - {{ inputFilter.DateTo | date:"short" }}<br/>
-					<br/>
-					{{'INTERP_INFO'|translate}}<br/>
-					<input id="inputFilterDate" class="form-control" type="range" min="{{ Interp.DateFrom }}" max="{{ Interp.DateTo }}" step="1000" ng-model="Interp.DateSelect" ng-change="liveSearch()"/>
-					<br/>
-					{{ Interp.DateSelect | date:'yyyy-MM-dd HH:mm:ss' }}
-				</uib-alert>
+      <div uib-alert ng-repeat="alert in alerts" type="danger" close="closeAlert($index)">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{alert.msg}}
+      </div>
 
-	          	<br>
-	          	{{"INTERP_IDWPARAM"|translate}}
-	          	<select class="form-control" ng-model="idp">
-	                <option ng-repeat="p in idpPool" value="{{p}}">{{p}}</option>
-	          	</select>
-				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3 || loading"/>
-	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || $parent.markersFiltered.length < 3 || loading"/>
-	          	<img id="mySpinner" src="/images/ajax-loader.gif" ng-show="loading" /> <br>
-	          	<br/>
-	          	<h3 ng-show="legend">Legend</h3>
-	          	<img style="margin-left: -80px; max-height: 140px;" ng-src={{$parent.ImageLegend}} /> <br>
-	          	<uib-alert role="warning" ng-show="$parent.markersFiltered.length < 3">{{'INTERP_NOTENOUGH'|translate}}</uib-alert>
-	          	<uib-alert role="warning" ng-show="failedCalc">{{'COMMON_ERROR'|translate}}</uib-alert>
-          	</div>
-          <br>
+      <div class="input-group xxxl">
+        <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
+        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="Suche nach einem Phänomen" ng-model="selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
+      </div>
 		</div>
 	</div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="col-lg-6" style="padding-left: 0px;">
+        <label for="interpolationPicker">Zeitpunkt</label>
+        <div class="input-group">
+          <input id="interpolationPicker" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPicker.date" is-open="interpolationPicker.open" button-bar="interpolationPicker.buttonBar" timepicker-options="interpolationPicker.timepickerOptions" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPicker')"><i class="fa fa-calendar"></i></button>
+          </span>
+        </div>
+        <!-- <p class="input-group">
+          <input uib-datepicker-popup ng-model="interpolationDate" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
+          <span class="input-group-btn">
+            <button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+        </p> -->
+      </div>
+      <div class="col-lg-6" style="padding-right: 0px;">
+        <label for="exposure">{{'STATION_PLACEMENT' | translate}}</label>
+        <div class="input-group">
+          <span class="input-group-btn btn-group">
+            <button style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'indoor'}" ng-click="selectExposure('indoor')">{{ 'STATION_PLACEMENT_INDOOR' | translate}}</button>
+            <button style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'outdoor'}" ng-click="selectExposure('outdoor')">{{ 'STATION_PLACEMENT_OUTDOOR' | translate}}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
 	<div class="row">
-
+    <div class="col-lg-12">
+      <button class="btn btn-info xxxl" ng-disabled="selectedPhenomenon === '' || calculating" ng-click="calculateInterpolation()">Erstelle Interpolation
+        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="calculating"></i>
+        <span class="sr-only">Loading...</span>
+      </button>
+    </div>
 	</div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <h6>{{legendTitle}}</h6>
+      <div class="info legend">
+        <div ng-repeat="legendEntry in legendEntries">
+          <i ng-style="legendEntry.style"></i>{{legendEntry.caption}}<br>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

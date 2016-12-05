@@ -25,6 +25,8 @@ angular.module('openSenseMapApp')
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
     };
+    $scope.idwPower = 3;
+    $scope.cellWidth = 1;
     $scope.exposure = "outdoor";
     $scope.idwLayer;
     $scope.selectedPhenomenon = "";
@@ -48,8 +50,8 @@ angular.module('openSenseMapApp')
             'from-date': moment($scope.interpolationPicker.date).subtract(1, 'm').toISOString(),
             'to-date': moment($scope.interpolationPicker.date).toISOString(),
             'exposure': $scope.exposure,
-            'cellWidth': 1,
-            'power': 3,
+            'cellWidth': $scope.cellWidth,
+            'power': $scope.idwPower,
             'numClasses': 6,
             'bbox': bbox,
             'numTimeSteps': 1
@@ -57,6 +59,10 @@ angular.module('openSenseMapApp')
         })
         .then(function (response) {
           var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+          if (response.data.code === 'NotFoundError') {
+            return response;
+          }
+
           var breaks = response.data.data.breaks;
 
           // Set legend title
@@ -124,7 +130,8 @@ angular.module('openSenseMapApp')
             }
           });
           $scope.map.addLayer($scope.idwLayer);
-        }, function (error) {
+        })
+        .then(function (error) {
           switch (error.data.message) {
             case "computation too expensive ((area in square kilometers / cellWidth) > 2500)":
               $scope.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
@@ -134,6 +141,12 @@ angular.module('openSenseMapApp')
               break;
             case "no senseBoxes found":
               $scope.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'});
+              break;
+            case "no measurements found":
+              $scope.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'});
+              break;
+            default:
+              $scope.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe'});
               break;
           }
         })

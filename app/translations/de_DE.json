@@ -149,7 +149,7 @@
   "RESULTS": "Ergebnisse",
   "NO_RESULTS": "Es wurden leider keine Boxen mit diesen Filtereinstellungen gefunden.",
 
-  "INTERP_INTRO": "Hier kannst du senseBox Messungen visualisieren.",
+  "INTERP_INTRO": "<span class='glyphicon glyphicon-info-sign' aria-hidden='true'></span> Hier kannst du senseBox Messungen visualisieren. Für die Interpolation wird die <a href='https://de.wikipedia.org/wiki/Inverse_Distanzwichtung'>Inverse Distanzwichtung (IDW)</a> genutzt. Standardmäßig wird für den Parameter p (Power) der Wert 3 genutzt.",
   "INTERP_PLEASEFILTER": "Filtere bitte zunächst Stationen nach Zeitraum und Sensor beim <b><a href=\"/filter\">Filter</a></b>",
   "INTERP_INFO": "Wähle ein Datum in deinem gewählten Zeitraum, wir suchen nach Stationen die Messungen um diesen Zeitpunkt haben.",
   "TIMEFRAME": "Zeitraum",
@@ -158,6 +158,8 @@
   "INTERP_TIMESTAMP": "Zeitpunkt",
   "INTERP_PHENOMENOM_SEARCH": "Suche nach einem Phänomen",
   "INTERP_CREATE": "Erstelle Interpolation",
+  "INTERP_CELLWIDTH": "Zellgröße in km",
+  "INTERP_IDW_P": "Power",
 
   "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
   "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",

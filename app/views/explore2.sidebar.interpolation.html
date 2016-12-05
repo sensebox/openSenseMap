@@ -12,9 +12,7 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12 col-md-12">
-			<uib-alert type="info">
-				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-				{{'INTERP_INTRO'|translate}}
+			<uib-alert type="info" ng-bind-html="'INTERP_INTRO'|translate">
 			</uib-alert>
 
       <div uib-alert ng-repeat="alert in alerts" type="danger" close="closeAlert($index)">
@@ -47,6 +45,23 @@
             <button style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'indoor'}" ng-click="selectExposure('indoor')">{{ 'STATION_PLACEMENT_INDOOR' | translate}}</button>
             <button style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'outdoor'}" ng-click="selectExposure('outdoor')">{{ 'STATION_PLACEMENT_OUTDOOR' | translate}}</button>
           </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="col-lg-6" style="padding-left: 0px;">
+        <label for="cellWidth">{{'INTERP_CELLWIDTH'|translate}}</label>
+        <div class="input-group xxxl">
+          <input type="number" class="form-control" style="border-radius: 4px;"  min="0" max="10" step="0.1" ng-model="cellWidth">
+        </div>
+      </div>
+      <div class="col-lg-6" style="padding-right: 0px;">
+        <label for="idwParameterP">{{'INTERP_IDW_P' | translate}}</label>
+        <div class="input-group xxxl">
+          <input type="number" class="form-control" style="border-radius: 4px;" min="0" max="10" step="1" ng-model="idwPower">
         </div>
       </div>
     </div>

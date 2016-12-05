@@ -557,7 +557,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline;
 }
 
-@media (max-width: 340px) {
+@media (max-width: 375px) {
   .oSeM-brand {
     display: none;
   }

@@ -10,14 +10,14 @@ angular.module('openSenseMapApp')
 	*/
 	$scope.defaults = {
 		minZoom: 2,
-		maxZoom: 22,
 		tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
+		maxZoom: 18,
 		tileLayerOptions: {
 			subdomains: 'abc',
 			detectRetina: true,
 			reuseTiles: true,
 			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
-			maxZoom: 22
+			maxZoom: 18
 		},
 		scrollWheelZoom: true,
 		worldCopyJump: true
@@ -77,7 +77,7 @@ angular.module('openSenseMapApp')
 						reuseTiles: true,
 						attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
 						showOnSelector: false,
-						maxZoom: 22
+						maxZoom: 18
 					}
 				}
 			},

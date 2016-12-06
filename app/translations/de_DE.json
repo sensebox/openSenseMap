@@ -158,6 +158,7 @@
   "INTERP_TIMESTAMP": "Zeitpunkt",
   "INTERP_PHENOMENOM_SEARCH": "Suche nach einem Phänomen",
   "INTERP_CREATE": "Erstelle Interpolation",
+  "INTERP_REMOVE": "Entferne Interpolation",
   "INTERP_CELLWIDTH": "Zellgröße in km",
   "INTERP_IDW_P": "Power",
 

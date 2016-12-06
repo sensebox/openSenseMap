@@ -18,6 +18,32 @@ angular.module('openSenseMapApp')
         }
     };
 
+    activate();
+
+    function activate() {
+      L.LayerGroup.include({
+        customGetLayer: function (id) {
+          for (var i in this._layers) {
+            if (this._layers[i].id == id) {
+              return this._layers[i];
+            }
+          }
+        }
+      });
+
+      leafletData.getMap('map_main').then(function (map) {
+        $scope.map = map;
+        map.eachLayer(function(layer){
+          if (layer instanceof L.LayerGroup) {
+            var layerGroup = layer.customGetLayer('interpolation');
+            if (!angular.isUndefined(layerGroup)) {
+              $scope.layerGroup = layerGroup;
+            }
+          }
+         });
+      });
+    };
+
     $scope.legendTitle = '';
     $scope.legendEntries = [];
 
@@ -28,7 +54,7 @@ angular.module('openSenseMapApp')
     $scope.idwPower = 3;
     $scope.cellWidth = 1;
     $scope.exposure = "outdoor";
-    $scope.idwLayer;
+    $scope.layerGroup;
     $scope.selectedPhenomenon = "";
     $scope.map;
     $scope.calculateInterpolation = function () {
@@ -38,8 +64,8 @@ angular.module('openSenseMapApp')
       $scope.legendTitle = '';
 
       leafletData.getMap('map_main').then(function (map) {
-        if (!angular.isUndefined($scope.idwLayer)) {
-          map.removeLayer($scope.idwLayer);
+        if (!angular.isUndefined($scope.layerGroup)) {
+          $scope.layerGroup.clearLayers();
         }
         $scope.map = map;
         return map.getBounds().toBBoxString();
@@ -101,7 +127,7 @@ angular.module('openSenseMapApp')
           }
 
           // Create IDW Layer
-          $scope.idwLayer = L.geoJson(response.data.data.featureCollection, {
+          var idwLayer = L.geoJson(response.data.data.featureCollection, {
             style: function (feature) {
               var props = feature.properties;
               for (var key in props) {
@@ -129,9 +155,20 @@ angular.module('openSenseMapApp')
               }
             }
           });
-          $scope.map.addLayer($scope.idwLayer);
+          $scope.layerGroup = L.layerGroup([idwLayer]);
+          $scope.layerGroup.eachLayer(function (layer) {
+            layer.id = 'interpolation';
+          });
+          $scope.map.addLayer($scope.layerGroup);
+          return;
+        }, function(error) {
+          return error;
         })
         .then(function (error) {
+          if (angular.isUndefined(error)) {
+            return;
+          }
+
           switch (error.data.message) {
             case "computation too expensive ((area in square kilometers / cellWidth) > 2500)":
               $scope.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
@@ -156,6 +193,21 @@ angular.module('openSenseMapApp')
       });
     };
 
+    $scope.removeInterpolation = function () {
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
+        $scope.layerGroup.clearLayers();
+      }
+    }
+
+    $scope.showRemoveInterpolation = function () {
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
+        if ($scope.layerGroup.toGeoJSON().features.length > 0) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     $scope.openCalendar = function(e, picker) {
       e.preventDefault();
       e.stopPropagation();
@@ -168,8 +220,8 @@ angular.module('openSenseMapApp')
     };
 
     $scope.closeSidebar = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.idwLayer)) {
-        $scope.map.removeLayer($scope.idwLayer);
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
+        $scope.layerGroup.clearLayers();
       }
     }
 }]);

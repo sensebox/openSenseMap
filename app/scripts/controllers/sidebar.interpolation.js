@@ -170,7 +170,7 @@ angular.module('openSenseMapApp')
           }
 
           switch (error.data.message) {
-            case "computation too expensive ((area in square kilometers / cellWidth) > 2500)":
+            case "planned computation too expensive ((area in square kilometers / cellWidth) > 2500)":
               $scope.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
               break;
             case "Invalid time frame specified: to-date is in the future":
@@ -183,7 +183,7 @@ angular.module('openSenseMapApp')
               $scope.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'});
               break;
             default:
-              $scope.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe'});
+              $scope.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.'});
               break;
           }
         })

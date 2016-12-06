@@ -73,7 +73,7 @@ angular.module('openSenseMapApp')
         $http.get(OpenSenseBoxAPI.url+'/statistics/idw', {
           params: {
             'phenomenon': $scope.selectedPhenomenon,
-            'from-date': moment($scope.interpolationPicker.date).subtract(1, 'm').toISOString(),
+            'from-date': moment($scope.interpolationPicker.date).subtract(5, 'm').toISOString(),
             'to-date': moment($scope.interpolationPicker.date).toISOString(),
             'exposure': $scope.exposure,
             'cellWidth': $scope.cellWidth,

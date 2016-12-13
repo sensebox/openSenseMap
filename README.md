@@ -6,6 +6,8 @@ openSenseMap
 ### Docker
 For installing openSenseMap and openSenseMap-API with Docker check out our [oSeM-compose](https://github.com/sensebox/OSeM-compose) repository.
 
+### Local installation
+
 Clone this repository
 ``` git clone git@github.com:sensebox/openSenseMap.git ```
 
@@ -15,8 +17,6 @@ Go to the cloned repository and install all dependencies by running
 npm install
 bower install
 ```
-
-### Local installation
 
 Replace the following variables with your configuration:
 - ```OPENSENSEMAP_API_URL``` in [opensenseboxapi.js](https://github.com/sensebox/openSenseMap/blob/master/app/scripts/services/opensenseboxapi.js#L13)

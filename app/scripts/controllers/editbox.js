@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxController', EditBoxController)
 
-  EditBoxController.$inject = ['$scope', '$http', 'Validation', 'OpenSenseBoxAPI', 'SensorIcons']
+  EditBoxController.$inject = ['$scope', '$http', '$document', 'Validation', 'OpenSenseBoxAPI', 'SensorIcons']
 
-  function EditBoxController ($scope, $http, Validation, OpenSenseBoxAPI, SensorIcons) {
+  function EditBoxController ($scope, $http, $document, Validation, OpenSenseBoxAPI, SensorIcons) {
     var vm = this
     vm.editingMarker
     vm.editableMode
@@ -93,7 +93,7 @@
       vm.savedError = false
 
       var boxid = vm.editingMarker._id
-      var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src')
+      var imgsrc = angular.element($document[0].getElementById('flowUploadImage')).attr('src')
       var newBoxData = {
         _id: vm.editingMarker._id,
         name: vm.editingMarker.name,

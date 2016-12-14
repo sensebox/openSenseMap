@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController)
 
-  MapController.$inject = ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData']
+  MapController.$inject = ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$document', 'OpenSenseMapData']
 
-  function MapController ($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData) {
+  function MapController ($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $document, OpenSenseMapData) {
     var vm = this
 
     vm.markers = {}
@@ -292,7 +292,7 @@
       leafletData.getMap('map_main').then(function (map) {
         var padding = 450 // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
-        if (document.body.clientWidth <= 700) padding = 0
+        if ($document[0].body.clientWidth <= 700) padding = 0
 
         map.fitBounds([latlng, latlng], {
           paddingTopLeft: [0, 0],

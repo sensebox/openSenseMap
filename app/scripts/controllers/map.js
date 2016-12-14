@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController)
 
-  MapController.$inject = ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', '$document', 'OpenSenseMapData']
+  MapController.$inject = ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData']
 
-  function MapController ($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, $document, OpenSenseMapData) {
+  function MapController ($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData) {
     var vm = this
 
     vm.markers = {}
@@ -119,7 +119,6 @@
 
     $scope.$on('leafletDirectiveMarker.map_main.click', function (e, args) {
       // Args will contain the marker name and other relevant information
-      centerLatLng(args.leafletEvent.target._latlng)
       $state.go('explore.map.boxdetails', { id: args.leafletEvent.target.options.station.id })
     })
 
@@ -284,22 +283,6 @@
           var box = vm.markers[key]
           OpenSenseMapData.boxes.push(box)
         }
-      })
-    }
-
-    // centers a latlng (marker) on the map while reserving space for the sidebar
-    function centerLatLng (latlng) {
-      leafletData.getMap('map_main').then(function (map) {
-        var padding = 450 // sidebar width: 450px
-        // consider smaller devices (250px min map-width + 450px sidebar-width)
-        if ($document[0].body.clientWidth <= 700) padding = 0
-
-        map.fitBounds([latlng, latlng], {
-          paddingTopLeft: [0, 0],
-          paddingBottomRight: [padding, 0],
-          maxZoom: 17,
-          animate: false
-        })
       })
     }
 

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController)
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'ngDialog', 'OpenSenseBox', 'OpenSenseBoxData', 'OpenSenseBoxesSensors']
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$document', '$timeout', 'ngDialog', 'OpenSenseBox', 'OpenSenseBoxData', 'OpenSenseBoxesSensors', 'leafletData']
 
-  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, ngDialog, OpenSenseBox, OpenSenseBoxData, OpenSenseBoxesSensors) {
+  function SidebarBoxDetailsController ($scope, $stateParams, $document, $timeout, ngDialog, OpenSenseBox, OpenSenseBoxData, OpenSenseBoxesSensors, leafletData) {
     var vm = this
 
     vm.boxNotFound = false
@@ -37,11 +37,27 @@
           response.loc[0].geometry.coordinates[1],
           response.loc[0].geometry.coordinates[0]
         ]
-        // $scope.$parent.centerLatLng(markerLatLng);
+        centerLatLng(markerLatLng);
         vm.selectedMarker = response
         getMeasurements()
       }, function () {
         vm.boxNotFound = true
+      })
+    }
+
+    // centers a latlng (marker) on the map while reserving space for the sidebar
+    function centerLatLng (latlng) {
+      leafletData.getMap('map_main').then(function (map) {
+        var padding = 450 // sidebar width: 450px
+        // consider smaller devices (250px min map-width + 450px sidebar-width)
+        if ($document[0].body.clientWidth <= 700) padding = 0
+
+        map.fitBounds([latlng, latlng], {
+          paddingTopLeft: [0, 0],
+          paddingBottomRight: [padding, 0],
+          maxZoom: 17,
+          animate: false
+        })
       })
     }
 

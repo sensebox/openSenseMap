@@ -4,76 +4,76 @@
 			<h3>{{'EDITBOX_TITLE'|translate}}</h3>
 			<span ng-bind-html="'EDITBOX_INFO'|translate"></span>
 			<div class="form-group">
-				<input name="apiKey" class="form-control" type="text" ng-model="apikey.key" placeholder="senseBox API-Key" ng-disabled="editableMode">
+				<input name="apiKey" class="form-control" type="text" ng-model="editbox.apikey.key" placeholder="senseBox API-Key" ng-disabled="editbox.editableMode">
 			</div>
 			<div class="form-group">
-				<button ng-show="!editableMode" ng-click="enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp;
+				<button ng-show="!editbox.editableMode" ng-click="editbox.enableEditableMode()" class="btn btn-warning col-md-12"><i class="fa fa-pencil"></i>&nbsp;
 					{{'CONTINUE'|translate}}
 				</button>
-				<button type="submit" ng-click="saveChange(editBox)" ng-show="editableMode" ng-disabled="editBox.$invalid || sensorsEditMode" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;
+				<button type="submit" ng-click="editbox.saveChange(editBox)" ng-show="editbox.editableMode" ng-disabled="editBox.$invalid || editbox.sensorsEditMode" class="btn btn-success col-md-6"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;
 					{{'SAVE'|translate}}
 				</button>
-				<button ng-show="editableMode" ng-click="cancelChange()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp;
+				<button ng-show="editbox.editableMode" ng-click="editbox.cancelChange() && closeThisDialog()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp;
 					{{'CANCEL'|translate}}
 				</button>
 			</div>
 			<br/>
-			<uib-alert type="warning" ng-show="apikeyIssue">{{'EDITBOX_APIKEYISSUE'|translate}}</uib-alert>
-			<uib-alert type="success" ng-show="savedSuccessfully">{{'EDITBOX_SAVED'|translate}}</uib-alert>
-			<uib-alert type="danger" ng-show="savedError">{{'EDITBOX_SAVEERROR'|translate}}</uib-alert>
-			<uib-alert role="success" ng-show="boxdeleted">{{'EDITBOX_BOXDELETED'|translate}}</uib-alert>
+			<uib-alert type="warning" ng-show="editbox.apikeyIssue">{{'EDITBOX_APIKEYISSUE'|translate}}</uib-alert>
+			<uib-alert type="success" ng-show="editbox.savedSuccessfully">{{'EDITBOX_SAVED'|translate}}</uib-alert>
+			<uib-alert type="danger" ng-show="editbox.savedError">{{'EDITBOX_SAVEERROR'|translate}}</uib-alert>
+			<uib-alert role="success" ng-show="editbox.boxdeleted">{{'EDITBOX_BOXDELETED'|translate}}</uib-alert>
 
-			<div ng-show="editableMode">
+			<div ng-show="editbox.editableMode">
 
 				<div>
-					<uib-alert type="info" ng-show="editableMode">
+					<uib-alert type="info" ng-show="editbox.editableMode">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <span ng-bind-html="'EDITBOX_EDITABLE'|translate"></span>
 					</uib-alert>
 				</div>
 
 				<div>
 					<h3>{{'EDITBOX_DOWNLOADSCRIPT'|translate}}</h3>
-					<a ng-click="downloadArduino()" ng-show="!boxScript" style="cursor:pointer;">{{'EDITBOX_DOWNLOADSCRIPTLINK'|translate}}</a>
-					<textarea ng-show="boxScript" class="form-control" ng-model="boxScript" onclick="this.select()" style="height:200px;font-family:monospace;font-size:80%"></textarea>
+					<a ng-click="editbox.downloadArduino()" ng-show="!boxScript" style="cursor:pointer;">{{'EDITBOX_DOWNLOADSCRIPTLINK'|translate}}</a>
+					<textarea ng-show="editbox.boxScript" class="form-control" ng-model="editbox.boxScript" onclick="this.select()" style="resize: vertical;height:200px;font-family:monospace;font-size:80%"></textarea>
 				</div>
 
 				<div>
 					<h3>{{'EDITBOX_NAMEANDDESC'|translate}}</h3>
 					<div ng-class="{'has-error': editBox.boxName.$invalid, 'has-success': editBox.boxName.$valid }">
 						<label for="boxName">{{'BOX_NAME'|translate}}*</label>
-						<input name="boxName" class="form-control" type="text" ng-model="editingMarker.name" required>
+						<input name="boxName" class="form-control" type="text" ng-model="editbox.editingMarker.name" required>
 					</div>
 
 					<label for="editGrouptag">{{'GROUP_NAME'|translate}}</label>
-					<input name="editGrouptag" class="form-control" type="text" ng-model="editingMarker.grouptag">
+					<input name="editGrouptag" class="form-control" type="text" ng-model="editbox.editingMarker.grouptag">
 
 					<div ng-class="{'has-error': editBox.boxExposure.$invalid, 'has-success': editBox.boxExposure.$valid }">
 						<label for="boxExposure">{{'BOX_EXPOSURE'|translate}}*</label>
-						<select ng-model="editingMarker.exposure" name="boxExposure" class="form-control" required>
+						<select ng-model="editbox.editingMarker.exposure" name="boxExposure" class="form-control" required>
 							<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
 							<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
 						</select>
 					</div>
 
 					<label for="editDescription">{{'BOX_DESCRIPTION'|translate}}</label>
-					<textarea name="editDescription" maxlength="300" class="form-control" cols="30" rows="10" ng-model="editingMarker.description" placeholder="{{'BOX_DESCRIPTION_PLACEHOLDER'|translate}}" value="{{ editingMarker.description }}" style="resize: none;"></textarea>
+					<textarea name="editDescription" maxlength="300" class="form-control" cols="30" rows="10" ng-model="editbox.editingMarker.description" placeholder="{{'BOX_DESCRIPTION_PLACEHOLDER'|translate}}" value="{{ editbox.editingMarker.description }}" style="resize: none;"></textarea>
 
 					<label for="editWeblink">{{'BOX_WEBSITE'|translate}}</label>
-					<input name="editWeblink" class="form-control" type="url" ng-model="editingMarker.weblink" placeholder="https://..." value="{{ editingMarker.weblink }}">
+					<input name="editWeblink" class="form-control" type="url" ng-model="editbox.editingMarker.weblink" placeholder="https://..." value="{{ editbox.editingMarker.weblink }}">
 				</div>
 
 				<div>
 					<h3>{{'BOX_POSITION'|translate}}</h3>
-					<leaflet id="editbox_map" controls="controls" center="boxPosition" markers="editMarker" defaults="editMapDefaults" width="100%" height="250px" lf-center="editMarker.m1"></leaflet>
+					<leaflet id="editbox_map" controls="editbox.controls" lf-center="editbox.boxPosition" markers="editbox.editMarker" defaults="editbox.editMapDefaults" width="100%" height="250px" lf-center="editbox.editMarker.m1"></leaflet>
 	        		<div ng-class="{'has-error': editBox.boxLat.$invalid, 'has-success': editBox.boxLat.$valid}" class="col-md-6">
 						<label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
-	          			<input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="editMarkerInput.lat" step="0.000001" required>
+	          			<input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="editbox.editMarkerInput.lat" step="0.000001" required>
 	        		</div>
 	        		<div ng-class="{'has-error': editBox.boxLong.$invalid, 'has-success': editBox.boxLong.$valid}" class="col-md-6">
 						<label for="boxLong">{{'BOX_LONGITUDE'|translate}}</label>
-	          			<input name="boxLong" class="form-control" type="number" min="-180" max="180" ng-model="editMarkerInput.lng" step="0.000001" required>
+	          			<input name="boxLong" class="form-control" type="number" min="-180" max="180" ng-model="editbox.editMarkerInput.lng" step="0.000001" required>
 	        		</div>
-					<button type="button" class="btn btn-link" ng-click="resetPosition()">{{'BOX_POSITION_RESET'|translate}}</button>
+					<button type="button" class="btn btn-link" ng-click="editbox.resetPosition()">{{'BOX_POSITION_RESET'|translate}}</button>
 				</div>
 
 				<div>
@@ -88,15 +88,15 @@
 							<td></td>
 						</thead>
 						<tbody>
-							<tr ng-repeat="sensor in editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
+							<tr ng-repeat="sensor in editbox.editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
 								<td>
-									<span ng-hide="sensor.editing" class="osem-icon" ng-class="getIcon(sensor)"></span>
+									<span ng-hide="sensor.editing" class="osem-icon" ng-class="editbox.getIcon(sensor)"></span>
 									<div ng-show="sensor.editing" class="btn-group xxxl">
 		                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
-		                              <span class="icon osem-icon" ng-class="getIcon(sensor)"></span><span class="icon-caret caret" style="right: 20%;"></span>
+		                              <span class="icon osem-icon" ng-class="editbox.getIcon(sensor)"></span><span class="icon-caret caret" style="right: 20%;"></span>
 		                            </input>
 		                            <ul class="dropdown-menu list-inline" role="menu">
-		                              <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
+		                              <li ng-repeat="icon in editbox.icons" ng-click="editbox.setSensorIcon(sensor,icon)">
 		                                <span class="osem-icon" ng-class="icon.name"></span>
 		                              </li>
 		                            </ul>
@@ -118,16 +118,16 @@
 									<span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>
 									<span ng-show="sensor.incomplete">Please fill all fields</span>
 									<span ng-hide="sensor.deleted">
-									<button type="button" class="btn btn-xs btn-primary" ng-click="editSensor(sensor)" ng-show="!sensor.editing">
+									<button type="button" class="btn btn-xs btn-primary" ng-click="editbox.editSensor(sensor)" ng-show="!sensor.editing">
 										<span class="glyphicon glyphicon-edit"></span>
 									</button>
-									<button type="button" class="btn btn-xs btn-danger" ng-click="deleteSensor(sensor)" ng-show="!sensor.editing">
+									<button type="button" class="btn btn-xs btn-danger" ng-click="editbox.deleteSensor(sensor)" ng-show="!sensor.editing">
 										<span class="glyphicon glyphicon-trash"></span>
 									</button>
-									<button type="button" class="btn btn-xs btn-primary" ng-click="saveSensor(sensor)" ng-show="sensor.editing">
+									<button type="button" class="btn btn-xs btn-primary" ng-click="editbox.saveSensor(sensor)" ng-show="sensor.editing">
 										<span class="glyphicon glyphicon-floppy-disk"></span>
 									</button>
-									<button type="button" class="btn btn-xs btn-danger" ng-click="cancelSensor(sensor)" ng-show="sensor.editing">
+									<button type="button" class="btn btn-xs btn-danger" ng-click="editbox.cancelSensor(sensor)" ng-show="sensor.editing">
 										<span class="glyphicon glyphicon-remove"></span>
 									</button>
 									</span>
@@ -135,7 +135,7 @@
 							</tr>
 							<tr>
 								<td colspan="4">
-								<button type="button" ng-click="addSensor();" class="btn btn-xs btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
+								<button type="button" ng-click="editbox.addSensor();" class="btn btn-xs btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
 								</td>
 							</tr>
 						</tbody>
@@ -145,19 +145,19 @@
 				<div>
 					<h3>{{'EDIT_MQTTOPTIONS'|translate}}</h3>
 					{{'EDIT_MQTTOPTIONSINFO'|translate}}
-					<checkbox id="checkbox0" ng-model="mqtt.enabled"></checkbox>
+					<checkbox id="checkbox0" ng-model="editbox.mqtt.enabled"></checkbox>
 					<label>{{ 'MQTT_ENABLE' | translate }}</label>
 
 					<!-- MQTT URL -->
 					<div ng-class="{'has-error': editBox.mqttURL.$invalid, 'has-success': editBox.mqttURL.$valid }">
 					  <label for="mqttURL">{{ 'MQTT_URL' | translate}}*</label>
-					  <input type="url" name="mqttURL" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
+					  <input type="url" name="mqttURL" class="form-control" ng-model="editbox.mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="editbox.mqtt.enabled" ng-disabled="!editbox.mqtt.enabled">
 					</div>
 
 					<!-- MQTT TOPIC -->
 					<div ng-class="{'has-error': editBox.mqttTopic.$invalid, 'has-success': editBox.mqttTopic.$valid }">
 					  <label for="mqttTopic">{{ 'MQTT_TOPIC' | translate}}*</label>
-					  <input type="text" name="mqttTopic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
+					  <input type="text" name="mqttTopic" class="form-control" ng-model="editbox.mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="editbox.mqtt.enabled" ng-disabled="!editbox.mqtt.enabled">
 					</div>
 
 					<!-- MQTT MessageFormat -->
@@ -165,13 +165,13 @@
 					  <label for="mqttMessageFormat">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
 					  <div class="radio">
 					    <label>
-					      <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
+					      <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="editbox.mqtt.messageFormat" ng-required="editbox.mqtt.enabled" ng-disabled="!editbox.mqtt.enabled">
 					      {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
 					    </label>
 					  </div>
 					  <div class="radio">
 					    <label>
-					      <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.messageFormat" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
+					      <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="editbox.mqtt.messageFormat" ng-required="editbox.mqtt.enabled" ng-disabled="!editbox.mqtt.enabled">
 					      {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
 					    </label>
 					  </div>
@@ -180,13 +180,13 @@
 					<!-- MQTT DecodeOptions -->
 					<div>
 					  <label for="mqttDecodeOptions">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
+					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="editbox.mqtt.decodeOptions" ng-disabled="!editbox.mqtt.enabled">
 					</div>
 
 					<!-- MQTT ConnectionOptions -->
 			 		<div>
 					  <label for="mqttConnectionOptions">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
+					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="editbox.mqtt.connectionOptions" ng-disabled="!editbox.mqtt.enabled">
 					</div>
 				</div>
 
@@ -195,7 +195,7 @@
 					{{'EDIT_IMAGEINFO'|translate}}
 					<div flow-init="{singleFile:true}" flow-file-added="flowFileAdded($file,$event)" flow-drop>
 						<div class="thumbnail">
-							<img ng-src="/userimages/{{editingMarker.image}}" ng-hide="$flow.files.length || !editingMarker.image" alt="Image for {{ editingMarker.name || 'Filter' }}">
+							<img ng-src="/userimages/{{editbox.editingMarker.image}}" ng-hide="$flow.files.length || !editbox.editingMarker.image" alt="Image for {{ editingMarker.name || 'Filter' }}">
 							<img id="flowUploadImage" flow-img="$flow.files[0]">
 						</div>
 						<div>
@@ -208,8 +208,8 @@
 				<div>
 					<h3>{{'EDIT_DELETE'|translate}}</h3>
 					{{'EDIT_DELETEINFO'|translate}}
-					<input name="editDeleteConfirm" class="form-control" type="text" ng-model="editing.delete">
-					<button ng-show="editing.delete == 'DELETE'" ng-click="deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
+					<input name="editDeleteConfirm" class="form-control" type="text" ng-model="editbox.editing.delete">
+					<button ng-show="editbox.editing.delete == 'DELETE'" ng-click="editbox.deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
 					<uib-alert role="danger" ng-show="errorDuringDelete">{{'EDIT_DELETEERROR'|translate}}</uib-alert>
 				</div>
 

@@ -45,7 +45,7 @@
         url: 'explore/:id', // no leading / because it is a child of the 'explore' state
         views: {
           'sidebar': {
-            controller: 'SidebarBoxDetailsController as boxDetails',
+            controller: 'SidebarBoxDetailsController as details',
             templateUrl: 'views/explore2.sidebar.box.html'
           }
         }

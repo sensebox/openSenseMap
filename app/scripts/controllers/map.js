@@ -38,7 +38,7 @@
     vm.defaults = {
       minZoom: 2,
       maxZoom: 22,
-      tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
+      tileLayer: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       tileLayerOptions: {
         subdomains: 'abc',
         detectRetina: true,
@@ -55,7 +55,7 @@
         mapbox: {
           name: 'Mapbox Streets',
           type: 'xyz',
-          url: 'OPENSENSEMAP_MAPTILES_URL',
+          url: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
           layerOptions: {
             subdomains: ['a', 'b', 'c'],
             detectRetina: true,

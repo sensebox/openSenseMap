@@ -44,7 +44,7 @@ html, body {
 }
 
 #map_main .leaflet-top {
-  top: 50px;
+  top: 125px;
 }
 
 .app-info {
@@ -138,7 +138,7 @@ a:hover {
 }
 
 .register {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
 .editable-empty {
@@ -202,9 +202,9 @@ a:hover {
   position: absolute;
   padding: 10px 0px 10px 0px;
   width: 450px;
-  top: 50px;
+  top: 100px;
   right: 0;
-  height: calc(100% - 50px);
+  height: calc(100% - 100px);
   background: rgba(255, 255, 255, 0.9);
   overflow: auto;
   z-index: 1001;
@@ -352,6 +352,10 @@ div.box {
   z-index: 2;
 }
 
+.sbgreen {
+  background-color: #4EAF47;
+}
+
 .sborange {
   background-color: #E77817;
 }
@@ -366,6 +370,14 @@ div.box {
 
 .sbdblue {
   background-color: #4073BF;
+}
+
+.olive {
+  background-color: #3D9970;
+}
+
+.orange {
+  background-color: #FF851B;
 }
 
 #brand_with_logo img,
@@ -545,7 +557,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline;
 }
 
-@media (max-width: 340px) {
+@media (max-width: 375px) {
   .oSeM-brand {
     display: none;
   }
@@ -623,4 +635,16 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 /* fix for overlay scrolling in firefox  https://github.com/likeastore/ngDialog/issues/94 */
 .ngdialog-content {
   z-index: 10001;
+}
+
+.legend {
+  line-height: 18px;
+  color: #555;
+}
+.legend i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.6;
 }

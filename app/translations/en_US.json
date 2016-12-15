@@ -80,7 +80,7 @@
   "PLEASE_SPECIFY_EMAIL": "Please add your email address",
   "NAME_YOUR_STATION": "Name of your station",
   "PLEASE_SPECIFY_STATIONNAME": "Please specify a name for your station",
-  "STATION_PLACEMENT": "Planned location",
+  "STATION_PLACEMENT": "Exposure",
   "PLEASE_SPECIFY_PLACEMENT": "Please specifiy your station's location",
   "PLEASE_SPECIFY_GROUPID": "Optional prefix for groups of senseBoxes",
   "GROUP_NAME": "Group identifier",
@@ -153,6 +153,9 @@
   "TIMEFRAME": "Time frame",
   "INTERP_IDWPARAM": "Select the p-parameter for the IDW interpolation:",
   "INTERP_NOTENOUGH": "There aren't enough senseBoxes on the map",
+  "INTERP_TIMESTAMP": "Timestamp",
+  "INTERP_PHENOMENOM_SEARCH": "Search for a phenomenon",
+  "INTERP_CREATE": "Create interpolation",
 
   "LEGEND_ACTIVE": "Active senseBox (< 7 Days)",
   "LEGEND_ACTIVE_30": "Inactive senseBox (> 7 Days)",

@@ -17,8 +17,17 @@
 				</h3>
 				<span ng-if="details.selectedMarker.grouptag && details.selectedMarker.grouptag !=''" class="text-muted">{{'GROUP'|translate}}: {{ details.selectedMarker.grouptag }}<br/><br/></span>
 
-				<hr>
-
+        <div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
+          <uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            {{'BOX_BOXDETAILSINFO'|translate}}
+          </uib-alert>
+          <div class="thumbnail">
+            <img id="image" ng-hide="(!selectedMarker.image || selectedMarker.image === '')" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
+            <span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>
+            <span ng-show="selectedMarker.weblink && selectedMarker.weblink != ''"><br/><br/><a href="{{ selectedMarker.weblink }}" target="_blank">{{ selectedMarker.weblink }}</a></span>
+          </div>
+        </div>
 				<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
 					<uib-alert type="info" ng-hide="details.selectedMarker.image || details.selectedMarker.description || details.selectedMarker.weblink">
 						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>

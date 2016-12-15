@@ -99,21 +99,19 @@
                             </ul>
                         </li>
                     </ul>
-
-                    <form class="navbar-form">
-                        <div class="form-group typeahead-search" style="display: inline;">
-                            <div class="ng-cloak input-group" style="display: table; padding: 0px 12px;">
-                                <span class="input-group-addon" style="width:1%;padding-right: 10px; background-color: #f8f8f8; border: none;">
-                                    <span class=""></span>
-                                </span>
-
-                                <input type="text" style="border-radius: 4px;" ng-model="header.asyncSelected" ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in header.getLocations($viewValue)" typeahead-on-select="header.selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
-                                
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
+        </div>
+        <div class="navbar-inner">
+          <div class="container">
+            <form class="navbar-form search">
+                <div class="form-group typeahead-search" style="display: inline;">
+                    <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
+                        <input type="text" style="border-radius: 4px;" ng-model="header.asyncSelected" ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in header.getLocations($viewValue)" typeahead-on-select="header.selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                    </div>
+                </div>
+            </form>
+          </div>
         </div>
     </header>
 
@@ -140,7 +138,6 @@
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/opencpu/opencpu-0.5.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/c3/c3.js"></script>
     <script src="bower_components/c3-angular/c3-angular.min.js"></script>
@@ -160,6 +157,7 @@
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/ui-leaflet/dist/ui-leaflet.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+    <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

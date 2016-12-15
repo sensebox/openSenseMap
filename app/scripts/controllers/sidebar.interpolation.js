@@ -1,146 +1,244 @@
-'use strict';
-ocpu.seturl("OPENCPU_ENDPOINT");
+(function () {
+  'use strict'
 
-angular.module('openSenseMapApp')
-.controller('InterpolationCtrl',
-	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxesSensors", "OpenSenseBoxAPI", "leafletData", "$timeout", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, leafletData, $timeout){
+  angular
+    .module('openSenseMapApp')
+    .controller('InterpolationController', InterpolationController)
 
-		$scope.inputFilter = $scope.inputFilter || {};
-		$scope.Interp = {};
-		if($scope.inputFilter.DateFrom && $scope.inputFilter.DateTo) {
-			$scope.Interp.DateFrom = new Date($scope.inputFilter.DateFrom).getTime();
-			$scope.Interp.DateTo = new Date($scope.inputFilter.DateTo).getTime();
-		}
+  InterpolationController.$inject = ['$http', 'OpenSenseBoxAPI', 'leafletData', 'moment']
 
-		var _timeout;
-		$scope.liveSearch = function() {
-			if(_timeout){
-				$timeout.cancel(_timeout);
-			}
-			_timeout = $timeout(function(){
-				var timestamp = new Date(parseInt($scope.Interp.DateSelect));
-				$scope.$parent.fetchMarkers(timestamp.toISOString(), $scope.inputFilter.Phenomenon);
-				_timeout = null;
-			}, 500);
-		};
+  function InterpolationController ($http, OpenSenseBoxAPI, leafletData, moment) {
+    var vm = this
+    vm.map
+    vm.calculating = false
+    vm.legendTitle = ''
+    vm.legendEntries = []
+    vm.alerts = []
+    vm.idwPower = 3
+    vm.cellWidth = 1
+    vm.exposure = 'outdoor'
+    vm.layerGroup
+    vm.selectedPhenomenon = ''
 
-		var imageBounds;
-		var imageBoundsLegend;
-		$scope.$parent.overlayImageLegend;
-		$scope.$parent.ImageLegend;
-		$scope.$parent.overlayImage;
-		$scope.legend = false;
-		$scope.idp = 0;
-		$scope.idpPool = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    vm.interpolationPicker = {
+      date: moment().toDate(),
+      open: false,
+      buttonBar: {
+        show: false
+      },
+      timepickerOptions: {
+        readonlyInput: false,
+        showMeridian: false,
+        max: moment().toDate()
+      }
+    }
 
-		//console.log($scope.$parent.markersFiltered);
+    vm.closeAlert = closeAlert
+    vm.calculateInterpolation = calculateInterpolation
+    vm.showRemoveInterpolation = showRemoveInterpolation
+    vm.removeInterpolation = removeInterpolation
+    vm.openCalendar = openCalendar
+    vm.selectExposure = selectExposure
+    vm.closeSidebar = closeSidebar
 
-		var boxes;
-		$scope.prepare = function() {
-			$scope.failedCalc = false;
-			boxes = [];
-			angular.forEach($scope.$parent.markersFiltered, function(value, key) {
-				var boxesJSON = {};
-				for (var i = 0; i < value.station.sensors.length; i++) {
-					if (value.station.sensors[i].lastMeasurement != null && value.station.hasOwnProperty('exposure') && value.station.exposure == 'outdoor' && value.station.sensors[i].title == $scope.inputFilter.Phenomenon) {
-						boxesJSON.latitude = value.lat;
-						boxesJSON.longitude = value.lng;
-						boxesJSON.value = value.station.sensors[i].lastMeasurement.value;
+    activate()
 
-						boxes.push(boxesJSON);
-					};
+    //
 
-				};
-			});
-			console.log(boxes);
-		}
+    function activate () {
+      L.LayerGroup.include({
+        customGetLayer: function (id) {
+          for (var i in this._layers) {
+            if (this._layers[i].id === id) {
+              return this._layers[i]
+            }
+          }
+        }
+      })
 
+      leafletData.getMap('map_main').then(function (map) {
+        vm.map = map
+        map.eachLayer(function (layer) {
+          if (layer instanceof L.LayerGroup) {
+            var layerGroup = layer.customGetLayer('interpolation')
+            if (angular.isDefined(layerGroup)) {
+              vm.layerGroup = layerGroup
+            }
+          }
+        })
+      })
+    }
 
-		$scope.makeIDW = function(){
-			$scope.prepare();
+    function closeAlert (index) {
+      vm.alerts.splice(index, 1)
+    }
 
-			$scope.loading = true;
-			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap('map_main').then(function(map) {
-					map.removeLayer($scope.$parent.overlayImage);
-					map.removeLayer($scope.$parent.overlayImageLegend);
-				});
-			};
+    function calculateInterpolation () {
+      vm.calculating = true
+      vm.alerts.length = 0
+      vm.legendEntries.length = 0
+      vm.legendTitle = ''
 
-			var req2 = ocpu.rpc("imageBounds",{
-				input : boxes
-			}, function(outtxt){
-				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
-			});
+      leafletData.getMap('map_main').then(function (map) {
+        if (angular.isDefined(vm.layerGroup)) {
+          vm.layerGroup.clearLayers()
+        }
+        vm.map = map
+        return map.getBounds().toBBoxString()
+      }).then(function (bbox) {
+        $http.get(OpenSenseBoxAPI.url + '/statistics/idw', {
+          params: {
+            'phenomenon': vm.selectedPhenomenon,
+            'from-date': moment(vm.interpolationPicker.date).subtract(5, 'm').toISOString(),
+            'to-date': moment(vm.interpolationPicker.date).toISOString(),
+            'exposure': vm.exposure,
+            'cellWidth': vm.cellWidth,
+            'power': vm.idwPower,
+            'numClasses': 6,
+            'bbox': bbox,
+            'numTimeSteps': 1
+          }
+        })
+        .then(function (response) {
+          var colors = '#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840'.split(',')
+          if (response.data.code === 'NotFoundError') {
+            return response
+          }
 
-			var req = ocpu.call("inteRidwIdp", {
+          var breaks = response.data.data.breaks
 
-				input : boxes,
-				x : $scope.idp
+          // Set legend title
+          switch (vm.selectedPhenomenon) {
+            case 'Temperatur':
+              vm.legendTitle = vm.selectedPhenomenon + ' in °C'
+              break
+            case 'rel. Luftfeuchte':
+              vm.legendTitle = vm.selectedPhenomenon + ' in %'
+              break
+            case 'Luftdruck':
+              vm.legendTitle = vm.selectedPhenomenon + ' in hPa'
+              break
+            case 'Beleuchtungsstärke':
+              vm.legendTitle = vm.selectedPhenomenon + ' in lx'
+              break
+            case 'UV-Intensität':
+              vm.legendTitle = vm.selectedPhenomenon + ' in μW/cm²'
+              break
+          }
 
-			}, function(session) {
+          // Generate legend
+          for (var j = 0; j < breaks.length; j++) {
+            var caption = ''
+            if (j === breaks.length - 1) {
+              caption = '> ' + breaks[j].toFixed(2)
+            } else {
+              caption = breaks[j].toFixed(2) + ' - ' + breaks[j + 1].toFixed(2)
+            }
+            vm.legendEntries.push({
+              caption: caption,
+              style: {
+                'background': colors[j]
+              }
+            })
+          }
 
-				$scope.loading = false;
+          // Create IDW Layer
+          var idwLayer = L.geoJson(response.data.data.featureCollection, {
+            style: function (feature) {
+              var props = feature.properties
+              for (var key in props) {
+                var z = props[key]
+                if (!Number.isNaN(z)) {
+                  var fillColor = colors[0]
+                  for (var i = 0; i < breaks.length; i++) {
+                    if (z >= breaks[i]) {
+                      fillColor = colors[i]
+                    } else {
+                      break
+                    }
+                  }
+                  return {
+                    weight: 0.1,
+                    fillOpacity: 0.6,
+                    fillColor: fillColor
+                  }
+                }
+                return {
+                  weight: 0,
+                  fillColor: 'red',
+                  fillOpacity: 1
+                }
+              }
+            }
+          })
+          vm.layerGroup = L.layerGroup([idwLayer])
+          vm.layerGroup.eachLayer(function (layer) {
+            layer.id = 'interpolation'
+          })
+          vm.map.addLayer(vm.layerGroup)
+          return
+        }, function (error) {
+          return error
+        })
+        .then(function (error) {
+          if (angular.isUndefined(error)) {
+            return
+          }
 
-				leafletData.getMap('map_main').then(function(map) {
-					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-					map.addLayer($scope.$parent.overlayImage);
-					if ($scope.idp != 0) {
-						//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-						//map.addLayer($scope.$parent.overlayImageLegend);
-						$scope.legend = true;
-						$scope.$parent.ImageLegend = session.getFileURL("legend.png");
-					};
-				});
+          switch (error.data.message) {
+            case 'planned computation too expensive ((area in square kilometers / cellWidth) > 2500)':
+              vm.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'})
+              break
+            case 'Invalid time frame specified: to-date is in the future':
+              vm.alerts.push({msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!'})
+              break
+            case 'no senseBoxes found':
+              vm.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'})
+              break
+            case 'no measurements found':
+              vm.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'})
+              break
+            default:
+              vm.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.'})
+              break
+          }
+        })
+        .finally(function () {
+          vm.calculating = false
+        })
+      })
+    }
 
-			}).fail(function(){
-				console.log("R returned an error: " + req.responseText);
-				$scope.failedCalc = true;
-			});
+    function removeInterpolation () {
+      if (angular.isDefined(vm.map) && angular.isDefined(vm.layerGroup)) {
+        vm.layerGroup.clearLayers()
+      }
+    }
 
-		};
+    function showRemoveInterpolation () {
+      if (angular.isDefined(vm.map) && angular.isDefined(vm.layerGroup)) {
+        if (vm.layerGroup.toGeoJSON().features.length > 0) {
+          return true
+        }
+      }
+      return false
+    }
 
-		$scope.makeTP = function(){
-			$scope.prepare();
+    function openCalendar (e, picker) {
+      e.preventDefault()
+      e.stopPropagation()
+      vm.interpolationPicker.open = true
+      vm.interpolationPicker.timepickerOptions.max = moment().toDate()
+    };
 
-			$scope.loading = true;
+    function selectExposure (exposure) {
+      vm.exposure = exposure
+    }
 
-			if ($scope.$parent.overlayImage != null) {
-				leafletData.getMap('map_main').then(function(map) {
-					map.removeLayer($scope.$parent.overlayImage);
-					map.removeLayer($scope.$parent.overlayImageLegend);
-				});
-			};
-
-			var req2 = ocpu.rpc("imageBounds",{
-				input : boxes
-			}, function(outtxt){
-				imageBounds = [[outtxt[0], outtxt[1]], [outtxt[2], outtxt[3]]];
-				imageBoundsLegend = [[outtxt[0], outtxt[1] + 15], [outtxt[2], outtxt[3] + 15]];
-			});
-
-			var req = ocpu.call("inteRtp", {
-
-				input : boxes
-
-			}, function(session) {
-
-				$scope.loading = false;
-
-				leafletData.getMap('map_main').then(function(map) {
-					$scope.$parent.overlayImage = L.imageOverlay(session.getFileURL("idw.png"), imageBounds);
-					map.addLayer($scope.$parent.overlayImage);
-					//$scope.$parent.overlayImageLegend = L.imageOverlay(session.getFileURL("legend.png"), imageBoundsLegend);
-					//map.addLayer($scope.$parent.overlayImageLegend);
-					$scope.legend = true;
-					$scope.$parent.ImageLegend = session.getFileURL("legend.png");
-				});
-
-			}).fail(function(){
-				console.log("R returned an error: " + req.responseText);
-				$scope.failedCalc = true;
-			});
-		};
-
-	}]);
+    function closeSidebar () {
+      if (angular.isDefined(vm.map) && angular.isDefined(vm.layerGroup)) {
+        vm.layerGroup.clearLayers()
+      }
+    }
+  }
+})()

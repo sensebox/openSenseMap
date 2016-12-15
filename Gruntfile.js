@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     eslint: {
-      target: ['./app/scripts/controllers/register.js']
+      target: ['./app/scripts/controllers/sidebar.interpolation.js']
     },
 
     sed: {

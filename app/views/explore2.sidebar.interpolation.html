@@ -3,7 +3,7 @@
 		<div class="col-xs-12 col-md-12">
 			<h3>
 				{{'INTERPOLATION'|translate}}
-				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="interpolation.closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 			</h3>
 		</div>
 	</div>
@@ -11,44 +11,86 @@
 		<hr>
 	</div>
 	<div class="row">
-		<div class="col-lg-12">
-			<uib-alert type="info">
-				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-				{{'INTERP_INTRO'|translate}}
-			</uib-alert>
-			<uib-alert type="warning" ng-hide="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
-				<span ng-bind-html="'INTERP_PLEASEFILTER'|translate"></span>
+		<div class="col-lg-12 col-md-12">
+			<uib-alert type="info" ng-bind-html="'INTERP_INTRO'|translate">
 			</uib-alert>
 
-			<div ng-show="inputFilter.Phenomenon && inputFilter.DateFrom && inputFilter.DateTo">
-				<uib-alert type="info">
-					{{'CONFIG_PHENOMENON'|translate}}: {{ inputFilter.Phenomenon }}<br/>
-					{{'TIMEFRAME'|translate}}: {{ inputFilter.DateFrom | date:"short" }} - {{ inputFilter.DateTo | date:"short" }}<br/>
-					<br/>
-					{{'INTERP_INFO'|translate}}<br/>
-					<input id="inputFilterDate" class="form-control" type="range" min="{{ Interp.DateFrom }}" max="{{ Interp.DateTo }}" step="1000" ng-model="Interp.DateSelect" ng-change="liveSearch()"/>
-					<br/>
-					{{ Interp.DateSelect | date:'yyyy-MM-dd HH:mm:ss' }}
-				</uib-alert>
+      <div uib-alert ng-repeat="alert in interpolation.alerts" type="danger" close="interpolation.closeAlert($index)">
+        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+        {{alert.msg}}
+      </div>
 
-	          	<br>
-	          	{{"INTERP_IDWPARAM"|translate}}
-	          	<select class="form-control" ng-model="idp">
-	                <option ng-repeat="p in idpPool" value="{{p}}">{{p}}</option>
-	          	</select>
-				<input type='submit' value='IDW Interpolation' class='btn btn-success' ng-click='makeIDW()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || !idp || $parent.markersFiltered.length < 3 || loading"/>
-	          	<input type='submit' value='Thiessen polygons' class='btn btn-success' ng-click='makeTP()' ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom && !inputFilter.DateTo || $parent.markersFiltered.length < 3 || loading"/>
-	          	<img id="mySpinner" src="/images/ajax-loader.gif" ng-show="loading" /> <br>
-	          	<br/>
-	          	<h3 ng-show="legend">Legend</h3>
-	          	<img style="margin-left: -80px; max-height: 140px;" ng-src={{$parent.ImageLegend}} /> <br>
-	          	<uib-alert role="warning" ng-show="$parent.markersFiltered.length < 3">{{'INTERP_NOTENOUGH'|translate}}</uib-alert>
-	          	<uib-alert role="warning" ng-show="failedCalc">{{'COMMON_ERROR'|translate}}</uib-alert>
-          	</div>
-          <br>
+      <div class="input-group xxxl">
+        <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
+        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="interpolation.selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
+      </div>
 		</div>
 	</div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="col-lg-6" style="padding-left: 0px;">
+        <label for="interpolationPicker">{{'INTERP_TIMESTAMP'|translate}}</label>
+        <div class="input-group">
+          <input id="interpolationPicker" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPicker.date" is-open="interpolationPicker.open" button-bar="interpolationPicker.buttonBar" timepicker-options="interpolationPicker.timepickerOptions" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPicker')"><i class="fa fa-calendar"></i></button>
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-6" style="padding-right: 0px;">
+        <label for="exposure">{{'STATION_PLACEMENT' | translate}}</label>
+        <div class="input-group">
+          <span class="input-group-btn btn-group">
+            <button style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;" class="btn btn-default" ng-class="{'active': interpolation.exposure === 'indoor'}" ng-click="interpolation.selectExposure('indoor')">{{ 'STATION_PLACEMENT_INDOOR' | translate}}</button>
+            <button style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;" class="btn btn-default" ng-class="{'active': interpolation.exposure === 'outdoor'}" ng-click="interpolation.selectExposure('outdoor')">{{ 'STATION_PLACEMENT_OUTDOOR' | translate}}</button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="col-lg-6" style="padding-left: 0px;">
+        <label for="cellWidth">{{'INTERP_CELLWIDTH'|translate}}</label>
+        <div class="input-group xxxl">
+          <input type="number" class="form-control" style="border-radius: 4px;"  min="0.01" step="0.1" ng-model="interpolation.cellWidth">
+        </div>
+      </div>
+      <div class="col-lg-6" style="padding-right: 0px;">
+        <label for="idwParameterP">{{'INTERP_IDW_P' | translate}}</label>
+        <div class="input-group xxxl">
+          <input type="number" class="form-control" style="border-radius: 4px;" min="0" max="10" step="1" ng-model="interpolation.idwPower">
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
 	<div class="row">
-
+    <div class="col-lg-12">
+      <button class="btn btn-info xxxl" ng-disabled="interpolation.selectedPhenomenon === '' || interpolation.calculating" ng-click="interpolation.calculateInterpolation()">{{'INTERP_CREATE'|translate}}
+        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="interpolation.calculating"></i>
+        <span class="sr-only">Loading...</span>
+      </button>
+    </div>
 	</div>
+  <br>
+  <div class="row" ng-show="interpolation.showRemoveInterpolation()">
+    <div class="col-lg-12">
+      <button class="btn btn-danger xxxl" ng-click="interpolation.removeInterpolation()">{{'INTERP_REMOVE'|translate}}
+      </button>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-lg-12">
+      <h6>{{interpolation.legendTitle}}</h6>
+      <div class="info legend">
+        <div ng-repeat="legendEntry in interpolation.legendEntries">
+          <i ng-style="legendEntry.style"></i>{{legendEntry.caption}}<br>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

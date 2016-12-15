@@ -376,7 +376,7 @@
       vm.invalidHardware = false
     })
 
-    $scope.$watchCollection('editMarkerInput.box', function (newValue) {
+    $scope.$watchCollection('register.editMarkerInput.box', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
         if (angular.isUndefined(vm.markers.box)) {
           vm.markers.box = {}
@@ -386,7 +386,7 @@
       }
     })
 
-    $scope.$watchCollection('open.collapse2', function (newValue) {
+    $scope.$watchCollection('register.open.collapse2', function (newValue) {
       if (newValue) {
         vm.modelSelected.id = 'custom'
       }

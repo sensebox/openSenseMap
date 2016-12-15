@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('InterpolationController', InterpolationController)
 
-  InterpolationController.$inject = ['$http', 'OpenSenseBoxAPI', 'leafletData', 'moment']
+  InterpolationController.$inject = ['$http', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'leafletData', 'moment']
 
-  function InterpolationController ($http, OpenSenseBoxAPI, leafletData, moment) {
+  function InterpolationController ($http, OpenSenseMapData, OpenSenseBoxAPI, leafletData, moment) {
     var vm = this
     vm.map
     vm.calculating = false
@@ -19,6 +19,7 @@
     vm.exposure = 'outdoor'
     vm.layerGroup
     vm.selectedPhenomenon = ''
+    vm.boxes = OpenSenseMapData.boxes
 
     vm.interpolationPicker = {
       date: moment().toDate(),
@@ -40,6 +41,7 @@
     vm.openCalendar = openCalendar
     vm.selectExposure = selectExposure
     vm.closeSidebar = closeSidebar
+    vm.getBoxes = getBoxes
 
     activate()
 
@@ -71,6 +73,10 @@
 
     function closeAlert (index) {
       vm.alerts.splice(index, 1)
+    }
+
+    function getBoxes () {
+      return OpenSenseMapData.boxes
     }
 
     function calculateInterpolation () {

@@ -22,7 +22,7 @@
 
       <div class="input-group xxxl">
         <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
-        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="interpolation.selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
+        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="interpolation.selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in interpolation.getBoxes() | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
       </div>
 		</div>
 	</div>
@@ -32,9 +32,9 @@
       <div class="col-lg-6" style="padding-left: 0px;">
         <label for="interpolationPicker">{{'INTERP_TIMESTAMP'|translate}}</label>
         <div class="input-group">
-          <input id="interpolationPicker" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPicker.date" is-open="interpolationPicker.open" button-bar="interpolationPicker.buttonBar" timepicker-options="interpolationPicker.timepickerOptions" />
+          <input id="interpolationPicker" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolation.interpolationPicker.date" is-open="interpolation.interpolationPicker.open" button-bar="interpolation.interpolationPicker.buttonBar" timepicker-options="interpolation.interpolationPicker.timepickerOptions" />
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPicker')"><i class="fa fa-calendar"></i></button>
+            <button type="button" class="btn btn-default" ng-click="interpolation.openCalendar($event, 'interpolationPicker')"><i class="fa fa-calendar"></i></button>
           </span>
         </div>
       </div>

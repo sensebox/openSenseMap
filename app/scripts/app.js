@@ -80,7 +80,7 @@
       .state('register', {
         url: '/register',
         templateUrl: 'views/register.html',
-        controller: 'RegisterController as register'
+        controller: 'RegistrationController as register'
       })
       .state('info', {
         url: '/info',

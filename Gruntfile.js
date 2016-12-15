@@ -21,7 +21,7 @@ module.exports = function (grunt) {
   grunt.initConfig({
 
     eslint: {
-      target: ['./app/scripts/controllers/editbox.js']
+      target: ['./app/scripts/controllers/register.js']
     },
 
     sed: {

@@ -71,10 +71,10 @@
                                 <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                             </a>
                         </li>
-                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}">
+                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
                             <a ui-sref="explore.map.filter">
                                 <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
-                                <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+                                <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
                             </a>
                         </li>
                         <li ui-sref-active-eq="active" class="menuitem">
@@ -168,6 +168,7 @@
     <script type="text/javascript" src="scripts/directives/rcDisabled.js"></script>
     <script type="text/javascript" src="scripts/directives/rcWizard.js"></script>
     <script src="scripts/app.js"></script>
+    <script src="scripts/services/filteractive.js"></script>
     <script src="scripts/services/opensenseboxapi.js"></script>
     <script src="scripts/services/opensenseboxes.js"></script>
     <script src="scripts/services/opensenseboxessensors.js"></script>

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController)
 
-  HeaderController.$inject = ['$state', '$translate', '$http', 'OpenSenseBoxAPI', 'OpenSenseMapData', 'leafletData', 'amMoment', 'tmhDynamicLocale']
+  HeaderController.$inject = ['$state', '$translate', '$http', 'OpenSenseBoxAPI', 'OpenSenseMapData', 'FilterActive', 'leafletData', 'amMoment', 'tmhDynamicLocale']
 
-  function HeaderController ($state, $translate, $http, OpenSenseBoxAPI, OpenSenseMapData, leafletData, amMoment, tmhDynamicLocale) {
+  function HeaderController ($state, $translate, $http, OpenSenseBoxAPI, OpenSenseMapData, FilterActive, leafletData, amMoment, tmhDynamicLocale) {
     var vm = this
 
     vm.key = ''
@@ -22,6 +22,7 @@
       },
       getterSetter: true
     }
+    vm.filterActive = FilterActive
 
     vm.changeLanguage = changeLanguage
     vm.getBoxes = getBoxes

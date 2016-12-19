@@ -1,80 +1,78 @@
 <div id="sidebar" style="background-position: 0px -5px;">
-  <div class="row" ng-show="boxNotFound">
-    <h3>
-      <a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
-    </h3>
-    <div class="col-xs-12 col-md-12">
-      <uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
-    </div>
-  </div>
-  <div ng-show="!boxNotFound" ng-cloak>
-    <div class="row">
-      <div class="col-xs-12 col-md-12">
-        <h3>
-          {{ selectedMarker.name }}
-          <a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-placement="left"></i></a>
-          <a ng-click="openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog pull-right close" uib-tooltip="{{'EDITBOX' | translate}}" tooltip-placement="left" aria-hidden="true"></i></a>
-        </h3>
-        <span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="ng-cloak badge sbblue">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}</span>
-        <span class="ng-cloak badge" ng-class="getBadgeColor(selectedMarker.exposure)">{{'STATION_PLACEMENT_'+selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
-        <hr>
+	<div class="row" ng-show="boxNotFound">
+		<h3>
+			<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="details.closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+		</h3>
+		<div class="col-xs-12 col-md-12">
+			<uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
+		</div>
+	</div>
+	<div ng-show="!boxNotFound">
+		<div class="row">
+			<div class="col-xs-12 col-md-12">
+				<h3>
+					{{ details.selectedMarker.name }}
+					<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="details.closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-placement="left"></i></a>
+					<a ng-click="details.openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog pull-right close" uib-tooltip="{{'EDITBOX' | translate}}" tooltip-placement="left" aria-hidden="true"></i></a>
+				</h3>
+				<span ng-if="details.selectedMarker.grouptag && details.selectedMarker.grouptag !=''" class="text-muted">{{'GROUP'|translate}}: {{ details.selectedMarker.grouptag }}<br/><br/></span>
 
-        <div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
-          <uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'BOX_BOXDETAILSINFO'|translate}}
-          </uib-alert>
-          <div class="thumbnail">
-            <img id="image" ng-hide="(!selectedMarker.image || selectedMarker.image === '')" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
-            <span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>
-            <span ng-show="selectedMarker.weblink && selectedMarker.weblink != ''"><br/><br/><a href="{{ selectedMarker.weblink }}" target="_blank">{{ selectedMarker.weblink }}</a></span>
-          </div>
-        </div>
+				<div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
+					<uib-alert type="info" ng-hide="details.selectedMarker.image || details.selectedMarker.description || details.selectedMarker.weblink">
+						<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+						{{'BOX_BOXDETAILSINFO'|translate}}
+					</uib-alert>
+					<div class="thumbnail">
+						<img id="image" ng-hide="(!details.selectedMarker.image || details.selectedMarker.image === '')" ng-src="{{ (details.selectedMarker.image && details.selectedMarker.image != '') && 'userimages/'+details.selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ details.selectedMarker.name }}">
+						<span ng-show="details.selectedMarker.description && details.selectedMarker.description != ''"><br/>{{ details.selectedMarker.description }}</span>
+						<span ng-show="details.selectedMarker.weblink && details.selectedMarker.weblink != ''"><br/><br/><a href="{{ details.selectedMarker.weblink }}" target="_blank">{{ details.selectedMarker.weblink }}</a></span>
+					</div>
+				</div>
 
-        <hr>
+				<hr>
 
-        <div class="list-group">
-          <uib-accordion close-others="false">
-            <uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
-              <uib-accordion-heading >
-              <div class="row" ng-click="getData(sensor._id, !isOpen)">
-                <div class="col-xs-1">
-                  <span title="{{sensor.title | translate}}">
-                    <span class="icon osem-icon" ng-class="getIcon(sensor)"></span>
-                  </span>
-                </div>
-                <div class="col-xs-10 sensor-measurement-info" >
-                  <div>{{sensor.title}}</div><br/>
-                  <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
-                    <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
-                    <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
-                  </div>
-                  <div ng-if="!sensor.lastMeasurement.createdAt">
-                    <span class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
-                  </div>
-                </div>
-              </div>
-              </uib-accordion-heading>
-              <div>
-                <uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
-                <uib-alert type="danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
-                <uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
-                <c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]" enable-zoom="true">
-                  <chart-size chart-height="200"/>
-                            <chart-axes values-x="dates"/>
-                            <chart-axis>
-                              <chart-axis-x axis-id="x" axis-type="timeseries">
-                                <chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
-                              </chart-axis-x>
-                            </chart-axis>
-                            <chart-tooltip title-format-function="formatDateFull"/>
-                            <chart-legend show-legend="false"/>
-                </c3chart>
-              </div>
-            </uib-accordion-group>
-          </uib-accordion>
-        </div>
-      </div>
-    </div>
-  </div>
+				<div class="list-group">
+					<uib-accordion close-others="false">
+						<uib-accordion-group ng-repeat="sensor in details.selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
+							<uib-accordion-heading >
+							<div class="row" ng-click="details.getData(sensor._id, !isOpen)">
+								<div class="col-xs-1">
+									<span title="{{sensor.title | translate}}">
+										<span class="icon osem-icon" ng-class="details.getIcon(sensor)"></span>
+									</span>
+								</div>
+								<div class="col-xs-10 sensor-measurement-info" >
+									<div>{{sensor.title}}</div><br/>
+									<div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
+										<span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+										<span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
+									</div>
+									<div ng-if="!sensor.lastMeasurement.createdAt">
+										<span class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+									</div>
+								</div>
+							</div>
+							</uib-accordion-heading>
+							<div>
+								<uib-alert type="warning" ng-show="!details.chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
+								<uib-alert type="danger" ng-show="details.chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
+								<uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
+								<c3chart ng-if="sensor.lastMeasurement && details.chartDone[sensor._id] && !details.chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="details.sensordata[sensor._id]" chart-columns="details.columns[sensor._id]" enable-zoom="true">
+									<chart-size chart-height="200"/>
+                  					<chart-axes values-x="dates"/>
+                  					<chart-axis>
+                  						<chart-axis-x axis-id="x" axis-type="timeseries">
+											<chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="details.formatDate"/>
+                  						</chart-axis-x>
+                  					</chart-axis>
+                  					<chart-tooltip title-format-function="details.formatDateFull"/>
+                  					<chart-legend show-legend="false"/>
+								</c3chart>
+							</div>
+						</uib-accordion-group>
+					</uib-accordion>
+				</div>
+			</div>
+		</div>
+	</div>
 </div> <!-- end #sidebar -->

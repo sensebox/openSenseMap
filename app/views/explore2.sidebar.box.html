@@ -16,7 +16,7 @@
           <a ng-click="openEditDialog()" style="cursor: pointer;"><i class="fa fa-cog pull-right close" uib-tooltip="{{'EDITBOX' | translate}}" tooltip-placement="left" aria-hidden="true"></i></a>
         </h3>
         <span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="ng-cloak badge sbblue">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}</span>
-        <span class="ng-cloak badge" ng-class="getBadgeColor(selectedMarker.exposure)">{{'STATION_PLACEMENT_'+selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
+        <span ng-if="selectedMarker.exposure && selectedMarker.exposure !=''" class="ng-cloak badge" ng-class="getBadgeColor(selectedMarker.exposure)">{{'STATION_PLACEMENT_'+selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
         <hr>
 
         <div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>

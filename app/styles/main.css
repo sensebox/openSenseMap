@@ -47,14 +47,6 @@ html, body {
   top: 125px;
 }
 
-.app-info {
-  font-size: 14px;
-}
-
-.app-info .fa-heart {
-  color: lightcoral;
-}
-
 #app_info_button {
   display: block;
   position: absolute;
@@ -511,8 +503,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
     width:100%;
   }
   .brand-stats {
-    font-size: 70%;
-    padding: 12px 4px;
+    padding: 4px;
   }
 }
 
@@ -557,7 +548,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 420px) {
   .oSeM-brand {
     display: none;
   }

@@ -19,7 +19,8 @@ angular
     'ui.router',
     'gridshore.c3js.chart',
     'angularMoment',
-    'tmh.dynamicLocale'
+    'tmh.dynamicLocale',
+    'ngProgress'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);

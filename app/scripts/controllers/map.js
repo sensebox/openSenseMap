@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData){
+	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', 'ngProgressFactory', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData, ngProgressFactory){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
+
+	$scope.progressbar = ngProgressFactory.createInstance();
+	$scope.progressbar.setColor("#4EAF47");
 
 	/*
 		Set map defaults
@@ -222,6 +225,7 @@ angular.module('openSenseMapApp')
 	};
 
 	$scope.fetchMarkers = function(date, phenomenon, filteredOnly) {
+		$scope.progressbar.start();
 		filteredOnly = filteredOnly || false;
 
 		$scope.loading = true;
@@ -258,6 +262,7 @@ angular.module('openSenseMapApp')
 				var box = $scope.markers[key];
 				OpenSenseMapData.boxes.push(box);
 			}
+			$scope.progressbar.complete();
 		});
 	};
 	$scope.fetchMarkers('', ''); // fetch all markers in the database

@@ -17,6 +17,33 @@ html, body {
   margin-right: auto;
 }
 
+.navbar-form {
+  border-top: 0px;
+  border-bottom: 0px;
+  padding: 0px
+}
+
+.helper {
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+#reset_search {
+  position: absolute;
+  top: 58px;
+  right: 27px;
+  height: 34px;
+  width: 34px;
+  z-index: 1001;
+  cursor: pointer;
+  color: #9e9e9e;
+}
+
+#reset_search:hover {
+  color: #4EAF47;
+}
+
 #map {
   position: absolute;
   top: 0;
@@ -316,6 +343,10 @@ div.box {
 @media (max-width: 767px) {
   .languages-select.visible-xs {
     display:inline-block !important;
+  }
+
+  #reset_search {
+    right: 12px;
   }
 }
 

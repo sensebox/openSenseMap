@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
+  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
   	$scope.osemapi = OpenSenseBoxAPI;
 
     $scope.changeLang = function (key) {
@@ -15,7 +15,8 @@ angular.module('openSenseMapApp')
       });
     };
     $scope.changeLang('de_DE');
-
+    $scope.searchString = '';
+    $scope.showClearSearch = false;
   	$scope.counts = {
   		boxes: '',
   		measurements : ''
@@ -27,6 +28,20 @@ angular.module('openSenseMapApp')
       }).error(function(){
   	});
     $scope.filterActive = FilterActiveService;
+
+    $scope.searchStringChanged = function () {
+      if ($scope.searchString !== '') {
+        $scope.showClearSearch = true;
+      } else {
+        $scope.showClearSearch = false;
+      }
+    }
+
+    $scope.clearSearch = function () {
+      $scope.searchString = '';
+      $scope.searchStringChanged();
+      $document[0].getElementById('searchField').focus();
+    }
 
     $scope.getBoxes = function(val) {
       var boxes = OpenSenseMapData.boxes;

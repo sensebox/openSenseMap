@@ -108,11 +108,11 @@
                 <div class="form-group typeahead-search" style="display: inline;">
                     <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
                         <input id="searchField" type="text" style="border-radius: 4px;" ng-model="searchString" ng-change="searchStringChanged()" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                        <div id="reset_search" ng-show="showClearSearch" ng-cloak>
+                          <span class="helper"></span>
+                          <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="clearSearch()"></i>
+                        </div>
                     </div>
-                </div>
-                <div id="reset_search" ng-show="showClearSearch" ng-cloak>
-                    <span class="helper"></span>
-                    <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="clearSearch()"></i>
                 </div>
             </form>
           </div>

@@ -31,8 +31,7 @@ html, body {
 
 #reset_search {
   position: absolute;
-  top: 58px;
-  right: 27px;
+  right: 12px;
   height: 34px;
   width: 34px;
   z-index: 1001;
@@ -343,10 +342,6 @@ div.box {
 @media (max-width: 767px) {
   .languages-select.visible-xs {
     display:inline-block !important;
-  }
-
-  #reset_search {
-    right: 12px;
   }
 }
 

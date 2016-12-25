@@ -384,6 +384,21 @@ module.exports = function (grunt) {
       }
     },
 
+    // gzip html, css and js files
+    compress: {
+      main: {
+        options: {
+          mode: 'gzip'
+        },
+        files: [
+          {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz'},
+          {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
+          {expand: true, src: ['dist/scripts/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
+        ]
+      }
+    },
+
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -479,7 +494,8 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin',
-    'sed'
+    'sed',
+    'compress'
   ]);
 
   grunt.registerTask('default', [

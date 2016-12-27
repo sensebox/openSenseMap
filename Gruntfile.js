@@ -393,7 +393,7 @@ module.exports = function (grunt) {
         files: [
           {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz'},
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
-          {expand: true, src: ['dist/scripts/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
+          {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
         ]
       }

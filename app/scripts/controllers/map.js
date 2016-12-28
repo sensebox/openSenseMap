@@ -308,20 +308,32 @@ angular.module('openSenseMapApp')
 	leafletData.getMap('map_main').then(function (map) {
 		var info = L.control({ position:'bottomleft' });
 		info.onAdd = function () {
-			var _div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
+			var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control'); // create a div with a class "info"
 			this._div = _div;
 			$templateRequest('views/explore2.map.legend.html').then(function(html) {
-			var template = angular.element(html);
-			var infoDiv = angular.element(_div);
-			var infoContainer = angular.element(info._container);
-			infoDiv.append(template);
-			infoContainer.append(template);
-			$compile(template)($scope);
-		});
-		return this._div;
+				var template = angular.element(html);
+				var infoDiv = angular.element(_div);
+				var infoContainer = angular.element(info._container);
+				infoDiv.append(template);
+				infoContainer.append(template);
+				$compile(template)($scope);
+			});
+			this._div.onclick = $scope.toggleLegend;
+			return this._div;
 		};
 		map.addControl(info);
 	});
+
+	$scope.showHide = false;
+	$scope.cssClass = '';
+	$scope.toggleLegend = function () {
+		if ($scope.showHide) {
+			$scope.cssClass = '';	
+		} else {
+			$scope.cssClass = 'legend-big';	
+		}
+		$scope.showHide = !$scope.showHide;
+	}
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {

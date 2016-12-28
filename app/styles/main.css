@@ -174,12 +174,12 @@ a:hover {
 /* all stylings for map page */
 
 /* styling for function buttons on the left */
-.info {
+/*.info {
   background: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
-}
+}*/
 
-.info.sensebox-legend {
+/*.info.sensebox-legend {
   background: none;
 }
 
@@ -201,7 +201,7 @@ a:hover {
   display:inline-block;
   vertical-align: middle;
 }
-
+*/
 .leaflet-control-my-location {
   width:26px;
   height:26px;
@@ -655,13 +655,44 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 }
 
 .legend {
-  line-height: 18px;
+  /*line-height: 18px;*/
+  font-size: 18px;
+  width: 26px;
+  height: 26px;
+  /*background-color: white;*/
+  /*width: 26px;
+  height: 26px;
   color: #555;
+  width: 26px;
+  height: 26px;
+  background-color: white;*/
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
 }
-.legend i {
+
+.legend-big-add {
+  /*transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;*/
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.legend-big {
+  width: 250px;
+  height: 350px;
+}
+.legend-big-add.legend-big-add-active {
+  color: red;
+  font-size:3em;
+}
+
+.css-class-remove.css-class-remove-active {
+  font-size:1.0em;
+  color: black;
+}
+
+/*.legend i {
   width: 18px;
   height: 18px;
   float: left;
   margin-right: 8px;
   opacity: 0.6;
-}
+}*/

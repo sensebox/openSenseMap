@@ -17,16 +17,16 @@
         </h3>
         <span ng-if="selectedMarker.grouptag && selectedMarker.grouptag !=''" class="ng-cloak badge sbblue">{{'GROUP'|translate}}: {{ selectedMarker.grouptag }}</span>
         <span ng-if="selectedMarker.exposure && selectedMarker.exposure !=''" class="ng-cloak badge" ng-class="getBadgeColor(selectedMarker.exposure)">{{'STATION_PLACEMENT_'+selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
-        <hr>
+        <hr ng-hide="!selectedMarker.image && !selectedMarker.description && !selectedMarker.weblink">
 
         <div flow-init="{ singleFile:true }" flow-file-added="added($file,$event)" flow-drop>
           <uib-alert type="info" ng-hide="selectedMarker.image || selectedMarker.description || selectedMarker.weblink">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             {{'BOX_BOXDETAILSINFO'|translate}}
           </uib-alert>
-          <div class="thumbnail">
+          <div class="thumbnail" ng-hide="!selectedMarker.image && !selectedMarker.description && !selectedMarker.weblink">
             <img id="image" ng-hide="(!selectedMarker.image || selectedMarker.image === '')" ng-src="{{ (selectedMarker.image && selectedMarker.image != '') && 'userimages/'+selectedMarker.image || 'images/placeholder.png' }}" alt="Image for {{ selectedMarker.name }}">
-            <span ng-show="selectedMarker.description && selectedMarker.description != ''"><br/>{{ selectedMarker.description }}</span>
+            <span ng-show="selectedMarker.description && selectedMarker.description != ''">{{ selectedMarker.description }}</span>
             <span ng-show="selectedMarker.weblink && selectedMarker.weblink != ''"><br/><br/><a href="{{ selectedMarker.weblink }}" target="_blank">{{ selectedMarker.weblink }}</a></span>
           </div>
         </div>

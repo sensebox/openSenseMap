@@ -23,7 +23,8 @@ angular.module('openSenseMapApp')
 			maxZoom: 18
 		},
 		scrollWheelZoom: true,
-		worldCopyJump: true
+		worldCopyJump: true,
+    attributionControl: false
 	};
 
 	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)

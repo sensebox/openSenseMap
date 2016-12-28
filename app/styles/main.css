@@ -173,35 +173,6 @@ a:hover {
 -------------------------------------------------- */
 /* all stylings for map page */
 
-/* styling for function buttons on the left */
-/*.info {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-}*/
-
-/*.info.sensebox-legend {
-  background: none;
-}
-
-.info .sensebox-legend-entry {
-  background-color: #fff;
-  padding: 3px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.info .sensebox-legend-entry label {
-  font-weight: normal;
-}
-
-.sensebox-legend-marker.awesome-marker {
-  width:35px;
-  height:46px;
-  position:relative;
-  display:inline-block;
-  vertical-align: middle;
-}
-*/
 .leaflet-control-my-location {
   width:26px;
   height:26px;
@@ -287,13 +258,6 @@ div.box {
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
-
-/* Customize container */
-/*@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}*/
 
 .container {
   min-width: 100%;
@@ -574,12 +538,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline;
 }
 
-@media (max-width: 420px) {
-  .oSeM-brand {
-    display: none;
-  }
-}
-
 .typeahead-search .custom-popup-wrapper {
   position: absolute;
   top: 100%;
@@ -654,45 +612,73 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   z-index: 10001;
 }
 
+/* Legend styles */
 .legend {
-  /*line-height: 18px;*/
   font-size: 18px;
   width: 26px;
   height: 26px;
-  /*background-color: white;*/
-  /*width: 26px;
-  height: 26px;
-  color: #555;
-  width: 26px;
-  height: 26px;
-  background-color: white;*/
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.5);
   border-radius: 5px;
 }
 
-.legend-big-add {
-  /*transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;*/
-  -webkit-transition: all 0.5s;
-  transition: all 0.5s;
+.legend-icon {
+  line-height: 1.65;
+  font-size: 18px;
 }
+
+.legend-content {
+  height: auto;
+  width: auto;
+  padding: 25px 25px 10px 10px;
+}
+
+.legend-content .sensebox-legend-entry {
+  /*background-color: #fff;*/
+  padding: 3px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.legend-content .sensebox-legend-entry label {
+  font-weight: normal;
+}
+
+.sensebox-legend-marker.awesome-marker {
+  width:35px;
+  height:46px;
+  position:relative;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.legend-close {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+  color: #9e9e9e;
+}
+
+.legend-close:hover {
+  color: #4EAF47;
+}
+
 .legend-big {
-  width: 250px;
-  height: 350px;
-}
-.legend-big-add.legend-big-add-active {
-  color: red;
-  font-size:3em;
+  width: auto;
+  height: auto;
 }
 
-.css-class-remove.css-class-remove-active {
-  font-size:1.0em;
-  color: black;
-}
+@media (max-width: 420px) {
+  .oSeM-brand {
+    display: none;
+  }
 
-/*.legend i {
-  width: 18px;
-  height: 18px;
-  float: left;
-  margin-right: 8px;
-  opacity: 0.6;
-}*/
+  .legend {
+    font-size: 15px;
+  }
+
+  .legend-big {
+    width: calc(100vw - 20px);
+    height: auto;
+  }
+}

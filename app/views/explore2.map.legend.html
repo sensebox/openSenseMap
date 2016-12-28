@@ -1,60 +1,33 @@
 <div class="legend" ng-class="cssClass">
 	<a class="leaflet-control-legend" href="#" title="Home" ng-hide="showHide">
-		<i class="fa fa-list" style="line-height:1.65;" ng-hide="showHide"></i>
-		<i class="fa fa-home" style="line-height:1.65;" ng-show="showHide"></i>
+		<i class="fa fa-list legend-icon"  ng-hide="showHide"></i>
 	</a>
-	
+  <i class="fa fa-times legend-close" ng-show="showHide" aria-hidden="true"></i>
 	<div class="legend-content" ng-show="showHide">
-		<div>
-			<div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
-				<i class="fa fa-cube icon-white"></i>
-			</div>
-			<!-- <div class="sensebox-legend-entry">
-				{{'LEGEND_ACTIVE'|translate}}
-			</div>
-			<br/>
-			<div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker">
-				<i class="fa fa-cube icon-white"></i>
-			</div>
-			<div class="sensebox-legend-entry">
-				{{'LEGEND_ACTIVE_30'|translate}}
-			</div>
-			<br/>
-			<div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker">
-				<i class="fa fa-cube icon-white"></i>
-			</div>
-			<div class="sensebox-legend-entry">
-				{{'LEGEND_INACTIVE'|translate}} <br/>
-				<input id="showAll" type="checkbox" ng-click="toggleLayer('oldMarker')" ng-checked="showAllMarkers">
-				<label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
-			</div> -->
-		</div>
+
+    <div>
+      <div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
+        <i class="fa fa-cube icon-white"></i>
+      </div>
+      <div class="sensebox-legend-entry">
+        {{'LEGEND_ACTIVE'|translate}}
+      </div>
+      <br/>
+      <div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker">
+        <i class="fa fa-cube icon-white"></i>
+      </div>
+      <div class="sensebox-legend-entry">
+        {{'LEGEND_ACTIVE_30'|translate}}
+      </div>
+      <br/>
+      <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker">
+        <i class="fa fa-cube icon-white"></i>
+      </div>
+      <div class="sensebox-legend-entry">
+        {{'LEGEND_INACTIVE'|translate}} <br/>
+        <input id="showAll" type="checkbox" ng-click="toggleLayer('oldMarker', $event)" ng-checked="showAllMarkers">
+        <label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
+      </div>
+    </div>
 	</div>
 </div>
-
-<!-- <span ng-class="cssClass">CSS-Animated Text</span> -->
-
-<!-- <uib-alert id="loading-alert" type="warning" ng-show="loading">{{'PLEASE_WAIT_DATA'|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" /></uib-alert>
-
-<div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
-	<i class="fa fa-cube icon-white"></i>
-</div>
-<div class="sensebox-legend-entry">
-	{{'LEGEND_ACTIVE'|translate}}
-</div>
-<br/>
-<div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker">
-	<i class="fa fa-cube icon-white"></i>
-</div>
-<div class="sensebox-legend-entry">
-	{{'LEGEND_ACTIVE_30'|translate}}
-</div>
-<br/>
-<div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker">
-	<i class="fa fa-cube icon-white"></i>
-</div>
-<div class="sensebox-legend-entry">
-	{{'LEGEND_INACTIVE'|translate}} <br/>
-	<input id="showAll" type="checkbox" ng-click="toggleLayer('oldMarker')" ng-checked="showAllMarkers">
-	<label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
-</div> -->

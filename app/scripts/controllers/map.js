@@ -115,8 +115,9 @@ angular.module('openSenseMapApp')
 		filtered: {
 		},
 		controls: { custom: [] },
-		toggleLayer: function(type) {
+		toggleLayer: function(type, event) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
+      event.stopPropagation();
 		},
 		watchOptions: { markers: { type: null, individual: { type: null } } }
 	});
@@ -328,9 +329,9 @@ angular.module('openSenseMapApp')
 	$scope.cssClass = '';
 	$scope.toggleLegend = function () {
 		if ($scope.showHide) {
-			$scope.cssClass = '';	
+			$scope.cssClass = '';
 		} else {
-			$scope.cssClass = 'legend-big';	
+			$scope.cssClass = 'legend-big';
 		}
 		$scope.showHide = !$scope.showHide;
 	}

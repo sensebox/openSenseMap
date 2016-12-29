@@ -1,17 +1,15 @@
 FROM digitallyseamless/nodejs-bower-grunt:4
 
 # Setup build folder
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+RUN mkdir -p /usr/src/osem
+WORKDIR /usr/src/osem
 
-COPY package.json /usr/src/app/
+COPY package.json /usr/src/osem/
 RUN npm install
-COPY bower.json .bowerrc* /usr/src/app/
+COPY bower.json .bowerrc* /usr/src/osem/
 RUN bower install
-COPY . /usr/src/app/
+COPY . /usr/src/osem/
 RUN grunt build
-
-VOLUME /usr/src/app/dist
 
 COPY ./run.sh /
 

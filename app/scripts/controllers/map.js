@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', 'ngProgressFactory', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData, ngProgressFactory){
+	.controller('MapCtrl', ['$scope', '$window', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', 'ngProgressFactory', function($scope, $window, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData, ngProgressFactory){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -329,21 +329,29 @@ angular.module('openSenseMapApp')
 	$scope.showHide = false;
 	$scope.cssClass = '';
 	$scope.toggleLegend = function () {
-		console.log(window.orientation);
 		var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
 		if ($scope.showHide) {
 			$scope.cssClass = '';
-			if (document.body.clientHeight <= 420 ) {
+			if (document.body.clientHeight <= 400 ) {
 				zoomControl[0].classList.remove('hidden');
 			}
 		} else {
 			$scope.cssClass = 'legend-big';
-			if (document.body.clientHeight <= 420 ) {
+			if (document.body.clientHeight <= 400 ) {
 				zoomControl[0].classList.add('hidden');
 			}
 		}
 		$scope.showHide = !$scope.showHide;
 	}
+
+  angular.element($window).bind('orientationchange', function () {
+    var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
+    if (document.body.clientHeight <= 400 && $scope.showHide && ($window.orientation === 90 || $window.orientation === -90)) {
+      zoomControl[0].classList.add('hidden');
+    } else if ($window.orientation === 0) {
+      zoomControl[0].classList.remove('hidden');
+    }
+  });
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {

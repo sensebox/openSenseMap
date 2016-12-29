@@ -673,8 +673,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   border-bottom-right-radius: 4px;
 }
 
-
-
 @media screen and (max-width: 420px) {
   .oSeM-brand {
     display: none;
@@ -686,7 +684,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   }
 }
 
-@media screen and (max-height: 420px) and (orientation: landscape) {
+@media screen and (max-height: 400px) and (orientation: landscape) {
   .legend-big {
     width: calc(100vw - 20px);
     height: calc(100vh - 150px);

@@ -213,7 +213,8 @@ angular.module('openSenseMapApp')
         lat: 51.04139389812637,
         lng: 10.21728515625,
         zoom: 5
-      }
+      },
+      attributionControl: false
     };
     angular.extend($scope, {
       center: {

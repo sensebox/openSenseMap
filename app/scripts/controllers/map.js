@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-	.controller('MapCtrl', ['$scope', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', 'ngProgressFactory', function($scope, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData, ngProgressFactory){
+	.controller('MapCtrl', ['$scope', '$window', '$state', 'OpenSenseBoxes', 'leafletData', '$templateRequest', '$compile', 'OpenSenseMapData', 'ngProgressFactory', function($scope, $window, $state, OpenSenseBoxes, leafletData, $templateRequest, $compile, OpenSenseMapData, ngProgressFactory){
 		$scope.showAllMarkers = true;
 		$scope.inputFilter = $scope.inputFilter || { 'loading': false, 'needsRefresh': false };
 
@@ -23,7 +23,8 @@ angular.module('openSenseMapApp')
 			maxZoom: 18
 		},
 		scrollWheelZoom: true,
-		worldCopyJump: true
+		worldCopyJump: true,
+		attributionControl: false
 	};
 
 	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)
@@ -115,8 +116,9 @@ angular.module('openSenseMapApp')
 		filtered: {
 		},
 		controls: { custom: [] },
-		toggleLayer: function(type) {
+		toggleLayer: function(type, event) {
 			$scope.layers.overlays[type].visible = !$scope.layers.overlays[type].visible;
+      event.stopPropagation();
 		},
 		watchOptions: { markers: { type: null, individual: { type: null } } }
 	});
@@ -308,20 +310,48 @@ angular.module('openSenseMapApp')
 	leafletData.getMap('map_main').then(function (map) {
 		var info = L.control({ position:'bottomleft' });
 		info.onAdd = function () {
-			var _div = L.DomUtil.create('div', 'info sensebox-legend'); // create a div with a class "info"
+			var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control'); // create a div with a class "info"
 			this._div = _div;
 			$templateRequest('views/explore2.map.legend.html').then(function(html) {
-			var template = angular.element(html);
-			var infoDiv = angular.element(_div);
-			var infoContainer = angular.element(info._container);
-			infoDiv.append(template);
-			infoContainer.append(template);
-			$compile(template)($scope);
-		});
-		return this._div;
+				var template = angular.element(html);
+				var infoDiv = angular.element(_div);
+				var infoContainer = angular.element(info._container);
+				infoDiv.append(template);
+				infoContainer.append(template);
+				$compile(template)($scope);
+			});
+			this._div.onclick = $scope.toggleLegend;
+			return this._div;
 		};
 		map.addControl(info);
 	});
+
+	$scope.showHide = false;
+	$scope.cssClass = '';
+	$scope.toggleLegend = function () {
+		var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
+		if ($scope.showHide) {
+			$scope.cssClass = '';
+			if (document.body.clientHeight <= 400 ) {
+				zoomControl[0].classList.remove('hidden');
+			}
+		} else {
+			$scope.cssClass = 'legend-big';
+			if (document.body.clientHeight <= 400 ) {
+				zoomControl[0].classList.add('hidden');
+			}
+		}
+		$scope.showHide = !$scope.showHide;
+	}
+
+  angular.element($window).bind('orientationchange', function () {
+    var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
+    if (document.body.clientHeight <= 400 && $scope.showHide && ($window.orientation === 90 || $window.orientation === -90)) {
+      zoomControl[0].classList.add('hidden');
+    } else if ($window.orientation === 0) {
+      zoomControl[0].classList.remove('hidden');
+    }
+  });
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {

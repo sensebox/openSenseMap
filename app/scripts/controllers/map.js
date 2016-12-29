@@ -24,7 +24,7 @@ angular.module('openSenseMapApp')
 		},
 		scrollWheelZoom: true,
 		worldCopyJump: true,
-    attributionControl: false
+		attributionControl: false
 	};
 
 	// Newer versions of leaflet-directive introduced some very verbose logging which we turn off (mostly)
@@ -329,10 +329,18 @@ angular.module('openSenseMapApp')
 	$scope.showHide = false;
 	$scope.cssClass = '';
 	$scope.toggleLegend = function () {
+		console.log(window.orientation);
+		var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
 		if ($scope.showHide) {
 			$scope.cssClass = '';
+			if (document.body.clientHeight <= 420 ) {
+				zoomControl[0].classList.remove('hidden');
+			}
 		} else {
 			$scope.cssClass = 'legend-big';
+			if (document.body.clientHeight <= 420 ) {
+				zoomControl[0].classList.add('hidden');
+			}
 		}
 		$scope.showHide = !$scope.showHide;
 	}

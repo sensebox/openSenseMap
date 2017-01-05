@@ -619,8 +619,25 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   border-radius: 5px;
 }
 
+.legend a {
+  background-color: #fff;
+  border-bottom: 1px solid #ccc;
+  width: 26px;
+  height: 26px;
+  line-height: 26px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: black;
+  border-bottom: none;
+}
+
+.legend a:hover {
+  border-bottom: none;
+}
+
 .legend-icon {
-  line-height: 1.65;
+  line-height: 1.5;
   font-size: 18px;
 }
 

@@ -34,7 +34,7 @@ html, body {
   right: 12px;
   height: 34px;
   width: 34px;
-  z-index: 1001;
+  z-index: 999;
   cursor: pointer;
   color: #9e9e9e;
 }

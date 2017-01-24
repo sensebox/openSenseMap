@@ -344,14 +344,14 @@ angular.module('openSenseMapApp')
 		$scope.showHide = !$scope.showHide;
 	}
 
-  angular.element($window).bind('orientationchange', function () {
-    var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
-    if (document.body.clientHeight <= 400 && $scope.showHide && ($window.orientation === 90 || $window.orientation === -90)) {
-      zoomControl[0].classList.add('hidden');
-    } else if ($window.orientation === 0) {
-      zoomControl[0].classList.remove('hidden');
-    }
-  });
+  	angular.element($window).bind('orientationchange', function () {
+    	var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
+    	if (document.body.clientHeight <= 460 && $scope.showHide && ($window.orientation === 90 || $window.orientation === -90)) {
+      		zoomControl[0].classList.add('hidden');
+	    } else if ($window.orientation === 0) {
+    	  	zoomControl[0].classList.remove('hidden');
+    	}
+  	});
 
 	// centers a latlng (marker) on the map while reserving space for the sidebar
 	$scope.centerLatLng = function(latlng) {

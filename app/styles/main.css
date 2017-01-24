@@ -699,11 +699,28 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
     width: calc(100vw - 20px);
     height: auto;
   }
+
+  .sensebox-legend-marker.awesome-marker {
+    transform: scale(0.75);
+  }
 }
 
 @media screen and (max-height: 400px) and (orientation: landscape) {
   .legend-big {
     width: calc(100vw - 20px);
-    height: calc(100vh - 150px);
+    height: calc(100vh - 125px);
+  }
+
+  .legend-content {
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .sensebox-legend-marker.awesome-marker {
+    transform: scale(0.75);
+  }
+
+  .sensebox-legend-entry {
+    font-size: 12px;
   }
 }

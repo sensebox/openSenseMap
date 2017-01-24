@@ -44,7 +44,7 @@
 				{{ "DOWNLOAD_SELECTSENSOR" | translate }}
 				<select class="form-control" ng-model="inputFilter.Phenomenon">
 					<option value=""></option>
-					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
+					<option ng-repeat="m in markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>
 				<br>
 				{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}

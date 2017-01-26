@@ -20,7 +20,8 @@ angular
     'gridshore.c3js.chart',
     'angularMoment',
     'tmh.dynamicLocale',
-    'ngProgress'
+    'ngProgress',
+    'rzModule'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);

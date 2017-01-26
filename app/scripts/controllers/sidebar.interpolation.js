@@ -5,18 +5,51 @@ angular.module('openSenseMapApp')
 	["$scope", "$stateParams", "$http", "OpenSenseBoxAPI", "leafletData", "$timeout", "moment", function($scope, $stateParams, $http, OpenSenseBoxAPI, leafletData, $timeout, moment){
 
     $scope.calculating = false;
-    $scope.interpolationPicker = {
-        date: moment().toDate(),
-        open: false,
-        buttonBar: {
-          show: false
-        },
-        timepickerOptions: {
-          readonlyInput: false,
-          showMeridian: false,
-          max: moment().toDate()
-        }
+    $scope.interpolationPickerStart = {
+      date: moment().toDate(),
+      open: false,
+      buttonBar: {
+        show: false
+      },
+      timepickerOptions: {
+        readonlyInput: false,
+        showMeridian: false,
+        max: moment().toDate()
+      }
     };
+    $scope.interpolationPickerEnd = {
+      date: moment().toDate(),
+      open: false,
+      buttonBar: {
+        show: false
+      },
+      timepickerOptions: {
+        readonlyInput: false,
+        showMeridian: false,
+        max: moment().toDate()
+      }
+    };
+
+    var dates = [];
+    for (var i = 1; i <= 10; i++) {
+      dates.push(new Date(2016, 7, i));
+    }
+    $scope.slider = {
+      value: dates[0], // or new Date(2016, 7, 10) is you want to use different instances
+      options: {
+        stepsArray: dates,
+        showTicks: true,
+        translate: function(date) {
+          if (date != null)
+            return date.toDateString();
+          return '';
+        }
+      }
+    };
+
+    $scope.$watch('interpolationPickerEnd.open', function(newValue) {
+      console.log($scope.interpolationPickerEnd.open);
+    });
 
     activate();
 
@@ -52,6 +85,14 @@ angular.module('openSenseMapApp')
       $scope.alerts.splice(index, 1);
     };
 
+    $scope.idwPower = 3;
+    $scope.cellWidth = 1;
+    $scope.numTimeSteps = 1;
+    $scope.exposure = "outdoor";
+    $scope.layerGroup;
+    $scope.selectedPhenomenon = "";
+    $scope.map;
+
     $scope.minIDWPower = 1;
     $scope.maxIDWPower = 9;
 
@@ -62,13 +103,16 @@ angular.module('openSenseMapApp')
       }
     }
 
-    $scope.idwPower = 3;
-    $scope.cellWidth = 1;
-    $scope.numTimeSteps = 1;
-    $scope.exposure = "outdoor";
-    $scope.layerGroup;
-    $scope.selectedPhenomenon = "";
-    $scope.map;
+    $scope.minNumTimeSteps = 1;
+    $scope.maxNumTimeSteps = 10;
+
+    $scope.changeNumTimeSteps = function(number) {
+      var newValue = $scope.numTimeSteps + number;
+      if (newValue >= $scope.minNumTimeSteps && newValue <= $scope.maxNumTimeSteps) {
+        $scope.numTimeSteps += number;
+      }
+    }
+
     $scope.calculateInterpolation = function () {
       $scope.calculating = true;
       $scope.alerts.length = 0;
@@ -85,14 +129,14 @@ angular.module('openSenseMapApp')
         $http.get(OpenSenseBoxAPI.url+'/statistics/idw', {
           params: {
             'phenomenon': $scope.selectedPhenomenon,
-            'from-date': moment($scope.interpolationPicker.date).subtract(5, 'm').toISOString(),
-            'to-date': moment($scope.interpolationPicker.date).toISOString(),
+            'from-date': moment($scope.interpolationPickerStart.date).toISOString(),
+            'to-date': moment($scope.interpolationPickerEnd.date).toISOString(),
             'exposure': $scope.exposure,
             'cellWidth': $scope.cellWidth,
             'power': $scope.idwPower,
             'numClasses': 6,
             'bbox': bbox,
-            'numTimeSteps': 1
+            'numTimeSteps': $scope.numTimeSteps
           }
         })
         .then(function (response) {
@@ -223,8 +267,16 @@ angular.module('openSenseMapApp')
     $scope.openCalendar = function(e, picker) {
       e.preventDefault();
       e.stopPropagation();
-      $scope.interpolationPicker.open = true;
-      $scope.interpolationPicker.timepickerOptions.max = moment().toDate();
+      switch(picker) {
+        case 'interpolationPickerStart':
+          $scope.interpolationPickerStart.open = true;
+          $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
+          break;
+        case 'interpolationPickerEnd':
+          $scope.interpolationPickerEnd.open = true;
+          $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+          break;
+      }
     };
 
     $scope.selectExposure = function (exposure) {

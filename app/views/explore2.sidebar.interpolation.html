@@ -60,8 +60,14 @@
       </div>
       <div class="col-lg-6" style="padding-right: 0px;">
         <label for="idwParameterP">{{'INTERP_IDW_P' | translate}}</label>
-        <div class="input-group xxxl">
-          <input type="number" class="form-control" style="border-radius: 4px;" min="0" max="10" step="1" ng-model="idwPower">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="changeIDWPower(-1)" ng-disabled="idwPower === minIDWPower">-</button>
+          </span>
+          <input type="number" class="form-control" style="text-align: center;" ng-model="idwPower" readonly>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-click="changeIDWPower(1)" ng-disabled="idwPower === maxIDWPower">+</button>
+          </span>
         </div>
       </div>
     </div>

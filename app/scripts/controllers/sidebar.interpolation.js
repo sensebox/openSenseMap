@@ -51,8 +51,20 @@ angular.module('openSenseMapApp')
     $scope.closeAlert = function(index) {
       $scope.alerts.splice(index, 1);
     };
+
+    $scope.minIDWPower = 1;
+    $scope.maxIDWPower = 9;
+
+    $scope.changeIDWPower = function(number) {
+      var newValue = $scope.idwPower + number;
+      if (newValue >= $scope.minIDWPower && newValue <= $scope.maxIDWPower) {
+        $scope.idwPower += number;
+      }
+    }
+
     $scope.idwPower = 3;
     $scope.cellWidth = 1;
+    $scope.numTimeSteps = 1;
     $scope.exposure = "outdoor";
     $scope.layerGroup;
     $scope.selectedPhenomenon = "";

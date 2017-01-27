@@ -30,21 +30,24 @@ angular.module('openSenseMapApp')
       }
     };
 
+    $scope.visible = false;
     var dates = [];
-    for (var i = 1; i <= 10; i++) {
-      dates.push(new Date(2016, 7, i));
-    }
+    $scope.selectedTimeStep = Date.now();
     $scope.slider = {
-      value: dates[0], // or new Date(2016, 7, 10) is you want to use different instances
       options: {
         stepsArray: dates,
         showTicks: true,
-        translate: function(date) {
-          if (date != null)
-            return date.toDateString();
-          return '';
+        hidePointerLabels: true,
+        hideLimitLabels: true,
+        onChange: function(id, value) {
+          $scope.selectedTimeStep = value;
         }
       }
+    };
+    $scope.refreshSlider = function () {
+      $timeout(function () {
+        $scope.$broadcast('rzSliderForceRender');
+      });
     };
 
     $scope.$watch('interpolationPickerEnd.open', function(newValue) {
@@ -113,6 +116,7 @@ angular.module('openSenseMapApp')
       }
     }
 
+    var idwLayers = [];
     $scope.calculateInterpolation = function () {
       $scope.calculating = true;
       $scope.alerts.length = 0;
@@ -144,6 +148,16 @@ angular.module('openSenseMapApp')
           if (response.data.code === 'NotFoundError') {
             return response;
           }
+
+          dates = [];
+          response.data.data.timesteps.forEach(function (element, index) {
+            dates.push(new Date(element));
+            idwLayers[element] = "";
+          });
+
+          $scope.slider.value = dates[0];
+          $scope.slider.options.stepsArray = dates;
+          $scope.selectedTimeStep = dates[0];
 
           var breaks = response.data.data.breaks;
 
@@ -182,40 +196,84 @@ angular.module('openSenseMapApp')
             });
           }
 
-          // Create IDW Layer
-          var idwLayer = L.geoJson(response.data.data.featureCollection, {
-            style: function (feature) {
-              var props = feature.properties;
-              for (var key in props) {
-                var z = props[key];
-                if (!Number.isNaN(z)) {
-                  var fillColor = colors[0];
-                  for (var i = 0; i < breaks.length; i++) {
-                    if (z >= breaks[i]) {
-                      fillColor = colors[i];
-                    } else {
-                      break;
+          console.log(idwLayers);
+          var i = 0;
+
+          response.data.data.featureCollection.features.map(function (feature) {
+            console.log(i);
+            console.log(feature);
+          })
+
+          for (var layer in idwLayers) {
+            var idwLayer = L.geoJson(response.data.data.featureCollection, {
+              style: function (feature) {
+                var props = feature.properties;
+                for (var key in props) {
+                  var z = props[key][i];
+                  if (!Number.isNaN(z)) {
+                    var fillColor = colors[0];
+                    for (var i = 0; i < breaks.length; i++) {
+                      if (z >= breaks[i]) {
+                        fillColor = colors[i];
+                      } else {
+                        break;
+                      }
+                    }
+                    return {
+                      weight: 0.1,
+                      fillOpacity: 0.6,
+                      fillColor: fillColor
                     }
                   }
                   return {
-                    weight: 0.1,
-                    fillOpacity: 0.6,
-                    fillColor: fillColor
-                  }
+                    weight: 0,
+                    fillColor: "red",
+                    fillOpacity: 1
+                  };
                 }
-                return {
-                  weight: 0,
-                  fillColor: "red",
-                  fillOpacity: 1
-                };
               }
-            }
-          });
-          $scope.layerGroup = L.layerGroup([idwLayer]);
-          $scope.layerGroup.eachLayer(function (layer) {
-            layer.id = 'interpolation';
-          });
-          $scope.map.addLayer($scope.layerGroup);
+            });
+            i++;
+          }
+
+          // Create IDW Layer
+          // var idwLayer = L.geoJson(response.data.data.featureCollection, {
+          //   style: function (feature) {
+          //     var props = feature.properties;
+          //     for (var key in props) {
+          //       var z = props[key];
+          //       if (!Number.isNaN(z)) {
+          //         var fillColor = colors[0];
+          //         for (var i = 0; i < breaks.length; i++) {
+          //           if (z >= breaks[i]) {
+          //             fillColor = colors[i];
+          //           } else {
+          //             break;
+          //           }
+          //         }
+          //         return {
+          //           weight: 0.1,
+          //           fillOpacity: 0.6,
+          //           fillColor: fillColor
+          //         }
+          //       }
+          //       return {
+          //         weight: 0,
+          //         fillColor: "red",
+          //         fillOpacity: 1
+          //       };
+          //     }
+          //   }
+          // });
+          // $scope.layerGroup = L.layerGroup([idwLayer]);
+          // $scope.layerGroup.eachLayer(function (layer) {
+          //   layer.id = 'interpolation';
+          // });
+          // $scope.map.addLayer($scope.layerGroup);
+
+          $scope.visible = true;
+          $scope.refreshSlider();
+
           return;
         }, function(error) {
           return error;
@@ -248,6 +306,10 @@ angular.module('openSenseMapApp')
         });
       });
     };
+
+    $scope.$on("slideEnded", function() {
+      console.log("slide endend");
+    });
 
     $scope.removeInterpolation = function () {
       if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {

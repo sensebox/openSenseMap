@@ -120,7 +120,10 @@
   <hr>
   <div class="row">
     <div class="col-lg-12">
-      <rzslider class="interpolation-slider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+      <div ng-show="visible">
+        <label for="interpolation-slider">Zeitschritt: {{ selectedTimeStep | amUtc | amLocal | amDateFormat:'l LTS'}}</label>
+        <rzslider id="interpolation-slider" select="refreshSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+      </div>
       <h6>{{legendTitle}}</h6>
       <div class="info legend">
         <div ng-repeat="legendEntry in legendEntries">

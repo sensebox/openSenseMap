@@ -41,6 +41,9 @@ angular.module('openSenseMapApp')
         hideLimitLabels: true,
         onChange: function(id, value) {
           $scope.selectedTimeStep = value;
+          $scope.map.removeLayer($scope.layer);
+          $scope.layer = idwLayers[value.toISOString()];
+          $scope.map.addLayer($scope.layer);
         }
       }
     };
@@ -116,7 +119,9 @@ angular.module('openSenseMapApp')
       }
     }
 
+    $scope.layer;
     var idwLayers = [];
+    var featureCollections = [];
     $scope.calculateInterpolation = function () {
       $scope.calculating = true;
       $scope.alerts.length = 0;
@@ -152,7 +157,7 @@ angular.module('openSenseMapApp')
           dates = [];
           response.data.data.timesteps.forEach(function (element, index) {
             dates.push(new Date(element));
-            idwLayers[element] = "";
+            featureCollections.push({type: "FeatureCollection", features: []});
           });
 
           $scope.slider.value = dates[0];
@@ -196,80 +201,28 @@ angular.module('openSenseMapApp')
             });
           }
 
-          console.log(idwLayers);
-          var i = 0;
-
           response.data.data.featureCollection.features.map(function (feature) {
-            console.log(i);
-            console.log(feature);
-          })
+            var newFeature = {};
+            angular.copy(feature, newFeature);
+            for (var i = 0; i < feature.properties.idwValues.length; i++) {
+              newFeature.properties.idwValues = [];
+              var value = feature.properties.idwValues[i];
+              newFeature.properties.idwValues.push(value);
+              featureCollections[i].features.push(newFeature);
+            }
+          });
 
-          for (var layer in idwLayers) {
-            var idwLayer = L.geoJson(response.data.data.featureCollection, {
-              style: function (feature) {
-                var props = feature.properties;
-                for (var key in props) {
-                  var z = props[key][i];
-                  if (!Number.isNaN(z)) {
-                    var fillColor = colors[0];
-                    for (var i = 0; i < breaks.length; i++) {
-                      if (z >= breaks[i]) {
-                        fillColor = colors[i];
-                      } else {
-                        break;
-                      }
-                    }
-                    return {
-                      weight: 0.1,
-                      fillOpacity: 0.6,
-                      fillColor: fillColor
-                    }
-                  }
-                  return {
-                    weight: 0,
-                    fillColor: "red",
-                    fillOpacity: 1
-                  };
-                }
-              }
-            });
-            i++;
+          for (var i = 0; i < featureCollections.length; i++) {
+            var idwLayer = createGeoJsonLayer(featureCollections[i], breaks);
+            idwLayers[response.data.data.timesteps[i]] = idwLayer;
           }
 
-          // Create IDW Layer
-          // var idwLayer = L.geoJson(response.data.data.featureCollection, {
-          //   style: function (feature) {
-          //     var props = feature.properties;
-          //     for (var key in props) {
-          //       var z = props[key];
-          //       if (!Number.isNaN(z)) {
-          //         var fillColor = colors[0];
-          //         for (var i = 0; i < breaks.length; i++) {
-          //           if (z >= breaks[i]) {
-          //             fillColor = colors[i];
-          //           } else {
-          //             break;
-          //           }
-          //         }
-          //         return {
-          //           weight: 0.1,
-          //           fillOpacity: 0.6,
-          //           fillColor: fillColor
-          //         }
-          //       }
-          //       return {
-          //         weight: 0,
-          //         fillColor: "red",
-          //         fillOpacity: 1
-          //       };
-          //     }
-          //   }
-          // });
-          // $scope.layerGroup = L.layerGroup([idwLayer]);
+          // $scope.layerGroup = L.layerGroup([idwLayers[dates[0].toISOString()]]);
           // $scope.layerGroup.eachLayer(function (layer) {
           //   layer.id = 'interpolation';
           // });
-          // $scope.map.addLayer($scope.layerGroup);
+          $scope.layer = idwLayers[dates[0].toISOString()];
+          $scope.map.addLayer($scope.layer);
 
           $scope.visible = true;
           $scope.refreshSlider();
@@ -307,6 +260,39 @@ angular.module('openSenseMapApp')
       });
     };
 
+    function createGeoJsonLayer (featureCollection, breaks) {
+      var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+      var idwLayer = L.geoJson(featureCollection, {
+        style: function (feature) {
+          var props = feature.properties;
+          for (var key in props) {
+            var z = props[key];
+            if (!Number.isNaN(z)) {
+              var fillColor = colors[0];
+              for (var i = 0; i < breaks.length; i++) {
+                if (z >= breaks[i]) {
+                  fillColor = colors[i];
+                } else {
+                  break;
+                }
+              }
+              return {
+                weight: 0.1,
+                fillOpacity: 0.6,
+                fillColor: fillColor
+              }
+            }
+            return {
+              weight: 0,
+              fillColor: "red",
+              fillOpacity: 1
+            };
+          }
+        }
+      });
+      return idwLayer;
+    }
+
     $scope.$on("slideEnded", function() {
       console.log("slide endend");
     });
@@ -314,6 +300,7 @@ angular.module('openSenseMapApp')
     $scope.removeInterpolation = function () {
       if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
         $scope.layerGroup.clearLayers();
+        $scope.visible = false;
       }
     }
 

@@ -42,7 +42,7 @@ angular.module('openSenseMapApp')
         onChange: function(id, value) {
           $scope.selectedTimeStep = value;
           $scope.map.removeLayer($scope.layer);
-          $scope.layer = idwLayers[value.toISOString()];
+          $scope.layer = createGeoJsonLayer(featureCollections[dates.indexOf(value)], breaks);
           $scope.map.addLayer($scope.layer);
         }
       }
@@ -56,32 +56,6 @@ angular.module('openSenseMapApp')
     $scope.$watch('interpolationPickerEnd.open', function(newValue) {
       console.log($scope.interpolationPickerEnd.open);
     });
-
-    activate();
-
-    function activate() {
-      L.LayerGroup.include({
-        customGetLayer: function (id) {
-          for (var i in this._layers) {
-            if (this._layers[i].id == id) {
-              return this._layers[i];
-            }
-          }
-        }
-      });
-
-      leafletData.getMap('map_main').then(function (map) {
-        $scope.map = map;
-        map.eachLayer(function(layer){
-          if (layer instanceof L.LayerGroup) {
-            var layerGroup = layer.customGetLayer('interpolation');
-            if (!angular.isUndefined(layerGroup)) {
-              $scope.layerGroup = layerGroup;
-            }
-          }
-         });
-      });
-    };
 
     $scope.legendTitle = '';
     $scope.legendEntries = [];
@@ -110,7 +84,7 @@ angular.module('openSenseMapApp')
     }
 
     $scope.minNumTimeSteps = 1;
-    $scope.maxNumTimeSteps = 10;
+    $scope.maxNumTimeSteps = 9;
 
     $scope.changeNumTimeSteps = function(number) {
       var newValue = $scope.numTimeSteps + number;
@@ -120,17 +94,17 @@ angular.module('openSenseMapApp')
     }
 
     $scope.layer;
+    var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+    var breaks = [];
     var idwLayers = [];
     var featureCollections = [];
     $scope.calculateInterpolation = function () {
+      clearInterpolation();
       $scope.calculating = true;
-      $scope.alerts.length = 0;
-      $scope.legendEntries.length = 0;
-      $scope.legendTitle = '';
 
       leafletData.getMap('map_main').then(function (map) {
-        if (!angular.isUndefined($scope.layerGroup)) {
-          $scope.layerGroup.clearLayers();
+        if (!angular.isUndefined($scope.layer)) {
+          $scope.map.removeLayer($scope.layer);
         }
         $scope.map = map;
         return map.getBounds().toBBoxString();
@@ -149,7 +123,6 @@ angular.module('openSenseMapApp')
           }
         })
         .then(function (response) {
-          var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
           if (response.data.code === 'NotFoundError') {
             return response;
           }
@@ -164,7 +137,7 @@ angular.module('openSenseMapApp')
           $scope.slider.options.stepsArray = dates;
           $scope.selectedTimeStep = dates[0];
 
-          var breaks = response.data.data.breaks;
+          breaks = response.data.data.breaks;
 
           // Set legend title
           switch ($scope.selectedPhenomenon) {
@@ -202,9 +175,9 @@ angular.module('openSenseMapApp')
           }
 
           response.data.data.featureCollection.features.map(function (feature) {
-            var newFeature = {};
-            angular.copy(feature, newFeature);
             for (var i = 0; i < feature.properties.idwValues.length; i++) {
+              var newFeature = {};
+              angular.copy(feature, newFeature);
               newFeature.properties.idwValues = [];
               var value = feature.properties.idwValues[i];
               newFeature.properties.idwValues.push(value);
@@ -212,19 +185,12 @@ angular.module('openSenseMapApp')
             }
           });
 
-          for (var i = 0; i < featureCollections.length; i++) {
-            var idwLayer = createGeoJsonLayer(featureCollections[i], breaks);
-            idwLayers[response.data.data.timesteps[i]] = idwLayer;
-          }
-
-          // $scope.layerGroup = L.layerGroup([idwLayers[dates[0].toISOString()]]);
-          // $scope.layerGroup.eachLayer(function (layer) {
-          //   layer.id = 'interpolation';
-          // });
-          $scope.layer = idwLayers[dates[0].toISOString()];
+          $scope.layer = createGeoJsonLayer(featureCollections[0], breaks);
           $scope.map.addLayer($scope.layer);
 
-          $scope.visible = true;
+          if (featureCollections.length > 1) {
+            $scope.visible = true;
+          }
           $scope.refreshSlider();
 
           return;
@@ -261,7 +227,6 @@ angular.module('openSenseMapApp')
     };
 
     function createGeoJsonLayer (featureCollection, breaks) {
-      var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
       var idwLayer = L.geoJson(featureCollection, {
         style: function (feature) {
           var props = feature.properties;
@@ -293,22 +258,27 @@ angular.module('openSenseMapApp')
       return idwLayer;
     }
 
-    $scope.$on("slideEnded", function() {
-      console.log("slide endend");
-    });
-
-    $scope.removeInterpolation = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        $scope.layerGroup.clearLayers();
+    function clearInterpolation () {
+      $scope.alerts.length = 0;
+      $scope.legendEntries.length = 0;
+      $scope.legendTitle = '';
+      idwLayers = [];
+      featureCollections = [];
+      breaks = [];
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        $scope.map.removeLayer($scope.layer);
+        delete $scope.layer;
         $scope.visible = false;
       }
     }
 
+    $scope.removeInterpolation = function () {
+      clearInterpolation();
+    }
+
     $scope.showRemoveInterpolation = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        if ($scope.layerGroup.toGeoJSON().features.length > 0) {
-          return true;
-        }
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        return true;
       }
       return false;
     }
@@ -322,6 +292,7 @@ angular.module('openSenseMapApp')
           $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
           break;
         case 'interpolationPickerEnd':
+          console.log(angular.element('#interpolationPickerEnd').parent());
           $scope.interpolationPickerEnd.open = true;
           $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
           break;
@@ -333,8 +304,8 @@ angular.module('openSenseMapApp')
     };
 
     $scope.closeSidebar = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        $scope.layerGroup.clearLayers();
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        clearInterpolation()
       }
     }
 }]);

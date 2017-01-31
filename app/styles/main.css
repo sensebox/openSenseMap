@@ -619,6 +619,14 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   border-radius: 5px;
 }
 
+.legend.interpolation i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
 .legend a {
   background-color: #fff;
   border-bottom: 1px solid #ccc;

@@ -53,10 +53,6 @@ angular.module('openSenseMapApp')
       });
     };
 
-    $scope.$watch('interpolationPickerEnd.open', function(newValue) {
-      console.log($scope.interpolationPickerEnd.open);
-    });
-
     $scope.legendTitle = '';
     $scope.legendEntries = [];
 
@@ -292,9 +288,12 @@ angular.module('openSenseMapApp')
           $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
           break;
         case 'interpolationPickerEnd':
-          console.log(angular.element('#interpolationPickerEnd').parent());
           $scope.interpolationPickerEnd.open = true;
           $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+          $timeout(function () {
+            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
+            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
+          });
           break;
       }
     };

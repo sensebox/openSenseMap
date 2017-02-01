@@ -32,7 +32,7 @@
       <div class="col-lg-6" style="padding-left: 0px;">
         <label for="interpolationPickerStart">{{'INTERP_TIMESTAMPBEGIN'|translate}}</label>
         <div class="input-group">
-          <input id="interpolationPickerStart" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerStart.date" is-open="interpolationPickerStart.open" button-bar="interpolationPickerStart.buttonBar" timepicker-options="interpolationPickerStart.timepickerOptions" />
+          <input id="interpolationPickerStart" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerStart.date" is-open="interpolationPickerStart.open" button-bar="interpolationPickerStart.buttonBar" timepicker-options="interpolationPickerStart.timepickerOptions" datepicker-options="interpolationPickerStart.datepickerOptions" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPickerStart')"><i class="fa fa-calendar"></i></button>
           </span>
@@ -41,7 +41,7 @@
       <div class="col-lg-6" style="padding-right: 0px;">
         <label for="interpolationPickerEnd">{{'INTERP_TIMESTAMPEND'|translate}}</label>
         <div class="input-group">
-          <input id="interpolationPickerEnd" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerEnd.date" is-open="interpolationPickerEnd.open" button-bar="interpolationPickerEnd.buttonBar" timepicker-options="interpolationPickerEnd.timepickerOptions" />
+          <input id="interpolationPickerEnd" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerEnd.date" is-open="interpolationPickerEnd.open" button-bar="interpolationPickerEnd.buttonBar" timepicker-options="interpolationPickerEnd.timepickerOptions" datepicker-options="interpolationPickerEnd.datepickerOptions" />
           <span class="input-group-btn">
             <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPickerEnd')"><i class="fa fa-calendar"></i></button>
           </span>

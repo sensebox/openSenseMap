@@ -6,7 +6,7 @@ angular.module('openSenseMapApp')
 
     $scope.calculating = false;
     $scope.interpolationPickerStart = {
-      date: moment().toDate(),
+      date: moment().subtract(5, 'm').toDate(),
       open: false,
       buttonBar: {
         show: false
@@ -14,7 +14,11 @@ angular.module('openSenseMapApp')
       timepickerOptions: {
         readonlyInput: false,
         showMeridian: false,
-        max: moment().toDate()
+        max: null,
+        min: null
+      },
+      datepickerOptions: {
+        minDate: null
       }
     };
     $scope.interpolationPickerEnd = {
@@ -26,7 +30,11 @@ angular.module('openSenseMapApp')
       timepickerOptions: {
         readonlyInput: false,
         showMeridian: false,
-        max: moment().toDate()
+        max: null,
+        min: null
+      },
+      datepickerOptions: {
+        maxDate: null
       }
     };
 
@@ -285,18 +293,39 @@ angular.module('openSenseMapApp')
       switch(picker) {
         case 'interpolationPickerStart':
           $scope.interpolationPickerStart.open = true;
-          $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
+          // $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
           break;
         case 'interpolationPickerEnd':
           $scope.interpolationPickerEnd.open = true;
+          $scope.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
+          $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
           $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+          $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.timepickerOptions.max;
           $timeout(function () {
             angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
             angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
           });
           break;
       }
-    };
+    }
+
+    // watch min and max dates to calculate difference
+    var unwatchMinMaxValues = $scope.$watch(function() {
+      return [$scope.interpolationPickerStart, $scope.interpolationPickerEnd];
+    }, function() {
+      // min max dates
+      $scope.interpolationPickerStart.datepickerOptions.maxDate = $scope.interpolationPickerEnd.date;
+      $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
+
+      // min max times
+      $scope.interpolationPickerStart.timepickerOptions.max = $scope.interpolationPickerEnd.date;
+      $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.date;
+    }, true);
+
+    // destroy watcher
+    $scope.$on('$destroy', function() {
+      unwatchMinMaxValues();
+    });
 
     $scope.selectExposure = function (exposure) {
       $scope.exposure = exposure;

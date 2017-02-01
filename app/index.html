@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
+    <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -57,7 +58,7 @@
                     <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png"><div class='oSeM-brand'>&nbsp;openSenseMap</div></a></span>
                     <div class="ng-cloak brand-stats">
                         <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
-                        <span class="sensebox-stats">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+                        <span class="sensebox-stats" title="{{counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
                     </div>
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -164,6 +165,7 @@
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 

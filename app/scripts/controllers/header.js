@@ -25,6 +25,7 @@ angular.module('openSenseMapApp')
   	 .success(function(data){
   		  $scope.counts.boxes = data[0];
   		  $scope.counts.measurements = data[1];
+  		  $scope.counts.mPerMin = data[2];
       }).error(function(){
   	});
     $scope.filterActive = FilterActiveService;

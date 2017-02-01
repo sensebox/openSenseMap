@@ -619,6 +619,14 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   border-radius: 5px;
 }
 
+.legend.interpolation i {
+  width: 18px;
+  height: 18px;
+  float: left;
+  margin-right: 8px;
+  opacity: 0.7;
+}
+
 .legend a {
   background-color: #fff;
   border-bottom: 1px solid #ccc;
@@ -723,4 +731,49 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   .sensebox-legend-entry {
     font-size: 12px;
   }
+}
+
+.interpolation-slider.rzslider .rz-bar {
+  background: #4EAF47;
+  height: 2px;
+}
+/*.interpolation-slider.rzslider .rz-selection {
+  background: orange;
+}*/
+
+.interpolation-slider.rzslider .rz-pointer {
+  /*width: 8px;
+  height: 16px;
+  top: auto;  to remove the default positioning 
+  bottom: 0;*/
+  background-color: #4EAF47;
+  /*width: 24px;
+  height: 24px;*/
+  /*border-top-left-radius: 3px;
+  border-top-right-radius: 3px;*/
+}
+
+.interpolation-slider.rzslider .rz-pointer:after {
+  display: none;
+}
+
+.interpolation-slider.rzslider .rz-bubble {
+  bottom: 14px;
+  color: #4EAF47;
+  font-weight: bold;
+}
+
+.interpolation-slider.rzslider .rz-limit {
+  color: #333;
+  font-weight: inherit;
+}
+
+.interpolation-slider.rzslider .rz-tick {
+  margin-left: 4px;
+  background: #4EAF47;
+  top: -1px;
+}
+
+.interpolation-slider.rzslider .rz-tick.rz-selected {
+  background: #4EAF47;
 }

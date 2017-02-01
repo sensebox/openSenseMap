@@ -5,42 +5,59 @@ angular.module('openSenseMapApp')
 	["$scope", "$stateParams", "$http", "OpenSenseBoxAPI", "leafletData", "$timeout", "moment", function($scope, $stateParams, $http, OpenSenseBoxAPI, leafletData, $timeout, moment){
 
     $scope.calculating = false;
-    $scope.interpolationPicker = {
-        date: moment().toDate(),
-        open: false,
-        buttonBar: {
-          show: false
-        },
-        timepickerOptions: {
-          readonlyInput: false,
-          showMeridian: false,
-          max: moment().toDate()
-        }
+    $scope.interpolationPickerStart = {
+      date: moment().subtract(5, 'm').toDate(),
+      open: false,
+      buttonBar: {
+        show: false
+      },
+      timepickerOptions: {
+        readonlyInput: false,
+        showMeridian: false,
+        max: null,
+        min: null
+      },
+      datepickerOptions: {
+        minDate: null
+      }
+    };
+    $scope.interpolationPickerEnd = {
+      date: moment().toDate(),
+      open: false,
+      buttonBar: {
+        show: false
+      },
+      timepickerOptions: {
+        readonlyInput: false,
+        showMeridian: false,
+        max: null,
+        min: null
+      },
+      datepickerOptions: {
+        maxDate: null
+      }
     };
 
-    activate();
-
-    function activate() {
-      L.LayerGroup.include({
-        customGetLayer: function (id) {
-          for (var i in this._layers) {
-            if (this._layers[i].id == id) {
-              return this._layers[i];
-            }
-          }
+    $scope.visible = false;
+    var dates = [];
+    $scope.selectedTimeStep = Date.now();
+    $scope.slider = {
+      options: {
+        stepsArray: dates,
+        showTicks: true,
+        hidePointerLabels: true,
+        hideLimitLabels: true,
+        onChange: function(id, value) {
+          $scope.selectedTimeStep = value;
+          $scope.map.removeLayer($scope.layer);
+          $scope.layer = createGeoJsonLayer(featureCollections[dates.indexOf(value)], breaks);
+          $scope.map.addLayer($scope.layer);
         }
-      });
-
-      leafletData.getMap('map_main').then(function (map) {
-        $scope.map = map;
-        map.eachLayer(function(layer){
-          if (layer instanceof L.LayerGroup) {
-            var layerGroup = layer.customGetLayer('interpolation');
-            if (!angular.isUndefined(layerGroup)) {
-              $scope.layerGroup = layerGroup;
-            }
-          }
-         });
+      }
+    };
+    $scope.refreshSlider = function () {
+      $timeout(function () {
+        $scope.$broadcast('rzSliderForceRender');
       });
     };
 
@@ -52,6 +69,14 @@ angular.module('openSenseMapApp')
       $scope.alerts.splice(index, 1);
     };
 
+    $scope.idwPower = 3;
+    $scope.cellWidth = 1;
+    $scope.numTimeSteps = 1;
+    $scope.exposure = "outdoor";
+    $scope.layerGroup;
+    $scope.selectedPhenomenon = "";
+    $scope.map;
+
     $scope.minIDWPower = 1;
     $scope.maxIDWPower = 9;
 
@@ -62,22 +87,28 @@ angular.module('openSenseMapApp')
       }
     }
 
-    $scope.idwPower = 3;
-    $scope.cellWidth = 1;
-    $scope.numTimeSteps = 1;
-    $scope.exposure = "outdoor";
-    $scope.layerGroup;
-    $scope.selectedPhenomenon = "";
-    $scope.map;
+    $scope.minNumTimeSteps = 1;
+    $scope.maxNumTimeSteps = 9;
+
+    $scope.changeNumTimeSteps = function(number) {
+      var newValue = $scope.numTimeSteps + number;
+      if (newValue >= $scope.minNumTimeSteps && newValue <= $scope.maxNumTimeSteps) {
+        $scope.numTimeSteps += number;
+      }
+    }
+
+    $scope.layer;
+    var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
+    var breaks = [];
+    var idwLayers = [];
+    var featureCollections = [];
     $scope.calculateInterpolation = function () {
+      clearInterpolation();
       $scope.calculating = true;
-      $scope.alerts.length = 0;
-      $scope.legendEntries.length = 0;
-      $scope.legendTitle = '';
 
       leafletData.getMap('map_main').then(function (map) {
-        if (!angular.isUndefined($scope.layerGroup)) {
-          $scope.layerGroup.clearLayers();
+        if (!angular.isUndefined($scope.layer)) {
+          $scope.map.removeLayer($scope.layer);
         }
         $scope.map = map;
         return map.getBounds().toBBoxString();
@@ -85,23 +116,32 @@ angular.module('openSenseMapApp')
         $http.get(OpenSenseBoxAPI.url+'/statistics/idw', {
           params: {
             'phenomenon': $scope.selectedPhenomenon,
-            'from-date': moment($scope.interpolationPicker.date).subtract(5, 'm').toISOString(),
-            'to-date': moment($scope.interpolationPicker.date).toISOString(),
+            'from-date': moment($scope.interpolationPickerStart.date).toISOString(),
+            'to-date': moment($scope.interpolationPickerEnd.date).toISOString(),
             'exposure': $scope.exposure,
             'cellWidth': $scope.cellWidth,
             'power': $scope.idwPower,
             'numClasses': 6,
             'bbox': bbox,
-            'numTimeSteps': 1
+            'numTimeSteps': $scope.numTimeSteps
           }
         })
         .then(function (response) {
-          var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
           if (response.data.code === 'NotFoundError') {
             return response;
           }
 
-          var breaks = response.data.data.breaks;
+          dates = [];
+          response.data.data.timesteps.forEach(function (element, index) {
+            dates.push(new Date(element));
+            featureCollections.push({type: "FeatureCollection", features: []});
+          });
+
+          $scope.slider.value = dates[0];
+          $scope.slider.options.stepsArray = dates;
+          $scope.selectedTimeStep = dates[0];
+
+          breaks = response.data.data.breaks;
 
           // Set legend title
           switch ($scope.selectedPhenomenon) {
@@ -138,40 +178,25 @@ angular.module('openSenseMapApp')
             });
           }
 
-          // Create IDW Layer
-          var idwLayer = L.geoJson(response.data.data.featureCollection, {
-            style: function (feature) {
-              var props = feature.properties;
-              for (var key in props) {
-                var z = props[key];
-                if (!Number.isNaN(z)) {
-                  var fillColor = colors[0];
-                  for (var i = 0; i < breaks.length; i++) {
-                    if (z >= breaks[i]) {
-                      fillColor = colors[i];
-                    } else {
-                      break;
-                    }
-                  }
-                  return {
-                    weight: 0.1,
-                    fillOpacity: 0.6,
-                    fillColor: fillColor
-                  }
-                }
-                return {
-                  weight: 0,
-                  fillColor: "red",
-                  fillOpacity: 1
-                };
-              }
+          response.data.data.featureCollection.features.map(function (feature) {
+            for (var i = 0; i < feature.properties.idwValues.length; i++) {
+              var newFeature = {};
+              angular.copy(feature, newFeature);
+              newFeature.properties.idwValues = [];
+              var value = feature.properties.idwValues[i];
+              newFeature.properties.idwValues.push(value);
+              featureCollections[i].features.push(newFeature);
             }
           });
-          $scope.layerGroup = L.layerGroup([idwLayer]);
-          $scope.layerGroup.eachLayer(function (layer) {
-            layer.id = 'interpolation';
-          });
-          $scope.map.addLayer($scope.layerGroup);
+
+          $scope.layer = createGeoJsonLayer(featureCollections[0], breaks);
+          $scope.map.addLayer($scope.layer);
+
+          if (featureCollections.length > 1) {
+            $scope.visible = true;
+          }
+          $scope.refreshSlider();
+
           return;
         }, function(error) {
           return error;
@@ -205,17 +230,59 @@ angular.module('openSenseMapApp')
       });
     };
 
-    $scope.removeInterpolation = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        $scope.layerGroup.clearLayers();
+    function createGeoJsonLayer (featureCollection, breaks) {
+      var idwLayer = L.geoJson(featureCollection, {
+        style: function (feature) {
+          var props = feature.properties;
+          for (var key in props) {
+            var z = props[key];
+            if (!Number.isNaN(z)) {
+              var fillColor = colors[0];
+              for (var i = 0; i < breaks.length; i++) {
+                if (z >= breaks[i]) {
+                  fillColor = colors[i];
+                } else {
+                  break;
+                }
+              }
+              return {
+                weight: 0.1,
+                fillOpacity: 0.6,
+                fillColor: fillColor
+              }
+            }
+            return {
+              weight: 0,
+              fillColor: "red",
+              fillOpacity: 1
+            };
+          }
+        }
+      });
+      return idwLayer;
+    }
+
+    function clearInterpolation () {
+      $scope.alerts.length = 0;
+      $scope.legendEntries.length = 0;
+      $scope.legendTitle = '';
+      idwLayers = [];
+      featureCollections = [];
+      breaks = [];
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        $scope.map.removeLayer($scope.layer);
+        delete $scope.layer;
+        $scope.visible = false;
       }
     }
 
+    $scope.removeInterpolation = function () {
+      clearInterpolation();
+    }
+
     $scope.showRemoveInterpolation = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        if ($scope.layerGroup.toGeoJSON().features.length > 0) {
-          return true;
-        }
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        return true;
       }
       return false;
     }
@@ -223,17 +290,50 @@ angular.module('openSenseMapApp')
     $scope.openCalendar = function(e, picker) {
       e.preventDefault();
       e.stopPropagation();
-      $scope.interpolationPicker.open = true;
-      $scope.interpolationPicker.timepickerOptions.max = moment().toDate();
-    };
+      switch(picker) {
+        case 'interpolationPickerStart':
+          $scope.interpolationPickerStart.open = true;
+          // $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
+          break;
+        case 'interpolationPickerEnd':
+          $scope.interpolationPickerEnd.open = true;
+          $scope.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
+          $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
+          $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+          $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.timepickerOptions.max;
+          $timeout(function () {
+            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
+            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
+          });
+          break;
+      }
+    }
+
+    // watch min and max dates to calculate difference
+    var unwatchMinMaxValues = $scope.$watch(function() {
+      return [$scope.interpolationPickerStart, $scope.interpolationPickerEnd];
+    }, function() {
+      // min max dates
+      $scope.interpolationPickerStart.datepickerOptions.maxDate = $scope.interpolationPickerEnd.date;
+      $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
+
+      // min max times
+      $scope.interpolationPickerStart.timepickerOptions.max = $scope.interpolationPickerEnd.date;
+      $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.date;
+    }, true);
+
+    // destroy watcher
+    $scope.$on('$destroy', function() {
+      unwatchMinMaxValues();
+    });
 
     $scope.selectExposure = function (exposure) {
       $scope.exposure = exposure;
     };
 
     $scope.closeSidebar = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layerGroup)) {
-        $scope.layerGroup.clearLayers();
+      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
+        clearInterpolation()
       }
     }
 }]);

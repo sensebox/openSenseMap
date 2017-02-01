@@ -154,8 +154,13 @@
   "INTERP_IDWPARAM": "Select the p-parameter for the IDW interpolation:",
   "INTERP_NOTENOUGH": "There aren't enough senseBoxes on the map",
   "INTERP_TIMESTAMP": "Timestamp",
+  "INTERP_TIMESTAMPBEGIN": "Begin",
+  "INTERP_TIMESTAMPEND": "End",
   "INTERP_PHENOMENOM_SEARCH": "Search for a phenomenon",
   "INTERP_CREATE": "Create interpolation",
+  "INTERP_CELLWIDTH": "Cell width in km",
+  "INTERP_IDW_P": "Power",
+  "INTERP_NUMTIMESTEPS": "Time steps",
 
   "LEGEND_ACTIVE": "Active senseBox (< 7 Days)",
   "LEGEND_ACTIVE_30": "Inactive senseBox (> 7 Days)",

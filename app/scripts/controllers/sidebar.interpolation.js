@@ -50,8 +50,13 @@ angular.module('openSenseMapApp')
         onChange: function(id, value) {
           $scope.selectedTimeStep = value;
           $scope.map.removeLayer($scope.layer);
-          $scope.layer = createGeoJsonLayer(featureCollections[dates.indexOf(value)], breaks);
-          $scope.map.addLayer($scope.layer);
+          for (var i = 0; i < dates.length; i++) {
+            if (dates[i].toISOString() === value.toISOString()) {
+              $scope.layer = createGeoJsonLayer(featureCollections[i], breaks);
+              $scope.map.addLayer($scope.layer);
+              break;
+            }
+          }
         }
       }
     };

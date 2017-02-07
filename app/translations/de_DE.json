@@ -163,6 +163,7 @@
   "INTERP_CELLWIDTH": "Zellgröße in km",
   "INTERP_IDW_P": "Power",
   "INTERP_NUMTIMESTEPS": "Zeitschritte",
+  "INTERP_TIMESTEP": "Zeitschritt",
 
   "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
   "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",

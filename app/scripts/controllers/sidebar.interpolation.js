@@ -48,18 +48,23 @@ angular.module('openSenseMapApp')
         hidePointerLabels: true,
         hideLimitLabels: true,
         onChange: function(id, value) {
-          $scope.selectedTimeStep = value;
-          $scope.map.removeLayer($scope.layer);
-          for (var i = 0; i < dates.length; i++) {
-            if (dates[i].toISOString() === value.toISOString()) {
-              $scope.layer = createGeoJsonLayer(featureCollections[i], breaks);
-              $scope.map.addLayer($scope.layer);
-              break;
-            }
-          }
+          changeSlider(value);
         }
       }
-    };
+    }
+
+    var changeSlider = function (value) {
+      $scope.selectedTimeStep = value;
+      $scope.map.removeLayer($scope.layer);
+      for (var i = 0; i < dates.length; i++) {
+        if (dates[i].toISOString() === value.toISOString()) {
+          $scope.layer = createGeoJsonLayer(featureCollections[i], breaks);
+          $scope.map.addLayer($scope.layer);
+          break;
+        }
+      }
+    }
+
     $scope.refreshSlider = function () {
       $timeout(function () {
         $scope.$broadcast('rzSliderForceRender');
@@ -235,6 +240,29 @@ angular.module('openSenseMapApp')
       });
     };
 
+    $scope.prom;
+    var delay = 5000;
+    $scope.isPlaying = false;
+    $scope.playInterpolation = function () {
+      $scope.isPlaying = true;
+      $scope.prom = $timeout($scope.playInterpolation, delay);
+      var value = 0;
+      var nextIndex = dates.indexOf($scope.selectedTimeStep)+1;
+      if (angular.isUndefined(dates[nextIndex])) {
+        value = dates[0];
+      } else {
+        value = dates[nextIndex];
+      }
+      $scope.selectedTimeStep = value;
+      $scope.slider.value = value;
+      changeSlider(value);
+    }
+
+    $scope.stopInterpolation = function () {
+      $scope.isPlaying = false;
+      $timeout.cancel($scope.prom);
+    }
+
     function createGeoJsonLayer (featureCollection, breaks) {
       var idwLayer = L.geoJson(featureCollection, {
         style: function (feature) {
@@ -268,9 +296,11 @@ angular.module('openSenseMapApp')
     }
 
     function clearInterpolation () {
+      $scope.isPlaying = false;
       $scope.alerts.length = 0;
       $scope.legendEntries.length = 0;
       $scope.legendTitle = '';
+      $timeout.cancel($scope.prom);
       idwLayers = [];
       featureCollections = [];
       breaks = [];

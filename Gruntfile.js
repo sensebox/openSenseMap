@@ -386,7 +386,7 @@ module.exports = function (grunt) {
 
     // gzip html, css and js files
     compress: {
-      main: {
+      gzip: {
         options: {
           mode: 'gzip'
         },
@@ -395,6 +395,17 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
+        ]
+      },
+      brotli: {
+        options: {
+          mode: 'brotli'
+        },
+        files: [
+          {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br'},
+          {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.br'},
+          {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br'},
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'}
         ]
       }
     },

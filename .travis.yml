@@ -6,19 +6,17 @@ services:
   - docker
 
 before_script:
-  - if [ "$TRAVIS_BRANCH" == "master"]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL -t mpfeil/osem .
-    fi
-  - if [ "$TRAVIS_BRANCH" == "development"]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t mpfeil/osem:development .
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t mpfeil/osem .;
+    elif [ "$TRAVIS_BRANCH" == "development" ]; then
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t mpfeil/osem:development .;
     fi
 
 after_success:
-  - if [ "$TRAVIS_BRANCH" == "master"]; then
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push mpfeil/osem:latest;
-    fi
-  - if [ "$TRAVIS_BRANCH" == "development"]; then
+    elif [ "$TRAVIS_BRANCH" == "development" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push mpfeil/osem:development;
     fi

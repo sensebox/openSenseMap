@@ -16,10 +16,10 @@ before_script:
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push mpfeil/osem:latest;
+    docker push senseboxdevs/osem:latest;
     elif [ "$TRAVIS_BRANCH" == "development" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push mpfeil/osem:development;
+    docker push senseboxdevs/osem:development;
     fi
 
 branches:

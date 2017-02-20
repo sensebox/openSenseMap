@@ -1,6 +1,29 @@
+sudo: required
+
 language: node_js
-node_js:
-  - '4.2'
+
+services:
+  - docker
+
 before_script:
-  - 'npm install -g bower grunt-cli'
-  - 'bower install'
+  - if [ "$TRAVIS_BRANCH" == "master"]; then
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL .
+    fi
+  - if [ "$TRAVIS_BRANCH" == "development"]; then
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV .
+    fi
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master"]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push mpfeil/osem:latest;
+    fi
+  - if [ "$TRAVIS_BRANCH" == "development"]; then
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push mpfeil/osem:development;
+    fi
+
+branches:
+  only:
+    - master
+    - development

@@ -13,7 +13,7 @@ angular.module('openSenseMapApp')
 	*/
 	$scope.defaults = {
 		minZoom: 2,
-		tileLayer: 'OPENSENSEMAP_MAPTILES_URL',
+		tileLayer: '@@OPENSENSEMAP_MAPTILES_URL',
 		maxZoom: 18,
 		tileLayerOptions: {
 			subdomains: 'abc',
@@ -74,7 +74,7 @@ angular.module('openSenseMapApp')
 				mapbox: {
 					name: 'Mapbox Streets',
 					type: 'xyz',
-					url: 'OPENSENSEMAP_MAPTILES_URL',
+					url: '@@OPENSENSEMAP_MAPTILES_URL',
 					layerOptions: {
 						subdomains: ['a', 'b', 'c'],
 						detectRetina: true,

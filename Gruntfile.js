@@ -19,12 +19,37 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
-
-    sed: {
-      dist: {
-        path: '<%= yeoman.dist %>/views/explore2.map.html',
-        pattern: 'controls',
-        replacement: 'controls="controls"'
+    replace: {
+      control: {
+        options: {
+          usePrefix: false,
+          patterns: [
+            {
+              match: 'controls',
+              replacement: 'controls="controls"'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/views/explore2.map.html'], dest: '<%= yeoman.dist %>/views/'}
+        ]
+      },
+      urls: {
+        options: {
+          patterns: [
+            {
+              match: 'OPENSENSEMAP_API_URL',
+              replacement: process.env.OPENSENSEMAP_API_URL
+            },
+            {
+              match: 'OPENSENSEMAP_MAPTILES_URL',
+              replacement: process.env.OPENSENSEMAP_MAPTILES_URL
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
+        ]
       }
     },
 
@@ -394,6 +419,7 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz'},
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
+          {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
         ]
       },
@@ -405,6 +431,7 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br'},
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.br'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br'},
+          {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'}
         ]
       }
@@ -505,7 +532,8 @@ module.exports = function (grunt) {
     'rev',
     'usemin',
     'htmlmin',
-    'sed',
+    // 'sed',
+    'replace',
     'compress'
   ]);
 

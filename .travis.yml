@@ -8,9 +8,9 @@ services:
 before_script:
   - npm install -g grunt-cli
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t mpfeil/osem .;
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t senseboxdevs/osem .;
     elif [ "$TRAVIS_BRANCH" == "development" ]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t mpfeil/osem:development .;
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t senseboxdevs/osem:development .;
     fi
 
 after_success:

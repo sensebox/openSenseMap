@@ -43,6 +43,7 @@
   "SIDEBAR_TAB_MEASUREMENTS": "Measurements",
   "SIDEBAR_TAB_INFO": "Info",
   "SIDEBAR_TAB_MANAGE": "Manage",
+  "ARCHIVE": "Archive",
   "CHANGE": "Change",
   "SETTINGS_SELECTIMAGE": "Select image",
   "SETTINGS_IMAGE_RESTRICTIONS": "Only PNG, JPG, JPEG files are allowed up to a max. size of 500 KB",
@@ -133,7 +134,7 @@
   "EDIT_DELETEERROR": "Could not delete your senseBox, please contact us via email",
   "CONTINUE": "Continue",
 
-  "DOWNLOAD_INTRO": "You can download data from senseBoxes that you see on the map. Move or zoom the map to change your selection, then select a timeframe and phenomenon that you want to download. The file format is CSV, downloading the data might take some time.",
+  "DOWNLOAD_INTRO": "You can download data from senseBoxes that you see on the map. Move or zoom the map to change your selection, then select a timeframe and phenomenon that you want to download. The file format is CSV, downloading the data might take some time.</br>Daily data dumps can be found in our <a href=\"https://archive.opensensemap.org\" target='_blank'>Archive</a>.",
   "DOWNLOAD_WARNING": "Downloading data from {{ count }} stations*<br/><small>* Not all stations might have data in the selected time period. Use the <a ui-sref=\"explore.map.filter\">Filter</a> to find boxes and sensors that you want.</small>",
   "PLEASE_WAIT_DATA": "Please wait, loading data...",
   "DOWNLOAD_NODATA": "There is no data in the selected time frame.",
@@ -158,9 +159,11 @@
   "INTERP_TIMESTAMPEND": "End",
   "INTERP_PHENOMENOM_SEARCH": "Search for a phenomenon",
   "INTERP_CREATE": "Create interpolation",
+  "INTERP_REMOVE": "Remove interpolation",
   "INTERP_CELLWIDTH": "Cell width in km",
   "INTERP_IDW_P": "Power",
   "INTERP_NUMTIMESTEPS": "Time steps",
+  "INTERP_TIMESTEP": "Time step",
 
   "LEGEND_ACTIVE": "Active senseBox (< 7 Days)",
   "LEGEND_ACTIVE_30": "Inactive senseBox (> 7 Days)",

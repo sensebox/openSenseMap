@@ -10,7 +10,7 @@
 angular.module('openSenseMapApp')
 	.factory('OpenSenseBoxAPI', function () {
 		var api = {
-			url: 'OPENSENSEMAP_API_URL'
+			url: '@@OPENSENSEMAP_API_URL'
 		};
 		return api;
 	});

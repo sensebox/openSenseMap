@@ -11,8 +11,4 @@ describe('Service: OpenSenseBox', function () {
     OpenSenseBox = _OpenSenseBox_;
   }));
 
-  it('should do something', function () {
-    expect(!!OpenSenseBox).toBe(true);
-  });
-
 });

@@ -2,7 +2,7 @@
 
 angular.module('openSenseMapApp')
 	.controller('SidebarBoxDetailsCtrl',
-		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', '$timeout', 'OpenSenseBoxData', function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData){
+		['$scope', '$stateParams', '$http', 'OpenSenseBox', 'OpenSenseBoxesSensors', 'OpenSenseBoxAPI', 'Validation', 'ngDialog', '$timeout', 'OpenSenseBoxData', 'moment', function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxesSensors, OpenSenseBoxAPI, Validation, ngDialog, $timeout, OpenSenseBoxData, moment){
 
 		$scope.osemapi = OpenSenseBoxAPI;
 		$scope.true = true;
@@ -33,10 +33,16 @@ angular.module('openSenseMapApp')
 			];
 			$scope.$parent.centerLatLng(markerLatLng);
 			$scope.selectedMarker = response;
+			$scope.archiveLink = "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+$scope.selectedMarker._id+"-"+doubleGermanS($scope.selectedMarker.name).replace(/[^A-Za-z0-9._-]/g,'_');
 			getMeasurements();
 		}, function(){
 			$scope.boxNotFound = true;
 		});
+
+		function doubleGermanS(value){
+		  value = value.replace(/ß/g, 'ßß');
+		  return value;
+		}
 
 		$scope.closeSidebar = function () {
 			$timeout.cancel($scope.prom);

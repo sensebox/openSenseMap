@@ -11,8 +11,4 @@ describe('Service: OpenSenseBoxesSensors', function () {
     OpenSenseBoxesSensors = _OpenSenseBoxesSensors_;
   }));
 
-  it('should do something', function () {
-    expect(!!OpenSenseBoxesSensors).toBe(true);
-  });
-
 });

@@ -43,6 +43,7 @@
   "SIDEBAR_TAB_MEASUREMENTS": "Messwerte",
   "SIDEBAR_TAB_INFO": "Information",
   "SIDEBAR_TAB_MANAGE": "Verwalten",
+  "ARCHIVE": "Archiv",
   "CHANGE": "Ändern",
   "SETTINGS_SELECTIMAGE": "Bild auswählen",
   "SETTINGS_IMAGE_RESTRICTIONS": "Nur PNG, JPG, JPEG Dateien bis 500 KB Dateigröße sind erlaubt",
@@ -135,7 +136,7 @@
   "EDIT_DELETEERROR": "Deine senseBox konnte nicht gelöscht werden, bitte schreib uns eine Email",
   "CONTINUE": "Weiter",
 
-  "DOWNLOAD_INTRO": "Hier kannst du die Messdaten von senseBoxen herunterladen. Es werden die Daten der Boxen heruntergeladen, die du auf der Karte siehst. Zoome und bewege die Karte, um die Auswahl einzuschränken, wähle dann einen Zeitraum sowie Sensor. Der Download der Daten kann einige Zeit dauern.",
+  "DOWNLOAD_INTRO": "Hier kannst du die Messdaten von senseBoxen herunterladen. Es werden die Daten der Boxen heruntergeladen, die du auf der Karte siehst. Zoome und bewege die Karte, um die Auswahl einzuschränken, wähle dann einen Zeitraum sowie Sensor. Der Download der Daten kann einige Zeit dauern.</br>Tägliche Datendumps können im <a href=\"https://archive.opensensemap.org\" target='_blank'>Archiv</a> heruntergeladen werden.",
   "DOWNLOAD_WARNING": "Lade Daten von {{ count }} Stationen*<br/><small>* Nicht alle Stationen haben unbedingt Daten im gewählten Zeitraum. Nutze den <a href=\"/filter\">Filter</a>, um passende senseBoxen zu finden.</small>",
   "PLEASE_WAIT_DATA": "Bitte warten, die Daten werden geladen...",
   "DOWNLOAD_NODATA": "Im ausgewählten Zeitraum liegen keine Daten vor.",
@@ -163,6 +164,7 @@
   "INTERP_CELLWIDTH": "Zellgröße in km",
   "INTERP_IDW_P": "Power",
   "INTERP_NUMTIMESTEPS": "Zeitschritte",
+  "INTERP_TIMESTEP": "Zeitschritt",
 
   "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
   "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",

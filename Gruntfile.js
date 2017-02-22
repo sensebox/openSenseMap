@@ -50,6 +50,32 @@ module.exports = function (grunt) {
         files: [
           {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
         ]
+      },
+      devapi: {
+        options: {
+          patterns: [
+            {
+              match: 'OPENSENSEMAP_API_URL',
+              replacement: 'https://api.osem.vo1d.space'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'}
+        ]
+      },
+      devmaps: {
+        options: {
+          patterns: [
+            {
+              match: 'OPENSENSEMAP_MAPTILES_URL',
+              replacement: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'}
+        ]
       }
     },
 
@@ -105,6 +131,22 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      devs: {
+        files: [
+          '<%= yeoman.app %>/scripts/controllers/map.js',
+          '<%= yeoman.app %>/scripts/controllers/register.js',
+          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js'
+        ],
+        tasks: [
+          'newer:copy:api',
+          'newer:copy:maps',
+          'replace:devapi',
+          'replace:devmaps'
+        ],
+        options: {
+          livereload: true
+        }
       }
     },
 
@@ -406,6 +448,18 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      api: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/services',
+        dest: '.tmp/scripts/services',
+        src: 'opensenseboxapi.js'
+      },
+      maps: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/controllers',
+        dest: '.tmp/scripts/controllers',
+        src: ['map.js', 'register.js']
       }
     },
 
@@ -440,7 +494,9 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        'copy:styles',
+        'copy:api',
+        'copy:maps'
       ],
       test: [
         'copy:styles'
@@ -498,6 +554,8 @@ module.exports = function (grunt) {
       'bowerInstall',
       'concurrent:server',
       'autoprefixer',
+      'replace:devapi',
+      'replace:devmaps',
       'languages',
       'connect:livereload',
       'watch'

@@ -55,7 +55,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png"><div class='oSeM-brand'>&nbsp;openSenseMap</div></a></span>
+                    <span id="brand_with_logo"><a class="navbar-brand" ui-sref="explore.map" ui-sref-opts="{reload: true}"><img src="images/sensebox-favicon.png"><div class='oSeM-brand'>&nbsp;openSenseMap</div></a></span>
                     <div class="ng-cloak brand-stats">
                         <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
                         <span class="sensebox-stats" title="{{counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
@@ -64,7 +64,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="ng-cloak nav navbar-nav navbar-right">
                         <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="explore.map">
+                            <a ui-sref="explore.map" ui-sref-opts="{reload: true}">
                                 <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                             </a>
                         </li>

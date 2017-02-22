@@ -4,7 +4,22 @@ openSenseMap
 ## Installation
 
 ### Docker
+
+#### openSenseMap including openSenseMap-API
+
 For installing openSenseMap and openSenseMap-API with Docker check out our [oSeM-compose](https://github.com/sensebox/OSeM-compose) repository.
+
+#### openSenseMap
+
+To build just openSenseMap you can run:
+```docker build -t osem .```
+
+Following ```build-args``` are availble:
+
+| Build Arg | Default value |
+| --------- | ----------------- |
+| OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
+| OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
 ### Local installation
 
@@ -27,4 +42,10 @@ grunt serve
 If you want to change the API endpoint and/or the map tiles you can do so in the Gruntfile.
 Therefore you can change the `replace:devapi` and/or `replace:devmaps` tasks.
 
-Code license: MIT License
+## Contributing
+Contributions are welcome, see [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
+## License
+- Code: MIT License
+
+See [LICENSE](https://github.com/sensebox/opensensemap/blob/master/LICENSE) file.

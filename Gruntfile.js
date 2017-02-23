@@ -491,7 +491,9 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'},
           {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz'}
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz'},
+          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: 'png.gz'},
+          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: 'svg.gz'},
         ]
       },
       brotli: {
@@ -505,7 +507,9 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br'},
           {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'},
           {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br'}
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br'},
+          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: 'png.br'},
+          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: 'svg.br'}
         ]
       }
     },

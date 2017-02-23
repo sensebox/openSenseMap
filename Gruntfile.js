@@ -118,9 +118,7 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['<%= yeoman.app %>/index.html'],
-        options: {
-          livereload: true
-        }
+        tasks: ['languages'],
       },
       livereload: {
         options: {
@@ -349,7 +347,18 @@ module.exports = function (grunt) {
           cwd: '.tmp/concat/scripts',
           src: '*.js',
           dest: '.tmp/concat/scripts'
+        },{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/translations/angular',
+          src: '*.js',
+          dest: '<%= yeoman.dist %>/translations/angular'
         }]
+      }
+    },
+
+    'json-minify': {
+      build: {
+        files: '<%= yeoman.dist %>/translations/*.json'
       }
     },
 
@@ -460,6 +469,12 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/scripts/controllers',
         dest: '.tmp/scripts/controllers',
         src: ['map.js', 'register.js']
+      },
+      images: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/images',
+        dest: '.tmp/images',
+        src: 'favicon.svg'
       }
     },
 
@@ -474,7 +489,9 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'},
+          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz'}
         ]
       },
       brotli: {
@@ -486,7 +503,9 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.br'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br'},
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'}
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'},
+          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br'},
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br'}
         ]
       }
     },
@@ -496,7 +515,8 @@ module.exports = function (grunt) {
       server: [
         'copy:styles',
         'copy:api',
-        'copy:maps'
+        'copy:maps',
+        'copy:images'
       ],
       test: [
         'copy:styles'
@@ -508,31 +528,18 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    uglify: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.dist %>/translations/angular',
+            src: '*.js',
+            dest: '<%= yeoman.dist %>/translations/angular'
+          }
+        ]
+      }
+    },
 
     // Test settings
     karma: {
@@ -542,7 +549,6 @@ module.exports = function (grunt) {
       }
     }
   });
-
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -584,14 +590,14 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'cdnify',
     'cssmin',
     'uglify',
     'rev',
     'usemin',
     'htmlmin',
-    // 'sed',
-    'replace',
+    'json-minify',
+    'replace:control',
+    'replace:urls',
     'compress'
   ]);
 
@@ -623,7 +629,7 @@ module.exports = function (grunt) {
 
         fs.writeFile('.tmp/index.html', res, 'utf8', function (err) {
            if (err) { return console.log(err); }
-           grunt.file.copy('.tmp/index.html','app/index.html');
+           // grunt.file.copy('.tmp/index.html','app/index.html');
            done();
         });
       });

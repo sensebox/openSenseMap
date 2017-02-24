@@ -78,9 +78,9 @@
 				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">
 					{{"SAF_RESET"|translate}}
 				</button> <br/><br/>
-				<uib-alert type="warning" ng-show="loading">
-					{{"PLEASE_WAIT_DATA"|translate}} <img id="mySpinner" src="/images/ajax-loader.gif" />
-				</uib-alert>
+				<div uib-alert class="alert-warning" ng-show="loading">
+					{{"PLEASE_WAIT_DATA"|translate}} <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+				</div>
 			</div>
 		</div>
 	</div>

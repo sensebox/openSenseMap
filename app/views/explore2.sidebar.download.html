@@ -12,10 +12,10 @@
 	</div>
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="alert alert-info" role="alert">
+			<div uib-alert class="alert-info">
 				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 				<translate translate="DOWNLOAD_INTRO"></translate>
-		  	</div>
+	  	</div>
 
 			<span ng-show="selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
 			<div class="form-group">
@@ -38,7 +38,7 @@
 
 				<br>
 				<button class="btn btn-info" ng-click="endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
-				<button class="btn btn-info" ng-click="endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button> 
+				<button class="btn btn-info" ng-click="endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
 				<button class="btn btn-info" ng-click="endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
 				<br><br>
 				{{ "DOWNLOAD_SELECTSENSOR" | translate }}
@@ -50,29 +50,29 @@
 				{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
 
 				<br>
-				<input ng-model="downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked> 
+				<input ng-model="downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>
 				<label for="formatCSV">CSV</label>
 				<!--
 				<br>
-				<input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON"> 
+				<input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON">
 				<label for="formatJSON">JSON</label>-->
 		  <br>
-		  <uib-alert type="info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></uib-alert>
-		  <uib-alert type="warning">
+		  <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
+		  <div uib-alert class="alert-warning">
 		  	<!--<span ng-bind-html="'DOWNLOAD_WARNING'|translate"></span>-->
 		  	<p translate="DOWNLOAD_WARNING" translate-value-count="{{count}}"></p>
-	  	    
-		  </uib-alert>
+
+		  </div>
 		  <button class="btn btn-lg btn-success" ng-click="dataDownload(); downloadform.emptyData = false; downloadform.errorOccured = false;" ng-disabled="!inputFilter.Phenomenon || !inputFilter.DateFrom || !inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
-			  <uib-alert type="info" ng-show="downloadform.pleaseWait">
+			  <div uib-alert class="alert-info" ng-show="downloadform.pleaseWait">
 				<i class="fa fa-spinner fa-pulse"></i> {{ "PLEASE_WAIT_DATA" | translate }}
-			  </uib-alert>
-			  <uib-alert type="warning" ng-show="downloadform.emptyData">
+			  </div>
+			  <div uib-alert class="alert-warning" ng-show="downloadform.emptyData">
 				{{ "DOWNLOAD_NODATA" | translate }}
-			  </uib-alert>
-			  <uib-alert type="warning" ng-show="downloadform.errorOccured">
+			  </div>
+			  <div uib-alert class="alert-warning" ng-show="downloadform.errorOccured">
 				{{ "COMMON_ERROR" | translate }}
-			  </uib-alert>
+			  </div>
 		</div>
 	</div>
 </div>

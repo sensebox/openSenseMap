@@ -69,9 +69,9 @@
 			</div>
 			<div class="input-group">
 				<br/>
-				<uib-alert type="info" ng-show="needsRefresh">
+				<div uib-alert class="alert-info" ng-show="needsRefresh">
 					{{ "SAF_HELP" | translate }}
-				</uib-alert>
+				</div>
 				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">
 					{{"SAF_APPLY"|translate}}
 				</button>&nbsp;
@@ -88,7 +88,7 @@
 		<hr/>
 		<div class="col-xs-12 col-md-12">
 		<h4>{{"RESULTS"|translate}} ({{($parent.markersFiltered | filter:{layer:'!hidden'}).length}})</h4>
-			<uib-alert type="info" ng-show="(($parent.markersFiltered | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</uib-alert>
+			<div uib-alert class="alert-info" ng-show="(($parent.markersFiltered | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</div>
 			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!hidden'}" class="row">
 				<a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
 			</div>

@@ -3,6 +3,7 @@
 angular.module('openSenseMapApp')
   .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
   	$scope.osemapi = OpenSenseBoxAPI;
+    $scope.isNavCollapsed = true;
 
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
@@ -101,9 +102,9 @@ angular.module('openSenseMapApp')
 
     $scope.selectBox = function ($item) {
       if ($item.boundingbox === undefined) {
-        $state.go('explore.map.boxdetails', { id: $item.boxId });  
+        $state.go('explore.map.boxdetails', { id: $item.boxId });
       } else {
-        this.centerLatLng($item.boundingbox);  
+        this.centerLatLng($item.boundingbox);
       }
     };
 }]);

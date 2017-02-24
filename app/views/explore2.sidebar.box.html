@@ -4,7 +4,7 @@
       <a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
     </h3>
     <div class="col-xs-12 col-md-12">
-      <uib-alert type="danger">{{'SENSEBOX_NOT_FOUND'|translate}}</uib-alert>
+      <div uib-alert class="alert-danger">{{'SENSEBOX_NOT_FOUND'|translate}}</div>
     </div>
   </div>
   <div ng-show="!boxNotFound" ng-cloak>
@@ -48,46 +48,46 @@
         <hr>
 
         <div class="list-group">
-          <uib-accordion close-others="false">
-            <uib-accordion-group ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
-              <uib-accordion-heading >
-              <div class="row" ng-click="getData(sensor._id, !isOpen)">
-                <div class="col-xs-1">
-                  <span title="{{sensor.title | translate}}">
-                    <span class="icon osem-icon" ng-class="getIcon(sensor)"></span>
-                  </span>
-                </div>
-                <div class="col-xs-10 sensor-measurement-info" >
-                  <div>{{sensor.title}}</div><br/>
-                  <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
-                    <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
-                    <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
+          <uib-accordion close-others="oneAtATime">
+            <div uib-accordion-group class="panel-default" ng-repeat="sensor in selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
+              <uib-accordion-heading>
+                <div class="row" ng-click="getData(sensor._id, !isOpen)">
+                  <div class="col-xs-1">
+                    <span title="{{sensor.title | translate}}">
+                      <span class="icon osem-icon" ng-class="getIcon(sensor)"></span>
+                    </span>
                   </div>
-                  <div ng-if="!sensor.lastMeasurement.createdAt">
-                    <span class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+                  <div class="col-xs-10 sensor-measurement-info" >
+                    <div>{{sensor.title}}</div><br/>
+                    <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
+                      <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+                      <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
+                    </div>
+                    <div ng-if="!sensor.lastMeasurement.createdAt">
+                      <span class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+                    </div>
                   </div>
                 </div>
-              </div>
               </uib-accordion-heading>
               <div>
-                <uib-alert type="warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}}
+                <div uib-alert class="alert-warning" ng-show="!chartDone[sensor._id] && sensor.lastMeasurement">{{'PLEASE_WAIT_DATA'|translate}}
                   <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
-                </uib-alert>
-                <uib-alert type="danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</uib-alert>
-                <uib-alert type="info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</uib-alert>
+                </div>
+                <div uib-alert class="alert-danger" ng-show="chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</div>
+                <div uib-alert class="alert-info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</div>
                 <c3chart ng-if="sensor.lastMeasurement && chartDone[sensor._id] && !chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="sensordata[sensor._id]" chart-columns="columns[sensor._id]" enable-zoom="true">
                   <chart-size chart-height="200"/>
-                            <chart-axes values-x="dates"/>
-                            <chart-axis>
-                              <chart-axis-x axis-id="x" axis-type="timeseries">
-                                <chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
-                              </chart-axis-x>
-                            </chart-axis>
-                            <chart-tooltip title-format-function="formatDateFull"/>
-                            <chart-legend show-legend="false"/>
+                    <chart-axes values-x="dates"/>
+                    <chart-axis>
+                      <chart-axis-x axis-id="x" axis-type="timeseries">
+                        <chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="formatDate"/>
+                      </chart-axis-x>
+                    </chart-axis>
+                    <chart-tooltip title-format-function="formatDateFull"/>
+                    <chart-legend show-legend="false"/>
                 </c3chart>
               </div>
-            </uib-accordion-group>
+            </div>
           </uib-accordion>
         </div>
       </div>

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', 'SensorIcons', '$translate', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, SensorIcons, $translate){
+  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', 'SensorIcons', '$translate', 'WizardHandler', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, SensorIcons, $translate, WizardHandler){
     $scope.osemapi = OpenSenseBoxAPI;
     $scope.icons = SensorIcons;
     $scope.alerts = [];
@@ -16,6 +16,11 @@ angular.module('openSenseMapApp')
       wifi: false,
       ethernet: false
     };
+
+    $scope.isFormValid = function (form) {
+      console.log(form);
+      WizardHandler.wizard('RegistrationWizard').reset();
+    }
 
     $scope.modelSelected = {
       id: false,

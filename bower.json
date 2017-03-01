@@ -21,8 +21,9 @@
     "angularjs-slider": "^6.0.0",
     "angular-bootstrap": "^2.5.0",
     "bootstrap-ui-datetime-picker": "^2.5.4",
+    "angular-wizard": "^0.10.0",
     "bootstrap-css-only": "^3.3.7",
-    "angular-wizard": "^0.10.0"
+    "angular-toArrayFilter": "^1.0.1"
   },
   "devDependencies": {
     "angular-mocks": "1.5",

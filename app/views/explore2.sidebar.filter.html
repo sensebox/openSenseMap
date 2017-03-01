@@ -87,11 +87,11 @@
 	<div class="row">
 		<hr/>
 		<div class="col-xs-12 col-md-12">
-		<h4>{{"RESULTS"|translate}} ({{($parent.markersFiltered | filter:{layer:'!hidden'}).length}})</h4>
-			<div uib-alert class="alert-info" ng-show="(($parent.markersFiltered | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</div>
-			<div ng-repeat="m in $parent.markersFiltered | filter:{layer:'!hidden'}" class="row">
-				<a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
-			</div>
-		</div>
+		  <h4>{{"RESULTS"|translate}} ({{($parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}).length}})</h4>
+		  <div uib-alert class="alert-info" ng-show="(($parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</div>
+		  <div ng-repeat="m in $parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}" class="row">
+			 <a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
+		  </div>
+    </div>
 	</div>
 </div>

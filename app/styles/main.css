@@ -474,9 +474,8 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   z-index: 5;
 }
 
-.nav-wizard {
-  width: 75%;
-  margin: 0 auto;
+.registration-wizard .steps {
+  padding-top: 50px;
 }
 
 .form-control-feedback {

@@ -1,82 +1,60 @@
 <div class="row register">
   <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
-    <div rc-wizard="sampleWizard" rc-disabled="rc.firstForm.submitInProgress">
-      <div class="center">
-      <ul class="nav rc-nav-wizard nav-wizard">
-        <li class="active">
-          <a class="active" href="#intro" data-toggle="tab">
-            <span class="badge">1</span>
-            <span>{{'STEP0' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#first" data-toggle="tab">
-            <span class="badge">2</span>
-            <span>{{'STEP1' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#second" data-toggle="tab">
-            <span class="badge">3</span>
-            <span>{{'STEP2' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#third" data-toggle="tab">
-            <span class="badge">4</span>
-            <span>{{'STEP3' | translate}}</span>
-          </a>
-        </li>
-        <li>
-          <a href="#last" data-toggle="tab">
-            <span class="badge">5</span>
-            <span>{{'STEP4' | translate}}</span>
-          </a>
-        </li>
-      </ul>
-      </div>
-      <div class="tab-content">
-        <form class="tab-pane active" id="intro" name="introForm" rc-submit rc-step novalidate>
+    <wizard class="registration-wizard" name="RegistrationWizard" indicators-position="top">
+      <wz-step wz-title="{{'STEP0' | translate}}">
+        <hr>
+        <div uib-alert class="alert-warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></div>
+        <div class="form-group">
           <hr>
-          <uib-alert type="warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></uib-alert>
-        </form>
-
-        <form class="tab-pane" id="first" name="firstForm" ng-keypress="enterEvent($event)" rc-submit rc-step novalidate>
-          <hr>
-          <div class="alert alert-info" role="alert">
-            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-            {{'STEP1_DESCRIPTION' | translate}}
+          <div class="pull-right">
+            <button type="submit" wz-next class="btn btn-primary">{{'STEP0_ACCEPT' | translate}}</button>
           </div>
-
+        </div>
+      </wz-step>
+      <wz-step wz-title="{{'STEP1' | translate}}">
+        <hr>
+        <div class="alert alert-info" role="alert">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          {{'STEP1_DESCRIPTION' | translate}}
+        </div>
+        <form id="user" name="userForm" ng-keypress="enterEvent($event)" novalidate>
           <!-- NAME -->
-          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.firstname), 'has-success' :  !rc.firstForm.needsAttention(firstForm.firstname) && user.firstname!='' }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.firstname.$invalid, 'has-success' :  userForm.firstname.$valid }">
            <label class="control-label">{{ 'FIRSTNAME' | translate}}*</label>
            <input type="text" name="firstname" class="form-control" ng-model="user.firstname" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" required>
-           <span ng-show="!rc.firstForm.needsAttention(firstForm.firstname) && user.firstname!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-           <span ng-show="rc.firstForm.needsAttention(firstForm.firstname)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.firstname.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.firstname.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
 
           <!-- USERNAME -->
-          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.lastname), 'has-success' : !rc.firstForm.needsAttention(firstForm.lastname) && user.lastname!='' }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.lastname.$invalid, 'has-success' :  userForm.lastname.$valid }">
            <label class="control-label">{{ 'LASTNAME' | translate }}*</label>
            <input type="text" name="lastname" class="form-control" ng-model="user.lastname" title="{{ 'PLEASE_SPECIFY_LASTNAME' | translate }}" required>
-           <span ng-show="!rc.firstForm.needsAttention(firstForm.lastname) && user.lastname!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-           <span ng-show="rc.firstForm.needsAttention(firstForm.lastname)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.lastname.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.lastname.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
           </div>
 
           <!-- EMAIL -->
-          <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.firstForm.needsAttention(firstForm.email), 'has-success' : !rc.firstForm.needsAttention(firstForm.email) && user.email!='' }">
+          <div class="form-group has-feedback" ng-class="{ 'has-error' : userForm.email.$invalid, 'has-success' :  userForm.email.$valid }">
            <label class="control-label">{{ 'EMAIL' | translate }}*</label>
            <input type="email" name="email" class="form-control" ng-model="user.email" title="{{ 'PLEASE_SPECIFY_EMAIL' | translate }}" required>
-           <span ng-show="!rc.firstForm.needsAttention(firstForm.email) && user.email!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-           <span ng-show="rc.firstForm.needsAttention(firstForm.email)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.email.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+           <span ng-show="userForm.email.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
            <br>
            <div class="alert alert-warning" role="alert">{{ 'STEP1_EMAIL_INFO' | translate }}</div>
           </div>
+          <div class="form-group">
+            <hr>
+            <div class="pull-right">
+              <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
+              <button type="submit" ng-disabled="userForm.$invalid" wz-next="enterEvent({which:13})" class="btn btn-primary">{{'NEXT' | translate}}</button>
+            </div>
+          </div>
         </form>
-
-        <form class="tab-pane" id="second" name="secondForm" ng-keypress="enterEvent($event)" rc-step rc-submit novalidate>
-          <hr>
+      </wz-step>
+      <wz-step wz-title="{{'STEP2' | translate}}" canexit="">
+        <hr>
+        <form class="tab-pane" id="sensebox" name="senseboxForm" ng-keypress="enterEvent($event)" novalidate>
           <div id="general">
             <div class="text-center">
               <h1><small>{{ 'STEP2_SUB1' | translate }}</small></h1>
@@ -87,15 +65,15 @@
             </div>
 
             <!-- NAME -->
-            <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.name), 'has-success' :  !rc.secondForm.needsAttention(secondForm.name) && newSenseBox.name!='' }">
+            <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.name.$invalid, 'has-success' :  senseboxForm.name.$valid }">
               <label class="control-label">{{ 'NAME_YOUR_STATION' | translate}}*</label>
               <input type="text" name="name" class="form-control" ng-model="newSenseBox.name" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" required>
-              <span ng-show="!rc.secondForm.needsAttention(secondForm.name) && newSenseBox.name!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-              <span ng-show="rc.secondForm.needsAttention(secondForm.name)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="senseboxForm.name.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="senseboxForm.name.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
             </div>
 
             <!-- Aufstellungsort -->
-            <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.exposure), 'has-success' :  !rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!='' }">
+            <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : senseboxForm.exposure.$invalid, 'has-success' :  senseboxForm.exposure.$valid }">
               <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
               <div class="radio">
                 <label>
@@ -109,8 +87,8 @@
                   {{'STATION_PLACEMENT_OUTDOOR'|translate}}
                 </label>
               </div>
-              <span ng-show="!rc.secondForm.needsAttention(secondForm.exposure) && newSenseBox.exposure!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-              <span ng-show="rc.secondForm.needsAttention(secondForm.exposure)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="senseboxForm.exposure.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="senseboxForm.exposure.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
             </div>
 
             <!-- Gruppenkennzeichnung -->
@@ -133,19 +111,19 @@
             </div>
             <div id="boxPosition" class="row">
               <div class="col-md-6">
-                <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.boxLat), 'has-success' :  !rc.secondForm.needsAttention(secondForm.boxLat) && editMarkerInput.box!==undefined}">
+                <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLat.$invalid, 'has-success' :  senseboxForm.boxLat.$valid && editMarkerInput.box!==undefined}">
                   <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
                   <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="editMarkerInput.box.lat" step="0.000001" required>
-                  <span ng-show="!rc.secondForm.needsAttention(secondForm.boxLat) && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="rc.secondForm.needsAttention(secondForm.boxLat)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.boxLat.$valid && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.boxLat.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
               </div>
               <div class="col-md-6">
-                <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.boxLng), 'has-success' :  !rc.secondForm.needsAttention(secondForm.boxLng) && editMarkerInput.box!==undefined}">
+                <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLng.$invalid, 'has-success' :  senseboxForm.boxLng.$valid && editMarkerInput.box!==undefined}">
                   <label for="boxLng">{{'BOX_LONGITUDE'|translate}}</label>
                   <input name="boxLng" class="form-control" type="number" min="-180" max="180" ng-model="editMarkerInput.box.lng" step="0.000001" required>
-                  <span ng-show="!rc.secondForm.needsAttention(secondForm.boxLng) && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="rc.secondForm.needsAttention(secondForm.boxLng)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.boxLng.$valid && editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.boxLng.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
               </div>
             </div>
@@ -160,7 +138,7 @@
               {{'STEP2_SUB3_DESCRIPTION' | translate}}
             </div>
             <uib-accordion close-others="true">
-              <uib-accordion-group is-open="open.collapse1">
+              <div uib-accordion-group class="panel-default" is-open="open.collapse1">
                 <uib-accordion-heading>
                   senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse1, 'glyphicon-chevron-right': !open.collapse1}"></i>
                 </uib-accordion-heading>
@@ -176,8 +154,8 @@
                     senseBox:home (WiFi)
                   </label>
                 </div>
-              </uib-accordion-group>
-              <uib-accordion-group is-open="open.collapse2">
+              </div>
+              <div uib-accordion-group class="panel-default" is-open="open.collapse2">
                 <uib-accordion-heading>
                   {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse2, 'glyphicon-chevron-right': !open.collapse2}"></i>
                 </uib-accordion-heading>
@@ -189,8 +167,8 @@
                 </div>
                 <textarea ng-hide="true" name="sensorsetup" id="" cols="30" rows="10" required ng-model="sensorSetup"></textarea>
                 <br>
-                <uib-alert type="info" ng-bind-html="'CUSTOMBOX'|translate">
-                </uib-alert>
+                <div uib-alert class="alert-info" ng-bind-html="'CUSTOMBOX'|translate">
+                </div>
                 <br>
                 <table class="table table-striped table-bordered">
                   <thead>
@@ -206,7 +184,7 @@
                     <tr ng-repeat="sensor in sensors">
                       <td>
                         <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
-                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!='' }">
+                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
                           <div class="btn-group xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
                             <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
                               <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
@@ -217,29 +195,29 @@
                               </li>
                             </ul>
                           </div>
-                          <span ng-show="!rc.secondForm.needsAttention(secondForm.icon{{sensor.id}}) && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                          <span ng-show="rc.secondForm.needsAttention(secondForm.icon{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.icon{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         </div>
                       </td>
                       <td>
-                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}), 'has-success' : !rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}) && sensor.title!='' }">
+                        <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
                           <input name="phenomenom{{sensor.id}}" class="form-control" type="text" ng-model="sensor.title" required>
-                          <span ng-show="!rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}}) && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                          <span ng-show="rc.secondForm.needsAttention(secondForm.phenomenom{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         </div>
                       </td>
                       <td>
-                        <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}), 'has-success' :  !rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}) && sensor.unit!==''}">
+                        <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.unit{{sensor.id}}.$invalid, 'has-success' : senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''}">
                           <input name="unit{{sensor.id}}" class="form-control" type="text" ng-model="sensor.unit" required>
-                          <span ng-show="!rc.secondForm.needsAttention(secondForm.unit{{sensor.id}}) && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                          <span ng-show="rc.secondForm.needsAttention(secondForm.unit{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.unit{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         </div>
                       </td>
                       <td>
-                        <div class="form-group has-feedback" ng-class="{'has-error': rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}), 'has-success' :  !rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}) && sensor.sensorType!==''}">
+                        <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
                           <input name="sensorType{{sensor.id}}" class="form-control" type="text" ng-model="sensor.sensorType" required>
-                          <span ng-show="!rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}}) && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                          <span ng-show="rc.secondForm.needsAttention(secondForm.sensorType{{sensor.id}})" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                         </div>
                       </td>
                       <td style="white-space: nowrap">
@@ -250,13 +228,13 @@
                     </tr>
                   </tbody>
                 </table>
-                <uib-alert type="danger" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</uib-alert>
+                <div uib-alert class="alert-danger" ng-show="sensorIncomplete">{{ 'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</div>
                 <div class="col-lg-12" ng-show="modelSelected.id=='custom'">
                   <button type="button" ng-click="add();" class="btn btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
                   <hr>
                 </div>
-              </uib-accordion-group>
-              <uib-alert type="danger" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</uib-alert>
+              </div>
+              <div uib-alert class="alert-danger" ng-show="invalidHardware">{{ 'REG_HARDWAREINCOMPLETE'|translate }}</div>
             </uib-accordion>
           </div>
           <div id="advanced">
@@ -264,29 +242,29 @@
               <h1><small>{{ 'STEP2_SUB4' | translate }}</small></h1>
             </div>
             <uib-accordion close-others="true">
-              <uib-accordion-group is-open="open.collapse3">
+              <div uib-accordion-group class="panel-default" is-open="open.collapse3">
                 <uib-accordion-heading>
                   MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse3, 'glyphicon-chevron-right': !open.collapse3}"></i>
                 </uib-accordion-heading>
-                <checkbox id="checkbox0" ng-model="mqtt.enabled"></checkbox>
+                <input type="checkbox" id="checkbox0" ng-model="mqtt.enabled"></input>
                 <label>{{ 'MQTT_ENABLE' | translate }}</label>
 
                 <!-- MQTT URL -->
-                <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.url), 'has-success' :  !rc.secondForm.needsAttention(secondForm.url) && mqtt.url!='' }">
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.url.$invalid, 'has-success' : senseboxForm.url.$valid && mqtt.url!='' }">
                   <label class="control-label">{{ 'MQTT_URL' | translate}}*</label>
                   <input type="url" name="url" class="form-control" ng-model="mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
-                  <span ng-show="!rc.secondForm.needsAttention(secondForm.url) && mqtt.url!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="rc.secondForm.needsAttention(secondForm.url)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.url.$valid && mqtt.url!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.url.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
                 <!-- MQTT TOPIC -->
-                <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.topic), 'has-success' :  !rc.secondForm.needsAttention(secondForm.topic) && mqtt.topic!='' }">
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.topic.$invalid, 'has-success' : senseboxForm.topic.$valid && mqtt.topic!='' }">
                   <label class="control-label">{{ 'MQTT_TOPIC' | translate}}*</label>
                   <input type="text" name="topic" class="form-control" ng-model="mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.enabled" ng-disabled="!mqtt.enabled">
-                  <span ng-show="!rc.secondForm.needsAttention(secondForm.topic) && mqtt.topic!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="rc.secondForm.needsAttention(secondForm.topic)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.topic.$valid && mqtt.topic!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.topic.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
                 <!-- MQTT MessageFormat -->
-                <div class="form-group has-feedback" ng-class="{ 'has-error' : rc.secondForm.needsAttention(secondForm.messageFormat), 'has-success' :  !rc.secondForm.needsAttention(secondForm.messageFormat) && mqtt.messageFormat!='' }">
+                <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.messageFormat.$invalid, 'has-success' :  senseboxForm.messageFormat.$valid && mqtt.messageFormat!='' }">
                   <label class="control-label">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
                   <div class="radio">
                     <label>
@@ -300,8 +278,8 @@
                       {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
                     </label>
                   </div>
-                  <span ng-show="!rc.secondForm.needsAttention(secondForm.messageFormat) && mqtt.messageFormat!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                  <span ng-show="rc.secondForm.needsAttention(secondForm.messageFormat)" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.messageFormat.$valid && mqtt.messageFormat!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                  <span ng-show="senseboxForm.messageFormat.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                 </div>
                 <!-- MQTT DecodeOptions -->
                 <div class="form-group">
@@ -313,18 +291,26 @@
                   <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
                   <input type="text" name="connectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
                 </div>
-              </uib-accordion-group>
+              </div>
             </uib-accordion>
           </div>
+          <div class="form-group">
+            <hr>
+            <div class="pull-right">
+              <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
+              <button type="submit" ng-disabled="senseboxForm.$invalid" wz-next class="btn btn-primary">{{'NEXT' | translate}}</button>
+            </div>
+          </div>
         </form>
-
-        <form class="tab-pane" id="third" name="thirdForm" ng-keypress="enterEvent($event)" rc-submit rc-step>
-          <hr>
+      </wz-step>
+      <wz-step wz-title="{{'STEP3' | translate}}" canexit="">
+        <hr>
+        <form class="tab-pane" id="confirmation" name="confirmationForm" ng-keypress="enterEvent($event)" novalidate>
           <div class="alert alert-info" role="alert">
             <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
             {{'STEP3_DESCRIPTION' | translate}}
           </div>
-          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+          <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type)">{{alert.msg}}</div>
 
           <h3>{{'USER'|translate}}</h3>
           <div class="well">
@@ -368,12 +354,21 @@
               </ul>
             </div>
           </div>
-          <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
+          <div uib-alert class="alert-warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></div>
+          <div class="form-group">
+            <hr>
+            <div class="pull-right">
+              <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
+              <a class="btn btn-danger" href="/explore">{{'CANCEL' | translate}}</a>
+              <button type="submit" ng-click="completeRegistration()" class="btn btn-success">{{'FINISH' | translate}}</button>
+            </div>
+          </div>
         </form>
-
+      </wz-step>
+      <wz-step wz-title="{{'STEP4' | translate}}" canexit="">
+        <hr>
         <form class="tab-pane" id="last" name="lastForm" rc-step>
-          <hr>
-          <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.msg}}</uib-alert>
+          <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type)">{{alert.msg}}</div>
 
           <h3>{{'USER'|translate}}</h3>
           <div class="well">
@@ -413,9 +408,9 @@
           </div>
           <h3>Sensoren &amp; IDs</h3>
           <div class="well">
-            <uib-alert type="warning" ng-show="!registeredSensors">{{'PLEASE_WAIT_DATA'|translate}}
+            <div uib-alert class="alert-warning" ng-show="!registeredSensors">{{'PLEASE_WAIT_DATA'|translate}}
               <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="calculating"></i>
-            </uib-alert>
+            </div>
             <table ng-show="registeredSensors" class="table table-striped table-bordered">
               <tbody>
                 <tr ng-repeat="sensor in registeredSensors">
@@ -427,9 +422,9 @@
           </div>
           <h3>Arduino Code</h3>
           <div class="well">
-            <uib-alert type="warning" ng-show="!boxScript">{{'PLEASE_WAIT_DATA'|translate}}
+            <div uib-alert class="alert-warning" ng-show="!boxScript">{{'PLEASE_WAIT_DATA'|translate}}
               <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="calculating"></i>
-            </uib-alert>
+            </div>
             <textarea ng-show="boxScript" class="form-control" ng-model="boxScript" onclick="this.select()" style="resize:none;height:200px;font-family:monospace;font-size:80%"></textarea>
           </div>
           <h3>Nützliche Links</h3>
@@ -439,24 +434,9 @@
               <li><a href="" ng-click="goToBox()">Deine senseBox</a></li>
             </ul>
           </div>
-          <uib-alert type="warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></uib-alert>
+          <div uib-alert class="alert-warning" ng-bind-html="'REGISTRATION_LICENSE'|translate"></div>
         </form>
-      </div>
-      <div class="form-group">
-        <hr>
-        <div class="pull-right">
-          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
-             ng-show="rc.sampleWizard.currentIndex == 0">{{'STEP0_ACCEPT' | translate}}</a>
-          <a class="btn btn-default" ng-click="rc.sampleWizard.backward()"
-             ng-show="rc.sampleWizard.currentIndex > rc.sampleWizard.firstIndex && rc.sampleWizard.currentIndex <= rc.sampleWizard.navigationLength-1">{{'PREVIOUS' | translate}}</a>
-          <a class="btn btn-primary" data-loading-text="Please Wait..." ng-click="submit()"
-             ng-show="rc.sampleWizard.currentIndex != 0 && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
-          <a class="btn btn-danger" href="/explore"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
-          <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}</a>
-        </div>
-      </div>
-    </div>
+      </wz-step>
+    </wizard>
   </div>
 </div>

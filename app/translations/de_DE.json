@@ -136,7 +136,6 @@
   "EDIT_DELETE": "senseBox löschen",
   "EDIT_DELETEERROR": "Deine senseBox konnte nicht gelöscht werden, bitte schreib uns eine Email",
   "CONTINUE": "Weiter",
-
   "DOWNLOAD_INTRO": "Hier kannst du die Messdaten von senseBoxen herunterladen. Es werden die Daten der Boxen heruntergeladen, die du auf der Karte siehst. Zoome und bewege die Karte, um die Auswahl einzuschränken, wähle dann einen Zeitraum sowie Sensor. Der Download der Daten kann einige Zeit dauern.</br>Tägliche Datendumps können im <a href=\"https://archive.opensensemap.org\" target='_blank'>Archiv</a> heruntergeladen werden.",
   "DOWNLOAD_WARNING": "Lade Daten von {{ count }} Stationen*<br/><small>* Nicht alle Stationen haben unbedingt Daten im gewählten Zeitraum. Nutze den <a href=\"/filter\">Filter</a>, um passende senseBoxen zu finden.</small>",
   "PLEASE_WAIT_DATA": "Bitte warten, die Daten werden geladen...",

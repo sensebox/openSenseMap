@@ -18,17 +18,17 @@
 				</button>
 			</div>
 			<br/>
-			<uib-alert type="warning" ng-show="apikeyIssue">{{'EDITBOX_APIKEYISSUE'|translate}}</uib-alert>
-			<uib-alert type="success" ng-show="savedSuccessfully">{{'EDITBOX_SAVED'|translate}}</uib-alert>
-			<uib-alert type="danger" ng-show="savedError">{{'EDITBOX_SAVEERROR'|translate}}</uib-alert>
-			<uib-alert role="success" ng-show="boxdeleted">{{'EDITBOX_BOXDELETED'|translate}}</uib-alert>
+			<div uib-alert class="alert-warning" ng-show="apikeyIssue">{{'EDITBOX_APIKEYISSUE'|translate}}</div>
+			<div uib-alert class="alert-success" ng-show="savedSuccessfully">{{'EDITBOX_SAVED'|translate}}</div>
+			<div uib-alert class="alert-danger" ng-show="savedError">{{'EDITBOX_SAVEERROR'|translate}}</div>
+			<div uib-alert class="alert-success" ng-show="boxdeleted">{{'EDITBOX_BOXDELETED'|translate}}</div>
 
 			<div ng-show="editableMode">
 
 				<div>
-					<uib-alert type="info" ng-show="editableMode">
+					<div uib-alert class="alert-info" ng-show="editableMode">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> <span ng-bind-html="'EDITBOX_EDITABLE'|translate"></span>
-					</uib-alert>
+					</div>
 				</div>
 
 				<div>
@@ -210,7 +210,7 @@
 					{{'EDIT_DELETEINFO'|translate}}
 					<input name="editDeleteConfirm" class="form-control" type="text" ng-model="editing.delete">
 					<button ng-show="editing.delete == 'DELETE'" ng-click="deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
-					<uib-alert role="danger" ng-show="errorDuringDelete">{{'EDIT_DELETEERROR'|translate}}</uib-alert>
+					<div uib-alert class="alert-danger" ng-show="errorDuringDelete">{{'EDIT_DELETEERROR'|translate}}</div>
 				</div>
 
 			</div>

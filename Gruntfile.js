@@ -287,7 +287,13 @@ module.exports = function (grunt) {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>']
+        assetsDirs: ['<%= yeoman.dist %>'],
+        blockReplacements: {
+          js: function (block){
+            console.log(block.dest);
+            return '<script defer src="' + block.dest + '"><\/script>';
+          }
+        }
       }
     },
 

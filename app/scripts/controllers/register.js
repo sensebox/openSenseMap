@@ -17,11 +17,6 @@ angular.module('openSenseMapApp')
       ethernet: false
     };
 
-    $scope.isFormValid = function (form) {
-      console.log(form);
-      WizardHandler.wizard('RegistrationWizard').reset();
-    }
-
     $scope.modelSelected = {
       id: false,
       name: false
@@ -78,59 +73,55 @@ angular.module('openSenseMapApp')
 
     $scope.invalidHardware = false;
 
+    $scope.exitValidation = function(){
+      var stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+      switch (stepNumber) {
+        case 2:
+          if (userForm.$valid) {
+            return true;
+          }
+        case 3:
+          if (senseboxForm.$valid) {
+            return true;
+          }
+      }
+      return false;
+    };
+
     $scope.enterEvent = function(keyEvent) {
       if (keyEvent.which === 13)
-        if($scope.rc.sampleWizard.currentIndex === 0) {
-          $scope.rc.sampleWizard.forward();
-        } else if ($scope.rc.sampleWizard.currentIndex === 1) {
-          this.generateID();
-          this.goToMap();
-        } else if ($scope.rc.sampleWizard.currentIndex === 2) {
-          if ($scope.modelSelected.id === false) {
-            $scope.invalidHardware = true;
-          } else {
-            $scope.invalidHardware = false;
-          }
-
-          if ($scope.sensors.length === 0) {
-            $scope.sensorIncomplete = true;
-          } else {
-            $scope.sensorIncomplete = false;
-          }
-        } else if ($scope.rc.sampleWizard.currentIndex === 3) {
-          $scope.completeRegistration();
+        var stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+        switch (stepNumber) {
+          case 1:
+            WizardHandler.wizard('RegistrationWizard').next();
+            break;
+          case 2:
+            this.generateID();
+            this.goToMap();
+            if (userForm.$valid) {
+              WizardHandler.wizard('RegistrationWizard').next();
+            }
+            break;
+          case 3:
+            if ($scope.modelSelected.id === false) {
+              $scope.invalidHardware = true;
+            } else {
+              $scope.invalidHardware = false;
+            }
+            if ($scope.sensors.length === 0) {
+              $scope.sensorIncomplete = true;
+            } else {
+              $scope.sensorIncomplete = false;
+            }
+            if (senseboxForm.$valid) {
+              WizardHandler.wizard('RegistrationWizard').next();
+            }
+            break;
+          case 4:
+            $scope.completeRegistration();
+            break;
         }
     }
-
-    $scope.submit = function() {
-      if($scope.rc.sampleWizard.currentIndex === 1) {
-        this.generateID();
-        this.goToMap();
-      } else if ($scope.rc.sampleWizard.currentIndex === 2) {
-        if ($scope.modelSelected.id === false) {
-          $scope.invalidHardware = true;
-        } else {
-          $scope.invalidHardware = false;
-        }
-
-        if ($scope.sensors.length === 0) {
-          $scope.sensorIncomplete = true;
-        } else {
-          $scope.sensorIncomplete = false;
-        }
-      }
-      $scope.rc.sampleWizard.forward();
-    };
-
-    $scope.goToMap = function() {
-      $timeout(function() {
-        leafletData.getMap().then(function(map) {
-          $scope.$watch('$viewContentLoaded', function() {
-            map.invalidateSize();
-          });
-        });
-      }, 100);
-    };
 
     $scope.$watch('modelSelected.id', function(newValue) {
       console.log('Selected ' + newValue);
@@ -417,7 +408,7 @@ angular.module('openSenseMapApp')
       $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
         .success( function (data) {
           $scope.newSenseBox.id = data.boxes[0];
-          $scope.rc.sampleWizard.forward();
+          WizardHandler.wizard('RegistrationWizard').next();
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
             var alert = {
               type: 'success',

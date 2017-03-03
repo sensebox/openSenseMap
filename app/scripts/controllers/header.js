@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
+  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', 'ngDialog', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData, ngDialog) {
   	$scope.osemapi = OpenSenseBoxAPI;
     $scope.isNavCollapsed = true;
-
+    $scope.open = open;
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log('Sprache zu '+ key +' gewechselt.');
@@ -107,4 +107,15 @@ angular.module('openSenseMapApp')
         this.centerLatLng($item.boundingbox);
       }
     };
+
+    function open () {
+            $scope.launchTemp = ngDialog.open({
+              // template: '',
+              className: 'ngdialog-theme-default',
+              // scope: ,
+              showClose: true,
+              closeByDocument: false,
+              // controller: ''
+            });
+    }
 }]);

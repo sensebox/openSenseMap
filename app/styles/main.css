@@ -29,6 +29,12 @@ html, body {
   vertical-align: middle;
 }
 
+.form-control:focus {
+  border-color: #4EAF47;
+  outline: none;
+  box-shadow: none;
+}
+
 #reset_search {
   position: absolute;
   right: 12px;
@@ -40,6 +46,21 @@ html, body {
 }
 
 #reset_search:hover {
+  color: #4EAF47;
+}
+
+#show_password {
+  position: absolute;
+  top: 28px;
+  right: 0px;
+  height: 34px;
+  width: 34px;
+  z-index: 999;
+  cursor: pointer;
+  color: #9e9e9e;
+}
+
+#show_password:hover {
   color: #4EAF47;
 }
 
@@ -546,12 +567,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   background-color: #4EAF47;
 }
 
-.typeahead-search .form-control:focus {
-  border-color: #4EAF47;
-  outline: none;
-  box-shadow: none;
-}
-
 .typeahead-search .custom-popup-wrapper .dropdown-menu .dropdown-menu-entry > .active {
   background-color: #4EAF47;
 }
@@ -561,12 +576,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   color: #fff;
   text-decoration: none;
   outline: 0;
-}
-
-.typeahead-search .form-control:focus {
-  border-color: #4EAF47;
-  outline: none;
-  box-shadow: none;
 }
 
 .typeahead-search .custom-popup-wrapper > .dropdown-menu {
@@ -759,4 +768,8 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 
 .interpolation-slider.rzslider .rz-tick.rz-selected {
   background: #4EAF47;
+}
+
+.next::after {
+  content: "→";
 }

@@ -770,6 +770,46 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   background: #4EAF47;
 }
 
-.next::after {
+.rcon.next:after {
   content: "→";
+}
+
+.rcon:after {
+  font-family: 'icon';
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: inherit;
+  -webkit-background-size: 4320px 60px;
+  background-size: 4320px 60px;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Signup and Login form*/
+.signup-login form {
+  margin: 10px 5px 10px 5px
+}
+
+.signup-login small {
+  line-height: 20px;
+  font-size: 14px;
+  display: block;
+}
+
+.signup-login a {
+  color: #777;
+  vertical-align: baseline;
+}
+
+.signup-login a:hover {
+  color: #4EAF47;
 }

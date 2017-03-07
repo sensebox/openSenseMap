@@ -808,6 +808,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 .signup-login a {
   color: #777;
   vertical-align: baseline;
+  cursor: pointer;
 }
 
 .signup-login a:hover {

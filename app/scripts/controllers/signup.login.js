@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = [];
+  SignupLoginController.$inject = ['$scope', 'SignupLoginService'];
 
-  function SignupLoginController () {
+  function SignupLoginController ($scope, SignupLoginService) {
     var vm = this;
 
     vm.signup = {
@@ -30,9 +30,50 @@
       },
     }
 
+    vm.submit = submit;
     vm.showPassword = showPassword;
 
     ////
+
+    function submit (form) {
+      if (form === 'signup') {
+        var data = {
+          name: vm.signup.name,
+          email: vm.signup.email,
+          password: vm.signup.password.value
+        };
+
+        return signup(data)
+          .then(function () {
+            console.log('New Account created!');
+          });
+      } else if (form === 'login') {
+        var data = {
+          email: vm.login.email,
+          password: vm.login.password.value
+        };
+
+        return login(data)
+          .then(function () {
+            console.log('Successfully signed in!');
+          });
+      }
+    }
+
+    function signup (data) {
+      return SignupLoginService.signup(data)
+        .then(function (data) {
+          return data;
+        });
+    }
+
+    function login (data) {
+      return SignupLoginService.login(data)
+        .then(function (data) {
+          $scope.closeThisDialog();
+          return data;
+        });
+    }
 
     function showPassword (element) {
       switch (element) {

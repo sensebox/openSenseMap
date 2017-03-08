@@ -20,11 +20,13 @@ angular
     'mgo-angular-wizard',
     'angular-toArrayFilter'
   ])
-  .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
+  .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);
     $logProvider.debugEnabled(false);
 
     $locationProvider.html5Mode(true);
+
+    $httpProvider.interceptors.push('AuthenticationInterceptor');
 
     $urlRouterProvider.otherwise('/');
 
@@ -74,6 +76,21 @@ angular
           'sidebar': {
             controller: 'InterpolationCtrl',
             templateUrl: 'views/explore2.sidebar.interpolation.html'
+          }
+        }
+      })
+      .state('account', {
+        url: '/account',
+        abstract: true,
+        templateUrl: 'views/account.html'
+      })
+      .state('account.dashboard', {
+        url: '',
+        views: {
+          'account': {
+            controller: 'AccountDashboardController',
+            controllerAs: 'dashboard',
+            templateUrl: 'views/account.dashboard.html'
           }
         }
       })

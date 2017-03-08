@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$scope', 'SignupLoginService'];
+  SignupLoginController.$inject = ['$scope', '$state', 'SignupLoginService'];
 
-  function SignupLoginController ($scope, SignupLoginService) {
+  function SignupLoginController ($scope, $state, SignupLoginService) {
     var vm = this;
 
     vm.signup = {
@@ -46,6 +46,7 @@
         return signup(data)
           .then(function () {
             console.log('New Account created!');
+            $state.go('account.dashboard');
           });
       } else if (form === 'login') {
         var data = {
@@ -56,6 +57,7 @@
         return login(data)
           .then(function () {
             console.log('Successfully signed in!');
+            $state.go('account.dashboard');
           });
       }
     }

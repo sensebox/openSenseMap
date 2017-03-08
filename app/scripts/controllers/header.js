@@ -1,10 +1,12 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', 'ngDialog', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData, ngDialog) {
+  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', 'ngDialog', 'SignupLoginService', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData, ngDialog, SignupLoginService) {
   	$scope.osemapi = OpenSenseBoxAPI;
     $scope.isNavCollapsed = true;
     $scope.open = open;
+    $scope.isAuthed = isAuthed;
+    $scope.logout = logout;
     $scope.changeLang = function (key) {
       $translate.use(key).then(function (key) {
         console.log('Sprache zu '+ key +' gewechselt.');
@@ -37,15 +39,15 @@ angular.module('openSenseMapApp')
       } else {
         $scope.showClearSearch = false;
       }
-    }
+    };
 
     $scope.clearSearch = function () {
       $scope.searchString = '';
       $scope.searchStringChanged();
       $document[0].getElementById('searchField').focus();
-    }
+    };
 
-    $scope.getBoxes = function(val) {
+    $scope.getBoxes = function() {
       var boxes = OpenSenseMapData.boxes;
       return boxes;
     };
@@ -118,5 +120,13 @@ angular.module('openSenseMapApp')
         controller: 'SignupLoginController',
         controllerAs: 'account'
       });
+    }
+
+    function isAuthed () {
+      return SignupLoginService.isAuthed ? SignupLoginService.isAuthed() : false;
+    }
+
+    function logout () {
+      SignupLoginService.logout && SignupLoginService.logout();
     }
 }]);

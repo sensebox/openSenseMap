@@ -73,6 +73,20 @@ html, body {
   padding-left: 0;
 }
 
+.content-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  padding-left: 0;
+}
+
+.content-container > div {
+  padding-top: 100px;
+}
+
 #map_main {
   position: absolute;
   top: 0;

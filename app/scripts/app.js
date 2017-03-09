@@ -94,6 +94,16 @@ angular
           }
         }
       })
+      .state('account.reset', {
+        url: '/password-reset?token',
+        views: {
+          'account': {
+            controller: 'PasswordResetController',
+            controllerAs: 'reset',
+            templateUrl: 'views/account.reset.html'
+          }
+        }
+      })
       .state('register', {
         url: '/register',
         templateUrl: 'views/register.html',

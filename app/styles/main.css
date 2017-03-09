@@ -12,6 +12,14 @@ html, body {
   height: 100%;
 }
 
+a {
+  cursor: pointer;
+}
+
+a:focus {
+  text-decoration: none;
+}
+
 .center {
   margin-left: auto;
   margin-right: auto;

@@ -29,9 +29,15 @@
         value: ''
       },
     }
+    vm.reset = {
+      email: '',
+      active: false
+    };
 
+    vm.title = 'Sign in to openSenseMap'
     vm.submit = submit;
     vm.showPassword = showPassword;
+    vm.resetPassword = resetPassword;
 
     ////
 
@@ -59,6 +65,15 @@
             console.log('Successfully signed in!');
             $state.go('account.dashboard');
           });
+      } else if (form === 'reset') {
+        var data = {
+          email: vm.reset.email
+        }
+
+        return reset(data)
+          .then(function () {
+            console.log('Instructions send!')
+          })
       }
     }
 
@@ -77,6 +92,13 @@
         });
     }
 
+    function reset (data) {
+      return SignupLoginService.reset(data)
+        .then(function (data) {
+          return data;
+        })
+    }
+
     function showPassword (element) {
       switch (element) {
         case 'login-password':
@@ -89,6 +111,11 @@
           vm.signup.confirm.type = (vm.signup.confirm.type === 'password') ? vm.signup.confirm.type = 'text': vm.signup.confirm.type = 'password';
           break;
       }
+    }
+
+    function resetPassword () {
+      vm.title = (!vm.reset.active) ? 'Recover Password' : 'Sign in to openSenseMap';
+      vm.reset.active = !vm.reset.active;
     }
   }
 })();

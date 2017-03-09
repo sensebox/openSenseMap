@@ -2,12 +2,12 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="center-block">
-        <h3 style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">Sign in to openSenseMap</h3>
+        <h3 style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{account.title}}</h3>
       </div>
     </div>
   </div>
   <div class="row">
-    <div class="col-lg-12 signup-login">
+    <div class="col-lg-12 signup-login" ng-hide="account.reset.active">
       <uib-tabset active="account.active" justified="true">
       <uib-tab index="0" heading="Login">
         <div class="row">
@@ -18,7 +18,7 @@
                 <input type="text" ng-model="account.login.email" class="form-control" id="username" placeholder="Full name or user name" required>
               </div>
               <div class="form-group has-feedback" style="position: relative;">
-                <label for="password">Password*</label>
+                <label for="password">Password* <small style="display: inline-block; font-size: 12px;"> <a href="" ng-click="account.resetPassword()">Forgot it?</a></small></label>
                 <input type="{{account.login.password.type}}" ng-model="account.login.password.value" class="form-control" id="password" placeholder="Password" required>
                 <div id="show_password" ng-cloak>
                   <span class="helper"></span>
@@ -89,8 +89,26 @@
         </div>
       </uib-tab>
     </div>
+    <div class="col-lg-12 signup-login" ng-show="account.reset.active">
+      <form name="reset" ng-submit="account.submit('reset')">
+        <div class="form-group has-feedback">
+          <label for="email">Email</label>
+          <input type="email" ng-model="account.reset.email" class="form-control" id="reset-email" placeholder="Email" required>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+              <button type="submit" class="btn btn-default">Send reset instructions</button>
+            </div>
+            <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+              <small style="padding-top: 6px; padding-bottom: 6px;">
+                <a ng-click="account.resetPassword()" class="next rcon">Sign in</a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </uib-tabset>
   </div>
 </div>
-
-

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .factory('SignupLoginService', SignupLoginService);
 
-  SignupLoginService.$inject = ['$http', 'OpenSenseBoxAPI', 'AuthenticationService'];
+  SignupLoginService.$inject = ['$http', '$q', 'OpenSenseBoxAPI', 'AuthenticationService'];
 
-  function SignupLoginService ($http, OpenSenseBoxAPI, AuthenticationService) {
+  function SignupLoginService ($http, $q, OpenSenseBoxAPI, AuthenticationService) {
     var service = {
       signup: signup,
       login: login,
@@ -22,14 +22,12 @@
     ////
 
     function success (response) {
-      console.log(response);
       AuthenticationService.saveToken(response.data.token);
-      console.log(AuthenticationService.parseJwt(response.data.token));
-      return response;
+      return response.data;
     }
 
     function failed (error) {
-      console.log(error);
+      return $q.reject(error.data);
     }
 
     function signup (data) {
@@ -55,7 +53,6 @@
     function requestReset (data) {
       return $http.post(OpenSenseBoxAPI.url + '/users/request-password-reset', data)
         .then(function (response) {
-          console.log(response);
           return response;
         })
         .catch(failed);
@@ -64,7 +61,6 @@
     function reset (data) {
       return $http.post(OpenSenseBoxAPI.url + '/users/password-reset', data)
         .then(function (response) {
-          console.log(response);
           return response;
         })
         .catch(failed);

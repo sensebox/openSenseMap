@@ -12,6 +12,7 @@
       signup: signup,
       login: login,
       logout: logout,
+      requestReset: requestReset,
       reset: reset,
       isAuthed: isAuthed
     };
@@ -51,8 +52,17 @@
         .catch(failed);
     }
 
-    function reset (data) {
+    function requestReset (data) {
       return $http.post(OpenSenseBoxAPI.url + '/users/request-password-reset', data)
+        .then(function (response) {
+          console.log(response);
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function reset (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/password-reset', data)
         .then(function (response) {
           console.log(response);
           return response;

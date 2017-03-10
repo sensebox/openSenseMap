@@ -34,6 +34,8 @@
       active: false
     };
 
+    vm.errors = []
+
     vm.title = 'Sign in to openSenseMap'
     vm.submit = submit;
     vm.showPassword = showPassword;
@@ -49,7 +51,14 @@
           password: vm.signup.password.value
         };
 
-        return signup(data)
+        if (!passwordMatching(vm.signup)) {
+          vm.errors.push({
+            error: 'Password not matching!'
+          });
+          return;
+        }
+
+        signup(data)
           .then(function () {
             console.log('New Account created!');
             $state.go('account.dashboard');
@@ -60,21 +69,32 @@
           password: vm.login.password.value
         };
 
-        return login(data)
-          .then(function () {
+        login(data)
+          .then(function (response) {
+            if (angular.isUndefined(response) || response.status > 400) {
+              return '';
+            }
             console.log('Successfully signed in!');
-            $state.go('account.dashboard');
+          })
+          .then(function (error) {
+            vm.errors.push({
+              error: 'User or password wrong!'
+            });
           });
       } else if (form === 'reset') {
         var data = {
           email: vm.reset.email
         }
 
-        return reset(data)
+        requestReset(data)
           .then(function () {
             console.log('Instructions send!')
           })
       }
+    }
+
+    function passwordMatching (model) {
+      return model.password.value === model.confirm.value;
     }
 
     function signup (data) {
@@ -87,13 +107,12 @@
     function login (data) {
       return SignupLoginService.login(data)
         .then(function (data) {
-          $scope.closeThisDialog();
           return data;
         });
     }
 
-    function reset (data) {
-      return SignupLoginService.reset(data)
+    function requestReset (data) {
+      return SignupLoginService.requestReset(data)
         .then(function (data) {
           return data;
         })

@@ -25,6 +25,8 @@
     vm.showPassword = showPassword;
     vm.submit = submit;
 
+    vm.errors = [];
+
     activate();
 
     ////
@@ -45,6 +47,7 @@
     }
 
     function submit (form) {
+      vm.errors = [];
       if (form === 'reset') {
         var data = {
           email: vm.newData.email,
@@ -53,18 +56,24 @@
         };
 
         return reset(data)
-          .then(function () {
-            console.log('Instructions send!')
+          .then(function (response) {
+            if (angular.isUndefined(response) || response.status > 400) {
+              return response;
+            }
           })
+          .catch(function (error) {
+            vm.errors.push({
+              error: error.message
+            });
+          });
       }
     }
 
     function reset (data) {
       return SignupLoginService.reset(data)
         .then(function (response) {
-          console.log(response);
-          console.log('Successfull reset!');
-        })
+          return response;
+        });
     }
   }
 })();

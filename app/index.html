@@ -111,10 +111,29 @@
                   <i class="fa fa-sign-in" aria-hidden="true"></i> Login
                 </a>
               </li>
-              <li class="menuitem" ng-show="isAuthed()">
-                <a ng-click="logout()">
-                  <i class="fa fa-user-plus" aria-hidden="true"></i> Log out
+              <li class="menuitem" ng-show="isAuthed()" uib-dropdown>
+                <a uib-dropdown-toggle>
+                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                  <b class="caret"></b>
                 </a>
+                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                  <li>
+                    <div style="padding: 3px 20px;">
+                      Signed in as <strong>matpfe</strong>
+                    </div>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a ui-sref="account.dashboard">Dashboard</a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a>Settings</a>
+                  </li>
+                  <li>
+                    <a ng-click="logout()">Sign out</a>
+                  </li>
+                </ul>
               </li>
             </ul>
           </div>

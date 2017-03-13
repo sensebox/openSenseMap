@@ -9,7 +9,5 @@
 
   function AccountDashboardController () {
     var vm = this;
-
-    vm.test = "AAAAAAAA";
   }
 })();

@@ -82,7 +82,10 @@ angular
       .state('account', {
         url: '/account',
         abstract: true,
-        templateUrl: 'views/account.html'
+        templateUrl: 'views/account.html',
+        data: {
+          requiresLogin: true
+        }
       })
       .state('account.dashboard', {
         url: '',
@@ -125,6 +128,17 @@ angular
     $translateProvider.determinePreferredLanguage();
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
+
+  .run(function($rootScope, $state, SignupLoginService) {
+    $rootScope.$on('$stateChangeStart', function(e, to) {
+      if (to.data && to.data.requiresLogin) {
+        if (!SignupLoginService.isAuthed()) {
+          e.preventDefault();
+          $state.go('explore.map');
+        }
+      }
+    });
+  })
 
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {

@@ -114,7 +114,6 @@ angular.module('openSenseMapApp')
       $scope.launchTemp = ngDialog.open({
         template: '../../views/signup.login.html',
         className: 'ngdialog-theme-default',
-        // scope: ,
         showClose: true,
         closeByDocument: false,
         controller: 'SignupLoginController',

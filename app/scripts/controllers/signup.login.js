@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$scope', '$state', 'SignupLoginService'];
+  SignupLoginController.$inject = ['$scope', '$state', '$q', 'SignupLoginService'];
 
-  function SignupLoginController ($scope, $state, SignupLoginService) {
+  function SignupLoginController ($scope, $state, $q, SignupLoginService) {
     var vm = this;
 
     vm.signup = {
@@ -44,6 +44,8 @@
     ////
 
     function submit (form) {
+      vm.errors = [];
+
       if (form === 'signup') {
         var data = {
           name: vm.signup.name,
@@ -59,10 +61,10 @@
         }
 
         signup(data)
-          .then(function () {
-            console.log('New Account created!');
+          .then(function (response) {
             $state.go('account.dashboard');
-          });
+          })
+          .catch(requestFailed);
       } else if (form === 'login') {
         var data = {
           email: vm.login.email,
@@ -71,14 +73,11 @@
 
         login(data)
           .then(function (response) {
-            if (angular.isUndefined(response) || response.status > 400) {
-              return '';
-            }
-            console.log('Successfully signed in!');
+            $state.go('explore.map');
           })
-          .then(function (error) {
+          .catch(function (error) {
             vm.errors.push({
-              error: 'User or password wrong!'
+              error: 'User and or password not valid!'
             });
           });
       } else if (form === 'reset') {
@@ -89,8 +88,24 @@
         requestReset(data)
           .then(function () {
             console.log('Instructions send!')
-          })
+          });
       }
+    }
+
+    function requestFailed (error) {
+      if (angular.isUndefined(error.message)) {
+        console.log(error);
+        return $q.reject(error);
+      }
+
+      vm.errors.push({
+        error: error.message
+      });
+    }
+
+    function requestSuccess (response) {
+      $scope.closeThisDialog();
+      return response;
     }
 
     function passwordMatching (model) {
@@ -99,23 +114,20 @@
 
     function signup (data) {
       return SignupLoginService.signup(data)
-        .then(function (data) {
-          return data;
-        });
+        .then(requestSuccess)
+        .catch(requestFailed);
     }
 
     function login (data) {
       return SignupLoginService.login(data)
-        .then(function (data) {
-          return data;
-        });
+        .then(requestSuccess)
+        .catch(requestFailed);
     }
 
     function requestReset (data) {
       return SignupLoginService.requestReset(data)
-        .then(function (data) {
-          return data;
-        })
+        .then(requestSuccess)
+        .catch(requestFailed);
     }
 
     function showPassword (element) {
@@ -133,6 +145,7 @@
     }
 
     function resetPassword () {
+      vm.errors = [];
       vm.title = (!vm.reset.active) ? 'Recover Password' : 'Sign in to openSenseMap';
       vm.reset.active = !vm.reset.active;
     }

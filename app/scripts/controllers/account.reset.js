@@ -10,7 +10,6 @@
   function PasswordResetController ($state, SignupLoginService) {
     var vm = this;
     vm.newData = {
-      email: '',
       password: {
         type: 'password',
         value: ''
@@ -50,7 +49,6 @@
       vm.errors = [];
       if (form === 'reset') {
         var data = {
-          email: vm.newData.email,
           password: vm.newData.password.value,
           token: vm.newData.token
         };

@@ -7,7 +7,7 @@
     "angular-sanitize": "1.5",
     "ngDialog": "~0.6",
     "ng-flow": "~2",
-    "font-awesome": "~4.5.0",
+    "font-awesome": "~4.7.0",
     "bootstrap-languages": "https://github.com/usrz/bootstrap-languages.git#3ac2a3d",
     "angular-translate": "~2.11",
     "angular-translate-loader-static-files": "~2.11",

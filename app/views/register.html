@@ -449,8 +449,11 @@
              ng-show="rc.sampleWizard.currentIndex != 0 && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength && rc.sampleWizard.currentIndex < rc.sampleWizard.navigationLength-1">{{'NEXT' | translate}}</a>
           <a class="btn btn-danger" href="/explore"
              ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'CANCEL' | translate}}</a>
-          <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()"
-             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}</a>
+          <a class="btn btn-success" ng-click="!regSuccess && completeRegistration()" ng-disabled="registering"
+             ng-show="rc.sampleWizard.currentIndex == rc.sampleWizard.navigationLength-1">{{'FINISH' | translate}}
+             <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="registering"></i>
+             <span class="sr-only">Loading...</span>
+          </a>
         </div>
       </div>
     </div>

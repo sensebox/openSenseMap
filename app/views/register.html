@@ -360,7 +360,10 @@
             <div class="pull-right">
               <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
               <a class="btn btn-danger" href="/explore">{{'CANCEL' | translate}}</a>
-              <button type="submit" ng-click="completeRegistration()" class="btn btn-success">{{'FINISH' | translate}}</button>
+              <button type="submit" ng-click="completeRegistration()" ng-disabled="registering" class="btn btn-success">{{'FINISH' | translate}}
+                <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="registering"></i>
+                <span class="sr-only">Loading...</span>
+              </button>
             </div>
           </div>
         </form>

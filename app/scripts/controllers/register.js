@@ -394,6 +394,7 @@ angular.module('openSenseMapApp')
       $scope.newSenseBox.mqtt = $scope.mqtt;
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
+      $scope.registering = true;
       if ($translate.proposedLanguage() !== undefined) {
         $scope.newSenseBox.user['lang'] = $translate.proposedLanguage();
       }
@@ -409,6 +410,7 @@ angular.module('openSenseMapApp')
         .success( function (data) {
           $scope.newSenseBox.id = data.boxes[0];
           WizardHandler.wizard('RegistrationWizard').next();
+          $scope.registering = false;
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
             var alert = {
               type: 'success',
@@ -428,6 +430,7 @@ angular.module('openSenseMapApp')
             };
             $scope.alerts.push(alert);
           });
+          $scope.registering = false;
         });
     };
 }]);

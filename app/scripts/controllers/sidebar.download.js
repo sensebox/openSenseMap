@@ -63,6 +63,10 @@ angular.module('openSenseMapApp')
 		}
 	}
 
+  function createDateAsUTC(date) {
+    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+  }
+
 	$scope.dataDownload = function(){
 		$scope.downloadform.pleaseWait = true;
 		leafletData.getMap("map_main").then(function(map) {
@@ -70,9 +74,9 @@ angular.module('openSenseMapApp')
 			$http.get($scope.osemapi.url+'/boxes/data', {
 				params: {
 					boxid: boxids.join(','),
-					'to-date': $scope.inputFilter.DateTo,
-					'from-date': $scope.inputFilter.DateFrom,
-					phenomenon: $scope.inputFilter.Phenomenon	
+					'to-date': createDateAsUTC($scope.inputFilter.DateTo),
+					'from-date': createDateAsUTC($scope.inputFilter.DateFrom),
+					phenomenon: $scope.inputFilter.Phenomenon
 				}
 			})
 			.success(function(data) {

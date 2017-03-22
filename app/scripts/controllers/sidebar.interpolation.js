@@ -360,6 +360,7 @@ angular.module('openSenseMapApp')
     // destroy watcher
     $scope.$on('$destroy', function() {
       unwatchMinMaxValues();
+      clearInterpolation();
     });
 
     $scope.selectExposure = function (exposure) {

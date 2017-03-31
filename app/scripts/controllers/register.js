@@ -8,15 +8,6 @@ angular.module('openSenseMapApp')
     $scope.editing = {};
     $scope.isCustom = {};
     $scope.sensorSetup = '';
-    $scope.models = {
-      home: false,
-      basic: false,
-      custom: false,
-
-      wifi: false,
-      ethernet: false
-    };
-
     $scope.modelSelected = {
       id: false,
       name: false
@@ -128,49 +119,36 @@ angular.module('openSenseMapApp')
       switch(newValue) {
         case 'homeEthernet':
           $scope.modelSelected.name = 'senseBox Home Ethernet';
-          $scope.models = {
-            home: true,
-            basic: false,
-            custom: false,
-            wifi: false,
-            ethernet: true
-          };
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'homeWifi':
           $scope.modelSelected.name = 'senseBox Home Wifi';
-          $scope.models = {
-            home: true,
-            basic: false,
-            custom: false,
-            wifi: true,
-            ethernet: false
-          };
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
-        case 'basicEthernet':
-          $scope.modelSelected.name = 'senseBox Basic Ethernet';
-          $scope.models = {
-            home: false,
-            basic: true,
-            custom: false,
-            wifi: false,
-            ethernet: true
-          };
+        case 'luftdaten_sds011':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
-        case 'basicWifi':
-          $scope.modelSelected.name = 'senseBox Basic Wifi';
-          $scope.models = {
-            home: false,
-            basic: true,
-            custom: false,
-            wifi: true,
-            ethernet: false
-          };
+        case 'luftdaten_sds011_dht11':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_dht22':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_bmp180':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_bme280':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
@@ -302,7 +280,7 @@ angular.module('openSenseMapApp')
       collapse3: false
     };
 
-    $scope.$watchCollection('open.collapse2',function (newValue) {
+    $scope.$watchCollection('open.collapse3',function (newValue) {
       if (newValue) {
         $scope.modelSelected.id = 'custom';
       }

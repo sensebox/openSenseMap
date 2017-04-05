@@ -106,9 +106,7 @@ angular.module('openSenseMapApp')
       .success(function(data){
         $scope.savedSuccessfully = true;
         $scope.savedError = false;
-        if (data.image === '') {
-          $scope.image = 'placeholder.png';
-        } else {
+        if (data.image !== '') {
           $scope.image = data.image;
         }
         $scope.editingMarker = angular.copy(data);

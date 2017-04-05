@@ -50,6 +50,32 @@ module.exports = function (grunt) {
         files: [
           {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
         ]
+      },
+      devapi: {
+        options: {
+          patterns: [
+            {
+              match: 'OPENSENSEMAP_API_URL',
+              replacement: 'https://api.osem.vo1d.space'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'}
+        ]
+      },
+      devmaps: {
+        options: {
+          patterns: [
+            {
+              match: 'OPENSENSEMAP_MAPTILES_URL',
+              replacement: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'}
+        ]
       }
     },
 
@@ -92,9 +118,7 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['<%= yeoman.app %>/index.html'],
-        options: {
-          livereload: true
-        }
+        tasks: ['languages'],
       },
       livereload: {
         options: {
@@ -105,6 +129,22 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      devs: {
+        files: [
+          '<%= yeoman.app %>/scripts/controllers/map.js',
+          '<%= yeoman.app %>/scripts/controllers/register.js',
+          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js'
+        ],
+        tasks: [
+          'newer:copy:api',
+          'newer:copy:maps',
+          'replace:devapi',
+          'replace:devmaps'
+        ],
+        options: {
+          livereload: true
+        }
       }
     },
 
@@ -247,7 +287,13 @@ module.exports = function (grunt) {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>']
+        assetsDirs: ['<%= yeoman.dist %>'],
+        blockReplacements: {
+          js: function (block){
+            console.log(block.dest);
+            return '<script defer src="' + block.dest + '"><\/script>';
+          }
+        }
       }
     },
 
@@ -307,7 +353,18 @@ module.exports = function (grunt) {
           cwd: '.tmp/concat/scripts',
           src: '*.js',
           dest: '.tmp/concat/scripts'
+        },{
+          expand: true,
+          cwd: '<%= yeoman.dist %>/translations/angular',
+          src: '*.js',
+          dest: '<%= yeoman.dist %>/translations/angular'
         }]
+      }
+    },
+
+    'json-minify': {
+      build: {
+        files: '<%= yeoman.dist %>/translations/*.json'
       }
     },
 
@@ -406,6 +463,24 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      api: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/services',
+        dest: '.tmp/scripts/services',
+        src: 'opensenseboxapi.js'
+      },
+      maps: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/controllers',
+        dest: '.tmp/scripts/controllers',
+        src: ['map.js', 'register.js']
+      },
+      images: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/images',
+        dest: '.tmp/images',
+        src: 'favicon.svg'
       }
     },
 
@@ -420,7 +495,13 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'}
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'},
+          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz'},
+          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.gz'},
+          {expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.gz'},
+          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz'}
+
         ]
       },
       brotli: {
@@ -432,7 +513,12 @@ module.exports = function (grunt) {
           {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.br'},
           {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br'},
           {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'}
+          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'},
+          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br'},
+          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br'},
+          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.br'},
+          {expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.br'},
+          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br'}
         ]
       }
     },
@@ -440,7 +526,10 @@ module.exports = function (grunt) {
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
-        'copy:styles'
+        'copy:styles',
+        'copy:api',
+        'copy:maps',
+        'copy:images'
       ],
       test: [
         'copy:styles'
@@ -452,31 +541,18 @@ module.exports = function (grunt) {
       ]
     },
 
-    // By default, your `index.html`'s <!-- Usemin block --> will take care of
-    // minification. These next options are pre-configured if you do not wish
-    // to use the Usemin blocks.
-    // cssmin: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/styles/main.css': [
-    //         '.tmp/styles/{,*/}*.css',
-    //         '<%= yeoman.app %>/styles/{,*/}*.css'
-    //       ]
-    //     }
-    //   }
-    // },
-    // uglify: {
-    //   dist: {
-    //     files: {
-    //       '<%= yeoman.dist %>/scripts/scripts.js': [
-    //         '<%= yeoman.dist %>/scripts/scripts.js'
-    //       ]
-    //     }
-    //   }
-    // },
-    // concat: {
-    //   dist: {}
-    // },
+    uglify: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '<%= yeoman.dist %>/translations/angular',
+            src: '*.js',
+            dest: '<%= yeoman.dist %>/translations/angular'
+          }
+        ]
+      }
+    },
 
     // Test settings
     karma: {
@@ -486,7 +562,6 @@ module.exports = function (grunt) {
       }
     }
   });
-
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -498,6 +573,8 @@ module.exports = function (grunt) {
       'bowerInstall',
       'concurrent:server',
       'autoprefixer',
+      'replace:devapi',
+      'replace:devmaps',
       'languages',
       'connect:livereload',
       'watch'
@@ -526,14 +603,14 @@ module.exports = function (grunt) {
     'concat',
     'ngmin',
     'copy:dist',
-    //'cdnify',
     'cssmin',
     'uglify',
     'rev',
     'usemin',
     'htmlmin',
-    // 'sed',
-    'replace',
+    'json-minify',
+    'replace:control',
+    'replace:urls',
     'compress'
   ]);
 
@@ -565,7 +642,7 @@ module.exports = function (grunt) {
 
         fs.writeFile('.tmp/index.html', res, 'utf8', function (err) {
            if (err) { return console.log(err); }
-           grunt.file.copy('.tmp/index.html','app/index.html');
+           // grunt.file.copy('.tmp/index.html','app/index.html');
            done();
         });
       });

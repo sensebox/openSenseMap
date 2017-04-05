@@ -232,14 +232,6 @@ div.box {
   top: 0px;
 }
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-/*.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}*/
-
 /* Custom page header */
 .header {
   border-bottom: 1px solid #e5e5e5;
@@ -365,6 +357,8 @@ div.box {
 #brand_with_logo img,
 #brand_with_logo h3 {
   display:inline-block;
+  height: 36px;
+  width: 36px;
 }
 
 #brand_with_logo {
@@ -372,7 +366,7 @@ div.box {
 }
 
 .navbar-default .navbar-brand {
-  padding:10px;
+  padding: 8px 0px 8px 0px;
   font-family: BrixSlab-Bold;
   font-size: 1.5em;
   color: #4EAF47;
@@ -456,7 +450,8 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 
 .brand-stats {
   display: inline-block;
-  padding: 3px 4px;
+  padding: 4px;
+  margin-left: 10px;
 }
 
 #location .row {
@@ -479,9 +474,8 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   z-index: 5;
 }
 
-.nav-wizard {
-  width: 75%;
-  margin: 0 auto;
+.registration-wizard .steps {
+  padding-top: 50px;
 }
 
 .form-control-feedback {
@@ -491,9 +485,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 @media screen and (max-width: 600px) {
   #sidebar {
     width:100%;
-  }
-  .brand-stats {
-    padding: 4px;
   }
 }
 
@@ -656,7 +647,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 }
 
 .legend-content .sensebox-legend-entry {
-  /*background-color: #fff;*/
   padding: 3px;
   display: inline-block;
   vertical-align: middle;
@@ -703,6 +693,10 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
     display: none;
   }
 
+  #brand_with_logo img {
+    margin-left: 10px;
+  }
+
   .legend-big {
     width: calc(100vw - 20px);
     height: auto;
@@ -737,20 +731,9 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   background: #4EAF47;
   height: 2px;
 }
-/*.interpolation-slider.rzslider .rz-selection {
-  background: orange;
-}*/
 
 .interpolation-slider.rzslider .rz-pointer {
-  /*width: 8px;
-  height: 16px;
-  top: auto;  to remove the default positioning 
-  bottom: 0;*/
   background-color: #4EAF47;
-  /*width: 24px;
-  height: 24px;*/
-  /*border-top-left-radius: 3px;
-  border-top-right-radius: 3px;*/
 }
 
 .interpolation-slider.rzslider .rz-pointer:after {

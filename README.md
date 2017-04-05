@@ -4,7 +4,22 @@ openSenseMap
 ## Installation
 
 ### Docker
+
+#### openSenseMap including openSenseMap-API
+
 For installing openSenseMap and openSenseMap-API with Docker check out our [oSeM-compose](https://github.com/sensebox/OSeM-compose) repository.
+
+#### openSenseMap
+
+To build just openSenseMap you can run:
+```docker build -t osem .```
+
+Following ```build-args``` are availble:
+
+| Build Arg | Default value |
+| --------- | ----------------- |
+| OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
+| OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
 ### Local installation
 
@@ -18,34 +33,19 @@ npm install
 bower install
 ```
 
-Replace the following variables with your configuration:
-- ```OPENSENSEMAP_API_URL``` in [opensenseboxapi.js](https://github.com/sensebox/openSenseMap/blob/master/app/scripts/services/opensenseboxapi.js#L13)
-- ```OPENSENSEMAP_MAPTILES_URL``` in [map.js line 13](https://github.com/sensebox/openSenseMap/blob/master/app/scripts/controllers/map.js#L13), [map.js line 73](https://github.com/sensebox/openSenseMap/blob/master/app/scripts/controllers/map.js#L73) and [register.js](https://github.com/sensebox/openSenseMap/blob/master/app/scripts/controllers/register.js#L202)
-
-
-For ```OPENSENSEMAP_API_URL``` use your own API Url (e.g. ```localhost:8000```) or our live API.
-
-For ```OPENSENSEMAP_MAPTILES_URL``` you can use standard OpenStreetMap tiles e.g. ```http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png```.
-
-
-
 Now you are good to go and start up the server in development mode by running:
 
 ```
 grunt serve
 ```
 
-Alternatively, you can use a webserver like nginx and point the web root to the /app folder:
+If you want to change the API endpoint and/or the map tiles you can do so in the Gruntfile.
+Therefore you can change the `replace:devapi` and/or `replace:devmaps` tasks.
 
-```
-server {
-        root /var/www/OpenSenseMap/app;
-        index index.html;
-        location / {
-                try_files $uri $uri/ /index.html;
-        }
+## Contributing
+Contributions are welcome, see [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
-}
-```
+## License
+- Code: MIT License
 
-Code license: MIT License
+See [LICENSE](https://github.com/sensebox/opensensemap/blob/master/LICENSE) file.

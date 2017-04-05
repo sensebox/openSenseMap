@@ -11,31 +11,28 @@
     <base href="/">
 
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-    <link rel="icon" href="/images/sensebox-favicon.png" type="image/png">
+
+    <link rel="icon" href="images/favicon.svg">
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.css" />
-    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons.min.css" />
-    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.css" />
-    <link rel="stylesheet" href="bower_components/weather-icons/css/weather-icons-wind.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.css" />
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
     <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
+    <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css" />
+    <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/BrixSlab-font.css">
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/rcWizard.css">
     <link rel="stylesheet" href="styles/osemicons.css">
     <!-- endbuild -->
   </head>
@@ -45,81 +42,90 @@
     <![endif]-->
 
     <!-- Fixed navbar -->
-    <header class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderCtrl">
-        <div class="navbar-inner">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <span id="brand_with_logo"><a class="navbar-brand" href="/"><img src="images/sensebox-favicon.png"><div class='oSeM-brand'>&nbsp;openSenseMap</div></a></span>
-                    <div class="ng-cloak brand-stats">
-                        <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
-                        <span class="sensebox-stats" title="{{counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
-                    </div>
-                </div>
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="ng-cloak nav navbar-nav navbar-right">
-                        <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="explore.map">
-                                <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
-                            </a>
-                        </li>
-                        <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="explore.map.interpolation">
-                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
-                            </a>
-                        </li>
-                        <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}">
-                            <a ui-sref="explore.map.filter">
-                                <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
-                                <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
-                            </a>
-                        </li>
-                        <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="explore.map.download">
-                                <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
-                            </a>
-                        </li>
-                        <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="register">
-                                <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
-                            </a>
-                        </li>
-                        <li ui-sref-active-eq="active" class="menuitem">
-                            <a ui-sref="info">
-                                <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
-                            </a>
-                        </li>
-                        <li class="dropdown dropdown-languages">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="lang-sm" lang="{{key}}"></span> <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span> <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li><!-- languages-end -->
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderCtrl">
+      <div class="navbar-inner">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <span id="brand_with_logo">
+              <a class="navbar-brand" ui-sref="explore.map" ui-sref-opts="{reload: true}">
+                <img src="images/favicon.svg">
+                <div class='oSeM-brand'>&nbsp;openSenseMap</div>
+              </a>
+            </span>
+            <div class="ng-cloak brand-stats">
+              <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+              <span class="sensebox-stats" title="{{counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
             </div>
-        </div>
-        <div class="navbar-inner">
-          <div class="container">
-            <form class="navbar-form search">
-                <div class="form-group typeahead-search" style="display: inline;">
-                    <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
-                        <input id="searchField" type="text" style="border-radius: 4px;" ng-model="searchString" ng-change="searchStringChanged()" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
-                        <div id="reset_search" ng-show="showClearSearch" ng-cloak>
-                          <span class="helper"></span>
-                          <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="clearSearch()"></i>
-                        </div>
-                    </div>
-                </div>
-            </form>
+          </div>
+          <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed" id="bs-example-navbar-collapse-1">
+            <ul class="ng-cloak nav navbar-nav navbar-right">
+              <li ui-sref-active-eq="active" class="menuitem">
+                <a ui-sref="explore.map" ui-sref-opts="{reload: true}">
+                  <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
+                </a>
+              </li>
+              <li ui-sref-active-eq="active" class="menuitem">
+                <a ui-sref="explore.map.interpolation">
+                  <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
+                </a>
+              </li>
+              <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}">
+                <a ui-sref="explore.map.filter">
+                  <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
+                  <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+                </a>
+              </li>
+              <li ui-sref-active-eq="active" class="menuitem">
+                <a ui-sref="explore.map.download">
+                  <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
+                </a>
+              </li>
+              <li ui-sref-active-eq="active" class="menuitem">
+                <a ui-sref="register">
+                  <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
+                </a>
+              </li>
+              <li ui-sref-active-eq="active" class="menuitem">
+                <a ui-sref="info">
+                  <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
+                </a>
+              </li>
+              <li class="dropdown dropdown-languages" uib-dropdown>
+                <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
+                  <span class="lang-sm" lang="{{key}}"></span>
+                  <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span>
+                  <b class="caret"></b>
+                </a>
+                <ul uib-dropdown-menu class="dropdown-menu" role="menu">
+                  <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li><!-- languages-end -->
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>
-    </header>
+      </div>
+      <div class="navbar-inner">
+        <div class="container">
+          <form class="navbar-form search">
+            <div class="form-group typeahead-search" style="display: inline;">
+              <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
+                <input id="searchField" type="text" style="border-radius: 4px;" ng-model="searchString" ng-change="searchStringChanged()" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                <div id="reset_search" ng-show="showClearSearch" ng-cloak>
+                  <span class="helper"></span>
+                  <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="clearSearch()"></i>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
 
     <!-- Add your site or application content here -->
     <div class="container">
@@ -128,19 +134,12 @@
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-route/angular-route.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/underscore/underscore.js"></script>
-    <script src="bower_components/angular-underscore/angular-underscore.js"></script>
     <script src="bower_components/ngDialog/js/ngDialog.js"></script>
     <script src="bower_components/flow.js/dist/flow.js"></script>
     <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
-    <script src="bower_components/angular-bootstrap-checkbox/angular-bootstrap-checkbox.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
     <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
@@ -163,18 +162,16 @@
     <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/ui-leaflet/dist/ui-leaflet.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
-    <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
     <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
+    <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
+    <script src="bower_components/angular-toArrayFilter/toArrayFilter.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script type="text/javascript" src="scripts/directives/jquery.bootstrap.wizard.js"></script>
-    <script type="text/javascript" src="scripts/directives/rcSubmit.js"></script>
-    <script type="text/javascript" src="scripts/directives/rcForm.js"></script>
-    <script type="text/javascript" src="scripts/directives/rcDisabled.js"></script>
-    <script type="text/javascript" src="scripts/directives/rcWizard.js"></script>
     <script src="scripts/app.js"></script>
     <script src="scripts/controllers/main.js"></script>
     <script src="scripts/controllers/register.js"></script>

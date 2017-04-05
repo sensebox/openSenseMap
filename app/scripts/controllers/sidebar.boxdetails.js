@@ -59,6 +59,14 @@ angular.module('openSenseMapApp')
 			});
 		};
 
+    $scope.focusSelectedBox = function () {
+      var markerLatLng = [
+        $scope.selectedMarker.loc[0].geometry.coordinates[1],
+        $scope.selectedMarker.loc[0].geometry.coordinates[0]
+      ];
+      $scope.$parent.centerLatLng(markerLatLng);
+    };
+
     $scope.getBadgeColor = function (exposure) {
       if (exposure === 'indoor') {
         return 'orange';

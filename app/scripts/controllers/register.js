@@ -1,22 +1,13 @@
 'use strict';
 
 angular.module('openSenseMapApp')
-  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', 'SensorIcons', '$translate', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, SensorIcons, $translate){
+  .controller('RegisterCtrl', ['$scope', '$state', '$http', '$q', '$timeout', '$filter', '$location', 'leafletData', 'OpenSenseBoxAPI', 'SensorIcons', '$translate', 'WizardHandler', function($scope, $state, $http, $q, $timeout, $filter, $location, leafletData, OpenSenseBoxAPI, SensorIcons, $translate, WizardHandler){
     $scope.osemapi = OpenSenseBoxAPI;
     $scope.icons = SensorIcons;
     $scope.alerts = [];
     $scope.editing = {};
     $scope.isCustom = {};
     $scope.sensorSetup = '';
-    $scope.models = {
-      home: false,
-      basic: false,
-      custom: false,
-
-      wifi: false,
-      ethernet: false
-    };
-
     $scope.modelSelected = {
       id: false,
       name: false
@@ -73,108 +64,91 @@ angular.module('openSenseMapApp')
 
     $scope.invalidHardware = false;
 
+    $scope.exitValidation = function(){
+      var stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+      switch (stepNumber) {
+        case 2:
+          if (userForm.$valid) {
+            return true;
+          }
+        case 3:
+          if (senseboxForm.$valid) {
+            return true;
+          }
+      }
+      return false;
+    };
+
     $scope.enterEvent = function(keyEvent) {
       if (keyEvent.which === 13)
-        if($scope.rc.sampleWizard.currentIndex === 0) {
-          $scope.rc.sampleWizard.forward();
-        } else if ($scope.rc.sampleWizard.currentIndex === 1) {
-          this.generateID();
-          this.goToMap();
-        } else if ($scope.rc.sampleWizard.currentIndex === 2) {
-          if ($scope.modelSelected.id === false) {
-            $scope.invalidHardware = true;
-          } else {
-            $scope.invalidHardware = false;
-          }
-
-          if ($scope.sensors.length === 0) {
-            $scope.sensorIncomplete = true;
-          } else {
-            $scope.sensorIncomplete = false;
-          }
-        } else if ($scope.rc.sampleWizard.currentIndex === 3) {
-          $scope.completeRegistration();
+        var stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+        switch (stepNumber) {
+          case 1:
+            WizardHandler.wizard('RegistrationWizard').next();
+            break;
+          case 2:
+            this.generateID();
+            this.goToMap();
+            if (userForm.$valid) {
+              WizardHandler.wizard('RegistrationWizard').next();
+            }
+            break;
+          case 3:
+            if ($scope.modelSelected.id === false) {
+              $scope.invalidHardware = true;
+            } else {
+              $scope.invalidHardware = false;
+            }
+            if ($scope.sensors.length === 0) {
+              $scope.sensorIncomplete = true;
+            } else {
+              $scope.sensorIncomplete = false;
+            }
+            if (senseboxForm.$valid) {
+              WizardHandler.wizard('RegistrationWizard').next();
+            }
+            break;
+          case 4:
+            $scope.completeRegistration();
+            break;
         }
     }
-
-    $scope.submit = function() {
-      if($scope.rc.sampleWizard.currentIndex === 1) {
-        this.generateID();
-        this.goToMap();
-      } else if ($scope.rc.sampleWizard.currentIndex === 2) {
-        if ($scope.modelSelected.id === false) {
-          $scope.invalidHardware = true;
-        } else {
-          $scope.invalidHardware = false;
-        }
-
-        if ($scope.sensors.length === 0) {
-          $scope.sensorIncomplete = true;
-        } else {
-          $scope.sensorIncomplete = false;
-        }
-      }
-      $scope.rc.sampleWizard.forward();
-    };
-
-    $scope.goToMap = function() {
-      $timeout(function() {
-        leafletData.getMap().then(function(map) {
-          $scope.$watch('$viewContentLoaded', function() {
-            map.invalidateSize();
-          });
-        });
-      }, 100);
-    };
 
     $scope.$watch('modelSelected.id', function(newValue) {
       console.log('Selected ' + newValue);
       switch(newValue) {
         case 'homeEthernet':
           $scope.modelSelected.name = 'senseBox Home Ethernet';
-          $scope.models = {
-            home: true,
-            basic: false,
-            custom: false,
-            wifi: false,
-            ethernet: true
-          };
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
         case 'homeWifi':
           $scope.modelSelected.name = 'senseBox Home Wifi';
-          $scope.models = {
-            home: true,
-            basic: false,
-            custom: false,
-            wifi: true,
-            ethernet: false
-          };
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
-        case 'basicEthernet':
-          $scope.modelSelected.name = 'senseBox Basic Ethernet';
-          $scope.models = {
-            home: false,
-            basic: true,
-            custom: false,
-            wifi: false,
-            ethernet: true
-          };
+        case 'luftdaten_sds011':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
-        case 'basicWifi':
-          $scope.modelSelected.name = 'senseBox Basic Wifi';
-          $scope.models = {
-            home: false,
-            basic: true,
-            custom: false,
-            wifi: true,
-            ethernet: false
-          };
+        case 'luftdaten_sds011_dht11':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_dht22':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_bmp180':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
+          $scope.sensors = [];
+          $scope.sensorSetup = $scope.modelSelected.id;
+          break;
+        case 'luftdaten_sds011_bme280':
+          $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
           break;
@@ -306,7 +280,7 @@ angular.module('openSenseMapApp')
       collapse3: false
     };
 
-    $scope.$watchCollection('open.collapse2',function (newValue) {
+    $scope.$watchCollection('open.collapse3',function (newValue) {
       if (newValue) {
         $scope.modelSelected.id = 'custom';
       }
@@ -413,7 +387,7 @@ angular.module('openSenseMapApp')
       $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)
         .success( function (data) {
           $scope.newSenseBox.id = data.boxes[0];
-          $scope.rc.sampleWizard.forward();
+          WizardHandler.wizard('RegistrationWizard').next();
           $scope.registering = false;
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
             var alert = {

@@ -4,16 +4,11 @@ angular
   .module('openSenseMapApp', [
     'ngResource',
     'ngSanitize',
-    'ngRoute',
     'ngDialog',
     'ui-leaflet',
     'ui.bootstrap',
-    'ui.checkbox',
     'ui.bootstrap.datetimepicker',
     'osemFilters',
-    'angular-underscore',
-    'rcWizard',
-    'rcForm',
     'flow',
     'pascalprecht.translate',
     'ui.router',
@@ -21,7 +16,9 @@ angular
     'angularMoment',
     'tmh.dynamicLocale',
     'ngProgress',
-    'rzModule'
+    'rzModule',
+    'mgo-angular-wizard',
+    'angular-toArrayFilter'
   ])
   .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);

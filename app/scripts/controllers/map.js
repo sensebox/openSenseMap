@@ -281,8 +281,8 @@ angular.module('openSenseMapApp')
 	$scope.$on('leafletDirectiveMarker.map_main.mouseover', function (e, args){
 		var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
 		$scope.hoverlabel = {
-			left: markerBounds.left,
-			top: markerBounds.top,
+			left: markerBounds.left+'px',
+			top: markerBounds.top-33+'px',
 			name: args.leafletEvent.target.options.station.name
 		};
 	});

@@ -220,11 +220,11 @@
                       <td>
                         <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
                         <div class="form-group has-feedback" ng-show="fixedBox" ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
-                          <div class="btn-group xxxl" ng-show="editing[sensor.id] && !isCustom[sensor.id]">
-                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
+                          <div class="btn-group xxxl" uib-dropdown ng-show="editing[sensor.id] && !isCustom[sensor.id]">
+                            <button id="btn-append-to-body" type="button" class="form-control btn btn-default xxxl" uib-dropdown-toggle>
                               <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
-                            </input>
-                            <ul class="dropdown-menu list-inline" role="menu">
+                            </button>
+                            <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
                               <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
                                 <span class="osem-icon" ng-class="icon.name"></span>
                               </li>

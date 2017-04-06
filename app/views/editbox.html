@@ -91,16 +91,16 @@
 							<tr ng-repeat="sensor in editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
 								<td>
 									<span ng-hide="sensor.editing" class="osem-icon" ng-class="getIcon(sensor)"></span>
-									<div ng-show="sensor.editing" class="btn-group xxxl">
-		                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
-		                              <span class="icon osem-icon" ng-class="getIcon(sensor)"></span><span class="icon-caret caret" style="right: 20%;"></span>
-		                            </input>
-		                            <ul class="dropdown-menu list-inline" role="menu">
-		                              <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
-		                                <span class="osem-icon" ng-class="icon.name"></span>
-		                              </li>
-		                            </ul>
-		                          </div>
+									<div ng-show="sensor.editing" class="btn-group xxxl" uib-dropdown>
+                    <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown" uib-dropdown-toggle>
+                      <span class="icon osem-icon" ng-class="getIcon(sensor)"></span><span class="icon-caret caret" style="right: 20%;"></span>
+                    </input>
+                    <ul class="dropdown-menu list-inline" role="menu" uib-dropdown-menu>
+                      <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
+                        <span class="osem-icon" ng-class="icon.name"></span>
+                      </li>
+                    </ul>
+                  </div>
 								</td>
 								<td>
 									<span ng-hide="sensor.editing">{{ sensor.title }}</span>

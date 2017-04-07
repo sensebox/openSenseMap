@@ -86,9 +86,10 @@ a:focus {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 100vw;
+  width: calc(100vw - 15px);
   height: 100vh;
-  padding-left: 0;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .content-container > div {

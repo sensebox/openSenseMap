@@ -97,6 +97,16 @@ angular
           }
         }
       })
+      .state('account.settings', {
+        url: '/settings',
+        views: {
+          'account': {
+            controller: 'AccountSettingsController',
+            controllerAs: 'settings',
+            templateUrl: 'views/account.settings.html'
+          }
+        }
+      })
       .state('account.reset', {
         url: '/password-reset?token',
         views: {
@@ -107,10 +117,15 @@ angular
           }
         }
       })
-      .state('register', {
+      .state('account.register', {
         url: '/register',
-        templateUrl: 'views/register.html',
-        controller: 'RegisterCtrl'
+        views: {
+          'account': {
+            controller: 'RegisterController',
+            controllerAs: 'register',
+            templateUrl: 'views/register.html'
+          }
+        }
       })
       .state('info', {
         url: '/info',

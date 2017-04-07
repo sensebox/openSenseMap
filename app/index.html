@@ -87,11 +87,6 @@
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="register">
-                  <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
-                </a>
-              </li>
-              <li ui-sref-active-eq="active" class="menuitem">
                 <a ui-sref="info">
                   <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
                 </a>
@@ -126,9 +121,12 @@
                   <li>
                     <a ui-sref="account.dashboard">Dashboard</a>
                   </li>
+                  <li>
+                    <a ui-sref="account.register">Add senseBox</a>
+                  </li>
                   <li class="divider"></li>
                   <li>
-                    <a>Settings</a>
+                    <a ui-sref="account.settings">Settings</a>
                   </li>
                   <li>
                     <a ng-click="logout()">Sign out</a>
@@ -215,6 +213,9 @@
     <script src="scripts/controllers/signup.login.js"></script>
     <script src="scripts/controllers/account.dashboard.js"></script>
     <script src="scripts/controllers/account.reset.js"></script>
+    <script src="scripts/controllers/account.settings.js"></script>
+    <script src="scripts/services/account.js"></script>
+    <script src="scripts/services/map.js"></script>
     <script src="scripts/services/opensenseboxapi.js"></script>
     <script src="scripts/services/opensenseboxes.js"></script>
     <script src="scripts/services/opensenseboxessensors.js"></script>

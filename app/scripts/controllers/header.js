@@ -127,5 +127,6 @@ angular.module('openSenseMapApp')
 
     function logout () {
       SignupLoginService.logout && SignupLoginService.logout();
+      $state.go('explore.map');
     }
 }]);

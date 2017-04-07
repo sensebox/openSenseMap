@@ -2,6 +2,7 @@
 
 angular
   .module('openSenseMapApp', [
+    'app.services',
     'ngResource',
     'ngSanitize',
     'ngDialog',

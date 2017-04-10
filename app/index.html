@@ -42,11 +42,11 @@
     <![endif]-->
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderCtrl">
+    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
       <div class="navbar-inner">
         <div class="container">
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-click="isNavCollapsed = !isNavCollapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button type="button" class="navbar-toggle" ng-click="header.isNavCollapsed = !header.isNavCollapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
               <span class="sr-only">Toggle navigation</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -59,8 +59,8 @@
               </a>
             </span>
             <div class="ng-cloak brand-stats">
-              <span class="sensebox-stats">{{ counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
-              <span class="sensebox-stats" title="{{counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+              <span class="sensebox-stats">{{ header.counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+              <span class="sensebox-stats" title="{{header.counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ header.counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
             </div>
           </div>
           <div class="collapse navbar-collapse" uib-collapse="isNavCollapsed" id="bs-example-navbar-collapse-1">
@@ -75,10 +75,10 @@
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                 </a>
               </li>
-              <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: filterActive.active}">
+              <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
                 <a ui-sref="explore.map.filter">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
-                  <span style="font-size:smaller;" ng-if="filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+                  <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
@@ -93,20 +93,22 @@
               </li>
               <li class="dropdown dropdown-languages" uib-dropdown>
                 <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-                  <span class="lang-sm" lang="{{key}}"></span>
+                  <span class="lang-sm" lang="{{header.key}}"></span>
                   <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span>
                   <b class="caret"></b>
                 </a>
                 <ul uib-dropdown-menu class="dropdown-menu" role="menu">
-                  <!-- languages-start --><li><a ng-click="changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li><!-- languages-end -->
+                  <!-- languages-start -->
+                  <li><a ng-click="header.changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="header.changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="header.changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="header.changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="header.changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="header.changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="header.changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="header.changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="header.changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="header.changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li>
+                  <!-- languages-end -->
                 </ul>
               </li>
-              <li class="menuitem" ng-hide="isAuthed()">
-                <a ng-click="open()">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> Login
+              <li class="menuitem" ng-hide="header.isAuthed()">
+                <a ng-click="header.open()">
+                  <i class="fa fa-sign-in" aria-hidden="true"></i> {{'ACCOUNT_LOGIN'|translate}}
                 </a>
               </li>
-              <li class="menuitem" ng-show="isAuthed()" uib-dropdown>
+              <li class="menuitem" ng-show="header.isAuthed()" uib-dropdown>
                 <a uib-dropdown-toggle>
                   <i class="fa fa-user-circle-o" aria-hidden="true"></i>
                   <b class="caret"></b>
@@ -114,22 +116,22 @@
                 <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
                   <li>
                     <div style="padding: 3px 20px;">
-                      Signed in as <strong>matpfe</strong>
+                      {{'ACCOUNT_SIGNED_IN_AS'|translate}} <strong>matpfe</strong>
                     </div>
                   </li>
                   <li class="divider"></li>
                   <li>
-                    <a ui-sref="account.dashboard">Dashboard</a>
+                    <a ui-sref="account.dashboard">{{'ACCOUNT_DASHBOARD'|translate}}</a>
                   </li>
                   <li>
-                    <a ui-sref="account.register">Add senseBox</a>
+                    <a ui-sref="account.register">{{'ACCOUNT_NEW_SENSEBOX'|translate}}</a>
                   </li>
                   <li class="divider"></li>
                   <li>
-                    <a ui-sref="account.settings">Settings</a>
+                    <a ui-sref="account.settings">{{'ACCOUNT_SETTINGS'|translate}}</a>
                   </li>
                   <li>
-                    <a ng-click="logout()">Sign out</a>
+                    <a ng-click="header.logout()">{{'ACCOUNT_SIGN_OUT'|translate}}</a>
                   </li>
                 </ul>
               </li>
@@ -142,10 +144,10 @@
           <form class="navbar-form search">
             <div class="form-group typeahead-search" style="display: inline;">
               <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
-                <input id="searchField" type="text" style="border-radius: 4px;" ng-model="searchString" ng-change="searchStringChanged()" ng-model-options="modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in getLocations($viewValue)" typeahead-on-select="selectBox($item)" typeahead-loading="loadingLocations" typeahead-no-results="noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
-                <div id="reset_search" ng-show="showClearSearch" ng-cloak>
+                <input id="searchField" type="text" style="border-radius: 4px;" ng-model="header.searchString" ng-change="header.searchStringChanged()" ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in header.getLocations($viewValue)" typeahead-on-select="header.selectBox($item)" typeahead-loading="header.loadingLocations" typeahead-no-results="header.noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                <div id="reset_search" ng-show="header.showClearSearch" ng-cloak>
                   <span class="helper"></span>
-                  <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="clearSearch()"></i>
+                  <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="header.clearSearch()"></i>
                 </div>
               </div>
             </div>
@@ -215,6 +217,7 @@
     <script src="scripts/controllers/account.reset.js"></script>
     <script src="scripts/controllers/account.settings.js"></script>
     <script src="scripts/services/account.js"></script>
+    <script src="scripts/services/language.js"></script>
     <script src="scripts/services/map.js"></script>
     <script src="scripts/services/opensenseboxapi.js"></script>
     <script src="scripts/services/opensenseboxes.js"></script>

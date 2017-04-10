@@ -10,7 +10,8 @@
   function AccountService ($http, $q, OpenSenseBoxAPI) {
     return {
       getUserDetails: getUserDetails,
-      getUsersBoxes: getUsersBoxes
+      getUsersBoxes: getUsersBoxes,
+      updateAccount: updateAccount
     };
 
     function getUserDetails () {
@@ -37,6 +38,20 @@
       }
 
       function getUsersBoxesFailed (error) {
+        return $q.reject(error.data);
+      }
+    }
+
+    function updateAccount (data) {
+      return $http.put(OpenSenseBoxAPI.url + '/users/me', data)
+        .then(updateAccountComplete)
+        .catch(updateAccountFailed);
+
+      function updateAccountComplete (response) {
+        return response.data;
+      }
+
+      function updateAccountFailed (error) {
         return $q.reject(error.data);
       }
     }

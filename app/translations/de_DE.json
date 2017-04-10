@@ -184,5 +184,21 @@
   "EDITBOX_TITLE": "senseBox verwalten",
   "BOX_LATITUDE": "Geographische Breite",
   "BOX_LONGITUDE": "Geographische Länge",
-  "BOX_POSITION_RESET": "Ort zurücksetzen"
+  "BOX_POSITION_RESET": "Ort zurücksetzen",
+
+  "ACCOUNT_TITLE": "Benutzterkonto",
+  "ACCOUNT_NAME": "Name",
+  "ACCOUNT_EMAIL": "Email Adresse",
+  "ACCOUNT_LANGUAGE": "Sprache",
+  "ACCOUNT_PASSWORD": "Passwort",
+  "ACCOUNT_NEW_PASSWORD": "Neues Passwort",
+  "ACCOUNT_SETTINGS": "Einstellungen",
+  "ACCOUNT_SIGN_OUT": "Abmelden",
+  "ACCOUNT_SIGNED_IN_AS": "Angemeldet als",
+  "ACCOUNT_DASHBOARD": "Dashboard",
+  "ACCOUNT_NEW_SENSEBOX": "Neue senseBox",
+  "ACCOUNT_LOGIN": "Anmelden",
+  "ACCOUNT_MAIL_NOT_CONFIRMED": "Email Adresse ist noch nicht bestätigt!",
+  "ACCOUNT_MAIL_CONFIRMED": "Email Adresse ist bestätigt!",
+  "ACCOUNT_UPDATE": "Aktualisieren"
 }

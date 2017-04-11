@@ -36,7 +36,6 @@
 
     vm.errors = []
 
-    vm.title = 'Sign in to openSenseMap'
     vm.submit = submit;
     vm.showPassword = showPassword;
     vm.resetPassword = resetPassword;

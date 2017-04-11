@@ -186,11 +186,13 @@
   "BOX_LONGITUDE": "Geographische Länge",
   "BOX_POSITION_RESET": "Ort zurücksetzen",
 
+  "ACCOUNT_HEADING": "openSenseMap Registrierung",
   "ACCOUNT_TITLE": "Benutzterkonto",
   "ACCOUNT_NAME": "Name",
   "ACCOUNT_EMAIL": "Email Adresse",
   "ACCOUNT_LANGUAGE": "Sprache",
   "ACCOUNT_PASSWORD": "Passwort",
+  "ACCOUNT_PASSWORD_CONFIRM": "Passwort bestätigen",
   "ACCOUNT_NEW_PASSWORD": "Neues Passwort",
   "ACCOUNT_SETTINGS": "Einstellungen",
   "ACCOUNT_SIGN_OUT": "Abmelden",
@@ -200,5 +202,11 @@
   "ACCOUNT_LOGIN": "Anmelden",
   "ACCOUNT_MAIL_NOT_CONFIRMED": "Email Adresse ist noch nicht bestätigt!",
   "ACCOUNT_MAIL_CONFIRMED": "Email Adresse ist bestätigt!",
-  "ACCOUNT_UPDATE": "Aktualisieren"
+  "ACCOUNT_UPDATE": "Aktualisieren",
+  "ACCOUNT_SIGN_UP": "Registrieren",
+  "ACCOUNT_USERNAME": "Vollständiger Name oder Benutzername",
+  "ACCOUNT_ALREADY_HAVE_AN_ACCOUNT": "Du hast schon ein Benutzerkonto",
+  "ACCOUNT_PASSWORD_FORGOT_IT": "Vergessen",
+  "ACCOUNT_NEED_AN_ACCOUNT": "Du hast noch kein Benutzerkonto",
+  "ACCOUNT_SEND_RESET_INSTRUCTION": "Passwort zurücksetzen"
 }

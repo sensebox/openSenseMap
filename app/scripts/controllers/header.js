@@ -42,18 +42,18 @@
 
     function activate () {
       console.info('Header is activated!');
-      AccountService.getUserDetails()
-        .then(function (data) {
-          vm.key = data.data.me.language.split('_')[0];
-          LanguageService.change(data.data.me.language);
-        })
-        .catch(function (error) {
-          console.info('Set language to default');
-          vm.key = 'de';
-          LanguageService.change('de_DE');
-        });
+      if (AccountService.isAuthed()) {
+        AccountService.getUserDetails()
+          .then(function (data) {
+            vm.key = data.data.me.language.split('_')[0];
+            LanguageService.change(data.data.me.language);
+          })
+      } else {
+        console.info('Set language to default');
+        vm.key = 'de';
+        LanguageService.change('de_DE');
+      }
 
-      // LanguageService.change('de_DE');
       $http.get(OpenSenseBoxAPI.url+'/stats')
        .success(function(data){
           vm.counts.boxes = data[0];

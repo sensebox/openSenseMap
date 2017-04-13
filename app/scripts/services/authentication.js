@@ -11,7 +11,9 @@
     var service = {
       parseJwt: parseJwt,
       saveToken: saveToken,
+      saveRefreshToken: saveRefreshToken,
       getToken: getToken,
+      getRefreshToken: getRefreshToken,
       logout: logout
     }
 
@@ -26,15 +28,24 @@
     }
 
     function saveToken (token) {
-      $window.localStorage['jwtToken'] = token;
+      $window.localStorage['osem_access_token'] = token;
+    }
+
+    function saveRefreshToken (token) {
+      $window.localStorage['osem_refresh_token'] = token;
     }
 
     function getToken () {
-      return $window.localStorage['jwtToken'];
+      return $window.localStorage['osem_access_token'];
+    }
+
+    function getRefreshToken () {
+      return $window.localStorage['osem_refresh_token'];
     }
 
     function logout () {
-      $window.localStorage.removeItem('jwtToken');
+      $window.localStorage.removeItem('osem_access_token');
+      $window.localStorage.removeItem('osem_refresh_token');
     }
   }
 })();

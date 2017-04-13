@@ -2,7 +2,10 @@
   <div class="row">
     <div class="col-lg-12">
       <div class="center-block">
-        <h3 style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{'ACCOUNT_HEADING'|translate}}</h3>
+        <h3 ng-hide="account.reset.active" style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{'ACCOUNT_HEADING'|translate}}
+        </h3>
+        <h3 ng-show="account.reset.active" style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{'ACCOUNT_HEADING_RECOVER_PASSWORD'|translate}}
+        </h3>
       </div>
     </div>
   </div>

@@ -145,7 +145,6 @@
 
     function resetPassword () {
       vm.errors = [];
-      vm.title = (!vm.reset.active) ? 'Recover Password' : 'Sign in to openSenseMap';
       vm.reset.active = !vm.reset.active;
     }
   }

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'SignupLoginService', 'LanguageService'];
+  HeaderController.$inject = ['$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
 
-  function HeaderController ($state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, SignupLoginService, LanguageService) {
+  function HeaderController ($state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -93,11 +93,11 @@
     }
 
     function isAuthed () {
-      return SignupLoginService.isAuthed ? SignupLoginService.isAuthed() : false;
+      return AccountService.isAuthed ? AccountService.isAuthed() : false;
     }
 
     function logout () {
-      SignupLoginService.logout && SignupLoginService.logout();
+      AccountService.logout && AccountService.logout();
       $state.go('explore.map');
     }
 

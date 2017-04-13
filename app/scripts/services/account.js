@@ -5,14 +5,80 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', 'OpenSenseBoxAPI'];
+  AccountService.$inject = ['$http', '$q', 'OpenSenseBoxAPI', 'AuthenticationService'];
 
-  function AccountService ($http, $q, OpenSenseBoxAPI) {
-    return {
+  function AccountService ($http, $q, OpenSenseBoxAPI, AuthenticationService) {
+    var service = {
+      signup: signup,
+      login: login,
+      logout: logout,
+      requestReset: requestReset,
+      reset: reset,
+      isAuthed: isAuthed,
       getUserDetails: getUserDetails,
       getUsersBoxes: getUsersBoxes,
       updateAccount: updateAccount
     };
+
+    return service;
+
+    ////
+
+    function success (response) {
+      AuthenticationService.saveToken(response.data.token);
+      AuthenticationService.saveRefreshToken(response.data.refreshToken);
+      return response.data;
+    }
+
+    function failed (error) {
+      return $q.reject(error.data);
+    }
+
+    function signup (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/register', data)
+        .then(success)
+        .catch(failed);
+    }
+
+    function login (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/sign-in', data)
+        .then(success)
+        .catch(failed);
+    }
+
+    function logout () {
+      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out')
+        .then(function (response) {
+          AuthenticationService.logout && AuthenticationService.logout();
+        })
+        .catch(failed);
+    }
+
+    function requestReset (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/request-password-reset', data)
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function reset (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/password-reset', data)
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function isAuthed () {
+      var token = AuthenticationService.getToken();
+      if(token) {
+        var params = AuthenticationService.parseJwt(token);
+        return Math.round(new Date().getTime() / 1000) <= params.exp;
+      } else {
+        return false;
+      }
+    }
 
     function getUserDetails () {
       return $http.get(OpenSenseBoxAPI.url + '/users/me')

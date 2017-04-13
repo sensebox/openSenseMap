@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('PasswordResetController', PasswordResetController);
 
-  PasswordResetController.$inject = ['$state', 'SignupLoginService'];
+  PasswordResetController.$inject = ['$state', 'AccountService'];
 
-  function PasswordResetController ($state, SignupLoginService) {
+  function PasswordResetController ($state, AccountService) {
     var vm = this;
     vm.newData = {
       password: {
@@ -68,7 +68,7 @@
     }
 
     function reset (data) {
-      return SignupLoginService.reset(data)
+      return AccountService.reset(data)
         .then(function (response) {
           return response;
         });

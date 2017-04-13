@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$scope', '$state', '$q', 'SignupLoginService'];
+  SignupLoginController.$inject = ['$scope', '$state', '$q', 'AccountService'];
 
-  function SignupLoginController ($scope, $state, $q, SignupLoginService) {
+  function SignupLoginController ($scope, $state, $q, AccountService) {
     var vm = this;
 
     vm.signup = {
@@ -112,19 +112,19 @@
     }
 
     function signup (data) {
-      return SignupLoginService.signup(data)
+      return AccountService.signup(data)
         .then(requestSuccess)
         .catch(requestFailed);
     }
 
     function login (data) {
-      return SignupLoginService.login(data)
+      return AccountService.login(data)
         .then(requestSuccess)
         .catch(requestFailed);
     }
 
     function requestReset (data) {
-      return SignupLoginService.requestReset(data)
+      return AccountService.requestReset(data)
         .then(requestSuccess)
         .catch(requestFailed);
     }

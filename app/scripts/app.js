@@ -145,10 +145,10 @@ angular
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
 
-  .run(function($rootScope, $state, SignupLoginService) {
+  .run(function($rootScope, $state, AccountService) {
     $rootScope.$on('$stateChangeStart', function(e, to) {
       if (to.data && to.data.requiresLogin) {
-        if (!SignupLoginService.isAuthed()) {
+        if (!AccountService.isAuthed()) {
           e.preventDefault();
           $state.go('explore.map');
         }

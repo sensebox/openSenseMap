@@ -166,8 +166,7 @@ module.exports = function (grunt) {
           ],
           middleware: function(connect, options) {
             var middlewares = [];
-
-            middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+            middlewares.push(modRewrite(['!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.woff2|\\.gif|\\.ttf$ /index.html']));
             options.base.forEach(function(base) {
               middlewares.push(serveStatic(base));
             });

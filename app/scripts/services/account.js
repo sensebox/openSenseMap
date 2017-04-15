@@ -17,7 +17,8 @@
       isAuthed: isAuthed,
       getUserDetails: getUserDetails,
       getUsersBoxes: getUsersBoxes,
-      updateAccount: updateAccount
+      updateAccount: updateAccount,
+      confirmEmail: confirmEmail
     };
 
     return service;
@@ -120,6 +121,14 @@
       function updateAccountFailed (error) {
         return $q.reject(error.data);
       }
+    }
+
+    function confirmEmail (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/users/confirm-email', data)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
     }
   }
 })();

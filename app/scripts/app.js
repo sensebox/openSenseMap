@@ -116,6 +116,22 @@ angular
             controllerAs: 'reset',
             templateUrl: 'views/account.reset.html'
           }
+        },
+        data: {
+          requiresLogin: false
+        }
+      })
+      .state('account.confirm', {
+        url: '/confirm-email?email&token',
+        views: {
+          'account': {
+            controller: 'ConfirmEmailController',
+            controllerAs: 'confirm',
+            templateUrl: 'views/account.confirm.html'
+          }
+        },
+        data: {
+          requiresLogin: false
         }
       })
       .state('account.register', {

@@ -9,6 +9,7 @@
 
   function RegisterController ($scope, $http, $translate ,leafletData, OpenSenseBoxAPI, MapService, SensorIcons, WizardHandler) {
     var vm = this;
+    vm.stepTitle = '';
     //new sensebox object
     vm.newSenseBox = {
       id: '',
@@ -58,6 +59,9 @@
     vm.remove = remove;
     vm.setSensorIcon = setSensorIcon;
     vm.completeRegistration = completeRegistration;
+    vm.setStepTitle = setStepTitle;
+    vm.stepBack = stepBack;
+    vm.stepForward = stepForward;
 
     activate();
 
@@ -70,6 +74,23 @@
       vm.icons = SensorIcons;
       vm.editMarkerInput =  angular.copy(vm.markers);
       vm.registering = false;
+      $translate('STEP0').then(function (msg) {
+        vm.stepTitle = msg;
+      });
+    }
+
+    function setStepTitle() {
+      vm.stepTitle = WizardHandler.wizard('RegistrationWizard').currentStepTitle();
+    }
+
+    function stepBack () {
+      WizardHandler.wizard('RegistrationWizard').previous();
+      setStepTitle();
+    }
+
+    function stepForward () {
+      WizardHandler.wizard('RegistrationWizard').next();
+      setStepTitle();
     }
 
     function enterEvent(keyEvent) {
@@ -154,6 +175,7 @@
     };
 
     function completeRegistration () {
+      setStepTitle();
       vm.alerts = [];
       vm.newSenseBox.mqtt = vm.mqtt;
       vm.newSenseBox.loc[0].geometry.coordinates.push(vm.markers.box.lng);

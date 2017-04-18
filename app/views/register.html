@@ -1,20 +1,24 @@
 <div class="container">
   <div class="row register">
-    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
-      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()" ng-disabled="false"><i class="glyphicon glyphicon-chevron-left"></i></button>
+    <div class="pull-right">
+      <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i class="glyphicon glyphicon-remove"></i></button>
     </div>
-    <div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" style="text-align: center;">
+  </div>
+  <div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-lg-offset-2 col-md-offset-2">
+      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()" ng-disabled="register.stepIndex == 0;"><i class="glyphicon glyphicon-chevron-left"></i></button>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-10 col-xs-10" style="text-align: center;">
       <h3 style="margin-top: 14px;">{{register.stepTitle}}</h3>
     </div>
-    <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1">
+    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align: right;">
       <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-disabled="false"><i class="glyphicon glyphicon-chevron-right"></i></button>
-      <!-- <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i class="glyphicon glyphicon-remove"></i></button> -->
     </div>
   </div>
   <div class="row">
     <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
       <wizard class="registration-wizard" name="RegistrationWizard" hide-indicators="true">
-        <wz-step wz-title="{{'STEP0' | translate}}">
+        <wz-step wz-title="{{'STEP0' | translate}}" wz-data="{translation: 'STEP0'}">
           <hr>
           <div uib-alert class="alert-warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></div>
           <div class="form-group">
@@ -25,7 +29,7 @@
             </div>
           </div>
         </wz-step>
-        <wz-step wz-title="{{'STEP2' | translate}}" canexit="">
+        <wz-step wz-title="{{'STEP2' | translate}}" wz-data="{translation: 'STEP2'}">
           <hr>
           <form class="tab-pane" id="sensebox" name="senseboxForm" ng-keypress="register.enterEvent($event)" novalidate>
             <div id="general">
@@ -311,7 +315,7 @@
             </div>
           </form>
         </wz-step>
-        <wz-step wz-title="{{'STEP3' | translate}}" canexit="">
+        <wz-step wz-title="{{'STEP3' | translate}}" wz-data="{translation: 'STEP3'}">
           <hr>
           <form class="tab-pane" id="confirmation" name="confirmationForm" ng-keypress="register.enterEvent($event)" novalidate>
             <div class="alert alert-info" role="alert">
@@ -371,7 +375,7 @@
             </div>
           </form>
         </wz-step>
-        <wz-step wz-title="{{'STEP4' | translate}}" canexit="">
+        <wz-step wz-title="{{'STEP4' | translate}}" wz-data="{translation: 'STEP4'}">
           <hr>
           <form class="tab-pane" id="last" name="lastForm" rc-step>
             <div uib-alert ng-repeat="alert in register.alerts" ng-class="'alert-' + (alert.type)">{{alert.msg}}</div>

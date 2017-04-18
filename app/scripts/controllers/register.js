@@ -10,6 +10,7 @@
   function RegisterController ($scope, $http, $translate ,leafletData, OpenSenseBoxAPI, MapService, SensorIcons, WizardHandler) {
     var vm = this;
     vm.stepTitle = '';
+    vm.stepIndex = 0;
     //new sensebox object
     vm.newSenseBox = {
       id: '',
@@ -261,6 +262,13 @@
     $scope.$on('leafletDirectiveMap.map_register.locationerror', function(event){
       //TODO set alert
       console.log(event);
+    });
+
+    $scope.$on('wizard:stepChanged', function (step, index) {
+      vm.stepIndex = index.index;
+      $translate(index.step.wzData.translation).then(function (msg) {
+        vm.stepTitle = msg;
+      });
     });
 
     $scope.$watch('register.modelSelected.id', function(newValue) {

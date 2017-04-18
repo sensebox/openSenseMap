@@ -5,9 +5,9 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', 'OpenSenseBoxAPI', 'AuthenticationService'];
+  AccountService.$inject = ['$http', '$q', 'moment', 'OpenSenseBoxAPI', 'AuthenticationService'];
 
-  function AccountService ($http, $q, OpenSenseBoxAPI, AuthenticationService) {
+  function AccountService ($http, $q, moment, OpenSenseBoxAPI, AuthenticationService) {
     var service = {
       signup: signup,
       login: login,
@@ -75,7 +75,7 @@
       var token = AuthenticationService.getToken();
       if(token) {
         var params = AuthenticationService.parseJwt(token);
-        return Math.round(new Date().getTime() / 1000) <= params.exp;
+        return moment.utc() <= moment.utc(params.exp * 1000);
       } else {
         return false;
       }

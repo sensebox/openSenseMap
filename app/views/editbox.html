@@ -180,16 +180,44 @@
 					<!-- MQTT DecodeOptions -->
 					<div>
 					  <label for="mqttDecodeOptions">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttDecodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
+					  <input type="text" name="mqttDecodeOptions" class="form-control monospace" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
 					</div>
 
 					<!-- MQTT ConnectionOptions -->
 			 		<div>
 					  <label for="mqttConnectionOptions">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-					  <input type="text" name="mqttConnectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
+					  <input type="text" name="mqttConnectionOptions" class="form-control monospace" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
 					</div>
 				</div>
 
+				<div>
+					<h3>The Things Network Integration</h3>
+					{{'TTN_DESCRIPTION' | translate }}
+					<!-- TTN profile  -->
+					<div class="form-group">
+						<label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
+						<select name="ttn_profile" class="form-control" ng-model="ttn.profile">
+							<option value="sensebox/home">senseBox:home</option>
+							<option value="lora-serialization">LoRa serialization</option>
+						</select>
+					</div>
+					<!-- TTN app_id -->
+					<div class="form-group">
+						<label class="control-label">{{ 'TTN_APPID' | translate }}</label>
+						<input type="text" name="ttn_app_id" class="form-control" ng-model="ttn.app_id">
+					</div>
+					<!-- TTN dev_id -->
+					<div class="form-group">
+						<label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
+						<input type="text" name="ttn_dev_id" class="form-control" ng-model="ttn.dev_id">
+					</div>
+					<!-- TTN DecodeOptions -->
+					<div class="form-group">
+						<label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
+						<input type="text"  name="ttn_decodeoptions" class="form-control monospace" ng-model="ttn.decodeOptions" ng-disabled="ttn.profile === 'sensebox/home'">
+					</div>
+					<div uib-alert class="alert-danger" ng-show="invalidTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
+				</div>
 				<div>
 					<h3>{{'EDIT_IMAGE'|translate}}</h3>
 					{{'EDIT_IMAGEINFO'|translate}}

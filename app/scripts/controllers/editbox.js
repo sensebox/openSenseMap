@@ -14,6 +14,12 @@ angular.module('openSenseMapApp')
     decodeOptions: '',
     connectionOptions: ''
   };
+  $scope.ttn = {
+    profile: 'sensebox/home',
+    app_id: '',
+    dev_id: '',
+    decodeOptions: '[]'
+  };
   $scope.sensorsEditMode = false;
 
   $scope.boxPosition = {
@@ -73,6 +79,21 @@ angular.module('openSenseMapApp')
     });
   };
 
+  // check if valid json for ttn decodeOptions
+  $scope.$watch('ttn.decodeOptions', function(newValue) {
+    if (!newValue.length) {
+      return $scope.invalidTTNconfig = false;
+    }
+    try {
+      if (JSON.parse($scope.ttn.decodeOptions).constructor !== Array) {
+        throw 'must be an array';
+      }
+      $scope.invalidTTNconfig = false;
+    } catch (e) {
+      $scope.invalidTTNconfig = true;
+    }
+  });
+
   $scope.setSensorIcon = function(sensor,newIcon) {
     sensor.icon = newIcon.name;
   };
@@ -99,8 +120,11 @@ angular.module('openSenseMapApp')
       exposure: $scope.editingMarker.exposure,
       loc: $scope.editMarker.m1,
       image: imgsrc,
-      mqtt: $scope.mqtt
+      mqtt: $scope.mqtt,
+      ttn: $scope.ttn
     };
+
+    newBoxData.ttn.decodeOptions = JSON.parse($scope.ttn.decodeOptions);
 
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data){

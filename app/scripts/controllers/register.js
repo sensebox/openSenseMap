@@ -51,6 +51,13 @@ angular.module('openSenseMapApp')
       connectionOptions: ''
     };
 
+    $scope.ttn = {
+      profile: 'sensebox/home',
+      app_id: '',
+      dev_id: '',
+      decodeOptions: '[]'
+    };
+
     $scope.editMarkerInput =  angular.copy($scope.markers);
     $scope.$watchCollection('editMarkerInput.box', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
@@ -113,6 +120,21 @@ angular.module('openSenseMapApp')
             break;
         }
     }
+
+    // check if valid json for ttn decodeOptions
+    $scope.$watch('ttn.decodeOptions', function(newValue) {
+      if (!newValue.length) {
+        return $scope.invalidTTNconfig = false;
+      }
+      try {
+        if (JSON.parse($scope.ttn.decodeOptions).constructor !== Array) {
+          throw 'must be an array';
+        }
+        $scope.invalidTTNconfig = false;
+      } catch (e) {
+        $scope.invalidTTNconfig = true;
+      }
+    });
 
     $scope.$watch('modelSelected.id', function(newValue) {
       console.log('Selected ' + newValue);
@@ -370,6 +392,8 @@ angular.module('openSenseMapApp')
       $scope.newSenseBox.apikey = $scope.newSenseBox.orderID;
       $scope.newSenseBox.user = $scope.user;
       $scope.newSenseBox.mqtt = $scope.mqtt;
+      $scope.newSenseBox.ttn = $scope.ttn;
+      $scope.newSenseBox.ttn.decodeOptions = JSON.parse($scope.ttn.decodeOptions);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lng);
       $scope.newSenseBox.loc[0].geometry.coordinates.push($scope.markers.box.lat);
       $scope.registering = true;

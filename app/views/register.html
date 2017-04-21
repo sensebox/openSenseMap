@@ -47,7 +47,7 @@
             <hr>
             <div class="pull-right">
               <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
-              <button type="submit" ng-disabled="userForm.$invalid" wz-next="enterEvent({which:13})" class="btn btn-primary">{{'NEXT' | translate}}</button>
+              <button type="submit" ng-disabled="userForm.$invalid" wz-next="enterEvent({which:14})" class="btn btn-primary">{{'NEXT' | translate}}</button>
             </div>
           </div>
         </form>
@@ -319,13 +319,47 @@
                 <!-- MQTT DecodeOptions -->
                 <div class="form-group">
                   <label class="control-label">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
-                  <input type="text" name="decodeOptions" class="form-control" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
+                  <input type="text" name="decodeOptions" class="form-control monospace" ng-model="mqtt.decodeOptions" ng-disabled="!mqtt.enabled">
                 </div>
                 <!-- MQTT ConnectionOptions -->
                 <div class="form-group">
                   <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-                  <input type="text" name="connectionOptions" class="form-control" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
+                  <input type="text" name="connectionOptions" class="form-control monospace" ng-model="mqtt.connectionOptions" ng-disabled="!mqtt.enabled">
                 </div>
+              </div>
+              <!-- TTN accordion -->
+              <div uib-accordion-group class="panel-default" is-open="open.collapse5">
+                <uib-accordion-heading>
+                  TheThingsNetwork Integration <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse5, 'glyphicon-chevron-right': !open.collapse5}"></i>
+                </uib-accordion-heading>
+                <div class="alert alert-info" role="alert">
+                  <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                  {{'TTN_DESCRIPTION' | translate }}
+                </div>
+                <!-- TTN profile -->
+                <div class="form-group">
+                  <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
+                  <select name="ttn_profile" class="form-control" ng-model="ttn.profile">
+                    <option value="sensebox/home">senseBox:home</option>
+                    <option value="lora-serialization">LoRa serialization</option>
+                  </select>
+                </div>
+                <!-- TTN app_id -->
+                <div class="form-group">
+                  <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
+                  <input type="text" name="ttn_app_id" class="form-control" ng-model="ttn.app_id">
+                </div>
+                <!-- TTN dev_id -->
+                <div class="form-group">
+                  <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
+                  <input type="text" name="ttn_dev_id" class="form-control" ng-model="ttn.dev_id">
+                </div>
+                <!-- TTN DecodeOptions -->
+                <div class="form-group">
+                  <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
+                  <input type="text"  name="ttn_decodeoptions" class="form-control monospace" ng-model="ttn.decodeOptions" ng-disabled="ttn.profile === 'sensebox/home'">
+                </div>
+                <div uib-alert class="alert-danger" ng-show="invalidTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
               </div>
             </uib-accordion>
           </div>

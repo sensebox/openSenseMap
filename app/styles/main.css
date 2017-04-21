@@ -169,6 +169,10 @@ a:hover {
   color: black;
 }
 
+.monospace {
+  font-family: Courier New, Courier, monospace;
+}
+
 /* MAP PAGE
 -------------------------------------------------- */
 /* all stylings for map page */

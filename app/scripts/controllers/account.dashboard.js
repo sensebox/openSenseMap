@@ -37,8 +37,7 @@
     }
 
     function deleteBox (boxId) {
-      console.log(boxId);
-      $http.delete(OpenSenseBoxAPI.url+'/boxes/'+boxId)
+      return AccountService.deleteBox(boxId)
         .then(function (response) {
           console.log(response);
           console.info('Box deleted');

@@ -17,8 +17,11 @@
       isAuthed: isAuthed,
       getUserDetails: getUserDetails,
       getUsersBoxes: getUsersBoxes,
+      getScript: getScript,
       updateAccount: updateAccount,
-      confirmEmail: confirmEmail
+      updateBox: updateBox,
+      confirmEmail: confirmEmail,
+      deleteBox: deleteBox
     };
 
     return service;
@@ -123,10 +126,34 @@
       }
     }
 
+    function updateBox (boxId, data) {
+      return $http.put(OpenSenseBoxAPI.url + '/boxes/' + boxId, data)
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function getScript (boxId) {
+      return $http.get(OpenSenseBoxAPI.url + '/boxes/' + boxId + '/script')
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
     function confirmEmail (data) {
       return $http.post(OpenSenseBoxAPI.url + '/users/confirm-email', data)
         .then(function (response) {
           return response.data;
+        })
+        .catch(failed);
+    }
+
+    function deleteBox (boxId) {
+      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId)
+        .then(function (response) {
+          return response.data
         })
         .catch(failed);
     }

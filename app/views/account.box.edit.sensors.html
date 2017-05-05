@@ -1,0 +1,68 @@
+<h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_CHANGESENSORS'|translate}}</h2>
+<hr>
+
+    <div>
+      <h3>{{'EDIT_CHANGESENSORS'|translate}}</h3>
+      {{'EDIT_CHANGESENSORSINFO'|translate}}
+      <table class="table table-striped table-condensed">
+        <thead>
+          <td>{{'CONFIG_ICON'|translate}}</td>
+          <td>{{'CONFIG_PHENOMENON'|translate}}</td>
+          <td>{{'CONFIG_UNIT'|translate}}</td>
+          <td>{{'CONFIG_TYPE'|translate}}</td>
+          <td></td>
+        </thead>
+        <tbody>
+          <tr ng-repeat="sensor in editingMarker.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
+            <td>
+              <span ng-hide="sensor.editing" class="osem-icon" ng-class="getIcon(sensor)"></span>
+              <div ng-show="sensor.editing" class="btn-group xxxl">
+                            <input type="button" class="form-control btn btn-default xxxl dropdown-toggle" data-toggle="dropdown">
+                              <span class="icon osem-icon" ng-class="getIcon(sensor)"></span><span class="icon-caret caret" style="right: 20%;"></span>
+                            </input>
+                            <ul class="dropdown-menu list-inline" role="menu">
+                              <li ng-repeat="icon in icons" ng-click="setSensorIcon(sensor,icon)">
+                                <span class="osem-icon" ng-class="icon.name"></span>
+                              </li>
+                            </ul>
+                          </div>
+            </td>
+            <td>
+              <span ng-hide="sensor.editing">{{ sensor.title }}</span>
+              <input ng-show="sensor.editing" class="form-control" ng-model="sensor.title" />
+            </td>
+            <td>
+              <span ng-hide="sensor.editing">{{ sensor.unit }}</span>
+              <input ng-show="sensor.editing" class="form-control" ng-model="sensor.unit" />
+            </td>
+            <td>
+              <span ng-hide="sensor.editing">{{ sensor.sensorType }}</span>
+              <input ng-show="sensor.editing" class="form-control" ng-model="sensor.sensorType" />
+            </td>
+            <td>
+              <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>
+              <span ng-show="sensor.incomplete">Please fill all fields</span>
+              <span ng-hide="sensor.deleted">
+              <button type="button" class="btn btn-xs btn-primary" ng-click="editSensor(sensor)" ng-show="!sensor.editing">
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-danger" ng-click="deleteSensor(sensor)" ng-show="!sensor.editing">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-primary" ng-click="saveSensor(sensor)" ng-show="sensor.editing">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-danger" ng-click="cancelSensor(sensor)" ng-show="sensor.editing">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+            <button type="button" ng-click="addSensor();" class="btn btn-xs btn-default"><i class="fa fa-plus-circle"></i> {{'ADD_SENSOR'|translate}}</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>

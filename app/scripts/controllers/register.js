@@ -11,6 +11,7 @@
     var vm = this;
     vm.stepTitle = '';
     vm.stepIndex = 0;
+    vm.stepForwardIsDisabled = false;
     //new sensebox object
     vm.newSenseBox = {
       id: '',
@@ -92,6 +93,7 @@
     function stepForward () {
       WizardHandler.wizard('RegistrationWizard').next();
       setStepTitle();
+      console.log(senseboxForm);
     }
 
     function enterEvent(keyEvent) {

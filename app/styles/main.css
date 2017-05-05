@@ -20,6 +20,10 @@ a:focus {
   text-decoration: none;
 }
 
+.monospace {
+  font-family: Courier New, Courier, monospace;
+}
+
 .center {
   margin-left: auto;
   margin-right: auto;
@@ -1052,4 +1056,14 @@ figure {
   font-size: 14px;
   text-transform: uppercase;
   margin-top: 10px;
+}
+
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+  color: #fff;
+  background-color: #4EAF47;
+}
+
+.nav-pills > li > a {
+  border-radius: 4px;
+  color: #777;
 }

@@ -209,5 +209,12 @@
   "ACCOUNT_ALREADY_HAVE_AN_ACCOUNT": "Du hast schon ein Benutzerkonto",
   "ACCOUNT_PASSWORD_FORGOT_IT": "Vergessen",
   "ACCOUNT_NEED_AN_ACCOUNT": "Du hast noch kein Benutzerkonto",
-  "ACCOUNT_SEND_RESET_INSTRUCTION": "Passwort zurücksetzen"
+  "ACCOUNT_SEND_RESET_INSTRUCTION": "Passwort zurücksetzen",
+
+  "TTN_DESCRIPTION": "Die openSenseMap bietet eine Integration mit <a href=\"https://www.thethingsnetwork.org\" target=\"blank\">TheThingsNetwork</a> an. Für eine Erklärung der Parameter siehe <a href=\"https://github.com/sensebox/ttn-osem-integration\" target=\"blank\">hier</a>",
+  "TTN_PROFILE": "Dekodierungs-Profil",
+  "TTN_APPID": "TTN Application-ID",
+  "TTN_DEVID": "TTN Device-ID",
+  "TTN_DECODEOPTIONS": "Dekodierungsoptionen",
+  "TTN_INVALID_DECODEOPTS": "Die Dekodierungsoptionen müssen ein valides JSON-Array sein! Für das genaue Format betrachte bitte die Dokumentation."
 }

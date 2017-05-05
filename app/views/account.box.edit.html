@@ -1,0 +1,20 @@
+<div class="container">
+  <div style="margin-top: 15px;">
+    <div uib-alert ng-repeat="alert in edit.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="edit.closeAlert($index)">{{alert.msg}}</div>
+  </div>
+  <div class="row register">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li ng-class="{'active': edit.tabActive.general}" ng-click="edit.changeActiveTab('general')"><a ui-sref="account.edit.general"><i class="fa fa-id-card-o fa-fw"></i> {{'EDIT_GENERAL'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.sensors}" ng-click="edit.changeActiveTab('sensors')"><a ui-sref="account.edit.sensors"><i class="fa fa-table fa-fw"></i> {{'EDIT_CHANGESENSORS'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.location}" ng-click="edit.changeActiveTab('location')"><a ui-sref="account.edit.location"><i class="fa fa-map-marker fa-fw"></i> {{'BOX_POSITION'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.script}" ng-click="edit.changeActiveTab('script')"><a ui-sref="account.edit.script"><i class="fa fa-file-text-o fa-fw"></i> {{'EDIT_SCRIPT'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.mqtt}" ng-click="edit.changeActiveTab('mqtt')"><a ui-sref="account.edit.mqtt"><i class="fa fa-wifi fa-fw"></i> {{'EDIT_MQTTOPTIONS'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.ttn}" ng-click="edit.changeActiveTab('ttn')"><a ui-sref="account.edit.ttn"><i class="fa fa-cloud-upload fa-fw"></i> {{'EDIT_TTN'|translate}}</a></li>
+      </ul>
+    </div>
+    <div class="col-md-9">
+      <div ui-view="edit"></div>
+    </div>
+  </div>
+</div>

@@ -80,7 +80,7 @@
 
           </article>
 
-          <figure style="background-image: url(http://136.243.1.253/~creolitic/bootsnipp/home.jpg)"></figure>
+          <figure ng-style="{'background-image':'url(https://osem.vo1d.space/userimages/{{box.image}})'}"></figure>
         </div>
 
         <div class="actions">
@@ -93,7 +93,7 @@
             </div>
 
             <div class="col-xs-4 col-sm-4 col-md-4">
-              <div class="action">
+              <div class="action" ui-sref="account.edit.general({id: box._id, box: box})">
                 <h1>EDIT</h1>
                 <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
               </div>

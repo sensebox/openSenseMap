@@ -88,6 +88,104 @@ angular
           requiresLogin: true
         }
       })
+      .state('account.edit', {
+        url: '/:id/edit',
+        params: {
+          box: { }
+        },
+        resolve: {
+          boxData: function ($state, $stateParams, AccountService) {
+            // Resolve boxData if called directly by URL
+            // $stateParams.box is set if called from account dashboard
+            if (angular.equals({}, $stateParams.box)) {
+              return AccountService.getUsersBoxes()
+                .then(function (response) {
+                  for (var i = response.data.boxes.length - 1; i >= 0; i--) {
+                    if (response.data.boxes[i]._id === $stateParams.id) {
+                      return response.data.boxes[i];
+                    }
+                  }
+                  throw 'box not found';
+                })
+                .catch(function (error) {
+                  console.error(error);
+                  $state.go('account.dashboard');
+                });
+            }
+            return $stateParams.box;
+          },
+          notifications: function () {
+            return [];
+          }
+        },
+        views: {
+          'account': {
+            controller: 'EditBoxController',
+            controllerAs: 'edit',
+            templateUrl: 'views/account.box.edit.html'
+          }
+        }
+      })
+      .state('account.edit.general', {
+        url: '/general',
+        views: {
+          'edit': {
+            controller: 'EditBoxGeneralController',
+            controllerAs: 'general',
+            templateUrl: 'views/account.box.edit.general.html'
+          }
+        }
+      })
+      .state('account.edit.sensors', {
+        url: '/sensors',
+        views: {
+          'edit': {
+            controller: 'EditBoxSensorsController',
+            controllerAs: 'sensors',
+            templateUrl: 'views/account.box.edit.sensors.html'
+          }
+        }
+      })
+      .state('account.edit.location', {
+        url: '/location',
+        views: {
+          'edit': {
+            controller: 'EditBoxLocationController',
+            controllerAs: 'location',
+            templateUrl: 'views/account.box.edit.location.html'
+          }
+        }
+      })
+      .state('account.edit.script', {
+        url: '/script',
+        views: {
+          'edit': {
+            controller: 'EditBoxScriptController',
+            controllerAs: 'script',
+            templateUrl: 'views/account.box.edit.script.html'
+          }
+        }
+      })
+      .state('account.edit.mqtt', {
+        url: '/mqtt',
+        views: {
+          'edit': {
+            controller: 'EditBoxMqttController',
+            controllerAs: 'mqtt',
+            templateUrl: 'views/account.box.edit.mqtt.html'
+          }
+        }
+      })
+      .state('account.edit.ttn', {
+        url: '/ttn',
+        views: {
+          'edit': {
+            controller: 'EditBoxTtnController',
+            controllerAs: 'ttn',
+            templateUrl: 'views/account.box.edit.ttn.html'
+          }
+        }
+      })
       .state('account.dashboard', {
         url: '',
         views: {

@@ -40,7 +40,14 @@
     vm.showPassword = showPassword;
     vm.resetPassword = resetPassword;
 
+    activate();
+
     ////
+
+    function activate () {
+      //TODO focus first field
+      //TODO tab change and focus first field again
+    }
 
     function submit (form) {
       vm.errors = [];

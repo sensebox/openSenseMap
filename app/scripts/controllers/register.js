@@ -42,11 +42,20 @@
       decodeOptions: '',
       connectionOptions: ''
     };
+    vm.ttnEnabled = false;
+    vm.validTTNconfig = true;
+    vm.ttn = {
+      profile: 'sensebox/home',
+      app_id: '',
+      dev_id: '',
+      decodeOptions: '[]'
+    };
     vm.open = {
       collapse1: true,
       collapse2: false,
       collapse3: false,
-      collapse4: false
+      collapse4: false,
+      collapse5: false
     };
 
     vm.markers = {};
@@ -320,6 +329,21 @@
           break;
       }
       vm.invalidHardware = false;
+    });
+
+    // check if valid json for ttn decodeOptions
+    $scope.$watch('register.ttn.decodeOptions', function(newValue) {
+      if (!newValue.length) {
+        return vm.validTTNconfig = true;
+      }
+      try {
+        if (JSON.parse(vm.ttn.decodeOptions).constructor !== Array) {
+          throw 'must be an array';
+        }
+        vm.validTTNconfig = true;
+      } catch (e) {
+        vm.validTTNconfig = false;
+      }
     });
 
     $scope.$watchCollection('register.open.collapse3',function (newValue) {

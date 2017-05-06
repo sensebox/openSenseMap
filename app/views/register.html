@@ -304,13 +304,45 @@
                     <input type="text" name="connectionOptions" class="form-control" ng-model="register.mqtt.connectionOptions" ng-disabled="!register.mqtt.enabled">
                   </div>
                 </div>
+                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse5">
+                   <uib-accordion-heading>
+                     TheThingsNetwork - TTN <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
+                   </uib-accordion-heading>
+                   <div uib-alert class="alert-warning" ng-bind-html="'TTN_DESCRIPTION'|translate"></div>
+                   <input type="checkbox" id="enabledTTN" ng-model="register.ttnEnabled"></input>
+                   <label>{{ 'EDIT_TTN' | translate }}</label>
+                     <!-- TTN profile  -->
+                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_profile.$invalid, 'has-success': senseboxForm.ttn_profile.$valid }">
+                       <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
+                       <select name="ttn_profile" class="form-control" ng-model="register.ttn.profile" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                         <option value="sensebox/home">senseBox:home</option>
+                         <option value="lora-serialization">LoRa serialization</option>
+                       </select>
+                     </div>
+                     <!-- TTN app_id -->
+                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_app_id.$invalid, 'has-success': senseboxForm.ttn_app_id.$valid }">
+                       <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
+                       <input type="text" name="ttn_app_id" class="form-control" ng-model="register.ttn.app_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                     </div>
+                     <!-- TTN dev_id -->
+                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_dev_id.$invalid, 'has-success': senseboxForm.ttn_dev_id.$valid }">
+                       <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
+                       <input type="text" name="ttn_dev_id" class="form-control" ng-model="register.ttn.dev_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                     </div>
+                     <!-- TTN DecodeOptions -->
+                     <div class="form-group" ng-class="{'has-error': !register.validTTNconfig, 'has-success': register.validTTNconfig }">
+                       <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
+                       <input type="text"  name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.decodeOptions" ng-disabled="register.ttn.profile === 'sensebox/home'" ng-required="register.ttn.profile !== 'sensebox/home'">
+                     </div>
+                     <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
+                 </div>
               </uib-accordion>
             </div>
             <div class="form-group">
               <hr>
               <div class="pull-right">
                 <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
-                <button type="submit" ng-disabled="senseboxForm.$invalid" ng-click="register.setStepTitle()" wz-next class="btn btn-primary">{{'NEXT' | translate}}</button>
+                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (!register.ttnEnabled) ? false : (register.validTTNconfig) ? false : true : true" ng-click="register.setStepTitle()" wz-next class="btn btn-primary">{{'NEXT' | translate}}</button>
               </div>
             </div>
           </form>
@@ -343,10 +375,6 @@
                   <tr>
                     <td style="width: 50%;">{{'STATION_PLACEMENT'|translate}}</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.exposure}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td style="width: 50%;">API-Key</td>
-                    <td style="width: 50%;"><strong>{{register.newSenseBox.orderID}}</strong></td>
                   </tr>
                 </tbody>
               </table>
@@ -403,10 +431,6 @@
                   <tr>
                     <td style="width: 50%;">senseBox ID</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.id}}</strong></td>
-                  </tr>
-                  <tr>
-                    <td style="width: 50%;">API-Key</td>
-                    <td style="width: 50%;"><strong>{{register.newSenseBox.orderID}}</strong></td>
                   </tr>
                 </tbody>
               </table>

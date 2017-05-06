@@ -964,7 +964,7 @@ article {
 }
 
 .icon {
-  width: 84px;
+  /*width: 84px;*/
   height: 84px;
   -webkit-order: 0;
   -ms-flex-order: 0;

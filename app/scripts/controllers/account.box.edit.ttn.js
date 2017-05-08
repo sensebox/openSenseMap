@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxTtnController', EditBoxTtnController);
 
-  EditBoxTtnController.$inject = ['$scope', 'boxData', 'AccountService'];
+  EditBoxTtnController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService'];
 
-  function EditBoxTtnController ($scope, boxData, AccountService) {
+  function EditBoxTtnController ($scope, boxData, notifications, AccountService) {
     var vm = this;
     vm.validTTNconfig = true;
     vm.settings = {
@@ -32,14 +32,13 @@
     function save () {
       return AccountService.updateBox(boxData._id, {ttn: vm.settings})
         .then(function (response) {
-          console.log('SUCCESS RESPONSE');
-          console.log(response);
-          //TODO set boxData
+          angular.copy(response.data, boxData);
+          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {
           console.log('ERROR RESPONSE');
           console.log(error);
-          //TODO schow error messages
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
 

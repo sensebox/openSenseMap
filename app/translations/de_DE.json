@@ -17,6 +17,7 @@
   "STEP2_SUB3": "Hardware",
   "STEP2_SUB3_DESCRIPTION": "Wähle den Typ deiner senseBox aus.",
   "STEP2_SUB4": "Erweitert",
+  "MQTT_DESCRIPTION": "",
   "MQTT_ENABLE": "MQTT aktivieren",
   "MQTT_URL": "Url",
   "MQTT_TOPIC": "Topic",
@@ -126,6 +127,7 @@
   "BOX_EXPOSURE": "Standort",
   "BOX_WEBSITE": "Webseite",
   "BOX_POSITION": "Standort",
+  "BOX_MODEL": "Modell",
   "EDIT_GENERAL": "Allgemein",
   "EDIT_SCRIPT": "Skript",
   "EDIT_TTN": "TheThingsNetwork",
@@ -172,7 +174,7 @@
   "LEGEND_ACTIVE": "Aktive Messstation (< 7 Tage)",
   "LEGEND_ACTIVE_30": "Inaktive Messstation (> 7 Tage)",
   "LEGEND_INACTIVE": "Inaktive Messstation (> 30 Tage)",
-  "LEGEND_SHOWALL": "anzeigen",
+  "LEGEND_SHOWALL": "Anzeigen",
 
   "SENSEBOXES": "senseBoxen",
   "MEASUREMENTS": "Messungen",
@@ -219,5 +221,10 @@
   "TTN_APPID": "TTN Application-ID",
   "TTN_DEVID": "TTN Device-ID",
   "TTN_DECODEOPTIONS": "Dekodierungsoptionen",
-  "TTN_INVALID_DECODEOPTS": "Die Dekodierungsoptionen müssen ein valides JSON-Array sein! Für das genaue Format betrachte bitte die Dokumentation."
+  "TTN_INVALID_DECODEOPTS": "Die Dekodierungsoptionen müssen ein valides JSON-Array sein! Für das genaue Format betrachte bitte die Dokumentation.",
+
+  "NOTIFICATION_BOX_UPDATE_SUCCESS": "senseBox wurde erfolgreich aktualisiert - <a href=\"explore/{{boxId}}\">anzeigen</a>",
+  "NOTIFICATION_BOX_UPDATE_FAILED": "senseBox konnte nicht aktualisiert werden",
+  "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox wurde gelöscht - <a href=\"account/dashboard\">Dashboard</a>",
+  "NOTIFICATION_BOX_DELETE_FAILED": "senseBox konnte nicht gelöscht werden"
 }

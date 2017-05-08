@@ -20,7 +20,7 @@
     vm.alerts = [];
 
     vm.changeActiveTab = changeActiveTab;
-    vm.closeAlert = closeAlert;
+    vm.closeAlert = notifications.closeAlert;
 
     activate();
 
@@ -28,14 +28,13 @@
 
     function activate () {
       changeActiveTab($state.current.url.split('/')[1]);
-      vm.alerts = notifications;
+      vm.alerts = notifications.getAlerts();
     }
 
     function changeActiveTab (tab) {
       Object.keys(vm.tabActive).map(function(key, index) {
          vm.tabActive[key] = false;
       });
-      notifications.pop();
       switch (tab) {
         case 'general':
           vm.tabActive.general = true;
@@ -57,9 +56,5 @@
           break;
       }
     }
-
-    function closeAlert (index) {
-      notifications.splice(index, 1);
-    };
   }
 })();

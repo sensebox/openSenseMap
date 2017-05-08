@@ -1,6 +1,8 @@
 <div class="container">
   <div style="margin-top: 15px;">
-    <div uib-alert ng-repeat="alert in edit.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="edit.closeAlert($index)">{{alert.msg}}</div>
+    <div uib-alert ng-repeat="alert in edit.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="edit.closeAlert($index)">
+      <div ng-bind-html="alert.msg"></div>
+    </div>
   </div>
   <div class="row register">
     <div class="col-md-3">

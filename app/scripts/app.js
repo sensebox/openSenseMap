@@ -114,8 +114,23 @@ angular
             }
             return $stateParams.box;
           },
-          notifications: function () {
-            return [];
+          notifications: function ($translate, boxData) {
+            var vm = this;
+            vm.alerts = [];
+            return {
+              getAlerts: function () {
+                return vm.alerts;
+              },
+              addAlert: function (type, messageId) {
+                vm.alerts.pop();
+                $translate(messageId, {boxId: boxData._id}).then(function (translation) {
+                  vm.alerts.push({ type: type, msg: translation });
+                });
+              },
+              closeAlert: function (index) {
+                vm.alerts.splice(index, 1);
+              }
+            };
           }
         },
         views: {

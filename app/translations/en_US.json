@@ -17,6 +17,7 @@
   "STEP2_SUB3": "Hardware",
   "STEP2_SUB3_DESCRIPTION": "Select your senseBox model.",
   "STEP2_SUB4": "Advanced",
+  "MQTT_DESCRIPTION": "openSenseMap offers a <a href=\"http://mqtt.org/\" target=\"blank\">MQTT</a> client for connecting to public brokers. Documentation for the parameters is provided <a href=\"https://docs.opensensemap.org/#api-Boxes-postNewBox\" target=\"blank\">in the docs.</a>",
   "MQTT_ENABLE": "Enable MQTT",
   "MQTT_URL": "Url",
   "MQTT_TOPIC": "Topic",
@@ -126,6 +127,7 @@
   "BOX_EXPOSURE": "Exposure",
   "BOX_WEBSITE": "Website",
   "BOX_POSITION": "Location",
+  "BOX_MODEL": "Model",
   "EDIT_GENERAL": "General",
   "EDIT_SCRIPT": "Script",
   "EDIT_TTN": "TheThingsNetwork",
@@ -220,5 +222,10 @@
   "TTN_APPID": "TTN Application ID",
   "TTN_DEVID": "TTN Device ID",
   "TTN_DECODEOPTIONS": "Decoding Options",
-  "TTN_INVALID_DECODEOPTS": "Decode Options have to be a valid JSON array! The exact format documentation is linked above."
+  "TTN_INVALID_DECODEOPTS": "Decode Options have to be a valid JSON array! The exact format documentation is linked above.",
+
+  "NOTIFICATION_BOX_UPDATE_SUCCESS": "senseBox successfully updated - <a href=\"explore/{{boxId}}\">view</a>",
+  "NOTIFICATION_BOX_UPDATE_FAILED": "Error while updating senseBox",
+  "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox successfully deleted - <a href=\"account/dashboard\">Dashboard</a>",
+  "NOTIFICATION_BOX_DELETE_FAILED": "Error while deleting senseBox"
 }

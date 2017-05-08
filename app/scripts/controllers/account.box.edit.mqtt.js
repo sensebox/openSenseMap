@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxMqttController', EditBoxMqttController);
 
-  EditBoxMqttController.$inject = ['boxData', 'AccountService'];
+  EditBoxMqttController.$inject = ['boxData', 'notifications', 'AccountService'];
 
-  function EditBoxMqttController (boxData, AccountService) {
+  function EditBoxMqttController (boxData, notifications, AccountService) {
     var vm = this;
 
     vm.settings = {
@@ -34,14 +34,13 @@
     function save () {
       return AccountService.updateBox(boxData._id, {mqtt: vm.settings})
         .then(function (response) {
-          console.log('SUCCESS RESPONSE');
-          console.log(response);
-          //TODO set boxData
+          angular.copy(response.data, boxData);
+          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {
           console.log('ERROR RESPONSE');
           console.log(error);
-          //TODO schow error messages
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
   }

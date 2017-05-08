@@ -23,7 +23,6 @@
     }
 
     function save () {
-      notifications.pop();
       var imgsrc = angular.element(document.getElementById('flowUploadImage')).attr('src');
       var data = {
         name: vm.editingMarker.name,
@@ -35,25 +34,21 @@
       };
       return AccountService.updateBox(boxData._id, data)
         .then(function (response) {
-          console.log('Success', response);
-          notifications.push({ type: 'info', msg: 'Oh snap! Change a few things up and try submitting again.' });
+          angular.copy(response.data, boxData);
+          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {
-          console.log('Error', error);
-          notifications.push({ type: 'danger', msg: 'Oh snap! Change a few things up and try submitting again.' });
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
 
     function deleteBox () {
       return AccountService.deleteBox(boxData._id)
         .then(function (response) {
-          console.log(response);
-          console.info('Box deleted');
-          $state.go('account.dashboard');
+          notificaitons.addAlert('info', 'NOTIFICATION_BOX_DELETE_SUCCESS');
         })
         .catch(function (error) {
-          console.log(error);
-          console.info('Error while deleting senseBox');
+          notificaitons.addAlert('danger', 'NOTIFICATION_BOX_DELETE_FAILED');
         });
     }
   }

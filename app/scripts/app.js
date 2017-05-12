@@ -41,14 +41,33 @@ angular
       })
       .state('explore.map', {
         url: '',
-        controller: 'MapCtrl',
-        templateUrl: 'views/explore2.map.html'
+        controller: 'MapController',
+        controllerAs: 'map',
+        templateUrl: 'views/explore2.map.html',
+        resolve: {
+          boxes: function (ngProgressFactory, OpenSenseMapAPI) {
+            var progressbar = ngProgressFactory.createInstance();
+            progressbar.setColor("#4EAF47");
+            progressbar.start();
+            return OpenSenseMapAPI.getBoxes()
+              .then(function (data) {
+                progressbar.complete();
+                return data;
+              })
+              .catch(function (error) {
+                console.error('Resolve boxes: ', error);
+                progressbar.complete();
+                return error;
+              });
+          }
+        }
       })
       .state('explore.map.boxdetails', {
         url: 'explore/:id', // no leading / because it is a child of the 'explore' state
         views: {
           'sidebar': {
-            controller: 'SidebarBoxDetailsCtrl',
+            controller: 'SidebarBoxDetailsController',
+            controllerAs: 'details',
             templateUrl: 'views/explore2.sidebar.box.html'
           }
         }
@@ -57,7 +76,8 @@ angular
         url: 'filter',
         views: {
           'sidebar': {
-            controller: 'SidebarFilterCtrl',
+            controller: 'SidebarFilterController',
+            controllerAs: 'filter',
             templateUrl: 'views/explore2.sidebar.filter.html'
           }
         }
@@ -66,7 +86,8 @@ angular
         url: 'download',
         views: {
           'sidebar': {
-            controller: 'SidebarDownloadCtrl',
+            controller: 'SidebarDownloadController',
+            controllerAs: 'download',
             templateUrl: 'views/explore2.sidebar.download.html'
           }
         }
@@ -75,7 +96,8 @@ angular
         url: 'interpolation',
         views: {
           'sidebar': {
-            controller: 'InterpolationCtrl',
+            controller: 'InterpolationController',
+            controllerAs: 'interpolation',
             templateUrl: 'views/explore2.sidebar.interpolation.html'
           }
         }

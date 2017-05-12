@@ -32,7 +32,6 @@
     vm.clearSearch = clearSearch;
     vm.open = open;
     vm.getLocations = getLocations;
-    vm.getBoxes = getBoxes;
     vm.selectBox = selectBox;
     vm.changeLang = changeLang;
 
@@ -115,26 +114,23 @@
           return item;
         });
         var boxresults = 0;
-        OpenSenseMapData.boxes.filter(function (value) {
+        var markers = OpenSenseMapData.getMarkers();
+        Object.keys(markers).map(function (key) {
           if (boxresults === 4) {
             return;
           }
-          if (value.station.name.match(new RegExp(searchstring, 'i'))) {
+          var marker = markers[key];
+          if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
             boxresults++;
             var newStructured = {
-              'display_name': value.station.name,
-              'boxId': value.station.id
+              'display_name': marker.station.name,
+              'boxId': marker.station.id
             };
             results.unshift(newStructured);
           }
         });
         return results;
       });
-    };
-
-    function getBoxes () {
-      var boxes = OpenSenseMapData.boxes;
-      return boxes;
     };
 
     // centers a latlng (marker) on the map while reserving space for the sidebar

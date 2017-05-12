@@ -45,10 +45,10 @@
     function deleteBox () {
       return AccountService.deleteBox(boxData._id)
         .then(function (response) {
-          notificaitons.addAlert('info', 'NOTIFICATION_BOX_DELETE_SUCCESS');
+          notifications.addAlert('info', 'NOTIFICATION_BOX_DELETE_SUCCESS');
         })
         .catch(function (error) {
-          notificaitons.addAlert('danger', 'NOTIFICATION_BOX_DELETE_FAILED');
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_DELETE_FAILED');
         });
     }
   }

@@ -22,7 +22,7 @@
         })
         .catch(function (error) {
           //TODO log errors
-        })
+        });
     }
   }
 })();

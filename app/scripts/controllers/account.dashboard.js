@@ -47,6 +47,6 @@
           console.log(error);
           console.info('Error while deleting senseBox');
         });
-    };
+    }
   }
 })();

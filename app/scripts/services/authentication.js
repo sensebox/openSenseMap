@@ -15,7 +15,7 @@
       getToken: getToken,
       getRefreshToken: getRefreshToken,
       logout: logout
-    }
+    };
 
     return service;
 

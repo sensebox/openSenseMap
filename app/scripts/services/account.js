@@ -15,6 +15,7 @@
       requestReset: requestReset,
       reset: reset,
       isAuthed: isAuthed,
+      refreshAuth: refreshAuth,
       getUserDetails: getUserDetails,
       getUsersBoxes: getUsersBoxes,
       getScript: getScript,
@@ -82,6 +83,18 @@
       } else {
         return false;
       }
+    }
+
+    function refreshAuth () {
+      var data = {
+        token: AuthenticationService.getRefreshToken()
+      };
+      return $http.post(OpenSenseBoxAPI.url + '/users/refresh-auth', data)
+        .then(success)
+        .catch(function (error) {
+          AuthenticationService.logout && AuthenticationService.logout();
+          failed(error);
+        });
     }
 
     function getUserDetails () {
@@ -153,7 +166,7 @@
     function deleteBox (boxId) {
       return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId)
         .then(function (response) {
-          return response.data
+          return response.data;
         })
         .catch(failed);
     }

@@ -10,7 +10,7 @@
   function LanguageService ($translate, amMoment, tmhDynamicLocale) {
     return {
       change: change
-    }
+    };
 
     function change (key) {
       $translate.use(key).then(function (key) {

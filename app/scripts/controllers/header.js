@@ -63,7 +63,13 @@
     };
 
     function changeLang (key) {
-      LanguageService.change(key);
+      LanguageService.change(key)
+        .then(function (response) {
+          vm.key = LanguageService.getLanguage();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     }
 
     function searchStringChanged () {

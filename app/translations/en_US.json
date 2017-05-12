@@ -227,5 +227,7 @@
   "NOTIFICATION_BOX_UPDATE_SUCCESS": "senseBox successfully updated - <a href=\"explore/{{boxId}}\">view</a>",
   "NOTIFICATION_BOX_UPDATE_FAILED": "Error while updating senseBox",
   "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox successfully deleted - <a href=\"account/dashboard\">Dashboard</a>",
-  "NOTIFICATION_BOX_DELETE_FAILED": "Error while deleting senseBox"
+  "NOTIFICATION_BOX_DELETE_FAILED": "Error while deleting senseBox",
+  "NOTIFICATION_USER_UPDATE_SUCCESS": "Profile succesfully updated.",
+  "NOTIFICATION_USER_UPDATE_FAILED": "Error while updating your profile."
 }

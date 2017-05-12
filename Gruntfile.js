@@ -61,7 +61,8 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'}
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
         ]
       },
       devmaps: {
@@ -74,7 +75,8 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'}
+          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/map.js', '.tmp/scripts/services/register.js'], dest: '.tmp/scripts/services'}
         ]
       }
     },
@@ -134,10 +136,13 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/scripts/controllers/map.js',
           '<%= yeoman.app %>/scripts/controllers/register.js',
-          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js'
+          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
+          '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
+          '<%= yeoman.app %>/scripts/services/map.js'
         ],
         tasks: [
           'newer:copy:api',
+          'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',
           'replace:devmaps'
@@ -342,6 +347,21 @@ module.exports = function (grunt) {
       }
     },
 
+    ngAnnotate: {
+      dist: {
+        files: [
+          {
+            expand: true,
+            cwd: '.tmp/concat/scripts',
+            src: '*.js',
+            dest: '.tmp/concat/scripts',
+            ext: '.annotated.js', // Dest filepaths will have this extension.
+            extDot: 'last',
+          }
+        ]
+      }
+    },
+
     // ngmin tries to make the code safe for minification automatically by
     // using the Angular long form for dependency injection. It doesn't work on
     // things like resolve or inject so those have to be done manually.
@@ -467,7 +487,13 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
         dest: '.tmp/scripts/services',
-        src: 'opensenseboxapi.js'
+        src: ['opensenseboxapi.js', 'map.js']
+      },
+      apinew: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/services',
+        dest: '.tmp/scripts/services',
+        src: 'opensensemapapi.js'
       },
       maps: {
         expand: true,
@@ -527,6 +553,7 @@ module.exports = function (grunt) {
       server: [
         'copy:styles',
         'copy:api',
+        'copy:apinew',
         'copy:maps',
         'copy:images'
       ],
@@ -600,7 +627,8 @@ module.exports = function (grunt) {
     'concurrent:dist',
     'autoprefixer',
     'concat',
-    'ngmin',
+    // 'ngmin',
+    'ngAnnotate',
     'copy:dist',
     'cssmin',
     'uglify',

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$scope', '$state', '$q', 'AccountService'];
+  SignupLoginController.$inject = ['$scope', '$state', '$window', '$document', '$q', 'AccountService'];
 
-  function SignupLoginController ($scope, $state, $q, AccountService) {
+  function SignupLoginController ($scope, $state, $window, $document, $q, AccountService) {
     var vm = this;
 
     vm.signup = {
@@ -28,13 +28,13 @@
         type: 'password',
         value: ''
       },
-    }
+    };
     vm.reset = {
       email: '',
       active: false
     };
 
-    vm.errors = []
+    vm.errors = [];
 
     vm.submit = submit;
     vm.showPassword = showPassword;
@@ -44,10 +44,7 @@
 
     ////
 
-    function activate () {
-      //TODO focus first field
-      //TODO tab change and focus first field again
-    }
+    function activate () {}
 
     function submit (form) {
       vm.errors = [];
@@ -89,11 +86,11 @@
       } else if (form === 'reset') {
         var data = {
           email: vm.reset.email
-        }
+        };
 
         requestReset(data)
           .then(function () {
-            console.log('Instructions send!')
+            console.log('Instructions send!');
           });
       }
     }

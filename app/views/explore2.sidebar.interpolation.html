@@ -3,7 +3,7 @@
 		<div class="col-xs-12 col-md-12">
 			<h3>
 				{{'INTERPOLATION'|translate}}
-				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="interpolation.closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 			</h3>
 		</div>
 	</div>
@@ -15,14 +15,14 @@
 			<div uib-alert class="alert-info" ng-bind-html="'INTERP_INTRO'|translate">
 			</div>
 
-      <div uib-alert ng-repeat="alert in alerts" class="alert-danger" close="closeAlert($index)">
+      <div uib-alert ng-repeat="alert in interpolation.alerts" class="alert-danger" close="interpolation.closeAlert($index)">
         <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
         {{alert.msg}}
       </div>
 
       <div class="input-group xxxl">
         <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
-        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in $parent.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
+        <input id="inputFilterPhenomenon" style="border-radius: 4px;" type="text" placeholder="{{'INTERP_PHENOMENOM_SEARCH'|translate}}" ng-model="interpolation.settings.selectedPhenomenon" uib-typeahead="phenomenon for phenomenon in interpolation.markers | uniquePhenomenons | filter:$viewValue | limitTo:8" class="form-control">
       </div>
 		</div>
 	</div>
@@ -32,18 +32,18 @@
       <div class="col-lg-6" style="padding-left: 0px;">
         <label for="interpolationPickerStart">{{'INTERP_TIMESTAMPBEGIN'|translate}}</label>
         <div class="input-group">
-          <input id="interpolationPickerStart" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerStart.date" is-open="interpolationPickerStart.open" button-bar="interpolationPickerStart.buttonBar" timepicker-options="interpolationPickerStart.timepickerOptions" datepicker-options="interpolationPickerStart.datepickerOptions" />
+          <input id="interpolationPickerStart" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolation.settings.interpolationPickerStart.date" is-open="interpolation.settings.interpolationPickerStart.open" button-bar="interpolation.settings.interpolationPickerStart.buttonBar" timepicker-options="interpolation.settings.interpolationPickerStart.timepickerOptions" datepicker-options="interpolation.settings.interpolationPickerStart.datepickerOptions" />
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPickerStart')"><i class="fa fa-calendar"></i></button>
+            <button type="button" class="btn btn-default" ng-click="interpolation.openCalendar($event, 'interpolationPickerStart')"><i class="fa fa-calendar"></i></button>
           </span>
         </div>
       </div>
       <div class="col-lg-6" style="padding-right: 0px;">
         <label for="interpolationPickerEnd">{{'INTERP_TIMESTAMPEND'|translate}}</label>
         <div class="input-group">
-          <input id="interpolationPickerEnd" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolationPickerEnd.date" is-open="interpolationPickerEnd.open" button-bar="interpolationPickerEnd.buttonBar" timepicker-options="interpolationPickerEnd.timepickerOptions" datepicker-options="interpolationPickerEnd.datepickerOptions" />
+          <input id="interpolationPickerEnd" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="interpolation.settings.interpolationPickerEnd.date" is-open="interpolation.settings.interpolationPickerEnd.open" button-bar="interpolation.settings.interpolationPickerEnd.buttonBar" timepicker-options="interpolation.settings.interpolationPickerEnd.timepickerOptions" datepicker-options="interpolation.settings.interpolationPickerEnd.datepickerOptions" />
           <span class="input-group-btn">
-            <button type="button" class="btn btn-default" ng-click="openCalendar($event, 'interpolationPickerEnd')"><i class="fa fa-calendar"></i></button>
+            <button type="button" class="btn btn-default" ng-click="interpolation.openCalendar($event, 'interpolationPickerEnd')"><i class="fa fa-calendar"></i></button>
           </span>
         </div>
       </div>
@@ -56,11 +56,11 @@
         <label for="numTimeSteps">{{'INTERP_NUMTIMESTEPS'|translate}}</label>
         <div class="input-group">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="changeNumTimeSteps(-1)" ng-disabled="numTimeSteps === minNumTimeSteps">-</button>
+            <button class="btn btn-default" type="button" ng-click="interpolation.changeNumTimeSteps(-1)" ng-disabled="interpolation.settings.numTimeSteps === interpolation.settings.minNumTimeSteps">-</button>
           </span>
-          <input type="text" class="form-control" style="text-align: center;" ng-model="numTimeSteps" readonly>
+          <input type="text" class="form-control" style="text-align: center;" ng-model="interpolation.settings.numTimeSteps" readonly>
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="changeNumTimeSteps(1)" ng-disabled="numTimeSteps === maxNumTimeSteps">+</button>
+            <button class="btn btn-default" type="button" ng-click="interpolation.changeNumTimeSteps(1)" ng-disabled="interpolation.settings.numTimeSteps === interpolation.settings.maxNumTimeSteps">+</button>
           </span>
         </div>
         <!-- <div class="input-group xxxl">
@@ -71,8 +71,8 @@
         <label for="exposure">{{'STATION_PLACEMENT' | translate}}</label>
         <div class="input-group">
           <span class="input-group-btn btn-group">
-            <button style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'indoor'}" ng-click="selectExposure('indoor')">{{ 'STATION_PLACEMENT_INDOOR' | translate}}</button>
-            <button style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;" class="btn btn-default" ng-class="{'active': exposure === 'outdoor'}" ng-click="selectExposure('outdoor')">{{ 'STATION_PLACEMENT_OUTDOOR' | translate}}</button>
+            <button style="border-top-left-radius: 4px; border-bottom-left-radius: 4px;" class="btn btn-default" ng-class="{'active': interpolation.settings.exposure === 'indoor'}" ng-click="interpolation.selectExposure('indoor')">{{ 'STATION_PLACEMENT_INDOOR' | translate}}</button>
+            <button style="border-top-right-radius: 4px; border-bottom-right-radius: 4px;" class="btn btn-default" ng-class="{'active': interpolation.settings.exposure === 'outdoor'}" ng-click="interpolation.selectExposure('outdoor')">{{ 'STATION_PLACEMENT_OUTDOOR' | translate}}</button>
           </span>
         </div>
       </div>
@@ -84,18 +84,18 @@
       <div class="col-lg-6" style="padding-left: 0px;">
         <label for="cellWidth">{{'INTERP_CELLWIDTH'|translate}}</label>
         <div class="input-group xxxl">
-          <input type="number" class="form-control" style="border-radius: 4px;"  min="0.01" step="0.1" ng-model="cellWidth">
+          <input type="number" class="form-control" style="border-radius: 4px;"  min="0.01" step="0.1" ng-model="interpolation.settings.cellWidth">
         </div>
       </div>
       <div class="col-lg-6" style="padding-right: 0px;">
         <label for="idwParameterP">{{'INTERP_IDW_P' | translate}}</label>
         <div class="input-group">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="changeIDWPower(-1)" ng-disabled="idwPower === minIDWPower">-</button>
+            <button class="btn btn-default" type="button" ng-click="interpolation.changeIDWPower(-1)" ng-disabled="interpolation.settings.idwPower === interpolation.settings.minIDWPower">-</button>
           </span>
-          <input type="text" class="form-control" style="text-align: center;" ng-model="idwPower" readonly>
+          <input type="text" class="form-control" style="text-align: center;" ng-model="interpolation.settings.idwPower" readonly>
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="changeIDWPower(1)" ng-disabled="idwPower === maxIDWPower">+</button>
+            <button class="btn btn-default" type="button" ng-click="interpolation.changeIDWPower(1)" ng-disabled="interpolation.settings.idwPower === interpolation.settings.maxIDWPower">+</button>
           </span>
         </div>
       </div>
@@ -104,31 +104,31 @@
   <hr>
 	<div class="row">
     <div class="col-lg-12">
-      <button class="btn btn-info xxxl" ng-disabled="selectedPhenomenon === '' || calculating" ng-click="calculateInterpolation()">{{'INTERP_CREATE'|translate}}
-        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="calculating"></i>
+      <button class="btn btn-info xxxl" ng-disabled="interpolation.settings.selectedPhenomenon === '' || interpolation.calculating" ng-click="interpolation.calculateInterpolation()">{{'INTERP_CREATE'|translate}}
+        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="interpolation.calculating"></i>
         <span class="sr-only">Loading...</span>
       </button>
     </div>
 	</div>
   <br>
-  <div class="row" ng-show="showRemoveInterpolation()">
+  <div class="row" ng-show="interpolation.showRemoveInterpolation()">
     <div class="col-lg-12">
-      <button class="btn btn-danger xxxl" ng-click="removeInterpolation()">{{'INTERP_REMOVE'|translate}}
+      <button class="btn btn-danger xxxl" ng-click="interpolation.removeInterpolation()">{{'INTERP_REMOVE'|translate}}
       </button>
     </div>
   </div>
   <hr>
   <div class="row">
     <div class="col-lg-12">
-      <div ng-show="visible">
-        <label for="interpolation-slider">{{'INTERP_TIMESTEP'|translate}}: {{ selectedTimeStep | amUtc | amLocal | amDateFormat:'l LTS'}}</label>
-        <button class="btn btn-xs" ng-hide="isPlaying" ng-click="playInterpolation()"><i class="fa fa-play-circle" aria-hidden="true"></i></button>
-        <button class="btn btn-xs" ng-show="isPlaying" ng-click="stopInterpolation()"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
-        <rzslider id="interpolation-slider" select="refreshSlider" rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+      <div ng-show="interpolation.visible">
+        <label for="interpolation-slider">{{'INTERP_TIMESTEP'|translate}}: {{ interpolation.selectedTimeStep | amUtc | amLocal | amDateFormat:'l LTS'}}</label>
+        <button class="btn btn-xs" ng-hide="interpolation.isPlaying" ng-click="interpolation.playInterpolation()"><i class="fa fa-play-circle" aria-hidden="true"></i></button>
+        <button class="btn btn-xs" ng-show="interpolation.isPlaying" ng-click="interpolation.stopInterpolation()"><i class="fa fa-pause-circle" aria-hidden="true"></i></button>
+        <rzslider id="interpolation-slider" select="interpolation.refreshSlider" rz-slider-model="interpolation.slider.value" rz-slider-options="interpolation.slider.options"></rzslider>
       </div>
-      <h6>{{legendTitle}}</h6>
+      <h6>{{interpolation.legendTitle}}</h6>
       <div class="info legend interpolation">
-        <div ng-repeat="legendEntry in legendEntries">
+        <div ng-repeat="legendEntry in interpolation.legendEntries">
           <i ng-style="legendEntry.style"></i>{{legendEntry.caption}}<br>
         </div>
       </div>

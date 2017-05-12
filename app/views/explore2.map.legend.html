@@ -1,9 +1,9 @@
-<div class="legend" ng-class="cssClass">
-	<a href="#" title="Legende" ng-hide="showHide">
-		<i class="fa fa-map-marker legend-icon"  ng-hide="showHide"></i>
+<div class="legend" ng-class="map.cssClass">
+	<a href="#" title="Legende" ng-hide="map.showHide">
+		<i class="fa fa-map-marker legend-icon"  ng-hide="map.showHide"></i>
 	</a>
-  <i class="fa fa-times legend-close" ng-show="showHide" aria-hidden="true"></i>
-	<div class="legend-content" ng-show="showHide">
+  <i class="fa fa-times legend-close" ng-show="map.showHide" aria-hidden="true"></i>
+	<div class="legend-content" ng-show="map.showHide">
       <div class="legend-content-entry">
         <div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
           <i class="fa fa-cube icon-white"></i>
@@ -18,7 +18,7 @@
         </div>
         <div class="sensebox-legend-entry">
           {{'LEGEND_ACTIVE_30'|translate}}
-        </div>  
+        </div>
       </div>
       <div class="legend-content-entry">
         <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker">
@@ -26,9 +26,9 @@
         </div>
         <div class="sensebox-legend-entry">
           {{'LEGEND_INACTIVE'|translate}} <br/>
-          <input id="showAll" type="checkbox" ng-click="toggleLayer('oldMarker', $event)" ng-checked="showAllMarkers">
+          <input id="showAll" type="checkbox" ng-click="map.toggleLayer('oldMarker', $event)" ng-checked="map.showAllMarkers">
           <label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
-        </div>  
+        </div>
       </div>
     </div>
 	</div>

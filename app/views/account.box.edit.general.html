@@ -42,10 +42,13 @@
     <div uib-alert class="alert alert-warning">
       {{'EDIT_IMAGEINFO'|translate}}. {{ 'SETTINGS_IMAGE_RESTRICTIONS' | translate }}
     </div>
-    <div flow-init="{singleFile:true}" flow-file-added="flowFileAdded($file,$event)" flow-drop>
+    <div flow-init="{singleFile:true}" flow-file-added="general.flowFileAdded($file)" flow-drop>
       <div class="thumbnail">
         <img ng-src="https://osem.vo1d.space/userimages/{{general.editingMarker.image}}" ng-hide="$flow.files.length || !general.editingMarker.image" alt="Image for {{ general.editingMarker.name || 'Filter' }}">
         <img id="flowUploadImage" flow-img="$flow.files[0]">
+      </div>
+      <div uib-alert class="alert alert-danger" ng-show="general.imageToBig">
+        {{'EDIT_IMAGETOBIG'|translate}}
       </div>
       <div>
         <span class="btn btn-primary" flow-btn>{{ 'SETTINGS_SELECTIMAGE' | translate }}</span>

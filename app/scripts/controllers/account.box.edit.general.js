@@ -13,6 +13,7 @@
 
     vm.save = save;
     vm.deleteBox = deleteBox;
+    vm.flowFileAdded = flowFileAdded;
 
     activate();
 
@@ -50,6 +51,15 @@
         .catch(function (error) {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_DELETE_FAILED');
         });
+    }
+
+    function flowFileAdded (file) {
+      if (file.size < 500000) {
+        vm.imageToBig = false;
+        return true;
+      }
+      vm.imageToBig = true;
+      return false;
     }
   }
 })();

@@ -228,5 +228,6 @@
   "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox wurde gelöscht - <a href=\"account/dashboard\">Dashboard</a>",
   "NOTIFICATION_BOX_DELETE_FAILED": "senseBox konnte nicht gelöscht werden",
   "NOTIFICATION_USER_UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert.",
-  "NOTIFICATION_USER_UPDATE_FAILED": "Dein Profil konnte nicht aktualisiert werden."
+  "NOTIFICATION_USER_UPDATE_FAILED": "Dein Profil konnte nicht aktualisiert werden.",
+  "EDIT_IMAGETOBIG": "Das ausgewählte Bild ist zu groß. Bitte wähle ein Bild das kleiner ist als 500kb."
 }

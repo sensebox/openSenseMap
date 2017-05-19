@@ -44,7 +44,7 @@ angular
         controller: 'MapController',
         controllerAs: 'map',
         templateUrl: 'views/explore2.map.html',
-        resolve: {
+        resolve: { /* @ngInject */
           boxes: function (ngProgressFactory, OpenSenseMapAPI) {
             var progressbar = ngProgressFactory.createInstance();
             progressbar.setColor("#4EAF47");
@@ -115,7 +115,7 @@ angular
         params: {
           box: { }
         },
-        resolve: {
+        resolve: { /* @ngInject */
           boxData: function ($state, $stateParams, AccountService) {
             // Resolve boxData if called directly by URL
             // $stateParams.box is set if called from account dashboard

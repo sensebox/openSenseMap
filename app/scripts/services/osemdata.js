@@ -58,7 +58,10 @@
       return markers;
     }
 
-    function setMarkers (data, classification = true) {
+    function setMarkers (data, classification) {
+      if (angular.isUndefined(classification)) {
+        classification = true;
+      }
       var deferred = $q.defer();
       var newMarkers = {};
       var classifiedMarker;

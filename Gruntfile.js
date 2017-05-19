@@ -277,7 +277,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
-              js: ['concat', 'uglifyjs'],
+              js: ['concat'],
               css: ['cssmin']
             },
             post: {}
@@ -298,13 +298,6 @@ module.exports = function (grunt) {
             return '<script defer src="' + block.dest + '"><\/script>';
           }
         }
-      }
-    },
-
-    // The following *-min tasks produce minified files in the dist folder
-    cssmin: {
-      options: {
-        root: '<%= yeoman.app %>'
       }
     },
 
@@ -348,49 +341,45 @@ module.exports = function (grunt) {
     },
 
     ngAnnotate: {
+      options: {
+        add: true,
+        singleQuotes: true
+      },
       dist: {
         files: [
           {
             expand: true,
-            cwd: '.tmp/concat/scripts',
-            src: '*.js',
-            dest: '.tmp/concat/scripts',
-            ext: '.annotated.js', // Dest filepaths will have this extension.
-            extDot: 'last',
+            src: ['<%= yeoman.dist %>/scripts/scripts.js']
+          },
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/translations/angular/*.js']
           }
         ]
       }
     },
 
-    // ngmin tries to make the code safe for minification automatically by
-    // using the Angular long form for dependency injection. It doesn't work on
-    // things like resolve or inject so those have to be done manually.
-    ngmin: {
+    uglify: {
+      options: {
+        mangle: true
+      },
       dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/concat/scripts',
-          src: '*.js',
-          dest: '.tmp/concat/scripts'
-        },{
-          expand: true,
-          cwd: '<%= yeoman.dist %>/translations/angular',
-          src: '*.js',
-          dest: '<%= yeoman.dist %>/translations/angular'
-        }]
+        files: [
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/scripts/*.js']
+          },
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/translations/angular/*.js']
+          }
+        ]
       }
     },
 
     'json-minify': {
       build: {
         files: '<%= yeoman.dist %>/translations/*.json'
-      }
-    },
-
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
       }
     },
 
@@ -567,19 +556,6 @@ module.exports = function (grunt) {
       ]
     },
 
-    uglify: {
-      dist: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= yeoman.dist %>/translations/angular',
-            src: '*.js',
-            dest: '<%= yeoman.dist %>/translations/angular'
-          }
-        ]
-      }
-    },
-
     // Test settings
     karma: {
       unit: {
@@ -625,11 +601,10 @@ module.exports = function (grunt) {
     'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
+    'copy:dist',
     'autoprefixer',
     'concat',
-    // 'ngmin',
     'ngAnnotate',
-    'copy:dist',
     'cssmin',
     'uglify',
     'rev',

@@ -230,5 +230,8 @@
   "NOTIFICATION_BOX_DELETE_FAILED": "Error while deleting senseBox",
   "NOTIFICATION_USER_UPDATE_SUCCESS": "Profile succesfully updated.",
   "NOTIFICATION_USER_UPDATE_FAILED": "Error while updating your profile.",
-  "EDIT_IMAGETOBIG": "The selected image is to big. Please select a image smaller than 500kb."
+  "EDIT_IMAGETOBIG": "The selected image is to big. Please select a image smaller than 500kb.",
+  "REGISTERED_BOXES": "You have {{count}} registered senseBoxes!",
+  "REGISTERED_BOXES_INFO": "Create a new senseBox by clicking register or check out our documentation.",
+  "DOCUMENTATION": "Documentation"
 }

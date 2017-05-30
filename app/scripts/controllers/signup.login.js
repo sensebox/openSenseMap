@@ -107,7 +107,7 @@
     }
 
     function requestSuccess (response) {
-      $scope.closeThisDialog();
+      $scope.closeThisDialog(response);
       return response;
     }
 

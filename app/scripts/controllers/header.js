@@ -25,6 +25,7 @@
       },
       getterSetter: true
     };
+    vm.username = '';
 
     vm.isAuthed = isAuthed;
     vm.logout = logout;
@@ -46,6 +47,7 @@
           .then(function (data) {
             vm.key = data.data.me.language.split('_')[0];
             LanguageService.change(data.data.me.language);
+            vm.username = data.data.me.name;
           })
       } else {
         console.info('Set language to default');
@@ -87,13 +89,17 @@
     };
 
     function open () {
-      vm.launchTemp = ngDialog.open({
+      var launchTemp = ngDialog.open({
         template: '../../views/signup.login.html',
         className: 'ngdialog-theme-default',
         showClose: true,
         closeByDocument: false,
         controller: 'SignupLoginController',
         controllerAs: 'account'
+      });
+
+      launchTemp.closePromise.then(function (data) {
+        vm.username = data.value.data.user.name;
       });
     }
 

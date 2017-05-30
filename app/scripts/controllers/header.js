@@ -99,7 +99,9 @@
       });
 
       launchTemp.closePromise.then(function (data) {
-        vm.username = data.value.data.user.name;
+        if (angular.isObject(data.value)) {
+          vm.username = data.value.data.user.name;
+        }
       });
     }
 

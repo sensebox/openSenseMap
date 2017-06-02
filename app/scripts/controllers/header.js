@@ -1,75 +1,120 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('openSenseMapApp')
-  .controller('HeaderCtrl', ['$scope', '$rootScope', '$translate', '$document', 'OpenSenseBoxAPI', '$http', 'FilterActiveService', 'amMoment', 'tmhDynamicLocale', 'OpenSenseMapData', '$state', 'leafletData', function ($scope, $rootScope, $translate, $document, OpenSenseBoxAPI, $http, FilterActiveService, amMoment, tmhDynamicLocale, OpenSenseMapData, $state, leafletData) {
-  	$scope.osemapi = OpenSenseBoxAPI;
-    $scope.isNavCollapsed = true;
+  angular
+    .module('openSenseMapApp')
+    .controller('HeaderController', HeaderController);
 
-    $scope.changeLang = function (key) {
-      $translate.use(key).then(function (key) {
-        console.log('Sprache zu '+ key +' gewechselt.');
-        $scope.key = key.split('_')[0];
-        amMoment.changeLocale($scope.key);
-        tmhDynamicLocale.set($scope.key);
-      }, function (key) {
-        console.log('Fehler beim wechseln zur Sprache ' + key);
-      });
+  HeaderController.$inject = ['$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
+
+  function HeaderController ($state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
+    var vm = this;
+    vm.key = 'de';
+    vm.searchString = '';
+    vm.showClearSearch = false;
+    vm.isNavCollapsed = true;
+    vm.filterActive = FilterActiveService;
+    vm.counts = {
+      boxes: '',
+      measurements : ''
     };
-    $scope.changeLang('de_DE');
-    $scope.searchString = '';
-    $scope.showClearSearch = false;
-  	$scope.counts = {
-  		boxes: '',
-  		measurements : ''
-  	};
-  	$http.get($scope.osemapi.url+'/stats')
-  	 .success(function(data){
-  		  $scope.counts.boxes = data[0];
-  		  $scope.counts.measurements = data[1];
-  		  $scope.counts.mPerMin = data[2];
-      }).error(function(){
-  	});
-    $scope.filterActive = FilterActiveService;
-
-    $scope.searchStringChanged = function () {
-      if ($scope.searchString !== '') {
-        $scope.showClearSearch = true;
-      } else {
-        $scope.showClearSearch = false;
-      }
-    }
-
-    $scope.clearSearch = function () {
-      $scope.searchString = '';
-      $scope.searchStringChanged();
-      $document[0].getElementById('searchField').focus();
-    }
-
-    $scope.getBoxes = function(val) {
-      var boxes = OpenSenseMapData.boxes;
-      return boxes;
-    };
-
-    // centers a latlng (marker) on the map while reserving space for the sidebar
-    $scope.centerLatLng = function(latlng) {
-      leafletData.getMap('map_main').then(function(map) {
-        map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
-          paddingTopLeft: [0,0],
-          animate: false,
-          zoom: 20
-        });
-      });
-    };
-
-    $scope.modelOptions = {
+    vm.modelOptions = {
       debounce: {
         default: 300,
         blur: 250
       },
       getterSetter: true
     };
+    vm.username = '';
 
-    $scope.getLocations = function (searchstring) {
+    vm.isAuthed = isAuthed;
+    vm.logout = logout;
+    vm.searchStringChanged = searchStringChanged;
+    vm.clearSearch = clearSearch;
+    vm.open = open;
+    vm.getLocations = getLocations;
+    vm.selectBox = selectBox;
+    vm.changeLang = changeLang;
+
+    activate();
+
+    ////
+
+    function activate () {
+      console.info('Header is activated!');
+      if (AccountService.isAuthed()) {
+        AccountService.getUserDetails()
+          .then(function (data) {
+            vm.key = data.data.me.language.split('_')[0];
+            LanguageService.change(data.data.me.language);
+            vm.username = data.data.me.name;
+          })
+      } else {
+        console.info('Set language to default');
+        vm.key = 'de';
+        LanguageService.change('de_DE');
+      }
+
+      $http.get(OpenSenseBoxAPI.url+'/stats')
+       .success(function(data){
+          vm.counts.boxes = data[0];
+          vm.counts.measurements = data[1];
+          vm.counts.mPerMin = data[2];
+        }).error(function(){
+      });
+    };
+
+    function changeLang (key) {
+      LanguageService.change(key)
+        .then(function (response) {
+          vm.key = LanguageService.getLanguage();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+    function searchStringChanged () {
+      if (vm.searchString !== '') {
+        vm.showClearSearch = true;
+      } else {
+        vm.showClearSearch = false;
+      }
+    };
+
+    function clearSearch () {
+      vm.searchString = '';
+      vm.searchStringChanged();
+      $document[0].getElementById('searchField').focus();
+    };
+
+    function open () {
+      var launchTemp = ngDialog.open({
+        template: '../../views/signup.login.html',
+        className: 'ngdialog-theme-default',
+        showClose: true,
+        closeByDocument: false,
+        controller: 'SignupLoginController',
+        controllerAs: 'account'
+      });
+
+      launchTemp.closePromise.then(function (data) {
+        if (angular.isObject(data.value)) {
+          vm.username = data.value.data.user.name;
+        }
+      });
+    }
+
+    function isAuthed () {
+      return AccountService.isAuthed ? AccountService.isAuthed() : false;
+    }
+
+    function logout () {
+      AccountService.logout && AccountService.logout();
+      $state.go('explore.map');
+    }
+
+    function getLocations (searchstring) {
       return $http.get('//locationiq.org/v1/search.php', {
         params: {
           format: 'json',
@@ -83,15 +128,17 @@ angular.module('openSenseMapApp')
           return item;
         });
         var boxresults = 0;
-        OpenSenseMapData.boxes.filter(function (value) {
+        var markers = OpenSenseMapData.getMarkers();
+        Object.keys(markers).map(function (key) {
           if (boxresults === 4) {
             return;
           }
-          if (value.station.name.match(new RegExp(searchstring, 'i'))) {
+          var marker = markers[key];
+          if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
             boxresults++;
             var newStructured = {
-              'display_name': value.station.name,
-              'boxId': value.station.id
+              'display_name': marker.station.name,
+              'boxId': marker.station.id
             };
             results.unshift(newStructured);
           }
@@ -100,11 +147,23 @@ angular.module('openSenseMapApp')
       });
     };
 
-    $scope.selectBox = function ($item) {
+    // centers a latlng (marker) on the map while reserving space for the sidebar
+    function centerLatLng (latlng) {
+      leafletData.getMap('map_main').then(function(map) {
+        map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
+          paddingTopLeft: [0,0],
+          animate: false,
+          zoom: 20
+        });
+      });
+    };
+
+    function selectBox ($item) {
       if ($item.boundingbox === undefined) {
         $state.go('explore.map.boxdetails', { id: $item.boxId });
       } else {
         this.centerLatLng($item.boundingbox);
       }
     };
-}]);
+  }
+})();

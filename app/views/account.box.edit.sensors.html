@@ -1,0 +1,97 @@
+<form name="sensorSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_CHANGESENSORS'|translate}}</h2>
+    </div>
+    <div class="col-md-6  col-lg-6">
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="sensors.addSensor()" ><i class="glyphicon glyphicon-plus"></i></button>
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="sensors.save()" ng-disabled="sensorSettings.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <div uib-alert class="alert-warning" ng-bind-html="'EDIT_CHANGESENSORSINFO'|translate"></div>
+    <table class="table table-striped table-condensed">
+      <thead>
+        <td>{{'CONFIG_ICON'|translate}}</td>
+        <td>{{'CONFIG_PHENOMENON'|translate}}</td>
+        <td>{{'CONFIG_UNIT'|translate}}</td>
+        <td>{{'CONFIG_TYPE'|translate}}</td>
+        <td></td>
+      </thead>
+      <tbody>
+        <tr ng-repeat="sensor in sensors.sensors" title="{{ sensor._id }}" ng-class="{ 'text-muted':sensor.removed }">
+          <td>
+            <span ng-hide="sensor.editing" class="osem-icon" ng-class="sensors.getIcon(sensor)"></span>
+            <input type="text" name="icon{{sensor._id}}" ng-hide="true" ng-model="sensor.icon" required>
+            <div ng-show="sensor.editing" class="form-group has-feedback" ng-class="{ 'has-error' : sensorSettings.icon{{sensor._id}}.$invalid, 'has-success' : sensorSettings.icon{{sensor._id}}.$valid && sensor.icon!='' }">
+              <div class="btn-group xxxl" uib-dropdown>
+                <button id="btn-append-to-body" type="button" class="form-control btn btn-default xxxl" uib-dropdown-toggle>
+                  <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
+                </button>
+                <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                  <li ng-repeat="icon in sensors.icons" ng-click="sensors.setIcon(sensor,icon)">
+                    <span class="osem-icon" ng-class="icon.name"></span>
+                  </li>
+                </ul>
+              </div>
+              <span ng-show="sensorSettings.icon{{sensor._id}}.$valid && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="sensorSettings.icon{{sensor._id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </td>
+          <td>
+            <span ng-hide="sensor.editing">{{ sensor.title }}</span>
+            <div ng-show="sensor.editing" class="form-group has-feedback" ng-class="{ 'has-error' : sensorSettings.phenomenom{{sensor._id}}.$invalid, 'has-success' : sensorSettings.phenomenom{{sensor._id}}.$valid && sensor.title!='' }">
+              <input name="phenomenom{{sensor._id}}" class="form-control" type="text" ng-model="sensor.title" required>
+              <span ng-show="sensorSettings.phenomenom{{sensor._id}}.$valid && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="sensorSettings.phenomenom{{sensor._id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </td>
+          <td>
+            <span ng-hide="sensor.editing">{{ sensor.unit }}</span>
+            <div ng-show="sensor.editing" class="form-group has-feedback" ng-class="{'has-error': sensorSettings.unit{{sensor._id}}.$invalid, 'has-success' : sensorSettings.unit{{sensor._id}}.$valid && sensor.unit!==''}">
+              <input name="unit{{sensor._id}}" class="form-control" type="text" ng-model="sensor.unit" required>
+              <span ng-show="sensorSettings.unit{{sensor._id}}.$valid && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="sensorSettings.unit{{sensor._id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </td>
+          <td>
+            <span ng-hide="sensor.editing">{{ sensor.sensorType }}</span>
+            <div ng-show="sensor.editing" class="form-group has-feedback" ng-class="{'has-error': sensorSettings.sensorType{{sensor._id}}.$invalid, 'has-success' : sensorSettings.sensorType{{sensor._id}}.$valid && sensor.sensorType!==''}">
+              <input name="sensorType{{sensor._id}}" class="form-control" type="text" ng-model="sensor.sensorType" required>
+              <span ng-show="sensorSettings.sensorType{{sensor._id}}.$valid && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+              <span ng-show="sensorSettings.sensorType{{sensor._id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+            </div>
+          </td>
+          <td>
+            <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>
+            <span ng-show="sensor.incomplete">Please fill all fields</span>
+            <span ng-show="sensor.deleted">
+              <button type="button" class="btn btn-xs btn-primary" ng-click="sensors.undo(sensor)" ng-show="sensor.deleted">
+                <span class="fa fa-undo"></span>
+              </button>
+            </span>
+            <span ng-hide="sensor.deleted">
+              <button type="button" class="btn btn-xs btn-primary" ng-click="sensors.editSensor(sensor)" ng-show="!sensor.editing">
+                <span class="glyphicon glyphicon-edit"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-danger" ng-click="sensors.deleteSensor(sensor)" ng-show="!sensor.editing">
+                <span class="glyphicon glyphicon-trash"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-primary" ng-click="sensors.saveSensor(sensor)" ng-show="sensor.editing">
+                <span class="glyphicon glyphicon-floppy-disk"></span>
+              </button>
+              <button type="button" class="btn btn-xs btn-danger" ng-click="sensors.cancelSensor(sensor)" ng-show="sensor.editing">
+                <span class="glyphicon glyphicon-remove"></span>
+              </button>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</form>

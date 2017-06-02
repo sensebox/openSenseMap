@@ -1,0 +1,60 @@
+<form name="mqttSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_MQTTOPTIONS'|translate}}</h2>
+    </div>
+    <div class="col-md-6  col-lg-6">
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="mqtt.save()" ng-disabled="!mqttSettings.$valid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div uib-alert class="alert-warning" ng-bind-html="'MQTT_DESCRIPTION'|translate"></div>
+
+  <input type="checkbox" ng-model="mqtt.settings.enabled">
+  <label>{{ 'MQTT_ENABLE' | translate }}</label>
+
+  <!-- MQTT URL -->
+  <div ng-class="{'has-error': mqttSettings.mqttURL.$invalid, 'has-success': mqttSettings.mqttURL.$valid }">
+    <label for="mqttURL">{{ 'MQTT_URL' | translate}}*</label>
+    <input type="url" name="mqttURL" class="form-control" ng-model="mqtt.settings.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+  </div>
+
+  <!-- MQTT TOPIC -->
+  <div ng-class="{'has-error': mqttSettings.mqttTopic.$invalid, 'has-success': mqttSettings.mqttTopic.$valid }">
+    <label for="mqttTopic">{{ 'MQTT_TOPIC' | translate}}*</label>
+    <input type="text" name="mqttTopic" class="form-control" ng-model="mqtt.settings.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+  </div>
+
+  <!-- MQTT MessageFormat -->
+  <div ng-class="{'has-error': mqttSettings.mqttMessageFormat.$invalid, 'has-success': mqttSettings.mqttMessageFormat.$valid }">
+    <label for="mqttMessageFormat">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
+    <div class="radio">
+      <label>
+        <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+        {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+        {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
+      </label>
+    </div>
+  </div>
+
+  <!-- MQTT DecodeOptions -->
+  <div>
+    <label for="mqttDecodeOptions">{{ 'MQTT_DECODEOPTIONS' | translate}}</label>
+    <input type="text" name="mqttDecodeOptions" class="form-control monospace" ng-model="mqtt.settings.decodeOptions" ng-disabled="!mqtt.settings.enabled">
+  </div>
+
+  <!-- MQTT ConnectionOptions -->
+  <div>
+    <label for="mqttConnectionOptions">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
+    <input type="text" name="mqttConnectionOptions" class="form-control monospace" ng-model="mqtt.settings.connectionOptions" ng-disabled="!mqtt.settings.enabled">
+  </div>
+</form>

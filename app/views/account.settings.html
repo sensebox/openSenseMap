@@ -1,0 +1,45 @@
+<div class="container">
+  <div style="margin-top: 15px;">
+    <div uib-alert ng-repeat="alert in settings.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="settings.closeAlert($index)">
+      <div ng-bind-html="alert.msg"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="width: 80%; max-width: 1000px; margin-left: auto; margin-right: auto;">
+      <h1><i class="fa fa-user-circle-o 2x"></i> {{'ACCOUNT_TITLE'|translate}}</h1>
+      <hr>
+      <form name="settingsForm" ng-submit="settings.updateAccount()">
+        <div class="form-group">
+          <label for="accountName">{{'ACCOUNT_NAME'|translate}}</label>
+          <input type="text" class="form-control" id="accountName" placeholder="Name" ng-model="settings.details.name" required>
+        </div>
+        <div class="form-group">
+          <label for="mailAddress">{{'ACCOUNT_EMAIL'|translate}}</label>
+          <input type="email" class="form-control" id="mailAddress" placeholder="Email" ng-model="settings.details.email" required>
+        </div>
+        <div class="form-group" ng-class="{'has-success': settings.details.emailIsConfirmed, 'has-warning': !settings.details.emailIsConformed }">
+          <span id="helpBlock2" class="help-block" ng-hide="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_NOT_CONFIRMED'|translate}}</span>
+          <span id="helpBlock2" class="help-block" ng-show="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_CONFIRMED'|translate}}</span>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="language">{{'ACCOUNT_LANGUAGE'|translate}}</label>
+          <select id="language" class="form-control" ng-model="settings.details.language">
+            <option value="en_US">English</option>
+            <option value="de_DE">Deutsch</option>
+          </select>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="actualPasswordPassword">{{'ACCOUNT_PASSWORD'|translate}}</label>
+          <input type="password" class="form-control" id="actualPassword" placeholder="Password" ng-model="settings.details.currentPassword" required>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">{{'ACCOUNT_NEW_PASSWORD'|translate}}</label>
+          <input type="password" class="form-control" id="newPassword" placeholder="New Password" ng-model="settings.details.newPassword">
+        </div>
+        <button type="submit" class="btn btn-default pull-right">{{'ACCOUNT_UPDATE'|translate}}</button>
+      </form>
+    </div>
+  </div>
+</div>

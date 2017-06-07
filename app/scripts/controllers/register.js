@@ -9,7 +9,7 @@ angular.module('openSenseMapApp')
     $scope.isCustom = {};
     $scope.sensorSetup = '';
     $scope.modelSelected = {
-      id: false,
+      id: '',
       name: false
     };
 
@@ -41,6 +41,11 @@ angular.module('openSenseMapApp')
         }
       }]
     };
+    $scope.addon = {
+      feinstaub: {
+        id: ''
+      }
+    }
 
     $scope.mqtt = {
       enabled: false,
@@ -131,26 +136,31 @@ angular.module('openSenseMapApp')
           $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
+          $scope.addon.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht11':
           $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
+          $scope.addon.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht22':
           $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
+          $scope.addon.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bmp180':
           $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
+          $scope.addon.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bme280':
           $scope.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
           $scope.sensors = [];
           $scope.sensorSetup = $scope.modelSelected.id;
+          $scope.addon.feinstaub.id = '';
           break;
         case 'custom':
           $scope.modelSelected.name = 'senseBox manuelle Konfiguration';
@@ -162,6 +172,7 @@ angular.module('openSenseMapApp')
             ethernet: false
           };
           $scope.sensorSetup = '';
+          $scope.addon.feinstaub.id = '';
           break;
         default:
           $scope.modelSelected.name = false;
@@ -277,7 +288,8 @@ angular.module('openSenseMapApp')
     $scope.open = {
       collapse1: true,
       collapse2: false,
-      collapse3: false
+      collapse3: false,
+      collapse4: false
     };
 
     $scope.$watchCollection('open.collapse3',function (newValue) {
@@ -295,6 +307,14 @@ angular.module('openSenseMapApp')
         });
       }, 100);
     };
+
+    $scope.isSenseBoxModel = function () {
+      if ($scope.modelSelected.id.startsWith('home')) {
+        return false;
+      }
+
+      return true;
+    }
 
     $scope.$on('leafletDirectiveMarker.map_register.dragend', function(e, args) {
       $scope.markers[args.modelName].lat = parseFloat(args.model.lat.toFixed(6));
@@ -382,6 +402,9 @@ angular.module('openSenseMapApp')
         }
       } else {
         $scope.newSenseBox.model = $scope.modelSelected.id;
+        if ($scope.addon.feinstaub.id !== '') {
+          $scope.newSenseBox.model = $scope.newSenseBox.model + $scope.addon.feinstaub.id
+        }
       }
 
       $http.post($scope.osemapi.url+'/boxes', $scope.newSenseBox)

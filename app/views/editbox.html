@@ -142,10 +142,18 @@
 					</table>
 				</div>
 
+        <div>
+          <h3>Addons</h3>
+          <label>
+            <input type="checkbox" name="addon" id="optionsRadios1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="addon.feinstaub.id" ng-disabled="addon.feinstaub.disabled">
+            Feinstaub
+          </label>
+        </div>
+
 				<div>
 					<h3>{{'EDIT_MQTTOPTIONS'|translate}}</h3>
 					{{'EDIT_MQTTOPTIONSINFO'|translate}}
-					<checkbox id="checkbox0" ng-model="mqtt.enabled"></checkbox>
+					<input type="checkbox" id="checkbox0" ng-model="mqtt.enabled">
 					<label>{{ 'MQTT_ENABLE' | translate }}</label>
 
 					<!-- MQTT URL -->

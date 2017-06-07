@@ -57,6 +57,12 @@ angular.module('openSenseMapApp')
   $scope.editMapDefaults.scrollWheelZoom = false;
 
   $scope.apikey = {};
+  $scope.addon = {
+    feinstaub: {
+      id: '',
+      disabled: false
+    }
+  };
   $scope.enableEditableMode = function () {
     var boxId = $scope.editingMarker._id;
 
@@ -66,6 +72,10 @@ angular.module('openSenseMapApp')
         $scope.editableMode = true;
         $scope.apikeyIssue = false;
         $scope.mqtt = response.data.mqtt;
+        if (response.data.model.includes('Feinstaub')) {
+          $scope.addon.feinstaub.id = 'Feinstaub';
+          $scope.addon.feinstaub.disabled = true;
+        }
       } else {
         $scope.apikeyIssue = true;
         $scope.editableMode = false;
@@ -92,7 +102,6 @@ angular.module('openSenseMapApp')
     var newBoxData = {
       _id: $scope.editingMarker._id,
       name: $scope.editingMarker.name,
-      sensors: $scope.editingMarker.sensors,
       description: $scope.editingMarker.description,
       weblink: $scope.editingMarker.weblink,
       grouptag: $scope.editingMarker.grouptag,
@@ -102,15 +111,24 @@ angular.module('openSenseMapApp')
       mqtt: $scope.mqtt
     };
 
+    if ($scope.addon.feinstaub.id !== '' && $scope.addon.feinstaub.disabled === false) {
+      newBoxData.addons = {
+        add: $scope.addon.feinstaub.id
+      };
+    } else {
+      newBoxData.sensors = $scope.editingMarker.sensors
+    }
+
     $http.put($scope.osemapi.url+'/boxes/'+boxid, newBoxData, { headers: { 'X-ApiKey': $scope.apikey.key } })
       .success(function(data){
+        console.log(data);
         $scope.savedSuccessfully = true;
         $scope.savedError = false;
-        if (data.image !== '') {
-          $scope.image = data.image;
+        if (data.data.image !== '') {
+          $scope.image = data.data.image;
         }
-        $scope.editingMarker = angular.copy(data);
-        $scope.$parent.selectedMarker = angular.copy(data);
+        $scope.editingMarker = angular.copy(data.data);
+        $scope.$parent.selectedMarker = angular.copy(data.data);
       }).error(function(){
         $scope.savedError = true;
     });

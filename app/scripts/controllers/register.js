@@ -208,7 +208,9 @@
       setStepTitle();
       vm.alerts = [];
       vm.newSenseBox.mqtt = vm.mqtt;
-      vm.newSenseBox.ttn = vm.ttn;
+      if (vm.ttnEnabled) {
+        vm.newSenseBox.ttn = vm.ttn;
+      }
       vm.newSenseBox.loc[0].geometry.coordinates.push(vm.markers.box.lng);
       vm.newSenseBox.loc[0].geometry.coordinates.push(vm.markers.box.lat);
       vm.registering = true;

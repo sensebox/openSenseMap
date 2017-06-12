@@ -32,9 +32,14 @@
       }]
     };
     vm.modelSelected = {
-      id: false,
+      id: '',
       name: false
     };
+    vm.extensions = {
+      feinstaub: {
+        id: ''
+      }
+    }
     vm.mqtt = {
       enabled: false,
       url: '',
@@ -75,6 +80,7 @@
     vm.stepBack = stepBack;
     vm.stepForward = stepForward;
     vm.stepIsValidChange = stepIsValidChange;
+    vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
 
     activate();
@@ -91,6 +97,14 @@
       $translate('STEP0').then(function (msg) {
         vm.stepTitle = msg;
       });
+    }
+
+    function isSenseBoxModel () {
+      if (vm.modelSelected.id.startsWith('home')) {
+        return false;
+      }
+
+      return true;
     }
 
     function setStepTitle() {
@@ -222,6 +236,10 @@
         vm.newSenseBox.model = vm.modelSelected.id;
       }
 
+      if (vm.extensions.feinstaub.id !== '') {
+        vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
+      }
+
       $http.post(OpenSenseBoxAPI.url+'/boxes', vm.newSenseBox)
         .success( function (response) {
           vm.newSenseBox.id = response.data._id;
@@ -320,30 +338,36 @@
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
           vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
+          vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht11':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
           vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
+          vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht22':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
           vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
+          vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bmp180':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
           vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
+          vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bme280':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
           vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
+          vm.extensions.feinstaub.id = '';
           break;
         case 'custom':
           vm.modelSelected.name = 'senseBox manuelle Konfiguration';
           vm.sensorSetup = '';
+          vm.extensions.feinstaub.id = '';
           break;
         default:
           vm.modelSelected.name = false;

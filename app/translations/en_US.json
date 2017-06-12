@@ -129,6 +129,7 @@
   "BOX_POSITION": "Location",
   "BOX_MODEL": "Model",
   "EDIT_GENERAL": "General",
+  "EDIT_EXTENSIONS": "Extensions",
   "EDIT_SCRIPT": "Script",
   "EDIT_TTN": "TheThingsNetwork",
   "EDIT_MQTTOPTIONS": "MQTT",
@@ -201,6 +202,7 @@
   "ACCOUNT_PASSWORD": "Password",
   "ACCOUNT_PASSWORD_CONFIRM": "Confirm password",
   "ACCOUNT_NEW_PASSWORD": "New password",
+  "ACCOUNT_NEW_PASSWORD_CONFIRM": "Confirm new password",
   "ACCOUNT_SETTINGS": "Settings",
   "ACCOUNT_SIGN_OUT": "Sign out",
   "ACCOUNT_SIGNED_IN_AS": "Signed in as",
@@ -233,5 +235,7 @@
   "EDIT_IMAGETOBIG": "The selected image is to big. Please select a image smaller than 500kb.",
   "REGISTERED_BOXES": "You have {{count}} registered senseBoxes!",
   "REGISTERED_BOXES_INFO": "Create a new senseBox by clicking register or check out our documentation.",
-  "DOCUMENTATION": "Documentation"
+  "DOCUMENTATION": "Documentation",
+
+  "EXTENSIONS_FINE_PARTICULATE_MATTER": "Fine particulate matter (dust)"
 }

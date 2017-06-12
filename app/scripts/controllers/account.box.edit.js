@@ -42,6 +42,9 @@
         case 'sensors':
           vm.tabActive.sensors = true;
           break;
+        case 'extensions':
+          vm.tabActive.extensions = true;
+          break;
         case 'location':
           vm.tabActive.location = true;
           break;

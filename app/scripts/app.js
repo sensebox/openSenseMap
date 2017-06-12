@@ -183,6 +183,16 @@ angular
           }
         }
       })
+      .state('account.edit.extensions', {
+        url: '/extensions',
+        views: {
+          'edit': {
+            controller: 'EditBoxExtensionsController',
+            controllerAs: 'extensions',
+            templateUrl: 'views/account.box.edit.extensions.html'
+          }
+        }
+      })
       .state('account.edit.location', {
         url: '/location',
         views: {

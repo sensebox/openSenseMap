@@ -134,6 +134,17 @@
                     </label>
                   </div>
                 </div>
+                <div uib-accordion-group class="panel-default" is-open="open.collapse6" is-disabled="register.isSenseBoxModel()">
+                  <uib-accordion-heading>
+                    senseBox:addons <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse6, 'glyphicon-chevron-right': !open.collapse6}"></i>
+                  </uib-accordion-heading>
+                  <div class="radio">
+                    <label>
+                      <input type="checkbox" name="addon" id="optionsRadios1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id">
+                      {{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}
+                    </label>
+                  </div>
+                </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse2">
                   <uib-accordion-heading>
                     luftdaten.info <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse2, 'glyphicon-chevron-right': !register.open.collapse2}"></i>

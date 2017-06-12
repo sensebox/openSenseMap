@@ -129,6 +129,7 @@
   "BOX_POSITION": "Standort",
   "BOX_MODEL": "Modell",
   "EDIT_GENERAL": "Allgemein",
+  "EDIT_EXTENSIONS": "Erweiterungen",
   "EDIT_SCRIPT": "Skript",
   "EDIT_TTN": "TheThingsNetwork",
   "EDIT_MQTTOPTIONS": "MQTT",
@@ -200,6 +201,7 @@
   "ACCOUNT_PASSWORD": "Passwort",
   "ACCOUNT_PASSWORD_CONFIRM": "Passwort bestätigen",
   "ACCOUNT_NEW_PASSWORD": "Neues Passwort",
+  "ACCOUNT_NEW_PASSWORD_CONFIRM": "Neues Passwort bestätigen",
   "ACCOUNT_SETTINGS": "Einstellungen",
   "ACCOUNT_SIGN_OUT": "Abmelden",
   "ACCOUNT_SIGNED_IN_AS": "Angemeldet als",
@@ -232,5 +234,7 @@
   "EDIT_IMAGETOBIG": "Das ausgewählte Bild ist zu groß. Bitte wähle ein Bild das kleiner ist als 500kb.",
   "REGISTERED_BOXES": "Du hast {{count}} senseBoxen registriert!",
   "REGISTERED_BOXES_INFO": "Lege eine neue senseBox an, indem du auf Registrieren klickst oder schau dir unsere Dokumentation an.",
-  "DOCUMENTATION": "Dokumenation"
+  "DOCUMENTATION": "Dokumenation",
+
+  "EXTENSIONS_FINE_PARTICULATE_MATTER": "Feinstaub"
 }

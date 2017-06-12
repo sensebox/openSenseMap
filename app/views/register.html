@@ -12,7 +12,8 @@
       <h3 style="margin-top: 14px;">{{register.stepTitle}}</h3>
     </div>
     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align: right;">
-      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-disabled="register.stepForwardIsDisabled"><i class="glyphicon glyphicon-chevron-right"></i></button>
+      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-show="register.showNext" ng-disabled="register.stepIsValid"><i class="glyphicon glyphicon-chevron-right"></i></button>
+      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.completeRegistration()" ng-hide="register.showNext"><i class="glyphicon glyphicon-ok"></i></button>
     </div>
   </div>
   <div class="row">
@@ -30,6 +31,7 @@
           </div>
         </wz-step>
         <wz-step wz-title="{{'STEP2' | translate}}" wz-data="{translation: 'STEP2'}">
+          <input type="checkbox" ng-checked="register.stepIsValidChange(senseboxForm.$invalid)" ng-hide="true">
           <hr>
           <form class="tab-pane" id="sensebox" name="senseboxForm" ng-keypress="register.enterEvent($event)" novalidate>
             <div id="general">

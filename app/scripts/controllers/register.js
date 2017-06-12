@@ -11,7 +11,8 @@
     var vm = this;
     vm.stepTitle = '';
     vm.stepIndex = 0;
-    vm.stepForwardIsDisabled = false;
+    vm.showNext = true;
+
     //new sensebox object
     vm.newSenseBox = {
       id: '',
@@ -73,6 +74,8 @@
     vm.setStepTitle = setStepTitle;
     vm.stepBack = stepBack;
     vm.stepForward = stepForward;
+    vm.stepIsValidChange = stepIsValidChange;
+    vm.stepIsValid = false;
 
     activate();
 
@@ -97,12 +100,27 @@
     function stepBack () {
       WizardHandler.wizard('RegistrationWizard').previous();
       setStepTitle();
+      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
+        vm.showNext = false;
+      } else {
+        vm.showNext = true;
+      }
     }
 
     function stepForward () {
       WizardHandler.wizard('RegistrationWizard').next();
       setStepTitle();
-      console.log(senseboxForm);
+      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
+        vm.showNext = false;
+      } else {
+        vm.showNext = true;
+      }
+    }
+
+    function stepIsValidChange (value) {
+      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
+        vm.stepIsValid = value;
+      }
     }
 
     function enterEvent(keyEvent) {

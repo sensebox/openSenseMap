@@ -253,6 +253,16 @@ angular
           }
         }
       })
+      .state('account.changepassword', {
+        url: '/settings/changepassword',
+        views: {
+          'account': {
+            controller: 'AccountSettingsChangePasswordController',
+            controllerAs: 'changepassword',
+            templateUrl: 'views/account.settings.changepassword.html'
+          }
+        }
+      })
       .state('account.reset', {
         url: '/password-reset?token',
         views: {

@@ -42,7 +42,7 @@
       return AccountService.updateBox(boxData._id, {loc: vm.editMarker.m1})
         .then(function (response) {
           angular.copy(response.data, boxData);
-          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCESS');
+          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');

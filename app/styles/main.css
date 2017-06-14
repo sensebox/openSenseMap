@@ -14,6 +14,7 @@ html, body {
 
 a {
   cursor: pointer;
+  color: #4EAF47;
 }
 
 a:focus {
@@ -168,7 +169,8 @@ a:focus {
 }
 
 a:hover {
-  text-decoration: none;
+  color: #4EAF47;
+  text-decoration: underline;
 }
 
 .ngdialog.ngdialog-theme-custom {

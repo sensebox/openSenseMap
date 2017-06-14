@@ -7,6 +7,10 @@
   <div class="row register">
     <div class="col-md-3">
       <ul class="nav nav-pills nav-stacked">
+        <li><a ui-sref="account.dashboard"><i class="fa fa-arrow-left fa-fw"></i> {{'BACK_TO_DASHBOARD'|translate}}</a></li>
+      </ul>
+      <hr>
+      <ul class="nav nav-pills nav-stacked">
         <li ng-class="{'active': edit.tabActive.general}" ng-click="edit.changeActiveTab('general')"><a ui-sref="account.edit.general"><i class="fa fa-id-card-o fa-fw"></i> {{'EDIT_GENERAL'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.sensors}" ng-click="edit.changeActiveTab('sensors')"><a ui-sref="account.edit.sensors"><i class="fa fa-table fa-fw"></i> {{'EDIT_CHANGESENSORS'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.extensions}" ng-click="edit.changeActiveTab('extensions')"><a ui-sref="account.edit.extensions"><i class="fa fa-table fa-fw"></i> {{'EDIT_EXTENSIONS'|translate}}</a></li>

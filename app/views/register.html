@@ -354,8 +354,8 @@
             <div class="form-group">
               <hr>
               <div class="pull-right">
-                <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
-                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (!register.ttnEnabled) ? false : (register.validTTNconfig) ? false : true : true" ng-click="register.setStepTitle()" wz-next class="btn btn-primary">{{'NEXT' | translate}}</button>
+                <a class="btn btn-default" ng-click="register.stepBack()">{{'PREVIOUS' | translate}}</a>
+                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (!register.ttnEnabled) ? false : (register.validTTNconfig) ? false : true : true" ng-click="register.stepForward()" class="btn btn-primary">{{'NEXT' | translate}}</button>
               </div>
             </div>
           </form>
@@ -406,7 +406,7 @@
             <div class="form-group">
               <hr>
               <div class="pull-right">
-                <a class="btn btn-default" wz-previous>{{'PREVIOUS' | translate}}</a>
+                <a class="btn btn-default" ng-click="register.stepBack()">{{'PREVIOUS' | translate}}</a>
                 <a class="btn btn-danger" href="/account">{{'CANCEL' | translate}}</a>
                 <button type="submit" ng-click="register.completeRegistration()" wz-next ng-disabled="register.registering" class="btn btn-success">{{'FINISH' | translate}}
                   <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.registering"></i>

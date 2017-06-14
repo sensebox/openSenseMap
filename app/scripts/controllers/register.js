@@ -114,10 +114,11 @@
     function stepBack () {
       WizardHandler.wizard('RegistrationWizard').previous();
       setStepTitle();
-      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
-        vm.showNext = false;
+      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber()-1 === 2) {
+        vm.showNext = true;
       } else {
         vm.showNext = true;
+        vm.stepIsValid = false;
       }
     }
 

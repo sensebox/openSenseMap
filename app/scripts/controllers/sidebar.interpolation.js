@@ -91,6 +91,7 @@
     vm.calculateInterpolation = calculateInterpolation;
     vm.refreshSlider = refreshSlider;
     vm.playInterpolation = playInterpolation;
+    vm.stopInterpolation = stopInterpolation;
 
     activate();
 

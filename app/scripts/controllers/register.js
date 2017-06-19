@@ -256,6 +256,8 @@
           });
           downloadArduino();
           loadSensors();
+          vm.stepIsValid = true;
+          vm.stepIndex = 0;
         })
         .error( function () {
           $translate('REGISTRATION_FAIL').then(function (msg) {

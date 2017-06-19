@@ -225,6 +225,7 @@
   "TTN_DEVID": "TTN Device ID",
   "TTN_DECODEOPTIONS": "Decoding Options",
   "TTN_INVALID_DECODEOPTS": "Decode Options have to be a valid JSON array! The exact format documentation is linked above.",
+  "TTN_PORT": "Port",
 
   "NOTIFICATION_BOX_UPDATE_SUCCESS": "senseBox successfully updated - <a href=\"explore/{{boxId}}\">view</a>",
   "NOTIFICATION_BOX_UPDATE_FAILED": "Error while updating senseBox",

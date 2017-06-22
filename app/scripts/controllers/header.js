@@ -106,7 +106,19 @@
     }
 
     function isAuthed () {
-      return AccountService.isAuthed ? AccountService.isAuthed() : false;
+      if (AccountService.isAuthed) {
+        if (AccountService.isAuthed()) {
+          return true;
+        } else {
+          if (AccountService.refreshTokenExists()) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      } else {
+        return false;
+      }
     }
 
     function logout () {

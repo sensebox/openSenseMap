@@ -320,8 +320,14 @@ angular
     $rootScope.$on('$stateChangeStart', function(e, to) {
       if (to.data && to.data.requiresLogin) {
         if (!AccountService.isAuthed()) {
-          e.preventDefault();
-          $state.go('explore.map');
+          AccountService.refreshAuth()
+          .then(function (response) {
+            console.log("Refresh success: ", response);
+            if (angular.isUndefined(response)) {
+              e.preventDefault();
+              $state.go('explore.map');
+            }
+          })
         }
       }
     });

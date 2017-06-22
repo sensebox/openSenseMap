@@ -16,6 +16,7 @@
       reset: reset,
       isAuthed: isAuthed,
       refreshAuth: refreshAuth,
+      refreshTokenExists: refreshTokenExists,
       getUserDetails: getUserDetails,
       getUsersBoxes: getUsersBoxes,
       getScript: getScript,
@@ -91,10 +92,16 @@
       };
       return $http.post(OpenSenseBoxAPI.url + '/users/refresh-auth', data)
         .then(success)
-        .catch(function (error) {
+        .catch(refreshAuthFailed);
+
+        function refreshAuthFailed (error) {
           AuthenticationService.logout && AuthenticationService.logout();
-          failed(error);
-        });
+          return $q.reject(error);
+        }
+    }
+
+    function refreshTokenExists () {
+      return angular.isDefined(AuthenticationService.getRefreshToken());
     }
 
     function getUserDetails () {

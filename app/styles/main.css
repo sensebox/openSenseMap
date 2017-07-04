@@ -988,11 +988,6 @@ article {
   font-weight: bold;
 }
 
-svg {
-  color: #fff;
-  fill: currentColor;
-}
-
 .wind svg {
   width: 18px;
   height: 18px;

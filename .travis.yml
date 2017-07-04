@@ -5,6 +5,9 @@ language: node_js
 services:
   - docker
 
+before_install:
+  - npm install -g grunt-cli
+
 before_script:
   - npm install -g grunt-cli
   - if [ "$TRAVIS_BRANCH" == "master" ]; then

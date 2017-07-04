@@ -1,4 +1,4 @@
-FROM digitallyseamless/nodejs-bower-grunt:4
+FROM digitallyseamless/nodejs-bower-grunt:5
 
 # Setup build folder
 RUN mkdir -p /usr/src/osem

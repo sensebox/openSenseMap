@@ -124,6 +124,7 @@
     vm.sensordata = {};
     vm.chartDone = {};
     vm.chartError = {};
+    vm.labels = [];
     function getData (sensorId, panelOpen){
       if(!panelOpen) {
         return; // panel is in closing transition, don't fetch new data
@@ -137,9 +138,11 @@
       for (var i = 0; i < vm.selectedMarkerData.sensors.length; i++){
         if(sensorId === vm.selectedMarkerData.sensors[i]._id){
           var title = vm.selectedMarkerData.sensors[i].title.toString().replace('.','');
+          var unit = vm.selectedMarkerData.sensors[i].unit.toString();
 
           vm.columns[sensorId] = [{'id': title, 'type': 'scatter'}, {'id': 'dates', 'type': 'date'}];
           vm.sensordata[sensorId] = [];
+          vm.labels[sensorId] = title +' ('+unit+')';
 
           if(!vm.selectedMarkerData.sensors[i].lastMeasurement) {
             continue;

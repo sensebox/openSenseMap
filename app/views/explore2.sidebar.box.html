@@ -74,6 +74,7 @@
                   <chart-size chart-height="200"/>
                     <chart-axes values-x="dates"/>
                     <chart-axis>
+                      <chart-axis-y axis-id="y" axis-position="outer-middle" axis-label="{{details.labels[sensor._id]}}" />
                       <chart-axis-x axis-id="x" axis-type="timeseries">
                         <chart-axis-x-tick tick-count="10" tick-culling-max="10" tick-culling="true" tick-format-function="details.formatDate"/>
                       </chart-axis-x>

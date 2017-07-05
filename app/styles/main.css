@@ -264,6 +264,10 @@ a:hover {
   visibility: hidden !important;
 }
 
+.leaflet-left .leaflet-control-scale {
+  margin-left: 10px;
+}
+
 #sidebar {
   position: absolute;
   padding: 10px 0px 10px 0px;

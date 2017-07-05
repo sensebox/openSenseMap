@@ -23,6 +23,10 @@
       }
     };
 
+    vm.controls = {
+      scale: true
+    };
+
     vm.layers = {
       baselayers: {
         mapbox: {

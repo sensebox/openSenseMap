@@ -26,6 +26,7 @@
   "MQTT_MESSAGEFORMAT_CSV": "csv",
   "MQTT_DECODEOPTIONS": "Decoding options",
   "MQTT_CONNECTIONOPTIONS": "Connection options",
+  "MQTT_INVALID_URL": "The URL scheme is not correct! The URL must start with mqtt[s]://.",
   "STEP3": "Confirm",
   "STEP3_DESCRIPTION": "To finish registering your senseBox, click \"Finish\" and you will receive an email with instructions on how to assemble your senseBox and how to upload your code onto it. If you have changed your mind, click \"Cancel\" and you will be redirected back to the overview map.",
   "STEP4": "Summary",

@@ -50,6 +50,7 @@
     };
     vm.ttnEnabled = false;
     vm.validTTNconfig = true;
+    vm.validMQTTURL = false;
     vm.ttn = {
       profile: 'sensebox/home',
       app_id: '',
@@ -82,6 +83,7 @@
     vm.stepIsValidChange = stepIsValidChange;
     vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
+    vm.senseBoxSetupValid = senseBoxSetupValid;
 
     activate();
 
@@ -271,6 +273,21 @@
         });
     };
 
+    function senseBoxSetupValid () {
+      var validTTN = true;
+      var validMQTT = true;
+
+      if (vm.ttnEnabled) {
+        validTTN = vm.validTTNconfig;
+      }
+
+      if (vm.mqtt.enabled) {
+        validMQTT = vm.validMQTTURL;
+      }
+
+      return validTTN && validMQTT;
+    }
+
     ////
 
     $scope.$on('leafletDirectiveMarker.map_register.dragend', function(e, args) {
@@ -391,6 +408,21 @@
         vm.validTTNconfig = true;
       } catch (e) {
         vm.validTTNconfig = false;
+      }
+    });
+
+    $scope.$watch('register.mqtt.url', function(newValue) {
+      if (angular.isUndefined(newValue) || !newValue.length) {
+        return vm.validMQTTURL = false;
+      }
+      try {
+        if (vm.mqtt.url.indexOf('mqtt://') == 0 || vm.mqtt.url.indexOf('mqtts://') == 0) {
+          vm.validMQTTURL = true;
+        } else {
+          throw 'must start with mqtt[s]://';
+        }
+      } catch (e) {
+        vm.validMQTTURL = false;
       }
     });
 

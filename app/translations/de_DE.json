@@ -26,6 +26,7 @@
   "MQTT_MESSAGEFORMAT_CSV": "csv",
   "MQTT_DECODEOPTIONS": "Dekodierungsoptionen",
   "MQTT_CONNECTIONOPTIONS": "Verbindungsoptionen",
+  "MQTT_INVALID_URL": "Das URL Schema ist nicht korrekt! Die URL muss mit mqtt[s]:// beginnen.",
   "STEP3": "Bestätigen",
   "STEP3_DESCRIPTION": "Um deine senseBox endgültig einzutragen, klicke auf \"Abschließen\" und du erhältst anschließend von uns eine Mail mit den Anweisungen zum Aufbau und Upload der Software auf deine senseBox. Falls du es dir anders überlegt hast, klicke auf Abbrechen und du gelangst zur Erkundenseite.",
   "STEP4": "Zusammenfassung",

@@ -275,16 +275,16 @@
                   <label>{{ 'MQTT_ENABLE' | translate }}</label>
 
                   <!-- MQTT URL -->
-                  <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.url.$invalid, 'has-success' : senseboxForm.url.$valid && register.mqtt.url!='' }">
+                  <div class="form-group has-feedback" ng-class="{ 'has-error' : register.mqtt.enabled && !register.validMQTTURL, 'has-success' : register.mqtt.enabled && register.validMQTTURL }">
                     <label class="control-label">{{ 'MQTT_URL' | translate}}*</label>
-                    <input type="url" name="url" class="form-control" ng-model="register.mqtt.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
-                    <span ng-show="senseboxForm.url.$valid && register.mqtt.url!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
-                    <span ng-show="senseboxForm.url.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                    <input type="text" name="url" class="form-control" ng-model="register.mqtt.url" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <span ng-show="register.mqtt.enabled && register.validMQTTURL" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="register.mqtt.enabled && !register.validMQTTURL" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                   <!-- MQTT TOPIC -->
                   <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.topic.$invalid, 'has-success' : senseboxForm.topic.$valid && register.mqtt.topic!='' }">
                     <label class="control-label">{{ 'MQTT_TOPIC' | translate}}*</label>
-                    <input type="text" name="topic" class="form-control" ng-model="register.mqtt.topic" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <input type="text" name="topic" class="form-control" ng-model="register.mqtt.topic" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
                     <span ng-show="senseboxForm.topic.$valid && register.mqtt.topic!=''" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                     <span ng-show="senseboxForm.topic.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
@@ -315,6 +315,9 @@
                   <div class="form-group">
                     <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
                     <input type="text" name="connectionOptions" class="form-control" ng-model="register.mqtt.connectionOptions" ng-disabled="!register.mqtt.enabled">
+                  </div>
+                  <div ng-show="register.mqtt.enabled">
+                    <div uib-alert class="alert-danger" ng-hide="register.validMQTTURL">{{ 'MQTT_INVALID_URL' | translate }}</div>
                   </div>
                 </div>
                  <div uib-accordion-group class="panel-default" is-open="register.open.collapse5">
@@ -360,7 +363,7 @@
               <hr>
               <div class="pull-right">
                 <a class="btn btn-default" ng-click="register.stepBack()">{{'PREVIOUS' | translate}}</a>
-                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (!register.ttnEnabled) ? false : (register.validTTNconfig) ? false : true : true" ng-click="register.stepForward()" class="btn btn-primary">{{'NEXT' | translate}}</button>
+                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (register.senseBoxSetupValid()) ? false : true : true" ng-click="register.stepForward()" class="btn btn-primary">{{'NEXT' | translate}}</button>
               </div>
             </div>
           </form>

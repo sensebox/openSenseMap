@@ -55,7 +55,7 @@
     }
 
     function logout () {
-      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out', {auth: true})
+      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out', {}, {auth: true})
         .then(function (response) {
           AuthenticationService.logout && AuthenticationService.logout();
         })
@@ -173,7 +173,12 @@
     }
 
     function deleteBox (boxId) {
-      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId, {auth: true})
+      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId,
+        {
+          headers: {
+            'Content-type': 'application/json;charset=utf-8'
+          }
+        })
         .then(function (response) {
           return response.data;
         })

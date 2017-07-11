@@ -65,6 +65,7 @@
 
         signup(data)
           .then(function (response) {
+            $rootScope.$emit('loggedIn', response);
             if (angular.isDefined(registration)) {
               $state.go('account.register');
             } else {
@@ -81,6 +82,7 @@
 
         login(data)
           .then(function (response) {
+            $rootScope.$emit('loggedIn', response);
             if (angular.isDefined(registration)) {
               $state.go('explore.map');
             } else {
@@ -119,7 +121,6 @@
     }
 
     function requestSuccess (response) {
-      $rootScope.$emit('loggedIn', response);
       return response;
     }
 

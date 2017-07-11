@@ -26,7 +26,7 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'controls',
-              replacement: 'controls="controls"'
+              replacement: 'controls="map.controls"'
             }
           ]
         },

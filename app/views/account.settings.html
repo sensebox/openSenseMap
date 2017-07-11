@@ -42,6 +42,15 @@
         </div>
         <button type="submit" class="btn btn-default pull-right" ng-disabled="settings.updateDisabled()">{{'ACCOUNT_UPDATE'|translate}}</button>
       </form>
+      <br><br>
+      <h2 style="color: #FF4136;">{{'ACCOUNT_DELETE'|translate}}</h2>
+      <hr>
+      <p>{{'ACCOUNT_DELETE_INFO'|translate}}</p>
+      <p>{{'ACCOUNT_DELETE_ACTION'|translate}}</p>
+      <div class="form-group">
+        <input type="password" class="form-control" ng-model="settings.password">
+      </div>
+      <button type="submit" class="btn btn-default pull-right" ng-click="settings.deleteAccount()" ng-disabled="settings.password == ''">{{'ACCOUNT_DELETE'|translate}}</button>
     </div>
   </div>
 </div>

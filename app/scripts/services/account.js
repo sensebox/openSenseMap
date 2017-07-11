@@ -24,7 +24,8 @@
       updateBox: updateBox,
       confirmEmail: confirmEmail,
       deleteBox: deleteBox,
-      postNewBox: postNewBox
+      postNewBox: postNewBox,
+      deleteAccount: deleteAccount
     };
 
     return service;
@@ -181,6 +182,21 @@
 
     function postNewBox (data) {
       return $http.post(OpenSenseBoxAPI.url + '/boxes', data, {auth: true})
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function deleteAccount (data) {
+      return $http.delete(OpenSenseBoxAPI.url + '/users/me',
+        {
+          data: data,
+          auth: true,
+          headers: {
+            'Content-type': 'application/json;charset=utf-8'
+          }
+        })
         .then(function (response) {
           return response.data;
         })

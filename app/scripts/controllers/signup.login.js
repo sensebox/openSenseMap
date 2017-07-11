@@ -103,7 +103,6 @@
             vm.errors.push({
               error: 'Mail with reset instructions sent!'
             });
-            console.log('Instructions send!');
           });
       }
     }

@@ -5,20 +5,22 @@
     .module('openSenseMapApp')
     .controller('AccountSettingsController', AccountSettingsController);
 
-  AccountSettingsController.$inject = ['$scope', '$translate', 'AccountService', 'LanguageService'];
+  AccountSettingsController.$inject = ['$scope', '$state', '$timeout', '$translate', 'AccountService', 'LanguageService', 'AuthenticationService'];
 
-  function AccountSettingsController ($scope, $translate, AccountService, LanguageService) {
+  function AccountSettingsController ($scope, $state, $timeout, $translate, AccountService, LanguageService, AuthenticationService) {
     var vm = this;
     vm.details = {};
     vm.backupDetails = {};
     vm.newDetails = {};
     vm.alerts = [];
     vm.currentPassword = '';
+    vm.password = '';
 
     vm.updateAccount = updateAccount;
     vm.closeAlert = closeAlert;
     vm.updateDisabled = updateDisabled;
     vm.changeAttribute = changeAttribute;
+    vm.deleteAccount = deleteAccount;
 
     activate();
 
@@ -95,6 +97,27 @@
       } else if (angular.equals(value, vm.backupDetails[key])) {
         delete vm.newDetails[key];
       }
+    }
+
+    function deleteAccount () {
+      var data = {
+        password: vm.password
+      };
+      return AccountService.deleteAccount(data)
+        .then(function (data) {
+          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_SUCCESS').then(function (translation) {
+            vm.alerts.push({ type: 'info', msg: translation });
+          });
+          AuthenticationService.logout();
+          $timeout(function () {
+            $state.go('explore.map');
+          }, 5000);
+        })
+        .catch(function (error) {
+          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILD').then(function (translation) {
+            vm.alerts.push({ type: 'danger', msg: translation });
+          });
+        });
     }
   }
 })();

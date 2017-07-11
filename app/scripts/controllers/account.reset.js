@@ -31,7 +31,7 @@
     ////
 
     function activate () {
-      vm.newData.token = $state.params.token
+      vm.newData.token = $state.params.token;
     }
 
     function showPassword (element) {

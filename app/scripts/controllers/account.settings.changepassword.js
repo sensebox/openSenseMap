@@ -43,8 +43,8 @@
               passwordConfirm: ''
             };
             $timeout(function () {
-              $state.go('explore.map')
-            }, 5000)
+              $state.go('explore.map');
+            }, 5000);
           })
           .catch(function (error) {
             vm.currentPassword = '';
@@ -55,7 +55,7 @@
             $translate('NOTIFICATION_PASSWORD_UPDATE_FAILED').then(function (translation) {
               vm.alerts.push({ type: 'danger', msg: translation });
             });
-          })
+          });
       } else {
         $translate('NOTIFICATION_PASSWORD_NOT_THE_SAME').then(function (translation) {
           vm.alerts.push({ type: 'info', msg: translation });

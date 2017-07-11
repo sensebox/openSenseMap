@@ -47,7 +47,7 @@ angular
         resolve: { /* @ngInject */
           boxes: function (ngProgressFactory, OpenSenseMapAPI) {
             var progressbar = ngProgressFactory.createInstance();
-            progressbar.setColor("#4EAF47");
+            progressbar.setColor('#4EAF47');
             progressbar.start();
             return OpenSenseMapAPI.getBoxes()
               .then(function (data) {
@@ -328,12 +328,12 @@ angular
         if (!AccountService.isAuthed()) {
           AccountService.refreshAuth()
           .then(function (response) {
-            console.log("Refresh success: ", response);
+            console.log('Refresh success: ', response);
             if (angular.isUndefined(response)) {
               e.preventDefault();
               $state.go('explore.map');
             }
-          })
+          });
         }
       }
     });

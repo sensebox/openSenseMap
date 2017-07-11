@@ -16,14 +16,13 @@
         id: '',
         disabled: false
       }
-    }
+    };
 
     activate();
 
     ////
 
     function activate () {
-      console.log(boxData);
       if (boxData.model.includes('Feinstaub')) {
         vm.extensions.feinstaub.id = 'Feinstaub';
         vm.extensions.feinstaub.disabled = true;
@@ -38,13 +37,11 @@
       };
       return AccountService.updateBox(boxData._id, data)
         .then(function (response){
-          console.log(response);
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {
-          console.log(response);
-          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED')
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
   }

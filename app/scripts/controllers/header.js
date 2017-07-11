@@ -48,7 +48,7 @@
             vm.key = data.data.me.language.split('_')[0];
             LanguageService.change(data.data.me.language);
             vm.username = data.data.me.name;
-          })
+          });
       } else {
         console.info('Set language to default');
         vm.key = 'de';
@@ -62,7 +62,7 @@
           vm.counts.mPerMin = data[2];
         }).error(function(){
       });
-    };
+    }
 
     function changeLang (key) {
       LanguageService.change(key)
@@ -80,13 +80,13 @@
       } else {
         vm.showClearSearch = false;
       }
-    };
+    }
 
     function clearSearch () {
       vm.searchString = '';
       vm.searchStringChanged();
       $document[0].getElementById('searchField').focus();
-    };
+    }
 
     function open () {
       var launchTemp = ngDialog.open({
@@ -151,7 +151,7 @@
         });
         return results;
       });
-    };
+    }
 
     // centers a latlng (marker) on the map while reserving space for the sidebar
     function centerLatLng (latlng) {
@@ -162,7 +162,7 @@
           zoom: 20
         });
       });
-    };
+    }
 
     function selectBox ($item) {
       if ($item.boundingbox === undefined) {
@@ -170,7 +170,7 @@
       } else {
         this.centerLatLng($item.boundingbox);
       }
-    };
+    }
 
     ////
 

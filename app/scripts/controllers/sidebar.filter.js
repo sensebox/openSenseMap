@@ -36,10 +36,10 @@
       $event.stopPropagation();
 
       // prevent both date pickers from being opened at the same time
-      if($event.currentTarget.id === "datepicker1") {
+      if($event.currentTarget.id === 'datepicker1') {
         vm.opened1 = true;
         vm.opened2 = false;
-      } else if($event.currentTarget.id === "datepicker2") {
+      } else if($event.currentTarget.id === 'datepicker2') {
         vm.opened2 = true;
         vm.opened1 = false;
       }
@@ -57,7 +57,7 @@
         vm.performFilter();
         vm._timeout = null;
       }, 500);
-    };
+    }
 
     function endingDate (numDays) {
       //TODO use moment and utc
@@ -83,7 +83,7 @@
         vm.inputFilter.DateFrom &&
         vm.inputFilter.DateFrom !== ''
         ) {
-        var date = [vm.inputFilter.DateFrom.toISOString(), vm.inputFilter.DateTo.toISOString()]
+        var date = [vm.inputFilter.DateFrom.toISOString(), vm.inputFilter.DateTo.toISOString()];
         if(date !== '' && Array.isArray(date)) {
           date = date.join(',');
         }
@@ -113,20 +113,20 @@
     }
 
     function resetFilter () {
-      vm.inputFilter.Name = "";
-      vm.inputFilter.Grouptag = "";
-      vm.inputFilter.DateFrom = "";
-      vm.inputFilter.DateTo = "";
-      vm.inputFilter.Exposure = "";
-      vm.inputFilter.Phenomenon = "";
+      vm.inputFilter.Name = '';
+      vm.inputFilter.Grouptag = '';
+      vm.inputFilter.DateFrom = '';
+      vm.inputFilter.DateTo = '';
+      vm.inputFilter.Exposure = '';
+      vm.inputFilter.Phenomenon = '';
       vm.filterActive.active = false;
       getBoxes();
-    };
+    }
 
     function getBoxes (data) {
       OpenSenseMapAPI.getBoxes(data)
         .then(function (response) {
-          setMarkers(response)
+          setMarkers(response);
         })
         .catch(function (error) {
           console.error(error);
@@ -153,6 +153,6 @@
       } else {
         performFilter();
       }
-    };
+    }
   }
 })();

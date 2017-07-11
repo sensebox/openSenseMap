@@ -33,7 +33,7 @@
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.count = Object.keys(vm.markersFiltered).length;
       // register zoomend and moveend event for map
-      leafletData.getMap("map_main").then(function(map) {
+      leafletData.getMap('map_main').then(function(map) {
         vm.map = map;
         mapZoomMove();
         map.on('zoomend moveend', mapZoomMove);
@@ -58,10 +58,10 @@
       $event.stopPropagation();
 
       // prevent both date pickers from being opened at the same time
-      if($event.currentTarget.id === "datepicker1") {
+      if($event.currentTarget.id === 'datepicker1') {
         vm.opened1 = true;
         vm.opened2 = false;
-      } else if($event.currentTarget.id === "datepicker2") {
+      } else if($event.currentTarget.id === 'datepicker2') {
         vm.opened2 = true;
         vm.opened1 = false;
       }
@@ -85,7 +85,7 @@
             var blob = new Blob([data],{type:'text/csv;charset=utf-8;'});
             var link = document.createElement('a');
             link.href = window.URL.createObjectURL(blob);
-            link.download = "opensensemap_org-download-" + encodeURI(vm.inputFilter.Phenomenon) + stampDownload() +'.csv';
+            link.download = 'opensensemap_org-download-' + encodeURI(vm.inputFilter.Phenomenon) + stampDownload() +'.csv';
             link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
@@ -108,9 +108,9 @@
 
     function stampDownload () {
       try {
-        return "-" + moment.utc().toISOString().replace(/-|:|\.\d*Z/g,"").replace("T","_");
+        return '-' + moment.utc().toISOString().replace(/-|:|\.\d*Z/g,'').replace('T','_');
       } catch (e) {
-        return "";
+        return '';
       }
     }
 

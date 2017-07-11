@@ -24,14 +24,14 @@
             case 401:
               var deferred = $q.defer();
               if(!inFlightAuthRequest) {
-                  inFlightAuthRequest = $injector.get("$http").post(OpenSenseBoxAPI.url + '/users/refresh-auth', {token: AuthenticationService.getRefreshToken()});
+                  inFlightAuthRequest = $injector.get('$http').post(OpenSenseBoxAPI.url + '/users/refresh-auth', {token: AuthenticationService.getRefreshToken()});
               }
               inFlightAuthRequest.then(function(r) {
                   inFlightAuthRequest = null;
                   if (r.data.token && r.data.refreshToken) {
                       AuthenticationService.saveToken(r.data.data.token);
                       AuthenticationService.saveRefreshToken(r.data.data.refreshToken);
-                      $injector.get("$http")(response.config).then(function(resp) {
+                      $injector.get('$http')(response.config).then(function(resp) {
                           deferred.resolve(resp);
                       },function(resp) {
                           deferred.reject();
@@ -43,14 +43,14 @@
                   inFlightAuthRequest = null;
                   deferred.reject();
                   AuthenticationService.logout();
-                  $injector.get("$state").go('explore.map');
+                  $injector.get('$state').go('explore.map');
                   return;
               });
               return deferred.promise;
               break;
             default:
               AuthenticationService.logout();
-              $injector.get("$state").go('explore.map');
+              $injector.get('$state').go('explore.map');
               break;
           }
         }

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
 
-  function HeaderController ($state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -97,12 +97,6 @@
         controller: 'SignupLoginController',
         controllerAs: 'account'
       });
-
-      launchTemp.closePromise.then(function (data) {
-        if (angular.isObject(data.value)) {
-          vm.username = data.value.data.user.name;
-        }
-      });
     }
 
     function isAuthed () {
@@ -177,5 +171,11 @@
         this.centerLatLng($item.boundingbox);
       }
     };
+
+    ////
+
+    $rootScope.$on('loggedIn', function (event, data) {
+      vm.username = data.data.user.name;
+    });
   }
 })();

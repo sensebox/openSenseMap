@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$scope', '$state', '$window', '$document', '$q', 'AccountService'];
+  SignupLoginController.$inject = ['$rootScope', '$scope', '$state', '$window', '$document', '$q', 'AccountService'];
 
-  function SignupLoginController ($scope, $state, $window, $document, $q, AccountService) {
+  function SignupLoginController ($rootScope, $scope, $state, $window, $document, $q, AccountService) {
     var vm = this;
 
     vm.signup = {
@@ -46,7 +46,7 @@
 
     function activate () {}
 
-    function submit (form) {
+    function submit (form, registration) {
       vm.errors = [];
 
       if (form === 'signup') {
@@ -65,7 +65,12 @@
 
         signup(data)
           .then(function (response) {
-            $state.go('account.dashboard');
+            if (angular.isDefined(registration)) {
+              $state.go('account.register');
+            } else {
+              $scope.closeThisDialog(response);
+              $state.go('account.dashboard');
+            }
           })
           .catch(requestFailed);
       } else if (form === 'login') {
@@ -76,7 +81,12 @@
 
         login(data)
           .then(function (response) {
-            $state.go('explore.map');
+            if (angular.isDefined(registration)) {
+              $state.go('explore.map');
+            } else {
+              $scope.closeThisDialog(response);
+              $state.go('account.dashboard');
+            }
           })
           .catch(function (error) {
             vm.errors.push({
@@ -90,6 +100,9 @@
 
         requestReset(data)
           .then(function () {
+            vm.errors.push({
+              error: 'Mail with reset instructions sent!'
+            });
             console.log('Instructions send!');
           });
       }
@@ -107,7 +120,7 @@
     }
 
     function requestSuccess (response) {
-      $scope.closeThisDialog(response);
+      $rootScope.$emit('loggedIn', response);
       return response;
     }
 

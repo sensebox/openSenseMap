@@ -299,6 +299,12 @@ angular
           }
         }
       })
+      .state('register', {
+        url: '/register',
+        templateUrl: 'views/registration.html',
+        controller: 'SignupLoginController',
+        controllerAs: 'account'
+      })
       .state('info', {
         url: '/info',
         templateUrl: 'views/info.html'

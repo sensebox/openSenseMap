@@ -86,6 +86,11 @@
                   <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                 </a>
               </li>
+              <li ui-sref-active-eq="active" class="menuitem" ng-hide="header.isAuthed()">
+                <a ui-sref="register">
+                  <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
+                </a>
+              </li>
               <li ui-sref-active-eq="active" class="menuitem">
                 <a ui-sref="info">
                   <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}

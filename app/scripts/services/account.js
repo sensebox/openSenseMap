@@ -23,7 +23,8 @@
       updateAccount: updateAccount,
       updateBox: updateBox,
       confirmEmail: confirmEmail,
-      deleteBox: deleteBox
+      deleteBox: deleteBox,
+      postNewBox: postNewBox
     };
 
     return service;
@@ -53,7 +54,7 @@
     }
 
     function logout () {
-      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out')
+      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out', {auth: true})
         .then(function (response) {
           AuthenticationService.logout && AuthenticationService.logout();
         })
@@ -105,7 +106,7 @@
     }
 
     function getUserDetails () {
-      return $http.get(OpenSenseBoxAPI.url + '/users/me')
+      return $http.get(OpenSenseBoxAPI.url + '/users/me', {auth: true})
         .then(getUserDetailsComplete)
         .catch(getUserDetailsFailed);
 
@@ -119,7 +120,7 @@
     }
 
     function getUsersBoxes () {
-      return $http.get(OpenSenseBoxAPI.url + '/users/me/boxes')
+      return $http.get(OpenSenseBoxAPI.url + '/users/me/boxes', {auth: true})
         .then(getUsersBoxesComplete)
         .catch(getUsersBoxesFailed);
 
@@ -133,7 +134,7 @@
     }
 
     function updateAccount (data) {
-      return $http.put(OpenSenseBoxAPI.url + '/users/me', data)
+      return $http.put(OpenSenseBoxAPI.url + '/users/me', data, {auth: true})
         .then(updateAccountComplete)
         .catch(updateAccountFailed);
 
@@ -147,7 +148,7 @@
     }
 
     function updateBox (boxId, data) {
-      return $http.put(OpenSenseBoxAPI.url + '/boxes/' + boxId, data)
+      return $http.put(OpenSenseBoxAPI.url + '/boxes/' + boxId, data, {auth: true})
         .then(function (response) {
           return response.data;
         })
@@ -155,7 +156,7 @@
     }
 
     function getScript (boxId) {
-      return $http.get(OpenSenseBoxAPI.url + '/boxes/' + boxId + '/script')
+      return $http.get(OpenSenseBoxAPI.url + '/boxes/' + boxId + '/script', {auth: true})
         .then(function (response) {
           return response.data;
         })
@@ -171,7 +172,15 @@
     }
 
     function deleteBox (boxId) {
-      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId)
+      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId, {auth: true})
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function postNewBox (data) {
+      return $http.post(OpenSenseBoxAPI.url + '/boxes', data, {auth: true})
         .then(function (response) {
           return response.data;
         })

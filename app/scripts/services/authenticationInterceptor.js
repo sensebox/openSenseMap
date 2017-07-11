@@ -13,7 +13,7 @@
     return {
       request: function (config) {
         config.headers = config.headers || {};
-        if (AuthenticationService.getToken()) {
+        if (angular.isDefined(config.auth) && config.auth === true && AuthenticationService.getToken()) {
           config.headers.Authorization = 'Bearer ' + AuthenticationService.getToken();
         }
         return config;

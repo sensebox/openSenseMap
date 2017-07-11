@@ -10,6 +10,7 @@
   function EditBoxGeneralController ($state, notifications, boxData, AccountService) {
     var vm = this;
     vm.editingMarker = {};
+    vm.password = '';
 
     vm.save = save;
     vm.deleteBox = deleteBox;
@@ -44,7 +45,10 @@
     }
 
     function deleteBox () {
-      return AccountService.deleteBox(boxData._id)
+      var data = {
+        password: vm.password
+      };
+      return AccountService.deleteBox(boxData._id, data)
         .then(function (response) {
           notifications.addAlert('info', 'NOTIFICATION_BOX_DELETE_SUCCESS');
         })

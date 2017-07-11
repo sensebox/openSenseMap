@@ -172,9 +172,11 @@
         .catch(failed);
     }
 
-    function deleteBox (boxId) {
+    function deleteBox (boxId, data) {
       return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId,
         {
+          auth: true,
+          data: data,
           headers: {
             'Content-type': 'application/json;charset=utf-8'
           }

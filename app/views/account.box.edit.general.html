@@ -62,7 +62,9 @@
   <div uib-alert class="alert alert-warning">
     {{'EDIT_DELETEINFO'|translate}}
   </div>
-  <input name="editDeleteConfirm" class="form-control" type="text" ng-model="general.editing.delete">
-  <button ng-show="general.editing.delete == 'DELETE'" ng-click="general.deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
+  <div class="form-group">
+    <input name="editDeleteConfirm" class="form-control" type="password" ng-model="general.password">
+  </div>
+  <button ng-disabled="general.password == ''" ng-click="general.deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
   <div uib-alert class="alert-danger" ng-show="errorDuringDelete">{{'EDIT_DELETEERROR'|translate}}</div>
 </div>

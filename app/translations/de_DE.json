@@ -139,7 +139,7 @@
   "EDIT_CHANGESENSORSINFO": "Daten gelöschter Sensoren werden gelöscht. Wenn du neue Sensoren hinzugefügt hast, solltest du dir dein neues senseBox Script herunterladen (siehe weiter oben).",
   "EDIT_IMAGE": "Bild hochladen",
   "EDIT_IMAGEINFO": "Wenn du ein neues Bild hochlädst wird das alte ersetzt.",
-  "EDIT_DELETEINFO": "Wenn du deine Station löschen möchtest, tippe zum Bestätigen \"DELETE\" in das Feld - alle zugehörigen Messdaten werden gelöscht.",
+  "EDIT_DELETEINFO": "Wenn du deine Station löschen möchtest, tippe zum Bestätigen dein aktuelles Passwort in das Feld - alle zugehörigen Messdaten werden gelöscht.",
   "EDIT_DELETE": "senseBox löschen",
   "EDIT_DELETEERROR": "Deine senseBox konnte nicht gelöscht werden, bitte schreib uns eine Email",
   "CONTINUE": "Weiter",
@@ -220,7 +220,7 @@
   "ACCOUNT_SEND_RESET_INSTRUCTION": "Passwort zurücksetzen",
   "ACCOUNT_DELETE": "Benutzerkonto löschen",
   "ACCOUNT_DELETE_INFO": "Wenn du dein Benutzerkonto löscht, werden alle senseBoxen und Messungen gelöscht.",
-  "ACCOUNT_DELETE_ACTION": "Um dein Benutzerkonto zu löschen, tippe deinen Benutzernamen ein.",
+  "ACCOUNT_DELETE_ACTION": "Um dein Benutzerkonto zu löschen, tippe deinen aktuelles Passwort ein.",
 
   "TTN_DESCRIPTION": "Die openSenseMap bietet eine Integration mit <a href=\"https://www.thethingsnetwork.org\" target=\"blank\">TheThingsNetwork</a> an. Für eine Erklärung der Parameter siehe <a href=\"https://github.com/sensebox/ttn-osem-integration\" target=\"blank\">hier</a>",
   "TTN_PROFILE": "Dekodierungs-Profil",
@@ -232,7 +232,7 @@
 
   "NOTIFICATION_BOX_UPDATE_SUCCESS": "senseBox wurde erfolgreich aktualisiert - <a href=\"explore/{{boxId}}\">anzeigen</a>",
   "NOTIFICATION_BOX_UPDATE_FAILED": "senseBox konnte nicht aktualisiert werden",
-  "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox wurde gelöscht - <a href=\"account/dashboard\">Dashboard</a>",
+  "NOTIFICATION_BOX_DELETE_SUCCESS": "senseBox wurde gelöscht - <a href=\"account\">Dashboard</a>",
   "NOTIFICATION_BOX_DELETE_FAILED": "senseBox konnte nicht gelöscht werden",
   "NOTIFICATION_USER_UPDATE_SUCCESS": "Dein Profil wurde erfolgreich aktualisiert.",
   "NOTIFICATION_USER_UPDATE_FAILED": "Dein Profil konnte nicht aktualisiert werden.",

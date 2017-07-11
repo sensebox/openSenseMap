@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$scope', '$http', '$translate' ,'leafletData', 'OpenSenseBoxAPI', 'MapService', 'SensorIcons', 'WizardHandler'];
+  RegisterController.$inject = ['$scope', '$translate' ,'leafletData', 'MapService', 'SensorIcons', 'WizardHandler', 'AccountService'];
 
-  function RegisterController ($scope, $http, $translate ,leafletData, OpenSenseBoxAPI, MapService, SensorIcons, WizardHandler) {
+  function RegisterController ($scope, $translate ,leafletData, MapService, SensorIcons, WizardHandler, AccountService) {
     var vm = this;
     vm.stepTitle = '';
     vm.stepIndex = 0;
@@ -201,24 +201,15 @@
       sensor.icon = newIcon.name;
     };
 
-    function downloadArduino () {
-      var boxid = vm.newSenseBox.id;
-      $http.get(OpenSenseBoxAPI.url+'/boxes/'+boxid+'/script')
-        .success(function(data){
+    function downloadArduino (boxId) {
+      AccountService.getScript(boxId)
+        .then(function (data) {
+          console.log(data);
           vm.boxScript = data;
-        }).error(function(){
-          // todo: display an error message
-      });
-    };
-
-    function loadSensors () {
-      var boxid = vm.newSenseBox.id;
-      $http.get(OpenSenseBoxAPI.url+'/boxes/'+boxid)
-        .success(function(data){
-          vm.registeredSensors = data['sensors'];
-        }).error(function(){
-          // todo: display an error message
-      });
+        })
+        .catch(function (error) {
+          //todo: display error and reload button
+        });
     };
 
     function completeRegistration () {
@@ -243,9 +234,10 @@
         vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
-      $http.post(OpenSenseBoxAPI.url+'/boxes', vm.newSenseBox)
-        .success( function (response) {
-          vm.newSenseBox.id = response.data._id;
+      AccountService.postNewBox(vm.newSenseBox)
+        .then(function (data) {
+          console.log('new sensebox successful', data);
+          vm.newSenseBox.id = data.data._id;
           WizardHandler.wizard('RegistrationWizard').next();
           vm.registering = false;
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
@@ -256,12 +248,13 @@
             vm.alerts.push(alert);
             vm.regSuccess = true;
           });
-          downloadArduino();
-          loadSensors();
+          downloadArduino(data.data._id);
+          vm.registeredSensors = data.data['sensors'];
           vm.stepIsValid = true;
           vm.stepIndex = 0;
         })
-        .error( function () {
+        .catch(function (error) {
+          console.log(error);
           $translate('REGISTRATION_FAIL').then(function (msg) {
             var alert = {
               type: 'danger',
@@ -271,7 +264,7 @@
           });
           vm.registering = false;
         });
-    };
+    }
 
     function senseBoxSetupValid () {
       var validTTN = true;

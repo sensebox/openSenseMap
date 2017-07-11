@@ -38,6 +38,7 @@
       return AccountService.updateBox(boxData._id, {sensors: vm.sensors})
         .then(function (response) {
           angular.copy(response.data, boxData);
+          angular.copy(boxData.sensors, vm.sensors);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function (error) {

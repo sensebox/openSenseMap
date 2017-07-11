@@ -218,6 +218,9 @@
   "ACCOUNT_PASSWORD_FORGOT_IT": "Vergessen",
   "ACCOUNT_NEED_AN_ACCOUNT": "Du hast noch kein Benutzerkonto",
   "ACCOUNT_SEND_RESET_INSTRUCTION": "Passwort zurücksetzen",
+  "ACCOUNT_DELETE": "Benutzerkonto löschen",
+  "ACCOUNT_DELETE_INFO": "Wenn du dein Benutzerkonto löscht, werden alle senseBoxen und Messungen gelöscht.",
+  "ACCOUNT_DELETE_ACTION": "Um dein Benutzerkonto zu löschen, tippe deinen Benutzernamen ein.",
 
   "TTN_DESCRIPTION": "Die openSenseMap bietet eine Integration mit <a href=\"https://www.thethingsnetwork.org\" target=\"blank\">TheThingsNetwork</a> an. Für eine Erklärung der Parameter siehe <a href=\"https://github.com/sensebox/ttn-osem-integration\" target=\"blank\">hier</a>",
   "TTN_PROFILE": "Dekodierungs-Profil",
@@ -236,6 +239,8 @@
   "NOTIFICATION_PASSWORD_NOT_THE_SAME": "Die beiden neuen Passwörter stimmen nicht überein.",
   "NOTIFICATION_PASSWORD_UPDATE_SUCCESS": "Dein Passwort wurde erfolgreich geändert. Du wirst in 5 Sekunden umgeleitet und muss dich neu einloggen.",
   "NOTIFICATION_PASSWORD_UPDATE_FAILED": "Das neue Passwort konnte nicht gespeichert werden",
+  "NOTIFICATION_USER_ACCOUNT_DELETE_SUCCESS": "Dein Benutzerkonto wurde erfolgreich gelöscht. Du wirst in 5 Sekunden umgeleitet zur Erkundenansicht.",
+  "NOTIFICATION_USER_ACCOUNT_DELETE_FAILED": "Dein Benutzerkonto konnte nicht gelöscht werden",
   "BACK_TO_DASHBOARD": "Zurück zum Dashboard",
   "EDIT_IMAGETOBIG": "Das ausgewählte Bild ist zu groß. Bitte wähle ein Bild das kleiner ist als 500kb.",
   "REGISTERED_BOXES": "Du hast {{count}} senseBoxen registriert!",

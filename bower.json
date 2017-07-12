@@ -23,7 +23,8 @@
     "angular-wizard": "^0.10.0",
     "bootstrap-css-only": "^3.3.7",
     "angular-toArrayFilter": "^1.0.1",
-    "angular-bootstrap": "^2.5.0"
+    "angular-bootstrap": "^2.5.0",
+    "opbeat-angular": "^3.14.0"
   },
   "devDependencies": {
     "angular-mocks": "1.5",

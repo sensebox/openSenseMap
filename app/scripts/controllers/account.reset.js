@@ -58,6 +58,9 @@
             if (angular.isUndefined(response) || response.status > 400) {
               return response;
             }
+            vm.errors.push({
+              error: response.data.message
+            });
           })
           .catch(function (error) {
             vm.errors.push({

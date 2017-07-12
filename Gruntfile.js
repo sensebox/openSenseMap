@@ -78,6 +78,40 @@ module.exports = function (grunt) {
           {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'},
           {expand: true, flatten: true, src: ['.tmp/scripts/services/map.js', '.tmp/scripts/services/register.js'], dest: '.tmp/scripts/services'}
         ]
+      },
+      opbeat: {
+        options: {
+          patterns: [
+            {
+              match: 'OPBEAT_ORGID',
+              replacement: process.env.OPBEAT_ORGID
+            },
+            {
+              match: 'OPBEAT_APPID',
+              replacement: process.env.OPBEAT_APPID
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
+        ]
+      },
+      opbeatdev: {
+        options: {
+          patterns: [
+            {
+              match: 'OPBEAT_ORGID',
+              replacement: ''
+            },
+            {
+              match: 'OPBEAT_APPID',
+              replacement: ''
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/app.js'], dest: '.tmp/scripts'}
+        ]
       }
     },
 
@@ -472,6 +506,12 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       },
+      app: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts',
+        dest: '.tmp/scripts',
+        src: ['app.js']
+      },
       api: {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
@@ -541,6 +581,7 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'copy:styles',
+        'copy:app',
         'copy:api',
         'copy:apinew',
         'copy:maps',
@@ -577,6 +618,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
+      'replace:opbeatdev',
       'languages',
       'connect:livereload',
       'watch'
@@ -613,6 +655,7 @@ module.exports = function (grunt) {
     'json-minify',
     'replace:control',
     'replace:urls',
+    'replace:opbeat',
     'compress'
   ]);
 

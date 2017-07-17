@@ -168,7 +168,7 @@
       if ($item.boundingbox === undefined) {
         $state.go('explore.map.boxdetails', { id: $item.boxId });
       } else {
-        this.centerLatLng($item.boundingbox);
+        centerLatLng($item.boundingbox);
       }
     }
 

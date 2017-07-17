@@ -292,6 +292,7 @@ module.exports = function (grunt) {
         files: {
           src: [
             '<%= yeoman.dist %>/scripts/{,*/}*.js',
+            '<%= yeoman.dist %>/scripts/{,*/}*.js.map',
             '<%= yeoman.dist %>/styles/{,*/}*.css',
             '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '!<%= yeoman.dist %>/images/placeholder.png',
@@ -395,7 +396,8 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
-        mangle: true
+        mangle: true,
+        sourceMap: true
       },
       dist: {
         files: [
@@ -648,8 +650,8 @@ module.exports = function (grunt) {
     'concat',
     'ngAnnotate',
     'cssmin',
-    'uglify',
     'rev',
+    'uglify',
     'usemin',
     'htmlmin',
     'json-minify',

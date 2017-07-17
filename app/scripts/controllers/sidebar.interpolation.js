@@ -1,49 +1,71 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('openSenseMapApp')
-.controller('InterpolationCtrl',
-	["$scope", "$stateParams", "$http", "OpenSenseBoxAPI", "leafletData", "$timeout", "moment", function($scope, $stateParams, $http, OpenSenseBoxAPI, leafletData, $timeout, moment){
+  angular
+    .module('openSenseMapApp')
+    .controller('InterpolationController', InterpolationController);
 
-    $scope.calculating = false;
-    $scope.interpolationPickerStart = {
-      date: moment().subtract(5, 'm').toDate(),
-      open: false,
-      buttonBar: {
-        show: false
+  InterpolationController.$inject = ['$scope', '$timeout', 'moment', 'leafletData', 'OpenSenseMapAPI', 'OpenSenseMapData'];
+
+  function InterpolationController ($scope, $timeout, moment, leafletData, OpenSenseMapAPI, OpenSenseMapData) {
+    var vm = this;
+    vm.markers = {};
+    vm.calculating = false;
+    vm.prom;
+    vm.delay = 5000;
+    vm.isPlaying = false;
+    vm.legendTitle = '';
+    vm.legendEntries = [];
+    vm.settings = {
+      idwPower : 3,
+      cellWidth : 1,
+      numTimeSteps : 1,
+      exposure : 'outdoor',
+      layerGroup: undefined,
+      selectedPhenomenon : '',
+      minIDWPower : 1,
+      maxIDWPower : 9,
+      minNumTimeSteps : 1,
+      maxNumTimeSteps : 9,
+      interpolationPickerStart: {
+        date: moment().subtract(5, 'm').toDate(),
+        open: false,
+        buttonBar: {
+          show: false
+        },
+        timepickerOptions: {
+          readonlyInput: false,
+          showMeridian: false,
+          max: null,
+          min: null
+        },
+        datepickerOptions: {
+          minDate: null
+        }
       },
-      timepickerOptions: {
-        readonlyInput: false,
-        showMeridian: false,
-        max: null,
-        min: null
-      },
-      datepickerOptions: {
-        minDate: null
+      interpolationPickerEnd: {
+        date: moment().toDate(),
+        open: false,
+        buttonBar: {
+          show: false
+        },
+        timepickerOptions: {
+          readonlyInput: false,
+          showMeridian: false,
+          max: null,
+          min: null
+        },
+        datepickerOptions: {
+          maxDate: null
+        }
       }
     };
-    $scope.interpolationPickerEnd = {
-      date: moment().toDate(),
-      open: false,
-      buttonBar: {
-        show: false
-      },
-      timepickerOptions: {
-        readonlyInput: false,
-        showMeridian: false,
-        max: null,
-        min: null
-      },
-      datepickerOptions: {
-        maxDate: null
-      }
-    };
-
-    $scope.visible = false;
-    var dates = [];
-    $scope.selectedTimeStep = Date.now();
-    $scope.slider = {
+    vm.visible = false;
+    vm.dates = [];
+    vm.selectedTimeStep = Date.now();
+    vm.slider = {
       options: {
-        stepsArray: dates,
+        stepsArray: vm.dates,
         showTicks: true,
         hidePointerLabels: true,
         hideLimitLabels: true,
@@ -51,216 +73,251 @@ angular.module('openSenseMapApp')
           changeSlider(value);
         }
       }
+    };
+    vm.colors = '#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840'.split(',');
+    vm.breaks = [];
+    vm.idwLayers = [];
+    vm.featureCollections = [];
+    vm.alerts = [];
+
+    vm.openCalendar = openCalendar;
+    vm.changeIDWPower = changeIDWPower;
+    vm.changeNumTimeSteps = changeNumTimeSteps;
+    vm.selectExposure = selectExposure;
+    vm.closeSidebar = closeSidebar;
+    vm.closeAlert = closeAlert;
+    vm.showRemoveInterpolation = showRemoveInterpolation;
+    vm.removeInterpolation = removeInterpolation;
+    vm.calculateInterpolation = calculateInterpolation;
+    vm.refreshSlider = refreshSlider;
+    vm.playInterpolation = playInterpolation;
+    vm.stopInterpolation = stopInterpolation;
+
+    activate();
+
+    ////
+
+    function activate () {
+      vm.markers = OpenSenseMapData.getMarkers();
     }
 
-    var changeSlider = function (value) {
-      $scope.selectedTimeStep = value;
-      $scope.map.removeLayer($scope.layer);
-      for (var i = 0; i < dates.length; i++) {
-        if (dates[i].toISOString() === value.toISOString()) {
-          $scope.layer = createGeoJsonLayer(featureCollections[i], breaks);
-          $scope.map.addLayer($scope.layer);
+    function changeSlider (value) {
+      vm.selectedTimeStep = value;
+      vm.map.removeLayer(vm.layer);
+      for (var i = 0; i < vm.dates.length; i++) {
+        if (vm.dates[i].toISOString() === value.toISOString()) {
+          vm.layer = createGeoJsonLayer(vm.featureCollections[i], vm.breaks);
+          vm.map.addLayer(vm.layer);
           break;
         }
       }
     }
 
-    $scope.refreshSlider = function () {
+    function openCalendar (e, picker) {
+      e.preventDefault();
+      e.stopPropagation();
+      switch(picker) {
+        case 'interpolationPickerStart':
+          vm.settings.interpolationPickerStart.open = true;
+          break;
+        case 'interpolationPickerEnd':
+          vm.settings.interpolationPickerEnd.open = true;
+          vm.settings.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
+          vm.settings.interpolationPickerEnd.datepickerOptions.minDate = vm.settings.interpolationPickerStart.date;
+          vm.settings.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+          vm.settings.interpolationPickerEnd.timepickerOptions.min = vm.settings.interpolationPickerStart.timepickerOptions.max;
+          $timeout(function () {
+            //TODO check jqLite
+            // angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
+            // angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
+          });
+          break;
+      }
+    }
+
+    function closeAlert (index) {
+      vm.alerts.splice(index, 1);
+    }
+
+    function changeIDWPower (number) {
+      var newValue = vm.settings.idwPower + number;
+      if (newValue >= vm.settings.minIDWPower && newValue <= vm.settings.maxIDWPower) {
+        vm.settings.idwPower += number;
+      }
+    }
+
+    function changeNumTimeSteps (number) {
+      console.log(number);
+      var newValue = vm.settings.numTimeSteps + number;
+      if (newValue >= vm.settings.minNumTimeSteps && newValue <= vm.settings.maxNumTimeSteps) {
+        vm.settings.numTimeSteps += number;
+      }
+    }
+
+    function selectExposure (exposure) {
+      vm.settings.exposure = exposure;
+    }
+
+    function clearInterpolation () {
+      vm.isPlaying = false;
+      vm.alerts.length = 0;
+      vm.legendEntries.length = 0;
+      vm.legendTitle = '';
+      $timeout.cancel(vm.prom);
+      vm.idwLayers = [];
+      vm.featureCollections = [];
+      vm.breaks = [];
+      if (!angular.isUndefined(vm.map) && !angular.isUndefined(vm.layer)) {
+        vm.map.removeLayer(vm.layer);
+        delete vm.layer;
+        vm.visible = false;
+      }
+    }
+
+    function removeInterpolation () {
+      clearInterpolation();
+    }
+
+    function showRemoveInterpolation () {
+      if (!angular.isUndefined(vm.map) && !angular.isUndefined(vm.layer)) {
+        return true;
+      }
+      return false;
+    }
+
+    function refreshSlider () {
       $timeout(function () {
         $scope.$broadcast('rzSliderForceRender');
       });
-    };
-
-    $scope.legendTitle = '';
-    $scope.legendEntries = [];
-
-    $scope.alerts = [];
-    $scope.closeAlert = function(index) {
-      $scope.alerts.splice(index, 1);
-    };
-
-    $scope.idwPower = 3;
-    $scope.cellWidth = 1;
-    $scope.numTimeSteps = 1;
-    $scope.exposure = "outdoor";
-    $scope.layerGroup;
-    $scope.selectedPhenomenon = "";
-    $scope.map;
-
-    $scope.minIDWPower = 1;
-    $scope.maxIDWPower = 9;
-
-    $scope.changeIDWPower = function(number) {
-      var newValue = $scope.idwPower + number;
-      if (newValue >= $scope.minIDWPower && newValue <= $scope.maxIDWPower) {
-        $scope.idwPower += number;
-      }
     }
 
-    $scope.minNumTimeSteps = 1;
-    $scope.maxNumTimeSteps = 9;
-
-    $scope.changeNumTimeSteps = function(number) {
-      var newValue = $scope.numTimeSteps + number;
-      if (newValue >= $scope.minNumTimeSteps && newValue <= $scope.maxNumTimeSteps) {
-        $scope.numTimeSteps += number;
-      }
-    }
-
-    $scope.layer;
-    var colors = "#A2F689,#B1E36F,#BCD05B,#C4BD4C,#C8AA44,#C99840".split(",");
-    var breaks = [];
-    var idwLayers = [];
-    var featureCollections = [];
-    $scope.calculateInterpolation = function () {
+    function calculateInterpolation () {
       clearInterpolation();
-      $scope.calculating = true;
+      vm.calculating = true;
 
       leafletData.getMap('map_main').then(function (map) {
-        if (!angular.isUndefined($scope.layer)) {
-          $scope.map.removeLayer($scope.layer);
+        if (!angular.isUndefined(vm.layer)) {
+          vm.map.removeLayer(vm.layer);
         }
-        $scope.map = map;
+        vm.map = map;
         return map.getBounds().toBBoxString();
       }).then(function (bbox) {
-        $http.get(OpenSenseBoxAPI.url+'/statistics/idw', {
+        var data = {
           params: {
-            'phenomenon': $scope.selectedPhenomenon,
-            'from-date': moment($scope.interpolationPickerStart.date).toISOString(),
-            'to-date': moment($scope.interpolationPickerEnd.date).toISOString(),
-            'exposure': $scope.exposure,
-            'cellWidth': $scope.cellWidth,
-            'power': $scope.idwPower,
+            'phenomenon': vm.settings.selectedPhenomenon,
+            'from-date': moment(vm.settings.interpolationPickerStart.date).toISOString(),
+            'to-date': moment(vm.settings.interpolationPickerEnd.date).toISOString(),
+            'exposure': vm.settings.exposure,
+            'cellWidth': vm.settings.cellWidth,
+            'power': vm.settings.idwPower,
             'numClasses': 6,
             'bbox': bbox,
-            'numTimeSteps': $scope.numTimeSteps
+            'numTimeSteps': vm.settings.numTimeSteps
           }
-        })
-        .then(function (response) {
-          if (response.data.code === 'NotFoundError') {
-            return response;
-          }
-
-          dates = [];
-          response.data.data.timesteps.forEach(function (element, index) {
-            dates.push(new Date(element));
-            featureCollections.push({type: "FeatureCollection", features: []});
-          });
-
-          $scope.slider.value = dates[0];
-          $scope.slider.options.stepsArray = dates;
-          $scope.selectedTimeStep = dates[0];
-
-          breaks = response.data.data.breaks;
-
-          // Set legend title
-          switch ($scope.selectedPhenomenon) {
-            case 'Temperatur':
-              $scope.legendTitle = $scope.selectedPhenomenon + " in °C"
-              break;
-            case 'rel. Luftfeuchte':
-              $scope.legendTitle = $scope.selectedPhenomenon + " in %"
-              break;
-            case 'Luftdruck':
-              $scope.legendTitle = $scope.selectedPhenomenon + " in hPa"
-              break;
-            case 'Beleuchtungsstärke':
-              $scope.legendTitle = $scope.selectedPhenomenon + " in lx"
-              break;
-            case 'UV-Intensität':
-              $scope.legendTitle = $scope.selectedPhenomenon + " in μW/cm²"
-              break;
-          }
-
-          // Generate legend
-          for (var j = 0; j < breaks.length; j++) {
-            var caption = "";
-            if (j === breaks.length-1) {
-              caption = "> " + breaks[j].toFixed(2);
-            } else {
-              caption = breaks[j].toFixed(2) +' - '+ breaks[j+1].toFixed(2);
+        };
+        OpenSenseMapAPI.idwInterpolation(data)
+          .then(function (response) {
+            if (response.code === 'NotFoundError') {
+              return response;
             }
-            $scope.legendEntries.push({
-              caption: caption,
-              style:{
-                'background': colors[j]
+
+            vm.dates = [];
+            response.data.timesteps.forEach(function (element, index) {
+              vm.dates.push(new Date(element));
+              vm.featureCollections.push({type: 'FeatureCollection', features: []});
+            });
+
+            vm.slider.value = vm.dates[0];
+            vm.slider.options.stepsArray = vm.dates;
+            vm.selectedTimeStep = vm.dates[0];
+
+            vm.breaks = response.data.breaks;
+
+            // Set legend title
+            switch (vm.settings.selectedPhenomenon) {
+              case 'Temperatur':
+                vm.legendTitle = vm.settings.selectedPhenomenon + ' in °C';
+                break;
+              case 'rel. Luftfeuchte':
+                vm.legendTitle = vm.settings.selectedPhenomenon + ' in %';
+                break;
+              case 'Luftdruck':
+                vm.legendTitle = vm.settings.selectedPhenomenon + ' in hPa';
+                break;
+              case 'Beleuchtungsstärke':
+                vm.legendTitle = vm.settings.selectedPhenomenon + ' in lx';
+                break;
+              case 'UV-Intensität':
+                vm.legendTitle = vm.settings.selectedPhenomenon + ' in μW/cm²';
+                break;
+            }
+
+            // Generate legend
+            for (var j = 0; j < vm.breaks.length; j++) {
+              var caption = '';
+              if (j === vm.breaks.length-1) {
+                caption = '> ' + vm.breaks[j].toFixed(2);
+              } else {
+                caption = vm.breaks[j].toFixed(2) +' - '+ vm.breaks[j+1].toFixed(2);
+              }
+              vm.legendEntries.push({
+                caption: caption,
+                style:{
+                  'background': vm.colors[j]
+                }
+              });
+            }
+
+            response.data.featureCollection.features.map(function (feature) {
+              for (var i = 0; i < feature.properties.idwValues.length; i++) {
+                var newFeature = {};
+                angular.copy(feature, newFeature);
+                newFeature.properties.idwValues = [];
+                var value = feature.properties.idwValues[i];
+                newFeature.properties.idwValues.push(value);
+                vm.featureCollections[i].features.push(newFeature);
               }
             });
-          }
 
-          response.data.data.featureCollection.features.map(function (feature) {
-            for (var i = 0; i < feature.properties.idwValues.length; i++) {
-              var newFeature = {};
-              angular.copy(feature, newFeature);
-              newFeature.properties.idwValues = [];
-              var value = feature.properties.idwValues[i];
-              newFeature.properties.idwValues.push(value);
-              featureCollections[i].features.push(newFeature);
+            vm.layer = createGeoJsonLayer(vm.featureCollections[0], vm.breaks);
+            vm.map.addLayer(vm.layer);
+
+            if (vm.featureCollections.length > 1) {
+              vm.visible = true;
             }
-          });
+            refreshSlider();
 
-          $scope.layer = createGeoJsonLayer(featureCollections[0], breaks);
-          $scope.map.addLayer($scope.layer);
-
-          if (featureCollections.length > 1) {
-            $scope.visible = true;
-          }
-          $scope.refreshSlider();
-
-          return;
-        }, function(error) {
-          return error;
-        })
-        .then(function (error) {
-          if (angular.isUndefined(error)) {
             return;
-          }
+          }, function(error) {
+            return error;
+          })
+          .then(function (error) {
+            if (angular.isUndefined(error)) {
+              return;
+            }
 
-          switch (error.data.message) {
-            case "planned computation too expensive ((area in square kilometers / cellWidth) > 2500)":
-              $scope.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
-              break;
-            case "Invalid time frame specified: to-date is in the future":
-              $scope.alerts.push({msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!'});
-              break;
-            case "no senseBoxes found":
-              $scope.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'});
-              break;
-            case "no measurements found":
-              $scope.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'});
-              break;
-            default:
-              $scope.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.'});
-              break;
-          }
-        })
-        .finally(function () {
-          $scope.calculating = false;
+            switch (error.message) {
+              case 'planned computation too expensive ((area in square kilometers / cellWidth) > 2500)':
+                vm.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
+                break;
+              case 'Invalid time frame specified: to-date is in the future':
+                vm.alerts.push({msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!'});
+                break;
+              case 'no senseBoxes found':
+                vm.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'});
+                break;
+              case 'no measurements found':
+                vm.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'});
+                break;
+              default:
+                vm.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.'});
+                break;
+            }
+          })
+          .finally(function () {
+            vm.calculating = false;
+          });
         });
-      });
-    };
-
-    $scope.prom;
-    var delay = 5000;
-    $scope.isPlaying = false;
-    $scope.playInterpolation = function () {
-      $scope.isPlaying = true;
-      $scope.prom = $timeout($scope.playInterpolation, delay);
-      var value = 0;
-      var nextIndex = dates.indexOf($scope.selectedTimeStep)+1;
-      if (angular.isUndefined(dates[nextIndex])) {
-        value = dates[0];
-      } else {
-        value = dates[nextIndex];
-      }
-      $scope.selectedTimeStep = value;
-      $scope.slider.value = value;
-      changeSlider(value);
-    }
-
-    $scope.stopInterpolation = function () {
-      $scope.isPlaying = false;
-      $timeout.cancel($scope.prom);
     }
 
     function createGeoJsonLayer (featureCollection, breaks) {
@@ -270,10 +327,10 @@ angular.module('openSenseMapApp')
           for (var key in props) {
             var z = props[key];
             if (!Number.isNaN(z)) {
-              var fillColor = colors[0];
+              var fillColor = vm.colors[0];
               for (var i = 0; i < breaks.length; i++) {
                 if (z >= breaks[i]) {
-                  fillColor = colors[i];
+                  fillColor = vm.colors[i];
                 } else {
                   break;
                 }
@@ -282,11 +339,11 @@ angular.module('openSenseMapApp')
                 weight: 0.1,
                 fillOpacity: 0.6,
                 fillColor: fillColor
-              }
+              };
             }
             return {
               weight: 0,
-              fillColor: "red",
+              fillColor: 'red',
               fillOpacity: 1
             };
           }
@@ -295,66 +352,45 @@ angular.module('openSenseMapApp')
       return idwLayer;
     }
 
-    function clearInterpolation () {
-      $scope.isPlaying = false;
-      $scope.alerts.length = 0;
-      $scope.legendEntries.length = 0;
-      $scope.legendTitle = '';
-      $timeout.cancel($scope.prom);
-      idwLayers = [];
-      featureCollections = [];
-      breaks = [];
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
-        $scope.map.removeLayer($scope.layer);
-        delete $scope.layer;
-        $scope.visible = false;
+    function playInterpolation () {
+      vm.isPlaying = true;
+      vm.prom = $timeout(vm.playInterpolation, vm.delay);
+      var value = 0;
+      var nextIndex = vm.dates.indexOf(vm.selectedTimeStep)+1;
+      if (angular.isUndefined(vm.dates[nextIndex])) {
+        value = vm.dates[0];
+      } else {
+        value = vm.dates[nextIndex];
+      }
+      vm.selectedTimeStep = value;
+      vm.slider.value = value;
+      changeSlider(value);
+    }
+
+    function stopInterpolation () {
+      vm.isPlaying = false;
+      $timeout.cancel(vm.prom);
+    }
+
+    function closeSidebar () {
+      if (!angular.isUndefined(vm.map) && !angular.isUndefined(vm.layer)) {
+        clearInterpolation();
       }
     }
 
-    $scope.removeInterpolation = function () {
-      clearInterpolation();
-    }
-
-    $scope.showRemoveInterpolation = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
-        return true;
-      }
-      return false;
-    }
-
-    $scope.openCalendar = function(e, picker) {
-      e.preventDefault();
-      e.stopPropagation();
-      switch(picker) {
-        case 'interpolationPickerStart':
-          $scope.interpolationPickerStart.open = true;
-          // $scope.interpolationPickerStart.timepickerOptions.max = moment($scope.interpolationPickerEnd.date).toISOString();
-          break;
-        case 'interpolationPickerEnd':
-          $scope.interpolationPickerEnd.open = true;
-          $scope.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
-          $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
-          $scope.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
-          $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.timepickerOptions.max;
-          $timeout(function () {
-            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
-            angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
-          });
-          break;
-      }
-    }
+    ////
 
     // watch min and max dates to calculate difference
     var unwatchMinMaxValues = $scope.$watch(function() {
-      return [$scope.interpolationPickerStart, $scope.interpolationPickerEnd];
+      return [vm.settings.interpolationPickerStart, vm.settings.interpolationPickerEnd];
     }, function() {
       // min max dates
-      $scope.interpolationPickerStart.datepickerOptions.maxDate = $scope.interpolationPickerEnd.date;
-      $scope.interpolationPickerEnd.datepickerOptions.minDate = $scope.interpolationPickerStart.date;
+      vm.settings.interpolationPickerStart.datepickerOptions.maxDate = vm.settings.interpolationPickerEnd.date;
+      vm.settings.interpolationPickerEnd.datepickerOptions.minDate = vm.settings.interpolationPickerStart.date;
 
       // min max times
-      $scope.interpolationPickerStart.timepickerOptions.max = $scope.interpolationPickerEnd.date;
-      $scope.interpolationPickerEnd.timepickerOptions.min = $scope.interpolationPickerStart.date;
+      vm.settings.interpolationPickerStart.timepickerOptions.max = vm.settings.interpolationPickerEnd.date;
+      vm.settings.interpolationPickerEnd.timepickerOptions.min = vm.settings.interpolationPickerStart.date;
     }, true);
 
     // destroy watcher
@@ -362,14 +398,5 @@ angular.module('openSenseMapApp')
       unwatchMinMaxValues();
       clearInterpolation();
     });
-
-    $scope.selectExposure = function (exposure) {
-      $scope.exposure = exposure;
-    };
-
-    $scope.closeSidebar = function () {
-      if (!angular.isUndefined($scope.map) && !angular.isUndefined($scope.layer)) {
-        clearInterpolation()
-      }
-    }
-}]);
+  }
+})();

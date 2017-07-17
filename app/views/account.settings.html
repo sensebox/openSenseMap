@@ -1,0 +1,56 @@
+<div class="container">
+  <div style="margin-top: 15px;">
+    <div uib-alert ng-repeat="alert in settings.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="settings.closeAlert($index)">
+      <div ng-bind-html="alert.msg"></div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="width: 80%; max-width: 1000px; margin-left: auto; margin-right: auto;">
+      <h1><i class="fa fa-user-circle-o 2x"></i> {{'ACCOUNT_TITLE'|translate}}</h1>
+      <hr>
+      <form name="settingsForm" ng-submit="settings.updateAccount()">
+        <div class="form-group">
+          <label for="accountName">{{'ACCOUNT_NAME'|translate}}</label>
+          <input type="text" class="form-control" id="accountName" placeholder="Name" ng-model="settings.details.name" ng-change="settings.changeAttribute('name', settings.details.name)" required>
+        </div>
+        <div class="form-group">
+          <label for="mailAddress">{{'ACCOUNT_EMAIL'|translate}}</label>
+          <input type="email" class="form-control" id="mailAddress" placeholder="Email" ng-model="settings.details.email" ng-change="settings.changeAttribute('email', settings.details.email)" required>
+        </div>
+        <div class="form-group">
+          <span class="badge sborange" ng-hide="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_NOT_CONFIRMED'|translate}}</span>
+          <span class="badge sbgreen" ng-show="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_CONFIRMED'|translate}}</span>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="language">{{'ACCOUNT_LANGUAGE'|translate}}</label>
+          <select id="language" class="form-control" ng-model="settings.details.language" ng-change="settings.changeAttribute('language', settings.details.language)">
+            <option value="en_US">English</option>
+            <option value="de_DE">Deutsch</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="password">{{'ACCOUNT_PASSWORD'|translate}}</label>
+          <div>
+            <i class="fa fa-lock" aria-hidden="true"></i><a style="padding-left: 10px;" ui-sref="account.changepassword">Change Password</a>
+          </div>
+        </div>
+        <hr>
+        <div class="form-group">
+          <label for="actualPasswordPassword">{{'ACCOUNT_PASSWORD'|translate}}</label>
+          <input type="password" class="form-control" id="actualPassword" placeholder="Password" ng-model="settings.currentPassword" required>
+        </div>
+        <button type="submit" class="btn btn-default pull-right" ng-disabled="settings.updateDisabled()">{{'ACCOUNT_UPDATE'|translate}}</button>
+      </form>
+      <br><br>
+      <h2 style="color: #FF4136;">{{'ACCOUNT_DELETE'|translate}}</h2>
+      <hr>
+      <p>{{'ACCOUNT_DELETE_INFO'|translate}}</p>
+      <p>{{'ACCOUNT_DELETE_ACTION'|translate}}</p>
+      <div class="form-group">
+        <input type="password" class="form-control" ng-model="settings.password">
+      </div>
+      <button type="submit" class="btn btn-default pull-right" ng-click="settings.deleteAccount()" ng-disabled="settings.password == ''">{{'ACCOUNT_DELETE'|translate}}</button>
+    </div>
+  </div>
+</div>

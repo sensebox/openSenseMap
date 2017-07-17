@@ -1,4 +1,4 @@
-<leaflet lf-center="center" defaults="defaults" markers="markersFiltered" id="map_main" event-broadcast="events" layers="layers" controls="controls" watch-options="watchOptions"></leaflet>
-<div id="marker-label" style="font-family: BrixSlab-Regular; position: absolute;z-index:1002; background-color: white; min-width: 50px; padding: 4px; border: 2px solid #4EAF47;" ng-style="{ left: hoverlabel.left, top: hoverlabel.top }">{{ hoverlabel.name }}</div>
+<leaflet lf-center="map.center" defaults="map.defaults" markers="map.mapMarkers" id="map_main" event-broadcast="map.events" layers="map.layers" controls="map.controls" markers-watch-options="map.markersWatchOptions"></leaflet>
+<div id="marker-label" style="position: absolute;z-index:1002; background-color: white; min-width: 50px; padding: 4px; border: 2px solid #4EAF47;" ng-style="{ left: map.hoverlabel.left, top: map.hoverlabel.top }">{{map.hoverlabel.name}}</div>
 
 <div ui-view="sidebar"></div>

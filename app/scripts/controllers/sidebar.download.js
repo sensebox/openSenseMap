@@ -1,110 +1,128 @@
-'use strict';
+(function () {
+  'use strict';
 
-angular.module('openSenseMapApp')
-  .controller('SidebarDownloadCtrl',
-	["$scope", "$stateParams", "$http", "OpenSenseBox", "OpenSenseBoxAPI", "leafletData", function($scope, $stateParams, $http, OpenSenseBox, OpenSenseBoxAPI, leafletData){
+  angular
+    .module('openSenseMapApp')
+    .controller('SidebarDownloadController', SidebarDownloadController);
 
-	$scope.markersFiltered = $scope.$parent.markersFiltered;
-	$scope.$watch('$parent.loading', function() {
-        $scope.markersFiltered = $scope.$parent.markersFiltered;
-    });
+  SidebarDownloadController.$inject = ['moment', 'boxes', 'leafletData', 'OpenSenseMapAPI', 'OpenSenseMapData'];
 
-	$scope.osemapi = OpenSenseBoxAPI;
-	$scope.inputFilter = $scope.inputFilter || {};
-	$scope.downloadform = {
-		format: 'CSV',
-		pleaseWait: false,
-		emptyData: false,
-		errorOccured: false
-	};
+  function SidebarDownloadController (moment, boxes, leafletData, OpenSenseMapAPI, OpenSenseMapData) {
+    var vm = this;
+    vm.inputFilter = {
+      DateTo: '',
+      DateFrom: ''
+    };
+    vm.downloadform = {
+      format: 'CSV',
+      pleaseWait: false,
+      emptyData: false,
+      errorOccured: false
+    };
 
-	$scope.openDatepicker = function($event) {
-		$event.preventDefault();
-		$event.stopPropagation();
+    vm.endingDate = endingDate;
+    vm.openDatePicker = openDatePicker;
+    vm.dataDownload = dataDownload;
+    vm.closeSidebar = closeSidebar;
 
-		// prevent both date pickers from being opened at the same time
-		if($event.currentTarget.id === "datepicker1") {
-		  $scope.opened1 = true;
-		  $scope.opened2 = false;
-		} else if($event.currentTarget.id === "datepicker2") {
-		  $scope.opened2 = true;
-		  $scope.opened1 = false;
-		}
-	};
+    activate();
 
-	$scope.endingDate = function(numDays){
-		$scope.inputFilter.DateTo = new Date();
-		$scope.inputFilter.DateFrom = new Date((new Date()).valueOf() - 1000*60*60*24*numDays);
-	};
+    ////
 
-	leafletData.getMap("map_main").then(function(map) {
-		$scope.count = $scope.countBbox(map).length;
-		map.on('zoomend moveend', function(evt){
-			$scope.count = $scope.countBbox(map).length;
-		})
-	});
+    function activate () {
+      vm.markersFiltered = OpenSenseMapData.getMarkers();
+      vm.count = Object.keys(vm.markersFiltered).length;
+      // register zoomend and moveend event for map
+      leafletData.getMap('map_main').then(function(map) {
+        vm.map = map;
+        mapZoomMove();
+        map.on('zoomend moveend', mapZoomMove);
+       });
+    }
 
-	$scope.countBbox = function(map){
-		var boxids = [];
-		var bbox = map.getBounds();
-		angular.forEach($scope.markersFiltered, function(marker, key) {
-			if(bbox.contains([marker.lat, marker.lng])) {
-				boxids.push(marker.station.id);
-			}
-		});
-		return boxids;
-	};
+    function closeSidebar () {
+      vm.map.off('zoomend moveend', mapZoomMove);
+    }
 
-	function stampDownload () {
-		try {
-			return "-" + new Date().toISOString().replace(/-|:|\.\d*Z/g,"").replace("T","_");
-		} catch (e) {
-			return "";
-		}
-	}
+    function mapZoomMove () {
+      vm.count = getBoxIdsFromBBox(vm.map).length;
+    }
 
-  function createDateAsUTC(date) {
-    return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
+    function endingDate (numDays) {
+      vm.inputFilter.DateTo = moment.utc().toDate();
+      vm.inputFilter.DateFrom = moment.utc().subtract(numDays, 'days').toDate();
+    }
+
+    function openDatePicker ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      // prevent both date pickers from being opened at the same time
+      if($event.currentTarget.id === 'datepicker1') {
+        vm.opened1 = true;
+        vm.opened2 = false;
+      } else if($event.currentTarget.id === 'datepicker2') {
+        vm.opened2 = true;
+        vm.opened1 = false;
+      }
+    }
+
+    function dataDownload () {
+      vm.downloadform.pleaseWait = true;
+      var boxids = getBoxIdsFromBBox(vm.map);
+      var data = {
+        params: {
+          boxid: boxids.join(','),
+          'to-date': vm.inputFilter.DateTo,
+          'from-date': vm.inputFilter.DateFrom,
+          phenomenon: vm.inputFilter.Phenomenon
+        }
+      };
+
+      return OpenSenseMapAPI.getData(data)
+        .then(function (data) {
+          if(data.length>0){
+            var blob = new Blob([data],{type:'text/csv;charset=utf-8;'});
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = 'opensensemap_org-download-' + encodeURI(vm.inputFilter.Phenomenon) + stampDownload() +'.csv';
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            vm.downloadform.emptyData=true;
+          }
+          vm.downloadform.pleaseWait = false;
+        })
+        .catch(function (error) {
+          vm.downloadform.pleaseWait = false;
+          if(data.length===0 && error === 404){
+            vm.downloadform.emptyData=true;
+          } else {
+            vm.downloadform.errorOccured = true;
+            console.log(error);
+          }
+        });
+    }
+
+    function stampDownload () {
+      try {
+        return '-' + moment.utc().toISOString().replace(/-|:|\.\d*Z/g,'').replace('T','_');
+      } catch (e) {
+        return '';
+      }
+    }
+
+    function getBoxIdsFromBBox (map){
+      var boxids = [];
+      var bbox = map.getBounds();
+      angular.forEach(vm.markersFiltered, function(marker, key) {
+        if(bbox.contains([marker.lat, marker.lng])) {
+          boxids.push(marker.station.id);
+        }
+      });
+      return boxids;
+    };
   }
-
-	$scope.dataDownload = function(){
-		$scope.downloadform.pleaseWait = true;
-		leafletData.getMap("map_main").then(function(map) {
-			var boxids = $scope.countBbox(map);
-			$http.get($scope.osemapi.url+'/boxes/data', {
-				params: {
-					boxid: boxids.join(','),
-					'to-date': createDateAsUTC($scope.inputFilter.DateTo),
-					'from-date': createDateAsUTC($scope.inputFilter.DateFrom),
-					phenomenon: $scope.inputFilter.Phenomenon
-				}
-			})
-			.success(function(data) {
-				console.log(data.length);
-				if(data.length>0){
-					var blob = new Blob([data],{type:'text/csv;charset=utf-8;'});
-					var link = document.createElement('a');
-					link.href = window.URL.createObjectURL(blob);
-					link.download = "opensensemap_org-download-" + encodeURI($scope.inputFilter.Phenomenon) + stampDownload() +'.csv';
-					link.style.visibility = 'hidden';
-					document.body.appendChild(link);
-					link.click();
-					document.body.removeChild(link);
-				} else {
-					$scope.downloadform.emptyData=true;
-				}
-				$scope.downloadform.pleaseWait = false;
-			})
-			.error(function(data, err) {
-				$scope.downloadform.pleaseWait = false;
-				if(data.length===0 && err === 404){
-					$scope.downloadform.emptyData=true;
-				} else {
-					$scope.downloadform.errorOccured = true;
-					console.log(err);
-				}
-			});
-		});
-	};
-
-}]);
+})();

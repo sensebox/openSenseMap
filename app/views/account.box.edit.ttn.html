@@ -1,0 +1,49 @@
+<form name="ttnSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_TTN'|translate}} - TTN</h2>
+    </div>
+    <div class="col-md-6  col-lg-6">
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="ttn.save()" ng-disabled=" (ttnSettings.$valid && ttn.validTTNconfig) ? false : true"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <div uib-alert class="alert-warning" ng-bind-html="'TTN_DESCRIPTION'|translate"></div>
+
+    <!-- TTN profile  -->
+    <div class="form-group" ng-class="{'has-error': ttnSettings.ttn_profile.$invalid, 'has-success': ttnSettings.ttn_profile.$valid }">
+      <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
+      <select name="ttn_profile" class="form-control" ng-model="ttn.settings.profile" required>
+        <option value="sensebox/home">senseBox:home</option>
+        <option value="lora-serialization">LoRa serialization</option>
+      </select>
+    </div>
+    <!-- TTN app_id -->
+    <div class="form-group" ng-class="{'has-error': ttnSettings.ttn_app_id.$invalid, 'has-success': ttnSettings.ttn_app_id.$valid }">
+      <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
+      <input type="text" name="ttn_app_id" class="form-control" ng-model="ttn.settings.app_id" required>
+    </div>
+    <!-- TTN dev_id -->
+    <div class="form-group" ng-class="{'has-error': ttnSettings.ttn_dev_id.$invalid, 'has-success': ttnSettings.ttn_dev_id.$valid }">
+      <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
+      <input type="text" name="ttn_dev_id" class="form-control" ng-model="ttn.settings.dev_id" required>
+    </div>
+    <!-- TTN DecodeOptions -->
+    <div class="form-group">
+      <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
+      <textarea  name="ttn_decodeoptions" class="form-control monospace" style="resize: vertical;" ng-model="ttn.settings.decodeOptions" ng-disabled="ttn.settings.profile === 'sensebox/home'"></textarea>
+    </div>
+    <!-- TTN Port -->
+    <div class="form-group">
+      <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
+      <input type="number"  name="ttn_decodeoptions" class="form-control monospace" ng-model="ttn.settings.port" min="1" max="65535">
+    </div>
+    <div uib-alert class="alert-danger" ng-hide="ttn.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
+  </div>
+
+</form>

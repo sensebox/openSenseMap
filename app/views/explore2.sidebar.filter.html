@@ -3,8 +3,7 @@
 		<div class="col-xs-12 col-md-12">
 			<h3>
 				{{'SEARCH_AND_FILTER' | translate}}
-				<!--{{'FILTER'|translate}}-->
-				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="filter.closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
 			</h3>
 		</div>
 	</div>
@@ -14,71 +13,73 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="alert alert-info" role="alert">
-			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-			{{'SAF_INTRO' | translate}}
-	  		</div>
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        {{'SAF_INTRO' | translate}}
+	  	</div>
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
 				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }} </label>
 
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
+					<input uib-datepicker-popup ng-model="filter.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateFrom) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
 					<span class="input-group-btn">
-						<button id="datepicker1" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						<button id="datepicker1" type="button" class="btn btn-default" ng-click="filter.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
 				</p>
 				<p class="input-group">
-					<input uib-datepicker-popup ng-model="inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate}}" />
+					<input uib-datepicker-popup ng-model="filter.inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateTo) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate}}" />
 					<span class="input-group-btn">
-						<button id="datepicker2" type="button" class="btn btn-default" ng-click="openDatepicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						<button id="datepicker2" type="button" class="btn btn-default" ng-click="filter.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 					</span>
 				</p>
 			</div>
-			<button class="btn btn-info" ng-click="endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
-			<button class="btn btn-info" ng-click="endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
-			<button class="btn btn-info" ng-click="endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+			<button class="btn btn-info" ng-click="filter.endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+			<button class="btn btn-info" ng-click="filter.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
+			<button class="btn btn-info" ng-click="filter.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+      <button ng-disabled="filter.loading" ng-show="filter.inputFilter.DateFrom && filter.inputFilter.DateTo" class="btn btn-info" ng-click="filter.performFilter();">{{"SAF_APPLY"|translate}}</button>
 			<hr/>
 		</div>
 		<div class="col-lg-12">
-			<div class="input-group">
+      <div class="alert alert-info" role="alert">
+        <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        Die Live-Suche bezieht sich auf die unten aufgelisteten Ergebnisse.
+      </div>
+			<div class="input-group xxxl">
 				<label for="inputFilterName">{{ "BOX_NAME" | translate }}</label>
-				<input id="inputFilterName" type="text" class="form-control" ng-model="inputFilter.Name" aria-label="Search" ng-change="liveSearch()">
+				<input id="inputFilterName" type="text" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Name" aria-label="Search" ng-change="filter.liveSearch()">
 			</div>
-			<div class="input-group">
+			<div class="input-group xxxl">
 				<label for="inputFilterGrouptag">{{ "GROUP" | translate }}</label>
-				<input id="inputFilterGrouptag" type="text" class="form-control" ng-model="inputFilter.Grouptag" aria-label="Search" ng-change="liveSearch()" list="grouptagSuggestions">
-				<datalist id="grouptagSuggestions">
-					<option ng-repeat="m in $parent.markers | uniqueGrouptags" value="{{ m }}">
-				</datalist>
+        <select id="inputFilterGrouptag" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Grouptag" ng-change="filter.liveSearch()">
+          <option value=""></option>
+          <option ng-repeat="m in filter.filteredMarkers | uniqueGrouptags | orderBy:m">{{ m }}</option>
+        </select>
 			</div>
-			<div class="input-group">
+			<div class="input-group xxxl">
 				<label for="inputFilterExposure">{{ "BOX_EXPOSURE" | translate }}</label>
-				<select id="inputFilterExposure" class="form-control" ng-model="inputFilter.Exposure" ng-change="liveSearch()">
+				<select id="inputFilterExposure" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Exposure" ng-change="filter.liveSearch()">
 					<option value=""></option>
 					<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
 					<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
 				</select>
 			</div>
-			<div class="input-group">
+			<div class="input-group xxxl">
 				<label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
-				<select id="inputFilterPhenomenon" class="form-control" ng-model="inputFilter.Phenomenon" ng-change="checkPhenomNeedsRefresh()">
+				<select id="inputFilterPhenomenon" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Phenomenon" ng-change="filter.checkPhenomNeedsRefresh()">
 					<option value=""></option>
-					<option ng-repeat="m in $parent.markers | uniquePhenomenons | orderBy:m">{{ m }}</option>
+					<option ng-repeat="m in filter.filteredMarkers | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>
 			</div>
 			<div class="input-group">
 				<br/>
-				<div uib-alert class="alert-info" ng-show="needsRefresh">
+				<div uib-alert class="alert-info" ng-show="filter.needsRefresh">
 					{{ "SAF_HELP" | translate }}
 				</div>
-				<button ng-disabled="loading" class="btn btn-info" ng-click="performFilter();">
-					{{"SAF_APPLY"|translate}}
-				</button>&nbsp;
-				<button ng-disabled="loading" class="btn btn-warning" ng-click="resetFilter();refreshData();">
+				<button ng-disabled="filter.loading" class="btn btn-warning" ng-click="filter.resetFilter();">
 					{{"SAF_RESET"|translate}}
 				</button> <br/><br/>
-				<div uib-alert class="alert-warning" ng-show="loading">
+				<div uib-alert class="alert-warning" ng-show="filter.loading">
 					{{"PLEASE_WAIT_DATA"|translate}} <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
 				</div>
 			</div>
@@ -87,9 +88,9 @@
 	<div class="row">
 		<hr/>
 		<div class="col-xs-12 col-md-12">
-		  <h4>{{"RESULTS"|translate}} ({{($parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}).length}})</h4>
-		  <div uib-alert class="alert-info" ng-show="(($parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}).length == 0) && !loading">{{"NO_RESULTS"|translate}}</div>
-		  <div ng-repeat="m in $parent.markersFiltered | toArray:false | filter:{layer:'!hidden'}" class="row">
+		  <h4>{{"RESULTS"|translate}} ({{(filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}).length}})</h4>
+		  <div uib-alert class="alert-info" ng-show="((filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}).length == 0) && !filter.loading">{{"NO_RESULTS"|translate}}</div>
+		  <div ng-repeat="m in filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}" class="row">
 			 <a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
 		  </div>
     </div>

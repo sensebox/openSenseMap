@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12 col-md-12" style="padding-top: 15px;">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3 translate="REGISTERED_BOXES" translate-values="{count: dashboard.boxes.length}"></h3>
+          <p>{{'REGISTERED_BOXES_INFO' | translate}}</p>
+          <p>
+            <a ui-sref="account.register" class="btn btn-primary" role="button">{{'ACCOUNT_NEW_SENSEBOX' | translate}}</a>
+            <a href="https://books.sensebox.de" target="_blank" class="btn btn-default" role="button">{{'DOCUMENTATION' | translate}}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6" ng-repeat="box in dashboard.boxes" style="padding-top: 15px;">
+      <div class="card">
+        <div class="box-selected">
+          <article>
+            <div class="info">
+              <div class="name"><span>{{'BOX_NAME' | translate}}: {{box.name}}</span></div>
+              <div class="model"><span>{{'BOX_EXPOSURE' | translate}} - {{box.exposure}}</span></div>
+              <div class="model">{{'BOX_MODEL' | translate}} - {{box.model}}</div>
+            </div>
+
+          </article>
+
+          <figure ng-style="{'background-image':'url(userimages/{{box.image}})'}"></figure>
+        </div>
+
+        <div class="actions">
+          <div class="row row-no-gutter">
+            <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="action" ui-sref="explore.map.boxdetails({id: box._id})">
+                <h1>{{'LEGEND_SHOWALL' | translate}}</h1>
+                <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+              <div class="action" ui-sref="account.edit.general({id: box._id, box: box})">
+                <h1>{{'CONFIG_EDIT' | translate}}</h1>
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <!-- <div class="col-xs-4 col-sm-4 col-md-4">
+              <div class="action" ng-click="dashboard.deleteBox(box._id)">
+                <h1>{{'DELETE' | translate}}</h1>
+                <i class="fa fa-trash fa-lg" aria-hidden="true"></i>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

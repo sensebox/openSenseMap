@@ -5,6 +5,7 @@ dist
 app/bower_components
 app/files/*
 app/images/*.jpeg
+karma_html
 **/**/**/*.db
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]

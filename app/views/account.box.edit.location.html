@@ -1,0 +1,28 @@
+<form name="locationSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'BOX_POSITION'|translate}}</h2>
+    </div>
+    <div class="col-md-6 col-lg-6">
+      <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="location.save()" ng-disabled="!locationSettings.$valid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div>
+    <leaflet id="editbox_map" center="location.boxPosition" controls="location.controls" markers="location.editMarker" defaults="location.defaults" width="100%" height="450px"></leaflet>
+    <div ng-class="{'has-error': locationSettings.boxLat.$invalid, 'has-success': locationSettings.boxLat.$valid}" class="col-md-6">
+      <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
+      <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="location.editMarkerInput.lat" step="0.000001" required>
+    </div>
+    <div ng-class="{'has-error': locationSettings.boxLong.$invalid, 'has-success': locationSettings.boxLong.$valid}" class="col-md-6">
+      <label for="boxLong">{{'BOX_LONGITUDE'|translate}}</label>
+      <input name="boxLong" class="form-control" type="number" min="-180" max="180" ng-model="location.editMarkerInput.lng" step="0.000001" required>
+    </div>
+    <button type="button" class="btn btn-link" ng-click="location.resetPosition()">{{'BOX_POSITION_RESET'|translate}}</button>
+  </div>
+
+</form>

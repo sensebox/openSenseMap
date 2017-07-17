@@ -5,12 +5,15 @@ language: node_js
 services:
   - docker
 
+before_install:
+  - npm install -g grunt-cli
+
 before_script:
   - npm install -g grunt-cli
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL -t senseboxdevs/osem .;
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL --build-arg OPBEAT_ORGID=$OPBEAT_ORGID --build-arg OPBEAT_APPID=$OPBEAT_APPID -t senseboxdevs/osem .;
     elif [ "$TRAVIS_BRANCH" == "development" ]; then
-    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV -t senseboxdevs/osem:development .;
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV --build-arg OPBEAT_ORGID=$OPBEAT_ORGID --build-arg OPBEAT_APPID=$OPBEAT_APPID -t senseboxdevs/osem:development .;
     fi
 
 after_success:

@@ -1,0 +1,138 @@
+<div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="center-block">
+        <h3 ng-hide="account.reset.active" style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{'ACCOUNT_HEADING'|translate}}
+        </h3>
+        <h3 ng-show="account.reset.active" style="text-align: center; letter-spacing: 2px; text-transform: uppercase; line-height: 40px; font-size: 28px;">{{'ACCOUNT_HEADING_RECOVER_PASSWORD'|translate}}
+        </h3>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12 signup-login" ng-hide="account.reset.active">
+      <uib-tabset active="account.active" ng-click="account.errors = [];" justified="true">
+        <uib-tab index="0" heading="{{'ACCOUNT_LOGIN'|translate}}">
+          <div class="row">
+            <div class="col-lg-12">
+              <form name="login" ng-submit="account.submit('login')">
+                <div class="form-group has-feedback">
+                  <label for="username">{{'ACCOUNT_USERNAME'|translate}}*</label>
+                  <input type="text" ng-model="account.login.email" class="form-control" id="login-username" tabindex="1" autofocus required>
+                </div>
+                <div class="form-group has-feedback" style="position: relative;">
+                  <label for="password">{{'ACCOUNT_PASSWORD'|translate}}* <small style="display: inline-block; font-size: 12px;"> <a href="" ng-click="account.resetPassword()">{{'ACCOUNT_PASSWORD_FORGOT_IT'|translate}}?</a></small></label>
+                  <input type="{{account.login.password.type}}" ng-model="account.login.password.value" class="form-control" id="password" tabindex="2" required>
+                  <div id="show_password" ng-cloak>
+                    <span class="helper"></span>
+                    <i class="fa fa-eye fa-lg" ng-show="account.login.password.type === 'password'" aria-hidden="true" ng-click="account.showPassword('login-password')"></i>
+                    <i class="fa fa-eye-slash fa-lg" ng-hide="account.login.password.type === 'password'" aria-hidden="true" ng-click="account.showPassword('login-password')"></i>
+                  </div>
+                </div>
+                <div class="row errors">
+                  <div class="col-lg-12" ng-repeat="error in account.errors">
+                    <blockquote>
+                      <p class="text-danger">{{error.error}}</p>
+                    </blockquote>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+                      <button type="submit" class="btn btn-default" tabindex="3">{{'ACCOUNT_LOGIN'|translate}}</button>
+                    </div>
+                    <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+                      <small style="padding-top: 6px; padding-bottom: 6px;">
+                        <a ng-click="account.active = 1; account.errors = [];" class="next rcon">{{'ACCOUNT_SIGN_UP'|translate}}?</a>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </uib-tab>
+        <uib-tab index="1" heading="{{'ACCOUNT_SIGN_UP'|translate}}">
+          <div class="row">
+            <div class="col-lg-12">
+              <form name="signup" ng-submit="account.submit('signup')">
+                <div class="form-group has-feedback">
+                  <label for="username">{{'ACCOUNT_USERNAME'|translate}}*</label>
+                  <input type="text" minlength="4" maxlength="40" pattern="^[a-zA-Z0-9][a-zA-Z0-9\s._-]+[a-zA-Z0-9-_.]$" ng-model="account.signup.name" class="form-control" id="signup-username" required>
+                </div>
+                <div class="form-group has-feedback">
+                  <label for="email">{{'ACCOUNT_EMAIL'|translate}}*</label>
+                  <input type="email" ng-model="account.signup.email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group has-feedback" style="position: relative;">
+                  <label for="password">{{'ACCOUNT_PASSWORD'|translate}}*</label>
+                  <input type="{{account.signup.password.type}}" minlength="8" ng-model="account.signup.password.value" class="form-control" id="password" required>
+                  <div id="show_password" ng-cloak>
+                    <span class="helper"></span>
+                    <i class="fa fa-eye fa-lg" ng-show="account.signup.password.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password')"></i>
+                    <i class="fa fa-eye-slash fa-lg" ng-hide="account.signup.password.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password')"></i>
+                  </div>
+                </div>
+                <div class="form-group" style="position: relative;">
+                  <label for="password">{{'ACCOUNT_PASSWORD_CONFIRM'|translate}}*</label>
+                  <input type="{{account.signup.confirm.type}}" ng-model="account.signup.confirm.value" class="form-control" id="password" required>
+                  <div id="show_password" ng-cloak>
+                    <span class="helper"></span>
+                    <i class="fa fa-eye fa-lg" ng-show="account.signup.confirm.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password-confirm')"></i>
+                    <i class="fa fa-eye-slash fa-lg" ng-hide="account.signup.confirm.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password-confirm')"></i>
+                  </div>
+                </div>
+                <div class="row errors">
+                  <div class="col-lg-12" ng-repeat="error in account.errors">
+                    <blockquote>
+                      <p class="text-danger">{{error.error}}</p>
+                    </blockquote>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+                      <button type="submit" class="btn btn-default">{{'ACCOUNT_SIGN_UP'|translate}}</button>
+                    </div>
+                    <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+                      <small style="padding-top: 6px; padding-bottom: 6px;">
+                        <a ng-click="account.active = 0; account.errors = [];" class="next rcon">{{'ACCOUNT_LOGIN'|translate}}?</a>
+                      </small>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+    <div class="col-lg-12 signup-login" ng-show="account.reset.active">
+      <form name="reset" ng-submit="account.submit('reset')">
+        <div class="form-group has-feedback">
+          <label for="email">{{'ACCOUNT_EMAIL'|translate}}</label>
+          <input type="email" ng-model="account.reset.email" class="form-control" id="reset-email" required>
+        </div>
+        <div class="row errors">
+          <div class="col-lg-12" ng-repeat="error in account.errors">
+            <blockquote>
+              <p class="text-danger">{{error.error}}</p>
+            </blockquote>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+              <button type="submit" class="btn btn-default">{{'ACCOUNT_SEND_RESET_INSTRUCTION'|translate}}</button>
+            </div>
+            <div class="col-lg-6" style="padding-left: 0px; padding-right: 0px;">
+              <small style="padding-top: 6px; padding-bottom: 6px;">
+                <a ng-click="account.resetPassword()" class="next rcon">{{'ACCOUNT_LOGIN'|translate}}</a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

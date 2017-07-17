@@ -26,7 +26,7 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'controls',
-              replacement: 'controls="controls"'
+              replacement: 'controls="map.controls"'
             }
           ]
         },
@@ -61,7 +61,8 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'}
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
         ]
       },
       devmaps: {
@@ -74,7 +75,42 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'}
+          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/map.js', '.tmp/scripts/services/register.js'], dest: '.tmp/scripts/services'}
+        ]
+      },
+      opbeat: {
+        options: {
+          patterns: [
+            {
+              match: 'OPBEAT_ORGID',
+              replacement: process.env.OPBEAT_ORGID
+            },
+            {
+              match: 'OPBEAT_APPID',
+              replacement: process.env.OPBEAT_APPID
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
+        ]
+      },
+      opbeatdev: {
+        options: {
+          patterns: [
+            {
+              match: 'OPBEAT_ORGID',
+              replacement: ''
+            },
+            {
+              match: 'OPBEAT_APPID',
+              replacement: ''
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/app.js'], dest: '.tmp/scripts'}
         ]
       }
     },
@@ -134,10 +170,13 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/scripts/controllers/map.js',
           '<%= yeoman.app %>/scripts/controllers/register.js',
-          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js'
+          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
+          '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
+          '<%= yeoman.app %>/scripts/services/map.js'
         ],
         tasks: [
           'newer:copy:api',
+          'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',
           'replace:devmaps'
@@ -166,8 +205,7 @@ module.exports = function (grunt) {
           ],
           middleware: function(connect, options) {
             var middlewares = [];
-
-            middlewares.push(modRewrite(['^[^\\.]*$ /index.html [L]']));
+            middlewares.push(modRewrite(['!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.woff2|\\.gif|\\.ttf$ /index.html']));
             options.base.forEach(function(base) {
               middlewares.push(serveStatic(base));
             });
@@ -273,7 +311,7 @@ module.exports = function (grunt) {
         flow: {
           html: {
             steps: {
-              js: ['concat', 'uglifyjs'],
+              js: ['concat'],
               css: ['cssmin']
             },
             post: {}
@@ -294,13 +332,6 @@ module.exports = function (grunt) {
             return '<script defer src="' + block.dest + '"><\/script>';
           }
         }
-      }
-    },
-
-    // The following *-min tasks produce minified files in the dist folder
-    cssmin: {
-      options: {
-        root: '<%= yeoman.app %>'
       }
     },
 
@@ -343,35 +374,46 @@ module.exports = function (grunt) {
       }
     },
 
-    // ngmin tries to make the code safe for minification automatically by
-    // using the Angular long form for dependency injection. It doesn't work on
-    // things like resolve or inject so those have to be done manually.
-    ngmin: {
+    ngAnnotate: {
+      options: {
+        add: true,
+        singleQuotes: true
+      },
       dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/concat/scripts',
-          src: '*.js',
-          dest: '.tmp/concat/scripts'
-        },{
-          expand: true,
-          cwd: '<%= yeoman.dist %>/translations/angular',
-          src: '*.js',
-          dest: '<%= yeoman.dist %>/translations/angular'
-        }]
+        files: [
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/scripts/scripts.js']
+          },
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/translations/angular/*.js']
+          }
+        ]
+      }
+    },
+
+    uglify: {
+      options: {
+        mangle: true
+      },
+      dist: {
+        files: [
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/scripts/*.js']
+          },
+          {
+            expand: true,
+            src: ['<%= yeoman.dist %>/translations/angular/*.js']
+          }
+        ]
       }
     },
 
     'json-minify': {
       build: {
         files: '<%= yeoman.dist %>/translations/*.json'
-      }
-    },
-
-    // Replace Google CDN references
-    cdnify: {
-      dist: {
-        html: ['<%= yeoman.dist %>/*.html']
       }
     },
 
@@ -464,11 +506,23 @@ module.exports = function (grunt) {
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
       },
+      app: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts',
+        dest: '.tmp/scripts',
+        src: ['app.js']
+      },
       api: {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
         dest: '.tmp/scripts/services',
-        src: 'opensenseboxapi.js'
+        src: ['opensenseboxapi.js', 'map.js']
+      },
+      apinew: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/scripts/services',
+        dest: '.tmp/scripts/services',
+        src: 'opensensemapapi.js'
       },
       maps: {
         expand: true,
@@ -527,7 +581,9 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'copy:styles',
+        'copy:app',
         'copy:api',
+        'copy:apinew',
         'copy:maps',
         'copy:images'
       ],
@@ -541,23 +597,10 @@ module.exports = function (grunt) {
       ]
     },
 
-    uglify: {
-      dist: {
-        files: [
-          {
-            expand: true,
-            cwd: '<%= yeoman.dist %>/translations/angular',
-            src: '*.js',
-            dest: '<%= yeoman.dist %>/translations/angular'
-          }
-        ]
-      }
-    },
-
     // Test settings
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
+        configFile: 'test/karma-unit.conf.js',
         singleRun: true
       }
     }
@@ -575,6 +618,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
+      'replace:opbeatdev',
       'languages',
       'connect:livereload',
       'watch'
@@ -599,10 +643,10 @@ module.exports = function (grunt) {
     'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
+    'copy:dist',
     'autoprefixer',
     'concat',
-    'ngmin',
-    'copy:dist',
+    'ngAnnotate',
     'cssmin',
     'uglify',
     'rev',
@@ -611,6 +655,7 @@ module.exports = function (grunt) {
     'json-minify',
     'replace:control',
     'replace:urls',
+    'replace:opbeat',
     'compress'
   ]);
 
@@ -633,7 +678,7 @@ module.exports = function (grunt) {
           if (filename.indexOf('disabled') === -1) {
             var languageCode = filename.split('.')[0];
             var language = languageCode.split('_')[0];
-            html += '<li><a ng-click="changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
+            html += '<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
           }
         });
         var resultStart = data.split('<!-- languages-start -->');

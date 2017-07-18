@@ -24,7 +24,7 @@
 
     function activate () {
       if (boxData.model.includes('Feinstaub')) {
-        vm.extensions.feinstaub.id = 'Feinstaub';
+        vm.extensions.feinstaub.id = 'feinstaub';
         vm.extensions.feinstaub.disabled = true;
       }
     }
@@ -32,7 +32,7 @@
     function save () {
       var data = {
         'addons': {
-          'add': 'feinstaub'
+          'add': vm.extensions.feinstaub.id
         }
       };
       return AccountService.updateBox(boxData._id, data)

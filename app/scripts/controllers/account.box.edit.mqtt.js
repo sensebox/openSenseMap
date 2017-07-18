@@ -26,7 +26,7 @@
     ////
 
     function activate () {
-      if (angular.isDefined(boxData.integrations) && angular.isDefined(boxData.integrations.ttn)) {
+      if (angular.isDefined(boxData.integrations) && angular.isDefined(boxData.integrations.mqtt)) {
         angular.copy(boxData.integrations.mqtt, vm.settings);
       }
     }

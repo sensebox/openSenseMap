@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'leafletData', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, leafletData, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -155,13 +155,13 @@
 
     // centers a latlng (marker) on the map while reserving space for the sidebar
     function centerLatLng (latlng) {
-      leafletData.getMap('map_main').then(function(map) {
-        map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
-          paddingTopLeft: [0,0],
-          animate: false,
-          zoom: 20
-        });
-      });
+      // leafletData.getMap('map_main').then(function(map) {
+      //   map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
+      //     paddingTopLeft: [0,0],
+      //     animate: false,
+      //     zoom: 20
+      //   });
+      // });
     }
 
     function selectBox ($item) {

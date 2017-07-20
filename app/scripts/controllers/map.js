@@ -85,35 +85,6 @@
     ////
 
     function activate () {
-      vm.center = {
-        lat: 51.04139389812637,
-        lng: 10.21728515625,
-        zoom: 6
-      };
-
-      /*
-        Custom legend control
-      */
-      leafletData.getMap('map_main').then(function (map) {
-        var info = L.control({ position:'bottomleft' });
-        info.onAdd = function () {
-          var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control'); // create a div with a class "info"
-          this._div = _div;
-          $templateRequest('views/explore2.map.legend.html').then(function(html) {
-            var template = angular.element(html);
-            var infoDiv = angular.element(_div);
-            var infoContainer = angular.element(info._container);
-            infoDiv.append(template);
-            infoContainer.append(template);
-            $compile(template)($scope);
-          });
-          this._div.onclick = vm.toggleLegend;
-          return this._div;
-        };
-        map.addControl(info);
-      });
-
-      // set resolved boxes
       OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;
@@ -121,21 +92,6 @@
         .catch(function (error) {
           console.error(error);
         });
-    }
-
-    function centerLatLng (latlng) {
-      leafletData.getMap('map_main').then(function(map) {
-        var padding = 450; // sidebar width: 450px
-        // consider smaller devices (250px min map-width + 450px sidebar-width)
-        if (document.body.clientWidth <= 700) padding = 0;
-
-        map.fitBounds([latlng, latlng], {
-          paddingTopLeft: [0,0],
-          paddingBottomRight: [padding, 0],
-          maxZoom: 17,
-          animate: false
-        });
-      });
     }
 
     function toggleLegend ($event) {

@@ -5,10 +5,11 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['moment', 'boxes', 'leafletData', 'OpenSenseMapAPI', 'OpenSenseMapData'];
+  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
 
-  function SidebarDownloadController (moment, boxes, leafletData, OpenSenseMapAPI, OpenSenseMapData) {
+  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
     var vm = this;
+    vm.map;
     vm.inputFilter = {
       DateTo: '',
       DateFrom: ''
@@ -32,12 +33,14 @@
     function activate () {
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.count = Object.keys(vm.markersFiltered).length;
-      // register zoomend and moveend event for map
-      leafletData.getMap('map_main').then(function(map) {
-        vm.map = map;
-        mapZoomMove();
-        map.on('zoomend moveend', mapZoomMove);
-       });
+
+      osemMapData.getMap('map_main')
+        .then(function (map) {
+          vm.map = map;
+          $scope.$broadcast('initData', {});
+          vm.map.on('zoomend moveend', mapZoomMove);
+          return 'event attached';
+        });
     }
 
     function closeSidebar () {

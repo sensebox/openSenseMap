@@ -56,6 +56,9 @@
     }
 
     function setCoordinates (coords) {
+      vm.editMarker = {
+        m1 : angular.copy(vm.originalPosition)
+      };
       vm.editMarker.m1.lng = parseFloat(coords.lng.toFixed(6));
       vm.editMarker.m1.lat = parseFloat(coords.lat.toFixed(6));
       vm.editMarkerInput.lng = vm.editMarker.m1.lng;

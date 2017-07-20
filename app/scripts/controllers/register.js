@@ -208,7 +208,6 @@
     function downloadArduino (boxId) {
       AccountService.getScript(boxId)
         .then(function (data) {
-          console.log(data);
           vm.boxScript = data;
         })
         .catch(function (error) {

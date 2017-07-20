@@ -12,6 +12,7 @@
     vm.stepTitle = '';
     vm.stepIndex = 0;
     vm.showNext = true;
+    vm.tag = '';
     vm.geolocationError = {
       error: false,
       message: ''
@@ -19,14 +20,11 @@
 
     //new sensebox object
     vm.newSenseBox = {
-      id: '',
       name: '',
       model: '',
       boxType: 'fixed',
       sensors: [],
-      tag: '',
       exposure: '',
-      orderID: '',
       loc: [{
         'type':'feature',
         'geometry': {
@@ -218,13 +216,21 @@
     function completeRegistration () {
       setStepTitle();
       vm.alerts = [];
-      vm.newSenseBox.mqtt = vm.mqtt;
+
+      if (vm.mqtt.enabled) {
+        vm.newSenseBox.mqtt = vm.mqtt;
+      }
       if (vm.ttnEnabled) {
         vm.newSenseBox.ttn = vm.ttn;
       }
       vm.newSenseBox.loc[0].geometry.coordinates.push(vm.markers.box.lng);
       vm.newSenseBox.loc[0].geometry.coordinates.push(vm.markers.box.lat);
       vm.registering = true;
+
+      if (vm.tag !== '') {
+        vm.newSenseBox.tag = vm.tag;
+      }
+
       if (vm.modelSelected.id === 'custom') {
         for (var i = 0; i < vm.sensors.length; i++) {
           vm.newSenseBox.sensors = vm.sensors;

@@ -14,6 +14,8 @@ before_script:
     docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL --build-arg OPBEAT_ORGID=$OPBEAT_ORGID --build-arg OPBEAT_APPID=$OPBEAT_APPID -t senseboxdevs/osem .;
     elif [ "$TRAVIS_BRANCH" == "development" ]; then
     docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV --build-arg OPBEAT_ORGID=$OPBEAT_ORGID_DEV --build-arg OPBEAT_APPID=$OPBEAT_APPID_DEV -t senseboxdevs/osem:development .;
+    elif [ "$TRAVIS_BRANCH" == "leaflet" ]; then
+    docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV --build-arg OPBEAT_ORGID=$OPBEAT_ORGID_DEV --build-arg OPBEAT_APPID=$OPBEAT_APPID_DEV -t senseboxdevs/osem:leaflet .;
     fi
 
 after_success:

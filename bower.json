@@ -15,8 +15,6 @@
     "c3-angular": "~1.2.0",
     "angular-moment": "^1.0.1",
     "angular-dynamic-locale": "^0.1.32",
-    "ui-leaflet": "2.0.0",
-    "Leaflet.awesome-markers": "^2.0.2",
     "ngprogress": "^1.1.3",
     "angularjs-slider": "^6.0.0",
     "bootstrap-ui-datetime-picker": "^2.5.4",

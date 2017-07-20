@@ -6,7 +6,6 @@ angular
     'ngResource',
     'ngSanitize',
     'ngDialog',
-    'ui-leaflet',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'osemFilters',

@@ -19,8 +19,7 @@ angular
     'ngProgress',
     'rzModule',
     'mgo-angular-wizard',
-    'angular-toArrayFilter',
-    'ngOpbeat'
+    'angular-toArrayFilter'
   ])
   .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);
@@ -322,17 +321,6 @@ angular
     $translateProvider.determinePreferredLanguage();
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
-
-  .config(function ($opbeatProvider) {
-    var orgId = '@@OPBEAT_ORGID';
-    var appId = '@@OPBEAT_APPID';
-    if (orgId !== '' && appId !== '') {
-      $opbeatProvider.config({
-        orgId: orgId,
-        appId: appId
-      });
-    }
-  })
 
   .run(function($rootScope, $state, AccountService) {
     $rootScope.$on('$stateChangeStart', function(e, to) {

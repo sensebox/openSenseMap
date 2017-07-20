@@ -586,7 +586,6 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
-      'replace:opbeatdev',
       'languages',
       'connect:livereload',
       'watch'
@@ -623,7 +622,6 @@ module.exports = function (grunt) {
     'json-minify',
     'replace:control',
     'replace:urls',
-    'replace:opbeat',
     'compress'
   ]);
 

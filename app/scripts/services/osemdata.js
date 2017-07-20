@@ -5,37 +5,37 @@
     .module('openSenseMapApp')
     .factory('OpenSenseMapData', OpenSenseMapData);
 
-  OpenSenseMapData.$inject = ['$q'];
+  OpenSenseMapData.$inject = ['$q', '$state'];
 
-  function OpenSenseMapData ($q) {
+  function OpenSenseMapData ($q, $state) {
     var markers = {};
     var ONE_DAY = 1000 * 60 * 60 * 24;
     var SEVEN_DAYS = ONE_DAY * 7;
     var THIRTY_DAYS = ONE_DAY * 30;
     var icons = {
-      iconRed: {
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: 'cube',
-        markerColor: 'red',
-      },
       iconGreen: {
         type: 'awesomeMarker',
         prefix: 'fa',
         icon: 'cube',
-        markerColor: 'green'
+        markerColor: 'green',
+        opacity: 1.0,
+        zIndexOffset: 200
       },
       iconDarkGreen: {
         type: 'awesomeMarker',
         prefix: 'fa',
         icon: 'cube',
-        markerColor: 'darkgreen'
+        markerColor: 'darkgreen',
+        opacity: 0.65,
+        zIndexOffset: 100
       },
       iconGray: {
         type: 'awesomeMarker',
         prefix: 'fa',
         icon: 'cube',
-        markerColor: 'lightgray'
+        markerColor: 'lightgray',
+        opacity: 0.5,
+        zIndexOffset: 0
       }
     };
     var MARKER_STATE_OPTS = {
@@ -47,7 +47,8 @@
 
     var service = {
       getMarkers: getMarkers,
-      setMarkers: setMarkers
+      setMarkers: setMarkers,
+      getMarker: getMarker
     };
 
     return service;
@@ -56,6 +57,14 @@
 
     function getMarkers () {
       return markers;
+    }
+
+    function getMarker (boxId) {
+      for (var box in markers) {
+        if (angular.equals(markers[box].station.id, boxId)) {
+          return markers[box];
+        }
+      }
     }
 
     function setMarkers (data, classification) {
@@ -92,6 +101,10 @@
         text += possible.charAt(Math.floor(Math.random() * possible.length));
       }
       return text;
+    }
+
+    function markerClick (args) {
+      $state.go('explore.map.boxdetails', { id: args.station.id });
     }
 
     function classify (obj) {
@@ -132,9 +145,11 @@
           name: obj.name,
           exposure: obj.exposure,
           grouptag: obj.grouptag,
-          sensors: obj.sensors
+          sensors: obj.sensors,
+          model: obj.model
         },
-        zIndexOffset: markerOpts.zIndexOffset
+        zIndexOffset: markerOpts.zIndexOffset,
+        clickHandler: markerClick
       };
       return marker;
     }

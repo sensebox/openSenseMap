@@ -24,7 +24,10 @@
         lng: parseFloat(boxData.loc[0].geometry.coordinates[0].toFixed(6)),
         lat: parseFloat(boxData.loc[0].geometry.coordinates[1].toFixed(6)),
         draggable: true,
-        zoom: 17
+        zoom: 17,
+        icon: {
+          markerColor: 'green'
+        }
       };
 
       angular.copy(vm.boxPosition, vm.originalPosition);

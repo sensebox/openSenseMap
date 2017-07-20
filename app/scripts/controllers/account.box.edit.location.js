@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxLocationController', EditBoxLocationController);
 
-  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'MapService', 'AccountService'];
+  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService'];
 
-  function EditBoxLocationController ($scope, boxData, notifications, MapService, AccountService) {
+  function EditBoxLocationController ($scope, boxData, notifications, AccountService) {
     var vm = this;
     vm.editMarkerInput = {};
     vm.originalPosition = {};
@@ -20,9 +20,6 @@
     ////
 
     function activate () {
-      vm.defaults = MapService.defaults;
-      vm.events = MapService.events;
-
       vm.boxPosition = {
         lng: parseFloat(boxData.loc[0].geometry.coordinates[0].toFixed(6)),
         lat: parseFloat(boxData.loc[0].geometry.coordinates[1].toFixed(6)),

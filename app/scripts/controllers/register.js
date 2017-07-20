@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$scope', '$translate' ,'leafletData', 'MapService', 'SensorIcons', 'WizardHandler', 'AccountService'];
+  RegisterController.$inject = ['$scope', '$translate', '$timeout', 'SensorIcons', 'WizardHandler', 'AccountService', 'osemMapData'];
 
-  function RegisterController ($scope, $translate ,leafletData, MapService, SensorIcons, WizardHandler, AccountService) {
+  function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, osemMapData) {
     var vm = this;
     vm.stepTitle = '';
     vm.stepIndex = 0;
@@ -90,9 +90,6 @@
     ////
 
     function activate() {
-      vm.defaults = MapService.defaults;
-      vm.center = MapService.center;
-      vm.events = MapService.events;
       vm.icons = SensorIcons;
       vm.editMarkerInput =  angular.copy(vm.markers);
       vm.registering = false;

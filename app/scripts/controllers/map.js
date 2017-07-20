@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapAPI', 'OpenSenseMapData', 'MapService', 'leafletData'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData'];
 
-  function MapController ($scope, $state, $templateRequest, $compile, boxes, OpenSenseMapAPI, OpenSenseMapData, MapService, leafletData) {
+  function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showHide = false;
@@ -85,7 +85,6 @@
     ////
 
     function activate () {
-      vm.events = MapService.events;
       vm.center = {
         lat: 51.04139389812637,
         lng: 10.21728515625,

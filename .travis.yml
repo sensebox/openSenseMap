@@ -5,6 +5,9 @@ language: node_js
 services:
   - docker
 
+before_install:
+  - npm install -g grunt-cli
+
 before_script:
   - if [ "$TRAVIS_BRANCH" == "master" ]; then
     docker build --build-arg OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL --build-arg OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL -t senseboxdevs/osem .;

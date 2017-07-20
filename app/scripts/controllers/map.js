@@ -14,63 +14,7 @@
     vm.cssClass = '';
 
     vm.mapMarkers = {};
-    vm.markersWatchOptions = {
-      doWatch: false,
-      isDeep: false,
-      individual: {
-        doWatch: false,
-        isDeep: false
-      }
-    };
 
-    vm.controls = {
-      scale: true
-    };
-
-    vm.layers = {
-      baselayers: {
-        mapbox: {
-          name: 'Mapbox Streets',
-          type: 'xyz',
-          url: '@@OPENSENSEMAP_MAPTILES_URL',
-          layerOptions: {
-            subdomains: ['a', 'b', 'c'],
-            detectRetina: true,
-            reuseTiles: true,
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
-            showOnSelector: false,
-            maxZoom: 18
-          }
-        }
-      },
-      overlays: {
-        activeMarker: {
-          type: 'group',
-          name: 'activeMarker',
-          visible: true
-        },
-        inactiveMarker: {
-          type: 'group',
-          name: 'inactiveMarker',
-          visible: true
-        },
-        oldMarker: {
-          type: 'group',
-          name: 'oldMarker',
-          visible: true
-        },
-        // create inivisible markers for filtering/sorting because of a bug in angular-directive: need to keep the marker ordering in the array
-        // https://github.com/tombatossals/angular-leaflet-directive/issues/512
-        // https://github.com/tombatossals/angular-leaflet-directive/issues/1041
-        hiddenMarker: {
-          type: 'group',
-          name: 'hiddenMarker',
-          visible: false
-        }
-      }
-    };
-
-    vm.markers = {};
     vm.hoverlabel = {
       left: 0,
       top: 0,
@@ -111,22 +55,40 @@
     }
 
     function toggleLayer (type, event) {
-      vm.layers.overlays[type].visible = !vm.layers.overlays[type].visible;
+      osemMapData.getMap('map_main')
+        .then(function (map) {
+          osemMapData.getLayer('oldMarkers')
+            .then(function (layer) {
+              if (map.hasLayer(layer)) {
+                if (!vm.showAllMarkers) {
+                  map.removeLayer(layer);
+                }
+              } else {
+                map.addLayer(layer);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       event.stopPropagation();
     }
 
     ////
 
-    $scope.$on('leafletDirectiveMarker.map_main.mouseover', function (e, args){
-      var markerBounds = args.leafletEvent.target._icon.getBoundingClientRect();
+    $scope.$on('osemMarkerMouseOver.map_main', function (e, args) {
+      var markerBounds = args.target._icon.getBoundingClientRect();
       vm.hoverlabel = {
         left: markerBounds.left+'px',
         top: (markerBounds.top-33)+'px',
-        name: args.leafletEvent.target.options.station.name
+        name: args.target.options.options.station.name
       };
     });
 
-    $scope.$on('leafletDirectiveMarker.map_main.mouseout', function (){
+    $scope.$on('osemMarkerMouseOut.map_main', function (e, args) {
       vm.hoverlabel = {
         left: 0,
         top: 0,
@@ -134,17 +96,37 @@
       };
     });
 
-    /*
-      When you click on a map marker, the sidebar will open with more possibilities/details for this station
-    */
-    $scope.$on('leafletDirectiveMarker.map_main.click', function(e, args) {
-      // Args will contain the marker name and other relevant information
-      centerLatLng(args.leafletEvent.target._latlng);
-      $state.go('explore.map.boxdetails', { id: args.leafletEvent.target.options.station.id });
-    });
+    $scope.$on('osemMarkerClick.map_main', function (e, args) {
+      $state.go('explore.map.boxdetails', { id: args.target.options.options.station.id });
+    })
 
     $scope.$on('markersChanged', function (data) {
       vm.mapMarkers = OpenSenseMapData.getMarkers();
     });
+
+    $scope.$on('osemMapReady', function () {
+      /* Custom legend control */
+      osemMapData.getMap('map_main').then(function (map) {
+        var info = L.control({ position:'bottomleft' });
+        info.onAdd = function () {
+          var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control'); // create a div with a class "info"
+          this._div = _div;
+          $templateRequest('views/explore2.map.legend.html').then(function(html) {
+            var template = angular.element(html);
+            var infoDiv = angular.element(_div);
+            var infoContainer = angular.element(info._container);
+            infoDiv.append(template);
+            infoContainer.append(template);
+            $compile(template)($scope);
+          });
+          this._div.onclick = vm.toggleLegend;
+          return this._div;
+        };
+        map.addControl(info);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    })
   }
 })();

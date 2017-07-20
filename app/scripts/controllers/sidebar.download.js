@@ -49,6 +49,7 @@
 
     function mapZoomMove () {
       vm.count = getBoxIdsFromBBox(vm.map).length;
+      $scope.$apply();
     }
 
     function endingDate (numDays) {
@@ -127,5 +128,23 @@
       });
       return boxids;
     };
+
+    ////
+
+    $scope.$on('osemMapReady', function () {
+      osemMapData.getMap('map_main')
+        .then(function (map) {
+          vm.map = map;
+          $scope.$broadcast('initData', {});
+          vm.map.on('zoomend moveend', mapZoomMove);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    });
+
+    $scope.$on('initData', function (e, args) {
+      vm.count = getBoxIdsFromBBox(vm.map).length;
+    });
   }
 })();

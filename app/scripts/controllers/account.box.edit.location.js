@@ -64,18 +64,17 @@
 
     ////
 
-    $scope.$on('leafletDirectiveMap.editbox_map.click', function (e, args) {
-      setCoordinates(args.leafletEvent.latlng);
+    $scope.$on('osemMapClick.map_edit', function (e, args) {
+      setCoordinates(args.latlng);
     });
 
-    $scope.$on('leafletDirectiveMarker.editbox_map.dragend', function (e, args) {
-      setCoordinates(args.model);
+    $scope.$on('osemMarkerDragend.map_edit', function (e, args) {
+      setCoordinates(args.target._latlng);
     });
 
     $scope.$watchCollection('location.editMarkerInput', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
-        vm.editMarker.m1.lng = newValue.lng;
-        vm.editMarker.m1.lat = newValue.lat;
+        setCoordinates({lng: newValue.lng, lat: newValue.lat});
       }
     });
   }

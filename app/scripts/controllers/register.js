@@ -12,6 +12,10 @@
     vm.stepTitle = '';
     vm.stepIndex = 0;
     vm.showNext = true;
+    vm.geolocationError = {
+      error: false,
+      message: ''
+    };
 
     //new sensebox object
     vm.newSenseBox = {
@@ -71,6 +75,9 @@
     vm.sensorSetup = '';
     vm.editing = {};
     vm.isCustom = {};
+    vm.events = {
+      autolocation: true
+    };
 
     vm.enterEvent = enterEvent;
     vm.add = add;
@@ -280,59 +287,82 @@
 
     ////
 
-    $scope.$on('leafletDirectiveMarker.map_register.dragend', function(e, args) {
-      vm.markers[args.modelName].lat = parseFloat(args.model.lat.toFixed(6));
-      vm.markers[args.modelName].lng = parseFloat(args.model.lng.toFixed(6));
-      vm.editMarkerInput =  angular.copy(vm.markers);
-    });
-
-    $scope.$on('leafletDirectiveMap.map_register.click', function(e, args) {
+    $scope.$on('osemMapClick.map_register', function(e, args) {
       if (Object.keys(vm.markers).length === 0) {
-        vm.markers.box = {
-          'lat': parseFloat(args.leafletEvent.latlng.lat.toFixed(6)),
-          'lng': parseFloat(args.leafletEvent.latlng.lng.toFixed(6)),
-          'draggable': true
+        vm.markers = {
+          box: {
+            'lat': parseFloat(args.latlng.lat.toFixed(6)),
+            'lng': parseFloat(args.latlng.lng.toFixed(6)),
+            'draggable': true,
+            'icon': {
+              markerColor: 'green'
+            }
+          }
         };
       } else {
-        vm.markers.box.lat = parseFloat(args.leafletEvent.latlng.lat.toFixed(6));
-        vm.markers.box.lng = parseFloat(args.leafletEvent.latlng.lng.toFixed(6));
-        vm.markers.box.draggable = true;
+        vm.markers = angular.copy(vm.markers);
+        vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
+        vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
       }
       vm.editMarkerInput =  angular.copy(vm.markers);
     });
 
-    $scope.$on('leafletDirectiveMap.map_register.locationfound', function(e, args){
-      if (Object.keys(vm.markers).length === 0) {
-        vm.markers.box = {
-          'lat': parseFloat(args.leafletEvent.latlng.lat.toFixed(6)),
-          'lng': parseFloat(args.leafletEvent.latlng.lng.toFixed(6)),
-          'draggable': true
-        };
-      } else {
-        vm.markers.box.lat = parseFloat(args.leafletEvent.latlng.lat.toFixed(6));
-        vm.markers.box.lng = parseFloat(args.leafletEvent.latlng.lng.toFixed(6));
-        vm.markers.box.draggable = true;
-      }
-      leafletData.getMap('map_register').then(function(map) {
-        map.setView([args.leafletEvent.latlng.lat,args.leafletEvent.latlng.lng],16);
-      });
+    $scope.$on('osemMarkerDragend.map_register', function(e, args) {
+      vm.markers = angular.copy(vm.markers);
+      vm.markers.box.lat = parseFloat(args.target._latlng.lat.toFixed(6));
+      vm.markers.box.lng = parseFloat(args.target._latlng.lng.toFixed(6));
       vm.editMarkerInput =  angular.copy(vm.markers);
     });
 
-    $scope.$on('leafletDirectiveMap.map_register.locationerror', function(event){
-      //TODO set alert
-      console.log(event);
+    $scope.$on('osemMapOnLocationFound.map_register', function (e, args) {
+      vm.map = args.map;
+      if (Object.keys(vm.markers).length === 0) {
+        vm.markers = {
+          box: {
+            'lat': parseFloat(args.latlng.lat.toFixed(6)),
+            'lng': parseFloat(args.latlng.lng.toFixed(6)),
+            'draggable': true,
+            'icon': {
+              'markerColor': 'green'
+            }
+          }
+        };
+      } else {
+        vm.markers = angular.copy(vm.markers);
+        vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
+        vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
+      }
+      vm.editMarkerInput =  angular.copy(vm.markers);
+    });
+
+    $scope.$on('osemMapOnLocationError.map_register', function(e, args){
+      vm.geolocationError.error = true;
+      vm.geolocationError.message = args.message;
     });
 
     $scope.$on('wizard:stepChanged', function (step, index) {
       vm.stepIndex = index.index;
+
       $translate(index.step.wzData.translation).then(function (msg) {
         vm.stepTitle = msg;
       });
+      if (index.index === 1) {
+        $timeout(function () {
+          osemMapData.getMap('map_register')
+            .then(function (map) {
+              map.invalidateSize();
+              if (!vm.geolocationError.error) {
+                map.setView([vm.markers.box.lat,vm.markers.box.lng],16);
+              }
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        }, 200);
+      }
     });
 
     $scope.$watch('register.modelSelected.id', function(newValue) {
-      console.log('Selected ' + newValue);
       switch(newValue) {
         case 'homeEthernet':
           vm.modelSelected.name = 'senseBox Home Ethernet';
@@ -422,13 +452,25 @@
       }
     });
 
-    $scope.$watchCollection('register.editMarkerInput.box', function (newValue) {
-      if (newValue && newValue.lat && newValue.lng) {
-        if (vm.markers.box === undefined) {
-          vm.markers.box = {};
+    $scope.$watchCollection('register.editMarkerInput.box', function (newValue, oldValue) {
+      if (newValue && newValue.lat && newValue.lng && !angular.equals(newValue, oldValue)) {
+        if (Object.keys(vm.markers).length === 0) {
+          vm.markers = {
+            box: {
+              'lat': parseFloat(newValue.lat.toFixed(6)),
+              'lng': parseFloat(newValue.lng.toFixed(6)),
+              'draggable': true,
+              'icon': {
+                'markerColor': 'green'
+              }
+            }
+          };
+        } else {
+          vm.markers = angular.copy(vm.markers);
+          vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6));
+          vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
         }
-        vm.markers.box.lng = newValue.lng;
-        vm.markers.box.lat = newValue.lat;
+        vm.editMarkerInput =  angular.copy(vm.markers);
       }
     });
   }

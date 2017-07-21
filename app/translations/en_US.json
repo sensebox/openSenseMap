@@ -2,7 +2,7 @@
   "EXPLORE": "Explore",
   "REGISTER": "Register",
   "CHANGE_LANG": "Change language",
-  "SEARCH": "Search for boxes",
+  "SEARCH": "Search for boxes and places",
   "STEP0": "Introduction",
   "STEP0_DESCRIPTION": "Vielen Dank, dass ihr am openSenseMap Projekt teilnehmen und eine eigene Messstation oder senseBox registrieren wollt. Vor der Registrierung wollen wir Euch kurz sagen, welche persönlichen Daten wir speichern. <br><br>Bei der Registrierung müsst ihr euren Namen, eine gültige E-Mail Adresse und den Standort eurer senseBox angeben. <br><br>Die E-Mail Adresse wird genutzt um euch den Arduino Sketch zu schicken  und euch unregelmäßig über Neuigkeiten zu informieren. Die E-Mail Adresse wird nicht an Drittanbieter weitergegeben und kann auch nicht von Anderen eingesehen werden. <br><br>Der Standort wird genutzt um auf einer Karte zu zeigen, wo sich die senseBox physikalisch befindet. Diese Information ist wichtig um die Einflüsse des Aufstellungsortes in die Messwerte einfließen zu lassen. Der Standort ist zusammen mit dem von dir gewählten Namen deiner Station für jeden einsehbar oder kann über die <a href='https://api.opensensemap.org' target='_blank'>API</a> abgerufen werden. <br><br>Alle Daten werden auf einem Server bei <a href='https://aws.amazon.com/' target='_blank'>Amazon Web Services (AWS)</a> gespeichert. Der Server befindet sich physikalisch in der Region Frankfurt in Deutschland. Weitere Informationen zu AWS Regionen findet ihr <a href='https://aws.amazon.com/de/about-aws/global-infrastructure/' target='_blank'>hier</a>.",
   "STEP0_ACCEPT": "Ok, accept",

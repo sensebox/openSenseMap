@@ -73,7 +73,7 @@
               <!-- Gruppenkennzeichnung -->
               <div class="form-group">
                 <label class="control-label">{{'GROUP_NAME'|translate}}</label>
-                <input type="text" name="tag" class="form-control" ng-model="register.newSenseBox.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
+                <input type="text" name="tag" class="form-control" ng-model="register.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
               </div>
             </div>
             <hr>
@@ -85,8 +85,8 @@
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 {{'STEP2_SUB2_DESCRIPTION' | translate}}
               </div>
-              <div id="register-map" class="row">
-                <leaflet controls="register.controls" id="map_register" center="register.center" markers="register.markers" defaults="register.defaults" event-broadcast="register.events" width="100%" height="350px"></leaflet>
+              <div id="register-map" class="row" style="height: 400px;">
+                <osem-map id="map_register" markers="register.markers" events="register.events"></osem-map>
               </div>
               <div id="boxPosition" class="row">
                 <div class="col-md-6">

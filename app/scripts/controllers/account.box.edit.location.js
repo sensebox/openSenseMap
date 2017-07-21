@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxLocationController', EditBoxLocationController);
 
-  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'MapService', 'AccountService'];
+  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService'];
 
-  function EditBoxLocationController ($scope, boxData, notifications, MapService, AccountService) {
+  function EditBoxLocationController ($scope, boxData, notifications, AccountService) {
     var vm = this;
     vm.editMarkerInput = {};
     vm.originalPosition = {};
@@ -20,14 +20,14 @@
     ////
 
     function activate () {
-      vm.defaults = MapService.defaults;
-      vm.events = MapService.events;
-
       vm.boxPosition = {
         lng: parseFloat(boxData.loc[0].geometry.coordinates[0].toFixed(6)),
         lat: parseFloat(boxData.loc[0].geometry.coordinates[1].toFixed(6)),
         draggable: true,
-        zoom: 17
+        zoom: 17,
+        icon: {
+          markerColor: 'green'
+        }
       };
 
       angular.copy(vm.boxPosition, vm.originalPosition);
@@ -56,6 +56,9 @@
     }
 
     function setCoordinates (coords) {
+      vm.editMarker = {
+        m1 : angular.copy(vm.originalPosition)
+      };
       vm.editMarker.m1.lng = parseFloat(coords.lng.toFixed(6));
       vm.editMarker.m1.lat = parseFloat(coords.lat.toFixed(6));
       vm.editMarkerInput.lng = vm.editMarker.m1.lng;
@@ -64,18 +67,17 @@
 
     ////
 
-    $scope.$on('leafletDirectiveMap.editbox_map.click', function (e, args) {
-      setCoordinates(args.leafletEvent.latlng);
+    $scope.$on('osemMapClick.map_edit', function (e, args) {
+      setCoordinates(args.latlng);
     });
 
-    $scope.$on('leafletDirectiveMarker.editbox_map.dragend', function (e, args) {
-      setCoordinates(args.model);
+    $scope.$on('osemMarkerDragend.map_edit', function (e, args) {
+      setCoordinates(args.target._latlng);
     });
 
     $scope.$watchCollection('location.editMarkerInput', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
-        vm.editMarker.m1.lng = newValue.lng;
-        vm.editMarker.m1.lat = newValue.lat;
+        setCoordinates({lng: newValue.lng, lat: newValue.lat});
       }
     });
   }

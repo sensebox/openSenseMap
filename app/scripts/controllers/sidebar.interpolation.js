@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('InterpolationController', InterpolationController);
 
-  InterpolationController.$inject = ['$scope', '$timeout', 'moment', 'leafletData', 'OpenSenseMapAPI', 'OpenSenseMapData'];
+  InterpolationController.$inject = ['$scope', '$timeout', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
 
-  function InterpolationController ($scope, $timeout, moment, leafletData, OpenSenseMapAPI, OpenSenseMapData) {
+  function InterpolationController ($scope, $timeout, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
     var vm = this;
     vm.markers = {};
     vm.calculating = false;
@@ -195,7 +195,7 @@
       clearInterpolation();
       vm.calculating = true;
 
-      leafletData.getMap('map_main').then(function (map) {
+      osemMapData.getMap('map_main').then(function (map) {
         if (!angular.isUndefined(vm.layer)) {
           vm.map.removeLayer(vm.layer);
         }

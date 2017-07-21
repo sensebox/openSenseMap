@@ -26,7 +26,7 @@
         </div>
         <div class="sensebox-legend-entry">
           {{'LEGEND_INACTIVE'|translate}} <br/>
-          <input id="showAll" type="checkbox" ng-click="map.toggleLayer('oldMarker', $event)" ng-checked="map.showAllMarkers">
+          <input id="showAll" type="checkbox" ng-click="map.toggleLayer('oldMarker', $event)" ng-true-value="true" ng-false-value="false" ng-model="map.showAllMarkers">
           <label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
         </div>
       </div>

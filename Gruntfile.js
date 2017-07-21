@@ -75,8 +75,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/controllers/map.js', '.tmp/scripts/controllers/register.js'], dest: '.tmp/scripts/controllers'},
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/map.js', '.tmp/scripts/services/register.js'], dest: '.tmp/scripts/services'}
+          {expand: true, flatten: true, src: ['.tmp/components/leaflet.directive.js',], dest: '.tmp/components'}
         ]
       }
     },
@@ -95,7 +94,10 @@ module.exports = function (grunt) {
         tasks: ['bowerInstall']
       },
       js: {
-        files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
+        files: [
+          '<%= yeoman.app %>/scripts/{,*/}*.js',
+          '<%= yeoman.app %>/components/{,*/}*.js'
+        ],
         tasks: ['newer:jshint:all'],
         options: {
           livereload: true
@@ -398,6 +400,7 @@ module.exports = function (grunt) {
             '.htaccess',
             '*.html',
             'views/{,*/}*.html',
+            'components/{,*/}*.html',
             'images/{,*/}*.{webp}',
             'images/{,*/}*.{gif}',
             'fonts/*.*',
@@ -480,6 +483,12 @@ module.exports = function (grunt) {
         dest: '.tmp/scripts',
         src: ['app.js']
       },
+      components: {
+        expand: true,
+        cwd: '<%= yeoman.app %>/components',
+        dest: '.tmp/components',
+        src: ['{,*/}*.js']
+      },
       api: {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
@@ -550,6 +559,7 @@ module.exports = function (grunt) {
       server: [
         'copy:styles',
         'copy:app',
+        'copy:components',
         'copy:api',
         'copy:apinew',
         'copy:maps',

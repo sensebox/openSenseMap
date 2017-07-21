@@ -135,6 +135,18 @@ a:focus {
   width: 100%;
 }
 
+#map_edit {
+  position: absolute;
+  height: 450px;
+  width: 100%;
+}
+
+#map_register {
+  position: absolute;
+  height: 350px;
+  width: 100%;
+}
+
 #downloadlink {
   color: white;
   text-decoration: none;

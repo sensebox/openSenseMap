@@ -21,12 +21,12 @@
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
     <link rel="stylesheet" href="bower_components/c3/c3.css" />
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
     <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
     <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -192,21 +192,21 @@
     <script src="bower_components/moment/locale/ru.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
-    <script src="bower_components/angular-simple-logger/dist/angular-simple-logger.js"></script>
-    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
-    <script src="bower_components/ui-leaflet/dist/ui-leaflet.js"></script>
-    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
     <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
     <script src="bower_components/angular-toArrayFilter/toArrayFilter.js"></script>
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script src="components/leaflet.directive.js"></script>
+    <script src="components/leaflet.service.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/sidebar.js"></script>
@@ -231,7 +231,6 @@
     <script src="scripts/controllers/account.box.edit.ttn.js"></script>
     <script src="scripts/services/account.js"></script>
     <script src="scripts/services/language.js"></script>
-    <script src="scripts/services/map.js"></script>
     <script src="scripts/services/opensensemapapi.js"></script>
     <script src="scripts/services/opensenseboxapi.js"></script>
     <script src="scripts/services/osemdata.js"></script>

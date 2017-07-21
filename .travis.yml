@@ -22,6 +22,7 @@ after_success:
     elif [ "$TRAVIS_BRANCH" == "development" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push senseboxdevs/osem:development;
+    fi
 
 branches:
   only:

@@ -228,7 +228,7 @@
       vm.registering = true;
 
       if (vm.tag !== '') {
-        vm.newSenseBox.tag = vm.tag;
+        vm.newSenseBox.grouptag = vm.tag;
       }
 
       if (vm.modelSelected.id === 'custom') {

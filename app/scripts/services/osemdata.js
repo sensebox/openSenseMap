@@ -103,10 +103,6 @@
       return text;
     }
 
-    function markerClick (args) {
-      $state.go('explore.map.boxdetails', { id: args.station.id });
-    }
-
     function classify (obj) {
       // decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
       var now = Date.now();
@@ -148,8 +144,7 @@
           sensors: obj.sensors,
           model: obj.model
         },
-        zIndexOffset: markerOpts.zIndexOffset,
-        clickHandler: markerClick
+        zIndexOffset: markerOpts.zIndexOffset
       };
       return marker;
     }

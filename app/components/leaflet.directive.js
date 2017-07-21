@@ -89,7 +89,12 @@
                 markerColor: box.icon.markerColor
               });
               boxMarker.opacity = 0.5;
-              var marker = L.marker([box.lat,box.lng], {icon: boxMarker, options: box, draggable: box.draggable, opacity: box.icon.opacity, zIndexOffset: box.icon.zIndexOffset});
+              var marker = L.marker([box.lat,box.lng], {
+                icon: boxMarker,
+                options: box,
+                draggable: box.draggable,
+                opacity: box.icon.opacity,
+                zIndexOffset: box.icon.zIndexOffset});
               if (box.layer === 'oldMarker') {
                 oldMarkers.addLayer(marker);
               } else {

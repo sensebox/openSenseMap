@@ -14,14 +14,10 @@
       link: link,
       restrict: 'EA',
       transclude: true,
-      controller: function ($scope, $q) {
+      controller: function () {
         this._leafletMap = $q.defer();
         this.getMap = function () {
           return this._leafletMap.promise;
-        };
-
-        this.getLeafletScope = function() {
-          return $scope;
         };
       },
       scope: {

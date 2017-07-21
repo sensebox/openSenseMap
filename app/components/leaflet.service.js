@@ -7,6 +7,7 @@
 
   osemMapData.$inject = ['$q'];
 
+  /* @ngInject */
   function osemMapData ($q) {
     var maps = {};
     var layers = {};

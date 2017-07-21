@@ -21,9 +21,7 @@
     //new sensebox object
     vm.newSenseBox = {
       name: '',
-      model: '',
       boxType: 'fixed',
-      sensors: [],
       exposure: '',
       loc: [{
         'type':'feature',
@@ -371,46 +369,38 @@
       switch(newValue) {
         case 'homeEthernet':
           vm.modelSelected.name = 'senseBox Home Ethernet';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           break;
         case 'homeWifi':
           vm.modelSelected.name = 'senseBox Home Wifi';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           break;
         case 'luftdaten_sds011':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht11':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_dht22':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bmp180':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           vm.extensions.feinstaub.id = '';
           break;
         case 'luftdaten_sds011_bme280':
           vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
-          vm.sensors = [];
           vm.sensorSetup = vm.modelSelected.id;
           vm.extensions.feinstaub.id = '';
           break;
         case 'custom':
-          vm.modelSelected.name = 'senseBox manuelle Konfiguration';
           vm.sensorSetup = '';
           vm.extensions.feinstaub.id = '';
           break;

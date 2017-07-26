@@ -101,7 +101,10 @@
         };
 
         requestReset(data)
-          .then(function () {
+          .then(function (response) {
+            if (angular.isUndefined(response)) {
+              return $q.reject(response);
+            }
             vm.errors.push({
               error: 'Mail with reset instructions sent!'
             });
@@ -111,7 +114,6 @@
 
     function requestFailed (error) {
       if (angular.isUndefined(error.message)) {
-        console.log(error);
         return $q.reject(error);
       }
 

@@ -17,7 +17,7 @@
   "STEP2_SUB3": "Hardware",
   "STEP2_SUB3_DESCRIPTION": "Wähle den Typ deiner senseBox aus.",
   "STEP2_SUB4": "Erweitert",
-  "MQTT_DESCRIPTION": "openSenseMap bietet einen <a href=\"http://mqtt.org/\" target=\"blank\">MQTT</a> Klienten an. Die Dokumentation der Parameter befinden sich <a href=\"https://docs.opensensemap.org/#api-Boxes-postNewBox\" target=\"blank\">hier.</a>",
+  "MQTT_DESCRIPTION": "openSenseMap bietet einen <a href=\"http://mqtt.org/\" target=\"blank\">MQTT</a> Klienten an. Die Dokumentation der Parameter befinden sich <a href=\"https://docs.opensensemap.org/#api-Boxes-postNewBox\" target=\"blank\">hier.</a> Bitte beachte, dass über MQTT nur das Empfangen von Messwerten möglich ist.",
   "MQTT_ENABLE": "MQTT aktivieren",
   "MQTT_URL": "Url",
   "MQTT_TOPIC": "Topic",

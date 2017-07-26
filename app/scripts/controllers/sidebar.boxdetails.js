@@ -56,7 +56,7 @@
           } else {
             vm.selectedMarkerData.sensors.map(function (value) {
               for (var i = 0; i < response.sensors.length; i++) {
-                if (value._id === response.sensors[i]._id && value.lastMeasurement !== undefined) {
+                if (value._id === response.sensors[i]._id && value.lastMeasurement !== null && value.lastMeasurement !== undefined ) {
                   angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
                 }
               }

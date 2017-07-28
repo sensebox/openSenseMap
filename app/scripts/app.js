@@ -12,7 +12,6 @@ angular
     'flow',
     'pascalprecht.translate',
     'ui.router',
-    'gridshore.c3js.chart',
     'angularMoment',
     'tmh.dynamicLocale',
     'ngProgress',

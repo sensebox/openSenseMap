@@ -43,6 +43,7 @@
   },
   "scripts": {
     "test": "grunt test",
+    "build": "bower install && grunt build",
     "docker-build": "docker build -t osem .",
     "docker-run": "docker run -p 8000:8000 -it --rm osem bash"
   }

@@ -71,8 +71,12 @@
     function getBadgeColor (exposure) {
       if (exposure === 'indoor') {
         return 'orange';
-      } else {
+      } else if (exposure === 'outdoor') {
         return 'olive';
+      } else if (exposure === 'mobile') {
+        return 'navy';
+      } else {
+        return '';
       }
     }
 

@@ -447,6 +447,10 @@ div.box {
   background-color: #FF851B;
 }
 
+.navy {
+  background-color: #476290;
+}
+
 #brand_with_logo img,
 #brand_with_logo h3 {
   display:inline-block;

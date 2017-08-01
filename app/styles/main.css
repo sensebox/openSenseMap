@@ -1113,3 +1113,18 @@ figure {
   border-color: #575757;
   opacity: 0.5
 }
+
+/* 13. Basic Styling with CSS */
+
+/* Style the lines by removing the fill and applying a stroke */
+.line {
+  fill: none;
+  stroke: #ffab00;
+  stroke-width: 3;
+}
+
+/* Style the dots by assigning a fill and stroke */
+.dot {
+  fill: #ffab00;
+  stroke: #fff;
+}

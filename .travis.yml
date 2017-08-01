@@ -26,8 +26,8 @@ script:
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 
-  - docker pull $IMAGE_NAME:$TRAVS_BRANCH
-  - docker tag $IMAGE_NAME:$TRAVS_BRANCH $IMAGE_NAME:$TRAVIS_BRANCH-rollback
+  - docker pull $IMAGE_NAME:$TRAVIS_BRANCH
+  - docker tag $IMAGE_NAME:$TRAVIS_BRANCH $IMAGE_NAME:$TRAVIS_BRANCH-rollback
   - docker push $IMAGE_NAME:$TRAVIS_BRANCH-rollback
 
   - docker tag $IMAGE_NAME:$TRAVIS_BRANCH-temp $IMAGE_NAME:$TRAVIS_BRANCH

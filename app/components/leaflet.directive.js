@@ -83,14 +83,8 @@
             oldMarkers.clearLayers();
             for (var marker in newVal) {
               var box = newVal[marker];
-              var boxMarker = L.AwesomeMarkers.icon({
-                icon: 'cube',
-                prefix: 'fa',
-                markerColor: box.icon.markerColor
-              });
-              boxMarker.opacity = 0.5;
               var marker = L.marker([box.lat,box.lng], {
-                icon: boxMarker,
+                icon: L.AwesomeMarkers.icon(box.icon),
                 options: box,
                 draggable: box.draggable,
                 opacity: box.icon.opacity,

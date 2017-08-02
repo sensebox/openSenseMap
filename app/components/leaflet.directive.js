@@ -42,16 +42,15 @@
 
       map.on('click', onMapClick);
 
-      var markers = L.layerGroup();
-      var oldMarkers = L.layerGroup();
+      var mapLayers = {
+        'markers': L.layerGroup(),
+        'oldMarkers': L.layerGroup(),
+      };
 
-      oldMarkers.on('add', function () {
-        osemMapData.setLayer('oldMarkers', oldMarkers);
-      });
-
-      markers.on('add', function () {
-        osemMapData.setLayer('markers', markers);
-      });
+      for (var layerName in mapLayers) {
+        osemMapData.setLayer(layerName, mapLayers[layerName]);
+        map.addLayer(mapLayers[layerName]);
+      }
 
       L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
         subdomains: 'abc',
@@ -62,9 +61,6 @@
       }).addTo(map);
 
       L.control.scale().addTo(map);
-
-      map.addLayer(markers);
-      map.addLayer(oldMarkers);
 
       if (angular.isDefined(scope.events) && !angular.equals({}, scope.events)) {
         if (scope.events.autolocation) {
@@ -77,36 +73,37 @@
       // Resolve the map object to the promises
       map.whenReady(function() {
         osemMapData.setMap(attrs.id, map);
-        scope.$watch('markers', function (newVal, oldVal) {
-          if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
-            markers.clearLayers();
-            oldMarkers.clearLayers();
-            for (var marker in newVal) {
-              var box = newVal[marker];
-              var marker = L.marker([box.lat,box.lng], {
-                icon: L.AwesomeMarkers.icon(box.icon),
-                options: box,
-                draggable: box.draggable,
-                opacity: box.icon.opacity,
-                zIndexOffset: box.icon.zIndexOffset});
-              if (box.layer === 'oldMarker') {
-                oldMarkers.addLayer(marker);
-              } else {
-                markers.addLayer(marker);
-              }
-              marker.on('click', onMarkerClick);
-              marker.on('mouseover', onMouseOver);
-              marker.on('mouseout', onMouseOut);
-
-              if (box.draggable) {
-                marker.on('dragend', onMarkerDragend);
-              }
-            }
-          }
-        });
-
+        scope.$watch('markers', onMarkersWatch);
         $rootScope.$broadcast('osemMapReady', {});
       });
+
+      function onMarkersWatch (newVal, oldVal) {
+        if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
+          mapLayers['markers'].clearLayers();
+          mapLayers['oldMarkers'].clearLayers();
+          for (var marker in newVal) {
+            var box = newVal[marker];
+            var marker = L.marker([box.lat,box.lng], {
+              icon: L.AwesomeMarkers.icon(box.icon),
+              options: box,
+              draggable: box.draggable,
+              opacity: box.icon.opacity,
+              zIndexOffset: box.icon.zIndexOffset});
+            if (box.layer === 'oldMarker') {
+              mapLayers['oldMarkers'].addLayer(marker);
+            } else {
+              mapLayers['markers'].addLayer(marker);
+            }
+            marker.on('click', onMarkerClick);
+            marker.on('mouseover', onMouseOver);
+            marker.on('mouseout', onMouseOut);
+
+            if (box.draggable) {
+              marker.on('dragend', onMarkerDragend);
+            }
+          }
+        }
+      }
 
       function onLocationFound (e) {
         var eventName = 'osemMapOnLocationFound.' + scope.mapId;

@@ -136,7 +136,7 @@
   "EDIT_MQTTOPTIONS": "MQTT",
   "EDIT_MQTTOPTIONSINFO": "",
   "EDIT_CHANGESENSORS": "Sensoren",
-  "EDIT_CHANGESENSORSINFO": "Daten gelöschter Sensoren werden gelöscht. Wenn du neue Sensoren hinzugefügt hast, solltest du dir dein neues senseBox Script herunterladen (siehe weiter oben).",
+  "EDIT_CHANGESENSORSINFO": "Daten gelöschter Sensoren werden gelöscht. Wenn du neue Sensoren hinzugefügt hast, solltest du dir dein neues senseBox Script herunterladen (siehe Reister 'Skript').",
   "EDIT_IMAGE": "Bild hochladen",
   "EDIT_IMAGEINFO": "Wenn du ein neues Bild hochlädst wird das alte ersetzt.",
   "EDIT_DELETEINFO": "Wenn du deine Station löschen möchtest, tippe zum Bestätigen dein aktuelles Passwort in das Feld - alle zugehörigen Messdaten werden gelöscht.",

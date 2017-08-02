@@ -47,13 +47,40 @@
             maxClusterRadius: 2*rmax,
             iconCreateFunction: defineClusterIcon,
             disableClusteringAtZoom: 17,
-            spiderfyOnMaxZoom: false
+            spiderfyOnMaxZoom: false,
+            showCoverageOnHover: false
           }),
           activeMarkerGroup = L.featureGroup.subGroup(mcg),
           inactiveMarkerGroup = L.featureGroup.subGroup(mcg),
           oldMarkerGroup = L.featureGroup.subGroup(mcg);
 
+      var mouseOverGroup = L.layerGroup();
+
       mcg.addTo(map);
+
+      mcg.on('clustermouseover', function (e) {
+        var allChildMarkers = e.layer.getAllChildMarkers();
+        for (var childMarker in allChildMarkers) {
+          var marker = allChildMarkers[childMarker];
+          var circle = new L.CircleMarker(marker._latlng, {
+            radius: 5,
+            color: marker.options.icon.options.markerColor,
+            fillOpacity: .3,
+            opacity: 0
+          });
+          mouseOverGroup.addLayer(circle);
+        }
+        mouseOverGroup.addTo(map);
+      });
+
+      mcg.on('clustermouseout', function (e) {
+        mouseOverGroup.clearLayers();
+        map.removeLayer(mouseOverGroup);
+      });
+
+      mcg.on('clusterclick', function (e) {
+        map.removeLayer(mouseOverGroup);
+      });
 
       activeMarkerGroup.on('add', function () {
         osemMapData.setLayer('activeMarkers', activeMarkerGroup);

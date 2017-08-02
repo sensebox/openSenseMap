@@ -13,6 +13,7 @@
       getBoxes: getBoxes,
       getData: getData,
       getBox: getBox,
+      getBoxLocations: getBoxLocations,
       getSensors: getSensors,
       getSensorData: getSensorData,
       idwInterpolation: idwInterpolation
@@ -48,6 +49,15 @@
 
     function getBox (boxId) {
       return $http.get(getUrl() + '/boxes/' + boxId)
+        .then(success)
+        .catch(failed);
+    }
+
+    function getBoxLocations (boxId, format) {
+      return $http
+        .get(getUrl() + '/boxes/' + boxId + '/locations', {
+          params: { format: format || 'geojson' }
+        })
         .then(success)
         .catch(failed);
     }

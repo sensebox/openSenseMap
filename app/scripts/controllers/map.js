@@ -14,6 +14,9 @@
     vm.cssClass = '';
 
     vm.mapMarkers = {};
+    // the following get filled from childscope sidebar.boxdetails.js
+    vm.boxLocations = {};
+    vm.selectedSensorMeasurements = {};
 
     vm.hoverlabel = {
       left: 0,

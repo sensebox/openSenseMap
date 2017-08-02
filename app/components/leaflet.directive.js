@@ -21,7 +21,9 @@
         };
       },
       scope: {
-        markers: '=',
+        markers: '=',            // expects an array of classified markers
+        mobileTrajectory: '=',   // expects geojson linestring
+        mobileMeasurements: '=', // expects array of API measurements
         center: '=',
         events: '='
       }
@@ -45,6 +47,8 @@
       var mapLayers = {
         'markers': L.layerGroup(),
         'oldMarkers': L.layerGroup(),
+        'mobileTrajectory': L.layerGroup(),
+        'mobileMeasurements': L.layerGroup(),
       };
 
       for (var layerName in mapLayers) {
@@ -73,7 +77,10 @@
       // Resolve the map object to the promises
       map.whenReady(function() {
         osemMapData.setMap(attrs.id, map);
+        // set up watches, which generate map objects from the watched raw data
         scope.$watch('markers', onMarkersWatch);
+        scope.$watch('mobileTrajectory', onTrajectoryWatch);
+        scope.$watch('mobileMeasurements', onMeasurementsWatch);
         $rootScope.$broadcast('osemMapReady', {});
       });
 
@@ -102,6 +109,46 @@
               marker.on('dragend', onMarkerDragend);
             }
           }
+        }
+      }
+
+      function onTrajectoryWatch (newVal, oldVal) {
+        mapLayers['mobileTrajectory'].clearLayers();
+        if (!angular.isDefined(newVal) || angular.equals({}, newVal)) return;
+
+        // swap latLngs
+        var latlngs = newVal.geometry.coordinates.map(function (latlng) {
+          return [latlng[1], latlng[0], latlng[3]];
+        });
+
+        var line = L.polyline(latlngs, {
+          color: '#333',
+          opacity: 0.7,
+          weight: 2,
+          //dashArray: '5',
+          interactive: false
+        });
+
+        mapLayers['mobileTrajectory'].addLayer(line);
+      }
+
+      function onMeasurementsWatch (newVal, oldVal) {
+        mapLayers['mobileMeasurements'].clearLayers();
+        if (!angular.isDefined(newVal) || angular.equals({}, newVal)) return;
+
+        for (var measure of newVal) {
+          // swap latlngs
+          var latlng = [measure.location[1], measure.location[0], measure.location[3]];
+
+          var marker = L.circleMarker(latlng, {
+            radius: 6,
+            weight: 0.3,
+            color: '#222',
+            fillOpacity: 1,
+            fillColor: '#f22' // TODO: map measure.value to color!
+          });
+
+          mapLayers['mobileMeasurements'].addLayer(marker);
         }
       }
 

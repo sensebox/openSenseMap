@@ -136,6 +136,12 @@
         mapLayers['mobileMeasurements'].clearLayers();
         if (!angular.isDefined(newVal) || angular.equals({}, newVal)) return;
 
+        // find min & max values for color grading
+        var values = newVal.map(function(m) { return m.value; });
+        var max = Math.max.apply(null, values);
+        var min = Math.min.apply(null, values);
+        var palette = chroma.scale(['#B5F584', '#375F73']).mode('hcl').correctLightness().domain([max, min]);
+
         for (var measure of newVal) {
           // swap latlngs
           var latlng = [measure.location[1], measure.location[0], measure.location[3]];
@@ -145,7 +151,7 @@
             weight: 0.3,
             color: '#222',
             fillOpacity: 1,
-            fillColor: '#f22' // TODO: map measure.value to color!
+            fillColor: palette(measure.value)
           });
 
           mapLayers['mobileMeasurements'].addLayer(marker);

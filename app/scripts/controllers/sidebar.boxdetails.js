@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$stateParams', '$timeout', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
 
-  function SidebarBoxDetailsController ($stateParams, $timeout, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
     var vm = this;
     vm.delay = 60000;
     vm.selectedMarker = {};
@@ -31,6 +31,13 @@
           vm.archiveLink = "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+vm.selectedMarker._id+"-"+doubleGermanS(vm.selectedMarker.name).replace(/[^A-Za-z0-9._-]/g,'_');
           getMeasurements();
           focusSelectedBox();
+
+          // for mobile boxes, get it's trajectory and add it to the map
+          if (vm.selectedMarker.exposure === 'mobile') {
+              return OpenSenseMapAPI.getBoxLocations($stateParams.id)
+              // save result in map.js scope, as it needs to be accessible for leaflet directive
+              .then(function (response) { $scope.$parent.map.boxLocations = response; });
+          }
         })
         .catch(function (error) {
           console.log(error);

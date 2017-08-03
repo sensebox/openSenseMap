@@ -19,7 +19,7 @@
       controllerAs: 'chart',
       bindToController: true, // because the scope is isolated
       scope: {
-        data: '='
+        chartData: '='
       }
     };
     return directive;
@@ -31,203 +31,166 @@
           height = +svg.attr("height") - margin.top - margin.bottom,
           g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-      chartCtrl._chartSVG = g;
+      var config = {
+        svg: svg,
+        margin: margin,
+        width: width,
+        height: height,
+        g: g
+      }
 
-      var n = 21;
-
-      // 5. X scale will use the index of our data
-      var xScale = d3.scaleLinear()
-          .domain([0, n-1]) // input
-          .range([0, width]); // output
-
-      // 6. Y scale will use the randomly generate number
-      var yScale = d3.scaleLinear()
-          .domain([0, 1]) // input
-          .range([height, 0]); // output
-
-      // 7. d3's line generator
-      var line = d3.line()
-          .x(function(d, i) { return xScale(i); }) // set the x values for the line generator
-          .y(function(d) { return yScale(d.y); }) // set the y values for the line generator
-          .curve(d3.curveMonotoneX) // apply smoothing to the line
-
-      // 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
-      var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
-
-      // 3. Call the x axis in a group tag
-      g.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
-
-      // 4. Call the y axis in a group tag
-      g.append("g")
-          .attr("class", "y axis")
-          .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
-
-      // 9. Append the path, bind the data, and call the line generator
-      g.append("path")
-          .datum(dataset) // 10. Binds data to the line
-          .attr("class", "line") // Assign a class for styling
-          .attr("d", line); // 11. Calls the line generator
-
-      // 12. Appends a circle for each datapoint
-      g.selectAll(".dot")
-          .data(dataset)
-        .enter().append("circle") // Uses the enter().append() method
-          .attr("class", "dot") // Assign a class for styling
-          .attr("cx", function(d, i) { return xScale(i) })
-          .attr("cy", function(d) { return yScale(d.y) })
-          .attr("r", 5)
-          .on('mouseover', chartCtrl.mouseover)
-          .on('mouseout', function (d) { console.log('mouseout', d)})
+      chartCtrl._chartSVG = config;
 
       // Trick to wait for all rendering of the DOM to be finished.
       $timeout(function () {
         chartCtrl.showGraph();
       });
-
-      // var parseTime = d3.timeParse("%d-%b-%y");
-
-      // var x = d3.scaleTime()
-      //     .rangeRound([0, width]);
-
-      // var y = d3.scaleLinear()
-      //     .rangeRound([height, 0]);
-
-      // var line = d3.line()
-      //     .x(function(d,i) { return x(i); })
-      //     .y(function(d) { return y(d); });
-
-      // // create a simple data array that we'll plot with a line (this array represents only the Y values, X will just be the index location)
-      // var data = [3, 6, 2, 7, 5, 2, 0, 3, 8, 9, 2, 5, 9, 3, 6, 3, 6, 2, 7, 5, 2, 1, 3, 8, 9, 2, 5, 9, 2, 7];
-
-      // scope.$watch('data', function (oldVal, newVal) {
-      //   console.log('oldVal', oldVal);
-      //   console.log('newVal', newVal);
-
-      //   if (angular.isUndefined(newVal)) {
-      //     return;
-      //   }
-
-      //   x.domain(d3.extent(data, function(d,i) { return i; }));
-      //   y.domain(d3.extent(data, function(d) { return d; }));
-
-      //   g.append("g")
-      //     .attr("transform", "translate(0," + height + ")")
-      //     .call(d3.axisBottom(x));
-
-      //   g.append("g")
-      //     .call(d3.axisLeft(y))
-      //   .append("text")
-      //     .attr("fill", "#000")
-      //     .attr("transform", "rotate(-90)")
-      //     .attr("y", 6)
-      //     .attr("dy", "0.71em")
-      //     .attr("text-anchor", "end")
-      //     .text("Price ($)");
-
-      //   g.append("path")
-      //     .attr("fill", "none")
-      //     .attr("stroke", "steelblue")
-      //     .attr("stroke-linejoin", "round")
-      //     .attr("stroke-linecap", "round")
-      //     .attr("stroke-width", 1.5)
-      //     .attr("d", line);
-      // });
-
-      // scope.$watchCollection('data', function () {
-      //   console.log('watch');
-      // });
     }
   }
 
-  ChartController.$inject = ['$scope', '$q'];
+  ChartController.$inject = ['$scope', 'moment'];
 
-  function ChartController ($scope, $q) {
+  function ChartController ($scope, moment) {
     var vm = this;
-    vm.y = "Test";
+
+    // The number of datapoints
+    vm.n = 21;
 
     vm.showGraph = showGraph;
-    vm._chartSVG;
+    vm._chartSVG = {};
     vm.mouseover = mouseover;
+    vm.dataset = [];
 
     vm.$onInit = onInit;
+    vm.$onDestroy = onDestroy;
 
     ////
 
     function showGraph () {
       console.log('Render Graph');
 
-      console.log(vm._chartSVG);
-      // The number of datapoints
-      // var n = 21;
+      vm.x = d3.scaleTime()
+          .rangeRound([0, vm._chartSVG.width]);
 
-      // // 5. X scale will use the index of our data
-      // var xScale = d3.scaleLinear()
-      //     .domain([0, n-1]) // input
-      //     .range([0, width]); // output
+      vm.y = d3.scaleLinear()
+          .rangeRound([vm._chartSVG.height, 0]);
 
-      // // 6. Y scale will use the randomly generate number
-      // var yScale = d3.scaleLinear()
-      //     .domain([0, 1]) // input
-      //     .range([height, 0]); // output
+      vm.line = d3.line()
+        .x(function (d) { return vm.x(d.date)})
+        .y(function (d) { return vm.y(d.value)});
 
-      // // 7. d3's line generator
-      // var line = d3.line()
-      //     .x(function(d, i) { return xScale(i); }) // set the x values for the line generator
-      //     .y(function(d) { return yScale(d.y); }) // set the y values for the line generator
-      //     .curve(d3.curveMonotoneX) // apply smoothing to the line
+      //TODO set domain depending on amount of datapoints
+      if (vm.chartData.length == 1) {
+        vm.x.domain([moment(vm.chartData[0][0]).subtract(1,'days'), moment(vm.chartData[0][0]).add(1,'days')]);
+        vm.y.domain([vm.chartData[0][1]+vm.chartData[0][1], vm.chartData[0][1]-vm.chartData[0][1]]);
+      } else {
+        vm.x.domain(d3.extent(vm.chartData, function(d) { return d.date; }));
+        vm.y.domain(d3.extent(vm.chartData, function(d) { return d.value; }));
+      }
 
-      // // 8. An array of objects of length N. Each object has key -> value pair, the key being "y" and the value is a random number
-      // var dataset = d3.range(n).map(function(d) { return {"y": d3.randomUniform(1)() } })
+      // 3. Call the x axis in a group tag
+      vm._chartSVG.g.append("g")
+          .attr("class", "x axis")
+          .attr("transform", "translate(0," + vm._chartSVG.height + ")")
+          .call(d3.axisBottom(vm.x)); // Create an axis component with d3.axisBottom
 
-      // // 3. Call the x axis in a group tag
-      // svg.append("g")
-      //     .attr("class", "x axis")
-      //     .attr("transform", "translate(0," + height + ")")
-      //     .call(d3.axisBottom(xScale)); // Create an axis component with d3.axisBottom
+      // 4. Call the y axis in a group tag
+      vm._chartSVG.g.append("g")
+          .attr("class", "y axis")
+          .call(d3.axisLeft(vm.y)) // Create an axis component with d3.axisLeft
 
-      // // 4. Call the y axis in a group tag
-      // svg.append("g")
-      //     .attr("class", "y axis")
-      //     .call(d3.axisLeft(yScale)); // Create an axis component with d3.axisLeft
+      // text label for the y axis
+      vm._chartSVG.g.append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 0 - vm._chartSVG.margin.left)
+          .attr("x",0 - (vm._chartSVG.height / 2))
+          .attr("dy", "1em")
+          .style("text-anchor", "middle")
+          .text("Value");
 
-      // // 9. Append the path, bind the data, and call the line generator
-      // svg.append("path")
-      //     .datum(dataset) // 10. Binds data to the line
-      //     .attr("class", "line") // Assign a class for styling
-      //     .attr("d", line); // 11. Calls the line generator
+      // 9. Append the path, bind the data, and call the line generator
+      vm._chartSVG.g.append("path")
+          .attr("class", "line") // Assign a class for styling
+          .attr("d", vm.line(vm.chartData)); // 11. Calls the line generator
 
-      // // 12. Appends a circle for each datapoint
-      // svg.selectAll(".dot")
-      //     .data(dataset)
-      //   .enter().append("circle") // Uses the enter().append() method
-      //     .attr("class", "dot") // Assign a class for styling
-      //     .attr("cx", function(d, i) { return xScale(i) })
-      //     .attr("cy", function(d) { return yScale(d.y) })
-      //     .attr("r", 5)
+      // 12. Appends a circle for each datapoint
+      vm._chartSVG.g.selectAll(".dot")
+          .data(vm.chartData)
+        .enter().append("circle") // Uses the enter().append() method
+          .attr("class", "dot") // Assign a class for styling
+          .attr("cx", function(d) { return vm.x(d.date) })
+          .attr("cy", function(d) { return vm.y(d.value) })
+          .attr("r", 3.5)
 
-      if ($scope.chart.data) {
-        $scope.$watchCollection('chart.data', function () {
-          console.log('Watch data');
-          // loadChartData();
-        });
+      if ($scope.chart.chartData) {
+        $scope.$watchCollection('chart.chartData', function (newValue, oldValue) {
+          if (!angular.equals(newValue, oldValue)) {
+            loadChartData();
+          }
+        }, true);
       }
     }
 
     function mouseover (d) {
       console.log('mouseover', d)
-      vm.y = d.y;
+      // vm.y = d.y;
       $scope.$apply();
     }
 
     function loadChartData () {
+      // Select the section we want to apply our changes to
+      var svg = vm._chartSVG.svg.transition();
+      var g = vm._chartSVG.g;
 
+      //TODO set domain depending on amount of datapoints
+      if (vm.chartData.length == 1) {
+        vm.x.domain([moment(vm.chartData[0][0]).subtract(1,'days'), moment(vm.chartData[0][0]).add(1,'days')]);
+        vm.y.domain([vm.chartData[0][1]+vm.chartData[0][1], vm.chartData[0][1]-vm.chartData[0][1]]);
+      } else {
+        vm.x.domain(d3.extent(vm.chartData, function(d) {
+          return d.date;
+        }));
+        vm.y.domain(d3.extent(vm.chartData, function(d) {
+          return d.value;
+        }));
+      }
+
+      // Make the changes
+      svg.select(".line")   // change the line
+        .duration(750)
+        .attr("d", vm.line(vm.chartData));
+      svg.select(".x.axis") // change the x axis
+          .duration(750)
+          .call(d3.axisBottom(vm.x));
+      svg.select(".y.axis") // change the y axis
+          .duration(750)
+          .call(d3.axisLeft(vm.y));
+      g.selectAll("circle") // change the y axis
+          .data(vm.chartData)
+          .transition()
+          .duration(750)
+          .attr("cx", function(d) {
+            return vm.x(d.date);
+          })
+          .attr("cy", function(d) {
+            return vm.y(d.value);
+          })
+          .attr("r", 3.5)
+      g.selectAll(".dot")
+          .data(vm.chartData)
+        .enter().append("circle") // Uses the enter().append() method
+          .attr("class", "dot") // Assign a class for styling
+          .attr("cx", function(d) { return vm.x(d.date) })
+          .attr("cy", function(d) { return vm.y(d.value) })
+          .attr("r", 3.5)
     }
 
     function onInit () {
       console.log('CTRL: vm.data = $s', vm.data);
+    }
+
+    function onDestroy () {
+      console.log('destroy');
     }
   }
 })();

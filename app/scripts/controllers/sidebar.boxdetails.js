@@ -58,6 +58,13 @@
               for (var i = 0; i < response.sensors.length; i++) {
                 if (value._id === response.sensors[i]._id && value.lastMeasurement !== null && value.lastMeasurement !== undefined ) {
                   angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
+                  var datapair = {
+                    date: new Date(response.sensors[i].lastMeasurement.createdAt),
+                    value: response.sensors[i].lastMeasurement.value
+                  }
+                  if (angular.isDefined(vm.sensordata[response.sensors[i]._id])) {
+                    vm.sensordata[response.sensors[i]._id].push(datapair);
+                  }
                 }
               }
             });
@@ -157,12 +164,13 @@
           };
           OpenSenseMapAPI.getSensorData(box, sensorId, data)
             .then(function (response) {
-              console.info(response);
+              // console.info(response);
               for (var j = 0; j < response.length; j++) {
                 var d = new Date(response[j].createdAt);
                 var dataPair = {};
-                dataPair[title] = parseFloat(response[j].value);
-                dataPair.dates = d;
+                // dataPair[title] = parseFloat(response[j].value);
+                dataPair.value = parseFloat(response[j].value);
+                dataPair.date = d;
                 vm.sensordata[sensorId].push(dataPair);
               }
               vm.chartDone[sensorId] = true;

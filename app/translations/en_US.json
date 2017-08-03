@@ -158,7 +158,7 @@
   "RESULTS": "Results",
   "NO_RESULTS": "Unfortunately, there were no results matching your filters.",
 
-  "INTERP_INTRO": "Here you can visualize senseBox measurement data.",
+  "INTERP_INTRO": "Here you can visualize senseBox measurement data for areas. The <i>Inverse Distance Weighting</i> algorithm is used.",
   "INTERP_PLEASEFILTER": "Please filter markers by date and phenomenon first under <b><a href=\"/filter\">Filters</a></b>",
   "INTERP_INFO": "Select an exact date (somewhere in your filter date range), we will try to find boxes around that time that have measurements according to your filters.",
   "INTERP_IDWPARAM": "Select the p-parameter for the IDW interpolation:",

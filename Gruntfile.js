@@ -141,8 +141,9 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
           '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
           '<%= yeoman.app %>/scripts/services/map.js',
-          '<%= yeoman.app %>/components/leaflet.directive.js',
-          '<%= yeoman.app %>/components/charts.directive.js'
+          '<%= yeoman.app %>/components/*.directive.js'
+          // '<%= yeoman.app %>/components/charts.directive.js',
+          // '<%= yeoman.app %>/components/badge.directive.js'
         ],
         tasks: [
           'newer:copy:api',

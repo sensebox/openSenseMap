@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$stateParams', '$timeout', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
 
-  function SidebarBoxDetailsController ($stateParams, $timeout, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function SidebarBoxDetailsController ($scope, $stateParams, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
     var vm = this;
     vm.delay = 60000;
     vm.selectedMarker = {};
@@ -44,11 +44,11 @@
     }
 
     function closeSidebar () {
-      $timeout.cancel(vm.prom);
+      // $timeout.cancel(vm.prom);
     }
 
     function getMeasurements () {
-      vm.prom = $timeout(getMeasurements, vm.delay);
+      // vm.prom = $timeout(getMeasurements, vm.delay);
       OpenSenseMapAPI.getSensors($stateParams.id)
         .then(function (response) {
           if (vm.selectedMarkerData === undefined) {
@@ -72,6 +72,9 @@
         })
         .catch(function (error) {
           console.error(error);
+        })
+        .finally(function () {
+          $scope.$broadcast('osemBadgeRefreshStartTimer');
         });
     }
 
@@ -125,6 +128,11 @@
         }
       }
     }
+
+    $scope.$on('osemBadgeRefreshFinished', function () {
+      console.log('finished');
+      getMeasurements();
+    });
 
     /* CHARTS */
     vm.columns = [];

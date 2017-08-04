@@ -15,7 +15,7 @@
         <div class="col-xs-8 col-sm-8 col-md-8" style="padding-left: 0px;">
           <h4>{{ details.selectedMarker.name }}</h4>
         </div>
-        <div class="col-xs-4 col-sm-4 col-md-4">
+        <div class="col-xs-4 col-sm-4 col-md-4" style="padding-right: 0px;">
           <h4>
             <a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="details.closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-placement="left"></i></a>
             <a href="{{details.archiveLink}}" target="_blank"><i class="fa fa-archive pull-right close" uib-tooltip="{{'ARCHIVE' | translate}}" tooltip-placement="left"></i></a>
@@ -25,7 +25,10 @@
       </div>
       <div class="col-xs-12 col-md-12">
         <span ng-if="details.selectedMarker.grouptag && details.selectedMarker.grouptag !=''" class="ng-cloak badge sbblue">{{'GROUP'|translate}}: {{ details.selectedMarker.grouptag }}</span>
-        <span ng-if="details.selectedMarker.exposure && details.selectedMarker.exposure !=''" class="ng-cloak badge" ng-class="details.getBadgeColor(details.selectedMarker.exposure)">{{'STATION_PLACEMENT_'+details.selectedMarker.exposure.toUpperCase()|translate}}</span><br/><br/>
+        <span ng-if="details.selectedMarker.exposure && details.selectedMarker.exposure !=''" class="ng-cloak badge" ng-class="details.getBadgeColor(details.selectedMarker.exposure)">{{'STATION_PLACEMENT_'+details.selectedMarker.exposure.toUpperCase()|translate}}</span>
+        <osem-badge-refresh refresh-time="60"></osem-badge-refresh>
+        <br/><br/>
+
         <hr ng-hide="!details.selectedMarker.image && !details.selectedMarker.description && !details.selectedMarker.weblink">
 
         <div flow-init="{ singleFile:true }" flow-file-added="details.added($file,$event)" flow-drop>

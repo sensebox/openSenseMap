@@ -186,11 +186,10 @@
     }
 
     function onInit () {
-      console.log('CTRL: vm.data = $s', vm.data);
     }
 
     function onDestroy () {
-      console.log('destroy');
+      console.log('destroy graph');
     }
   }
 })();

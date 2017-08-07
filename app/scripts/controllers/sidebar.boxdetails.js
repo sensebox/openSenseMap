@@ -130,7 +130,6 @@
     }
 
     $scope.$on('osemBadgeRefreshFinished', function () {
-      console.log('finished');
       getMeasurements();
     });
 
@@ -142,6 +141,8 @@
     vm.labels = [];
     function getData (sensorId, panelOpen){
       if(!panelOpen) {
+        console.log(vm.chartDone);
+        delete vm.chartDone[sensorId];
         return; // panel is in closing transition, don't fetch new data
       }
       var endDate = '';

@@ -24,6 +24,7 @@
         markers: '=',            // expects an array of classified markers
         mobileTrajectory: '=',   // expects geojson linestring
         mobileMeasurements: '=', // expects array of API measurements
+        mobileLegendInfo: '=',   // contains metadata for the contents of `mobileMeasurements`
         center: '=',
         events: '='
       }
@@ -141,6 +142,13 @@
         var max = Math.max.apply(null, values);
         var min = Math.min.apply(null, values);
         var palette = chroma.scale(['#B5F584', '#375F73']).mode('hcl').correctLightness().domain([max, min]);
+
+        // pass info to the legend view
+        angular.extend(scope.mobileLegendInfo, {
+          minVal: min,
+          maxVal: max,
+          colors: palette.colors(6)
+        });
 
         for (var measure of newVal) {
           // swap latlngs

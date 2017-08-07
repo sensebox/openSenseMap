@@ -770,6 +770,26 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   height: auto;
 }
 
+.sensebox-legend-measurements {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  width: 80px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.sensebox-legend-measurements span {
+  opacity: 1;
+  height: 161.06px;
+  width: 18px;
+  display: block;
+  margin-top: 8px;
+}
+
+.sensebox-legend-measurements svg line {
+  stroke: #555;
+}
+
 #map_main > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div > div > a {
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;

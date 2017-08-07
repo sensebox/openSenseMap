@@ -17,6 +17,7 @@
     // the following get filled from childscope sidebar.boxdetails.js
     vm.boxLocations = {};
     vm.selectedSensorMeasurements = [];
+    vm.legendInfo = {};
 
     vm.hoverlabel = {
       left: 0,
@@ -39,6 +40,28 @@
         .catch(function (error) {
           console.error(error);
         });
+    }
+
+    function createLegendFromTemplate (templateURI, clickHandler) {
+      var legend = L.control({ position: 'bottomleft' });
+      legend.onAdd = function () {
+        var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+        this._div = _div;
+        $templateRequest(templateURI)
+          .then(function(html) {
+            var template = angular.element(html);
+            var infoDiv = angular.element(_div);
+            var infoContainer = angular.element(legend._container);
+            infoDiv.append(template);
+            infoContainer.append(template);
+            $compile(template)($scope);
+          });
+
+        this._div.onclick = clickHandler;
+        return this._div;
+      };
+
+      return legend;
     }
 
     function toggleLegend ($event) {
@@ -110,26 +133,14 @@
     $scope.$on('osemMapReady', function () {
       /* Custom legend control */
       osemMapData.getMap('map_main').then(function (map) {
-        var info = L.control({ position:'bottomleft' });
-        info.onAdd = function () {
-          var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control'); // create a div with a class "info"
-          this._div = _div;
-          $templateRequest('views/explore2.map.legend.html').then(function(html) {
-            var template = angular.element(html);
-            var infoDiv = angular.element(_div);
-            var infoContainer = angular.element(info._container);
-            infoDiv.append(template);
-            infoContainer.append(template);
-            $compile(template)($scope);
-          });
-          this._div.onclick = vm.toggleLegend;
-          return this._div;
-        };
-        map.addControl(info);
+        var infoLegend = createLegendFromTemplate('views/explore2.map.legend.html', vm.toggleLegend);
+        map.addControl(infoLegend);
+        var measurementLegend = createLegendFromTemplate('views/explore2.map.legend.measurements.html');
+        map.addControl(measurementLegend);
       })
       .catch(function (error) {
         console.log(error);
       });
-    })
+    });
   }
 })();

@@ -132,9 +132,11 @@
     }
 
     vm.selectSensor = function(sensor, event) {
+      $scope.$parent.map.selectedSensorMeasurements = [];
+      $scope.$parent.map.legendInfo = {};
+
       // if already selected sensor is selected again: clear selection
       if (sensor._id === vm.selectedSensor.id) {
-        $scope.$parent.map.selectedSensorMeasurements = [];
         vm.selectedSensor = { id: null };
         return;
       }
@@ -149,6 +151,8 @@
         // using the cached measurement data
         $scope.$parent.map.selectedSensorMeasurements = vm.measurements[sensor._id];
       }
+
+      angular.extend($scope.$parent.map.legendInfo, { unit: sensor.unit });
 
       // dont close a chart if it is already open
       if (vm.chartOpen[sensor._id]) {

@@ -12,7 +12,6 @@
     vm.delay = 60000;
     vm.selectedMarker = {};
 
-    vm.closeSidebar = closeSidebar;
     vm.getBadgeColor = getBadgeColor;
     vm.focusSelectedBox = focusSelectedBox;
     vm.getIcon = getIcon;
@@ -45,13 +44,19 @@
         });
     }
 
+    $scope.$on('$destroy', function(ev) {
+      $timeout.cancel(vm.prom);
+
+      // reset externally stored state
+      $scope.$parent.map.legendInfo = {};
+      $scope.$parent.map.boxLocations = {};
+      $scope.$parent.map.selectedSensorMeasurements = [];
+    });
+
+
     function doubleGermanS (value) {
       value = value.replace(/ß/g, 'ßß');
       return value;
-    }
-
-    function closeSidebar () {
-      $timeout.cancel(vm.prom);
     }
 
     // fetches/updates the sensor metadata in an interval

@@ -54,6 +54,7 @@
       $timeout.cancel(vm.prom);
     }
 
+    // fetches/updates the sensor metadata in an interval
     function getMeasurements () {
       vm.prom = $timeout(getMeasurements, vm.delay);
       OpenSenseMapAPI.getSensors($stateParams.id)
@@ -130,20 +131,48 @@
       }
     }
 
+    vm.selectSensor = function(sensor, event) {
+      // if already selected sensor is selected again: clear selection
+      if (sensor._id === vm.selectedSensor.id) {
+        $scope.$parent.map.selectedSensorMeasurements = [];
+        vm.selectedSensor = { id: null };
+        return;
+      }
+
+      vm.selectedSensor.id = sensor._id; // for styling in the view
+
+      // get chart data once
+      if (!vm.chartDone[sensor._id]) {
+        getData(sensor._id);
+      } else if (vm.selectedMarker.exposure === 'mobile') {
+        // if chart was already done once, manually add measurements to the map
+        // using the cached measurement data
+        $scope.$parent.map.selectedSensorMeasurements = vm.measurements[sensor._id];
+      }
+
+      // dont close a chart if it is already open
+      if (vm.chartOpen[sensor._id]) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    };
+
     /* CHARTS */
+    vm.selectedSensor = { id: null };
     vm.columns = [];
-    vm.sensordata = {};
+    vm.sensordata = {}; // contains transformed measurements for the charts
+    vm.measurements = {}; // contains original measurements for the map
     vm.chartDone = {};
     vm.chartError = {};
+    vm.chartOpen = {};
     vm.labels = [];
-    function getData (sensorId, panelOpen){
-      if(!panelOpen) {
-        return; // panel is in closing transition, don't fetch new data
-      }
+
+    function getData (sensorId) {
       var endDate = '';
-      var box = vm.selectedMarker._id;
+      var box = vm.selectedMarker;
       vm.chartDone[sensorId] = false;
       vm.chartError[sensorId] = false;
+      vm.chartOpen[sensorId] = false;
 
       // Get the date of the last taken measurement for the selected sensor
       for (var i = 0; i < vm.selectedMarkerData.sensors.length; i++){
@@ -158,6 +187,7 @@
           if(!vm.selectedMarkerData.sensors[i].lastMeasurement) {
             continue;
           }
+
           endDate = vm.selectedMarkerData.sensors[i].lastMeasurement.createdAt;
 
           var data = {
@@ -166,9 +196,16 @@
               'to-date': endDate
             }
           };
-          OpenSenseMapAPI.getSensorData(box, sensorId, data)
+          OpenSenseMapAPI.getSensorData(box._id, sensorId, data)
             .then(function (response) {
-              console.info(response);
+              vm.measurements[sensorId] = response;
+
+              // for mobile boxes: show measurements on the map
+              if (box.exposure === 'mobile') {
+                $scope.$parent.map.selectedSensorMeasurements = response;
+              }
+
+              // fill the chart
               for (var j = 0; j < response.length; j++) {
                 var d = new Date(response[j].createdAt);
                 var dataPair = {};
@@ -177,6 +214,8 @@
                 vm.sensordata[sensorId].push(dataPair);
               }
               vm.chartDone[sensorId] = true;
+
+              return response;
             })
             .catch(function (error) {
               console.error(error);

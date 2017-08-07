@@ -44,9 +44,9 @@
 
         <div class="list-group">
           <uib-accordion close-others="oneAtATime">
-            <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.selectedMarkerData.sensors" ng-init="isOpen = false" is-open="isOpen">
+            <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.selectedMarkerData.sensors" is-open="details.chartOpen[sensor._id]">
               <uib-accordion-heading>
-                <div class="row" ng-click="details.getData(sensor._id, !isOpen)">
+                <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor._id == details.selectedSensor.id ? 'selected-sensor' : ''">
                   <div class="col-xs-1">
                     <span title="{{sensor.title | translate}}">
                       <span class="icon osem-icon" ng-class="details.getIcon(sensor)"></span>

@@ -134,7 +134,7 @@
 
       function onMeasurementsWatch (newVal, oldVal) {
         mapLayers['mobileMeasurements'].clearLayers();
-        if (!angular.isDefined(newVal) || angular.equals({}, newVal)) return;
+        if (!angular.isDefined(newVal) || angular.equals([], newVal)) return;
 
         // find min & max values for color grading
         var values = newVal.map(function(m) { return m.value; });

@@ -523,6 +523,10 @@ div.box {
   margin-right: 2px;
 }
 
+#sidebar .panel-heading .selected-sensor .sensor-measurement-info {
+  font-weight: bold!important;
+}
+
 .dropdown-languages li a {
   cursor: pointer;
 }

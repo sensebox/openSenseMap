@@ -29,14 +29,19 @@
           angular.copy(response, vm.selectedMarker);
           vm.archiveLink = "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+vm.selectedMarker._id+"-"+doubleGermanS(vm.selectedMarker.name).replace(/[^A-Za-z0-9._-]/g,'_');
           getMeasurements();
-          focusSelectedBox();
 
           // for mobile boxes, get it's trajectory and add it to the map
           if (vm.selectedMarker.exposure === 'mobile') {
               return OpenSenseMapAPI.getBoxLocations($stateParams.id)
               // save result in map.js scope, as it needs to be accessible for leaflet directive
-              .then(function (response) { $scope.$parent.map.boxLocations = response; });
+              .then(function (response) {
+                $scope.$parent.map.boxLocations = response;
+                return response;
+              });
           }
+        })
+        .then(function (trajectory) {
+          focusSelectedBox(trajectory);
         })
         .catch(function (error) {
           console.log(error);
@@ -93,21 +98,28 @@
       }
     }
 
-    function focusSelectedBox () {
-      var markerLatLng = [
+    // focus current location of a box or its trajectory, if optional
+    // `trajectory` GeoJSON linestring is provided
+    function focusSelectedBox (trajectory) {
+      var currentLoc = [
         vm.selectedMarker.currentLocation.coordinates[1],
         vm.selectedMarker.currentLocation.coordinates[0]
       ];
-      centerLatLng(markerLatLng);
+
+      var bounds = trajectory
+        ? L.geoJSON(trajectory).getBounds()
+        : [currentLoc, currentLoc];
+
+      return centerBounds(bounds);
     }
 
-    function centerLatLng (latlng) {
+    function centerBounds (bounds) {
       osemMapData.getMap('map_main').then(function(map) {
         var padding = 450; // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
         if (document.body.clientWidth <= 700) padding = 0;
 
-        map.fitBounds([latlng, latlng], {
+        map.fitBounds(bounds, {
           paddingTopLeft: [0,0],
           paddingBottomRight: [padding, 0],
           maxZoom: 17,

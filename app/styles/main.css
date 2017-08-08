@@ -1117,14 +1117,42 @@ figure {
 /* 13. Basic Styling with CSS */
 
 /* Style the lines by removing the fill and applying a stroke */
-.line {
+/* .line {
   fill: none;
-  stroke: #ffab00;
+  stroke: rgb(31, 119, 180);
   stroke-width: 3;
-}
+} */
 
 /* Style the dots by assigning a fill and stroke */
-.dot {
-  fill: #ffab00;
-  stroke: #fff;
+/* .dot { */
+  /* fill: rgb(31, 119, 180);
+  opacity: 0.5; */
+  /* fill: #ffab00; */
+  /* stroke: #fff; */
+/* } */
+
+svg .axis {
+  font-size: 8px;
+}
+svg .axis path,
+svg .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+svg .line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 5px;
+}
+svg .tick > line {
+  display: none;
+}
+ svg rect.zoom-panel {
+  fill: none;
+  pointer-events: all;
+}
+svg .dot {
+  stroke-width: 2px;
+  fill: #fff;
 }

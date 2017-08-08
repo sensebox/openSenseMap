@@ -1,4 +1,8 @@
 <div class="line-chart">
-  <!-- <div>{{chart.y}}</div> -->
   <svg width="350" height="200"></svg>
+  <div id="tooltip-wrapper" style="text-align: center">
+    <div id="tooltip" style="display: inline-block;">
+      <kbd><kbd>{{chart.datapoint.tooltip()}}</kbd></kbd>
+    </div>
+  </div>
 </div>

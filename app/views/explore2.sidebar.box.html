@@ -73,8 +73,8 @@
                 </div>
                 <div uib-alert class="alert-danger" ng-show="details.chartError[sensor._id]">{{'COMMON_ERROR'|translate}}</div>
                 <div uib-alert class="alert-info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</div>
-                <osem-charts ng-if="details.chartDone[sensor._id]" chart-data="details.sensordata[sensor._id]"></osem-charts>
-                <!-- <c3chart ng-if="sensor.lastMeasurement && details.chartDone[sensor._id] && !details.chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="details.sensordata[sensor._id]" chart-columns="details.columns[sensor._id]" enable-zoom="true">
+                 <osem-charts ng-if="details.chartDone[sensor._id]" chart-data="details.sensordata[sensor._id]"></osem-charts>
+                 <!-- <c3chart ng-if="sensor.lastMeasurement && details.chartDone[sensor._id] && !details.chartError[sensor._id]" transition-duration="0" bindto-id="{{'chart'+sensor._id}}" chart-data="details.sensordata[sensor._id]" chart-columns="details.columns[sensor._id]" enable-zoom="true">
                   <chart-size chart-height="200"/>
                     <chart-axes values-x="dates"/>
                     <chart-axis>

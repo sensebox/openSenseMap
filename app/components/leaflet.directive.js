@@ -103,8 +103,8 @@
               mapLayers['markers'].addLayer(marker);
             }
             marker.on('click', onMarkerClick);
-            marker.on('mouseover', onMouseOver);
-            marker.on('mouseout', onMouseOut);
+            marker.on('mouseover', onMarkerMouseOver);
+            marker.on('mouseout', onMarkerMouseOut);
 
             if (box.draggable) {
               marker.on('dragend', onMarkerDragend);
@@ -159,8 +159,12 @@
             weight: 0.3,
             color: '#222',
             fillOpacity: 1,
-            fillColor: palette(measure.value)
+            fillColor: palette(measure.value),
+            hoverlabelContent: [measure.value, scope.mobileLegendInfo.unit].join(' '),
           });
+
+          marker.on('mouseover', onMeasurementMouseOver);
+          marker.on('mouseout', onMeasurementMouseOut);
 
           mapLayers['mobileMeasurements'].addLayer(marker);
         }
@@ -190,14 +194,30 @@
         $rootScope.$apply();
       }
 
-      function onMouseOver (e) {
+      function onMarkerMouseOver (e) {
         var eventName = 'osemMarkerMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }
 
-      function onMouseOut (e) {
+      function onMarkerMouseOut (e) {
         var eventName = 'osemMarkerMouseOut.' + scope.mapId;
+        $rootScope.$broadcast(eventName, e);
+        $rootScope.$apply();
+      }
+
+      function onMeasurementMouseOver (e) {
+        e.target.setStyle({ weight: 2, radius: 8 });
+
+        var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
+        $rootScope.$broadcast(eventName, e);
+        $rootScope.$apply();
+      }
+
+      function onMeasurementMouseOut (e) {
+        e.target.setStyle({ weight: 0.5, radius: 6 });
+
+        var eventName = 'osemMeasurementMouseOut.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }

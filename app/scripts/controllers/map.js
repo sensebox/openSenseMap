@@ -103,7 +103,19 @@
       event.stopPropagation();
     }
 
+    function resetHoverlabel() {
+      vm.hoverlabel = { left: 0, top: 0, name: '' };
+    }
+
     ////
+
+    $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
+      vm.hoverlabel = {
+        left: (args.containerPoint.x + 10) + 'px',
+        top:  (args.containerPoint.y - 43) + 'px',
+        name: args.target.options.hoverlabelContent
+      };
+    });
 
     $scope.$on('osemMarkerMouseOver.map_main', function (e, args) {
       var markerBounds = args.target._icon.getBoundingClientRect();
@@ -114,13 +126,8 @@
       };
     });
 
-    $scope.$on('osemMarkerMouseOut.map_main', function (e, args) {
-      vm.hoverlabel = {
-        left: 0,
-        top: 0,
-        name: ''
-      };
-    });
+    $scope.$on('osemMarkerMouseOut.map_main', resetHoverlabel);
+    $scope.$on('osemMeasurementMouseOut.map_main', resetHoverlabel);
 
     $scope.$on('osemMarkerClick.map_main', function (e, args) {
       $state.go('explore.map.boxdetails', { id: args.target.options.options.station.id });

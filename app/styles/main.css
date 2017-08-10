@@ -1154,5 +1154,5 @@ svg .tick > line {
 }
 svg .dot {
   stroke-width: 2px;
-  fill: #fff;
+  fill: #ff0000;
 }

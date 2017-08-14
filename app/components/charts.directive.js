@@ -93,9 +93,11 @@
 
       //Setup zoom behaviour
       var zoom = d3.zoom()
-          .scaleExtent([1 / 2, 8])
+          .scaleExtent([1/2, 64])
           .translateExtent([[-config.width, -Infinity], [2*config.width, Infinity]])
           .on('zoom', zoomed);
+
+      g.call(zoom);
 
       //Set domains depending on amount of datapoints
       if (vm.chartData.length == 1) {
@@ -120,22 +122,13 @@
           .attr('width', config.width)
           .attr('height', config.height)
           .attr('fill', 'none')
-          .attr('pointer-events', 'all')
-          .call(zoom);
+          .attr('pointer-events', 'all');
 
       g.append('defs').append('clipPath')
           .attr('id', 'clipper')
           .append('rect')
             .attr('width', config.width)
-            .attr('height', config.height)
-
-      // .ticks(d3.utcHour.every(12)).tickFormat(function (d) {
-      //   if (moment.utc(d).get('hour') > 0 ) {
-      //     return moment.utc(d).format('HH:mm');
-      //   } else {
-      //     return moment.utc(d).format('L');
-      //   }
-      // });
+            .attr('height', config.height);
 
       // 3. Call the x axis in a group tag
       vm.x_Axis = g.append("g")
@@ -146,7 +139,7 @@
       // 4. Call the y axis in a group tag
       g.append("g")
           .attr("class", "y axis")
-          .call(vm.yAxis); // Create an axis component with d3.axisLeft
+          .call(vm.yAxis);// Create an axis component with d3.axisLeft
 
       // text label for the y axis
       g.append("text")
@@ -157,11 +150,11 @@
           .style("text-anchor", "middle")
           .text("Value");
 
-      g.append('path')
-          .datum(vm.chartData)
-          .attr('class', 'line')
-          .attr('clip-path','url(#clipper)')
-          .attr('d', vm.line);
+      // g.append('path')
+      //     .datum(vm.chartData)
+      //     .attr('class', 'line')
+      //     .attr('clip-path','url(#clipper)')
+      //     .attr('d', vm.line);
 
       g.append('g')
           .attr('class', 'dots')
@@ -195,14 +188,13 @@
     }
 
     function zoomed() {
-      console.log('zoomed');
       var transform = d3.event.transform;
       var xNewScale = transform.rescaleX(vm.xScale);
       vm.xAxis.scale(xNewScale);
       var g = vm._chartSVG.g;
       g.select('.x.axis').call(vm.xAxis);
       g.selectAll('circle').attr('cx', function (d) {
-        return transform.applyX(vm.xScale(d.date));
+        return xNewScale(d.date);
       });
       g.select('.line').attr('d', vm.line.x(function (d) {
         return xNewScale(d.date);

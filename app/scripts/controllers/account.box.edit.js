@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxController', EditBoxController);
 
-  EditBoxController.$inject = ['$state', 'notifications'];
+  EditBoxController.$inject = ['$state', 'boxData', 'notifications'];
 
-  function EditBoxController ($state, notifications) {
+  function EditBoxController ($state, boxData, notifications) {
     var vm = this;
     vm.tabActive = {
       general: true,
@@ -18,6 +18,7 @@
       ttn: false
     };
     vm.alerts = [];
+    vm.custom = false;
 
     vm.changeActiveTab = changeActiveTab;
     vm.closeAlert = notifications.closeAlert;
@@ -29,6 +30,10 @@
     function activate () {
       changeActiveTab($state.current.url.split('/')[1]);
       vm.alerts = notifications.getAlerts();
+
+      if (boxData.model === 'custom') {
+        vm.custom = true;
+      }
     }
 
     function changeActiveTab (tab) {

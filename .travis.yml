@@ -21,7 +21,7 @@ script:
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_MASTER;
     fi
   - npm run build
-  - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH .
+  - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH-temp .
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"

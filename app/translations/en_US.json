@@ -133,6 +133,8 @@
   "EDIT_GENERAL": "General",
   "EDIT_EXTENSIONS": "Extensions",
   "EDIT_SCRIPT": "Script",
+  "EDIT_SCRIPT_MANUAL": "A guided instruction including the upload of the sketch is available here: <a href=\"https://home.books.sensebox.de/en/\" target=\"_blank\">senseBox:home Book (english)</a>",
+  "EDIT_SCRIPT_DOWNLOAD_RESOURCES": "You can download the latest senseBox arduino libraries <a href=\"https://github.com/sensebox/resources/raw/master/libraries/senseBox_Libraries.zip\" target=\"_blank\">here</a>.",
   "EDIT_TTN": "TheThingsNetwork",
   "EDIT_MQTTOPTIONS": "MQTT",
   "EDIT_CHANGESENSORS": "Sensors",
@@ -149,6 +151,7 @@
   "PLEASE_WAIT_DATA": "Please wait, loading data...",
   "DOWNLOAD_NODATA": "There is no data in the selected time frame.",
   "COMMON_ERROR": "An error occured. Please try again later.",
+  "HELP_SECTION": "Help section",
 
   "SEARCH_AND_FILTER": "Search and filter",
   "SAF_INTRO": "Select criteria by which you want to filter stations. When you change the time frame and phenomenon in combination with the time frame, a new set of senseBoxes will be fetched from the server, this might take some time. Searching for senseBoxes by name, group, exposure and phenomenon (without timeframe) is instantaneous.",

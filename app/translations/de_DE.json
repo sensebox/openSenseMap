@@ -133,6 +133,8 @@
   "EDIT_GENERAL": "Allgemein",
   "EDIT_EXTENSIONS": "Erweiterungen",
   "EDIT_SCRIPT": "Skript",
+  "EDIT_SCRIPT_MANUAL": "Eine Anleitung zum Upload des Sketch findest du hier: <a href=\"https://home.books.sensebox.de/de/\" target=\"_blank\">senseBox:home Book (deutsch)</a>",
+  "EDIT_SCRIPT_DOWNLOAD_RESOURCES": "Die aktuellen senseBox Arduino Libraries kannst du <a href=\"https://github.com/sensebox/resources/raw/master/libraries/senseBox_Libraries.zip\" target=\"_blank\">hier</a> herunterladen.",
   "EDIT_TTN": "TheThingsNetwork",
   "EDIT_MQTTOPTIONS": "MQTT",
   "EDIT_MQTTOPTIONSINFO": "",
@@ -149,6 +151,7 @@
   "PLEASE_WAIT_DATA": "Bitte warten, die Daten werden geladen...",
   "DOWNLOAD_NODATA": "Im ausgewählten Zeitraum liegen keine Daten vor.",
   "COMMON_ERROR": "Es ist ein Fehler aufgetreten. Bitte versuch es später nochmal.",
+  "HELP_SECTION": "Hilfebereich",
 
   "SEARCH_AND_FILTER": "Suche und Filter",
   "SAF_INTRO": "Wähle Kriterien, nach denen du senseBoxen filtern und suchen möchtest. Das Filtern mit Zeitraum erfordert, dass neue Daten vom Server geladen werden, was etwas dauert. Das Filtern nach Namen, Gruppen und Standort erfolgt schon beim Tippen.",

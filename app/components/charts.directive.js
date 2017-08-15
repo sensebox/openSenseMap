@@ -57,15 +57,11 @@
     vm._chartSVG = {};
     vm.dataset = [];
     vm.datapoint = {
-      showPlaceholder: true,
+      showPlaceholder: false,
       date: moment().format('LLLL'),
       value: 0.00,
       unit: '',
       tooltip: function () {
-        if (this.showPlaceholder) {
-          return 'Wähle einen Messpunkt.'
-        }
-
         return this.date + ': ' + this.value + ' ' + this.unit;
       }
     };

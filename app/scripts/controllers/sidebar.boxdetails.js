@@ -167,19 +167,17 @@
 
           var data = {
             params: {
-              'from-date': '',
               'to-date': endDate
             }
           };
           OpenSenseMapAPI.getSensorData(box, sensorId, data)
             .then(function (response) {
-              // console.info(response);
               for (var j = 0; j < response.length; j++) {
                 var d = new Date(response[j].createdAt);
                 var dataPair = {};
-                // dataPair[title] = parseFloat(response[j].value);
                 dataPair.value = parseFloat(response[j].value);
                 dataPair.date = d;
+                dataPair.unit = unit;
                 vm.sensordata[sensorId].push(dataPair);
               }
               vm.chartDone[sensorId] = true;

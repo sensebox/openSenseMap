@@ -242,11 +242,15 @@
       vm.datapoint.value = d.value;
       vm.datapoint.unit = d.unit;
       vm.datapoint.showPlaceholder = !vm.datapoint.showPlaceholder;
+      var eventName = 'osemChartsMouseOver';
+      $scope.$emit(eventName, vm.datapoint);
       $scope.$apply();
     }
 
     function mouseout () {
       vm.datapoint.showPlaceholder = !vm.datapoint.showPlaceholder;
+      var eventName = 'osemChartsMouseOut';
+      $scope.$emit(eventName, {});
       $scope.$apply();
     }
 

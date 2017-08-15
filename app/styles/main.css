@@ -1116,13 +1116,13 @@ figure {
 
 /* 13. Basic Styling with CSS */
 svg .axis {
-  font-size: 8px;
+  font-size: 10px;
 }
 svg .axis path,
 svg .axis line {
   fill: none;
   stroke: #000;
-   shape-rendering: crispEdges;
+  shape-rendering: crispEdges;
 }
 svg .line {
   fill: none;

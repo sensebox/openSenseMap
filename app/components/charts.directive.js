@@ -19,7 +19,8 @@
       controllerAs: 'chart',
       bindToController: true, // because the scope is isolated
       scope: {
-        chartData: '='
+        chartData: '=',
+        yAxisTitle: '='
       }
     };
     return directive;
@@ -138,13 +139,15 @@
           .call(vm.yAxis);// Create an axis component with d3.axisLeft
 
       // text label for the y axis
-      g.append("text")
+      if (vm.yAxisTitle !== '') {
+        g.append("text")
           .attr("transform", "rotate(-90)")
           .attr("y", 0 - config.margin.left)
           .attr("x",0 - (config.height / 2))
           .attr("dy", "1em")
           .style("text-anchor", "middle")
-          .text("Value");
+          .text(vm.yAxisTitle);
+      }
 
       // g.append('path')
       //     .datum(vm.chartData)

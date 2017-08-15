@@ -102,11 +102,14 @@
         vm.yScale.domain([vm.chartData[0][1]+vm.chartData[0][1], vm.chartData[0][1]-vm.chartData[0][1]]);
       } else {
         vm.xScale.domain(d3.extent(vm.chartData, function (d) { return d.date; }));
-        vm.yScale.domain(d3.extent(vm.chartData, function(d) { return d.value; }));
+        var yExtent = d3.extent(vm.chartData, function(d) { return d.value; });
+        yExtent[0] = yExtent[0] - 1;
+        yExtent[1] = yExtent[1] + 1;
+        vm.yScale.domain(yExtent);
       }
 
       //Create Axis and wire up with scale
-      vm.xAxis = d3.axisBottom(vm.xScale);
+      vm.xAxis = d3.axisBottom(vm.xScale).ticks(4)
       vm.yAxis = d3.axisLeft(vm.yScale);
 
       //Line constructor
@@ -177,6 +180,9 @@
           })
           .attr('r', 2.5);
 
+      g.selectAll('.x.axis .tick text')
+          .text(customTickFormat);
+
       if ($scope.chart.chartData) {
         $scope.$watchCollection('chart.chartData', function (newValue, oldValue) {
           if (!angular.equals(newValue, oldValue)) {
@@ -186,12 +192,43 @@
       }
     }
 
+    function customTickFormat (d, i) {
+      var domain = vm.xAxis.scale().domain();
+      var tick;
+
+      var min = moment(domain[0]);
+      var max = moment(domain[1]);
+      var diff = max.diff(min, 'hours');
+
+      if (max.diff(min, 'days') >= 1) {
+        if (i % 2 === 0) {
+          tick = moment(d).format('l');
+        } else {
+          tick = moment(d).format('LT');
+        }
+      } else if (max.diff(min, 'hours') >= 12) {
+        if (i % 2 === 0) {
+          tick = moment(d).format('ll');
+        } else {
+          tick = moment(d).format('LT');
+        }
+      } else if (max.diff(min, 'hours') >= 6) {
+        tick = moment(d).format('LT');
+      } else if (max.diff(min, 'hours') >= 1) {
+        tick = moment(d).format('LT');
+      } else if (max.diff(min, 'hours') < 1) {
+        tick = moment(d).format('LT');
+      }
+      return tick;
+    }
+
     function zoomed() {
       var transform = d3.event.transform;
       var xNewScale = transform.rescaleX(vm.xScale);
       vm.xAxis.scale(xNewScale);
       var g = vm._chartSVG.g;
       g.select('.x.axis').call(vm.xAxis);
+      g.selectAll('.x.axis .tick text').text(customTickFormat);
       g.selectAll('circle').attr('cx', function (d) {
         return xNewScale(d.date);
       });

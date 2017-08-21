@@ -9,16 +9,12 @@
 
   function SidebarBoxDetailsController ($scope, $stateParams, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
     var vm = this;
-    vm.delay = 60000;
     vm.selectedMarker = {};
 
-    vm.closeSidebar = closeSidebar;
     vm.getBadgeColor = getBadgeColor;
     vm.focusSelectedBox = focusSelectedBox;
     vm.getIcon = getIcon;
     vm.getData = getData;
-    vm.formatDate = formatDate;
-    vm.formatDateFull = formatDateFull;
 
     activate();
 
@@ -43,12 +39,7 @@
       return value;
     }
 
-    function closeSidebar () {
-      // $timeout.cancel(vm.prom);
-    }
-
     function getMeasurements () {
-      // vm.prom = $timeout(getMeasurements, vm.delay);
       OpenSenseMapAPI.getSensors($stateParams.id)
         .then(function (response) {
           if (vm.selectedMarkerData === undefined) {
@@ -60,10 +51,20 @@
                   angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
                   var datapair = {
                     date: new Date(response.sensors[i].lastMeasurement.createdAt),
-                    value: response.sensors[i].lastMeasurement.value
+                    value: response.sensors[i].lastMeasurement.value,
+                    unit: response.sensors[i].unit
                   }
                   if (angular.isDefined(vm.sensordata[response.sensors[i]._id])) {
-                    vm.sensordata[response.sensors[i]._id].push(datapair);
+                    var data = angular.copy(vm.sensordata[response.sensors[i]._id]);
+                    console.log(data);
+                    data.unshift(datapair);
+                    console.log(data.length)
+                    console.log(data);
+                    // remove first entry
+                    //todo check amount of data depending on selected time frame
+                    data.pop();
+                    console.log(data.length)
+                    vm.sensordata[response.sensors[i]._id] = data;
                   }
                 }
               }
@@ -133,6 +134,10 @@
       getMeasurements();
     });
 
+    $scope.$on('osemChartsMouseOver', function (event, data) {
+      // console.log('mouseover', data);
+    });
+
     /* CHARTS */
     vm.columns = [];
     vm.sensordata = {};
@@ -164,9 +169,10 @@
             continue;
           }
           endDate = vm.selectedMarkerData.sensors[i].lastMeasurement.createdAt;
-
+          var startDate = moment.utc().subtract(5, 'minutes').toISOString();
           var data = {
             params: {
+              // 'from-date': startDate,
               'to-date': endDate
             }
           };
@@ -189,13 +195,6 @@
             });
         }
       }
-    };
-
-    function formatDate (input){
-      return d3.time.format('%Y-%m-%d')(new Date(input));
-    };
-    function formatDateFull (input){
-      return d3.time.format('%Y-%m-%d %H:%M:%S')(new Date(input));
-    };
+    }
   }
 })();

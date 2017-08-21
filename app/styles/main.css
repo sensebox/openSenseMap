@@ -1114,7 +1114,11 @@ figure {
   opacity: 0.5
 }
 
-/* 13. Basic Styling with CSS */
+/* CSS for osemChart directive */
+.line-chart {
+  border: 1px solid #cacccd;
+}
+
 svg .axis {
   font-size: 10px;
 }
@@ -1136,4 +1140,56 @@ svg .line {
 svg .dot {
   fill: rgb(31, 119, 180);
   opacity: 0.5;
+}
+
+.chartToolbarContainer {
+  background-color: #fff;
+  border-top: 1px solid #cacccd;
+}
+
+.tooltipContainer {
+  width: 72%;
+  display: inline-block;
+  position: relative;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 200;
+  line-height: 10px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle;
+}
+
+.actionsContainer {
+  width: 23%;
+  display: inline-block;
+  position: relative;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 200;
+  line-height: 10px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle;
+}
+
+.chartActionButton {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    line-height: normal;
+    overflow: visible;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    padding: 10px;
+    /* margin: 0 10px 0 5px; */
+}
+
+ .chartActionButton svg {
+    fill: #82888a;
+    height: 12px;
+    width: 12px;
+    vertical-align: middle;
 }

@@ -1,0 +1,52 @@
+<div class="dateRangePicker">
+  <div>
+    <div class="dateRangePickerInput" style="background-color: #fff; border: 1px solid #cacccd">
+      <div class="dateInputFrom" style="width: 40%;display: inline-block;position: relative;padding: 8px;font-size: 18px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;">
+        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsStartDate" show-button-bar="false" is-open="calendar.startDateOpen" ng-model="calendar.osemStartDate" type="text" value="Start Date" style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;" current-text="{{calendar.osemCurrentText}}" clear-text="{{calendar.osemClearText}}"  close-text="{{calendar.osemCloseText}}" ng-focus="calendar.open('startDate')" ng-blur="calendar.close('startDate', true)" ng-change="calendar.dateSelected('startDate')">
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.startDateOpen}">{{calendar.textStartDate}}</div>
+      </div>
+      <div class="dateInputPickerInput_arrow" style="height: 20px;width: 20px;vertical-align: middle;display: inline-block;position: relative;">
+        <svg viewBox="0 0 1000 1000" style="fill: #484848;">
+          <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z" style="height: 24px;"></path>
+        </svg>
+      </div>
+      <div class="dateInputUntil" style="display: inline-block;position: relative;padding: 8px;font-size: 18px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;width: 40%;">
+        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsEndDate" show-button-bar="false" is-open="calendar.endDateOpen" ng-model="calendar.osemEndDate" type="text" style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;" current-text="{{calendar.osemCurrentText}}" clear-text="{{calendar.osemClearText}}"  close-text="{{calendar.osemCloseText}}" ng-focus="calendar.open('endDate')" ng-blur="calendar.close('endDate', true)" ng-change="calendar.dateSelected('endDate')">
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.endDateOpen}">{{calendar.textEndDate}}</div>
+      </div>
+      <button type="button" aria-label="Eingaben zurücksetzen" class="dateRangePickerInput__clear-dates" ng-class="{'dateRangePickerInput__clear-dates--hover': calendar.hover}" ng-mouseenter="calendar.hoverItem(true);" ng-mouseleave="calendar.hoverItem(false);" ng-click="calendar.clear()" ng-hide="calendar.loading">
+        <div class="DateRangePickerInput__close-icon"><span><svg viewBox="0 0 24 24" role="img" aria-label="Schließen" focusable="false" style="display: block; fill: currentcolor;"><path fill-rule="evenodd" d="M23.25 24a.744.744 0 0 1-.53-.22L12 13.062 1.28 23.782a.75.75 0 0 1-1.06-1.06L10.94 12 .22 1.28A.75.75 0 1 1 1.28.22L12 10.94 22.72.22a.749.749 0 1 1 1.06 1.06L13.062 12l10.72 10.72a.749.749 0 0 1-.53 1.28"></path></svg></span></div>
+      </button>
+      <div class="loader" ng-show="calendar.loading">Loading...</div>
+    </div>
+  </div>
+  <div style="background-color: #fff; border: 1px solid #cacccd; border-top: 0px;">
+    <div style="display: inline-block;position: relative; border-right: 1px solid #cacccd; width: 32%; padding: 8px;
+    font-size: 15px;
+    font-weight: 200;
+    line-height: 24px;
+    color: #757575;
+    background: #fff;
+    vertical-align: middle;text-align: center">
+    <button type="button" ng-click="calendar.setRange(1, 'days')" aria-label="Eingaben zurücksetzen" class="DateRangePickerInput__clear-dates" style="margin: 0;text-align: center;padding: 0;display: inline-block;position: relative;background: none;border: 0;color: inherit;font: inherit;line-height: normal;overflow: visible;cursor: pointer;right: 0;" ng-click="calendar.clear()">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+    </div>
+    <div style="display: inline-block;position: relative; border-right: 1px solid #cacccd; width: 33%; padding: 8px;
+    font-size: 15px;
+    font-weight: 200;
+    line-height: 24px;
+    color: #757575;
+    background: #fff;
+    vertical-align: middle; text-align: center">
+      <button type="button" ng-click="calendar.setRange(1, 'weeks')" aria-label="Eingaben zurücksetzen" class="DateRangePickerInput__clear-dates" style="margin: 0;text-align: center;padding: 0;display: inline-block;position: relative;background: none;border: 0;color: inherit;font: inherit;line-height: normal;overflow: visible;cursor: pointer;right: 0;" ng-click="calendar.clear()">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
+    </div>
+    <div style="display: inline-block;position: relative; width:32%; padding: 8px;
+    font-size: 15px;
+    font-weight: 200;
+    line-height: 24px;
+    color: #757575;
+    background: #fff;
+    vertical-align: middle; text-align: center">
+      <button type="button" ng-click="calendar.setRange(1, 'months')" aria-label="Eingaben zurücksetzen" class="DateRangePickerInput__clear-dates" style="margin: 0;text-align: center;padding: 0;display: inline-block;position: relative;background: none;border: 0;color: inherit;font: inherit;line-height: normal;overflow: visible;cursor: pointer;right: 0;" ng-click="calendar.clear()">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+    </div>
+  </div>
+</div>

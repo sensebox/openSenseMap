@@ -74,17 +74,11 @@
     vm.zoomOut = zoomOut;
     vm.resetZoom = resetZoom;
 
-    vm.$onInit = onInit;
-    vm.$onDestroy = onDestroy;
-
     ////
 
     var zoom;
 
     function showGraph () {
-      console.log('Render Graph');
-      console.log(vm.chartData);
-
       var config = vm._chartSVG;
 
       var g = vm._chartSVG.g
@@ -163,24 +157,16 @@
           .text(vm.yAxisTitle);
       }
 
-      // g.append('path')
-      //     .datum(vm.chartData)
-      //     .attr('class', 'line')
-      //     .attr('clip-path','url(#clipper)')
-      //     .attr('d', vm.line);
-
       g.append('g')
           .attr('class', 'dots')
           .attr('clip-path', 'url(#clipper)')
           .selectAll('circle')
-          .data(vm.chartData, function (d) {
-            return d.value;
-          })
-          .enter()
-          .append('circle')
-          .attr('class', 'dot')
-          .on('mouseover', mouseover)
-          .on('mouseout', mouseout);
+            .data(vm.chartData)
+            .enter()
+            .append('circle')
+              .attr('class', 'dot')
+              .on('mouseover', mouseover)
+              .on('mouseout', mouseout);
 
       g.selectAll('circle')
           .attr('cy', function (d) {
@@ -283,51 +269,49 @@
         yExtent[1] = yExtent[1] + 1;
         vm.yScale.domain(yExtent);
       }
+
+      // Update yAxis
+      vm.yAxis = d3.axisLeft(vm.yScale);
+      svg.select('.y.axis')
+          .transition()
+          .duration(750)
+          .ease(d3.easeLinear, 2)
+          .call(vm.yAxis);
+
+      // Update xAxis
       vm.xAxis = d3.axisBottom(vm.xScale).ticks(4);
-      // Make the changes
-      // svg.select(".line")   // change the line
-      //   .duration(750)
-      //   .attr("d", vm.line(vm.chartData));
-      svg.select(".x.axis")  // change the x axis
+      svg.select(".x.axis")
           .transition()
           .duration(750)
           .ease(d3.easeLinear, 2)
           .call(vm.xAxis);
-      g.selectAll('.x.axis .tick text')
-          .text(customTickFormat);
-      // svg.selectAll('.x.axis .tick text').text(customTickFormat);
-      // svg.select(".y.axis") // change the y axis
-      //     .transition()
-      //     .duration(750)
-      //     .ease(d3.easeLinear, 2)
-      //     .call(vm.yAxis);
-      // g.selectAll("dots")
-      //     .selectAll('circle')
-      //     .data(vm.chartData, function (d) {
-      //       return d.value;
-      //     })
-      //     .enter().append("circle") // Uses the enter().append() method
-      //     .attr("class", "dot") // Assign a class for styling
-      //     .attr("cx", function(d) { return vm.xScale(d.date) })
-      //     .attr("cy", function(d) { return vm.yScale(d.value) })
-      //     .attr("r", 2.5)
-      //     .transition()
-      //     .duration(750);
 
-          // .attr("cx", function(d) {
-          //   return vm.xScale(d.date);
-          // })
-          // .attr("cy", function(d) {
-          //   return vm.yScale(d.value);
-          // })
-          // .attr("r", 2.5)
-      // g.selectAll(".dot")
-      //     .data(vm.chartData)
-      //   .enter().append("circle") // Uses the enter().append() method
-      //     .attr("class", "dot") // Assign a class for styling
-      //     .attr("cx", function(d) { return vm.xScale(d.date) })
-      //     .attr("cy", function(d) { return vm.yScale(d.value) })
-      //     .attr("r", 2.5)
+      var circle = g.select('.dots')
+            .selectAll('circle')
+            .data(vm.chartData);
+
+      // console.log(circle);
+
+      // Remove old data
+      circle.exit().remove();
+
+      // Append new and ...
+      circle.enter().append('circle')
+          .attr('class', 'dot')
+          .attr('r', 0)
+        .merge(circle) // ... with existing data
+          .on('mouseover', mouseover)
+          .on('mouseout', mouseout)
+          .attr('cy', function (d) {
+            return vm.yScale(d.value);
+          })
+          .attr('cx', function (d) {
+            return vm.xScale(d.date);
+          })
+          .transition()
+          .duration(750)
+          .ease(d3.easeLinear, 2)
+            .attr('r', 2.5);
     }
 
     function zoomIn () {
@@ -347,13 +331,6 @@
       .delay(100)
       .duration(700)
       .call(zoomFunction, zoomLevel);
-}
-
-    function onInit () {
-    }
-
-    function onDestroy () {
-      console.log('destroy graph');
     }
   }
 })();

@@ -48,6 +48,13 @@
     vm.textStartDate = '';
     vm.textEndDate = '';
 
+    vm.dateOptionsStartDate = {
+      maxDate: moment().toDate()
+    };
+    vm.dateOptionsEndDate = {
+      maxDate: moment().toDate()
+    };
+
     vm.open = open;
     vm.close = close;
     vm.clear = clear;
@@ -106,6 +113,7 @@
           } else {
             vm.osemStartDate = moment(vm.osemStartDate);
             vm.textStartDate = moment(vm.osemStartDate).format('L');
+            vm.dateOptionsEndDate.minDate = vm.osemStartDate.toDate();
           }
           close('startDate', true);
           open('endDate');
@@ -117,6 +125,7 @@
           } else {
             vm.osemEndDate = moment(vm.osemEndDate);
             vm.textEndDate = moment(vm.osemEndDate).format('L');
+            vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
           }
           close('endDate', true);
           break;

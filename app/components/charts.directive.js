@@ -101,26 +101,8 @@
 
       g.call(zoom);
 
-      //Set domains depending on amount of datapoints
-      if (vm.chartData.length == 1) {
-        vm.xScale.domain([moment(vm.chartData[0][0]).subtract(1,'days'), moment(vm.chartData[0][0]).add(1,'days')]);
-        vm.yScale.domain([vm.chartData[0][1]+vm.chartData[0][1], vm.chartData[0][1]-vm.chartData[0][1]]);
-      } else {
-        vm.xScale.domain(d3.extent(vm.chartData, function (d) { return d.date; }));
-        var yExtent = d3.extent(vm.chartData, function(d) { return d.value; });
-        yExtent[0] = yExtent[0] - 1;
-        yExtent[1] = yExtent[1] + 1;
-        vm.yScale.domain(yExtent);
-      }
-
-      //Create Axis and wire up with scale
-      vm.xAxis = d3.axisBottom(vm.xScale).ticks(4)
-      vm.yAxis = d3.axisLeft(vm.yScale);
-
-      //Line constructor
-      vm.line = d3.line()
-        .x(function (d) { return vm.xScale(d.date)})
-        .y(function (d) { return vm.yScale(d.value)});
+      vm.xAxis = d3.axisBottom().ticks(4);
+      vm.yAxis = d3.axisLeft();
 
       var zoomRect = g.append('rect')
           .attr('class', 'zoom-panel')
@@ -136,15 +118,13 @@
             .attr('height', config.height);
 
       // 3. Call the x axis in a group tag
-      vm.x_Axis = g.append("g")
+      vm.xAxisGroup = g.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(0," + config.height + ")")
-          .call(vm.xAxis); // Create an axis component with d3.axisBottom
+          .attr("transform", "translate(0," + config.height + ")");
 
       // 4. Call the y axis in a group tag
-      g.append("g")
-          .attr("class", "y axis")
-          .call(vm.yAxis);// Create an axis component with d3.axisLeft
+      vm.yAxisGroup = g.append("g")
+          .attr("class", "y axis");
 
       // text label for the y axis
       if (vm.yAxisTitle !== '') {
@@ -157,30 +137,15 @@
           .text(vm.yAxisTitle);
       }
 
-      g.append('g')
+      vm.dots = g.append('g')
           .attr('class', 'dots')
-          .attr('clip-path', 'url(#clipper)')
-          .selectAll('circle')
-            .data(vm.chartData)
-            .enter()
-            .append('circle')
-              .attr('class', 'dot')
-              .on('mouseover', mouseover)
-              .on('mouseout', mouseout);
-
-      g.selectAll('circle')
-          .attr('cy', function (d) {
-            return vm.yScale(d.value);
-          })
-          .attr('cx', function (d) {
-            return vm.xScale(d.date);
-          })
-          .attr('r', 2.5);
-
-      g.selectAll('.x.axis .tick text')
-          .text(customTickFormat);
+          .attr('clip-path', 'url(#clipper)');
 
       if ($scope.chart.chartData) {
+
+        // Inital chart creation
+        loadChartData();
+
         $scope.$watchCollection('chart.chartData', function (newValue, oldValue) {
           if (!angular.equals(newValue, oldValue)) {
             loadChartData();
@@ -229,9 +194,6 @@
       g.selectAll('circle').attr('cx', function (d) {
         return xNewScale(d.date);
       });
-      g.select('.line').attr('d', vm.line.x(function (d) {
-        return xNewScale(d.date);
-      }));
     }
 
     function mouseover (d) {
@@ -252,6 +214,7 @@
     }
 
     function loadChartData () {
+      console.log(vm.chartData);
       // Select the section we want to apply our changes to
       var svg = vm._chartSVG.svg.transition();
       var g = vm._chartSVG.g;
@@ -271,26 +234,14 @@
       }
 
       // Update yAxis
-      vm.yAxis = d3.axisLeft(vm.yScale);
-      svg.select('.y.axis')
-          .transition()
-          .duration(750)
-          .ease(d3.easeLinear, 2)
-          .call(vm.yAxis);
+      vm.yAxis.scale(vm.yScale);
+      vm.yAxisGroup.call(vm.yAxis);
 
       // Update xAxis
-      vm.xAxis = d3.axisBottom(vm.xScale).ticks(4);
-      svg.select(".x.axis")
-          .transition()
-          .duration(750)
-          .ease(d3.easeLinear, 2)
-          .call(vm.xAxis);
+      vm.xAxis.scale(vm.xScale);
+      vm.xAxisGroup.call(vm.xAxis);
 
-      var circle = g.select('.dots')
-            .selectAll('circle')
-            .data(vm.chartData);
-
-      // console.log(circle);
+      var circle = vm.dots.selectAll('circle').data(vm.chartData)
 
       // Remove old data
       circle.exit().remove();
@@ -312,6 +263,10 @@
           .duration(750)
           .ease(d3.easeLinear, 2)
             .attr('r', 2.5);
+
+      // Format ticks
+      g.selectAll('.x.axis .tick text')
+        .text(customTickFormat);
     }
 
     function zoomIn () {
@@ -328,9 +283,9 @@
 
     function transition(zoomFunction, zoomLevel) {
       vm._chartSVG.g.transition()
-      .delay(100)
-      .duration(700)
-      .call(zoomFunction, zoomLevel);
+        .delay(100)
+        .duration(700)
+        .call(zoomFunction, zoomLevel);
     }
   }
 })();

@@ -71,6 +71,8 @@
 
     function openChart (sensor, panelOpen){
       if(!panelOpen) {
+        sensor.chart.fromDate = undefined;
+        sensor.chart.toDate = undefined;
         sensor.chart.error = false;
         sensor.chart.done = false;
         return; // panel is in closing transition, don't fetch new data

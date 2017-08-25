@@ -122,10 +122,8 @@
           break;
       }
 
-      if (angular.isDefined(vm.osemStartDate) &&
-        !angular.equals({}, vm.osemStartDate) &&
-        angular.isDefined(vm.osemEndDate) &&
-        !angular.equals({}, vm.osemEndDate)) {
+      if (moment.isMoment(vm.osemStartDate) &&
+        moment.isMoment(vm.osemEndDate)) {
         executeCallback(vm.onRangeSet);
       }
     }
@@ -143,9 +141,9 @@
     }
 
     function clear () {
-      vm.osemStartDate = {};
+      vm.osemStartDate = new Date();
       vm.textStartDate = vm.osemPlaceholderTextStartDate;
-      vm.osemEndDate = {};
+      vm.osemEndDate = new Date();
       vm.textEndDate = vm.osemPlaceholderTextEndDate;
 
       executeCallback(vm.onClear);
@@ -165,8 +163,6 @@
     }
 
     function showReset () {
-      console.log(vm.osemStartDate);
-      console.log(vm.osemEndDate);
       if (!vm.loading && vm.osemStartDate && vm.osemEndDate) {
         return true;
       }

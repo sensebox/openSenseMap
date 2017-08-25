@@ -249,5 +249,7 @@
 
   "EXTENSIONS_FINE_PARTICULATE_MATTER": "Feinstaub",
   "CREATE_NEW_SENSEBOX": "Neue senseBox anlegen",
-  "CREATE_NEW_SENSEBOX_INFO": "Um eine neue neue senseBox anzulegen, brauchst du einen Account. Registriere dich über das folgende Formular und danach kannst du direkt eine neue senseBox anlegen. Falls du schon einen Account hast, kannst du dich einfach anmelden."
+  "CREATE_NEW_SENSEBOX_INFO": "Um eine neue neue senseBox anzulegen, brauchst du einen Account. Registriere dich über das folgende Formular und danach kannst du direkt eine neue senseBox anlegen. Falls du schon einen Account hast, kannst du dich einfach anmelden.",
+
+  "CHART_TOOLTIP_PLACEHOLDER": "Für Details fahre mit der Maus über die Messpunkte"
 }

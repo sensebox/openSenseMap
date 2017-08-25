@@ -88,7 +88,8 @@
                 <osem-charts
                   ng-if="sensor.chart.done"
                   chart-data="sensor.chart.data"
-                  y-axis-title="sensor.chart.yAxisTitle">
+                  y-axis-title="sensor.chart.yAxisTitle"
+                  tooltip-placeholder="{{ 'CHART_TOOLTIP_PLACEHOLDER' | translate }}">
                 </osem-charts>
               </div>
             </div>

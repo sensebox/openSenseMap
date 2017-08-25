@@ -20,7 +20,8 @@
       bindToController: true, // because the scope is isolated
       scope: {
         chartData: '=',
-        yAxisTitle: '='
+        yAxisTitle: '=',
+        tooltipPlaceholder: '@'
       }
     };
     return directive;
@@ -64,7 +65,7 @@
       unit: '',
       tooltip: function () {
         if (this.showPlaceholder) {
-          return 'Für Details fahre mit der Maus über die Messpunkte'
+          return vm.tooltipPlaceholder
         }
         return this.date + ': ' + this.value + ' ' + this.unit;
       }

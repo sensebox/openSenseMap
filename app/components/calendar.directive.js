@@ -112,7 +112,7 @@
             vm.textStartDate = vm.osemPlaceholderTextStartDate;
           } else {
             vm.osemStartDate = moment(vm.osemStartDate);
-            vm.textStartDate = moment(vm.osemStartDate).format('L');
+            vm.textStartDate = moment(vm.osemStartDate).format('L LT');
             vm.dateOptionsEndDate.minDate = vm.osemStartDate.toDate();
           }
           close('startDate', true);
@@ -124,7 +124,7 @@
             vm.textEndDate = vm.osemPlaceholderTextEndDate;
           } else {
             vm.osemEndDate = moment(vm.osemEndDate);
-            vm.textEndDate = moment(vm.osemEndDate).format('L');
+            vm.textEndDate = moment(vm.osemEndDate).format('L LT');
             vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
           }
           close('endDate', true);

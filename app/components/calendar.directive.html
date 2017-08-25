@@ -1,17 +1,40 @@
 <div class="dateRangePicker">
   <div>
     <div class="dateRangePickerInput" style="background-color: #fff; border: 1px solid #cacccd">
-      <div class="dateInputFrom" style="width: 40%;display: inline-block;position: relative;padding: 8px;font-size: 18px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;">
-        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsStartDate" show-button-bar="false" is-open="calendar.startDateOpen" ng-model="calendar.osemStartDate" type="text" value="Start Date" style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;" current-text="{{calendar.osemCurrentText}}" clear-text="{{calendar.osemClearText}}"  close-text="{{calendar.osemCloseText}}" ng-focus="calendar.open('startDate')" ng-blur="calendar.close('startDate', true)" ng-change="calendar.dateSelected('startDate')">
+      <div class="dateInputFrom" style="width: 42%;display: inline-block;position: relative;padding: 8px 4px 8px 4px;font-size: 14px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;">
+        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsStartDate"
+          show-button-bar="false"
+          is-open="calendar.startDateOpen"
+          ng-model="calendar.osemStartDate"
+          type="text"
+          value="Start Date"
+          style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;"
+          current-text="{{calendar.osemCurrentText}}"
+          clear-text="{{calendar.osemClearText}}"
+          close-text="{{calendar.osemCloseText}}"
+          ng-focus="calendar.open('startDate')"
+          ng-blur="calendar.close('startDate', true)"
+          ng-change="calendar.dateSelected('startDate')">
         <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.startDateOpen}">{{calendar.textStartDate}}</div>
       </div>
-      <div class="dateInputPickerInput_arrow" style="height: 20px;width: 20px;vertical-align: middle;display: inline-block;position: relative;">
+      <div class="dateInputPickerInput_arrow" style="height: 18px;width: 18px;vertical-align: middle;display: inline-block;position: relative;">
         <svg viewBox="0 0 1000 1000" style="fill: #484848;">
           <path d="M694.4 242.4l249.1 249.1c11 11 11 21 0 32L694.4 772.7c-5 5-10 7-16 7s-11-2-16-7c-11-11-11-21 0-32l210.1-210.1H67.1c-13 0-23-10-23-23s10-23 23-23h805.4L662.4 274.5c-21-21.1 11-53.1 32-32.1z" style="height: 24px;"></path>
         </svg>
       </div>
-      <div class="dateInputUntil" style="display: inline-block;position: relative;padding: 8px;font-size: 18px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;width: 40%;">
-        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsEndDate" show-button-bar="false" is-open="calendar.endDateOpen" ng-model="calendar.osemEndDate" type="text" style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;" current-text="{{calendar.osemCurrentText}}" clear-text="{{calendar.osemClearText}}"  close-text="{{calendar.osemCloseText}}" ng-focus="calendar.open('endDate')" ng-blur="calendar.close('endDate', true)" ng-change="calendar.dateSelected('endDate')">
+      <div class="dateInputUntil" style="display: inline-block;position: relative;padding: 8px 4px 8px 4px;font-size: 14px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;width: 42%;">
+        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsEndDate"
+          show-button-bar="false"
+          is-open="calendar.endDateOpen"
+          ng-model="calendar.osemEndDate"
+          type="text"
+          style="width: 100%;height: 100%;border: 0;top: 0;left: 0;opacity: 0;position: absolute;"
+          current-text="{{calendar.osemCurrentText}}"
+          clear-text="{{calendar.osemClearText}}"
+          close-text="{{calendar.osemCloseText}}"
+          ng-focus="calendar.open('endDate')"
+          ng-blur="calendar.close('endDate', true)"
+          ng-change="calendar.dateSelected('endDate')">
         <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.endDateOpen}">{{calendar.textEndDate}}</div>
       </div>
       <button type="button" aria-label="Eingaben zurücksetzen" class="dateRangePickerInput__clear-dates" ng-class="{'dateRangePickerInput__clear-dates--hover': calendar.hover}" ng-mouseenter="calendar.hoverItem(true);" ng-mouseleave="calendar.hoverItem(false);" ng-click="calendar.clear()" ng-hide="calendar.loading">

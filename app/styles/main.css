@@ -1215,7 +1215,7 @@ svg .dot {
   cursor: pointer;
   display: inline-block;
   vertical-align: middle;
-  padding: 10px;
+  padding: 8px;
   /* margin: 0 10px 0 5px; */
 }
 
@@ -1259,7 +1259,6 @@ svg .dot {
 .loader {
   display: inline-block;
   vertical-align: middle;
-  margin: 10px;
   font-size: 10px;
   position: relative;
   text-indent: -9999em;

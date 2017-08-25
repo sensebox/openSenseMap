@@ -160,9 +160,9 @@
 
     function setRange (number, type) {
       vm.osemEndDate = moment();
-      vm.textEndDate = moment(vm.osemEndDate).format('L');
+      vm.textEndDate = moment(vm.osemEndDate).format('L LT');
       vm.osemStartDate = moment(vm.osemEndDate).subtract(number, type);
-      vm.textStartDate = moment(vm.osemStartDate).format('L');
+      vm.textStartDate = moment(vm.osemStartDate).format('L LT');
 
       executeCallback(vm.onRangeSet);
     }

@@ -1,8 +1,9 @@
 <div class="dateRangePicker">
-  <div>
     <div class="dateRangePickerInput" style="background-color: #fff; border: 1px solid #cacccd">
       <div class="dateInputFrom" style="width: 42%;display: inline-block;position: relative;padding: 8px 4px 8px 4px;font-size: 14px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;">
-        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsStartDate"
+         <input uib-datepicker-popup
+          datepicker-options="calendar.dateOptionsStartDate"
+          close-on-date-selection="false"
           show-button-bar="false"
           is-open="calendar.startDateOpen"
           ng-model="calendar.osemStartDate"
@@ -15,7 +16,22 @@
           ng-focus="calendar.open('startDate')"
           ng-blur="calendar.close('startDate', true)"
           ng-change="calendar.dateSelected('startDate')">
-        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.startDateOpen}">{{calendar.textStartDate}}</div>
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.startDateOpen}">
+          {{calendar.textStartDate}}
+        </div>
+        <div uib-dropdown is-open="calendar.startTimePicker.isOpen" auto-close="outsideClick">
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+             <div uib-timepicker
+              ng-model="calendar.startTimePicker.time"
+              min="calendar.startTimePicker.min"
+              max="calendar.startTimePicker.max"
+              ng-change="calendar.timeChanged('startTime')"
+              hour-step="1"
+              minute-step="1"
+              show-meridian="false">
+            </div>
+          </ul>
+        </div>
       </div>
       <div class="dateInputPickerInput_arrow" style="height: 18px;width: 18px;vertical-align: middle;display: inline-block;position: relative;">
         <svg viewBox="0 0 1000 1000" style="fill: #484848;">
@@ -23,7 +39,8 @@
         </svg>
       </div>
       <div class="dateInputUntil" style="display: inline-block;position: relative;padding: 8px 4px 8px 4px;font-size: 14px;font-weight: 200;line-height: 24px;color: #757575;background: #fff;vertical-align: middle;width: 42%;">
-        <input uib-datepicker-popup datepicker-options="calendar.dateOptionsEndDate"
+         <input uib-datepicker-popup
+          datepicker-options="calendar.dateOptionsEndDate"
           show-button-bar="false"
           is-open="calendar.endDateOpen"
           ng-model="calendar.osemEndDate"
@@ -35,14 +52,28 @@
           ng-focus="calendar.open('endDate')"
           ng-blur="calendar.close('endDate', true)"
           ng-change="calendar.dateSelected('endDate')">
-        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.endDateOpen}">{{calendar.textEndDate}}</div>
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;" ng-class="{'dateInput_display-text--focused': calendar.endDateOpen}">
+          {{calendar.textEndDate}}
+        </div>
+        <div uib-dropdown is-open="calendar.endTimePicker.isOpen" auto-close="outsideClick">
+          <ul class="dropdown-menu" uib-dropdown-menu role="menu">
+            <div uib-timepicker
+              ng-model="calendar.endTimePicker.time"
+              min="calendar.endTimePicker.min"
+              max="calendar.endTimePicker.max"
+              ng-change="calendar.timeChanged('endTime')"
+              hour-step="1"
+              minute-step="1"
+              show-meridian="false">
+            </div>
+          </ul>
+        </div>
       </div>
       <button type="button" aria-label="Eingaben zurücksetzen" class="dateRangePickerInput__clear-dates" ng-class="{'dateRangePickerInput__clear-dates--hover': calendar.hover}" ng-mouseenter="calendar.hoverItem(true);" ng-mouseleave="calendar.hoverItem(false);" ng-click="calendar.clear()" ng-hide="calendar.loading">
         <div class="DateRangePickerInput__close-icon"><span><svg viewBox="0 0 24 24" role="img" aria-label="Schließen" focusable="false" style="display: block; fill: currentcolor;"><path fill-rule="evenodd" d="M23.25 24a.744.744 0 0 1-.53-.22L12 13.062 1.28 23.782a.75.75 0 0 1-1.06-1.06L10.94 12 .22 1.28A.75.75 0 1 1 1.28.22L12 10.94 22.72.22a.749.749 0 1 1 1.06 1.06L13.062 12l10.72 10.72a.749.749 0 0 1-.53 1.28"></path></svg></span></div>
       </button>
       <div class="loader" ng-show="calendar.loading">Loading...</div>
     </div>
-  </div>
   <div style="background-color: #fff; border: 1px solid #cacccd; border-top: 0px;">
     <div style="display: inline-block;position: relative; border-right: 1px solid #cacccd; width: 32%; padding: 8px;
     font-size: 15px;

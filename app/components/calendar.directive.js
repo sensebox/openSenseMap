@@ -51,9 +51,17 @@
     vm.dateOptionsStartDate = {
       maxDate: moment().toDate()
     };
+    vm.startTimePicker = {
+      isOpen: false,
+      isInitalized: false
+    };
     vm.dateOptionsEndDate = {
       maxDate: moment().toDate()
     };
+    vm.endTimePicker = {
+      isOpen: false,
+      isInitalized: false
+    }
 
     vm.open = open;
     vm.close = close;
@@ -62,6 +70,7 @@
     vm.setRange = setRange;
     vm.hoverItem = hoverItem;
     vm.showReset = showReset;
+    vm.timeChanged = timeChanged;
 
     activate();
 
@@ -95,9 +104,15 @@
         switch (id) {
           case 'startDate':
             vm.startDateOpen = false;
+            $timeout(function () {
+              vm.startTimePicker.isOpen = true;
+            });
             break;
-          case 'endDate':;
+          case 'endDate':
             vm.endDateOpen = false;
+            $timeout(function () {
+              vm.endTimePicker.isOpen = true;
+            });
             break;
         }
       }
@@ -114,9 +129,13 @@
             vm.osemStartDate = moment(vm.osemStartDate);
             vm.textStartDate = moment(vm.osemStartDate).format('L LT');
             vm.dateOptionsEndDate.minDate = vm.osemStartDate.toDate();
+            if (!vm.startTimePicker.isInitalized) {
+              vm.startTimePicker.time = moment().toDate();
+              vm.startTimePicker.isInitalized = true;
+              timeChanged('startTime');
+            }
           }
           close('startDate', true);
-          open('endDate');
           break;
         case 'endDate':
           if (angular.isUndefined(vm.osemEndDate) || vm.osemEndDate === null) {
@@ -126,13 +145,21 @@
             vm.osemEndDate = moment(vm.osemEndDate);
             vm.textEndDate = moment(vm.osemEndDate).format('L LT');
             vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
+            if (!vm.endTimePicker.isInitalized) {
+              vm.endTimePicker.time = moment().toDate();
+              vm.endTimePicker.isInitalized = true;
+              timeChanged('endTime');
+            }
           }
           close('endDate', true);
           break;
       }
 
+      //TODO check if time range has changed
       if (moment.isMoment(vm.osemStartDate) &&
-        moment.isMoment(vm.osemEndDate)) {
+        moment.isMoment(vm.osemEndDate) &&
+        vm.startTimePicker.isInitalized &&
+        vm.endTimePicker.isInitalized) {
         executeCallback(vm.onRangeSet);
       }
     }
@@ -178,9 +205,31 @@
       if (vm.loading && !angular.equals({}, vm.osemStartDate) && !angular.equals({}, vm.osemEndDate)) {
         return true;
       }
-
       return false;
     }
-  }
 
+    function timeChanged(element) {
+      switch (element) {
+        case 'startTime':
+          vm.osemStartDate.hour(vm.startTimePicker.time.getHours());
+          vm.osemStartDate.minute(vm.startTimePicker.time.getMinutes());
+          vm.textStartDate = moment(vm.osemStartDate).format('L LT');
+          break;
+        case 'endTime':
+          vm.osemEndDate.hour(vm.endTimePicker.time.getHours());
+          vm.osemEndDate.minute(vm.endTimePicker.time.getMinutes());
+          vm.textEndDate = moment(vm.osemEndDate).format('L LT');
+          break;
+        default:
+          break;
+      }
+      //TODO check if time range has changed
+      if (moment.isMoment(vm.osemStartDate) &&
+        moment.isMoment(vm.osemEndDate) &&
+        vm.startTimePicker.isInitalized &&
+        vm.endTimePicker.isInitalized) {
+        executeCallback(vm.onRangeSet);
+      }
+    }
+  }
 })();

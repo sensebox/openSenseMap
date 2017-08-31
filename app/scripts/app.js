@@ -2,6 +2,7 @@
 
 angular
   .module('openSenseMapApp', [
+    'app.models',
     'app.services',
     'ngResource',
     'ngSanitize',
@@ -12,7 +13,6 @@ angular
     'flow',
     'pascalprecht.translate',
     'ui.router',
-    'gridshore.c3js.chart',
     'angularMoment',
     'tmh.dynamicLocale',
     'ngProgress',

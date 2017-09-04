@@ -110,7 +110,11 @@
     });
 
     $scope.$on('osemChartsMouseOver', function (event, data) {
-      console.log('mouseover', data);
+      $scope.$parent.map.highlightedMeasureIndex = data.index;
+    });
+
+    $scope.$on('osemChartsMouseOut', function (event, data) {
+      $scope.$parent.map.highlightedMeasureIndex = undefined;
     });
 
 
@@ -180,6 +184,7 @@
           for (var j = 0; j < response.length; j++) {
             var d = new Date(response[j].createdAt);
             var dataPair = {};
+            dataPair.index = j;
             dataPair.value = parseFloat(response[j].value);
             dataPair.date = d;
             dataPair.unit = sensor.unit;

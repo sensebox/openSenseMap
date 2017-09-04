@@ -198,6 +198,7 @@
     }
 
     function mouseover (d) {
+      vm.datapoint.index = d.index;
       vm.datapoint.date = moment(d.date).format('LLLL');
       vm.datapoint.value = d.value;
       vm.datapoint.unit = d.unit;

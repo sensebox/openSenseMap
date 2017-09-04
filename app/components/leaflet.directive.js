@@ -26,6 +26,7 @@
         mobileTrajectory: '=',   // expects geojson linestring
         mobileMeasurements: '=', // expects array of API measurements
         mobileLegendInfo: '=',   // contains metadata for the contents of `mobileMeasurements`
+        highlightedMeasurement: '=',
         center: '=',
         events: '='
       }
@@ -138,6 +139,7 @@
         scope.$watch('markers', onMarkersWatch);
         scope.$watch('mobileTrajectory', onTrajectoryWatch);
         scope.$watch('mobileMeasurements', onMeasurementsWatch);
+        scope.$watch('highlightedMeasurement', onHighlightWatch);
         $rootScope.$broadcast('osemMapReady', {});
       });
 
@@ -230,6 +232,27 @@
         }
       }
 
+      function onHighlightWatch (newVal, oldVal) {
+        // TODO: handle undefined values
+        // FIXME: select by proper ID?!
+        var layerIds = Object.keys(mapLayers['mobileMeasurements']._layers);
+
+        var newHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[newVal]];
+        var oldHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[oldVal]];
+
+        if (newHighlightLayer) highlightMeasurement(newHighlightLayer);
+        if (oldHighlightLayer) unHighlightMeasurement(oldHighlightLayer);
+      }
+
+
+      function highlightMeasurement (measureLayer) {
+        measureLayer.setStyle({ weight: 2, radius: 8 }).bringToFront();
+      }
+
+      function unHighlightMeasurement (measureLayer) {
+        measureLayer.setStyle({ weight: 0.5, radius: 6 });
+      }
+
       function onLocationFound (e) {
         var eventName = 'osemMapOnLocationFound.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
@@ -267,7 +290,7 @@
       }
 
       function onMeasurementMouseOver (e) {
-        e.target.setStyle({ weight: 2, radius: 8 });
+        highlightMeasurement(e.target);
 
         var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
@@ -275,7 +298,7 @@
       }
 
       function onMeasurementMouseOut (e) {
-        e.target.setStyle({ weight: 0.5, radius: 6 });
+        unHighlightMeasurement(e.target);
 
         var eventName = 'osemMeasurementMouseOut.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);

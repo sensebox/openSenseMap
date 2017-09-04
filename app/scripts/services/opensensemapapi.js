@@ -53,11 +53,9 @@
         .catch(failed);
     }
 
-    function getBoxLocations (boxId, format) {
+    function getBoxLocations (boxId, data) {
       return $http
-        .get(getUrl() + '/boxes/' + boxId + '/locations', {
-          params: { format: format || 'geojson' }
-        })
+        .get(getUrl() + '/boxes/' + boxId + '/locations', data)
         .then(success)
         .catch(failed);
     }

@@ -26,22 +26,11 @@
         .then(function (response) {
           vm.box = new Box(response);
           vm.archiveLink = vm.box.getArchiveLink();
-
-          // for mobile boxes, get it's trajectory and add it to the map
-          if (vm.box.exposure === 'mobile') {
-            return OpenSenseMapAPI.getBoxLocations($stateParams.id)
-              // save result in map.js scope, as it needs to be accessible for leaflet directive
-              .then(function (response) {
-                $scope.$parent.map.boxLocations = response;
-                return response;
-              });
-          }
+          focusSelectedBox();
+          if (vm.box.exposure === 'mobile') getBoxTrajectory();
         })
         .catch(function (error) {
           vm.boxNotFound = true;
-        })
-        .then(function (trajectory) {
-          focusSelectedBox(trajectory);
         })
         .finally(function () {
           $timeout(function () {
@@ -62,6 +51,22 @@
       }
     }
 
+    function getBoxTrajectory (options) {
+      var options = Object.assign({ format: 'geojson' }, options);
+      var data = { params: {
+        format: options['format'],
+        'from-date': options['from-date'],
+        'to-date': options['to-date'],
+      }};
+
+      return OpenSenseMapAPI.getBoxLocations($stateParams.id, data)
+        .then(function (response) {
+          // save result in map.js scope, as it needs to be accessible for leaflet directive
+          $scope.$parent.map.boxLocations = response;
+          return focusSelectedBox(response);
+        })
+    }
+
     // focus current location of a box or its trajectory, if optional
     // `trajectory` GeoJSON linestring is provided
     function focusSelectedBox (trajectory) {
@@ -69,8 +74,6 @@
         vm.box.currentLocation.coordinates[1],
         vm.box.currentLocation.coordinates[0]
       ];
-
-      console.log(trajectory)
 
       var bounds = trajectory && trajectory.geometry.coordinates.length
         ? L.geoJSON(trajectory).getBounds()
@@ -85,7 +88,6 @@
         // consider smaller devices (250px min map-width + 450px sidebar-width)
         if (document.body.clientWidth <= 700) padding = 0;
 
-        console.log(bounds)
         map.fitBounds(bounds, {
           paddingTopLeft: [0,0],
           paddingBottomRight: [padding, 0],
@@ -108,7 +110,7 @@
     });
 
     $scope.$on('osemChartsMouseOver', function (event, data) {
-      // console.log('mouseover', data);
+      console.log('mouseover', data);
     });
 
 
@@ -163,18 +165,17 @@
           'to-date': sensor.chart.toDate.toISOString()
         }
       }
+
+      if (vm.box.exposure === 'mobile') {
+        getBoxTrajectory(data.params) // might need an update for the new timeframe
+      }
+
       return getSensorData(sensor, data);
     }
 
     function getSensorData (sensor, data) {
       return OpenSenseMapAPI.getSensorData(vm.box._id, sensor._id, data)
         .then(function (response) {
-          // for mobile boxes: show measurements on the map
-          if (vm.box.exposure === 'mobile') {
-            vm.measurements[sensor._id] = response;
-            $scope.$parent.map.selectedSensorMeasurements = response;
-          }
-
           sensor.chart.data = [];
           for (var j = 0; j < response.length; j++) {
             var d = new Date(response[j].createdAt);
@@ -185,6 +186,14 @@
             sensor.chart.data.push(dataPair);
           }
           sensor.chart.done = true;
+          return response;
+        })
+        .then(function (measurements) {
+          if (vm.box.exposure === 'mobile') {
+            vm.measurements[sensor._id] = measurements;
+            $scope.$parent.map.selectedSensorMeasurements = measurements;
+          }
+          return measurements;
         })
         .catch(function (error) {
           sensor.chart.error = true;

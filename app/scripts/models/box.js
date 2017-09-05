@@ -22,10 +22,11 @@
      */
     Box.prototype = {
       getBadgeColor: function () {
-        if (this.exposure === 'indoor') {
-          return 'orange';
-        } else {
-          return 'olive';
+        switch(this.exposure) {
+          case 'indoor':  return 'orange';
+          case 'outdoor': return 'olive';
+          case 'mobile':  return 'navy';
+          default: return ''
         }
       },
       getArchiveLink: function () {

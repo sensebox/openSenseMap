@@ -11,7 +11,6 @@
     var vm = this;
     vm.box = {};
 
-    vm.getBadgeColor = getBadgeColor;
     vm.focusSelectedBox = focusSelectedBox;
     vm.selectSensor = selectSensor;
     vm.resetFilter = resetFilter;
@@ -37,18 +36,6 @@
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000)
         });
-    }
-
-    function getBadgeColor (exposure) {
-      if (exposure === 'indoor') {
-        return 'orange';
-      } else if (exposure === 'outdoor') {
-        return 'olive';
-      } else if (exposure === 'mobile') {
-        return 'navy';
-      } else {
-        return '';
-      }
     }
 
     function getBoxTrajectory (options) {
@@ -116,7 +103,6 @@
     $scope.$on('osemChartsMouseOut', function (event, data) {
       $scope.$parent.map.highlightedMeasureIndex = undefined;
     });
-
 
     /* CHARTS */
     vm.selectedSensor = { id: null };

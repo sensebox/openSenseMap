@@ -15,6 +15,7 @@
 
     vm.mapMarkers = {};
     // the following get filled from childscope sidebar.boxdetails.js
+    // IDEA: pass this data via $scope.$parent.$broadcast() instead?
     vm.boxLocations = {};
     vm.selectedSensorMeasurements = [];
     vm.legendInfo = {};
@@ -84,7 +85,7 @@
     function toggleLayer (type, event) {
       osemMapData.getMap('map_main')
         .then(function (map) {
-          osemMapData.getLayer('oldMarkers')
+          osemMapData.getLayer(type)
             .then(function (layer) {
               if (map.hasLayer(layer)) {
                 if (!vm.showAllMarkers) {

@@ -47,32 +47,32 @@
 
       map.on('click', onMapClick);
 
+      var mcg = L.markerClusterGroup({
+        maxClusterRadius: 2*rmax,
+        iconCreateFunction: defineClusterIcon,
+        disableClusteringAtZoom: 17,
+        spiderfyOnMaxZoom: false,
+        showCoverageOnHover: false
+      });
+
       var mapLayers = {
-        'mobileTrajectory': L.layerGroup(),
-        'mobileMeasurements': L.layerGroup(),
+        'mobileTrajectory': L.featureGroup(),
+        'mobileMeasurements': L.featureGroup(),
+
+        'markerCluster': mcg,
+        // adding to map adds all child layers into the parent group for subgroups
+        'activeMarkers': L.featureGroup.subGroup(mcg),
+        'inactiveMarkers': L.featureGroup.subGroup(mcg),
+        'oldMarkers': L.featureGroup.subGroup(mcg),
+        'mouseOver': L.layerGroup(),
       };
 
-      // fixme: make consistent with style of mcg layers etc
-      // TODO: add a single marker for the selected box
       for (var layerName in mapLayers) {
-        osemMapData.setLayer(layerName, mapLayers[layerName]);
+        mapLayers[layerName].on('add', function () {
+          osemMapData.setLayer(layerName, mapLayers[layerName]);
+        });
         map.addLayer(mapLayers[layerName]);
       }
-
-      var mcg = L.markerClusterGroup({
-            maxClusterRadius: 2*rmax,
-            iconCreateFunction: defineClusterIcon,
-            disableClusteringAtZoom: 17,
-            spiderfyOnMaxZoom: false,
-            showCoverageOnHover: false
-          }),
-          activeMarkerGroup = L.featureGroup.subGroup(mcg),
-          inactiveMarkerGroup = L.featureGroup.subGroup(mcg),
-          oldMarkerGroup = L.featureGroup.subGroup(mcg);
-
-      var mouseOverGroup = L.layerGroup();
-
-      mcg.addTo(map);
 
       mcg.on('clustermouseover', function (e) {
         var allChildMarkers = e.layer.getAllChildMarkers();
@@ -84,30 +84,18 @@
             fillOpacity: .3,
             opacity: 0
           });
-          mouseOverGroup.addLayer(circle);
+          mapLayers['mouseOver'].addLayer(circle);
         }
-        mouseOverGroup.addTo(map);
+        map.addLayer(mapLayers['mouseOver']);
       });
 
       mcg.on('clustermouseout', function (e) {
-        mouseOverGroup.clearLayers();
-        map.removeLayer(mouseOverGroup);
+        mapLayers['mouseOver'].clearLayers();
+        map.removeLayer(mapLayers['mouseOver']);
       });
 
       mcg.on('clusterclick', function (e) {
-        map.removeLayer(mouseOverGroup);
-      });
-
-      activeMarkerGroup.on('add', function () {
-        osemMapData.setLayer('activeMarkers', activeMarkerGroup);
-      });
-
-      inactiveMarkerGroup.on('add', function () {
-        osemMapData.setLayer('inactiveMarkers', inactiveMarkerGroup);
-      });
-
-      oldMarkerGroup.on('add', function () {
-        osemMapData.setLayer('oldMarkers', oldMarkerGroup);
+        map.removeLayer(mapLayers['mouseOver']);
       });
 
       L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
@@ -119,10 +107,6 @@
       }).addTo(map);
 
       L.control.scale().addTo(map);
-
-      activeMarkerGroup.addTo(map); // Adding to map now adds all child layers into the parent group.
-      inactiveMarkerGroup.addTo(map);
-      oldMarkerGroup.addTo(map);
 
       if (angular.isDefined(scope.events) && !angular.equals({}, scope.events)) {
         if (scope.events.autolocation) {
@@ -145,9 +129,9 @@
 
       function onMarkersWatch (newVal, oldVal) {
         if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
-          activeMarkerGroup.clearLayers();
-          inactiveMarkerGroup.clearLayers();
-          oldMarkerGroup.clearLayers();
+          mapLayers['activeMarkers'].clearLayers();
+          mapLayers['inactiveMarkers'].clearLayers();
+          mapLayers['oldMarkers'].clearLayers();
           for (var marker in newVal) {
             var box = newVal[marker];
             var marker = L.marker([box.lat,box.lng], {
@@ -155,14 +139,15 @@
               options: box,
               draggable: box.draggable,
               opacity: box.icon.opacity,
-              zIndexOffset: box.icon.zIndexOffset});
+              zIndexOffset: box.icon.zIndexOffset
+            });
             // IDEA: allow filtering either by activity, exposure, (model)?
             if (box.layer === 'oldMarker') {
-              marker.addTo(oldMarkerGroup);
-            } else if (box.layer === 'inactiveMarer') {
-              marker.addTo(inactiveMarkerGroup);
+              marker.addTo(mapLayers['oldMarkers']);
+            } else if (box.layer === 'inactiveMarker') {
+              marker.addTo(mapLayers['inactiveMarkers']);
             } else {
-              marker.addTo(activeMarkerGroup);
+              marker.addTo(mapLayers['activeMarkers']);
             }
             marker.on('click', onMarkerClick);
             marker.on('mouseover', onMarkerMouseOver);
@@ -188,11 +173,10 @@
           color: '#333',
           opacity: 0.7,
           weight: 2,
-          //dashArray: '5',
           interactive: false
         });
 
-        mapLayers['mobileTrajectory'].addLayer(line);
+        mapLayers['mobileTrajectory'].addLayer(line).bringToBack();
       }
 
       function onMeasurementsWatch (newVal, oldVal) {
@@ -233,17 +217,12 @@
       }
 
       function onHighlightWatch (newVal, oldVal) {
-        // TODO: handle undefined values
-        // FIXME: select by proper ID?!
         var layerIds = Object.keys(mapLayers['mobileMeasurements']._layers);
-
         var newHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[newVal]];
         var oldHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[oldVal]];
-
         if (newHighlightLayer) highlightMeasurement(newHighlightLayer);
         if (oldHighlightLayer) unHighlightMeasurement(oldHighlightLayer);
       }
-
 
       function highlightMeasurement (measureLayer) {
         measureLayer.setStyle({ weight: 2, radius: 8 }).bringToFront();
@@ -291,7 +270,6 @@
 
       function onMeasurementMouseOver (e) {
         highlightMeasurement(e.target);
-
         var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
@@ -299,7 +277,6 @@
 
       function onMeasurementMouseOut (e) {
         unHighlightMeasurement(e.target);
-
         var eventName = 'osemMeasurementMouseOut.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();

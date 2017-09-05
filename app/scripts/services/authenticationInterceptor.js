@@ -5,9 +5,9 @@
     .module('app.services')
     .factory('AuthenticationInterceptor', AuthenticationInterceptor);
 
-  AuthenticationInterceptor.$inject = ['$q', '$injector', 'AuthenticationService', 'OpenSenseBoxAPI'];
+  AuthenticationInterceptor.$inject = ['$q', '$injector', 'AuthenticationService', 'OpenSenseMapAPIConfig'];
 
-  function AuthenticationInterceptor ($q, $injector, AuthenticationService, OpenSenseBoxAPI) {
+  function AuthenticationInterceptor ($q, $injector, AuthenticationService, OpenSenseMapAPIConfig) {
     var inFlightAuthRequest = null;
 
     return {
@@ -24,7 +24,7 @@
             case 401:
               var deferred = $q.defer();
               if(!inFlightAuthRequest) {
-                  inFlightAuthRequest = $injector.get('$http').post(OpenSenseBoxAPI.url + '/users/refresh-auth', {token: AuthenticationService.getRefreshToken()});
+                  inFlightAuthRequest = $injector.get('$http').post(OpenSenseMapAPIConfig.url + '/users/refresh-auth', {token: AuthenticationService.getRefreshToken()});
               }
               inFlightAuthRequest.then(function(r) {
                   inFlightAuthRequest = null;

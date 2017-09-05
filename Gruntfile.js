@@ -61,7 +61,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapiconfig.js'], dest: '.tmp/scripts/services'},
           {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
         ]
       },
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/scripts/controllers/map.js',
           '<%= yeoman.app %>/scripts/controllers/register.js',
-          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
+          '<%= yeoman.app %>/scripts/services/opensensemapapiconfig.js',
           '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
           '<%= yeoman.app %>/scripts/services/map.js',
           '<%= yeoman.app %>/components/leaflet.directive.js'
@@ -495,7 +495,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
         dest: '.tmp/scripts/services',
-        src: ['opensenseboxapi.js', 'map.js']
+        src: ['opensensemapapiconfig.js', 'map.js']
       },
       apinew: {
         expand: true,

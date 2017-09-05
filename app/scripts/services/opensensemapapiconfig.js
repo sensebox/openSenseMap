@@ -2,13 +2,11 @@
 
 /**
  * @ngdoc service
- * @name openSenseMapApp.OpenSenseBoxAPI
+ * @name openSenseMapApp.OpenSenseMapAPIConfig
  * @description Defines the settings for the OpenSenseBox API such as the URL
- * # OpenSenseBox
- * Factory in the openSenseMapApp.
  */
 angular.module('openSenseMapApp')
-	.factory('OpenSenseBoxAPI', function () {
+	.factory('OpenSenseMapAPIConfig', function () {
 		var api = {
 			url: '@@OPENSENSEMAP_API_URL'
 		};

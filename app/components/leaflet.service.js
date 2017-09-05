@@ -3,12 +3,12 @@
 
   angular
     .module('openSenseMapApp')
-    .factory('osemMapData', osemMapData);
+    .factory('leafletDataProvider', leafletDataProvider);
 
-  osemMapData.$inject = ['$q'];
+  leafletDataProvider.$inject = ['$q'];
 
   /* @ngInject */
-  function osemMapData ($q) {
+  function leafletDataProvider ($q) {
     var maps = {};
     var layers = {};
     var service = {

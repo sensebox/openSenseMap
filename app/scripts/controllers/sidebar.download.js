@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'markerFactory', 'leafletDataProvider'];
 
-  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, markerFactory, leafletDataProvider) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -31,10 +31,10 @@
     ////
 
     function activate () {
-      vm.markersFiltered = OpenSenseMapData.getMarkers();
+      vm.markersFiltered = markerFactory.getMarkers();
       vm.count = Object.keys(vm.markersFiltered).length;
 
-      osemMapData.getMap('map_main')
+      leafletDataProvider.getMap('map_main')
         .then(function (map) {
           vm.map = map;
           $scope.$broadcast('initData', {});
@@ -131,8 +131,8 @@
 
     ////
 
-    $scope.$on('osemMapReady', function () {
-      osemMapData.getMap('map_main')
+    $scope.$on('leafletMapReady', function () {
+      leafletDataProvider.getMap('map_main')
         .then(function (map) {
           vm.map = map;
           $scope.$broadcast('initData', {});

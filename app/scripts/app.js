@@ -67,7 +67,7 @@ angular
           'sidebar': {
             controller: 'SidebarBoxDetailsController',
             controllerAs: 'details',
-            templateUrl: 'views/explore2.sidebar.box.html'
+            templateUrl: 'views/explore2.sidebar.boxdetails.html'
           }
         }
       })

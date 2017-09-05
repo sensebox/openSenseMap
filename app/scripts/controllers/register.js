@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$scope', '$translate', '$timeout', 'SensorIcons', 'WizardHandler', 'AccountService', 'osemMapData'];
+  RegisterController.$inject = ['$scope', '$translate', '$timeout', 'SensorIcons', 'WizardHandler', 'AccountService', 'leafletDataProvider'];
 
-  function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, osemMapData) {
+  function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, leafletDataProvider) {
     var vm = this;
     vm.stepTitle = '';
     vm.stepIndex = 0;
@@ -283,7 +283,7 @@
 
     ////
 
-    $scope.$on('osemMapClick.map_register', function(e, args) {
+    $scope.$on('leafletMapClick.map_register', function(e, args) {
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
@@ -310,7 +310,7 @@
       vm.editMarkerInput =  angular.copy(vm.markers);
     });
 
-    $scope.$on('osemMapOnLocationFound.map_register', function (e, args) {
+    $scope.$on('leafletMapOnLocationFound.map_register', function (e, args) {
       vm.map = args.map;
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
@@ -331,7 +331,7 @@
       vm.editMarkerInput =  angular.copy(vm.markers);
     });
 
-    $scope.$on('osemMapOnLocationError.map_register', function(e, args){
+    $scope.$on('leafletMapOnLocationError.map_register', function(e, args){
       vm.geolocationError.error = true;
       vm.geolocationError.message = args.message;
     });
@@ -344,7 +344,7 @@
       });
       if (index.index === 1) {
         $timeout(function () {
-          osemMapData.getMap('map_register')
+          leafletDataProvider.getMap('map_register')
             .then(function (map) {
               map.invalidateSize();
               if (!vm.geolocationError.error) {

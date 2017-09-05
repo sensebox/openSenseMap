@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarFilterController', SidebarFilterController);
 
-  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonsFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService'];
+  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonsFilter', 'markerFactory', 'OpenSenseMapAPI', 'FilterActiveService'];
 
-  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonsFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService) {
+  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonsFilter, markerFactory, OpenSenseMapAPI, FilterActiveService) {
     var vm = this;
     vm.inputFilter = {};
     vm.filterActive = FilterActiveService;
@@ -27,8 +27,8 @@
 
     function activate () {
       console.info('Activated Filter');
-      vm.markers = OpenSenseMapData.getMarkers();
-      vm.filteredMarkers = OpenSenseMapData.getMarkers();
+      vm.markers = markerFactory.getMarkers();
+      vm.filteredMarkers = markerFactory.getMarkers();
     }
 
     function openDatePicker ($event) {
@@ -135,10 +135,10 @@
     }
 
     function setMarkers (data, classification) {
-      OpenSenseMapData.setMarkers(data, classification)
+      markerFactory.setMarkers(data, classification)
         .then(function (response) {
           vm.filteredMarkers = response;
-          $scope.$emit('markersChanged', OpenSenseMapData.getMarkers());
+          $scope.$emit('markersChanged', markerFactory.getMarkers());
           vm.loading = false;
         })
         .catch(function (error) {

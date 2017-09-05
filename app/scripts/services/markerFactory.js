@@ -3,11 +3,11 @@
 
   angular
     .module('openSenseMapApp')
-    .factory('OpenSenseMapData', OpenSenseMapData);
+    .factory('markerFactory', markerFactory);
 
-  OpenSenseMapData.$inject = ['$q', '$state'];
+  markerFactory.$inject = ['$q', '$state'];
 
-  function OpenSenseMapData ($q, $state) {
+  function markerFactory ($q, $state) {
     var markers = {};
     var ONE_DAY = 1000 * 60 * 60 * 24;
     var SEVEN_DAYS = ONE_DAY * 7;

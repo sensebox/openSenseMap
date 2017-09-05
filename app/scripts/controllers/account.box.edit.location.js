@@ -67,7 +67,7 @@
 
     ////
 
-    $scope.$on('osemMapClick.map_edit', function (e, args) {
+    $scope.$on('leafletMapClick.map_edit', function (e, args) {
       setCoordinates(args.latlng);
     });
 

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'Box', 'OpenSenseMapAPI', 'leafletDataProvider'];
 
-  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, osemMapData) {
+  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, leafletDataProvider) {
     var vm = this;
     vm.box = {};
 
@@ -72,7 +72,7 @@
     }
 
     function centerBounds (bounds) {
-      osemMapData.getMap('map_main').then(function(map) {
+      leafletDataProvider.getMap('map_main').then(function(map) {
         var padding = 450; // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
         if (document.body.clientWidth <= 700) padding = 0;

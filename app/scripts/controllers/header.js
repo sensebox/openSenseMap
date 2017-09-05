@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'markerFactory', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'leafletDataProvider'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService, osemMapData) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, markerFactory, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, leafletDataProvider) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -41,7 +41,6 @@
     ////
 
     function activate () {
-      console.info('Header is activated!');
       if (AccountService.isAuthed()) {
         AccountService.getUserDetails()
           .then(function (data) {
@@ -50,17 +49,14 @@
             vm.username = data.data.me.name;
           });
       } else {
-        console.info('Set language to default');
         vm.key = 'de';
         LanguageService.change('de_DE');
       }
 
-      $http.get(OpenSenseBoxAPI.url+'/stats')
-       .success(function(data){
-          vm.counts.boxes = data[0];
-          vm.counts.measurements = data[1];
-          vm.counts.mPerMin = data[2];
-        }).error(function(){
+      OpenSenseMapAPI.statistics().then(function(data) {
+        vm.counts.boxes = data[0];
+        vm.counts.measurements = data[1];
+        vm.counts.mPerMin = data[2];
       });
     }
 
@@ -134,7 +130,7 @@
           return item;
         });
         var boxresults = 0;
-        var markers = OpenSenseMapData.getMarkers();
+        var markers = markerFactory.getMarkers();
         Object.keys(markers).map(function (key) {
           if (boxresults === 4) {
             return;
@@ -155,7 +151,7 @@
 
     // centers a latlng (marker) on the map while reserving space for the sidebar
     function centerLatLng (latlng) {
-      osemMapData.getMap('map_main').then(function(map) {
+      leafletDataProvider.getMap('map_main').then(function(map) {
         map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
           paddingTopLeft: [0,0],
           animate: false,

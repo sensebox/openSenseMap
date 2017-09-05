@@ -13,7 +13,7 @@
   <hr>
 
   <div style="height: 500px;">
-    <osem-map id="map_edit" markers="location.editMarker" center=""></osem-map>
+    <leaflet-map id="map_edit" markers="location.editMarker" center=""></leaflet-map>
   </div>
   <div ng-class="{'has-error': locationSettings.boxLat.$invalid, 'has-success': locationSettings.boxLat.$valid}" class="col-md-6">
     <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>

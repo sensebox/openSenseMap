@@ -111,7 +111,7 @@
 .osem-register:before {
   content: "\f02a";
 }
-.osem-map-marker:before {
+.leaflet-map-marker:before {
   content: "\f041";
 }
 .osem-plus-circle:before {

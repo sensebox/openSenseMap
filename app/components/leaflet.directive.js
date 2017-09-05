@@ -3,12 +3,12 @@
 
   angular
     .module('openSenseMapApp')
-    .directive('osemMap', osemMap);
+    .directive('leafletMap', leafletMap);
 
-  osemMap.$inject = ['$q', '$rootScope', 'osemMapData'];
+  leafletMap.$inject = ['$q', '$rootScope', 'leafletDataProvider'];
 
   /* @ngInject */
-  function osemMap ($q, $rootScope, osemMapData) {
+  function leafletMap ($q, $rootScope, leafletDataProvider) {
     var rmax = 30;
     var directive = {
       templateUrl: 'components/leaflet.directive.html',
@@ -70,7 +70,7 @@
 
       for (var layerName in mapLayers) {
         mapLayers[layerName].on('add', function () {
-          osemMapData.setLayer(layerName, mapLayers[layerName]);
+          leafletDataProvider.setLayer(layerName, mapLayers[layerName]);
         });
         map.addLayer(mapLayers[layerName]);
       }
@@ -138,13 +138,13 @@
 
       // Resolve the map object to the promises
       map.whenReady(function() {
-        osemMapData.setMap(attrs.id, map);
+        leafletDataProvider.setMap(attrs.id, map);
         // set up watches, which generate map objects from the watched raw data
         scope.$watch('markers', onMarkersWatch);
         scope.$watch('mobileTrajectory', onTrajectoryWatch);
         scope.$watch('mobileMeasurements', onMeasurementsWatch);
         scope.$watch('highlightedMeasurement', onHighlightWatch);
-        $rootScope.$broadcast('osemMapReady', {});
+        $rootScope.$broadcast('leafletMapReady', {});
       });
 
       function onMarkersWatch (newVal, oldVal) {
@@ -261,19 +261,19 @@
       }
 
       function onLocationFound (e) {
-        var eventName = 'osemMapOnLocationFound.' + scope.mapId;
+        var eventName = 'leafletMapOnLocationFound.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }
 
       function onLocationError (e) {
-        var eventName = 'osemMapOnLocationError.' + scope.mapId;
+        var eventName = 'leafletMapOnLocationError.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }
 
       function onMapClick (e) {
-        var eventName = 'osemMapClick.' + scope.mapId;
+        var eventName = 'leafletMapClick.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }

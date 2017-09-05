@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$templateRequest', '$compile', 'boxes', 'markerFactory', 'leafletDataProvider'];
 
-  function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData) {
+  function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, markerFactory, leafletDataProvider) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showHide = false;
@@ -35,7 +35,7 @@
     ////
 
     function activate () {
-      OpenSenseMapData.setMarkers(boxes)
+      markerFactory.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;
         })
@@ -83,9 +83,9 @@
     }
 
     function toggleLayer (type, event) {
-      osemMapData.getMap('map_main')
+      leafletDataProvider.getMap('map_main')
         .then(function (map) {
-          osemMapData.getLayer(type)
+          leafletDataProvider.getLayer(type)
             .then(function (layer) {
               if (map.hasLayer(layer)) {
                 if (!vm.showAllMarkers) {
@@ -136,12 +136,12 @@
     })
 
     $scope.$on('markersChanged', function (data) {
-      vm.mapMarkers = OpenSenseMapData.getMarkers();
+      vm.mapMarkers = markerFactory.getMarkers();
     });
 
-    $scope.$on('osemMapReady', function () {
+    $scope.$on('leafletMapReady', function () {
       /* Custom legend control */
-      osemMapData.getMap('map_main').then(function (map) {
+      leafletDataProvider.getMap('map_main').then(function (map) {
         var infoLegend = createLegendFromTemplate('views/explore2.map.legend.html', vm.toggleLegend);
         map.addControl(infoLegend);
         var measurementLegend = createLegendFromTemplate('views/explore2.map.legend.measurements.html');

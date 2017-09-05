@@ -16,7 +16,8 @@
       getBoxLocations: getBoxLocations,
       getSensors: getSensors,
       getSensorData: getSensorData,
-      idwInterpolation: idwInterpolation
+      idwInterpolation: idwInterpolation,
+      statistics: statistics
     };
 
     return service;
@@ -74,6 +75,12 @@
 
     function idwInterpolation (data) {
       return $http.get(getUrl() + '/statistics/idw', data)
+        .then(success)
+        .catch(failed);
+  }
+
+    function statistics () {
+      return $http.get(getUrl() + '/stats')
         .then(success)
         .catch(failed);
     }

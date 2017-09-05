@@ -49,7 +49,7 @@
           <uib-accordion close-others="oneAtATime">
             <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.box.sensors" is-open="sensor.chart.open" ng-cloak>
               <uib-accordion-heading>
-                <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor._id == details.selectedSensor.id ? 'selected-sensor' : ''">
+                <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor == details.selectedSensor ? 'selected-sensor' : ''">
                   <div class="col-xs-1">
                     <span title="{{sensor.title | translate}}">
                       <span class="icon osem-icon" ng-class="details.getIcon(sensor)"></span>

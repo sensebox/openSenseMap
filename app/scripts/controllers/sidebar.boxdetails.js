@@ -51,7 +51,8 @@
         .then(function (response) {
           // save result in map.js scope, as it needs to be accessible for leaflet directive
           $scope.$parent.map.boxLocations = response;
-          return focusSelectedBox(response);
+          focusSelectedBox(response);
+          return response;
         })
     }
 
@@ -95,6 +96,13 @@
 
     $scope.$on('osemBadgeRefreshFinished', function () {
       vm.box.getLastMeasurement();
+      if (
+        vm.box.exposure === 'mobile' &&
+        (!vm.selectedSensor || !vm.selectedSensor.chart.toDate)
+      ) {
+        getBoxTrajectory();
+      }
+
       $scope.$broadcast('osemBadgeRefreshStartTimer');
     });
 
@@ -107,7 +115,7 @@
     });
 
     /* CHARTS */
-    vm.selectedSensor = { id: null };
+    vm.selectedSensor = null;
     vm.measurements = {}; // contains original measurements for the map
 
     function selectSensor(sensor, event) {
@@ -118,12 +126,11 @@
       sensor.chart.error = false;
 
       // if already selected sensor is selected again: clear selection
-      if (sensor._id === vm.selectedSensor.id) {
-        vm.selectedSensor = { id: null };
+      if (sensor === vm.selectedSensor) {
+        vm.selectedSensor = null;
         return;
       }
-
-      vm.selectedSensor.id = sensor._id; // for styling in the view
+      vm.selectedSensor = sensor;
 
       // get chart data once
       if (!sensor.chart.done) {

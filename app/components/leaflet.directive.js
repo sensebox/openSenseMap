@@ -182,7 +182,11 @@
 
       function onTrajectoryWatch (newVal, oldVal) {
         mapLayers['mobileTrajectory'].clearLayers();
-        if (!angular.isDefined(newVal) || angular.equals({}, newVal)) return;
+        if (
+          !angular.isDefined(newVal) ||
+          angular.equals({}, newVal) ||
+          !newVal.geometry.coordinates.length
+        ) return;
 
         // swap latLngs
         var latlngs = newVal.geometry.coordinates.map(function (latlng) {
@@ -197,6 +201,10 @@
         });
 
         mapLayers['mobileTrajectory'].addLayer(line).bringToBack();
+
+        // update marker position in case it has changed
+        var marker = mapLayers['selectedBoxMarker'].getLayers()[0];
+        marker.setLatLng(latlngs[latlngs.length - 1]);
       }
 
       function onMeasurementsWatch (newVal, oldVal) {

@@ -66,6 +66,12 @@
                     {{'STATION_PLACEMENT_OUTDOOR'|translate}}
                   </label>
                 </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="exposure" id="optionsRadios3" value="mobile" ng-model="register.newSenseBox.exposure" required>
+                    {{'STATION_PLACEMENT_MOBILE'|translate}}
+                  </label>
+                </div>
                 <span ng-show="senseboxForm.exposure.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                 <span ng-show="senseboxForm.exposure.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
               </div>

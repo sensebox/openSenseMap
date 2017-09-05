@@ -71,15 +71,19 @@
     function getBadgeColor (exposure) {
       if (exposure === 'indoor') {
         return 'orange';
-      } else {
+      } else if (exposure === 'outdoor') {
         return 'olive';
+      } else if (exposure === 'mobile') {
+        return 'navy';
+      } else {
+        return '';
       }
     }
 
     function focusSelectedBox () {
       var markerLatLng = [
-        vm.selectedMarker.loc[0].geometry.coordinates[1],
-        vm.selectedMarker.loc[0].geometry.coordinates[0]
+        vm.selectedMarker.currentLocation.coordinates[1],
+        vm.selectedMarker.currentLocation.coordinates[0]
       ];
       centerLatLng(markerLatLng);
     }

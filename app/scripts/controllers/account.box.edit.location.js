@@ -21,8 +21,8 @@
 
     function activate () {
       vm.boxPosition = {
-        lng: parseFloat(boxData.loc[0].geometry.coordinates[0].toFixed(6)),
-        lat: parseFloat(boxData.loc[0].geometry.coordinates[1].toFixed(6)),
+        lng: parseFloat(boxData.currentLocation.coordinates[0].toFixed(6)),
+        lat: parseFloat(boxData.currentLocation.coordinates[1].toFixed(6)),
         draggable: true,
         zoom: 17,
         icon: {
@@ -39,7 +39,7 @@
     }
 
     function save () {
-      return AccountService.updateBox(boxData._id, {loc: vm.editMarker.m1})
+      return AccountService.updateBox(boxData._id, {location: vm.editMarker.m1})
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');

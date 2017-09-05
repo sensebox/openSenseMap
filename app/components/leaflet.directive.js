@@ -56,6 +56,7 @@
       });
 
       var mapLayers = {
+        'selectedBoxMarker': L.featureGroup().setZIndex(1000),
         'mobileTrajectory': L.featureGroup(),
         'mobileMeasurements': L.featureGroup(),
 
@@ -115,6 +116,25 @@
           map.on('locationerror', onLocationError);
         }
       }
+
+      scope.$on('boxSelected', function (event, box) {
+        var allMarkers = mapLayers['markerCluster'].getLayers();
+        var marker;
+        for (var layer of allMarkers) {
+          if (box._id === layer.options.options.station.id) {
+            marker = layer;
+            break;
+          }
+        }
+        mapLayers['markerCluster'].removeLayer(marker);
+        mapLayers['selectedBoxMarker'].addLayer(marker);
+      });
+
+      scope.$on('boxDeselected', function (event, box) {
+        var marker = mapLayers['selectedBoxMarker'].getLayers()[0];
+        mapLayers['selectedBoxMarker'].removeLayer(marker);
+        mapLayers['markerCluster'].addLayer(marker);
+      });
 
       // Resolve the map object to the promises
       map.whenReady(function() {

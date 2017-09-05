@@ -32,6 +32,7 @@
           vm.boxNotFound = true;
         })
         .finally(function () {
+          $scope.$parent.$broadcast('boxSelected', vm.box);
           $timeout(function () {
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000)
@@ -85,6 +86,7 @@
     }
 
     $scope.$on('$destroy', function(ev) {
+      $scope.$parent.$broadcast('boxDeselected', vm.box);
       // reset externally stored state
       $scope.$parent.map.legendInfo = {};
       $scope.$parent.map.boxLocations = {};

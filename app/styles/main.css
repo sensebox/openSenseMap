@@ -1198,6 +1198,38 @@ svg .dot {
   margin-bottom: 20px;
 }
 
+.dateInput {
+  width: 42%;
+  display: inline-block;
+  position: relative;
+  padding: 8px 4px 8px 4px;
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 24px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle;
+}
+
+.dateInput > input {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+}
+
+.dateInputPickerInput_arrow {
+  height: 18px;
+  width: 18px;
+  vertical-align:
+  middle;display:
+  inline-block;
+  position: relative;
+}
+
 .dateInput_display-text--focused {
   background: #4EAF15;
   border-color: #4EAF15;
@@ -1216,7 +1248,6 @@ svg .dot {
   display: inline-block;
   vertical-align: middle;
   padding: 8px;
-  /* margin: 0 10px 0 5px; */
 }
 
 .dateRangePickerInput__clear-dates svg {
@@ -1228,6 +1259,70 @@ svg .dot {
 
 .dateRangePickerInput__clear-dates--hover {
   background: #dbdbdb;
+}
+
+.calendarToolbar {
+  background-color: #fff;
+  border: 1px solid #cacccd;
+  border-top: 0px;
+}
+
+.calendarToolbarButton {
+  margin: 0;
+  text-align: center;
+  padding: 0;
+  display: inline-block;
+  position: relative;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  cursor: pointer;
+  right: 0;
+}
+
+.calendarToolbarButtonContainerLeft {
+  display: inline-block;
+  position: relative;
+  border-right: 1px solid #cacccd;
+  width: 32%;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 24px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.calendarToolbarButtonContainerMiddle {
+  display: inline-block;
+  position: relative;
+  border-right: 1px solid #cacccd;
+  width: 33%;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 24px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle; text-align: center
+}
+
+.calendarToolbarButtonContainerRight {
+  display: inline-block;
+  position: relative;
+  width:32%;
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 200;
+  line-height: 24px;
+  color: #757575;
+  background: #fff;
+  vertical-align: middle; text-align: center
 }
 
 @keyframes spinner {

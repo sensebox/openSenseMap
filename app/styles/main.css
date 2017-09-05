@@ -1148,7 +1148,7 @@ svg .dot {
 }
 
 .tooltipContainer {
-  width: 72%;
+  width: 100%;
   display: inline-block;
   position: relative;
   font-size: 11px;
@@ -1302,7 +1302,7 @@ svg .dot {
   display: inline-block;
   position: relative;
   border-right: 1px solid #cacccd;
-  width: 33%;
+  width: 32%;
   padding: 8px;
   font-size: 15px;
   font-weight: 200;
@@ -1315,14 +1315,15 @@ svg .dot {
 .calendarToolbarButtonContainerRight {
   display: inline-block;
   position: relative;
-  width:32%;
+  width: 32%;
   padding: 8px;
   font-size: 15px;
   font-weight: 200;
   line-height: 24px;
   color: #757575;
   background: #fff;
-  vertical-align: middle; text-align: center
+  vertical-align: middle;
+  text-align: center;
 }
 
 @keyframes spinner {
@@ -1385,5 +1386,25 @@ svg .dot {
   100% {
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 420px) {
+  .dateInput {
+    width: 39%;
+    font-size: 12px;
+  }
+
+  .dateInputPickerInput_arrow {
+    width: 16px;
+    height: 16px;
+  }
+
+  .dateRangePickerInput__clear-dates {
+    padding: 6px;
+  }
+
+  .tooltipContainer {
+    font-size: 10px;
   }
 }

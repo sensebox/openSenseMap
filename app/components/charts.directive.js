@@ -28,10 +28,13 @@
 
     function link(scope, element, attrs, chartCtrl) {
       var svg = d3.select(element[0]).select('svg'),
-          margin = {top: 20, right: 0, bottom: 30, left: 50},
-          width = +svg.attr("width") - margin.left - margin.right,
+          margin = {top: 20, right: 5, bottom: 30, left: 50, yAxis: 10},
+          width = +element.parent()[0].offsetWidth - margin.right,
           height = +svg.attr("height") - margin.top - margin.bottom,
           g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      //Set width of parent element for SVG
+      svg.attr("width", width);
 
       var config = {
         svg: svg,
@@ -74,6 +77,7 @@
     vm.zoomIn = zoomIn;
     vm.zoomOut = zoomOut;
     vm.resetZoom = resetZoom;
+    vm.exportChart = exportChart;
 
     ////
 
@@ -121,11 +125,12 @@
       // 3. Call the x axis in a group tag
       vm.xAxisGroup = g.append("g")
           .attr("class", "x axis")
-          .attr("transform", "translate(0," + config.height + ")");
+          .attr("transform", "translate(" + config.margin.yAxis + "," + config.height + ")");
 
       // 4. Call the y axis in a group tag
       vm.yAxisGroup = g.append("g")
-          .attr("class", "y axis");
+          .attr("class", "y axis")
+          .attr("transform", "translate(" + config.margin.yAxis + ", 0)");
 
       // text label for the y axis
       if (vm.yAxisTitle !== '') {
@@ -134,13 +139,15 @@
           .attr("y", 0 - config.margin.left)
           .attr("x",0 - (config.height / 2))
           .attr("dy", "1em")
+          .style("font-size","12px")
           .style("text-anchor", "middle")
           .text(vm.yAxisTitle);
       }
 
       vm.dots = g.append('g')
           .attr('class', 'dots')
-          .attr('clip-path', 'url(#clipper)');
+          .attr('clip-path', 'url(#clipper)')
+          .attr("transform", "translate(" + config.margin.yAxis + ", 0)");
 
       if ($scope.chart.chartData) {
 
@@ -236,7 +243,7 @@
 
       // Update yAxis
       vm.yAxis.scale(vm.yScale);
-      vm.yAxisGroup.call(vm.yAxis);
+      vm.yAxisGroup.call(vm.yAxis.tickFormat(d3.format(".1f")));
 
       // Update xAxis
       vm.xAxis.scale(vm.xScale);
@@ -287,6 +294,108 @@
         .delay(100)
         .duration(700)
         .call(zoomFunction, zoomLevel);
+    }
+
+    function exportChart() {
+      var svgString = getSVGString(vm._chartSVG.svg.node());
+      svgString2Image( svgString, 2*vm._chartSVG.width, 2*vm._chartSVG.height, 'png' ); // passes Blob and filesize String to the callback
+    }
+
+    // Below are the functions that handle actual exporting:
+    // getSVGString ( svgNode ) and svgString2Image( svgString, width, height, format, callback )
+    function getSVGString( svgNode ) {
+      svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
+      var cssStyleText = getCSSStyles( svgNode );
+      appendCSS( cssStyleText, svgNode );
+
+      var serializer = new XMLSerializer();
+      var svgString = serializer.serializeToString(svgNode);
+      svgString = svgString.replace(/(\w+)?:?xlink=/g, 'xmlns:xlink='); // Fix root xlink without namespace
+      svgString = svgString.replace(/NS\d+:href/g, 'xlink:href'); // Safari NS namespace fix
+
+      return svgString;
+
+      function getCSSStyles( parentElement ) {
+        var selectorTextArr = [];
+
+        // Add Parent element Id and Classes to the list
+        selectorTextArr.push( '#'+parentElement.id );
+        for (var c = 0; c < parentElement.classList.length; c++)
+            if ( !contains('.'+parentElement.classList[c], selectorTextArr) )
+              selectorTextArr.push( '.'+parentElement.classList[c] );
+
+        // Add Children element Ids and Classes to the list
+        var nodes = parentElement.getElementsByTagName("*");
+        for (var i = 0; i < nodes.length; i++) {
+          var id = nodes[i].id;
+          if ( !contains('#'+id, selectorTextArr) )
+            selectorTextArr.push( '#'+id );
+
+          var classes = nodes[i].classList;
+          for (var c = 0; c < classes.length; c++)
+            if ( !contains('.'+classes[c], selectorTextArr) )
+              selectorTextArr.push( '.'+classes[c] );
+        }
+
+        // Extract CSS Rules
+        var extractedCSSText = "";
+        for (var i = 0; i < document.styleSheets.length; i++) {
+          var s = document.styleSheets[i];
+
+          try {
+            if(!s.cssRules) continue;
+          } catch( e ) {
+            if(e.name !== 'SecurityError') throw e; // for Firefox
+            continue;
+          }
+
+          var cssRules = s.cssRules;
+          for (var r = 0; r < cssRules.length; r++) {
+            if ( contains( cssRules[r].selectorText, selectorTextArr ) )
+              extractedCSSText += cssRules[r].cssText;
+          }
+        }
+
+        return extractedCSSText;
+
+        function contains(str,arr) {
+          return arr.indexOf( str ) === -1 ? false : true;
+        }
+      }
+      function appendCSS( cssText, element ) {
+        var styleElement = document.createElement("style");
+        styleElement.setAttribute("type","text/css");
+        styleElement.innerHTML = cssText;
+        var refNode = element.hasChildNodes() ? element.children[0] : null;
+        element.insertBefore( styleElement, refNode );
+      }
+    }
+
+    function svgString2Image( svgString, width, height, format ) {
+      var format = format ? format : 'png';
+
+      var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
+
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+
+      canvas.width = width;
+      canvas.height = height;
+
+      var image = new Image();
+      image.src = imgsrc;
+      image.onload = function() {
+        context.clearRect ( 0, 0, width, height );
+        context.drawImage(image, 0, 0, width, height);
+
+        var a = document.createElement("a");
+        a.addEventListener('click', function(ev) {
+          a.href = canvas.toDataURL("image/png");
+          a.download = "chart.png";
+        }, false);
+        document.body.appendChild(a);
+        a.click();
+      };
     }
   }
 })();

@@ -140,6 +140,9 @@
       map.whenReady(function() {
         osemMapData.setMap(attrs.id, map);
         // set up watches, which generate map objects from the watched raw data
+        scope.$watch('center', function (newVal) {
+          if (angular.isDefined(newVal)) map.panTo(newVal);
+        });
         scope.$watch('markers', onMarkersWatch);
         scope.$watch('mobileTrajectory', onTrajectoryWatch);
         scope.$watch('mobileMeasurements', onMeasurementsWatch);

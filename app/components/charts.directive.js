@@ -205,6 +205,7 @@
     }
 
     function mouseover (d) {
+      d3.select(this).attr('r', 5.5);
       vm.datapoint.date = moment(d.date).format('LLLL');
       vm.datapoint.value = d.value;
       vm.datapoint.unit = d.unit;
@@ -215,6 +216,7 @@
     }
 
     function mouseout () {
+      d3.select(this).attr('r', 2.5);
       vm.datapoint.showPlaceholder = !vm.datapoint.showPlaceholder;
       var eventName = 'osemChartsMouseOut';
       $scope.$emit(eventName, {});

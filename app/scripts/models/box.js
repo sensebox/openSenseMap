@@ -38,8 +38,12 @@
             for (var index in response.sensors) {
               var sensor = response.sensors[index];
 
-              that.sensors[sensor._id].lastMeasurement.value = sensor.lastMeasurement.value;
-              that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
+              if (angular.isDefined(sensor.lastMeasurement) &&
+                  angular.isDefined(that.sensors[sensor._id].lastMeasurement)
+              ) {
+                that.sensors[sensor._id].lastMeasurement.value = sensor.lastMeasurement.value;
+                that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
+              }
               // if (angular.isDefined(vm.sensordata[response.sensors[i]._id])) {
               //           var data = angular.copy(vm.sensordata[response.sensors[i]._id]);
               //           console.log(data);

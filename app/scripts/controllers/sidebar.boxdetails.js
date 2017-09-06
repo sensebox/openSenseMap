@@ -41,12 +41,7 @@
 
     function getBoxTrajectory (options) {
       var options = Object.assign({ format: 'geojson' }, options);
-      var data = { params: {
-        format: options['format'],
-        'from-date': options['from-date'],
-        'to-date': options['to-date'],
-      }};
-
+      var data = { params: options };
       return OpenSenseMapAPI.getBoxLocations($stateParams.id, data)
         .then(function (response) {
           // save result in map.js scope, as it needs to be accessible for leaflet directive
@@ -96,10 +91,14 @@
 
     $scope.$on('osemBadgeRefreshFinished', function () {
       vm.box.getLastMeasurement();
+
+      // update trajectory and (map)measurements for mobile boxes
+      // but only if there is no time filter selected in the chart
       if (
         vm.box.exposure === 'mobile' &&
         (!vm.selectedSensor || !vm.selectedSensor.chart.toDate)
       ) {
+        if (vm.selectedSensor) getSensorData(vm.selectedSensor);
         getBoxTrajectory();
       }
 

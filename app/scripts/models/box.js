@@ -29,7 +29,7 @@
         }
       },
       getArchiveLink: function () {
-        return "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+this.id+"-"+doubleGermanS(this.name).replace(/[^A-Za-z0-9._-]/g,'_');
+        return "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+this._id+"-"+doubleGermanS(this.name).replace(/[^A-Za-z0-9._-]/g,'_');
       },
       getLastMeasurement: function () {
         var that = this;
@@ -65,7 +65,7 @@
      * @param {*} value
      */
     var doubleGermanS = function (value) {
-      value = value.replace(/ß/g, 'ßß');
+      value = value.replace(/[\u00A0-\u10FFFF]/g, '__');
       return value;
     }
 

@@ -194,6 +194,7 @@
 	"EDITBOX_TITLE": "Edit senseBox",
   "BOX_LATITUDE": "Latitude",
   "BOX_LONGITUDE": "Longitude",
+  "BOX_HEIGHT": "Height (GPS)",
   "BOX_POSITION_RESET": "Reset location",
 
   "ACCOUNT_HEADING": "Sign in to openSenseMap",

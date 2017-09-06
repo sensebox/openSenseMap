@@ -193,6 +193,7 @@
   "EDITBOX_TITLE": "senseBox verwalten",
   "BOX_LATITUDE": "Geographische Breite",
   "BOX_LONGITUDE": "Geographische Länge",
+  "BOX_HEIGHT": "Höhe (GPS, nicht über Grund!)",
   "BOX_POSITION_RESET": "Ort zurücksetzen",
 
   "ACCOUNT_HEADING": "openSenseMap Registrierung",

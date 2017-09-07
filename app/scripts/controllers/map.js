@@ -19,7 +19,7 @@
     vm.boxLocations = {};
     vm.selectedSensorMeasurements = [];
     vm.legendInfo = {};
-    vm.highlightedMeasureIndex = undefined;
+    vm.highlightedMeasure = undefined;
 
     vm.hoverlabel = {
       left: 0,

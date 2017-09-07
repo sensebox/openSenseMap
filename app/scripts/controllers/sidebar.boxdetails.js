@@ -10,6 +10,7 @@
   function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, osemMapData) {
     var vm = this;
     vm.box = {};
+    vm.selectedSensor = null;
 
     vm.focusSelectedBox = focusSelectedBox;
     vm.selectSensor = selectSensor;
@@ -105,25 +106,20 @@
       $scope.$broadcast('osemBadgeRefreshStartTimer');
     });
 
+    // sync the selected measurement between chart & map
+    // TODO: more elegant way of 2way binding?
     $scope.$on('osemChartsMouseOver', function (event, data) {
-      $scope.$parent.map.highlightedMeasureIndex = data.index;
+      $scope.$parent.map.highlightedMeasure = data;
     });
-
     $scope.$on('osemChartsMouseOut', function (event, data) {
-      $scope.$parent.map.highlightedMeasureIndex = undefined;
+      $scope.$parent.map.highlightedMeasure = undefined;
     });
-
     $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
-      vm.selectedSensor.chart.selectedMeasurement = args.measurementId;
+      vm.selectedSensor.chart.selectedMeasurement = args.target.options.measurement;
     });
-
     $scope.$on('osemMeasurementMouseOut.map_main', function (e, args) {
       vm.selectedSensor.chart.selectedMeasurement = undefined;
     });
-
-    /* CHARTS */
-    vm.selectedSensor = null;
-    vm.measurements = {}; // contains original measurements for the map
 
     function selectSensor(sensor, event) {
       $scope.$parent.map.selectedSensorMeasurements = [];
@@ -139,13 +135,12 @@
       }
       vm.selectedSensor = sensor;
 
-      // get chart data once
-      if (!sensor.chart.done) {
+      // get chart data once and add measurements to the map
+      // if we have them already, use the cached data
+      if (!sensor.measurements) {
         getSensorData(sensor, {});
       } else if (vm.box.exposure === 'mobile') {
-        // if chart was already done once, manually add measurements to the map
-        // using the cached measurement data
-        $scope.$parent.map.selectedSensorMeasurements = vm.measurements[sensor._id];
+        $scope.$parent.map.selectedSensorMeasurements = sensor.measurements;
       }
 
       sensor.chart.yAxisTitle = sensor.title + '('+sensor.unit+')';
@@ -182,20 +177,19 @@
         .then(function (response) {
           sensor.chart.data = [];
           for (var j = 0; j < response.length; j++) {
-            var d = new Date(response[j].createdAt);
-            var dataPair = {};
-            dataPair.index = j;
-            dataPair.value = parseFloat(response[j].value);
-            dataPair.date = d;
-            dataPair.unit = sensor.unit;
-            sensor.chart.data.push(dataPair);
+            sensor.chart.data.push({
+              id: response[j].id,
+              value: parseFloat(response[j].value),
+              date: new Date(response[j].createdAt),
+              unit: sensor.unit,
+            });
           }
           sensor.chart.done = true;
           return response;
         })
         .then(function (measurements) {
           if (vm.box.exposure === 'mobile') {
-            vm.measurements[sensor._id] = measurements;
+            sensor.measurements = measurements;
             $scope.$parent.map.selectedSensorMeasurements = measurements;
           }
           return measurements;

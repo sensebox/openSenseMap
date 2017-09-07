@@ -150,10 +150,7 @@
 
         $scope.$watch('chart.selectedMeasurement', function (newValue, oldValue) {
           if (angular.isDefined(newValue)) {
-            var measurement = $scope.chart.chartData.find(function(m) {
-              return vm.selectedMeasurement === m.index;
-            });
-            selectDatapoint(measurement);
+            selectDatapoint(newValue);
           } else {
             deselectDatapoint();
           }
@@ -210,7 +207,7 @@
     }
 
     function selectDatapoint(d) {
-      vm.datapoint.index = d.index;
+      vm.datapoint.id = d.id;
       vm.datapoint.date = moment(d.date).format('LLLL');
       vm.datapoint.value = d.value;
       vm.datapoint.unit = d.unit;

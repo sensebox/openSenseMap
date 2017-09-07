@@ -69,6 +69,14 @@
     function getSensorData (boxId, sensorId, data) {
       return $http.get(getUrl() + '/boxes/' + boxId + '/data/' + sensorId, data)
         .then(success)
+        .then(function (measurements) {
+          // attach an id to each measurement
+          for (var i = 0; i < measurements.length; i++) {
+            measurements[i].id = i;
+          }
+
+          return measurements;
+        })
         .catch(failed);
     }
 

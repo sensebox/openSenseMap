@@ -238,6 +238,7 @@
             fillOpacity: 1,
             fillColor: palette(measure.value),
             hoverlabelContent: [measure.value, scope.mobileLegendInfo.unit].join(' '),
+            measurement: measure,
           });
 
           marker.on('mouseover', onMeasurementMouseOver);
@@ -248,11 +249,17 @@
       }
 
       function onHighlightWatch (newVal, oldVal) {
-        var layerIds = Object.keys(mapLayers['mobileMeasurements']._layers);
-        var newHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[newVal]];
-        var oldHighlightLayer = mapLayers['mobileMeasurements']._layers[layerIds[oldVal]];
-        if (newHighlightLayer) highlightMeasurement(newHighlightLayer);
-        if (oldHighlightLayer) unHighlightMeasurement(oldHighlightLayer);
+        var layers = mapLayers['mobileMeasurements'].getLayers();
+        if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
+          highlightMeasurement(layers.find(function (layer) {
+            return layer.options.measurement.id === newVal.id;
+          }));
+        }
+        if (angular.isDefined(oldVal) && !angular.equals({}, oldVal)) {
+          unHighlightMeasurement(layers.find(function (layer) {
+            return layer.options.measurement.id === oldVal.id;
+          }));
+        }
       }
 
       function highlightMeasurement (measureLayer) {
@@ -300,17 +307,14 @@
       }
 
       function onMeasurementMouseOver (e) {
-        highlightMeasurement(e.target);
-        // attach the measurement id
-        var layerIds = Object.keys(mapLayers['mobileMeasurements']._layers);
-        e.measurementId = layerIds.indexOf(e.target._leaflet_id.toString());
+        scope.highlightedMeasurement = e.target.options.measurement;
         var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }
 
       function onMeasurementMouseOut (e) {
-        unHighlightMeasurement(e.target);
+        scope.highlightedMeasurement = {};
         var eventName = 'osemMeasurementMouseOut.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();

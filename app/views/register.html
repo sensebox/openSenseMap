@@ -95,7 +95,7 @@
                 <osem-map id="map_register" markers="register.markers" events="register.events"></osem-map>
               </div>
               <div id="boxPosition" class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLat.$invalid, 'has-success' :  senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
                     <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="register.editMarkerInput.box.lat" step="0.000001" required>
@@ -103,12 +103,20 @@
                     <span ng-show="senseboxForm.boxLat.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLng.$invalid, 'has-success' :  senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLng">{{'BOX_LONGITUDE'|translate}}</label>
                     <input name="boxLng" class="form-control" type="number" min="-180" max="180" ng-model="register.editMarkerInput.box.lng" step="0.000001" required>
                     <span ng-show="senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                     <span ng-show="senseboxForm.boxLng.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxHeight.$invalid, 'has-success' :  senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined}">
+                    <label for="boxHeight">{{'BOX_HEIGHT'|translate}}</label>
+                    <input name="boxHeight" class="form-control" type="number" ng-model="register.editMarkerInput.box.height" step="0.5">
+                    <span ng-show="senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.boxHeight.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
               </div>

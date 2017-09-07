@@ -113,6 +113,14 @@
       $scope.$parent.map.highlightedMeasureIndex = undefined;
     });
 
+    $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
+      vm.selectedSensor.chart.selectedMeasurement = args.measurementId;
+    });
+
+    $scope.$on('osemMeasurementMouseOut.map_main', function (e, args) {
+      vm.selectedSensor.chart.selectedMeasurement = undefined;
+    });
+
     /* CHARTS */
     vm.selectedSensor = null;
     vm.measurements = {}; // contains original measurements for the map
@@ -140,9 +148,7 @@
         $scope.$parent.map.selectedSensorMeasurements = vm.measurements[sensor._id];
       }
 
-      var chartConfig = sensor.chart;
-      chartConfig.yAxisTitle = sensor.title + '('+sensor.unit+')';
-
+      sensor.chart.yAxisTitle = sensor.title + '('+sensor.unit+')';
       angular.extend($scope.$parent.map.legendInfo, { unit: sensor.unit });
 
       // dont close a chart if it is already open when being selected

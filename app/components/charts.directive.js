@@ -21,6 +21,7 @@
       scope: {
         chartData: '=',
         yAxisTitle: '=',
+        selectedMeasurement: '=',
         tooltipPlaceholder: '@'
       }
     };
@@ -147,6 +148,17 @@
         // Inital chart creation
         loadChartData();
 
+        $scope.$watch('chart.selectedMeasurement', function (newValue, oldValue) {
+          if (angular.isDefined(newValue)) {
+            var measurement = $scope.chart.chartData.find(function(m) {
+              return vm.selectedMeasurement === m.index;
+            });
+            selectDatapoint(measurement);
+          } else {
+            deselectDatapoint();
+          }
+        });
+
         $scope.$watchCollection('chart.chartData', function (newValue, oldValue) {
           if (!angular.equals(newValue, oldValue)) {
             loadChartData();
@@ -197,19 +209,27 @@
       });
     }
 
-    function mouseover (d) {
+    function selectDatapoint(d) {
       vm.datapoint.index = d.index;
       vm.datapoint.date = moment(d.date).format('LLLL');
       vm.datapoint.value = d.value;
       vm.datapoint.unit = d.unit;
-      vm.datapoint.showPlaceholder = !vm.datapoint.showPlaceholder;
+      vm.datapoint.showPlaceholder = false;
+    }
+
+    function deselectDatapoint () {
+      vm.datapoint.showPlaceholder = true;
+    }
+
+    function mouseover (d) {
+      selectDatapoint(d);
       var eventName = 'osemChartsMouseOver';
       $scope.$emit(eventName, vm.datapoint);
       $scope.$apply();
     }
 
     function mouseout () {
-      vm.datapoint.showPlaceholder = !vm.datapoint.showPlaceholder;
+      deselectDatapoint();
       var eventName = 'osemChartsMouseOut';
       $scope.$emit(eventName, {});
       $scope.$apply();

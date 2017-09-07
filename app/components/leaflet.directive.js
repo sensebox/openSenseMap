@@ -301,6 +301,9 @@
 
       function onMeasurementMouseOver (e) {
         highlightMeasurement(e.target);
+        // attach the measurement id
+        var layerIds = Object.keys(mapLayers['mobileMeasurements']._layers);
+        e.measurementId = layerIds.indexOf(e.target._leaflet_id.toString());
         var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();

@@ -1,32 +1,42 @@
 <div class="line-chart">
-  <svg width="350" height="200"></svg>
+  <svg height="200"></svg>
   <div>
     <div class="chartToolbarContainer">
       <div class="tooltipContainer">
-        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden;">
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden; text-align: center;">
           {{chart.datapoint.tooltip()}}
         </div>
       </div>
-      <button type="button" aria-label="Zoom in" class="chartActionButton" ng-click="chart.zoomIn()" title="Zoom in">
-        <div class="chartActionButton__zoom-in-icon">
-          <svg viewBox="0 0 12 12">
-            <path fill-rule="evenodd" d="M12 5L12 7L7 7L7 12L5 12L5 7L0 7L0 5L5 5L5 0L7 0L7 5L12 5Z"></path>
-          </svg>
+      <div class="tooltipContainer">
+        <div style="padding: 4px 8px;white-space: nowrap;overflow: hidden; text-align: center;">
+          <button type="button" aria-label="Zoom in" class="chartActionButton" ng-click="chart.zoomIn()" title="Zoom in">
+            <div class="chartActionButton__zoom-in-icon">
+              <svg viewBox="0 0 12 12">
+                <path fill-rule="evenodd" d="M12 5L12 7L7 7L7 12L5 12L5 7L0 7L0 5L5 5L5 0L7 0L7 5L12 5Z"></path>
+              </svg>
+            </div>
+          </button>
+          <button type="button" aria-label="Zoom out" class="chartActionButton" ng-click="chart.zoomOut()" title="Zoom out">
+            <div class="chartActionButton__zoom-out-icon">
+              <svg viewBox="0 0 12 12">
+                <path fill-rule="evenodd" d="M0 7L12 7L12 5L0 5L0 7Z"></path>
+						  </svg>
+            </div>
+          </button>
+          <button type="button" aria-label="Reset" class="chartActionButton" ng-click="chart.resetZoom()" title="Zoom reset">
+            <div class="chartActionButton__reset-icon">
+              <svg viewBox="0 0 12 12"><path fill-rule="evenodd" d="M7.68 6.03L11.8 10.15L10.15 11.8L6.03 7.68L1.91 11.8L0.26 10.15L4.38 6.03L0.25 1.9L1.9 0.25L6.03 4.38L10.16 0.25L11.81 1.9L7.68 6.03Z"></path>
+              </svg>
+            </div>
+          </button>
+          <button type="button" aria-label="Export" class="chartActionButton" ng-click="chart.exportChart()" title="Export chart">
+              <div class="chartActionButton__reset-icon">
+                <svg viewBox="0 0 12 12"><path fill-rule="evenodd" d="M6.43 9.6L12 9.6L12 12L0 12L0 9.6L5.57 9.6L6 10.8L6.43 9.6ZM10.26 11.05L10.19 11.18L10.17 11.33L10.19 11.49L10.26 11.62L10.35 11.7L10.46 11.73L10.57 11.7L10.66 11.62L10.72 11.49L10.75 11.33L10.72 11.18L10.66 11.05L10.57 10.96L10.46 10.93L10.35 10.96L10.26 11.05ZM11.11 11.04L11.05 11.17L11.03 11.33L11.05 11.48L11.11 11.61L11.2 11.7L11.32 11.73L11.43 11.7L11.52 11.61L11.58 11.48L11.6 11.33L11.58 11.17L11.52 11.04L11.43 10.96L11.32 10.93L11.2 10.96L11.11 11.04ZM8.07 5.26L6 10.22L3.93 5.26L5.24 5.26L5.24 0L6.76 0L6.76 5.26L8.07 5.26Z"></path>
+                </svg>
+              </div>
+            </button>
         </div>
-      </button>
-      <button type="button" aria-label="Zoom out" class="chartActionButton" ng-click="chart.zoomOut()" title="Zoom out">
-        <div class="chartActionButton__zoom-out-icon">
-          <svg viewBox="0 0 12 12">
-              <path fill-rule="evenodd" d="M0 7L12 7L12 5L0 5L0 7Z"></path>
-						</svg>
-        </div>
-      </button>
-      <button type="button" aria-label="Reset" class="chartActionButton" ng-click="chart.resetZoom()" title="Zoom reset">
-        <div class="chartActionButton__reset-icon">
-          <svg viewBox="0 0 12 12"><path fill-rule="evenodd" d="M7.68 6.03L11.8 10.15L10.15 11.8L6.03 7.68L1.91 11.8L0.26 10.15L4.38 6.03L0.25 1.9L1.9 0.25L6.03 4.38L10.16 0.25L11.81 1.9L7.68 6.03Z"></path>
-          </svg>
-        </div>
-      </button>
+      </div>
     </div>
   </div>
 </div>

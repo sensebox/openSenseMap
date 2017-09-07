@@ -16,6 +16,8 @@
     function Sensor (sensor) {
       angular.copy(sensor, this);
 
+      //TODO create lastMeasurement property if not existing???
+
       this.chart = {
         fromDate: undefined,
         toDate: undefined,

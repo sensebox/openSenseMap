@@ -49,10 +49,10 @@
     vm.textEndDate = '';
 
     vm.dateOptionsStartDate = {
-      maxDate: moment().toDate()
+      maxDate: moment().startOf('day').toDate()
     };
     vm.dateOptionsEndDate = {
-      maxDate: moment().toDate()
+      maxDate: moment().startOf('day').toDate()
     };
 
     vm.open = open;
@@ -111,9 +111,9 @@
             vm.osemStartDate = new Date();
             vm.textStartDate = vm.osemPlaceholderTextStartDate;
           } else {
-            vm.osemStartDate = moment(vm.osemStartDate);
+            vm.osemStartDate = moment(vm.osemStartDate).startOf('day');
             vm.textStartDate = moment(vm.osemStartDate).format('L');
-            vm.dateOptionsEndDate.minDate = vm.osemStartDate.toDate();
+            vm.dateOptionsEndDate.minDate = vm.osemStartDate.clone().add(1, 'days').toDate();
           }
           close('startDate', true);
           break;
@@ -122,7 +122,7 @@
             vm.osemEndDate = new Date();
             vm.textEndDate = vm.osemPlaceholderTextEndDate;
           } else {
-            vm.osemEndDate = moment(vm.osemEndDate);
+            vm.osemEndDate = moment(vm.osemEndDate).startOf('day');
             vm.textEndDate = moment(vm.osemEndDate).format('L');
             vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
           }
@@ -130,7 +130,6 @@
           break;
       }
 
-      //TODO check if time range has changed
       if (moment.isMoment(vm.osemStartDate) &&
         moment.isMoment(vm.osemEndDate)) {
         executeCallback(vm.onRangeSet);
@@ -155,6 +154,10 @@
       vm.osemEndDate = new Date();
       vm.textEndDate = vm.osemPlaceholderTextEndDate;
 
+      vm.dateOptionsStartDate.maxDate = moment().startOf('day').toDate();
+      vm.dateOptionsEndDate.minDate = null;
+      vm.dateOptionsEndDate.maxDate = moment().startOf('day').toDate();
+
       executeCallback(vm.onClear);
     }
 
@@ -163,6 +166,9 @@
       vm.textEndDate = moment(vm.osemEndDate).format('L');
       vm.osemStartDate = moment(vm.osemEndDate).subtract(number, type);
       vm.textStartDate = moment(vm.osemStartDate).format('L');
+
+      vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
+      vm.dateOptionsEndDate.minDate = vm.osemStartDate.clone().add(1, 'days').toDate();
 
       executeCallback(vm.onRangeSet);
     }

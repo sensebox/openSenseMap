@@ -320,13 +320,15 @@
           box: {
             'lat': parseFloat(args.latlng.lat.toFixed(6)),
             'lng': parseFloat(args.latlng.lng.toFixed(6)),
-            'height': parseFloat(args.latlng.lng.toFixed(3)),
             'draggable': true,
             'icon': {
               'markerColor': 'green'
             }
           }
         };
+        if (args.latlng.altitude) {
+          vm.markers.box.height = parseFloat(args.latlng.altitude.toFixed(2))
+        }
       } else {
         vm.markers = angular.copy(vm.markers);
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));

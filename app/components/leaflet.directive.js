@@ -218,13 +218,17 @@
         var values = newVal.map(function(m) { return m.value; });
         var max = Math.max.apply(null, values);
         var min = Math.min.apply(null, values);
-        var palette = chroma.scale(['#B5F584', '#375F73']).mode('hcl').correctLightness().domain([max, min]);
+        var palette = d3.scaleLinear()
+          .domain([min, max])
+          .interpolate(d3.interpolateHcl)
+          .range([d3.rgb('#375F73'), d3.rgb('#B5F584')]);
 
-        // pass info to the legend view
         angular.extend(scope.mobileLegendInfo, {
           minVal: min,
           maxVal: max,
-          colors: palette.colors(6)
+          // the legend uses a css color gradient, which interpolates RGB only.
+          // to emulate a HCL gradient, we pass many hcl colors close to each other
+          colors: [1,2,3,4,5,6,7,8,9,10].map(palette.copy().domain([10, 1])),
         });
 
         for (var measure of newVal) {

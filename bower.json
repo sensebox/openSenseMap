@@ -23,7 +23,6 @@
     "angular-bootstrap": "^2.5.0",
     "leaflet": "^1.1.0",
     "Leaflet.awesome-markers": "leaflet-awesome-markers#^2.0.2",
-    "chroma-js": "^1.3.3",
     "leaflet.markercluster": "Leaflet.markercluster#^1.0.6",
     "d3": "^4.10.0",
     "Leaflet.FeatureGroup.SubGroup": "^1.0.3"

@@ -213,6 +213,7 @@
       }
       if (vm.ttnEnabled) {
         vm.newSenseBox.ttn = vm.ttn;
+        vm.newSenseBox.ttn.decodeOptions = JSON.parse(vm.ttn.decodeOptions);
       }
       vm.newSenseBox.location.push(vm.markers.box.lng);
       vm.newSenseBox.location.push(vm.markers.box.lat);

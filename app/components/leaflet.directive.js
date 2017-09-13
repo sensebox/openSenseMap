@@ -120,9 +120,9 @@
       scope.$on('boxSelected', function (event, box) {
         var allMarkers = mapLayers['markerCluster'].getLayers();
         var marker;
-        for (var layer of allMarkers) {
-          if (box._id === layer.options.options.station.id) {
-            marker = layer;
+        for (var layer in allMarkers) {
+          if (box._id === allMarkers[layer].options.options.station.id) {
+            marker = allMarkers[layer];
             break;
           }
         }
@@ -231,8 +231,9 @@
           colors: [1,2,3,4,5,6,7,8,9,10].map(palette.copy().domain([10, 1])),
         });
 
-        for (var measure of newVal) {
+        for (var val in newVal) {
           // swap latlngs
+          var measure = newVal[val];
           var latlng = [measure.location[1], measure.location[0], measure.location[3]];
 
           var marker = L.circleMarker(latlng, {
@@ -267,11 +268,15 @@
       }
 
       function highlightMeasurement (measureLayer) {
-        measureLayer.setStyle({ weight: 2, radius: 8 }).bringToFront();
+        if (angular.isDefined(measureLayer)) {
+          measureLayer.setStyle({ weight: 2, radius: 8 }).bringToFront();
+        }
       }
 
       function unHighlightMeasurement (measureLayer) {
-        measureLayer.setStyle({ weight: 0.5, radius: 6 });
+        if (angular.isDefined()) {
+          measureLayer.setStyle({ weight: 0.5, radius: 6 });
+        }
       }
 
       function onLocationFound (e) {

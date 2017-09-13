@@ -447,6 +447,10 @@ div.box {
   background-color: #FF851B;
 }
 
+.navy {
+  background-color: #476290;
+}
+
 #brand_with_logo img,
 #brand_with_logo h3 {
   display:inline-block;
@@ -517,6 +521,10 @@ div.box {
 #tabMeasurements .row {
   margin-left: 2px;
   margin-right: 2px;
+}
+
+#sidebar .panel-heading .selected-sensor .sensor-measurement-info {
+  font-weight: bold!important;
 }
 
 .dropdown-languages li a {
@@ -760,6 +768,26 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 .legend-big {
   width: auto;
   height: auto;
+}
+
+.sensebox-legend-measurements {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  width: 80px;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+.sensebox-legend-measurements span {
+  opacity: 1;
+  height: 161.06px;
+  width: 18px;
+  display: block;
+  margin-top: 8px;
+}
+
+.sensebox-legend-measurements svg line {
+  stroke: #555;
 }
 
 #map_main > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div > div > a {

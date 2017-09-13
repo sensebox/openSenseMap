@@ -2,7 +2,7 @@
   <div class="row" ng-show="details.boxNotFound">
     <div class="col-xs-12 col-sm-12 col-md-12">
       <h3>
-        <a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="details.closeSidebar()" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
+        <a ui-sref="explore.map"><i class="fa fa-times pull-right close" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
       </h3>
     </div>
     <div class="col-xs-12 col-md-12">
@@ -47,9 +47,9 @@
 
         <div class="list-group">
           <uib-accordion close-others="oneAtATime">
-            <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.box.sensors" ng-init="isOpen = false" is-open="isOpen" ng-cloak>
+            <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.box.sensors" is-open="sensor.chart.open" ng-cloak>
               <uib-accordion-heading>
-                <div class="row" ng-click="details.openChart(sensor, !isOpen)">
+                <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor == details.selectedSensor ? 'selected-sensor' : ''">
                   <div class="col-xs-1">
                     <span title="{{sensor.title | translate}}">
                       <span class="icon osem-icon" ng-class="details.getIcon(sensor)"></span>
@@ -88,6 +88,7 @@
                 <osem-charts
                   ng-if="sensor.chart.done"
                   chart-data="sensor.chart.data"
+                  selected-measurement="sensor.chart.selectedMeasurement"
                   y-axis-title="sensor.chart.yAxisTitle"
                   tooltip-placeholder="{{ 'CHART_TOOLTIP_PLACEHOLDER' | translate }}">
                 </osem-charts>

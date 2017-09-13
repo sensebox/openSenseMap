@@ -13,6 +13,7 @@
       getBoxes: getBoxes,
       getData: getData,
       getBox: getBox,
+      getBoxLocations: getBoxLocations,
       getSensors: getSensors,
       getSensorData: getSensorData,
       idwInterpolation: idwInterpolation
@@ -52,6 +53,13 @@
         .catch(failed);
     }
 
+    function getBoxLocations (boxId, data) {
+      return $http
+        .get(getUrl() + '/boxes/' + boxId + '/locations', data)
+        .then(success)
+        .catch(failed);
+    }
+
     function getSensors (boxId) {
       return $http.get(getUrl() + '/boxes/' + boxId + '/sensors')
         .then(success)
@@ -61,6 +69,14 @@
     function getSensorData (boxId, sensorId, data) {
       return $http.get(getUrl() + '/boxes/' + boxId + '/data/' + sensorId, data)
         .then(success)
+        .then(function (measurements) {
+          // attach an id to each measurement
+          for (var i = 0; i < measurements.length; i++) {
+            measurements[i].id = i;
+          }
+
+          return measurements;
+        })
         .catch(failed);
     }
 

@@ -1,0 +1,23 @@
+<!--
+    legend for selected sensor values of mobile boxes
+    borrowed from R package html-widgets
+-->
+<div class="sensebox-legend-measurements" ng-show="map.legendInfo.maxVal !== undefined">
+  <div style="float: left;">
+    <span class="sensebox-legend-colorramp" style="{{'background: transparent linear-gradient(' + map.legendInfo.colors.join(', ') + ') repeat scroll 0% 0%'}}" />
+  </div>
+  <div>
+    <svg style="width: 46px; height: 177.06px;">
+      <g transform="translate(0, 8)">
+        <text y="4.5" dx="46" dy="0.5ex" text-anchor="end">
+          {{ (map.legendInfo.maxVal | number: 0) + ' ' + map.legendInfo.unit }}
+        </text>
+        <line x1="0" x2="4" y1="4.5" y2="4.5" stroke-width="1"></line>
+        <text y="158.42534532547" dx="46" dy="0.5ex" text-anchor="end">
+          {{ (map.legendInfo.minVal | number: 0) + ' ' + map.legendInfo.unit }}
+        </text>
+        <line x1="0" x2="4" y1="158.42534532547" y2="158.42534532547" stroke-width="1"></line>
+      </g>
+    </svg>
+  </div>
+</div>

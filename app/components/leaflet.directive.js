@@ -22,7 +22,11 @@
         };
       },
       scope: {
-        markers: '=',
+        markers: '=',            // expects an array of classified markers
+        mobileTrajectory: '=',   // expects geojson linestring
+        mobileMeasurements: '=', // expects array of API measurements
+        mobileLegendInfo: '=',   // contains metadata for the contents of `mobileMeasurements`
+        highlightedMeasurement: '=',
         center: '=',
         events: '='
       }
@@ -44,19 +48,32 @@
       map.on('click', onMapClick);
 
       var mcg = L.markerClusterGroup({
-            maxClusterRadius: 2*rmax,
-            iconCreateFunction: defineClusterIcon,
-            disableClusteringAtZoom: 17,
-            spiderfyOnMaxZoom: false,
-            showCoverageOnHover: false
-          }),
-          activeMarkerGroup = L.featureGroup.subGroup(mcg),
-          inactiveMarkerGroup = L.featureGroup.subGroup(mcg),
-          oldMarkerGroup = L.featureGroup.subGroup(mcg);
+        maxClusterRadius: 2*rmax,
+        iconCreateFunction: defineClusterIcon,
+        disableClusteringAtZoom: 17,
+        spiderfyOnMaxZoom: false,
+        showCoverageOnHover: false
+      });
 
-      var mouseOverGroup = L.layerGroup();
+      var mapLayers = {
+        'selectedBoxMarker': L.featureGroup().setZIndex(1000),
+        'mobileTrajectory': L.featureGroup(),
+        'mobileMeasurements': L.featureGroup(),
 
-      mcg.addTo(map);
+        'markerCluster': mcg,
+        // adding to map adds all child layers into the parent group for subgroups
+        'activeMarkers': L.featureGroup.subGroup(mcg),
+        'inactiveMarkers': L.featureGroup.subGroup(mcg),
+        'oldMarkers': L.featureGroup.subGroup(mcg),
+        'mouseOver': L.layerGroup(),
+      };
+
+      for (var layerName in mapLayers) {
+        mapLayers[layerName].on('add', function () {
+          osemMapData.setLayer(layerName, mapLayers[layerName]);
+        });
+        map.addLayer(mapLayers[layerName]);
+      }
 
       mcg.on('clustermouseover', function (e) {
         var allChildMarkers = e.layer.getAllChildMarkers();
@@ -68,30 +85,18 @@
             fillOpacity: .3,
             opacity: 0
           });
-          mouseOverGroup.addLayer(circle);
+          mapLayers['mouseOver'].addLayer(circle);
         }
-        mouseOverGroup.addTo(map);
+        map.addLayer(mapLayers['mouseOver']);
       });
 
       mcg.on('clustermouseout', function (e) {
-        mouseOverGroup.clearLayers();
-        map.removeLayer(mouseOverGroup);
+        mapLayers['mouseOver'].clearLayers();
+        map.removeLayer(mapLayers['mouseOver']);
       });
 
       mcg.on('clusterclick', function (e) {
-        map.removeLayer(mouseOverGroup);
-      });
-
-      activeMarkerGroup.on('add', function () {
-        osemMapData.setLayer('activeMarkers', activeMarkerGroup);
-      });
-
-      inactiveMarkerGroup.on('add', function () {
-        osemMapData.setLayer('inactiveMarkers', inactiveMarkerGroup);
-      });
-
-      oldMarkerGroup.on('add', function () {
-        osemMapData.setLayer('oldMarkers', oldMarkerGroup);
+        map.removeLayer(mapLayers['mouseOver']);
       });
 
       L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
@@ -104,10 +109,6 @@
 
       L.control.scale().addTo(map);
 
-      activeMarkerGroup.addTo(map); // Adding to map now adds all child layers into the parent group.
-      inactiveMarkerGroup.addTo(map);
-      oldMarkerGroup.addTo(map);
-
       if (angular.isDefined(scope.events) && !angular.equals({}, scope.events)) {
         if (scope.events.autolocation) {
           map.locate({setView: true, maxZoom: 16});
@@ -116,48 +117,162 @@
         }
       }
 
+      scope.$on('boxSelected', function (event, box) {
+        var allMarkers = mapLayers['markerCluster'].getLayers();
+        var marker;
+        for (var layer of allMarkers) {
+          if (box._id === layer.options.options.station.id) {
+            marker = layer;
+            break;
+          }
+        }
+        mapLayers['markerCluster'].removeLayer(marker);
+        mapLayers['selectedBoxMarker'].addLayer(marker);
+      });
+
+      scope.$on('boxDeselected', function (event, box) {
+        var marker = mapLayers['selectedBoxMarker'].getLayers()[0];
+        mapLayers['selectedBoxMarker'].removeLayer(marker);
+        mapLayers['markerCluster'].addLayer(marker);
+      });
+
       // Resolve the map object to the promises
       map.whenReady(function() {
         osemMapData.setMap(attrs.id, map);
-        scope.$watch('markers', function (newVal, oldVal) {
-          if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
-            activeMarkerGroup.clearLayers();
-            inactiveMarkerGroup.clearLayers();
-            oldMarkerGroup.clearLayers();
-            for (var marker in newVal) {
-              var box = newVal[marker];
-              var boxMarker = L.AwesomeMarkers.icon({
-                icon: 'cube',
-                prefix: 'fa',
-                markerColor: box.icon.markerColor
-              });
-              boxMarker.opacity = 0.5;
-              var marker = L.marker([box.lat,box.lng], {
-                icon: boxMarker,
-                options: box,
-                draggable: box.draggable,
-                opacity: box.icon.opacity,
-                zIndexOffset: box.icon.zIndexOffset});
-              if (box.layer === 'oldMarker') {
-                marker.addTo(oldMarkerGroup);
-              } else if (box.layer === 'inactiveMarer') {
-                marker.addTo(inactiveMarkerGroup);
-              } else {
-                marker.addTo(activeMarkerGroup);
-              }
-              marker.on('click', onMarkerClick);
-              marker.on('mouseover', onMouseOver);
-              marker.on('mouseout', onMouseOut);
-
-              if (box.draggable) {
-                marker.on('dragend', onMarkerDragend);
-              }
-            }
-          }
+        // set up watches, which generate map objects from the watched raw data
+        scope.$watch('center', function (newVal) {
+          if (angular.isDefined(newVal)) map.panTo(newVal);
         });
-
+        scope.$watch('markers', onMarkersWatch);
+        scope.$watch('mobileTrajectory', onTrajectoryWatch);
+        scope.$watch('mobileMeasurements', onMeasurementsWatch);
+        scope.$watch('highlightedMeasurement', onHighlightWatch);
         $rootScope.$broadcast('osemMapReady', {});
       });
+
+      function onMarkersWatch (newVal, oldVal) {
+        if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
+          mapLayers['activeMarkers'].clearLayers();
+          mapLayers['inactiveMarkers'].clearLayers();
+          mapLayers['oldMarkers'].clearLayers();
+          for (var marker in newVal) {
+            var box = newVal[marker];
+            var marker = L.marker([box.lat,box.lng], {
+              icon: L.AwesomeMarkers.icon(box.icon),
+              options: box,
+              draggable: box.draggable,
+              opacity: box.icon.opacity,
+              zIndexOffset: box.icon.zIndexOffset
+            });
+            // IDEA: allow filtering either by activity, exposure, (model)?
+            if (box.layer === 'oldMarker') {
+              marker.addTo(mapLayers['oldMarkers']);
+            } else if (box.layer === 'inactiveMarker') {
+              marker.addTo(mapLayers['inactiveMarkers']);
+            } else {
+              marker.addTo(mapLayers['activeMarkers']);
+            }
+            marker.on('click', onMarkerClick);
+            marker.on('mouseover', onMarkerMouseOver);
+            marker.on('mouseout', onMarkerMouseOut);
+
+            if (box.draggable) {
+              marker.on('dragend', onMarkerDragend);
+            }
+          }
+        }
+      }
+
+      function onTrajectoryWatch (newVal, oldVal) {
+        mapLayers['mobileTrajectory'].clearLayers();
+        if (
+          !angular.isDefined(newVal) ||
+          angular.equals({}, newVal) ||
+          !newVal.geometry.coordinates.length
+        ) return;
+
+        // swap latLngs
+        var latlngs = newVal.geometry.coordinates.map(function (latlng) {
+          return [latlng[1], latlng[0], latlng[3]];
+        });
+
+        var line = L.polyline(latlngs, {
+          color: '#333',
+          opacity: 0.7,
+          weight: 2,
+          interactive: false
+        });
+
+        mapLayers['mobileTrajectory'].addLayer(line).bringToBack();
+
+        // update marker position in case it has changed
+        var marker = mapLayers['selectedBoxMarker'].getLayers()[0];
+        marker.setLatLng(latlngs[latlngs.length - 1]);
+      }
+
+      function onMeasurementsWatch (newVal, oldVal) {
+        mapLayers['mobileMeasurements'].clearLayers();
+        if (!angular.isDefined(newVal) || angular.equals([], newVal)) return;
+
+        // find min & max values for color grading
+        var values = newVal.map(function(m) { return m.value; });
+        var max = Math.max.apply(null, values);
+        var min = Math.min.apply(null, values);
+        var palette = d3.scaleLinear()
+          .domain([min, max])
+          .interpolate(d3.interpolateHcl)
+          .range([d3.rgb('#375F73'), d3.rgb('#B5F584')]);
+
+        angular.extend(scope.mobileLegendInfo, {
+          minVal: min,
+          maxVal: max,
+          // the legend uses a css color gradient, which interpolates RGB only.
+          // to emulate a HCL gradient, we pass many hcl colors close to each other
+          colors: [1,2,3,4,5,6,7,8,9,10].map(palette.copy().domain([10, 1])),
+        });
+
+        for (var measure of newVal) {
+          // swap latlngs
+          var latlng = [measure.location[1], measure.location[0], measure.location[3]];
+
+          var marker = L.circleMarker(latlng, {
+            radius: 6,
+            weight: 0.3,
+            color: '#222',
+            fillOpacity: 1,
+            fillColor: palette(measure.value),
+            hoverlabelContent: [measure.value, scope.mobileLegendInfo.unit].join(' '),
+            measurement: measure,
+          });
+
+          marker.on('mouseover', onMeasurementMouseOver);
+          marker.on('mouseout', onMeasurementMouseOut);
+
+          mapLayers['mobileMeasurements'].addLayer(marker);
+        }
+      }
+
+      function onHighlightWatch (newVal, oldVal) {
+        var layers = mapLayers['mobileMeasurements'].getLayers();
+        if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {
+          highlightMeasurement(layers.find(function (layer) {
+            return layer.options.measurement.id === newVal.id;
+          }));
+        }
+        if (angular.isDefined(oldVal) && !angular.equals({}, oldVal)) {
+          unHighlightMeasurement(layers.find(function (layer) {
+            return layer.options.measurement.id === oldVal.id;
+          }));
+        }
+      }
+
+      function highlightMeasurement (measureLayer) {
+        measureLayer.setStyle({ weight: 2, radius: 8 }).bringToFront();
+      }
+
+      function unHighlightMeasurement (measureLayer) {
+        measureLayer.setStyle({ weight: 0.5, radius: 6 });
+      }
 
       function onLocationFound (e) {
         var eventName = 'osemMapOnLocationFound.' + scope.mapId;
@@ -183,14 +298,28 @@
         $rootScope.$apply();
       }
 
-      function onMouseOver (e) {
+      function onMarkerMouseOver (e) {
         var eventName = 'osemMarkerMouseOver.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }
 
-      function onMouseOut (e) {
+      function onMarkerMouseOut (e) {
         var eventName = 'osemMarkerMouseOut.' + scope.mapId;
+        $rootScope.$broadcast(eventName, e);
+        $rootScope.$apply();
+      }
+
+      function onMeasurementMouseOver (e) {
+        scope.highlightedMeasurement = e.target.options.measurement;
+        var eventName = 'osemMeasurementMouseOver.' + scope.mapId;
+        $rootScope.$broadcast(eventName, e);
+        $rootScope.$apply();
+      }
+
+      function onMeasurementMouseOut (e) {
+        scope.highlightedMeasurement = {};
+        var eventName = 'osemMeasurementMouseOut.' + scope.mapId;
         $rootScope.$broadcast(eventName, e);
         $rootScope.$apply();
       }

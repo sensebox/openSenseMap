@@ -23,6 +23,7 @@
       vm.boxPosition = {
         lng: parseFloat(boxData.currentLocation.coordinates[0].toFixed(6)),
         lat: parseFloat(boxData.currentLocation.coordinates[1].toFixed(6)),
+        height: boxData.currentLocation.coordinates[2],
         draggable: true,
         zoom: 17,
         icon: {
@@ -61,6 +62,7 @@
       };
       vm.editMarker.m1.lng = parseFloat(coords.lng.toFixed(6));
       vm.editMarker.m1.lat = parseFloat(coords.lat.toFixed(6));
+      vm.editMarker.m1.height = coords.height;
       vm.editMarkerInput.lng = vm.editMarker.m1.lng;
       vm.editMarkerInput.lat = vm.editMarker.m1.lat;
     }
@@ -77,7 +79,11 @@
 
     $scope.$watchCollection('location.editMarkerInput', function (newValue) {
       if (newValue && newValue.lat && newValue.lng) {
-        setCoordinates({lng: newValue.lng, lat: newValue.lat});
+        setCoordinates({
+          lng: newValue.lng,
+          lat: newValue.lat,
+          height: newValue.height,
+        });
       }
     });
   }

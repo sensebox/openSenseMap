@@ -13,15 +13,19 @@
   <hr>
 
   <div style="height: 500px;">
-    <osem-map id="map_edit" markers="location.editMarker" center=""></osem-map>
+    <osem-map id="map_edit" markers="location.editMarker" center="location.editMarkerInput"></osem-map>
   </div>
-  <div ng-class="{'has-error': locationSettings.boxLat.$invalid, 'has-success': locationSettings.boxLat.$valid}" class="col-md-6">
+  <div ng-class="{'has-error': locationSettings.boxLat.$invalid, 'has-success': locationSettings.boxLat.$valid}" class="col-md-4">
     <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
     <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="location.editMarkerInput.lat" step="0.000001" required>
   </div>
-  <div ng-class="{'has-error': locationSettings.boxLong.$invalid, 'has-success': locationSettings.boxLong.$valid}" class="col-md-6">
+  <div ng-class="{'has-error': locationSettings.boxLong.$invalid, 'has-success': locationSettings.boxLong.$valid}" class="col-md-4">
     <label for="boxLong">{{'BOX_LONGITUDE'|translate}}</label>
     <input name="boxLong" class="form-control" type="number" min="-180" max="180" ng-model="location.editMarkerInput.lng" step="0.000001" required>
+  </div>
+  <div ng-class="{'has-error': locationSettings.boxHeight.$invalid, 'has-success': locationSettings.boxHeight.$valid}" class="col-md-4">
+    <label for="boxHeight">{{'BOX_HEIGHT'|translate}}</label>
+    <input name="boxHeight" class="form-control" type="number" ng-model="location.editMarkerInput.height" step="0.5">
   </div>
   <button type="button" class="btn btn-link" ng-click="location.resetPosition()">{{'BOX_POSITION_RESET'|translate}}</button>
 

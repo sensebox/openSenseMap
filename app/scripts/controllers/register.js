@@ -216,6 +216,9 @@
       }
       vm.newSenseBox.location.push(vm.markers.box.lng);
       vm.newSenseBox.location.push(vm.markers.box.lat);
+      if (vm.markers.box.height) {
+        vm.newSenseBox.location.push(vm.markers.box.height);
+      }
       vm.registering = true;
 
       if (vm.tag !== '') {
@@ -323,6 +326,9 @@
             }
           }
         };
+        if (args.latlng.altitude) {
+          vm.markers.box.height = parseFloat(args.latlng.altitude.toFixed(2))
+        }
       } else {
         vm.markers = angular.copy(vm.markers);
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
@@ -447,6 +453,7 @@
             box: {
               'lat': parseFloat(newValue.lat.toFixed(6)),
               'lng': parseFloat(newValue.lng.toFixed(6)),
+              'height': newValue.height,
               'draggable': true,
               'icon': {
                 'markerColor': 'green'
@@ -457,6 +464,7 @@
           vm.markers = angular.copy(vm.markers);
           vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6));
           vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
+          vm.markers.box.height = newValue.height;
         }
         vm.editMarkerInput =  angular.copy(vm.markers);
       }

@@ -123,11 +123,16 @@
         }
 
         if (index === 0) { //finally return the correct options
-          return MARKER_STATE_OPTS[previous];
+          return angular.copy(MARKER_STATE_OPTS[previous]);
         } else { // else just return the state of the previous sensor
           return previous;
         }
       }, 'old');
+
+      // override marker icon for mobile boxes
+      if (obj.exposure === 'mobile') {
+        markerOpts.marker.icon = 'rocket';
+      }
 
       var marker = {
         layer: markerOpts.layer,

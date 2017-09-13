@@ -19,7 +19,7 @@
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
-				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }} </label>
+				<label for="inputFilterDate">{{ "FILTER_TIMEFRAME" | translate }} </label>
 
 				<p class="input-group">
 					<input uib-datepicker-popup ng-model="filter.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateFrom) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />

@@ -41,13 +41,13 @@
 				<button class="btn btn-info" ng-click="download.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
 				<button class="btn btn-info" ng-click="download.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
 				<br><br>
-				{{ "DOWNLOAD_SELECTSENSOR" | translate }}
+				<label>{{ "DOWNLOAD_SELECTSENSOR" | translate }}</label>
 				<select class="form-control" ng-model="download.inputFilter.Phenomenon">
 					<option value=""></option>
 					<option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
 				</select>
 				<br>
-				{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}
+				<label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
 
 				<br>
 				<input ng-model="download.downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>

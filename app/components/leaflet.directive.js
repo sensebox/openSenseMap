@@ -274,7 +274,7 @@
       }
 
       function unHighlightMeasurement (measureLayer) {
-        if (angular.isDefined()) {
+        if (angular.isDefined(measureLayer)) {
           measureLayer.setStyle({ weight: 0.5, radius: 6 });
         }
       }

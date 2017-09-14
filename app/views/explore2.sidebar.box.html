@@ -52,7 +52,7 @@
                 <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor == details.selectedSensor ? 'selected-sensor' : ''">
                   <div class="col-xs-1">
                     <span title="{{sensor.title | translate}}">
-                      <span class="icon osem-icon" ng-class="details.getIcon(sensor)"></span>
+                      <span class="icon osem-icon" ng-class="sensor.getIcon(sensor)"></span>
                     </span>
                   </div>
                   <div class="col-xs-10 sensor-measurement-info" >

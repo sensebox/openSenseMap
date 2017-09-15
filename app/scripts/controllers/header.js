@@ -41,7 +41,6 @@
     ////
 
     function activate () {
-      console.info('Header is activated!');
       if (AccountService.isAuthed()) {
         AccountService.getUserDetails()
           .then(function (data) {
@@ -50,9 +49,16 @@
             vm.username = data.data.me.name;
           });
       } else {
-        console.info('Set language to default');
-        vm.key = 'de';
-        LanguageService.change('de_DE');
+        if (LocalStorageService.getValue('osem_language')) {
+          var languageKey = LocalStorageService.getValue('osem_language');
+          LanguageService.change(languageKey);
+          vm.key = languageKey.split('_')[0];
+        } else {
+          var navigatorLanguage = LanguageService.clientLocale();
+          console.info('Detected following navigator language: ', navigatorLanguage);
+          vm.key = navigatorLanguage.split('_')[0];
+          LanguageService.change(navigatorLanguage);
+        }
       }
 
       $http.get(OpenSenseBoxAPI.url+'/stats')
@@ -68,6 +74,7 @@
       LanguageService.change(key)
         .then(function (response) {
           vm.key = LanguageService.getLanguage();
+          LocalStorageService.setValue('osem_language', key);
         })
         .catch(function (error) {
           console.log(error);
@@ -176,6 +183,8 @@
 
     $rootScope.$on('loggedIn', function (event, data) {
       vm.username = data.data.user.name;
+      vm.key = data.data.user.language.split('_')[0];
+      LanguageService.change(data.data.user.language);
     });
   }
 })();

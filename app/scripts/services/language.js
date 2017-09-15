@@ -12,7 +12,8 @@
 
     return {
       change: change,
-      getLanguage: getLanguage
+      getLanguage: getLanguage,
+      clientLocale: clientLocale
     };
 
     function getLanguage () {
@@ -33,6 +34,11 @@
       });
 
       return deferred.promise;
+    }
+
+    function clientLocale ()
+    {
+      return $translate.resolveClientLocale();
     }
   }
 })();

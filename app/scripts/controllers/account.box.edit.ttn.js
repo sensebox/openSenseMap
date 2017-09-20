@@ -26,11 +26,14 @@
     function activate () {
       if (angular.isDefined(boxData.integrations) && angular.isDefined(boxData.integrations.ttn)) {
         angular.copy(boxData.integrations.ttn, vm.settings);
+        vm.settings.decodeOptions = JSON.stringify(vm.settings.decodeOptions);
       }
     }
 
     function save () {
-      return AccountService.updateBox(boxData._id, {ttn: vm.settings})
+      var req = { ttn: angular.copy(vm.settings) };
+      req.ttn.decodeOptions = JSON.parse(req.ttn.decodeOptions);
+      return AccountService.updateBox(boxData._id, req)
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');

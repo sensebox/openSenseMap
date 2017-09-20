@@ -5,10 +5,10 @@
     .module('openSenseMapApp')
     .directive('osemCharts', osemCharts);
 
-  osemCharts.$inject = ['$timeout'];
+  osemCharts.$inject = ['$timeout', '$location'];
 
   /* @ngInject */
-  function osemCharts ($timeout) {
+  function osemCharts ($timeout, $location) {
     var rmax = 30;
     var directive = {
       templateUrl: 'components/charts.directive.html',
@@ -54,9 +54,9 @@
     }
   }
 
-  ChartController.$inject = ['$scope', 'moment'];
+  ChartController.$inject = ['$scope', '$location', 'moment'];
 
-  function ChartController ($scope, moment) {
+  function ChartController ($scope, $location, moment) {
     var vm = this;
 
     vm.showGraph = showGraph;
@@ -117,11 +117,11 @@
           .attr('fill', 'none')
           .attr('pointer-events', 'all');
 
-      g.append('defs').append('clipPath')
-          .attr('id', 'clipper')
-          .append('rect')
-            .attr('width', config.width)
-            .attr('height', config.height);
+      svg.append('clipPath')
+          .attr('id', 'clip')
+        .append('rect')
+          .attr('width', config.width - 60)
+          .attr('height', config.height);
 
       // 3. Call the x axis in a group tag
       vm.xAxisGroup = g.append("g")
@@ -147,7 +147,7 @@
 
       vm.dots = g.append('g')
           .attr('class', 'dots')
-          .attr('clip-path', 'url(#clipper)')
+          .attr('clip-path', 'url('+$location.path()+'#clip)')
           .attr("transform", "translate(" + config.margin.yAxis + ", 0)");
 
       if ($scope.chart.chartData) {

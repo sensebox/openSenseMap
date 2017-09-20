@@ -1143,7 +1143,7 @@ figure {
 }
 
 /* CSS for osemChart directive */
-.line-chart {
+.osem-chart {
   border: 1px solid #cacccd;
 }
 
@@ -1156,15 +1156,12 @@ svg .axis line {
   stroke: #000;
   shape-rendering: crispEdges;
 }
-svg .line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 5px;
-}
- svg rect.zoom-panel {
+
+svg rect.zoom-panel {
   fill: none;
   pointer-events: all;
 }
+
 svg .dot {
   fill: rgb(31, 119, 180);
   opacity: 0.5;

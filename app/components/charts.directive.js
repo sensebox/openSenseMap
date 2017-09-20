@@ -28,14 +28,13 @@
     return directive;
 
     function link(scope, element, attrs, chartCtrl) {
-      var svg = d3.select(element[0]).select('svg'),
-          margin = {top: 20, right: 5, bottom: 30, left: 50, yAxis: 10},
-          width = +element.parent()[0].offsetWidth - margin.right,
-          height = +svg.attr("height") - margin.top - margin.bottom,
-          g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-      //Set width of parent element for SVG
-      svg.attr("width", width);
+      var margin = {top: 20, right: 5, bottom: 30, left: 50, yAxis: 10};
+      var svg = d3.select('.chart-container').append('svg')
+          .attr('width', '100%')
+          .attr('height', '215');
+      var width = +element.parent()[0].offsetWidth - margin.right;
+      var height = +svg.attr("height") - margin.top - margin.bottom;
+      var g = svg.append('g').attr('transform', 'translate(' + margin.left+','+margin.top+')');
 
       var config = {
         svg: svg,
@@ -43,7 +42,7 @@
         width: width,
         height: height,
         g: g
-      }
+      };
 
       chartCtrl._chartSVG = config;
 
@@ -93,16 +92,16 @@
 
       //Scales for xAxis and yAxis
       vm.xScale = d3.scaleTime()
-          .rangeRound([0, config.width]);
+          .rangeRound([0, config.width - 60]);
 
       vm.yScale = d3.scaleLinear()
           .rangeRound([config.height, 0]);
 
-      //Setup zoom behaviour
+      // //Setup zoom behaviour
       zoom = d3.zoom()
-          .extent([[0, config.height], [config.width, 0]])
+          .extent([[0, config.height], [config.width - 60, 0]])
           .scaleExtent([1, 64])
-          .translateExtent([[0, config.height], [config.width, 0]])
+          .translateExtent([[0, config.height], [config.width - 60, 0]])
           .on('zoom', zoomed);
 
       g.call(zoom);
@@ -112,9 +111,10 @@
 
       var zoomRect = g.append('rect')
           .attr('class', 'zoom-panel')
-          .attr('width', config.width)
+          .attr('width', config.width - 60)
           .attr('height', config.height)
           .attr('fill', 'none')
+          .attr("transform", "translate(" + config.margin.yAxis + ", 0)")
           .attr('pointer-events', 'all');
 
       svg.append('clipPath')
@@ -242,7 +242,6 @@
     }
 
     function loadChartData () {
-      console.log(vm.chartData);
       // Select the section we want to apply our changes to
       var svg = vm._chartSVG.svg.transition();
       var g = vm._chartSVG.g;
@@ -277,7 +276,7 @@
       // Append new and ...
       circle.enter().append('circle')
           .attr('class', 'dot')
-          .attr('r', 0)
+          .attr('r', 2.5)
         .merge(circle) // ... with existing data
           .on('mouseover', mouseover)
           .on('mouseout', mouseout)

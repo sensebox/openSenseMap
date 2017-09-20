@@ -157,7 +157,10 @@
 
         $scope.$watch('chart.selectedMeasurement', function (newValue, oldValue) {
           if (angular.isDefined(newValue)) {
-            selectDatapoint(newValue);
+            var dataPoint = vm.chartData.find(function (v) {
+              return v.id == newValue.id;
+            });
+            selectDatapoint(dataPoint);
           } else {
             deselectDatapoint();
           }

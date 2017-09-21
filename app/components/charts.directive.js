@@ -29,7 +29,7 @@
 
     function link(scope, element, attrs, chartCtrl) {
       var margin = {top: 20, right: 5, bottom: 30, left: 50, yAxis: 10};
-      var svg = d3.select('.chart-container').append('svg')
+      var svg = d3.select(element[0]).select('.chart-container').append('svg')
           .attr('width', '100%')
           .attr('height', '215');
       var width = +element.parent()[0].offsetWidth - margin.right;

@@ -16,7 +16,8 @@
       getBoxLocations: getBoxLocations,
       getSensors: getSensors,
       getSensorData: getSensorData,
-      idwInterpolation: idwInterpolation
+      idwInterpolation: idwInterpolation,
+      postMeasurements: postMeasurements,
     };
 
     return service;
@@ -77,6 +78,15 @@
 
           return measurements;
         })
+        .catch(failed);
+    }
+
+    function postMeasurements(boxId, measurements, format) {
+      var url = getUrl() + '/boxes/' + boxId + '/data';
+      return $http.post(url, measurements, {
+          headers: { 'content-type': format }
+        })
+        .then(success)
         .catch(failed);
     }
 

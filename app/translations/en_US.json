@@ -261,5 +261,15 @@
 
   "CHART_TOOLTIP_PLACEHOLDER": "For details move the mouse over the datapoints",
   "BADGE_PLACEHOLDER_PREFIX": "Refreshing in",
-  "BADGE_PLACEHOLDER_SUFFIX": "secs"
+  "BADGE_PLACEHOLDER_SUFFIX": "secs",
+  "DASHBOARD_DATAUPLOAD": "Data upload",
+  "DATAUPLOAD_TITLE": "Manual Data Upload",
+  "DATAUPLOAD_INFO": "Here you can upload measurements for this senseBox. This can be of use for senseBoxes that log their measurements to a SD-card when no means of direct communication to opensensemap are available. Either select a file, or copy the data into the textfield. Accepted data formats are described <a href=\"https://docs.opensensemap.org/#api-Measurements-postNewMeasurements\" target=\"_blank\">here</a>.",
+  "DATAUPLOAD_SELECTFILE": "Select a file",
+  "DATAUPLOAD_FORMAT": "Data format",
+  "DATAUPLOAD_DATA": "Measurement data",
+  "DATAUPLOAD_SUCCESS": "Measurements successfully added!",
+  "DATAUPLOAD_ERR_FORMAT": "Invalid filetype",
+  "DATAUPLOAD_ERR_BadRequest": "Invalid sensor ID",
+  "DATAUPLOAD_ERR_UnprocessableEntity": "Could not parse measurements"
 }

@@ -109,6 +109,19 @@ angular
           requiresLogin: true
         }
       })
+      .state('account.dataupload', {
+        url: '/:id/dataupload',
+        views: {
+          'account': {
+            controller: 'DataUploadController',
+            controllerAs: 'dataupload',
+            templateUrl: 'views/account.box.dataupload.html'
+          }
+        },
+        params: {
+          box: {}
+        }
+      })
       .state('account.edit', {
         url: '/:id/edit',
         params: {

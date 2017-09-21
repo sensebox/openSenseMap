@@ -31,17 +31,24 @@
 
         <div class="actions">
           <div class="row row-no-gutter">
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
               <div class="action" ui-sref="explore.map.boxdetails({id: box._id})">
                 <h1>{{'LEGEND_SHOWALL' | translate}}</h1>
                 <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
               </div>
             </div>
 
-            <div class="col-xs-6 col-sm-6 col-md-6">
+            <div class="col-xs-4 col-sm-4 col-md-4">
               <div class="action" ui-sref="account.edit.general({id: box._id, box: box})">
                 <h1>{{'CONFIG_EDIT' | translate}}</h1>
                 <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <div class="action" ui-sref="account.dataupload({id: box._id, box: box})">
+                <h1>{{'DASHBOARD_DATAUPLOAD' | translate}}</h1>
+                <i class="fa fa-table fa-lg" aria-hidden="true"></i>
               </div>
             </div>
 

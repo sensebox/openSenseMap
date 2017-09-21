@@ -260,5 +260,15 @@
 
   "CHART_TOOLTIP_PLACEHOLDER": "Für Details fahre mit der Maus über die Messpunkte",
   "BADGE_PLACEHOLDER_PREFIX": "Aktualisieren in",
-  "BADGE_PLACEHOLDER_SUFFIX": "Sek."
+  "BADGE_PLACEHOLDER_SUFFIX": "Sek.",
+  "DASHBOARD_DATAUPLOAD": "Daten-Upload",
+  "DATAUPLOAD_TITLE": "Manueller Daten-Upload",
+  "DATAUPLOAD_INFO": "Hier kannst du Messungen zu deiner senseBox manuell hochladen. Dies kann sinnvoll sein, wenn die senseBox die Daten nur auf eine SD-Karte loggt da kein direkets Kommunikationsmittel verfügbar ist. Lade entweder eine Datei hoch oder kopiere die Daten in das Textfeld. Die verfügbaren Datenformate sind <a href=\"https://docs.opensensemap.org/#api-Measurements-postNewMeasurements\" target=\"_blank\">hier</a> beschrieben.",
+  "DATAUPLOAD_SELECTFILE": "Wähle eine Datei",
+  "DATAUPLOAD_FORMAT": "Datenformat",
+  "DATAUPLOAD_DATA": "Messungsdaten",
+  "DATAUPLOAD_SUCCESS": "Messungen erfolgreich gespeichert!",
+  "DATAUPLOAD_ERR_FORMAT": "Ungültiges Datenformat",
+  "DATAUPLOAD_ERR_BadRequest": "Ungültige Sensor-ID",
+  "DATAUPLOAD_ERR_UnprocessableEntity": "Messung(en) konnten nicht gelesen werden"
 }

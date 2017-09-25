@@ -35,6 +35,11 @@
     ////
 
     function activate () {
+      if (boxes instanceof Error) {
+        $state.go('explore.map.sidebar.error');
+        return;
+      }
+
       OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('InterpolationController', InterpolationController);
 
-  InterpolationController.$inject = ['$scope', '$timeout', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  InterpolationController.$inject = ['$scope', '$timeout', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
 
-  function InterpolationController ($scope, $timeout, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function InterpolationController ($scope, $timeout, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
     var vm = this;
     vm.markers = {};
     vm.calculating = false;
@@ -98,6 +98,7 @@
     ////
 
     function activate () {
+      Sidebar.setTranslationId('INTERPOLATION');
       vm.markers = OpenSenseMapData.getMarkers();
     }
 
@@ -397,6 +398,7 @@
     $scope.$on('$destroy', function() {
       unwatchMinMaxValues();
       clearInterpolation();
+      Sidebar.setTranslationId('');
     });
   }
 })();

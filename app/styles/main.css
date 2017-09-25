@@ -284,12 +284,21 @@ a:hover {
   position: absolute;
   padding: 10px 0px 10px 0px;
   width: 450px;
-  top: 100px;
   right: 0;
-  height: calc(100% - 100px);
   background: rgba(255, 255, 255, 0.9);
-  overflow: auto;
   z-index: 1001;
+}
+
+.maximized {
+  height: calc(100% - 100px);
+  top: 100px;
+  overflow: auto;
+}
+
+.minimized {
+  top: calc(100% - 50px);
+  overflow: hidden;
+  height: 50px;
 }
 
 #sidebar .row {

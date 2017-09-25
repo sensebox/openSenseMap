@@ -261,5 +261,7 @@
 
   "CHART_TOOLTIP_PLACEHOLDER": "For details move the mouse over the datapoints",
   "BADGE_PLACEHOLDER_PREFIX": "Refreshing in",
-  "BADGE_PLACEHOLDER_SUFFIX": "secs"
+  "BADGE_PLACEHOLDER_SUFFIX": "secs",
+  "TOOLTIP_MINIMIZE": "Minimize",
+  "TOOLTIP_MAXIMIZE": "Maximize"
 }

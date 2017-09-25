@@ -260,5 +260,7 @@
 
   "CHART_TOOLTIP_PLACEHOLDER": "Für Details fahre mit der Maus über die Messpunkte",
   "BADGE_PLACEHOLDER_PREFIX": "Aktualisieren in",
-  "BADGE_PLACEHOLDER_SUFFIX": "Sek."
+  "BADGE_PLACEHOLDER_SUFFIX": "Sek.",
+  "TOOLTIP_MINIMIZE": "Minimieren",
+  "TOOLTIP_MAXIMIZE": "Maximieren"
 }

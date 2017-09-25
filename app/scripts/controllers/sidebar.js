@@ -5,17 +5,25 @@
     .module('openSenseMapApp')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = [];
+  SidebarController.$inject = ['Sidebar'];
 
-  function SidebarController () {
+  function SidebarController (Sidebar) {
     var vm = this;
+    vm.minimized = false;
+    vm.Sidebar = Sidebar;
+
+    vm.minimize = minimize;
 
     activate();
 
     ////
 
     function activate () {
+    }
 
+    function minimize () {
+      vm.minimized = !vm.minimized;
+      Sidebar.minimized = vm.minimized;
     }
   }
 })();

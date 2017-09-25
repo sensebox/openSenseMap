@@ -1,0 +1,37 @@
+<div id="sidebar" style="background-position: 0px -5px;" ng-class="{'maximized': !sidebar.minimized, 'minimized': sidebar.minimized}" ng-cloak>
+  <div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+      <div class="col-xs-8 col-sm-8 col-md-8" style="padding-left: 0px;">
+        <h4>{{sidebar.Sidebar.getTranslationId() | translate}}{{sidebar.Sidebar.getTitle()}}</h4>
+      </div>
+      <div class="col-xs-4 col-sm-4 col-md-4" style="padding-right: 0px;">
+        <h5>
+          <a ui-sref="explore.map"><i class="fa fa-times pull-right close" uib-tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="left"></i></a>
+          <a ng-show="!sidebar.minimized" ng-click="sidebar.minimize()">
+            <i class="fa fa-window-minimize pull-right close" uib-tooltip="{{'TOOLTIP_MINIMIZE' | translate}}" tooltip-placement="left">
+            </i>
+          </a>
+          <a ng-show="sidebar.minimized" ng-click="sidebar.minimize()">
+            <i class="fa fa-window-maximize pull-right close" uib-tooltip="{{'TOOLTIP_MAXIMIZE' | translate}}" tooltip-placement="left">
+            </i>
+          </a>
+        </h5>
+        <h5 ng-repeat="action in sidebar.Sidebar.getActions()">
+          <a ng-href="{{action.href}}" target="{{action.target}}" ng-click="action.handler()" ng-hide="sidebar.minimized && action.hideOnMinimized">
+            <i class="fa pull-right close" ng-class="action.icon"></i>
+          </a>
+        </h5>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-12 col-ls-12">
+      <div id="sidebar-content" style="background-position: 0px -5px;">
+        <div ui-view="sidebarContent"></div>
+      </div>
+    </div>
+  </div>
+</div>

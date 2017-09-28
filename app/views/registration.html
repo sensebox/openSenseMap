@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group has-feedback" style="position: relative;">
                   <label for="password">{{'ACCOUNT_PASSWORD'|translate}}*</label>
-                  <input type="{{account.signup.password.type}}" minlength="8" ng-model="account.signup.password.value" class="form-control" id="password" required>
+                  <input type="{{account.signup.password.type}}" minlength="8" ng-model="account.signup.password.value" ng-trim="false" class="form-control" id="password" required>
                   <div id="show_password" ng-cloak>
                     <span class="helper"></span>
                     <i class="fa fa-eye fa-lg" ng-show="account.signup.password.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password')"></i>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group" style="position: relative;">
                   <label for="password">{{'ACCOUNT_PASSWORD_CONFIRM'|translate}}*</label>
-                  <input type="{{account.signup.confirm.type}}" ng-model="account.signup.confirm.value" class="form-control" id="password" required>
+                  <input type="{{account.signup.confirm.type}}" ng-model="account.signup.confirm.value" ng-trim="false" class="form-control" id="password" required>
                   <div id="show_password" ng-cloak>
                     <span class="helper"></span>
                     <i class="fa fa-eye fa-lg" ng-show="account.signup.confirm.type === 'password'" aria-hidden="true" ng-click="account.showPassword('signup-password-confirm')"></i>

@@ -64,7 +64,7 @@
     {{'EDIT_DELETEINFO'|translate}}
   </div>
   <div class="form-group">
-    <input name="editDeleteConfirm" class="form-control" type="password" ng-model="general.password">
+    <input name="editDeleteConfirm" class="form-control" type="password" ng-model="general.password" ng-trim="false">
   </div>
   <button ng-disabled="general.password == ''" ng-click="general.deleteBox()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'EDIT_DELETE'|translate}}</button>
   <div uib-alert class="alert-danger" ng-show="errorDuringDelete">{{'EDIT_DELETEERROR'|translate}}</div>

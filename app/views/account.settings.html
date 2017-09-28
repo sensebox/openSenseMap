@@ -38,7 +38,7 @@
         <hr>
         <div class="form-group">
           <label for="actualPasswordPassword">{{'ACCOUNT_PASSWORD'|translate}}</label>
-          <input type="password" class="form-control" id="actualPassword" placeholder="Password" ng-model="settings.currentPassword" required>
+          <input type="password" class="form-control" id="actualPassword" placeholder="Password" ng-model="settings.currentPassword" ng-trim="false" required>
         </div>
         <button type="submit" class="btn btn-default pull-right" ng-disabled="settings.updateDisabled()">{{'ACCOUNT_UPDATE'|translate}}</button>
       </form>
@@ -48,7 +48,7 @@
       <p>{{'ACCOUNT_DELETE_INFO'|translate}}</p>
       <p>{{'ACCOUNT_DELETE_ACTION'|translate}}</p>
       <div class="form-group">
-        <input type="password" class="form-control" ng-model="settings.password">
+        <input type="password" class="form-control" ng-model="settings.password" ng-trim="false">
       </div>
       <button type="submit" class="btn btn-default pull-right" ng-click="settings.deleteAccount()" ng-disabled="settings.password == ''">{{'ACCOUNT_DELETE'|translate}}</button>
     </div>

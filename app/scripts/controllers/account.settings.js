@@ -119,7 +119,7 @@
           }, 5000);
         })
         .catch(function (error) {
-          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILD').then(function (translation) {
+          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILED').then(function (translation) {
             vm.alerts.push({ type: 'danger', msg: translation });
           });
         });

@@ -247,7 +247,7 @@
   "NOTIFICATION_PASSWORD_UPDATE_SUCCESS": "Dein Passwort wurde erfolgreich geändert. Du wirst in 5 Sekunden umgeleitet und muss dich neu einloggen.",
   "NOTIFICATION_PASSWORD_UPDATE_FAILED": "Das neue Passwort konnte nicht gespeichert werden",
   "NOTIFICATION_USER_ACCOUNT_DELETE_SUCCESS": "Dein Benutzerkonto wurde erfolgreich gelöscht. Du wirst in 5 Sekunden umgeleitet zur Erkundenansicht.",
-  "NOTIFICATION_USER_ACCOUNT_DELETE_FAILED": "Dein Benutzerkonto konnte nicht gelöscht werden",
+  "NOTIFICATION_USER_ACCOUNT_DELETE_FAILED": "Dein Benutzerkonto konnte nicht gelöscht werden. Du hast ein falsches Passwort eingegeben!",
   "BACK_TO_DASHBOARD": "Zurück zum Dashboard",
   "EDIT_IMAGETOBIG": "Das ausgewählte Bild ist zu groß. Bitte wähle ein Bild das kleiner ist als 500kb.",
   "REGISTERED_BOXES": "Du hast {{count}} senseBoxen registriert!",

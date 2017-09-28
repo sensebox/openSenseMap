@@ -73,7 +73,11 @@
               $state.go('account.dashboard');
             }
           })
-          .catch(requestFailed);
+          .catch(function (error) {
+            vm.errors.push({
+              error: error.message
+            });
+          });
       } else if (form === 'login') {
         var data = {
           email: vm.login.email,
@@ -113,13 +117,13 @@
     }
 
     function requestFailed (error) {
-      if (angular.isUndefined(error.message)) {
-        return $q.reject(error);
-      }
+      // if (angular.isDefined(error.message)) {
+      //   vm.errors.push({
+      //     error: error.message
+      //   });
+      // }
 
-      vm.errors.push({
-        error: error.message
-      });
+      return $q.reject(error);
     }
 
     function requestSuccess (response) {

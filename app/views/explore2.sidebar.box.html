@@ -56,7 +56,7 @@
                     </span>
                   </div>
                   <div class="col-xs-10 sensor-measurement-info" >
-                    <div>{{sensor.title}}</div><br/>
+                    <div>{{sensor.title | translate}}</div><br/>
                     <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
                       <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
                       <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>

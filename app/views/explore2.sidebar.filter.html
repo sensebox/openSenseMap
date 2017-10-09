@@ -19,7 +19,7 @@
 		</div>
 		<div class="col-lg-12">
 			<div class="input-group">
-				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }} </label>
+				<label for="inputFilterDate">{{ "FILTER_TIMEFRAME" | translate }} </label>
 
 				<p class="input-group">
 					<input uib-datepicker-popup ng-model="filter.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateFrom) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
@@ -59,9 +59,10 @@
 			<div class="input-group xxxl">
 				<label for="inputFilterExposure">{{ "BOX_EXPOSURE" | translate }}</label>
 				<select id="inputFilterExposure" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Exposure" ng-change="filter.liveSearch()">
-					<option value=""></option>
+					<option value="">{{'STATION_PLACEMENT_ALL'|translate}}</option>
 					<option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
 					<option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
+					<option value="mobile">{{'STATION_PLACEMENT_MOBILE'|translate}}</option>
 				</select>
 			</div>
 			<div class="input-group xxxl">

@@ -73,7 +73,11 @@
               $state.go('account.dashboard');
             }
           })
-          .catch(requestFailed);
+          .catch(function (error) {
+            vm.errors.push({
+              error: error.message
+            });
+          });
       } else if (form === 'login') {
         var data = {
           email: vm.login.email,
@@ -101,7 +105,10 @@
         };
 
         requestReset(data)
-          .then(function () {
+          .then(function (response) {
+            if (angular.isUndefined(response)) {
+              return $q.reject(response);
+            }
             vm.errors.push({
               error: 'Mail with reset instructions sent!'
             });
@@ -110,14 +117,13 @@
     }
 
     function requestFailed (error) {
-      if (angular.isUndefined(error.message)) {
-        console.log(error);
-        return $q.reject(error);
-      }
+      // if (angular.isDefined(error.message)) {
+      //   vm.errors.push({
+      //     error: error.message
+      //   });
+      // }
 
-      vm.errors.push({
-        error: error.message
-      });
+      return $q.reject(error);
     }
 
     function requestSuccess (response) {

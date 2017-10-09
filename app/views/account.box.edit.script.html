@@ -4,3 +4,20 @@
 <div>
   <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()" style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
 </div>
+
+<br>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">{{'HELP_SECTION'|translate}}</div>
+
+  <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_MANUAL'|translate" style="margin-bottom: 0px;"></div>
+    </li>
+    <li class="list-group-item">
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_DOWNLOAD_RESOURCES'|translate" style="margin-bottom: 0px;"></div>
+    </li>
+  </ul>
+</div>

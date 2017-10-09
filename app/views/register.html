@@ -66,6 +66,12 @@
                     {{'STATION_PLACEMENT_OUTDOOR'|translate}}
                   </label>
                 </div>
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="exposure" id="optionsRadios3" value="mobile" ng-model="register.newSenseBox.exposure" required>
+                    {{'STATION_PLACEMENT_MOBILE'|translate}}
+                  </label>
+                </div>
                 <span ng-show="senseboxForm.exposure.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                 <span ng-show="senseboxForm.exposure.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
               </div>
@@ -89,7 +95,7 @@
                 <osem-map id="map_register" markers="register.markers" events="register.events"></osem-map>
               </div>
               <div id="boxPosition" class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLat.$invalid, 'has-success' :  senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
                     <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="register.editMarkerInput.box.lat" step="0.000001" required>
@@ -97,12 +103,20 @@
                     <span ng-show="senseboxForm.boxLat.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLng.$invalid, 'has-success' :  senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLng">{{'BOX_LONGITUDE'|translate}}</label>
                     <input name="boxLng" class="form-control" type="number" min="-180" max="180" ng-model="register.editMarkerInput.box.lng" step="0.000001" required>
                     <span ng-show="senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                     <span ng-show="senseboxForm.boxLng.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxHeight.$invalid, 'has-success' :  senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined}">
+                    <label for="boxHeight">{{'BOX_HEIGHT'|translate}}</label>
+                    <input name="boxHeight" class="form-control" type="number" ng-model="register.editMarkerInput.box.height" step="0.5">
+                    <span ng-show="senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.boxHeight.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
               </div>
@@ -268,6 +282,7 @@
               </div>
               <uib-accordion close-others="true">
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse4">
+                  <div uib-alert class="alert-warning" ng-bind-html="'MQTT_DESCRIPTION'|translate"></div>
                   <uib-accordion-heading>
                     MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse4, 'glyphicon-chevron-right': !register.open.collapse4}"></i>
                   </uib-accordion-heading>
@@ -386,6 +401,10 @@
                     <td style="width: 50%;">senseBox Model</td>
                     <td style="width: 50%;"><strong>{{register.modelSelected.name}}</strong></td>
                   </tr>
+                  <tr>
+                      <td style="width: 50%;">senseBox {{'EDIT_EXTENSIONS'|translate}}</td>
+                      <td style="width: 50%;"><strong ng-if="register.extensions.feinstaub.id !== ''">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</strong></td>
+                    </tr>
                   <tr>
                     <td style="width: 50%;">senseBox Name</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.name}}</strong></td>

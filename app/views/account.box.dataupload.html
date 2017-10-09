@@ -1,0 +1,62 @@
+<div class="container">
+  <div style="margin-top: 15px;">
+    <div uib-alert ng-show="dataupload.success" class="alert-success" close>
+      {{ 'DATAUPLOAD_SUCCESS' | translate }}
+    </div>
+    <div uib-alert ng-show="dataupload.error" class="alert-danger" close>
+      {{ 'DATAUPLOAD_ERR_'+dataupload.error.code|translate }}
+      <span ng-if="dataupload.error.message"> ({{dataupload.error.message}})</span>
+    </div>
+  </div>
+
+  <div class="row register">
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li><a ui-sref="account.dashboard"><i class="fa fa-arrow-left fa-fw"></i> {{'BACK_TO_DASHBOARD'|translate}}</a></li>
+      </ul>
+    </div>
+
+    <div class="col-md-9">
+      <form name="dataUpload">
+        <div class="row">
+          <h2 style="margin-top: 0px; margin-bottom: 0px">{{'DATAUPLOAD_TITLE'|translate}}</h2>
+        </div>
+
+        <hr/>
+
+        <div class="row">
+          <div class="alert alert-info" ng-bind-html="'DATAUPLOAD_INFO'|translate"></div>
+        </div>
+
+        <div class="row" flow-init="{ singleFile: true }" flow-file-added="dataupload.onFileSelect($event, $flow, $file)">
+          <span class="btn btn-default" type="file" flow-btn flow-attrs="{ accept: 'text/csv,application/json' }">
+            {{'DATAUPLOAD_SELECTFILE'|translate}}
+          </span>
+        </div>
+
+        <div class="row">
+          <label for="dataFormat">{{'DATAUPLOAD_FORMAT'|translate}}</label>
+          <select name="dataFormat" class="form-control" ng-model="dataupload.dataFormat">
+            <option ng-repeat="(type, format) in dataupload.dataTypes" value="{{type}}">{{format.name}}</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="measurementData">{{'DATAUPLOAD_DATA'|translate}}</label>
+          <textarea name="measurementData" class="form-control" cols="30" rows="10"
+            ng-model="dataupload.measurementData"
+            placeholder="{{ dataupload.dataTypes[dataupload.dataFormat].example }}"
+            style="resize: none;"></textarea>
+        </div>
+
+        <div class="row">
+          <button type="button" class="btn btn-default btn-lg" ng-click="dataupload.submitData()" ng-disabled="dataupload.measurementData.length == 0">
+            <i class="glyphicon glyphicon-arrow-up"></i>
+            {{'UPLOAD'|translate}}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>

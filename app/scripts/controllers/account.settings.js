@@ -94,7 +94,12 @@
     function changeAttribute (key, value) {
       if (angular.isUndefined(vm.newDetails[key])) {
         vm.newDetails[key] = value;
-      } else if (angular.equals(value, vm.backupDetails[key])) {
+      } else if (vm.newDetails[key] !== value) {
+        vm.newDetails[key] = value;
+      }
+
+      //Check if new value equals old one
+      if (angular.equals(value, vm.backupDetails[key])) {
         delete vm.newDetails[key];
       }
     }
@@ -114,7 +119,7 @@
           }, 5000);
         })
         .catch(function (error) {
-          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILD').then(function (translation) {
+          $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILED').then(function (translation) {
             vm.alerts.push({ type: 'danger', msg: translation });
           });
         });

@@ -140,13 +140,16 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/scripts/controllers/register.js',
           '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
           '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
-          '<%= yeoman.app %>/scripts/services/map.js'
+          '<%= yeoman.app %>/scripts/services/map.js',
+          '<%= yeoman.app %>/components/leaflet.directive.js',
+          '<%= yeoman.app %>/components/charts.directive.js'
         ],
         tasks: [
           'newer:copy:api',
           'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',
+          'newer:copy:components',
           'replace:devmaps'
         ],
         options: {

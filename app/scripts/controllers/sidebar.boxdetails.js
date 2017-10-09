@@ -5,92 +5,75 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$stateParams', '$timeout', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData'];
 
-  function SidebarBoxDetailsController ($stateParams, $timeout, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, osemMapData) {
     var vm = this;
-    vm.delay = 60000;
-    vm.selectedMarker = {};
+    vm.box = {};
+    vm.selectedSensor = null;
 
-    vm.closeSidebar = closeSidebar;
-    vm.getBadgeColor = getBadgeColor;
     vm.focusSelectedBox = focusSelectedBox;
-    vm.getIcon = getIcon;
-    vm.getData = getData;
-    vm.formatDate = formatDate;
-    vm.formatDateFull = formatDateFull;
+    vm.selectSensor = selectSensor;
+    vm.resetFilter = resetFilter;
+    vm.performFilter = performFilter;
 
     activate();
 
     ////
 
     function activate () {
-      return OpenSenseMapAPI.getBox($stateParams.id)
+      OpenSenseMapAPI.getBox($stateParams.id)
         .then(function (response) {
-          angular.copy(response, vm.selectedMarker);
-          vm.archiveLink = "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+vm.selectedMarker._id+"-"+doubleGermanS(vm.selectedMarker.name).replace(/[^A-Za-z0-9._-]/g,'_');
-          getMeasurements();
+          vm.box = new Box(response);
+          vm.archiveLink = vm.box.getArchiveLink();
           focusSelectedBox();
+          if (vm.box.exposure === 'mobile') getBoxTrajectory();
         })
         .catch(function (error) {
-          console.log(error);
           vm.boxNotFound = true;
-        });
-    }
-
-    function doubleGermanS (value) {
-      value = value.replace(/ß/g, 'ßß');
-      return value;
-    }
-
-    function closeSidebar () {
-      $timeout.cancel(vm.prom);
-    }
-
-    function getMeasurements () {
-      vm.prom = $timeout(getMeasurements, vm.delay);
-      OpenSenseMapAPI.getSensors($stateParams.id)
-        .then(function (response) {
-          if (vm.selectedMarkerData === undefined) {
-            vm.selectedMarkerData = response;
-          } else {
-            vm.selectedMarkerData.sensors.map(function (value) {
-              for (var i = 0; i < response.sensors.length; i++) {
-                if (value._id === response.sensors[i]._id && value.lastMeasurement !== undefined) {
-                  angular.extend(value.lastMeasurement, response.sensors[i].lastMeasurement);
-                }
-              }
-            });
-          }
         })
-        .catch(function (error) {
-          console.error(error);
+        .finally(function () {
+          $scope.$parent.$broadcast('boxSelected', vm.box);
+          $timeout(function () {
+            $scope.$broadcast('osemBadgeRefreshStartTimer');
+          }, 1000)
         });
     }
 
-    function getBadgeColor (exposure) {
-      if (exposure === 'indoor') {
-        return 'orange';
-      } else {
-        return 'olive';
-      }
+    function getBoxTrajectory (options) {
+      var options = Object.assign({ format: 'geojson' }, options);
+      var data = { params: options };
+      return OpenSenseMapAPI.getBoxLocations($stateParams.id, data)
+        .then(function (response) {
+          // save result in map.js scope, as it needs to be accessible for leaflet directive
+          $scope.$parent.map.boxLocations = response;
+          focusSelectedBox(response);
+          return response;
+        })
     }
 
-    function focusSelectedBox () {
-      var markerLatLng = [
-        vm.selectedMarker.loc[0].geometry.coordinates[1],
-        vm.selectedMarker.loc[0].geometry.coordinates[0]
+    // focus current location of a box or its trajectory, if optional
+    // `trajectory` GeoJSON linestring is provided
+    function focusSelectedBox (trajectory) {
+      var currentLoc = [
+        vm.box.currentLocation.coordinates[1],
+        vm.box.currentLocation.coordinates[0]
       ];
-      centerLatLng(markerLatLng);
+
+      var bounds = trajectory && trajectory.geometry.coordinates.length
+        ? L.geoJSON(trajectory).getBounds()
+        : [currentLoc, currentLoc];
+
+      return centerBounds(bounds);
     }
 
-    function centerLatLng (latlng) {
+    function centerBounds (bounds) {
       osemMapData.getMap('map_main').then(function(map) {
         var padding = 450; // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
         if (document.body.clientWidth <= 700) padding = 0;
 
-        map.fitBounds([latlng, latlng], {
+        map.fitBounds(bounds, {
           paddingTopLeft: [0,0],
           paddingBottomRight: [padding, 0],
           maxZoom: 17,
@@ -99,88 +82,121 @@
       });
     }
 
-    function getIcon (sensor) {
-      if (sensor.icon !== undefined) {
-        return sensor.icon;
-      } else {
-        if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
-          return 'osem-thermometer';
-        } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') {
-          return 'osem-humidity';
-        } else if (sensor.sensorType === 'LM386') {
-          return 'osem-volume-up';
-        } else if (sensor.sensorType === 'BMP280' && sensor.title === 'Luftdruck') {
-          return 'osem-barometer';
-        } else if (sensor.sensorType === 'TSL45315' || sensor.sensorType === 'VEML6070') {
-          return 'osem-brightness';
-        } else {
-          return 'osem-dashboard';
-        }
+    $scope.$on('$destroy', function(ev) {
+      $scope.$parent.$broadcast('boxDeselected', vm.box);
+      // reset externally stored state
+      $scope.$parent.map.legendInfo = {};
+      $scope.$parent.map.boxLocations = {};
+      $scope.$parent.map.selectedSensorMeasurements = [];
+    });
+
+    $scope.$on('osemBadgeRefreshFinished', function () {
+      vm.box.getLastMeasurement();
+
+      // update trajectory and (map)measurements for mobile boxes
+      // but only if there is no time filter selected in the chart
+      if (
+        vm.box.exposure === 'mobile' &&
+        (!vm.selectedSensor || !vm.selectedSensor.chart.toDate)
+      ) {
+        if (vm.selectedSensor) getSensorData(vm.selectedSensor);
+        getBoxTrajectory();
       }
+
+      $scope.$broadcast('osemBadgeRefreshStartTimer');
+    });
+
+    // sync the selected measurement between chart & map
+    // TODO: more elegant way of 2way binding?
+    $scope.$on('osemChartsMouseOver', function (event, data) {
+      $scope.$parent.map.highlightedMeasure = data;
+    });
+    $scope.$on('osemChartsMouseOut', function (event, data) {
+      $scope.$parent.map.highlightedMeasure = undefined;
+    });
+    $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
+      vm.selectedSensor.chart.selectedMeasurement = args.target.options.measurement;
+    });
+    $scope.$on('osemMeasurementMouseOut.map_main', function (e, args) {
+      vm.selectedSensor.chart.selectedMeasurement = undefined;
+    });
+
+    function selectSensor(sensor, event) {
+      $scope.$parent.map.selectedSensorMeasurements = [];
+      $scope.$parent.map.legendInfo = {};
+      sensor.chart.fromDate = undefined;
+      sensor.chart.toDate = undefined;
+      sensor.chart.error = false;
+
+      // if already selected sensor is selected again: clear selection
+      if (sensor === vm.selectedSensor) {
+        vm.selectedSensor = null;
+        return;
+      }
+      vm.selectedSensor = sensor;
+
+      // get chart data once and add measurements to the map
+      // if we have them already, use the cached data
+      if (!sensor.measurements) {
+        getSensorData(sensor, {});
+      } else if (vm.box.exposure === 'mobile') {
+        $scope.$parent.map.selectedSensorMeasurements = sensor.measurements;
+      }
+
+      sensor.chart.yAxisTitle = sensor.title + '('+sensor.unit+')';
+      angular.extend($scope.$parent.map.legendInfo, { unit: sensor.unit });
+
+      // dont close a chart if it is already open when being selected
+      if (sensor.chart.open) {
+        event.stopPropagation();
+        event.preventDefault();
+      }
+    };
+
+    function resetFilter (sensor) {
+      return getSensorData(sensor, {});
     }
 
-    /* CHARTS */
-    vm.columns = [];
-    vm.sensordata = {};
-    vm.chartDone = {};
-    vm.chartError = {};
-    vm.labels = [];
-    function getData (sensorId, panelOpen){
-      if(!panelOpen) {
-        return; // panel is in closing transition, don't fetch new data
-      }
-      var endDate = '';
-      var box = vm.selectedMarker._id;
-      vm.chartDone[sensorId] = false;
-      vm.chartError[sensorId] = false;
-
-      // Get the date of the last taken measurement for the selected sensor
-      for (var i = 0; i < vm.selectedMarkerData.sensors.length; i++){
-        if(sensorId === vm.selectedMarkerData.sensors[i]._id){
-          var title = vm.selectedMarkerData.sensors[i].title.toString().replace('.','');
-          var unit = vm.selectedMarkerData.sensors[i].unit.toString();
-
-          vm.columns[sensorId] = [{'id': title, 'type': 'scatter'}, {'id': 'dates', 'type': 'date'}];
-          vm.sensordata[sensorId] = [];
-          vm.labels[sensorId] = title +' ('+unit+')';
-
-          if(!vm.selectedMarkerData.sensors[i].lastMeasurement) {
-            continue;
-          }
-          endDate = vm.selectedMarkerData.sensors[i].lastMeasurement.createdAt;
-
-          var data = {
-            params: {
-              'from-date': '',
-              'to-date': endDate
-            }
-          };
-          OpenSenseMapAPI.getSensorData(box, sensorId, data)
-            .then(function (response) {
-              console.info(response);
-              for (var j = 0; j < response.length; j++) {
-                var d = new Date(response[j].createdAt);
-                var dataPair = {};
-                dataPair[title] = parseFloat(response[j].value);
-                dataPair.dates = d;
-                vm.sensordata[sensorId].push(dataPair);
-              }
-              vm.chartDone[sensorId] = true;
-            })
-            .catch(function (error) {
-              console.error(error);
-              vm.chartError[sensorId] = true;
-              vm.chartDone[sensorId] = true;
-            });
+    function performFilter (sensor) {
+      var data = {
+        params: {
+          'from-date': sensor.chart.fromDate.toISOString(),
+          'to-date': sensor.chart.toDate.toISOString()
         }
       }
-    };
 
-    function formatDate (input){
-      return d3.time.format('%Y-%m-%d')(new Date(input));
-    };
-    function formatDateFull (input){
-      return d3.time.format('%Y-%m-%d %H:%M:%S')(new Date(input));
-    };
+      if (vm.box.exposure === 'mobile') {
+        getBoxTrajectory(data.params) // might need an update for the new timeframe
+      }
+
+      return getSensorData(sensor, data);
+    }
+
+    function getSensorData (sensor, data) {
+      return OpenSenseMapAPI.getSensorData(vm.box._id, sensor._id, data)
+        .then(function (response) {
+          sensor.chart.data = [];
+          for (var j = 0; j < response.length; j++) {
+            sensor.chart.data.push({
+              id: response[j].id,
+              value: parseFloat(response[j].value),
+              date: new Date(response[j].createdAt),
+              unit: sensor.unit,
+            });
+          }
+          sensor.chart.done = true;
+          return response;
+        })
+        .then(function (measurements) {
+          if (vm.box.exposure === 'mobile') {
+            sensor.measurements = measurements;
+            $scope.$parent.map.selectedSensorMeasurements = measurements;
+          }
+          return measurements;
+        })
+        .catch(function (error) {
+          sensor.chart.error = true;
+        });
+    }
   }
 })();

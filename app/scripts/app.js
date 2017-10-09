@@ -2,6 +2,7 @@
 
 angular
   .module('openSenseMapApp', [
+    'app.models',
     'app.services',
     'ngResource',
     'ngSanitize',
@@ -12,7 +13,6 @@ angular
     'flow',
     'pascalprecht.translate',
     'ui.router',
-    'gridshore.c3js.chart',
     'angularMoment',
     'tmh.dynamicLocale',
     'ngProgress',
@@ -107,6 +107,19 @@ angular
         templateUrl: 'views/account.html',
         data: {
           requiresLogin: true
+        }
+      })
+      .state('account.dataupload', {
+        url: '/:id/dataupload',
+        views: {
+          'account': {
+            controller: 'DataUploadController',
+            controllerAs: 'dataupload',
+            templateUrl: 'views/account.box.dataupload.html'
+          }
+        },
+        params: {
+          box: {}
         }
       })
       .state('account.edit', {

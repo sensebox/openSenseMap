@@ -42,7 +42,7 @@
         maxZoom: 18,
         worldCopyJump: true,
         scrollWheelZoom: true
-      }).setView([51.04139389812637, 10.2172851562], 6);
+      }).setView([51.04139389812637, 10.2172851562], 3);
       ctrl._leafletMap.resolve(map);
 
       map.on('click', onMapClick);

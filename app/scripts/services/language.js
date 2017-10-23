@@ -29,6 +29,7 @@
         language = key.split('_')[0];
         deferred.resolve('Sprache zu ' + key + 'gewechselt');
       }, function (key) {
+        amMoment.changeLocale(key.split('_')[0]);
         console.error('Fehler beim wechseln zur Sprache ' + key);
         deferred.reject('Fehler beim wechseln zur Sprache: ' + key);
       });

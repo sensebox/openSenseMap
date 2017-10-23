@@ -132,6 +132,7 @@
       // override marker icon for mobile boxes
       if (obj.exposure === 'mobile') {
         markerOpts.marker.icon = 'rocket';
+        markerOpts.marker.markerColor = 'blue';
       }
 
       var marker = {

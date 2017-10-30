@@ -958,6 +958,10 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   background: #4EAF47;
 }
 
+.box-mobile {
+  background: #38AADD;
+}
+
 article {
   position: relative;
   z-index: 2;

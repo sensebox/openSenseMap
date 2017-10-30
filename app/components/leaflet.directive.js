@@ -31,12 +31,15 @@
         events: '='
       },
     },
+
+    // TODO: move somewhere really global?
     OPACITY = {
       activeMarker: 1,
       inactiveMarker: 0.65,
       oldMarker: 0.5,
       hiddenMarker: 0,
     },
+    // TODO: use blue from sensebox logogogo
     COLORS = {
       blue: '#38AADD',
       darkblue: '#0067A3',

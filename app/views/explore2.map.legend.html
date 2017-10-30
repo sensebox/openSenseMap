@@ -5,6 +5,17 @@
   <i class="fa fa-times legend-close" ng-show="map.showHide" aria-hidden="true"></i>
 	<div class="legend-content" ng-show="map.showHide">
       <div class="legend-content-entry">
+        <div class="sensebox-legend-entry vertical">
+          {{'STATION_PLACEMENT_MOBILE'|translate}}
+        </div>
+        <div class="sensebox-legend-entry vertical">
+          {{'LEGEND_STATIONARY'|translate}}
+        </div>
+      </div>
+      <div class="legend-content-entry">
+        <div class="awesome-marker awesome-marker-icon-blue sensebox-legend-marker">
+          <i class="fa fa-rocket icon-white"></i>
+        </div>
         <div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
           <i class="fa fa-cube icon-white"></i>
         </div>
@@ -13,7 +24,10 @@
         </div>
       </div>
       <div class="legend-content-entry">
-        <div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker">
+        <div class="awesome-marker awesome-marker-icon-darkblue sensebox-legend-marker" style="opacity: 0.65">
+          <i class="fa fa-rocket icon-white"></i>
+        </div>
+        <div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker" style="opacity: 0.65">
           <i class="fa fa-cube icon-white"></i>
         </div>
         <div class="sensebox-legend-entry">
@@ -21,7 +35,10 @@
         </div>
       </div>
       <div class="legend-content-entry">
-        <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker">
+        <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker" style="opacity: 0.5">
+          <i class="fa fa-rocket icon-white"></i>
+        </div>
+        <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker" style="opacity: 0.5">
           <i class="fa fa-cube icon-white"></i>
         </div>
         <div class="sensebox-legend-entry">

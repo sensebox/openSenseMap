@@ -12,38 +12,6 @@
     var ONE_DAY = 1000 * 60 * 60 * 24;
     var SEVEN_DAYS = ONE_DAY * 7;
     var THIRTY_DAYS = ONE_DAY * 30;
-    var icons = {
-      iconGreen: {
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: 'cube',
-        markerColor: 'green',
-        opacity: 1.0,
-        zIndexOffset: 200
-      },
-      iconDarkGreen: {
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: 'cube',
-        markerColor: 'darkgreen',
-        opacity: 0.65,
-        zIndexOffset: 100
-      },
-      iconGray: {
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: 'cube',
-        markerColor: 'lightgray',
-        opacity: 0.5,
-        zIndexOffset: 0
-      }
-    };
-    var MARKER_STATE_OPTS = {
-      'hidden': {layer: 'hiddenMarker', marker: icons.iconGray, opacity: 0, zIndexOffset: 300},
-      'old': { layer: 'oldMarker', marker: icons.iconGray, opacity: 0.5, zIndexOffset: 0},
-      'inactive': { layer: 'inactiveMarker', marker: icons.iconDarkGreen, opacity: 0.65, zIndexOffset: 100 },
-      'active': { layer: 'activeMarker', marker: icons.iconGreen, opacity: 1, zIndexOffset: 200 }
-    };
 
     var service = {
       getMarkers: getMarkers,
@@ -93,8 +61,44 @@
       return deferred.promise;
     }
 
-    function makeid()
-    {
+    // returns a markerconfiguration, and grades the color based on
+    // activity state of the box
+    function makeMarkerOpts (color, state) {
+      var layer = state + 'Marker', opacity, zIndexOffset;
+      switch (state) {
+        case 'active':
+          opacity = 1;
+          zIndexOffset = 200;
+          break;
+        case 'inactive':
+          opacity = 0.65;
+          zIndexOffset = 100;
+          color = 'dark' + color;
+          break;
+        case 'old':
+          opacity = 0.5;
+          zIndexOffset = 0;
+          color = 'lightgray';
+          break;
+        case 'hidden':
+          opacity = 0;
+          zIndexOffset = 300;
+          color = 'lightgray';
+        default:
+          break;
+      }
+
+      return { layer, opacity, zIndexOffset, marker: {
+        type: 'awesomeMarker',
+        prefix: 'fa',
+        icon: 'cube',
+        markerColor: color,
+        opacity,
+        zIndexOffset,
+      }};
+    }
+
+    function makeid() {
       var text = '';
       var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
       for( var i=0; i < 5; i++ ) {
@@ -123,7 +127,8 @@
         }
 
         if (index === 0) { //finally return the correct options
-          return angular.copy(MARKER_STATE_OPTS[previous]);
+          var color = obj.exposure === 'mobile' ? 'blue' : 'green';
+          return makeMarkerOpts(color, previous);
         } else { // else just return the state of the previous sensor
           return previous;
         }
@@ -132,7 +137,6 @@
       // override marker icon for mobile boxes
       if (obj.exposure === 'mobile') {
         markerOpts.marker.icon = 'rocket';
-        markerOpts.marker.markerColor = 'blue';
       }
 
       var marker = {

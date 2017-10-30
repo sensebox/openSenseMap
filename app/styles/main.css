@@ -1125,28 +1125,6 @@ figure {
   font-family: sans-serif;
 }
 
-/*marker categories*/
-.category-activeMarker{
-  fill: #72B026;
-  stroke: #72B026;
-  background: #72B026;
-  border-color: #72B026;
-}
-.category-inactiveMarker{
-  fill: #728224;
-  stroke: #728224;
-  background: #728224;
-  border-color: #728224;
-  opacity: 0.65;
-}
-.category-oldMarker{
-  fill: #575757;
-  stroke: #575757;
-  background: #575757;
-  border-color: #575757;
-  opacity: 0.5
-}
-
 /* CSS for osemChart directive */
 .osem-chart {
   border: 1px solid #cacccd;

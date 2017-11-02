@@ -16,8 +16,8 @@
   <div class="row">
     <div class="col-lg-6" ng-repeat="box in dashboard.boxes" style="padding-top: 15px;">
       <div class="card">
-        <!-- TODO: colorgrading with activity -->
-        <div class="box-selected" ng-class="box.exposure == 'mobile' ? 'box-mobile' : ''">
+        <!-- TODO: colorgrading with activity. requires api change to return lastMeasurements -->
+        <div class="box-selected" ng-style="{ 'background': box.markerOptions.modelColor.hex }">
           <article>
             <div class="info">
               <div class="name"><span>{{'BOX_NAME' | translate}}: {{box.name}}</span></div>

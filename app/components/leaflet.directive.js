@@ -30,22 +30,6 @@
         center: '=',
         events: '='
       },
-    },
-
-    // TODO: move somewhere really global?
-    OPACITY = {
-      activeMarker: 1,
-      inactiveMarker: 0.65,
-      oldMarker: 0.5,
-      hiddenMarker: 0,
-    },
-    // TODO: use blue from sensebox logogogo
-    COLORS = {
-      blue: '#38AADD',
-      darkblue: '#0067A3',
-      green: '#72B026',
-      darkgreen: '#728224',
-      lightgray: '#575757',
     };
 
     return directive;
@@ -98,7 +82,7 @@
           var marker = allChildMarkers[childMarker];
           var circle = new L.CircleMarker(marker._latlng, {
             radius: 5,
-            color: COLORS[marker.options.icon.options.markerColor],
+            color: marker.options.color.hex,
             fillOpacity: 0.4,
             opacity: 0
           });
@@ -138,7 +122,7 @@
         var allMarkers = mapLayers['markerCluster'].getLayers();
         var marker;
         for (var layer in allMarkers) {
-          if (box._id === allMarkers[layer].options.options.station.id) {
+          if (box._id === allMarkers[layer].options.station._id) {
             marker = allMarkers[layer];
             break;
           }
@@ -172,28 +156,15 @@
           mapLayers['activeMarkers'].clearLayers();
           mapLayers['inactiveMarkers'].clearLayers();
           mapLayers['oldMarkers'].clearLayers();
-          for (var marker in newVal) {
-            var box = newVal[marker];
-            var marker = L.marker([box.lat,box.lng], {
-              icon: L.AwesomeMarkers.icon(box.icon),
-              options: box,
-              draggable: box.draggable,
-              opacity: box.icon.opacity,
-              zIndexOffset: box.icon.zIndexOffset
-            });
-            // IDEA: allow filtering either by activity, exposure, (model)?
-            if (box.layer === 'oldMarker') {
-              marker.addTo(mapLayers['oldMarkers']);
-            } else if (box.layer === 'inactiveMarker') {
-              marker.addTo(mapLayers['inactiveMarkers']);
-            } else {
-              marker.addTo(mapLayers['activeMarkers']);
-            }
+          for (var markerId in newVal) {
+            var markerOpts = newVal[markerId];
+            var marker = L.marker(markerOpts.latLng, markerOpts);
+            marker.addTo(mapLayers[markerOpts.layerName]);
             marker.on('click', onMarkerClick);
             marker.on('mouseover', onMarkerMouseOver);
             marker.on('mouseout', onMarkerMouseOut);
 
-            if (box.draggable) {
+            if (markerOpts.draggable) {
               marker.on('dragend', onMarkerDragend);
             }
           }
@@ -360,8 +331,8 @@
             data = d3.nest()
               .key(function (d) {
                 return [
-                  d.options.icon.options.markerColor,
-                  d.options.options['layer'],
+                  d.options.color.hex,
+                  d.options.color.opacity,
                 ].join('__');
               })
               .entries(children, d3.map),
@@ -376,8 +347,6 @@
               pieLabelClass: 'marker-cluster-pie-label',
               pathStyleFunc: function (d) {
                 var [col, opac] = d.data.key.split('__');
-                opac = OPACITY[opac];
-                col = COLORS[col];
 
                 return `fill:${col};stroke:${col};background:${col};border-color:${col};opacity:${opac}`;
               },

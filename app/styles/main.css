@@ -955,11 +955,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   position: relative;
   overflow: hidden;
   min-height: 200px;
-  background: #4EAF47;
-}
-
-.box-mobile {
-  background: #38AADD;
 }
 
 article {

@@ -129,15 +129,16 @@
       vm.hoverlabel = {
         left: markerBounds.left+'px',
         top: (markerBounds.top-33)+'px',
-        name: args.target.options.options.station.name
+        name: args.target.options.station.name
       };
     });
 
     $scope.$on('osemMarkerMouseOut.map_main', resetHoverlabel);
     $scope.$on('osemMeasurementMouseOut.map_main', resetHoverlabel);
+    $scope.$on('boxSelected', resetHoverlabel);
 
     $scope.$on('osemMarkerClick.map_main', function (e, args) {
-      $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.options.station.id });
+      $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.station._id });
     })
 
     $scope.$on('markersChanged', function (data) {

@@ -12,8 +12,6 @@
 
     vm.boxes = [];
 
-    vm.deleteBox = deleteBox;
-
     activate();
 
     ////
@@ -29,24 +27,10 @@
     function getUsersBoxes () {
       vm.boxes = [];
       return AccountService.getUsersBoxes()
-        .then(function (data) {
-          data.data.boxes.forEach(function (box) {
-            vm.boxes.push(box);
-          });
+        .then(function (boxes) {
+          vm.boxes = boxes;
         });
     }
 
-    function deleteBox (boxId) {
-      return AccountService.deleteBox(boxId)
-        .then(function (response) {
-          console.log(response);
-          console.info('Box deleted');
-          getUsersBoxes();
-        })
-        .catch(function (error) {
-          console.log(error);
-          console.info('Error while deleting senseBox');
-        });
-    }
   }
 })();

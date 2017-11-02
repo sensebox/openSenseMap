@@ -2,7 +2,7 @@
   <div uib-alert class="alert-danger">{{'SENSEBOX_NOT_FOUND'|translate}}</div>
 </div>
 <div ng-show="!details.boxNotFound" ng-cloak>
-  <span ng-if="details.box.grouptag && details.box.grouptag !=''" class="ng-cloak badge sbblue">{{'GROUP'|translate}}: {{ details.box.grouptag }}</span>
+  <span ng-if="details.box.grouptag && details.box.grouptag !=''" class="ng-cloak badge sbdblue">{{'GROUP'|translate}}: {{ details.box.grouptag }}</span>
   <span ng-if="details.box.exposure && details.box.exposure !=''" class="ng-cloak badge" ng-class="details.box.getBadgeColor(details.box.exposure)">{{'STATION_PLACEMENT_'+details.box.exposure.toUpperCase()|translate}}</span>
   <osem-badge-refresh refresh-time="60"></osem-badge-refresh>
   <br/><br/>

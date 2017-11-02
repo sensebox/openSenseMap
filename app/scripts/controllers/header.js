@@ -151,7 +151,7 @@
             boxresults++;
             var newStructured = {
               'display_name': marker.station.name,
-              'boxId': marker.station.id
+              'boxId': marker.station._id
             };
             results.unshift(newStructured);
           }

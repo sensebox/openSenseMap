@@ -14,6 +14,7 @@
     var THIRTY_DAYS = ONE_DAY * 30;
 
     var service = {
+      makeMarkerOptions: classify,
       getMarkers: getMarkers,
       setMarkers: setMarkers,
       getMarker: getMarker
@@ -63,8 +64,17 @@
 
     // returns a markerconfiguration, and grades the color based on
     // activity state of the box
-    function makeMarkerOpts (color, state) {
-      var layer = state + 'Marker', opacity, zIndexOffset;
+    function makeLayerOpts (color, icon, state) {
+      var COLORS = {
+        blue: '#38AADD',
+        darkblue: '#0067A3',
+        green: '#72B026',
+        darkgreen: '#728224',
+        lightgray: '#575757',
+      };
+
+      var origColor = color, layerName = state + 'Markers', opacity, zIndexOffset;
+
       switch (state) {
         case 'active':
           opacity = 1;
@@ -88,14 +98,31 @@
           break;
       }
 
-      return { layer, opacity, zIndexOffset, marker: {
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: 'cube',
-        markerColor: color,
+      return {
+        layerName,
+        // returns the color independent of state
+        modelColor: {
+          name: origColor,
+          opacity: 1,
+          hex: COLORS[origColor],
+        },
+        color: {
+          name: color,
+          opacity: opacity,
+          hex: COLORS[color],
+        },
+        icon: L.AwesomeMarkers.icon({
+          type: 'awesomeMarker',
+          prefix: 'fa',
+          icon,
+          markerColor: color,
+          opacity,
+          zIndexOffset,
+        }),
         opacity,
+        raiseOnHover: true,
         zIndexOffset,
-      }};
+      };
     }
 
     function makeid() {
@@ -107,10 +134,10 @@
       return text;
     }
 
-    function classify (obj) {
+    function classify (box) {
       // decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
       var now = Date.now();
-      var markerOpts = obj.sensors.reduceRight(function (previous, sensor, index) {
+      var markerOpts = box.sensors.reduceRight(function (previous, sensor, index) {
         if (sensor.lastMeasurement && sensor.lastMeasurement.createdAt) {
 
             var createdAt = Date.parse(sensor.lastMeasurement.createdAt);
@@ -124,39 +151,26 @@
             if (previous === 'inactive' && (now - createdAt < SEVEN_DAYS)) {
               previous = 'active';
             }
+        } else {
+          console.warn('no lastMeasurement, cannot classify box');
         }
 
         if (index === 0) { //finally return the correct options
-          var color = obj.exposure === 'mobile' ? 'blue' : 'green';
-          return makeMarkerOpts(color, previous);
+          var color = box.exposure === 'mobile' ? 'blue' : 'green';
+          var icon = box.exposure === 'mobile' ? 'rocket' : 'cube';
+          return makeLayerOpts(color, icon, previous);
         } else { // else just return the state of the previous sensor
           return previous;
         }
       }, 'old');
 
-      // override marker icon for mobile boxes
-      if (obj.exposure === 'mobile') {
-        markerOpts.marker.icon = 'rocket';
-      }
+      markerOpts.station = box;
+      markerOpts.latLng = [
+        box.currentLocation.coordinates[1],
+        box.currentLocation.coordinates[0],
+      ];
 
-      var marker = {
-        layer: markerOpts.layer,
-        icon: markerOpts.marker,
-        lng: obj.currentLocation.coordinates[0],
-        lat: obj.currentLocation.coordinates[1],
-        opacity: markerOpts.opacity,
-        riseOnHover: true,
-        station: {
-          id: obj._id,
-          name: obj.name,
-          exposure: obj.exposure,
-          grouptag: obj.grouptag,
-          sensors: obj.sensors,
-          model: obj.model
-        },
-        zIndexOffset: markerOpts.zIndexOffset
-      };
-      return marker;
+      return markerOpts;
     }
   }
 })();

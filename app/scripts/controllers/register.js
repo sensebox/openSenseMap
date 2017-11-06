@@ -375,49 +375,45 @@
     });
 
     $scope.$watch('register.modelSelected.id', function(newValue) {
-      switch(newValue) {
-        case 'homeEthernet':
-          vm.modelSelected.name = 'senseBox Home Ethernet';
-          vm.sensorSetup = vm.modelSelected.id;
-          break;
-        case 'homeWifi':
-          vm.modelSelected.name = 'senseBox Home Wifi';
-          vm.sensorSetup = vm.modelSelected.id;
-          break;
-        case 'luftdaten_sds011':
-          vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor ohne Temperatur/Feuchtesensor';
-          vm.sensorSetup = vm.modelSelected.id;
-          vm.extensions.feinstaub.id = '';
-          break;
-        case 'luftdaten_sds011_dht11':
-          vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT11';
-          vm.sensorSetup = vm.modelSelected.id;
-          vm.extensions.feinstaub.id = '';
-          break;
-        case 'luftdaten_sds011_dht22':
-          vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit DHT22';
-          vm.sensorSetup = vm.modelSelected.id;
-          vm.extensions.feinstaub.id = '';
-          break;
-        case 'luftdaten_sds011_bmp180':
-          vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BMP180';
-          vm.sensorSetup = vm.modelSelected.id;
-          vm.extensions.feinstaub.id = '';
-          break;
-        case 'luftdaten_sds011_bme280':
-          vm.modelSelected.name = 'Luftdaten.info Feinstaubsensor mit BME280';
-          vm.sensorSetup = vm.modelSelected.id;
-          vm.extensions.feinstaub.id = '';
-          break;
-        case 'custom':
-          vm.sensorSetup = '';
-          vm.extensions.feinstaub.id = '';
-          break;
-        default:
-          vm.modelSelected.name = false;
-          break;
+      if (newValue.indexOf('home') === 0) {
+        vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
+        vm.sensorSetup = vm.modelSelected.id;
+
+        vm.invalidHardware = false;
+
+        return;
       }
-      vm.invalidHardware = false;
+
+      if (newValue.indexOf('luftdaten') === 0) {
+        vm.sensorSetup = vm.modelSelected.id;
+        vm.extensions.feinstaub.id = '';
+
+        var nameParts = newValue.split('_');
+
+        var name = 'Luftdaten.info Feinstaubsensor (' + nameParts[1].toUpperCase() + ')';
+
+        if (!nameParts[2]) {
+          name += ' ohne Temperatur-/Feuchtesensor';
+        } else {
+          name += ' mit ' + nameParts[2].toUpperCase();
+        }
+        vm.modelSelected.name = name;
+
+        vm.invalidHardware = false;
+
+        return;
+      }
+
+      if (newValue === 'custom') {
+        vm.sensorSetup = '';
+        vm.extensions.feinstaub.id = '';
+
+        vm.invalidHardware = false;
+
+        return;
+      }
+
+      vm.modelSelected.name = false;
     });
 
     // check if valid json for ttn decodeOptions

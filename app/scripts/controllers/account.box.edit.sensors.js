@@ -29,8 +29,8 @@
     ////
 
     function activate () {
-      if (angular.isDefined(boxData.sensors)) {
-        angular.copy(boxData.sensors, vm.sensors);
+      if (angular.isDefined(boxData.sensorsArray)) {
+        angular.copy(boxData.sensorsArray, vm.sensors);
       }
       vm.icons = SensorIcons;
     }

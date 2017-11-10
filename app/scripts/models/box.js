@@ -78,6 +78,7 @@
       destObj.markerOptions = OpenSenseMapData.makeMarkerOptions(srcObj);
       for (var key in srcObj) {
         if (key === 'sensors') {
+          destObj['sensorsArray'] = srcObj.sensors;
           destObj['sensors'] = {};
           for (var index in srcObj.sensors) {
             var sensor = new Sensor(srcObj.sensors[index]);
@@ -90,7 +91,7 @@
     }
 
     /**
-    * Retrun the constructor function
+    * Return the constructor function
     */
     return Box;
   }

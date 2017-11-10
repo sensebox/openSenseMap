@@ -1121,6 +1121,11 @@ figure {
   color: #777;
 }
 
+/* add some padding below the last row */
+.container > .row:last-child {
+  padding-bottom: 15px;
+}
+
 /*Marker clusters*/
 .marker-cluster-pie g.arc{
   fill-opacity: 0.5;

@@ -112,6 +112,7 @@
   "INFO_COPYRIGHT_NOTICES": "Copyright notice",
   "DOWNLOAD_LICENSE": "All data is licensed under <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a> and free to use.",
 
+  "INFO_TITLE": "About openSenseMap",
   "INFO_ABOUT": "openSenseMap is a platform for open sensor data at which everyone can participate in.<br/> This project started in 2015 at the GI@School lab at the Institute for Geoinformatics in Münster, where it is used together with <a href=\"http://www.sensebox.de/de/products/\" target=\"_blank\">senseBox</a> to educate pupils and citizens, and offer them a platform for sharing sensor data.<br/><br/> <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> This website</a> and <a href=\"https://github.com/sensebox/openSenseMap-API\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> the data API</a> are open source software, suggestions for improvement are always welcome.<br/>",
   "SENSEBOX_NOT_FOUND": "senseBox not found",
   "GROUP": "Group",

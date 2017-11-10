@@ -128,6 +128,27 @@
     }
 
     function getLocations (searchstring) {
+      var results = [];
+      var boxresults = 0;
+
+      // search for senseboxes with matching name
+      var markers = OpenSenseMapData.getMarkers();
+      Object.keys(markers).map(function (key) {
+        if (boxresults === 4) {
+          return;
+        }
+        var marker = markers[key];
+        if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
+          boxresults++;
+          var newStructured = {
+            'display_name': marker.station.name,
+            'boxId': marker.station._id
+          };
+          results.push(newStructured);
+        }
+
+      });
+
       return $http.get('//locationiq.org/v1/search.php', {
         params: {
           format: 'json',
@@ -136,26 +157,12 @@
           limit: 4,
           q: searchstring
         }
-      }).then(function(response){
-        var results = response.data.map(function (item) {
-          return item;
-        });
-        var boxresults = 0;
-        var markers = OpenSenseMapData.getMarkers();
-        Object.keys(markers).map(function (key) {
-          if (boxresults === 4) {
-            return;
-          }
-          var marker = markers[key];
-          if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
-            boxresults++;
-            var newStructured = {
-              'display_name': marker.station.name,
-              'boxId': marker.station._id
-            };
-            results.unshift(newStructured);
-          }
-        });
+      })
+      .then(function(response){
+        return results.concat(response.data);
+      })
+      .catch(function (err) {
+        console.error('error in geolocation lookup:', err);
         return results;
       });
     }

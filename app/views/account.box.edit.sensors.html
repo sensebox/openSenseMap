@@ -6,7 +6,7 @@
     <div class="col-md-6  col-lg-6">
       <div class="pull-right">
         <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="sensors.addSensor()" ><i class="glyphicon glyphicon-plus"></i></button>
-        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="sensors.save()" ng-disabled="sensorSettings.$invalid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="sensors.save()" ng-disabled="sensors.saveDisabled()"><i class="glyphicon glyphicon-floppy-disk"></i></button>
       </div>
     </div>
   </div>

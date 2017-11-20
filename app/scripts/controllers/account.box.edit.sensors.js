@@ -15,6 +15,7 @@
     vm.addSensor = addSensor;
     vm.deleteSensor = deleteSensor;
     vm.saveSensor = saveSensor;
+    vm.saveDisabled = saveDisabled;
     vm.cancelSensor = cancelSensor;
     vm.editSensor = editSensor;
     vm.getIcon = getIcon;
@@ -35,7 +36,18 @@
     }
 
     function save () {
-      return AccountService.updateBox(boxData._id, {sensors: vm.sensors})
+      var sensors = [];
+      // Just post new, edited and deleted sensors and not all by default
+      for (var index = 0; index < vm.sensors.length; index++) {
+        var element = vm.sensors[index];
+        if (angular.isDefined(element.new) ||
+          angular.isDefined(element.edited) ||
+          angular.isDefined(element.deleted)) {
+            sensors.push(element);
+          }
+      }
+
+      return AccountService.updateBox(boxData._id, {sensors: sensors})
         .then(function (response) {
           angular.copy(response.data, boxData);
           angular.copy(boxData.sensors, vm.sensors);
@@ -46,6 +58,16 @@
           console.log(error);
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
+    }
+
+    function saveDisabled () {
+      if (angular.equals(vm.sensors, []) ||
+        angular.equals(boxData.sensors, vm.sensors)
+      ) {
+        return true;
+      }
+
+      return vm.sensorsEditMode;
     }
 
     function addSensor () {
@@ -69,8 +91,9 @@
         }
       } else {
         sensor.deleted = true;
-        sensor.incomplete = false;
       }
+
+      setSensorsEditMode();
     }
 
     function saveSensor (sensor) {
@@ -82,8 +105,9 @@
         sensor.incomplete = true;
         return false;
       } else {
-        sensor.editing = false;
-        sensor.incomplete = false;
+        delete sensor.editing;
+        delete sensor.incomplete;
+        delete sensor.restore;
         sensor.edited = true;
       }
 
@@ -97,8 +121,10 @@
           vm.sensors.splice(index, 1);
         }
       } else {
-        sensor.incomplete = false;
-        sensor.editing = false;
+        // Remove editing keys
+        delete sensor.incomplete;
+        delete sensor.restore;
+        delete sensor.editing;
         for (var key in sensor.restore) {
           var value = sensor.restore[key];
           sensor[key] = value;
@@ -150,7 +176,7 @@
     };
 
     function undo (sensor) {
-      sensor.deleted = false;
+      delete sensor.deleted;
     }
   }
 })();

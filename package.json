@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
+    "bardjs": "^0.1.8",
     "chai": "^3.5.0",
     "connect-modrewrite": "^0.8.5",
     "grunt": "~0.4.1",
@@ -30,12 +31,20 @@
     "grunt-usemin": "~3.1.1",
     "jshint-stylish": "~2.1.0",
     "karma": "^1.5.0",
+    "karma-chai": "^0.1.0",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.0.1",
     "karma-html-reporter": "^0.2.7",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.2",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-sinon": "^1.0.5",
     "load-grunt-tasks": "~3.4.0",
     "mocha": "^3.2.0",
     "serve-static": "^1.10.2",
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0",
     "time-grunt": "~1.3.0"
   },
   "engines": {

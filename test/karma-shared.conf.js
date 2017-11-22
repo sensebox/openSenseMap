@@ -1,7 +1,7 @@
 module.exports = function() {
   return {
     basePath: '../',
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'chai', 'sinon', 'chai-sinon'],
     reporters: ['progress', 'html'],
     browsers: ['PhantomJS'],
     autoWatch: true,
@@ -10,24 +10,19 @@ module.exports = function() {
     // these are default values anyway
     singleRun: false,
     colors: true,
-    
+
     files : [
       //3rd Party Code
-      // 'bower_components/angular/angular.js',
-      // 'bower_components/angular-route/angular-route.js',
-      // 'bower_components/angularjs-scope.safeapply/src/Scope.SafeApply.js',
-      // 'app/scripts/lib/router.js',
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
 
       //App-specific Code
-      // 'app/scripts/config/config.js',
-      // 'app/scripts/services/**/*.js',
-      // 'app/scripts/directives/**/*.js',
-      // 'app/scripts/controllers/**/*.js',
-      // 'app/scripts/filters/**/*.js',
-      // 'app/scripts/config/routes.js',
-      // 'app/scripts/app.js',
+      'app/scripts/app.js',
+      'app/scripts/services/**/*.js',
+
 
       //Test-Specific Code
+      'node_modules/bardjs/dist/bard.js',
       'node_modules/chai/chai.js',
       'test/lib/chai-should.js',
       'test/lib/chai-expect.js',

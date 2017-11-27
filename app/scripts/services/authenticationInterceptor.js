@@ -19,7 +19,7 @@
         return config;
       },
       responseError: function (response) {
-        if (response.config.url.match('/users/me/')) {
+        if (response.config.url.match('/users/me')) {
           switch (response.status) {
             case 401:
               var deferred = $q.defer();
@@ -29,22 +29,27 @@
               inFlightAuthRequest.then(function(r) {
                   inFlightAuthRequest = null;
                   if (r.data.token && r.data.refreshToken) {
-                      AuthenticationService.saveToken(r.data.data.token);
-                      AuthenticationService.saveRefreshToken(r.data.data.refreshToken);
-                      $injector.get('$http')(response.config).then(function(resp) {
-                          deferred.resolve(resp);
-                      },function(resp) {
-                          deferred.reject();
-                      });
+                    console.log('Token succesfully refreshed', r.data);
+
+                    AuthenticationService.saveToken(r.data.token);
+                    AuthenticationService.saveRefreshToken(r.data.refreshToken);
+
+                    $injector.get('$rootScope').$emit('loggedIn', r.data);
+
+                    $injector.get('$http')(response.config).then(function(resp) {
+                        deferred.resolve(resp);
+                    },function(err) {
+                        deferred.reject(err);
+                    });
                   } else {
                       deferred.reject();
                   }
-              }, function(response) {
-                  inFlightAuthRequest = null;
-                  deferred.reject();
-                  AuthenticationService.logout();
-                  $injector.get('$state').go('explore.map');
-                  return;
+              }, function(error) {
+                inFlightAuthRequest = null;
+                deferred.reject(error);
+                AuthenticationService.logout();
+                $injector.get('$state').go('explore.map');
+                return;
               });
               return deferred.promise;
               break;

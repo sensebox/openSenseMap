@@ -334,23 +334,6 @@ angular
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
 
-  .run(function($rootScope, $state, AccountService) {
-    $rootScope.$on('$stateChangeStart', function(e, to) {
-      if (to.data && to.data.requiresLogin) {
-        if (!AccountService.isAuthed()) {
-          AccountService.refreshAuth()
-          .then(function (response) {
-            console.log('Refresh success: ', response);
-            if (angular.isUndefined(response)) {
-              e.preventDefault();
-              $state.go('explore.map');
-            }
-          });
-        }
-      }
-    });
-  })
-
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);

@@ -41,7 +41,7 @@
     ////
 
     function activate () {
-      if (AccountService.isAuthed()) {
+      if (AccountService.isAuthed() || AccountService.refreshTokenExists()) {
         AccountService.getUserDetails()
           .then(function (data) {
             vm.key = data.data.me.language.split('_')[0];

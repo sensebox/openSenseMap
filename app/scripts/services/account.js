@@ -92,6 +92,7 @@
       var data = {
         token: AuthenticationService.getRefreshToken()
       };
+
       return $http.post(OpenSenseBoxAPI.url + '/users/refresh-auth', data)
         .then(success)
         .catch(refreshAuthFailed);

@@ -1,7 +1,7 @@
 <div id="sidebar" style="background-position: 0px -5px;" ng-class="{'maximized': !sidebar.minimized, 'minimized': sidebar.minimized}" ng-cloak>
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
-      <div class="col-xs-8 col-sm-8 col-md-8" style="padding-left: 0px;">
+      <div class="col-xs-8 col-sm-8 col-md-8" style="padding-left: 0px;" ng-click="sidebar.minimize()">
         <h4>{{sidebar.Sidebar.getTranslationId() | translate}}{{sidebar.Sidebar.getTitle()}}</h4>
       </div>
       <div class="col-xs-4 col-sm-4 col-md-4" style="padding-right: 0px;">

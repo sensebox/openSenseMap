@@ -40,7 +40,7 @@
   "DATEPICKER_ENDINGDATE": "Fecha fin",
   "DATEPICKER_CURRENTTEXT": "Hoy",
   "DATEPICKER_CLEARTEXT": "Limpiar",
-  "DATEPICKER_CLOSETEXT": "Cerrar",  
+  "DATEPICKER_CLOSETEXT": "Cerrar",
   "DOWNLOAD": "Descargar",
   "Helligkeit": "Brillo",
   "Lautstärke": "Ruido",
@@ -85,7 +85,7 @@
   "INFO_COPYRIGHT_NOTICES": "Aviso de Copyright",
   "DOWNLOAD_LICENSE": "Todos los datos se encuentran licenciados bajo <a href=\"http://opendatacommons.org/licenses/pddl/summary/\" target=\"_blank\">Public Domain Dedication and License 1.0</a> y son libre para usar.",
 
-  "INFO_ABOUT": "openSenseMap es una plataforma para compatir los datos de sensor, en la cual cualquiera puede participar.<br/> Este proyecto inicio en 2015 en e laboratorio GI@School del instituto para la Geoinformática en Münster, donde es usada en conjunto con <a href=\"http://www.sensebox.de/de/products/\" target=\"_blank\">senseBox</a> para educar almunos y ciudadanos, para ofrecerles una plataforma para compartir datos del sensor.<br/><br/> <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> Este sitio web</a> y <a href=\"https://github.com/sensebox/openSenseMap-API\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> el API</a> son software de código abierto, sugerencias para mejoramiento son siempre bienvenidas.<br/>",
+  "INFO_ABOUT": "openSenseMap es una plataforma para compatir los datos de sensor, en la cual cualquiera puede participar.<br/> Este proyecto inicio en 2015 en e laboratorio GI@School del instituto para la Geoinformática en Münster, donde es usada en conjunto con <a href=\"http://www.sensebox.de/de/products\" target=\"_blank\">senseBox</a> para educar almunos y ciudadanos, para ofrecerles una plataforma para compartir datos del sensor.<br/><br/> <a href=\"https://github.com/sensebox/openSenseMap\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> Este sitio web</a> y <a href=\"https://github.com/sensebox/openSenseMap-API\" target=\"_blank\"><i class=\"fa fa-github\" aria-hidden=\"true\"></i> el API</a> son software de código abierto, sugerencias para mejoramiento son siempre bienvenidas.<br/>",
   "SENSEBOX_NOT_FOUND": "No se encuentra el senseBox",
   "GROUP": "Grupo",
   "EDITBOX": "Editar",

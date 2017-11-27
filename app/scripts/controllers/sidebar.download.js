@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData'];
+  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
 
-  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData) {
+  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -31,6 +31,7 @@
     ////
 
     function activate () {
+      Sidebar.setTitle('Download');
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.count = Object.keys(vm.markersFiltered).length;
 
@@ -145,6 +146,10 @@
 
     $scope.$on('initData', function (e, args) {
       vm.count = getBoxIdsFromBBox(vm.map).length;
+    });
+
+    $scope.$on('$destroy', function () {
+      Sidebar.setTitle('');
     });
   }
 })();

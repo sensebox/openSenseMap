@@ -54,47 +54,97 @@ angular
                 return data;
               })
               .catch(function (error) {
-                console.error('Resolve boxes: ', error);
                 progressbar.complete();
-                return error;
+                return new Error('Could not resolve getBoxes() on explore.map.');
               });
           }
         }
       })
-      .state('explore.map.boxdetails', {
-        url: 'explore/:id', // no leading / because it is a child of the 'explore' state
+      .state('explore.map.sidebar', {
+        url: 'explore',
+        resolve: {
+          Sidebar: function () {
+            var vm = this;
+            vm.title = '';
+            vm.translationId = '';
+            vm.actions = [];
+            return {
+              getTitle: function () {
+                return vm.title;
+              },
+              setTitle: function (title) {
+                vm.title = title;
+              },
+              setTranslationId: function (id) {
+                vm.translationId = id;
+              },
+              getTranslationId: function () {
+                return vm.translationId;
+              },
+              getActions: function () {
+                return vm.actions;
+              },
+              addAction: function (action) {
+                vm.actions.push(action);
+              },
+              removeActions: function () {
+                vm.actions = [];
+              }
+            };
+          }
+        },
         views: {
           'sidebar': {
-            controller: 'SidebarBoxDetailsController',
-            controllerAs: 'details',
-            templateUrl: 'views/explore2.sidebar.box.html'
+            controller: 'SidebarController',
+            controllerAs: 'sidebar',
+            templateUrl: 'views/sidebar.html',
           }
         }
       })
-      .state('explore.map.filter', {
-        url: 'filter',
+      .state('explore.map.sidebar.error', {
+        url: '^/error',
         views: {
-          'sidebar': {
+          'sidebarContent': {
+            controller: 'SidebarErrorController',
+            controllerAs: 'error',
+            templateUrl: 'views/sidebar.error.html'
+          }
+        }
+      })
+      .state('explore.map.sidebar.boxdetails', {
+        url: '/:id', // no leading / because it is a child of the 'explore' state
+        views: {
+          'sidebarContent': {
+            controller: 'SidebarBoxDetailsController',
+            controllerAs: 'details',
+            templateUrl: 'views/explore2.sidebar.box.html',
+          }
+        }
+      })
+      .state('explore.map.sidebar.filter', {
+        url: '^/filter',
+        views: {
+          'sidebarContent': {
             controller: 'SidebarFilterController',
             controllerAs: 'filter',
             templateUrl: 'views/explore2.sidebar.filter.html'
           }
         }
       })
-      .state('explore.map.download', {
-        url: 'download',
+      .state('explore.map.sidebar.download', {
+        url: '^/download',
         views: {
-          'sidebar': {
+          'sidebarContent': {
             controller: 'SidebarDownloadController',
             controllerAs: 'download',
             templateUrl: 'views/explore2.sidebar.download.html'
           }
         }
       })
-      .state('explore.map.interpolation', {
-        url: 'interpolation',
+      .state('explore.map.sidebar.interpolation', {
+        url: '^/interpolation',
         views: {
-          'sidebar': {
+          'sidebarContent': {
             controller: 'InterpolationController',
             controllerAs: 'interpolation',
             templateUrl: 'views/explore2.sidebar.interpolation.html'

@@ -72,18 +72,18 @@
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.interpolation">
+                <a ui-sref="explore.map.sidebar.interpolation">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
-                <a ui-sref="explore.map.filter">
+                <a ui-sref="explore.map.sidebar.filter">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
                   <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.download">
+                <a ui-sref="explore.map.sidebar.download">
                   <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                 </a>
               </li>
@@ -216,6 +216,7 @@
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/sidebar.js"></script>
+    <script src="scripts/controllers/sidebar.error.js"></script>
     <script src="scripts/controllers/sidebar.boxdetails.js"></script>
     <script src="scripts/controllers/sidebar.filter.js"></script>
     <script src="scripts/controllers/sidebar.interpolation.js"></script>
@@ -267,16 +268,16 @@
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var $_Tawk_API={},$_Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/58259b7de808d60cd081071c/default';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/58259b7de808d60cd081071c/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+      })();
     </script>
-    <!--End of Tawk.to Script-->
+    <!-- End of Tawk.to Script -->
     </body>
 </html>

@@ -35,6 +35,11 @@
     ////
 
     function activate () {
+      if (boxes instanceof Error) {
+        $state.go('explore.map.sidebar.error');
+        return;
+      }
+
       OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;
@@ -132,7 +137,7 @@
     $scope.$on('osemMeasurementMouseOut.map_main', resetHoverlabel);
 
     $scope.$on('osemMarkerClick.map_main', function (e, args) {
-      $state.go('explore.map.boxdetails', { id: args.target.options.options.station.id });
+      $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.options.station.id });
     })
 
     $scope.$on('markersChanged', function (data) {

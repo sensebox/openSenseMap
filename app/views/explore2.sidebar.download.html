@@ -1,76 +1,61 @@
-<div id="sidebar" style="background-position: 0px -5px;">
-	<div class="row">
-		<div class="col-xs-12 col-md-12">
-			<h3>
-				Download
-				<a ui-sref="explore.map"><i class="fa fa-times pull-right close" ng-click="download.closeSidebar()" tooltip="{{'CLOSESIDEBAR' | translate}}" tooltip-trigger tooltip-placement="bottom"></i></a>
-			</h3>
-		</div>
-	</div>
-	<div class="row">
-		<hr>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<div uib-alert class="alert-info">
-				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-				<translate translate="DOWNLOAD_INTRO"></translate>
-	  	</div>
+<div class="row">
+  <div uib-alert class="alert-info">
+    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+    <translate translate="DOWNLOAD_INTRO"></translate>
+  </div>
 
-			<span ng-show="download.selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
-			<div class="form-group">
+  <span ng-show="download.selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
+  <div class="form-group">
 
-				<div class="input-group">
-				<label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}</label>
-					<p class="input-group">
-						<input uib-datepicker-popup ng-model="download.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened1"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate }}" />
-						<span class="input-group-btn">
-							<button id="datepicker1" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-						</span>
-					</p>
-					<p class="input-group">
-						<input uib-datepicker-popup ng-model="download.inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened2"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate }}" />
-						<span class="input-group-btn">
-							<button id="datepicker2" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-						</span>
-					</p>
-				</div>
+    <div class="input-group">
+    <label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}</label>
+      <p class="input-group">
+        <input uib-datepicker-popup ng-model="download.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened1"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate }}" />
+        <span class="input-group-btn">
+          <button id="datepicker1" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+      <p class="input-group">
+        <input uib-datepicker-popup ng-model="download.inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened2"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate }}" />
+        <span class="input-group-btn">
+          <button id="datepicker2" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </p>
+    </div>
 
-				<br>
-				<button class="btn btn-info" ng-click="download.endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
-				<button class="btn btn-info" ng-click="download.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
-				<button class="btn btn-info" ng-click="download.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
-				<br><br>
-				<label>{{ "DOWNLOAD_SELECTSENSOR" | translate }}</label>
-				<select class="form-control" ng-model="download.inputFilter.Phenomenon">
-					<option value=""></option>
-					<option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
-				</select>
-				<br>
-				<label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
+    <br>
+    <button class="btn btn-info" ng-click="download.endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
+    <button class="btn btn-info" ng-click="download.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
+    <button class="btn btn-info" ng-click="download.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
+    <br><br>
+    <label>{{ "DOWNLOAD_SELECTSENSOR" | translate }}</label>
+    <select class="form-control" ng-model="download.inputFilter.Phenomenon">
+      <option value=""></option>
+      <option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
+    </select>
+    <br>
+    <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
 
-				<br>
-				<input ng-model="download.downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>
-				<label for="formatCSV">CSV</label>
-				<!--
-				<br>
-				<input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON">
-				<label for="formatJSON">JSON</label>-->
-		  <br>
-		  <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
-		  <div uib-alert class="alert-warning">
-		  	<p translate="DOWNLOAD_WARNING" translate-value-count="{{download.count}}"></p>
-		  </div>
-		  <button class="btn btn-lg btn-success" ng-click="download.dataDownload(); download.downloadform.emptyData = false; download.downloadform.errorOccured = false;" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
-			  <div uib-alert class="alert-info" ng-show="download.downloadform.pleaseWait">
-				<i class="fa fa-spinner fa-pulse"></i> {{ "PLEASE_WAIT_DATA" | translate }}
-			  </div>
-			  <div uib-alert class="alert-warning" ng-show="download.downloadform.emptyData">
-				{{ "DOWNLOAD_NODATA" | translate }}
-			  </div>
-			  <div uib-alert class="alert-warning" ng-show="download.downloadform.errorOccured">
-				{{ "COMMON_ERROR" | translate }}
-			  </div>
-		</div>
-	</div>
+    <br>
+    <input ng-model="download.downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>
+    <label for="formatCSV">CSV</label>
+    <!--
+    <br>
+    <input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON">
+    <label for="formatJSON">JSON</label>-->
+  <br>
+  <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
+  <div uib-alert class="alert-warning">
+    <p translate="DOWNLOAD_WARNING" translate-value-count="{{download.count}}"></p>
+  </div>
+  <button class="btn btn-lg btn-success" ng-click="download.dataDownload(); download.downloadform.emptyData = false; download.downloadform.errorOccured = false;" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+    <div uib-alert class="alert-info" ng-show="download.downloadform.pleaseWait">
+    <i class="fa fa-spinner fa-pulse"></i> {{ "PLEASE_WAIT_DATA" | translate }}
+    </div>
+    <div uib-alert class="alert-warning" ng-show="download.downloadform.emptyData">
+    {{ "DOWNLOAD_NODATA" | translate }}
+    </div>
+    <div uib-alert class="alert-warning" ng-show="download.downloadform.errorOccured">
+    {{ "COMMON_ERROR" | translate }}
+    </div>
 </div>

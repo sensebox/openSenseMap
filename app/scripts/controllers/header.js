@@ -173,7 +173,7 @@
 
     function selectBox ($item) {
       if ($item.boundingbox === undefined) {
-        $state.go('explore.map.boxdetails', { id: $item.boxId });
+        $state.go('explore.map.sidebar.boxdetails', { id: $item.boxId });
       } else {
         centerLatLng($item.boundingbox);
       }

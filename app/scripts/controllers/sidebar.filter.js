@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarFilterController', SidebarFilterController);
 
-  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonsFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService'];
+  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonsFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar'];
 
-  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonsFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService) {
+  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonsFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar) {
     var vm = this;
     vm.inputFilter = {};
     vm.filterActive = FilterActiveService;
@@ -26,7 +26,7 @@
     ////
 
     function activate () {
-      console.info('Activated Filter');
+      Sidebar.setTranslationId('SEARCH_AND_FILTER');
       vm.markers = OpenSenseMapData.getMarkers();
       vm.filteredMarkers = OpenSenseMapData.getMarkers();
     }
@@ -154,5 +154,10 @@
         performFilter();
       }
     }
+
+    // destroy watcher
+    $scope.$on('$destroy', function() {
+      Sidebar.setTranslationId('');
+    });
   }
 })();

@@ -275,5 +275,6 @@
   "DATAUPLOAD_ERR_UnprocessableEntity": "Could not parse measurements",
 
   "TOOLTIP_MINIMIZE": "Minimize",
-  "TOOLTIP_MAXIMIZE": "Maximize"
+  "TOOLTIP_MAXIMIZE": "Maximize",
+  "NO_MEASUREMENT": "no measurement"
 }

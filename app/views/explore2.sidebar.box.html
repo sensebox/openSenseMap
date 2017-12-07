@@ -40,7 +40,7 @@
                 <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
               </div>
               <div ng-if="!sensor.lastMeasurement.createdAt">
-                <span class="sensor-measurement-info-nomeasurements"><i>nichts gemessen</i></span>
+                <span class="sensor-measurement-info-nomeasurements"><i>{{'NO_MEASUREMENT'|translate}}</i></span>
               </div>
             </div>
           </div>

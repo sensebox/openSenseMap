@@ -274,5 +274,6 @@
   "DATAUPLOAD_ERR_UnprocessableEntity": "Messung(en) konnten nicht gelesen werden",
 
   "TOOLTIP_MINIMIZE": "Minimieren",
-  "TOOLTIP_MAXIMIZE": "Maximieren"
+  "TOOLTIP_MAXIMIZE": "Maximieren",
+  "NO_MEASUREMENT": "nichts gemessen"
 }

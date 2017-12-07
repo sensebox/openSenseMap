@@ -290,15 +290,11 @@ a:hover {
 }
 
 .maximized {
-  height: calc(100% - 100px);
-  top: 100px;
   overflow: auto;
 }
 
 .minimized {
-  top: calc(100% - 50px);
   overflow: hidden;
-  height: 50px;
 }
 
 #sidebar .row {

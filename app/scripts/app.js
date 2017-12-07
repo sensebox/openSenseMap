@@ -63,18 +63,20 @@ angular
       })
       .state('explore.map.sidebar', {
         url: 'explore',
-        resolve: {
-          Sidebar: function () {
+        resolve: { /* @ngInject */
+          Sidebar: function ($rootScope, $window) {
             var vm = this;
             vm.title = '';
             vm.translationId = '';
             vm.actions = [];
+
             return {
               getTitle: function () {
                 return vm.title;
               },
               setTitle: function (title) {
                 vm.title = title;
+                $rootScope.$broadcast('sidebar:titleChanged', {});
               },
               setTranslationId: function (id) {
                 vm.translationId = id;

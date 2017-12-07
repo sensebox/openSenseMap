@@ -5,7 +5,9 @@
   "devDependencies": {
     "bardjs": "^0.1.8",
     "chai": "^3.5.0",
+    "commitizen": "^2.9.6",
     "connect-modrewrite": "^0.8.5",
+    "cz-conventional-changelog": "^2.1.0",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~3.0.3",
     "grunt-bower-install": "~1.6.0",
@@ -51,9 +53,15 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "commit": "git-cz",
     "test": "grunt test",
     "build": "bower install && grunt build",
     "docker-build": "docker build -t osem .",
     "docker-run": "docker run -p 8000:8000 -it --rm osem bash"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

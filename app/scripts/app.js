@@ -2,6 +2,7 @@
 
 angular
   .module('openSenseMapApp', [
+    'app.core',
     'app.models',
     'app.services',
     'ngResource',
@@ -369,7 +370,9 @@ angular
       })
       .state('info', {
         url: '/info',
-        templateUrl: 'views/info.html'
+        templateUrl: 'views/info.html',
+        controller: 'InfoController',
+        controllerAs: 'info'
       });
   }])
   .config(['$translateProvider', function ($translateProvider){

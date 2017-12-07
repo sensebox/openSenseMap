@@ -19,6 +19,7 @@ module.exports = function (grunt) {
 
   // Define the configuration for all the tasks
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
     replace: {
       control: {
         options: {
@@ -44,6 +45,10 @@ module.exports = function (grunt) {
             {
               match: 'OPENSENSEMAP_MAPTILES_URL',
               replacement: process.env.OPENSENSEMAP_MAPTILES_URL
+            },
+            {
+              match: 'VERSION',
+              replacement: '<%= pkg.version %>'
             }
           ]
         },
@@ -75,7 +80,20 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/components/leaflet.directive.js',], dest: '.tmp/components'}
+          {expand: true, flatten: true, src: ['.tmp/components/leaflet.directive.js'], dest: '.tmp/components'}
+        ]
+      },
+      version: {
+        options: {
+          patterns: [
+            {
+              match: 'VERSION',
+              replacement: '<%= pkg.version %>'
+            }
+          ]
+        },
+        files: [
+          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts'}
         ]
       }
     },
@@ -484,7 +502,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts',
         dest: '.tmp/scripts',
-        src: ['app.js']
+        src: ['app.js', 'constants.js']
       },
       components: {
         expand: true,
@@ -599,6 +617,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
+      'replace:version',
       'languages',
       'connect:livereload',
       'watch'

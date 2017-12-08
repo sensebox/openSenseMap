@@ -180,11 +180,13 @@
   "INTERP_NUMTIMESTEPS": "Time steps",
   "INTERP_TIMESTEP": "Time step",
 
-  "LEGEND_ACTIVE": "Active (< 7 Days)",
-  "LEGEND_ACTIVE_30": "Inactive (> 7 Days)",
-  "LEGEND_INACTIVE": "Inactive (> 30 Days)",
-  "LEGEND_SHOWALL": "Show",
+  "LEGEND_ACTIVE": "active",
+  "LEGEND_ACTIVE_DAYS": "<7 days",
+  "LEGEND_INACTIVE": "inactive",
+  "LEGEND_INACTIVE_DAYS": ">30 days",
+  "LEGEND_SHOWALL": "Show inactive boxes",
   "LEGEND_STATIONARY": "stationary",
+  "LEGEND_MOBILE": "mobile",
 
   "SENSEBOXES": "senseBoxes",
   "MEASUREMENTS": "measurements",

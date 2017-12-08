@@ -1,51 +1,63 @@
 <div class="legend" ng-class="map.cssClass">
-	<a href="#" title="Legende" ng-hide="map.showHide">
-		<i class="fa fa-map-marker legend-icon"  ng-hide="map.showHide"></i>
+	<a href="#" title="Legende" ng-hide="map.showLegend">
+		<i class="fa fa-map-marker legend-icon"  ng-hide="map.showLegend"></i>
 	</a>
-  <i class="fa fa-times legend-close" ng-show="map.showHide" aria-hidden="true"></i>
-	<div class="legend-content" ng-show="map.showHide">
-      <div class="legend-content-entry">
-        <div class="sensebox-legend-entry vertical">
-          {{'STATION_PLACEMENT_MOBILE'|translate}}
-        </div>
-        <div class="sensebox-legend-entry vertical">
-          {{'LEGEND_STATIONARY'|translate}}
-        </div>
+  <i class="fa fa-times legend-close" ng-show="map.showLegend" ng-click="map.toggleLegend($event, false)" aria-hidden="true"></i>
+	<div class="legend-content" ng-show="map.showLegend">
+    <div class="legend-item">
+      <div style="display: flex; justify-content:space-around;">
+        <span class="label label-default" style="background-color:#72B026"><i class="fa fa-cube icon-white"></i> {{'LEGEND_STATIONARY'|translate}}</span>
+        <span class="label label-default" style="background-color:#38AADD"><i class="fa fa-rocket icon-white"></i> {{'LEGEND_MOBILE'|translate}}</span>
       </div>
-      <div class="legend-content-entry">
-        <div class="awesome-marker awesome-marker-icon-blue sensebox-legend-marker">
-          <i class="fa fa-rocket icon-white"></i>
-        </div>
-        <div class="awesome-marker awesome-marker-icon-green sensebox-legend-marker">
-          <i class="fa fa-cube icon-white"></i>
-        </div>
-        <div class="sensebox-legend-entry">
-          {{'LEGEND_ACTIVE'|translate}}
-        </div>
+    </div>
+    <hr style="margin-top: 0px; margin-bottom: 0px;">
+    <div class="legend-item">
+      <div style="display: flex; justify-content:space-between;">
+          <p style="font-size: 10px;line-height: 14px; padding-top: 5px;">{{'LEGEND_INACTIVE'|translate}}</p>
+          <p style="font-size: 10px;line-height: 14px; padding-top: 5px;">{{'LEGEND_ACTIVE'|translate}}</p>
       </div>
-      <div class="legend-content-entry">
-        <div class="awesome-marker awesome-marker-icon-darkblue sensebox-legend-marker" style="opacity: 0.65">
-          <i class="fa fa-rocket icon-white"></i>
-        </div>
-        <div class="awesome-marker awesome-marker-icon-darkgreen sensebox-legend-marker" style="opacity: 0.65">
-          <i class="fa fa-cube icon-white"></i>
-        </div>
-        <div class="sensebox-legend-entry">
-          {{'LEGEND_ACTIVE_30'|translate}}
-        </div>
+      <div style="position: relative;
+        height: 8px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        opacity: 1;
+        background: linear-gradient(90deg , #57575780 , #728224A6 , #72B026);">
       </div>
-      <div class="legend-content-entry">
-        <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker" style="opacity: 0.5">
-          <i class="fa fa-rocket icon-white"></i>
-        </div>
-        <div class="awesome-marker awesome-marker-icon-gray sensebox-legend-marker" style="opacity: 0.5">
-          <i class="fa fa-cube icon-white"></i>
-        </div>
-        <div class="sensebox-legend-entry">
-          {{'LEGEND_INACTIVE'|translate}} <br/>
-          <input id="showAll" type="checkbox" ng-click="map.toggleLayer('oldMarkers', $event)" ng-true-value="true" ng-false-value="false" ng-model="map.showAllMarkers">
-          <label for="showAll">{{'LEGEND_SHOWALL'|translate}}</label>
-        </div>
+    </div>
+    <div class="legend-item">
+      <div style="position: relative;
+        height: 8px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        opacity: 1;
+        background: linear-gradient(90deg , #57575780 , #0067A3A6 , #38AADD);">
+      </div>
+      <div style="display: flex; justify-content:space-between;">
+        <p style="font-size: 10px;line-height: 14px;">{{'LEGEND_INACTIVE_DAYS'|translate}}</p>
+        <p style="font-size: 10px;line-height: 14px;">{{'LEGEND_ACTIVE_DAYS'|translate}}</p>
+      </div>
+    </div>
+    <hr style="margin-top: 0px; margin-bottom: 0px;">
+    <div class="legend-item">
+      <div style="display: flex; justify-content:space-between;">
+        <label class="switch-container">
+          <div class="switch">
+            <input type="checkbox" ng-click="map.toggleLayer('oldMarkers', $event); $event.stopPropagation();" ng-true-value="true" ng-false-value="false" ng-model="map.showAllMarkers">
+            <span class="slider round"></span>
+          </div>
+          <span style="font-size: 10px; font-weight: normal; line-height: 14px; margin-top: 3px!important; margin-left: 6px!important;">{{'LEGEND_SHOWALL'|translate}}</span>
+        </label>
+      </div>
+    </div>
+    <div class="legend-item">
+      <div style="display: flex; justify-content:space-between;">
+        <label class="switch-container">
+          <div class="switch">
+            <input type="checkbox" ng-click="map.toggleClustering(); $event.stopPropagation();" ng-true-value="true" ng-false-value="false" ng-model="map.showClustering">
+            <span class="slider round"></span>
+          </div>
+          <span style="font-size: 10px; font-weight: normal; line-height: 14px; margin-top: 3px!important; margin-left: 6px!important;">Clustering</span>
+        </label>
       </div>
     </div>
 	</div>

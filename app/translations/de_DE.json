@@ -178,11 +178,13 @@
   "INTERP_NUMTIMESTEPS": "Zeitschritte",
   "INTERP_TIMESTEP": "Zeitschritt",
 
-  "LEGEND_ACTIVE": "aktiv (< 7 Tage)",
-  "LEGEND_ACTIVE_30": "inaktiv (> 7 Tage)",
-  "LEGEND_INACTIVE": "inaktiv (> 30 Tage)",
-  "LEGEND_SHOWALL": "Anzeigen",
+  "LEGEND_ACTIVE": "aktiv",
+  "LEGEND_ACTIVE_DAYS": "<7 Tage",
+  "LEGEND_INACTIVE_DAYS": ">30 Tage",
+  "LEGEND_INACTIVE": "inaktiv",
+  "LEGEND_SHOWALL": "Inaktive Boxen anzeigen",
   "LEGEND_STATIONARY": "stationär",
+  "LEGEND_MOBILE": "mobil",
 
   "SENSEBOXES": "senseBoxen",
   "MEASUREMENTS": "Messungen",

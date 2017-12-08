@@ -10,7 +10,8 @@
   function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData) {
     var vm = this;
     vm.showAllMarkers = true;
-    vm.showHide = false;
+    vm.showClustering = true;
+    vm.showLegend = false;
     vm.cssClass = '';
 
     vm.mapMarkers = {};
@@ -29,6 +30,7 @@
 
     vm.toggleLegend = toggleLegend;
     vm.toggleLayer = toggleLayer;
+    vm.toggleClustering = toggleClustering;
 
     activate();
 
@@ -71,43 +73,56 @@
       return legend;
     }
 
-    function toggleLegend ($event) {
+    function toggleLegend (event, showLegend) {
       var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
-      if (vm.showHide) {
+      if (angular.isDefined(showLegend)) {
         vm.cssClass = '';
         if (document.body.clientHeight <= 400 ) {
           zoomControl[0].classList.remove('hidden');
         }
+        vm.showLegend = showLegend;
+        event.stopPropagation();
       } else {
         vm.cssClass = 'legend-big';
         if (document.body.clientHeight <= 400 ) {
           zoomControl[0].classList.add('hidden');
         }
+        vm.showLegend = true;
       }
-      vm.showHide = !vm.showHide;
     }
 
     function toggleLayer (type, event) {
-      osemMapData.getMap('map_main')
-        .then(function (map) {
-          osemMapData.getLayer(type)
-            .then(function (layer) {
-              if (map.hasLayer(layer)) {
-                if (!vm.showAllMarkers) {
-                  map.removeLayer(layer);
-                }
+      osemMapData.getLayers()
+        .then(function(layers){
+          osemMapData.getMap('map_main')
+            .then(function(map){
+              if (map.hasLayer(layers[type])) {
+                map.removeLayer(layers[type]);
               } else {
-                map.addLayer(layer);
+                map.addLayer(layers[type]);
               }
             })
-            .catch(function (error) {
-              console.log(error);
-            });
-        })
-        .catch(function (error) {
-          console.log(error);
         });
-      event.stopPropagation();
+    }
+
+    function toggleClustering (event) {
+      osemMapData.getLayers()
+        .then(function(layers){
+          osemMapData.getMap('map_main')
+            .then(function(map){
+              if (map.hasLayer(layers.markerCluster)) {
+                map.removeLayer(layers.markerCluster);
+                layers.activeMarkers.setParentGroupSafe(map);
+                layers.inactiveMarkers.setParentGroupSafe(map);
+                layers.oldMarkers.setParentGroupSafe(map);
+              } else {
+                layers.oldMarkers.setParentGroupSafe(layers.markerCluster);
+                layers.inactiveMarkers.setParentGroupSafe(layers.markerCluster);
+                layers.activeMarkers.setParentGroupSafe(layers.markerCluster);
+                map.addLayer(layers.markerCluster);
+              }
+            })
+        });
     }
 
     function resetHoverlabel() {

@@ -146,7 +146,14 @@
       // get chart data once and add measurements to the map
       // if we have them already, use the cached data
       if (!sensor.measurements) {
-        getSensorData(sensor, {});
+        var data = {
+          params: {}
+        };
+        if (angular.isDefined(sensor.lastMeasurement)) {
+          data.params['to-date'] = sensor.lastMeasurement.createdAt;
+        }
+
+        getSensorData(sensor, data);
       } else if (vm.box.exposure === 'mobile') {
         $scope.$parent.map.selectedSensorMeasurements = sensor.measurements;
       }
@@ -162,7 +169,14 @@
     };
 
     function resetFilter (sensor) {
-      return getSensorData(sensor, {});
+      var data = {
+        params: {}
+      };
+      if (angular.isDefined(sensor.lastMeasurement)) {
+        data.params['to-date'] = sensor.lastMeasurement.createdAt;
+      }
+
+      return getSensorData(sensor, data);
     }
 
     function performFilter (sensor) {

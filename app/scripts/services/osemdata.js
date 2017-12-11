@@ -99,7 +99,7 @@
       }
 
       return {
-        layerName,
+        layerName: layerName,
         // returns the color independent of state
         modelColor: {
           name: origColor,
@@ -114,14 +114,14 @@
         icon: L.AwesomeMarkers.icon({
           type: 'awesomeMarker',
           prefix: 'fa',
-          icon,
+          icon: icon,
           markerColor: color,
-          opacity,
-          zIndexOffset,
+          opacity: opacity,
+          zIndexOffset: zIndexOffset
         }),
-        opacity,
+        opacity: opacity,
         raiseOnHover: true,
-        zIndexOffset,
+        zIndexOffset: zIndexOffset
       };
     }
 

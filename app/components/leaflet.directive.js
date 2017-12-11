@@ -346,9 +346,10 @@
               pieLabel: n,
               pieLabelClass: 'marker-cluster-pie-label',
               pathStyleFunc: function (d) {
-                var [col, opac] = d.data.key.split('__');
+                var col = d.data.key.split('__')[0];
+                var opac = d.data.key.split('__')[1];
 
-                return `fill:${col};stroke:${col};background:${col};border-color:${col};opacity:${opac}`;
+                return 'fill:'+col+';stroke:'+col+';background:'+col+';border-color:'+col+';opacity:'+opac;
               },
             }),
             myIcon = new L.DivIcon({

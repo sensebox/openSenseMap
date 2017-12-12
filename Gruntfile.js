@@ -20,6 +20,14 @@ module.exports = function (grunt) {
   // Define the configuration for all the tasks
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
+    env: {
+      dev: {
+        OPENSENSEMAP_API_URL: 'https://api.osem.vo1d.space',
+        OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      }
+    },
+
     replace: {
       control: {
         options: {
@@ -40,11 +48,13 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'OPENSENSEMAP_API_URL',
-              replacement: process.env.OPENSENSEMAP_API_URL
+              replacement: '<%= OPENSENSEMAP_API_URL %>'
+              // replacement: process.env.OPENSENSEMAP_API_URL
             },
             {
               match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: process.env.OPENSENSEMAP_MAPTILES_URL
+              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
+              // replacement: process.env.OPENSENSEMAP_MAPTILES_URL
             },
             {
               match: 'VERSION',
@@ -61,7 +71,7 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'OPENSENSEMAP_API_URL',
-              replacement: 'https://api.osem.vo1d.space'
+              replacement: '<%= OPENSENSEMAP_API_URL %>'
             }
           ]
         },
@@ -75,7 +85,7 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
             }
           ]
         },
@@ -117,12 +127,6 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/{,*/}*.js'
         ],
         tasks: ['newer:jshint:all'],
-        options: {
-          livereload: true
-        }
-      },
-      translations: {
-        files: ['<%= yeoman.app %>/translations/{,*/}*.json'],
         options: {
           livereload: true
         }
@@ -402,14 +406,24 @@ module.exports = function (grunt) {
       }
     },
 
-    'json-minify': {
-      build: {
-        files: '<%= yeoman.dist %>/translations/*.json'
-      }
-    },
-
     // Copies remaining files to places other tasks can use
     copy: {
+      translations: {
+        files: [
+          {
+            expand: true,
+            cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
+            dest: '.tmp/translations',
+            src: ['{,*/}*.json']
+          },
+          {
+            expand: true,
+            cwd: 'node_modules/angular-i18n/',
+            dest: '.tmp/translations/angular',
+            src: ['angular-locale_{<%= pkg.languages %>}.js']
+          }
+        ]
+      },
       dist: {
         files: [{
           expand: true,
@@ -425,11 +439,22 @@ module.exports = function (grunt) {
             'images/{,*/}*.{webp}',
             'images/{,*/}*.{gif}',
             'fonts/*.*',
-            'fonts/webfonts/*.*',
-            'translations/*.json',
-            'translations/angular/*.js'
+            'fonts/webfonts/*.*'
           ]
-        }, {
+        },
+        {
+          expand: true,
+          cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
+          dest: 'dist/translations',
+          src: ['{,*/}*.json']
+        },
+        {
+          expand: true,
+          cwd: 'node_modules/angular-i18n/',
+          dest: 'dist/translations/angular',
+          src: ['angular-locale_{<%= pkg.languages %>}.js']
+        },
+        {
           expand: true,
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
@@ -584,7 +609,8 @@ module.exports = function (grunt) {
         'copy:api',
         'copy:apinew',
         'copy:maps',
-        'copy:images'
+        'copy:images',
+        'copy:translations'
       ],
       test: [
         'copy:styles'
@@ -612,6 +638,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
+      'env:dev',
+      'loadconst',
       'bowerInstall',
       'concurrent:server',
       'autoprefixer',
@@ -629,6 +657,11 @@ module.exports = function (grunt) {
     grunt.task.run(['serve:' + target]);
   });
 
+  grunt.registerTask('loadconst', 'Load constants', function(target) {
+    grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
+    grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
+  });
+
   grunt.registerTask('test', [
     'clean:server',
     'concurrent:test',
@@ -637,21 +670,24 @@ module.exports = function (grunt) {
     // 'karma'
   ]);
 
+  grunt.registerTask('testBuild', ['env:dev', 'build']);
+
   grunt.registerTask('build', [
     'clean:dist',
+    'loadconst',
     'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
     'copy:dist',
     'autoprefixer',
     'concat',
+    'languages',
     'ngAnnotate',
     'cssmin',
     'rev',
     'uglify',
     'usemin',
     'htmlmin',
-    'json-minify',
     'replace:control',
     'replace:urls',
     'compress'
@@ -663,31 +699,39 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('languages','',function(){
-      var fs = require('fs');
-      var done = this.async();
-      fs.readFile('app/index.html', 'utf8', function (err,data) {
-        if (err) {
-          return console.log(err);
-        }
-        var html = '';
-        grunt.file.recurse('app/translations/', function(abspath, rootdir, subdir, filename){
-          if (subdir !== undefined) { return; }
-          if (filename.indexOf('disabled') === -1) {
-            var languageCode = filename.split('.')[0];
-            var language = languageCode.split('_')[0];
-            html += '<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
-          }
-        });
-        var resultStart = data.split('<!-- languages-start -->');
-        var resultEnd = data.split('<!-- languages-end -->');
-        var res = resultStart[0] + '<!-- languages-start -->' + html + '<!-- languages-end -->' + resultEnd[1];
+  grunt.registerTask('languages','',function () {
+    var target = grunt.option('target');
+    var translationsFolder = '.tmp/translations/';
+    var targetFile = '.tmp/index.html';
+    if (target === 'build' || target === 'testBuild') {
+      translationsFolder = 'dist/translations/';
+      targetFile = 'dist/index.html';
+    }
 
-        fs.writeFile('.tmp/index.html', res, 'utf8', function (err) {
-           if (err) { return console.log(err); }
-           // grunt.file.copy('.tmp/index.html','app/index.html');
-           done();
-        });
+    var fs = require('fs');
+    var done = this.async();
+    fs.readFile('app/index.html', 'utf8', function (err,data) {
+      if (err) {
+        return console.log(err);
+      }
+      var html = '';
+      grunt.file.recurse(translationsFolder, function(abspath, rootdir, subdir, filename){
+        if (subdir !== undefined) { return; }
+        if (filename.indexOf('disabled') === -1) {
+          var languageCode = filename.split('.')[0];
+          var language = languageCode.split('_')[0];
+          html += '<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
+        }
       });
+      var resultStart = data.split('<!-- languages-start -->');
+      var resultEnd = data.split('<!-- languages-end -->');
+      var res = resultStart[0] + '<!-- languages-start -->' + html + '<!-- languages-end -->' + resultEnd[1];
+
+      fs.writeFile(targetFile, res, 'utf8', function (err) {
+          if (err) { return console.log(err); }
+          // grunt.file.copy('.tmp/index.html','app/index.html');
+          done();
+      });
+    });
   });
 };

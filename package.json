@@ -1,7 +1,10 @@
 {
   "name": "opensensemap",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "@sensebox/opensensemap-i18n": "^1.0.1",
+    "angular-i18n": "^1.6.7"
+  },
   "devDependencies": {
     "bardjs": "^0.1.8",
     "chai": "^3.5.0",
@@ -23,6 +26,7 @@
     "grunt-contrib-jshint": "~0.12.0",
     "grunt-contrib-uglify": "~3.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
     "grunt-json-minify": "^1.1.0",
     "grunt-karma": "^2.0.0",
     "grunt-newer": "~1.1.1",
@@ -53,9 +57,11 @@
     "node": ">=0.10.0"
   },
   "scripts": {
+    "serve": "grunt serve --target=dev",
     "commit": "git-cz",
     "test": "grunt test",
-    "build": "bower install && grunt build",
+    "test-build": "bower install && grunt testBuild --target=testBuild",
+    "build": "bower install && grunt build --target=build",
     "docker-build": "docker build -t osem .",
     "docker-run": "docker run -p 8000:8000 -it --rm osem bash"
   },
@@ -63,5 +69,18 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "languages": [
+    "de",
+    "en",
+    "es",
+    "fr",
+    "id",
+    "ms",
+    "pl",
+    "pt",
+    "ru",
+    "nl",
+    "it"
+  ]
 }

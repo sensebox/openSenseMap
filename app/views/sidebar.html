@@ -1,6 +1,6 @@
 <div id="sidebar"
   style="background-position: 0px -5px;"
-  ng-style="{'top': {true: 'calc(100% - '+sidebar.height+'px)',false:sidebar.top + 'px'}[sidebar.minimized] , 'height': {true: 'calc(100% - '+sidebar.top+'px)',false:sidebar.height + 'px'}[!sidebar.minimized]}"
+  ng-style="sidebar.style"
   ng-class="{'maximized': !sidebar.minimized, 'minimized': sidebar.minimized}"
   ng-cloak>
   <div class="row" id="sidebar-title">

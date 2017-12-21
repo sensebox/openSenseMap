@@ -11,8 +11,6 @@
     var vm = this;
     vm.minimized = false;
     vm.Sidebar = Sidebar;
-    vm.top = 100;
-    vm.height = 50;
 
     vm.minimize = minimize;
 
@@ -21,6 +19,12 @@
     ////
 
     function activate () {
+      vm.maximizedStyle = {
+        'bottom': '0px',
+        'top': '100px'
+      }
+
+      invalidateSize();
     }
 
     function minimize () {
@@ -33,10 +37,21 @@
       var elem = $window.document.querySelector('#sidebar-title');
       var elemHeight = angular.element(elem)[0].clientHeight;
 
-      if (elemHeight > 50) {
-        vm.height = elemHeight + 5;
+      var height = 50;
+      if (vm.minimized) {
+        if (elemHeight > 50) {
+          height = elemHeight + 5;
+        }
+
+        vm.style = {
+          'height': height + 'px',
+          'bottom': '0px'
+        };
       } else {
-        vm.height = 50;
+        vm.style = {
+          'bottom': vm.maximizedStyle.bottom,
+          'top': vm.maximizedStyle.top
+        };
       }
     }
 

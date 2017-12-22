@@ -72,7 +72,7 @@
 
     function addSensor () {
       vm.sensors.push({
-        icon: undefined,
+        icon: 'osem-battery',
         sensorType: undefined,
         title: undefined,
         unit: undefined,

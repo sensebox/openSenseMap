@@ -5,7 +5,7 @@
     </div>
   </div>
   <div class="row register">
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-3">
       <ul class="nav nav-pills nav-stacked">
         <li><a ui-sref="account.dashboard"><i class="fa fa-arrow-left fa-fw"></i> {{'BACK_TO_DASHBOARD'|translate}}</a></li>
       </ul>
@@ -20,7 +20,7 @@
         <li ng-class="{'active': edit.tabActive.ttn}" ng-click="edit.changeActiveTab('ttn')"><a ui-sref="account.edit.ttn"><i class="fa fa-cloud-upload fa-fw"></i> {{'EDIT_TTN'|translate}}</a></li>
       </ul>
     </div>
-    <div class="col-md-9">
+    <div class="col-lg-9 col-md-9">
       <div ui-view="edit"></div>
     </div>
   </div>

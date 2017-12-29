@@ -67,23 +67,24 @@
               </div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="sensor-details" style="height: 90px;" ng-hide="sensor.editing">
-                  <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">This sensor will be deleted</span>
+                  <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">{{'EDIT_CHANGESENSORS_DELETE_SENSOR'|translate}}</span>
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.undo(sensor)" ng-show="sensor.deleted">
-                    <span class="fa fa-undo"></span> Rückgängig
+                    <span class="fa fa-undo"></span> {{'UNDO'|translate}}
                   </button>
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.editSensor(sensor)" ng-show="!sensor.editing && !sensor.deleted">
-                    <span class="glyphicon glyphicon-edit"></span> Editieren
+                    <span class="glyphicon glyphicon-edit"></span> {{'EDIT'|translate}}
                   </button>
                   <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteSensor(sensor)" ng-show="!sensor.editing && !sensor.deleted">
-                    <span class="glyphicon glyphicon-trash"></span> Löschen
+                    <span class="glyphicon glyphicon-trash"></span> {{'DELETE'|translate}}
                   </button>
                 </span>
                 <span class="sensor-details" style="height: 222px;" ng-show="sensor.editing">
-                  <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.saveSensor(sensor)" ng-show="sensor.editing">
-                    <span class="glyphicon glyphicon-floppy-disk"></span> Speichern
+                    <span style="background-color:#d9534f;color:white" ng-show="sensorSettings.$invalid">{{'FORM_INVALID'|translate}}</span>
+                  <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.saveSensor(sensor)" ng-disabled="sensorSettings.$invalid">
+                    <span class="glyphicon glyphicon-floppy-disk"></span> {{'SAVE'|translate}}
                   </button>
-                  <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.cancelSensor(sensor)" ng-show="sensor.editing">
-                    <span class="glyphicon glyphicon-remove"></span> Verwerfen
+                  <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.cancelSensor(sensor)">
+                    <span class="glyphicon glyphicon-remove"></span> {{'CANCEL'|translate}}
                   </button>
                 </span>
               </div>

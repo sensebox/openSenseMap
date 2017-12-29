@@ -121,14 +121,14 @@
           vm.sensors.splice(index, 1);
         }
       } else {
-        // Remove editing keys
-        delete sensor.incomplete;
-        delete sensor.restore;
-        delete sensor.editing;
         for (var key in sensor.restore) {
           var value = sensor.restore[key];
           sensor[key] = value;
         }
+        // Remove editing keys
+        delete sensor.incomplete;
+        delete sensor.editing;
+        delete sensor.restore;
       }
 
       setSensorsEditMode();

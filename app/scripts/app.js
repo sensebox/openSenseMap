@@ -187,9 +187,9 @@ angular
             if (angular.equals({}, $stateParams.box)) {
               return AccountService.getUsersBoxes()
                 .then(function (response) {
-                  for (var i = response.data.boxes.length - 1; i >= 0; i--) {
-                    if (response.data.boxes[i]._id === $stateParams.id) {
-                      return response.data.boxes[i];
+                  for (var i = response.length - 1; i >= 0; i--) {
+                    if (response[i]._id === $stateParams.id) {
+                      return response[i];
                     }
                   }
                   throw 'box not found';

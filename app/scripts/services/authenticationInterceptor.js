@@ -19,7 +19,7 @@
         return config;
       },
       responseError: function (response) {
-        if (response.config.url.match('/users/me')) {
+        if (response.config.auth) {
           switch (response.status) {
             case 401:
               var deferred = $q.defer();

@@ -1189,12 +1189,14 @@ figure {
 }
 
 .sensor-details {
-  /* width: 600px; */
   line-height: 1.6;
   white-space: normal;
   display: table-cell;
   vertical-align: middle;
-  /* border-right: 1px solid #e1e4e8; */
+}
+
+.sensor-details button {
+  margin-bottom: 5px;
 }
 
 .editing {

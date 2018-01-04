@@ -144,7 +144,7 @@ module.exports = function (grunt) {
       },
       html: {
         files: ['<%= yeoman.app %>/index.html'],
-        tasks: ['languages'],
+        // tasks: ['languages'],
       },
       livereload: {
         options: {
@@ -645,8 +645,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
-      'replace:version',
-      'languages',
+      // 'languages',
       'connect:livereload',
       'watch'
     ]);

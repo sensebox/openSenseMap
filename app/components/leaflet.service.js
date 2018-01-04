@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('openSenseMapApp')
+    .module('leaflet')
     .factory('osemMapData', osemMapData);
 
   osemMapData.$inject = ['$q'];

@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html ng-app="app" ng-strict-di class="no-js"> <!--<![endif]-->
   <head>
     <meta charset="utf-8">
     <title>openSenseMap</title>
@@ -37,13 +37,19 @@
     <link rel="stylesheet" href="styles/osemicons.css">
     <!-- endbuild -->
   </head>
-  <body ng-app="openSenseMapApp" flow-prevent-drop>
+  <body flow-prevent-drop>
+    <div class="container">
+      <div ui-view></div>
+
+      <!-- <div ui-view="shell"></div> -->
+      <!-- <div data-ng-include="'layout/shell.html'"></div> -->
+    </div>
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
+    <!-- <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
       <div class="navbar-inner">
         <div class="container">
           <div class="navbar-header">
@@ -104,8 +110,6 @@
                   <b class="caret"></b>
                 </a>
                 <ul uib-dropdown-menu class="dropdown-menu" role="menu">
-                  <!-- languages-start -->
-                  <!-- languages-end -->
                 </ul>
               </li>
               <li class="menuitem" ng-hide="header.isAuthed()">
@@ -171,12 +175,12 @@
           </form>
         </div>
       </div>
-    </nav>
+    </nav> -->
 
     <!-- Add your site or application content here -->
-    <div class="container">
+    <!-- <div class="container">
         <div ui-view></div>
-    </div>
+    </div> -->
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
@@ -216,9 +220,52 @@
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/constants.js"></script>
-    <script src="scripts/models/box.js"></script>
+
+    <!-- Bootstraping -->
+    <script src="app.module.js"></script>
+    <script src="routeStates.js"></script>
+
+    <!-- Reusable Blocks/Modules -->
+    <script src="blocks/router/router.module.js"></script>
+    <script src="blocks/router/routerHelperProvider.js"></script>
+    <script src="blocks/models/models.module.js"></script>
+    <script src="blocks/models/box.js"></script>
+    <script src="blocks/models/sensor.js"></script>
+
+    <!-- core module -->
+    <script src="core/core.module.js"></script>
+    <script src="core/config.js"></script>
+
+    <!-- layout -->
+    <script src="layout/layout.module.js"></script>
+    <script src="layout/config.routes.js"></script>
+    <script src="layout/topnav.controller.js"></script>
+    <script src="layout/shell.controller.js"></script>
+
+    <!-- sidebar -->
+    <script src="sidebar/sidebar.module.js"></script>
+    <script src="sidebar/sidebar.controller.js"></script>
+    <script src="sidebar/config.routes.js"></script>
+
+    <!-- map -->
+    <script src="map/map.module.js"></script>
+    <script src="map/config.routes.js"></script>
+    <script src="map/map.controller.js"></script>
+
+    <!-- info -->
+    <script src="info/info.module.js"></script>
+    <script src="info/config.routes.js"></script>
+    <script src="info/info.controller.js"></script>
+
+    <!-- details -->
+    <script src="details/details.module.js"></script>
+    <script src="details/config.routes.js"></script>
+    <script src="details/details.controller.js"></script>
+
+    <!-- Components -->
+    <script src="components/leaflet.directive.js"></script>
+    <script src="components/leaflet.service.js"></script>
+    <!-- <script src="scripts/models/box.js"></script>
     <script src="scripts/models/sensor.js"></script>
     <script src="components/calendar.directive.js"></script>
     <script src="components/leaflet.directive.js"></script>
@@ -259,7 +306,7 @@
     <script src="scripts/services/sensoricons.js"></script>
     <script src="scripts/services/localstorage.js"></script>
     <script src="scripts/services/authentication.js"></script>
-    <script src="scripts/services/authenticationInterceptor.js"></script>
+    <script src="scripts/services/authenticationInterceptor.js"></script> -->
     <!-- endbuild -->
 
     <!-- Piwik -->

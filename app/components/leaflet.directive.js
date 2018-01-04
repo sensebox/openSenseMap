@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('openSenseMapApp')
+    .module('leaflet', [])
     .directive('osemMap', osemMap);
 
   osemMap.$inject = ['$q', '$rootScope', 'osemMapData'];

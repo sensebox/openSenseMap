@@ -4,7 +4,7 @@
 
 /* Space out content a bit */
 body {
-  padding-top: 50px;
+  padding-top: 100px;
   padding-bottom: 20px;
 }
 
@@ -129,7 +129,7 @@ a:focus {
 
 #map_main {
   position: absolute;
-  top: 0;
+  top: 100px;
   left: 0;
   bottom: 0;
   width: 100%;
@@ -156,9 +156,9 @@ a:focus {
   color: white;
 }
 
-#map_main .leaflet-top {
+/* #map_main .leaflet-top {
   top: 125px;
-}
+} */
 
 #app_info_button {
   display: block;
@@ -284,6 +284,7 @@ a:hover {
   position: absolute;
   padding: 10px 0px 10px 0px;
   width: 450px;
+  /* top: 100px; */
   right: 0;
   background: rgba(255, 255, 255, 0.9);
   z-index: 1001;

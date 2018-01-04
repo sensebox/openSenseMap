@@ -1,15 +1,25 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="navbar-header">
-    <a href="/" class="navbar-brand"><span class="brand-title">{{vm.title}}</span></a>
+    <!-- <a href="/" class="navbar-brand"><span class="brand-title">{{vm.title}}</span></a> -->
     <a class="btn navbar-btn navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
       <span class="icon-bar"></span>
     </a>
+    <span id="brand_with_logo">
+      <a class="navbar-brand" ui-sref="app.shell" ui-sref-opts="{reload: true}">
+        <img src="images/favicon.svg">
+        <div class='oSeM-brand'>&nbsp;{{vm.title}}</div>
+      </a>
+    </span>
+    <div class="ng-cloak brand-stats">
+      <span class="sensebox-stats">{{ vm.counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
+      <span class="sensebox-stats" title="{{vm.counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ vm.counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
+    </div>
   </div>
   <div class="navbar-collapse collapse">
     <div class="pull-right navbar-logo">
-      <ul class="nav navbar-nav pull-right">
+      <ul class="nav navbar-nav navbar-right">
           <li ui-sref-active-eq="active" class="menuitem">
             <a ui-sref="app.shell.info">
               <span class="glyphicon glyphicon-info-sign"></span> Info
@@ -32,20 +42,20 @@
               class="form-control"
               type="text"
               style="border-radius: 4px;"
-              ng-model="header.searchString"
-              ng-change="header.searchStringChanged()"
-              ng-model-options="header.modelOptions"
+              ng-model="vm.searchString"
+              ng-change="vm.searchStringChanged()"
+              ng-model-options="vm.modelOptions"
               placeholder="{{ 'SEARCH' | translate }}"
-              uib-typeahead="address.display_name for address in header.getLocations($viewValue)"
-              typeahead-on-select="header.selectBox($item)"
-              typeahead-loading="header.loadingLocations"
-              typeahead-no-results="header.noResults"
-              typeahead-popup-template-url="/views/search.html"
-              typeahead-template-url="views/search.item.html"
+              uib-typeahead="address.display_name for address in vm.getLocations($viewValue)"
+              typeahead-on-select="vm.selectBox($item)"
+              typeahead-loading="vm.loadingLocations"
+              typeahead-no-results="vm.noResults"
+              typeahead-popup-template-url="search/search.html"
+              typeahead-template-url="search/search.item.html"
               typeahead-min-length="3">
-            <div id="reset_search" ng-show="header.showClearSearch" ng-cloak>
+            <div id="reset_search" ng-show="vm.showClearSearch" ng-cloak>
               <span class="helper"></span>
-              <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="header.clearSearch()"></i>
+              <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="vm.clearSearch()"></i>
             </div>
           </div>
         </div>

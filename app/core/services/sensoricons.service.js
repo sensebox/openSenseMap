@@ -6,7 +6,7 @@
  * @description Defines the icons available for sensors
  * Factory in the openSenseMapApp.
  */
-angular.module('openSenseMapApp')
+angular.module('app.services')
   .factory('SensorIcons', function () {
     var icons = [
       { name: 'osem-moisture' },

@@ -9,7 +9,6 @@
   function MapController($scope) {
     var vm = this;
 
-
     activate();
 
     ////////////////

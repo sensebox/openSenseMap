@@ -2,7 +2,7 @@
   'use strict';
 
   angular
-    .module('openSenseMapApp')
+    .module('app.services')
     .factory('OpenSenseMapData', OpenSenseMapData);
 
   OpenSenseMapData.$inject = ['$q', '$state'];

@@ -5,11 +5,10 @@
     .module('app.services')
     .factory('OpenSenseMapAPI', OpenSenseMapAPI);
 
-  OpenSenseMapAPI.$inject = ['$http', '$q'];
+  OpenSenseMapAPI.$inject = ['$http', '$q', 'config'];
 
-  function OpenSenseMapAPI ($http, $q) {
+  function OpenSenseMapAPI ($http, $q, config) {
     var service = {
-      getUrl: getUrl,
       getBoxes: getBoxes,
       getData: getData,
       getBox: getBox,
@@ -18,7 +17,8 @@
       getSensorData: getSensorData,
       idwInterpolation: idwInterpolation,
       postMeasurements: postMeasurements,
-      deleteMeasurements: deleteMeasurements
+      deleteMeasurements: deleteMeasurements,
+      getStats: getStats
     };
 
     return service;
@@ -34,7 +34,7 @@
     }
 
     function getUrl () {
-      return '@@OPENSENSEMAP_API_URL';
+      return config.appApiUrl;
     }
 
     function getBoxes (data) {
@@ -100,6 +100,12 @@
 
     function idwInterpolation (data) {
       return $http.get(getUrl() + '/statistics/idw', data)
+        .then(success)
+        .catch(failed);
+    }
+
+    function getStats () {
+      return $http.get(getUrl() + '/stats')
         .then(success)
         .catch(failed);
     }

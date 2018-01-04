@@ -11,7 +11,7 @@
      /**
       * Our reuseable cross app code modules
       */
-    'blocks.router', 'blocks.models',
+    'blocks.router', 'blocks.models', 'app.services',
 
     /**
      * 3rd Party modules

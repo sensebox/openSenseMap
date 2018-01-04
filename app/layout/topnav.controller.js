@@ -5,13 +5,13 @@
     .module('app.layout')
     .controller('TopNavController', TopNavController);
 
-  TopNavController.$inject = ['routerHelper'];
+  TopNavController.$inject = ['routerHelper', 'config'];
 
   /* @ngInject */
-  function TopNavController(routerHelper) {
+  function TopNavController(routerHelper, config) {
     var vm = this;
 
-    vm.title = 'config.appTitle';
+    vm.title = config.appTitle;
 
 
     activate();

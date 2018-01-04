@@ -3,6 +3,14 @@
 
   var core = angular.module('app.core');
 
+  var config = {
+    appVersion: '@@VERSION',
+    appName: 'Zahngold Bernd',
+    appTitle: 'openSenseMap'
+  };
+
+  core.value('config', config);
+
   core.config(configure);
 
   configure.$inject = ['$translateProvider']

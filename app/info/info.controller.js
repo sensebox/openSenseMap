@@ -5,8 +5,8 @@
     .module('app.info')
     .controller('InfoController', InfoController);
 
-  InfoController.$inject = [];
-  function InfoController() {
+  InfoController.$inject = ['config'];
+  function InfoController(config) {
     var vm = this;
 
 
@@ -15,7 +15,7 @@
     ////////////////
 
     function activate() {
-      // console.info(app.VERSION +'-'+app.NAME);
+      console.info(config.appVersion + ' - ' + config.appName);
     }
   }
 })();

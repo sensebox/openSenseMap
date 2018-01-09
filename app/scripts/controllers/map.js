@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData', 'isMobile'];
 
-  function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData) {
+  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData, isMobile) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showClustering = true;
@@ -167,6 +167,11 @@
         map.addControl(infoLegend);
         var measurementLegend = createLegendFromTemplate('views/explore2.map.legend.measurements.html');
         map.addControl(measurementLegend);
+
+        if (isMobile.phone || isMobile.tablet) {
+          var element = $document[0].getElementsByClassName('leaflet-bottom leaflet-left');
+          element[0].setAttribute("style", "bottom: 0px;");
+        }
       })
       .catch(function (error) {
         console.log(error);

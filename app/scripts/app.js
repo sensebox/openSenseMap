@@ -19,7 +19,8 @@ angular
     'ngProgress',
     'rzModule',
     'mgo-angular-wizard',
-    'angular-toArrayFilter'
+    'angular-toArrayFilter',
+    'ismobile'
   ])
   .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
     $compileProvider.debugInfoEnabled(false);

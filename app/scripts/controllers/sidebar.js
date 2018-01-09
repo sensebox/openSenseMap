@@ -23,6 +23,8 @@
         'bottom': '0px',
         'top': '100px'
       }
+
+      invalidateSize();
     }
 
     function minimize () {

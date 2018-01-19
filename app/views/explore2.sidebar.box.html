@@ -39,6 +39,18 @@
                 <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
                 <span class="sensor-measurement-info-date">{{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amTimeAgo }}</span>
               </div>
+              <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
+                <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+                <span am-time-ago="sensor.lastMeasurement.createdAt" class="sensor-measurement-info-date"></span>
+              </div>
+              <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
+                <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+                <span am-time-ago="sensor.lastMeasurement.createdAt | amUtc | amLocal" class="sensor-measurement-info-date"></span>
+              </div>
+              <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
+                <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
+                <span class="sensor-measurement-info-date">{{ details.getTimeAgo(sensor.lastMeasurement.createdAt) }}</span>
+              </div>
               <div ng-if="!sensor.lastMeasurement.createdAt">
                 <span class="sensor-measurement-info-nomeasurements"><i>{{'NO_MEASUREMENT'|translate}}</i></span>
               </div>

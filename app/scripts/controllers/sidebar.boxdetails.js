@@ -16,6 +16,7 @@
     vm.selectSensor = selectSensor;
     vm.resetFilter = resetFilter;
     vm.performFilter = performFilter;
+    vm.getTimeAgo = getTimeAgo;
 
     activate();
 
@@ -40,6 +41,10 @@
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000)
         });
+    }
+
+    function getTimeAgo (lastMeasurement) {
+      return moment(lastMeasurement).fromNow();
     }
 
     function getBoxTrajectory (options) {

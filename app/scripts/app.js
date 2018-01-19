@@ -390,6 +390,10 @@ angular
     $translateProvider.useSanitizeValueStrategy('escaped');
   }])
 
+  .run(['LanguageService', function (LanguageService) {
+    LanguageService.initialize();
+  }])
+
   .filter('unsafe', ['$sce', function($sce){
     return function (val) {
       return $sce.trustAsHtml(val);

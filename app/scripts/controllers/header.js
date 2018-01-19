@@ -41,25 +41,26 @@
     ////
 
     function activate () {
-      if (AccountService.isAuthed() || AccountService.refreshTokenExists()) {
-        AccountService.getUserDetails()
-          .then(function (data) {
-            vm.key = data.data.me.language.split('_')[0];
-            LanguageService.change(data.data.me.language);
-            vm.username = data.data.me.name;
-          });
-      } else {
-        if (LocalStorageService.getValue('osem_language')) {
-          var languageKey = LocalStorageService.getValue('osem_language');
-          LanguageService.change(languageKey);
-          vm.key = languageKey.split('_')[0];
-        } else {
-          var navigatorLanguage = LanguageService.clientLocale();
-          console.info('Detected following navigator language: ', navigatorLanguage);
-          vm.key = navigatorLanguage.split('_')[0];
-          LanguageService.change(navigatorLanguage);
-        }
-      }
+      console.log("Activate Header");
+      // if (AccountService.isAuthed() || AccountService.refreshTokenExists()) {
+      //   AccountService.getUserDetails()
+      //     .then(function (data) {
+      //       vm.key = data.data.me.language.split('_')[0];
+      //       LanguageService.change(data.data.me.language);
+      //       vm.username = data.data.me.name;
+      //     });
+      // } else {
+      //   // if (LocalStorageService.getValue('osem_language')) {
+      //   //   var languageKey = LocalStorageService.getValue('osem_language');
+      //   //   LanguageService.change(languageKey);
+      //   //   vm.key = languageKey.split('_')[0];
+      //   // } else {
+      //   //   var navigatorLanguage = LanguageService.clientLocale();
+      //   //   console.info('Detected following navigator language: ', navigatorLanguage);
+      //   //   vm.key = navigatorLanguage.split('_')[0];
+      //   //   LanguageService.change(navigatorLanguage);
+      //   // }
+      // }
 
       $http.get(OpenSenseBoxAPI.url+'/stats')
        .success(function(data){

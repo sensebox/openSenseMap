@@ -5,16 +5,38 @@
     .module('app.services')
     .factory('LanguageService', LanguageService);
 
-  LanguageService.$inject = ['$q', '$translate', 'amMoment', 'tmhDynamicLocale'];
+  LanguageService.$inject = ['$q', '$translate', 'amMoment', 'tmhDynamicLocale', 'LocalStorageService'];
 
-  function LanguageService ($q, $translate, amMoment, tmhDynamicLocale) {
+  function LanguageService ($q, $translate, amMoment, tmhDynamicLocale, LocalStorageService) {
     var language = '';
 
     return {
+      initialize: initialize,
       change: change,
       getLanguage: getLanguage,
       clientLocale: clientLocale
     };
+
+    function initialize () {
+      if (LocalStorageService.getValue('osem_language')) {
+        var languageKey = LocalStorageService.getValue('osem_language');
+        this
+          .change(languageKey)
+          .then(function () {
+            console.log("changed language");
+            return;
+          });
+      } else {
+        var navigatorLanguage = this.clientLocale();
+        console.info('Detected following navigator language: ', navigatorLanguage);
+        this
+          .change(navigatorLanguage)
+          .then(function () {
+            console.log("changed language");
+            return;
+          });
+      }
+    }
 
     function getLanguage () {
       return language;

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar'];
 
-  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar) {
+  function SidebarBoxDetailsController ($scope, $stateParams, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar) {
     var vm = this;
     vm.box = {};
     vm.selectedSensor = null;
@@ -23,6 +23,7 @@
     ////
 
     function activate () {
+      console.log("Activate Sidebar", moment);
       OpenSenseMapAPI.getBox($stateParams.id)
         .then(function (response) {
           vm.box = new Box(response);

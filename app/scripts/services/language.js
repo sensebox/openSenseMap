@@ -18,24 +18,17 @@
     };
 
     function initialize () {
+      var key = 'de_DE';
       if (LocalStorageService.getValue('osem_language')) {
-        var languageKey = LocalStorageService.getValue('osem_language');
-        this
-          .change(languageKey)
-          .then(function () {
-            console.log("changed language");
-            return;
-          });
+        key = LocalStorageService.getValue('osem_language');
       } else {
-        var navigatorLanguage = this.clientLocale();
-        console.info('Detected following navigator language: ', navigatorLanguage);
-        this
-          .change(navigatorLanguage)
-          .then(function () {
-            console.log("changed language");
-            return;
-          });
+        key = this.clientLocale();
       }
+
+      $translate.use(key);
+      amMoment.changeLocale(key.split('_')[0]);
+      tmhDynamicLocale.set(key.split('_')[0]);
+      language = key.split('_')[0];
     }
 
     function getLanguage () {

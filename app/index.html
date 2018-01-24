@@ -72,18 +72,18 @@
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.interpolation">
+                <a ui-sref="explore.map.sidebar.interpolation">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
-                <a ui-sref="explore.map.filter">
+                <a ui-sref="explore.map.sidebar.filter">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
                   <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.download">
+                <a ui-sref="explore.map.sidebar.download">
                   <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                 </a>
               </li>
@@ -105,7 +105,6 @@
                 </a>
                 <ul uib-dropdown-menu class="dropdown-menu" role="menu">
                   <!-- languages-start -->
-                  <li><a ng-click="header.changeLang('de_DE')"><span class="lang-sm lang-lbl-full" lang="de"></span></a></li><li><a ng-click="header.changeLang('en_US')"><span class="lang-sm lang-lbl-full" lang="en"></span></a></li><li><a ng-click="header.changeLang('es_CO')"><span class="lang-sm lang-lbl-full" lang="es"></span></a></li><li><a ng-click="header.changeLang('fr_FR')"><span class="lang-sm lang-lbl-full" lang="fr"></span></a></li><li><a ng-click="header.changeLang('it_IT')"><span class="lang-sm lang-lbl-full" lang="it"></span></a></li><li><a ng-click="header.changeLang('ms_MY')"><span class="lang-sm lang-lbl-full" lang="ms"></span></a></li><li><a ng-click="header.changeLang('nl_NL')"><span class="lang-sm lang-lbl-full" lang="nl"></span></a></li><li><a ng-click="header.changeLang('pl_PL')"><span class="lang-sm lang-lbl-full" lang="pl"></span></a></li><li><a ng-click="header.changeLang('pt_BR')"><span class="lang-sm lang-lbl-full" lang="pt"></span></a></li><li><a ng-click="header.changeLang('ru_RU')"><span class="lang-sm lang-lbl-full" lang="ru"></span></a></li>
                   <!-- languages-end -->
                 </ul>
               </li>
@@ -150,7 +149,19 @@
           <form class="navbar-form search">
             <div class="form-group typeahead-search" style="display: inline;">
               <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
-                <input id="searchField" type="text" style="border-radius: 4px;" ng-model="header.searchString" ng-change="header.searchStringChanged()" ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}" uib-typeahead="address.display_name for address in header.getLocations($viewValue)" typeahead-on-select="header.selectBox($item)" typeahead-loading="header.loadingLocations" typeahead-no-results="header.noResults" class="form-control" typeahead-popup-template-url="/views/search.html" typeahead-template-url="views/search.item.html" typeahead-min-length="3">
+                <input id="searchField" type="text" style="border-radius: 4px;" class="form-control"
+                  ng-model="header.searchString"
+                  ng-change="header.searchStringChanged()"
+                  ng-model-options="header.modelOptions"
+                  placeholder="{{ 'SEARCH' | translate }}"
+                  uib-typeahead="address.display_name for address in header.getLocations($viewValue)"
+                  typeahead-on-select="header.selectBox($item)"
+                  typeahead-loading="header.loadingLocations"
+                  typeahead-no-results="header.noResults"
+                  typeahead-popup-template-url="/views/search.html"
+                  typeahead-template-url="views/search.item.html"
+                  typeahead-min-length="3"
+                />
                 <div id="reset_search" ng-show="header.showClearSearch" ng-cloak>
                   <span class="helper"></span>
                   <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="header.clearSearch()"></i>
@@ -201,11 +212,13 @@
     <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/Leaflet.FeatureGroup.SubGroup/src/subgroup.js"></script>
+    <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
     <script src="scripts/app.js"></script>
+    <script src="scripts/constants.js"></script>
     <script src="scripts/models/box.js"></script>
     <script src="scripts/models/sensor.js"></script>
     <script src="components/calendar.directive.js"></script>
@@ -213,9 +226,11 @@
     <script src="components/leaflet.service.js"></script>
     <script src="components/charts.directive.js"></script>
     <script src="components/badge.directive.js"></script>
+    <script src="scripts/controllers/info.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/sidebar.js"></script>
+    <script src="scripts/controllers/sidebar.error.js"></script>
     <script src="scripts/controllers/sidebar.boxdetails.js"></script>
     <script src="scripts/controllers/sidebar.filter.js"></script>
     <script src="scripts/controllers/sidebar.interpolation.js"></script>
@@ -267,16 +282,16 @@
 
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
-    var $_Tawk_API={},$_Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/58259b7de808d60cd081071c/default';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
+      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+      (function(){
+        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+        s1.async=true;
+        s1.src='https://embed.tawk.to/58259b7de808d60cd081071c/default';
+        s1.charset='UTF-8';
+        s1.setAttribute('crossorigin','*');
+        s0.parentNode.insertBefore(s1,s0);
+      })();
     </script>
-    <!--End of Tawk.to Script-->
+    <!-- End of Tawk.to Script -->
     </body>
 </html>

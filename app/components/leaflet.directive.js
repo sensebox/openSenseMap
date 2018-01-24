@@ -29,8 +29,9 @@
         highlightedMeasurement: '=',
         center: '=',
         events: '='
-      }
+      },
     };
+
     return directive;
 
     function link(scope, element, attrs, ctrl) {
@@ -81,8 +82,8 @@
           var marker = allChildMarkers[childMarker];
           var circle = new L.CircleMarker(marker._latlng, {
             radius: 5,
-            color: marker.options.icon.options.markerColor,
-            fillOpacity: .3,
+            color: marker.options.color.hex,
+            fillOpacity: 0.4,
             opacity: 0
           });
           mapLayers['mouseOver'].addLayer(circle);
@@ -121,7 +122,7 @@
         var allMarkers = mapLayers['markerCluster'].getLayers();
         var marker;
         for (var layer in allMarkers) {
-          if (box._id === allMarkers[layer].options.options.station.id) {
+          if (box._id === allMarkers[layer].options.station._id) {
             marker = allMarkers[layer];
             break;
           }
@@ -155,28 +156,15 @@
           mapLayers['activeMarkers'].clearLayers();
           mapLayers['inactiveMarkers'].clearLayers();
           mapLayers['oldMarkers'].clearLayers();
-          for (var marker in newVal) {
-            var box = newVal[marker];
-            var marker = L.marker([box.lat,box.lng], {
-              icon: L.AwesomeMarkers.icon(box.icon),
-              options: box,
-              draggable: box.draggable,
-              opacity: box.icon.opacity,
-              zIndexOffset: box.icon.zIndexOffset
-            });
-            // IDEA: allow filtering either by activity, exposure, (model)?
-            if (box.layer === 'oldMarker') {
-              marker.addTo(mapLayers['oldMarkers']);
-            } else if (box.layer === 'inactiveMarker') {
-              marker.addTo(mapLayers['inactiveMarkers']);
-            } else {
-              marker.addTo(mapLayers['activeMarkers']);
-            }
+          for (var markerId in newVal) {
+            var markerOpts = newVal[markerId];
+            var marker = L.marker(markerOpts.latLng, markerOpts);
+            marker.addTo(mapLayers[markerOpts.layerName]);
             marker.on('click', onMarkerClick);
             marker.on('mouseover', onMarkerMouseOver);
             marker.on('mouseout', onMarkerMouseOut);
 
-            if (box.draggable) {
+            if (markerOpts.draggable) {
               marker.on('dragend', onMarkerDragend);
             }
           }
@@ -342,7 +330,10 @@
             iconDim = (r+strokeWidth)*2,
             data = d3.nest()
               .key(function (d) {
-                return d.options.options['layer'];
+                return [
+                  d.options.color.hex,
+                  d.options.color.opacity,
+                ].join('__');
               })
               .entries(children, d3.map),
             html = bakeThePie({
@@ -354,7 +345,12 @@
               pieClass: 'cluster-pie',
               pieLabel: n,
               pieLabelClass: 'marker-cluster-pie-label',
-              pathClassFunc: function(d){return "category-"+d.data.key}
+              pathStyleFunc: function (d) {
+                var col = d.data.key.split('__')[0];
+                var opac = d.data.key.split('__')[1];
+
+                return 'fill:'+col+';stroke:'+col+';background:'+col+';border-color:'+col+';opacity:'+opac;
+              },
             }),
             myIcon = new L.DivIcon({
               html: html,
@@ -376,6 +372,7 @@
             strokeWidth = options.strokeWidth?options.strokeWidth:1, //Default stroke is 1
             pathClassFunc = options.pathClassFunc?options.pathClassFunc:function(){return '';}, //Class for each path
             pathTitleFunc = options.pathTitleFunc?options.pathTitleFunc:function(){return '';}, //Title for each path
+            pathStyleFunc = options.pathStyleFunc?options.pathStyleFunc:function(){return '';}, //Style for each path
             pieClass = options.pieClass?options.pieClass:'marker-cluster-pie', //Class for the whole pie
             pieLabel = options.pieLabel?options.pieLabel:d3.sum(data,valueFunc), //Label for the whole pie
             pieLabelClass = options.pieLabelClass?options.pieLabelClass:'marker-cluster-pie-label',//Class for the pie label
@@ -402,6 +399,7 @@
             .attr('transform', 'translate(' + origo + ',' + origo + ')');
 
         arcs.append('svg:path')
+            .attr('style', pathStyleFunc)
             .attr('class', pathClassFunc)
             .attr('stroke-width', strokeWidth)
             .attr('d', arc);

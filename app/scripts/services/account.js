@@ -5,9 +5,9 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', 'moment', 'OpenSenseBoxAPI', 'AuthenticationService'];
+  AccountService.$inject = ['$http', '$q', 'moment', 'OpenSenseBoxAPI', 'AuthenticationService', 'Box'];
 
-  function AccountService ($http, $q, moment, OpenSenseBoxAPI, AuthenticationService) {
+  function AccountService ($http, $q, moment, OpenSenseBoxAPI, AuthenticationService, Box) {
     var service = {
       signup: signup,
       login: login,
@@ -92,6 +92,7 @@
       var data = {
         token: AuthenticationService.getRefreshToken()
       };
+
       return $http.post(OpenSenseBoxAPI.url + '/users/refresh-auth', data)
         .then(success)
         .catch(refreshAuthFailed);
@@ -126,7 +127,9 @@
         .catch(getUsersBoxesFailed);
 
       function getUsersBoxesComplete (response) {
-        return response.data;
+        return response.data.data.boxes.map(function (b) {
+          return new Box(b);
+        });
       }
 
       function getUsersBoxesFailed (error) {

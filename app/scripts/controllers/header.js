@@ -41,25 +41,9 @@
     ////
 
     function activate () {
-      if (AccountService.isAuthed()) {
-        AccountService.getUserDetails()
-          .then(function (data) {
-            vm.key = data.data.me.language.split('_')[0];
-            LanguageService.change(data.data.me.language);
-            vm.username = data.data.me.name;
-          });
-      } else {
-        if (LocalStorageService.getValue('osem_language')) {
-          var languageKey = LocalStorageService.getValue('osem_language');
-          LanguageService.change(languageKey);
-          vm.key = languageKey.split('_')[0];
-        } else {
-          var navigatorLanguage = LanguageService.clientLocale();
-          console.info('Detected following navigator language: ', navigatorLanguage);
-          vm.key = navigatorLanguage.split('_')[0];
-          LanguageService.change(navigatorLanguage);
-        }
-      }
+      console.log("Activate Header");
+      console.log(LanguageService.getLanguage());
+      vm.key = LanguageService.getLanguage();
 
       $http.get(OpenSenseBoxAPI.url+'/stats')
        .success(function(data){
@@ -128,6 +112,27 @@
     }
 
     function getLocations (searchstring) {
+      var results = [];
+      var boxresults = 0;
+
+      // search for senseboxes with matching name
+      var markers = OpenSenseMapData.getMarkers();
+      Object.keys(markers).map(function (key) {
+        if (boxresults === 4) {
+          return;
+        }
+        var marker = markers[key];
+        if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
+          boxresults++;
+          var newStructured = {
+            'display_name': marker.station.name,
+            'boxId': marker.station._id
+          };
+          results.push(newStructured);
+        }
+
+      });
+
       return $http.get('//locationiq.org/v1/search.php', {
         params: {
           format: 'json',
@@ -136,26 +141,12 @@
           limit: 4,
           q: searchstring
         }
-      }).then(function(response){
-        var results = response.data.map(function (item) {
-          return item;
-        });
-        var boxresults = 0;
-        var markers = OpenSenseMapData.getMarkers();
-        Object.keys(markers).map(function (key) {
-          if (boxresults === 4) {
-            return;
-          }
-          var marker = markers[key];
-          if (marker.station.name.match(new RegExp(searchstring, 'i'))) {
-            boxresults++;
-            var newStructured = {
-              'display_name': marker.station.name,
-              'boxId': marker.station.id
-            };
-            results.unshift(newStructured);
-          }
-        });
+      })
+      .then(function(response){
+        return results.concat(response.data);
+      })
+      .catch(function (err) {
+        console.error('error in geolocation lookup:', err);
         return results;
       });
     }
@@ -173,7 +164,7 @@
 
     function selectBox ($item) {
       if ($item.boundingbox === undefined) {
-        $state.go('explore.map.boxdetails', { id: $item.boxId });
+        $state.go('explore.map.sidebar.boxdetails', { id: $item.boxId });
       } else {
         centerLatLng($item.boundingbox);
       }

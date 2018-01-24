@@ -5,27 +5,31 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar'];
 
-  function SidebarBoxDetailsController ($scope, $stateParams, $timeout, Box, OpenSenseMapAPI, osemMapData) {
+  function SidebarBoxDetailsController ($scope, $stateParams, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar) {
     var vm = this;
     vm.box = {};
     vm.selectedSensor = null;
+    vm.minimized = false;
 
-    vm.focusSelectedBox = focusSelectedBox;
     vm.selectSensor = selectSensor;
     vm.resetFilter = resetFilter;
     vm.performFilter = performFilter;
+    vm.getTimeAgo = getTimeAgo;
 
     activate();
 
     ////
 
     function activate () {
+      console.log("Activate Sidebar", moment);
       OpenSenseMapAPI.getBox($stateParams.id)
         .then(function (response) {
           vm.box = new Box(response);
-          vm.archiveLink = vm.box.getArchiveLink();
+          Sidebar.setTitle(vm.box.name);
+          Sidebar.addAction({href: vm.box.getArchiveLink(), target: '_blank', icon: 'fa-archive', hideOnMinimized: true});
+          Sidebar.addAction({handler: focusSelectedBox, icon: 'fa-thumb-tack', hideOnMinimized: false});
           focusSelectedBox();
           if (vm.box.exposure === 'mobile') getBoxTrajectory();
         })
@@ -38,6 +42,10 @@
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000)
         });
+    }
+
+    function getTimeAgo (lastMeasurement) {
+      return moment(lastMeasurement).fromNow();
     }
 
     function getBoxTrajectory (options) {
@@ -72,6 +80,7 @@
         var padding = 450; // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
         if (document.body.clientWidth <= 700) padding = 0;
+        if (Sidebar.minimized) padding = 0;
 
         map.fitBounds(bounds, {
           paddingTopLeft: [0,0],
@@ -121,6 +130,11 @@
       vm.selectedSensor.chart.selectedMeasurement = undefined;
     });
 
+    $scope.$on('$destroy', function () {
+      Sidebar.removeActions();
+      Sidebar.setTitle('');
+    });
+
     function selectSensor(sensor, event) {
       $scope.$parent.map.selectedSensorMeasurements = [];
       $scope.$parent.map.legendInfo = {};
@@ -138,7 +152,14 @@
       // get chart data once and add measurements to the map
       // if we have them already, use the cached data
       if (!sensor.measurements) {
-        getSensorData(sensor, {});
+        var data = {
+          params: {}
+        };
+        if (angular.isDefined(sensor.lastMeasurement)) {
+          data.params['to-date'] = sensor.lastMeasurement.createdAt;
+        }
+
+        getSensorData(sensor, data);
       } else if (vm.box.exposure === 'mobile') {
         $scope.$parent.map.selectedSensorMeasurements = sensor.measurements;
       }
@@ -154,7 +175,14 @@
     };
 
     function resetFilter (sensor) {
-      return getSensorData(sensor, {});
+      var data = {
+        params: {}
+      };
+      if (angular.isDefined(sensor.lastMeasurement)) {
+        data.params['to-date'] = sensor.lastMeasurement.createdAt;
+      }
+
+      return getSensorData(sensor, data);
     }
 
     function performFilter (sensor) {

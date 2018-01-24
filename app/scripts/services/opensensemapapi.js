@@ -18,6 +18,7 @@
       getSensorData: getSensorData,
       idwInterpolation: idwInterpolation,
       postMeasurements: postMeasurements,
+      deleteMeasurements: deleteMeasurements
     };
 
     return service;
@@ -86,6 +87,13 @@
       return $http.post(url, measurements, {
           headers: { 'content-type': format }
         })
+        .then(success)
+        .catch(failed);
+    }
+
+    function deleteMeasurements (boxId, sensorId) {
+      var url = getUrl() + '/boxes/' + boxId + '/' + sensorId + '/measurements';
+      return $http.delete(url, {auth: true})
         .then(success)
         .catch(failed);
     }

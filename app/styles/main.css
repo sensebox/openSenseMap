@@ -268,6 +268,10 @@ a:hover {
   background-color: #fff;
 }
 
+.leaflet-bottom.leaflet-left {
+  bottom: 40px;
+}
+
 .leaflet-control-my-location:hover {
   background-color: #f4f4f4;
 }
@@ -284,12 +288,22 @@ a:hover {
   position: absolute;
   padding: 10px 0px 10px 0px;
   width: 450px;
-  top: 100px;
   right: 0;
-  height: calc(100% - 100px);
   background: rgba(255, 255, 255, 0.9);
-  overflow: auto;
   z-index: 1001;
+  transition: all 0.1s linear;
+}
+
+#sidebar-title {
+  cursor: pointer;
+}
+
+.maximized {
+  overflow: auto;
+}
+
+.minimized {
+  overflow: hidden;
 }
 
 #sidebar .row {
@@ -687,6 +701,13 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: none;
 }
 
+.vertical {
+  -ms-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  width: 35px;
+}
+
 /* fix for overlay scrolling in firefox  https://github.com/likeastore/ngDialog/issues/94 */
 .ngdialog-content {
   z-index: 10001;
@@ -697,6 +718,11 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   font-size: 14px;
   background: rgba(255, 255, 255, 0.5);
   border-radius: 5px;
+  display: block;
+}
+
+.legend-item {
+  margin-bottom: 8px;
 }
 
 .legend.interpolation i {
@@ -707,50 +733,16 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   opacity: 0.7;
 }
 
-.legend a {
-  background-color: #fff;
-  border-bottom: 1px solid #ccc;
-  width: 26px;
-  height: 26px;
-  line-height: 26px;
-  display: block;
-  text-align: center;
-  text-decoration: none;
-  color: black;
-  border-bottom: none;
-}
-
-.legend a:hover {
-  border-bottom: none;
-}
-
 .legend-icon {
   line-height: 1.5;
   font-size: 18px;
 }
 
 .legend-content {
-  height: auto;
-  width: auto;
-  padding: 25px 25px 10px 10px;
-}
-
-.legend-content .sensebox-legend-entry {
-  padding: 3px;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.legend-content .sensebox-legend-entry label {
-  font-weight: normal;
-}
-
-.sensebox-legend-marker.awesome-marker {
-  width:35px;
-  height:46px;
-  position:relative;
-  display:inline-block;
-  vertical-align: middle;
+  min-width: 250px;
+  height: 100%;
+  width: 100%;
+  padding: 25px 10px 25px 10px;
 }
 
 .legend-close {
@@ -788,6 +780,67 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
 
 .sensebox-legend-measurements svg line {
   stroke: #555;
+}
+
+.switch-container {
+  cursor: pointer;
+  display: inline-flex;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 17px;
+}
+
+.switch input {display:none;}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 13px;
+  width: 13px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color:#4EAF47;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #4EAF47;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(13px);
+  -ms-transform: translateX(13px);
+  transform: translateX(13px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
 
 #map_main > div.leaflet-control-container > div.leaflet-bottom.leaflet-left > div > div > a {
@@ -943,7 +996,6 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   position: relative;
   overflow: hidden;
   min-height: 200px;
-  background: #4EAF47;
 }
 
 article {
@@ -1110,6 +1162,56 @@ figure {
   color: #777;
 }
 
+/* add some padding below the last row */
+.container > .row:last-child {
+  padding-bottom: 15px;
+}
+
+.sensor-list {
+  padding-left: 0;
+  margin-top: 0;
+  background-color: #fff;
+  border: 1px solid #d1d5da;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.sensor-row {
+  padding: 16px;
+  margin-top: -1px;
+  list-style-type: none;
+  border-top: 1px solid #e1e4e8;
+  min-height: 90px;
+}
+
+.sensor-icon {
+  padding-right: 20px;
+  padding-left: 10px;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.sensor-details {
+  line-height: 1.6;
+  white-space: normal;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.sensor-details button {
+  margin-bottom: 5px;
+}
+
+.editing {
+  width: 100%;
+}
+
+.sensor-actions {
+  display: table-cell;
+  vertical-align: middle;
+}
+
 /*Marker clusters*/
 .marker-cluster-pie g.arc{
   fill-opacity: 0.5;
@@ -1118,28 +1220,6 @@ figure {
   font-size: 14px;
   font-weight: bold;
   font-family: sans-serif;
-}
-
-/*marker categories*/
-.category-activeMarker{
-  fill: #72B026;
-  stroke: #72B026;
-  background: #72B026;
-  border-color: #72B026;
-}
-.category-inactiveMarker{
-  fill: #728224;
-  stroke: #728224;
-  background: #728224;
-  border-color: #728224;
-  opacity: 0.65;
-}
-.category-oldMarker{
-  fill: #575757;
-  stroke: #575757;
-  background: #575757;
-  border-color: #575757;
-  opacity: 0.5
 }
 
 /* CSS for osemChart directive */

@@ -15,6 +15,7 @@
       setMap: setMap,
       getMap: getMap,
       getLayer: getLayer,
+      getLayers: getLayers,
       setLayer: setLayer
     };
 
@@ -65,6 +66,12 @@
         deferred.reject('Layer with layerId ' + layerId + ' not found');
       }
 
+      return deferred.promise;
+    }
+
+    function getLayers () {
+      var deferred = $q.defer();
+      deferred.resolve(layers);
       return deferred.promise;
     }
   }

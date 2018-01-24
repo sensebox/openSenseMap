@@ -5,12 +5,13 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData', 'isMobile'];
 
-  function MapController ($scope, $state, $timeout, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData) {
+  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData, isMobile) {
     var vm = this;
     vm.showAllMarkers = true;
-    vm.showHide = false;
+    vm.showClustering = true;
+    vm.showLegend = false;
     vm.cssClass = '';
 
     vm.mapMarkers = {};
@@ -29,12 +30,18 @@
 
     vm.toggleLegend = toggleLegend;
     vm.toggleLayer = toggleLayer;
+    vm.toggleClustering = toggleClustering;
 
     activate();
 
     ////
 
     function activate () {
+      if (boxes instanceof Error) {
+        $state.go('explore.map.sidebar.error');
+        return;
+      }
+
       OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;
@@ -66,43 +73,56 @@
       return legend;
     }
 
-    function toggleLegend ($event) {
+    function toggleLegend (event, showLegend) {
       var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
-      if (vm.showHide) {
+      if (angular.isDefined(showLegend)) {
         vm.cssClass = '';
         if (document.body.clientHeight <= 400 ) {
           zoomControl[0].classList.remove('hidden');
         }
+        vm.showLegend = showLegend;
+        event.stopPropagation();
       } else {
         vm.cssClass = 'legend-big';
         if (document.body.clientHeight <= 400 ) {
           zoomControl[0].classList.add('hidden');
         }
+        vm.showLegend = true;
       }
-      vm.showHide = !vm.showHide;
     }
 
     function toggleLayer (type, event) {
-      osemMapData.getMap('map_main')
-        .then(function (map) {
-          osemMapData.getLayer(type)
-            .then(function (layer) {
-              if (map.hasLayer(layer)) {
-                if (!vm.showAllMarkers) {
-                  map.removeLayer(layer);
-                }
+      osemMapData.getLayers()
+        .then(function(layers){
+          osemMapData.getMap('map_main')
+            .then(function(map){
+              if (map.hasLayer(layers[type])) {
+                map.removeLayer(layers[type]);
               } else {
-                map.addLayer(layer);
+                map.addLayer(layers[type]);
               }
             })
-            .catch(function (error) {
-              console.log(error);
-            });
-        })
-        .catch(function (error) {
-          console.log(error);
         });
-      event.stopPropagation();
+    }
+
+    function toggleClustering (event) {
+      osemMapData.getLayers()
+        .then(function(layers){
+          osemMapData.getMap('map_main')
+            .then(function(map){
+              if (map.hasLayer(layers.markerCluster)) {
+                map.removeLayer(layers.markerCluster);
+                layers.activeMarkers.setParentGroupSafe(map);
+                layers.inactiveMarkers.setParentGroupSafe(map);
+                layers.oldMarkers.setParentGroupSafe(map);
+              } else {
+                layers.oldMarkers.setParentGroupSafe(layers.markerCluster);
+                layers.inactiveMarkers.setParentGroupSafe(layers.markerCluster);
+                layers.activeMarkers.setParentGroupSafe(layers.markerCluster);
+                map.addLayer(layers.markerCluster);
+              }
+            })
+        });
     }
 
     function resetHoverlabel() {
@@ -124,15 +144,16 @@
       vm.hoverlabel = {
         left: markerBounds.left+'px',
         top: (markerBounds.top-33)+'px',
-        name: args.target.options.options.station.name
+        name: args.target.options.station.name
       };
     });
 
     $scope.$on('osemMarkerMouseOut.map_main', resetHoverlabel);
     $scope.$on('osemMeasurementMouseOut.map_main', resetHoverlabel);
+    $scope.$on('boxSelected', resetHoverlabel);
 
     $scope.$on('osemMarkerClick.map_main', function (e, args) {
-      $state.go('explore.map.boxdetails', { id: args.target.options.options.station.id });
+      $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.station._id });
     })
 
     $scope.$on('markersChanged', function (data) {
@@ -146,6 +167,11 @@
         map.addControl(infoLegend);
         var measurementLegend = createLegendFromTemplate('views/explore2.map.legend.measurements.html');
         map.addControl(measurementLegend);
+
+        if (isMobile.phone || isMobile.tablet) {
+          var element = $document[0].getElementsByClassName('leaflet-bottom leaflet-left');
+          element[0].setAttribute("style", "bottom: 0px;");
+        }
       })
       .catch(function (error) {
         console.log(error);

@@ -5,9 +5,9 @@
     .module('app.models', [])
     .factory('Box', BoxModel);
 
-  BoxModel.$inject = ['Sensor', 'OpenSenseMapAPI'];
+  BoxModel.$inject = ['Sensor', 'OpenSenseMapAPI', 'OpenSenseMapData'];
 
-  function BoxModel (Sensor, OpenSenseMapAPI) {
+  function BoxModel (Sensor, OpenSenseMapAPI, OpenSenseMapData) {
 
     /**
      * Constructor
@@ -25,7 +25,7 @@
         switch(this.exposure) {
           case 'indoor':  return 'orange';
           case 'outdoor': return 'olive';
-          case 'mobile':  return 'navy';
+          case 'mobile':  return 'sbblue';
           default: return ''
         }
       },
@@ -75,8 +75,10 @@
     }
 
     var _copy = function (srcObj, destObj) {
+      destObj.markerOptions = OpenSenseMapData.makeMarkerOptions(srcObj);
       for (var key in srcObj) {
         if (key === 'sensors') {
+          destObj['sensorsArray'] = srcObj.sensors;
           destObj['sensors'] = {};
           for (var index in srcObj.sensors) {
             var sensor = new Sensor(srcObj.sensors[index]);
@@ -89,7 +91,7 @@
     }
 
     /**
-    * Retrun the constructor function
+    * Return the constructor function
     */
     return Box;
   }

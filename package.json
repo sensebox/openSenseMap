@@ -1,10 +1,16 @@
 {
   "name": "opensensemap",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "@sensebox/opensensemap-i18n": "^2.0.1",
+    "angular-i18n": "^1.6.7"
+  },
   "devDependencies": {
+    "bardjs": "^0.1.8",
     "chai": "^3.5.0",
+    "commitizen": "^2.9.6",
     "connect-modrewrite": "^0.8.5",
+    "cz-conventional-changelog": "^2.1.0",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~3.0.3",
     "grunt-bower-install": "~1.6.0",
@@ -20,6 +26,7 @@
     "grunt-contrib-jshint": "~0.12.0",
     "grunt-contrib-uglify": "~3.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "grunt-env": "^0.4.4",
     "grunt-json-minify": "^1.1.0",
     "grunt-karma": "^2.0.0",
     "grunt-newer": "~1.1.1",
@@ -30,21 +37,51 @@
     "grunt-usemin": "~3.1.1",
     "jshint-stylish": "~2.1.0",
     "karma": "^1.5.0",
+    "karma-chai": "^0.1.0",
+    "karma-chai-sinon": "^0.1.5",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.0.1",
     "karma-html-reporter": "^0.2.7",
     "karma-mocha": "^1.3.0",
     "karma-phantomjs-launcher": "^1.0.2",
+    "karma-safari-launcher": "^1.0.0",
+    "karma-sinon": "^1.0.5",
     "load-grunt-tasks": "~3.4.0",
     "mocha": "^3.2.0",
     "serve-static": "^1.10.2",
+    "sinon": "^4.1.2",
+    "sinon-chai": "^2.14.0",
+    "standard-version": "^4.3.0",
     "time-grunt": "~1.3.0"
   },
   "engines": {
     "node": ">=0.10.0"
   },
   "scripts": {
+    "serve": "grunt serve --target=dev",
+    "commit": "git-cz",
     "test": "grunt test",
-    "build": "bower install && grunt build",
+    "test-build": "bower install && grunt testBuild --target=testBuild",
+    "build": "bower install && grunt build --target=build",
     "docker-build": "docker build -t osem .",
-    "docker-run": "docker run -p 8000:8000 -it --rm osem bash"
-  }
+    "docker-run": "docker run -p 8000:8000 -it --rm osem bash",
+    "release": "standard-version"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "languages": [
+    "de",
+    "en",
+    "es",
+    "fr",
+    "ms",
+    "pl",
+    "pt",
+    "ru",
+    "nl",
+    "it"
+  ]
 }

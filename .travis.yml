@@ -16,6 +16,8 @@ before_install:
   - npm install -g grunt-cli bower
 
 script:
+  # Set dev URLs
+  # By default env variables contain production urls
   - if [[ "$TRAVIS_BRANCH" != "master" ]]; then
       export OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV;
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV;
@@ -33,7 +35,7 @@ after_success:
   - docker tag $IMAGE_NAME:$TRAVIS_BRANCH-temp $IMAGE_NAME:$TRAVIS_BRANCH
   - docker push $IMAGE_NAME:$TRAVIS_BRANCH
 
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_TAG" != "" ]]; then
+  - if [[ "$TRAVIS_TAG" != "" ]]; then
       docker tag $IMAGE_NAME:$TRAVIS_BRANCH-temp $IMAGE_NAME:$TRAVIS_TAG;
       docker push $IMAGE_NAME:$TRAVIS_TAG;
     fi

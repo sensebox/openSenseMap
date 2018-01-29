@@ -48,11 +48,11 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: 'OPENSENSEMAP_API_URL',
-              replacement: process.env.OPENSENSEMAP_API_URL
+              replacement: '<%= OPENSENSEMAP_API_URL %>'
             },
             {
               match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: process.env.OPENSENSEMAP_MAPTILES_URL
+              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
             },
             {
               match: 'VERSION',
@@ -656,6 +656,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('loadconst', 'Load constants', function(target) {
+    console.log("Load constants: ", process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL);
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
     grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
   });

@@ -52,7 +52,6 @@ angular
             progressbar.start();
             return OpenSenseMapAPI.getBoxes({params: {classify: true}})
               .then(function (data) {
-                console.log(data);
                 progressbar.complete();
                 return data;
               })

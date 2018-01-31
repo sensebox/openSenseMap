@@ -300,16 +300,19 @@
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
+            'layerName': 'registration',
+            'latLng': [parseFloat(args.latlng.lat.toFixed(6)),parseFloat(args.latlng.lng.toFixed(6))],
             'lat': parseFloat(args.latlng.lat.toFixed(6)),
             'lng': parseFloat(args.latlng.lng.toFixed(6)),
-            'draggable': true,
-            'icon': {
-              markerColor: 'green'
-            }
+            'draggable': true
           }
         };
       } else {
         vm.markers = angular.copy(vm.markers);
+        vm.markers.box.latLng = [
+          parseFloat(args.latlng.lat.toFixed(6)),
+          parseFloat(args.latlng.lng.toFixed(6))
+        ];
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
         vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
       }
@@ -318,6 +321,10 @@
 
     $scope.$on('osemMarkerDragend.map_register', function(e, args) {
       vm.markers = angular.copy(vm.markers);
+      vm.markers.box.latLng = [
+        parseFloat(args.target._latlng.lat.toFixed(6)),
+        parseFloat(args.target._latlng.lng.toFixed(6))
+      ];
       vm.markers.box.lat = parseFloat(args.target._latlng.lat.toFixed(6));
       vm.markers.box.lng = parseFloat(args.target._latlng.lng.toFixed(6));
       vm.editMarkerInput =  angular.copy(vm.markers);
@@ -328,12 +335,11 @@
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
+            'layerName': 'registration',
+            'latLng': [parseFloat(args.latlng.lat.toFixed(6)),parseFloat(args.latlng.lng.toFixed(6))],
             'lat': parseFloat(args.latlng.lat.toFixed(6)),
             'lng': parseFloat(args.latlng.lng.toFixed(6)),
-            'draggable': true,
-            'icon': {
-              'markerColor': 'green'
-            }
+            'draggable': true
           }
         };
         if (args.latlng.altitude) {
@@ -341,6 +347,10 @@
         }
       } else {
         vm.markers = angular.copy(vm.markers);
+        vm.markers.box.latLng = [
+          parseFloat(args.latlng.lat.toFixed(6)),
+          parseFloat(args.latlng.lng.toFixed(6))
+        ];
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
         vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
       }
@@ -457,23 +467,48 @@
         if (Object.keys(vm.markers).length === 0) {
           vm.markers = {
             box: {
+              'latLng': [parseFloat(newValue.lat.toFixed(6)),parseFloat(newValue.lng.toFixed(6))],
               'lat': parseFloat(newValue.lat.toFixed(6)),
               'lng': parseFloat(newValue.lng.toFixed(6)),
               'height': newValue.height,
-              'draggable': true,
-              'icon': {
-                'markerColor': 'green'
-              }
+              'draggable': true
             }
           };
         } else {
           vm.markers = angular.copy(vm.markers);
+          vm.markers.box.latLng = [
+            parseFloat(newValue.lat.toFixed(6)),
+            parseFloat(newValue.lng.toFixed(6))
+          ],
           vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6));
           vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
           vm.markers.box.height = newValue.height;
         }
         vm.editMarkerInput =  angular.copy(vm.markers);
       }
+    });
+
+    $scope.$watchCollection('register.newSenseBox.exposure', function (newValue, oldValue) {
+      if (newValue === '') {
+        return;
+      }
+
+      if (newValue === 'indoor' || newValue === 'outdoor') {
+        var icon = 'cube';
+        var color = 'green';
+      }
+
+      if (newValue === 'mobile') {
+        var icon = 'rocket';
+        var color = 'blue';
+      }
+      vm.markers = angular.copy(vm.markers);
+      vm.markers.box.icon = L.AwesomeMarkers.icon({
+        type: 'awesomeMarker',
+        prefix: 'fa',
+        icon: icon,
+        markerColor: color
+      });
     });
   }
 })();

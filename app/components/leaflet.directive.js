@@ -60,6 +60,7 @@
         'selectedBoxMarker': L.featureGroup().setZIndex(1000),
         'mobileTrajectory': L.featureGroup(),
         'mobileMeasurements': L.featureGroup(),
+        'registration': L.featureGroup(),
 
         'markerCluster': mcg,
         // adding to map adds all child layers into the parent group for subgroups
@@ -156,6 +157,7 @@
           mapLayers['activeMarkers'].clearLayers();
           mapLayers['inactiveMarkers'].clearLayers();
           mapLayers['oldMarkers'].clearLayers();
+          mapLayers['registration'].clearLayers();
           for (var markerId in newVal) {
             var markerOpts = newVal[markerId];
             var marker = L.marker(markerOpts.latLng, markerOpts);

@@ -1,16 +1,61 @@
-openSenseMap
-============
+![openSenseMap](https://raw.githubusercontent.com/sensebox/resources/master/images/openSenseMap_github.png)
+
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-## Installation
+This repository contains the code of the openSenseMap frontend running at [https://opensensemap.org](https://opensensemap.org). To get more information about openSenseMap and senseBox visit the before mentioned links or have a look at this [video](https://www.youtube.com/watch?v=I8ZeT6hzjKQ) or read the [openSenseMap](https://osem.books.sensebox.de/) chapter in our [books](https://books.sensebox.de/). openSenseMap is part of the [senseBox] project.
 
-### Docker
+Originally, this frontend has been built as part of the bachelor thesis of [@mpfeil](https://github.com/mpfeil) at the ifgi (Institute for Geoinformatics, WWU Münster) and is currently maintained by [@mpfeil](https://github.com/mpfeil).
 
-#### openSenseMap including openSenseMap-API
+## Configuration
+You can configure the API endpoint and/or map tiles using the following environmental variables:
+
+| ENV | Default value |
+| --------- | ----------------- |
+| OPENSENSEMAP_API_URL     | https://api.osem.vo1d.space |
+| OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
+
+You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/development/Gruntfile.js#L24).
+
+
+## Development
+- Have [Node.js] v8, [grunt]() and [bower]() installed
+- Check out `development` branch (`git checkout development`)
+- Run `npm install` and `bower install`
+- Create your own branch `git checkout -b my-awesome-branch`
+- Run frontend in development mode (`grunt serve`)
+- Commit your changes to your branch and push it to your fork
+- Create a pull request against the `development` branch
+
+See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
+
+## Related projects
+
+### Services
+- [openSenseMap Backend](https://github.com/sensebox/openSenseMap-API)
+
+### Deployment
+- [OSeM-compose](https://github.com/sensebox/OSeM-compose)
+- [openSenseMap-infrastructure](https://github.com/sensebox/openSenseMap-infrastructure)
+
+## Technologies
+
+* [AngularJS]
+
+## Organization
+
+### Branches
+- master (runs in production)
+  - Is used for container build tags
+- development (runs on testing server)
+  - Bleeding edge and possibly unstable development version
+
+## Docker
+
+### openSenseMap including openSenseMap-API
 
 For installing openSenseMap and openSenseMap-API with Docker check out our [oSeM-compose](https://github.com/sensebox/OSeM-compose) repository.
 
-#### openSenseMap
+### openSenseMap
 
 To build just openSenseMap you can run:
 ```docker build -t osem .```
@@ -22,31 +67,12 @@ Following ```build-args``` are availble:
 | OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
 | OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
-### Local installation
-
-Clone this repository
-``` git clone git@github.com:sensebox/openSenseMap.git ```
-
-Go to the cloned repository and install all dependencies by running
-
-```
-npm install
-bower install
-```
-
-Now you are good to go and start up the server in development mode by running:
-
-```
-grunt serve
-```
-
-If you want to change the API endpoint and/or the map tiles you can do so in the Gruntfile.
-Therefore you can change the `replace:devapi` and/or `replace:devmaps` tasks.
-
-## Contributing
-Contributions are welcome, see [CONTRIBUTING.md](.github/CONTRIBUTING.md).
 
 ## License
-- Code: MIT License
 
-See [LICENSE](https://github.com/sensebox/opensensemap/blob/master/LICENSE) file.
+[MIT](LICENSE) - Matthias Pfeil 2015 - now
+
+[AngularJS]:https://angularjs.org/
+[Node.js]:http://nodejs.org/
+[openSenseMap]:https://opensensemap.org/
+[senseBox]:https://sensebox.de/

@@ -123,8 +123,8 @@
       var boxids = [];
       var bbox = map.getBounds();
       angular.forEach(vm.markersFiltered, function(marker, key) {
-        if(bbox.contains([marker.lat, marker.lng])) {
-          boxids.push(marker.station.id);
+        if (bbox.contains([marker.latLng[0],marker.latLng[1]])) {
+          boxids.push(marker.station._id);
         }
       });
       return boxids;

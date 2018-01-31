@@ -50,8 +50,9 @@ angular
             var progressbar = ngProgressFactory.createInstance();
             progressbar.setColor('#4EAF47');
             progressbar.start();
-            return OpenSenseMapAPI.getBoxes()
+            return OpenSenseMapAPI.getBoxes({params: {classify: true}})
               .then(function (data) {
+                console.log(data);
                 progressbar.complete();
                 return data;
               })

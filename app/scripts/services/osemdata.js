@@ -5,13 +5,10 @@
     .module('openSenseMapApp')
     .factory('OpenSenseMapData', OpenSenseMapData);
 
-  OpenSenseMapData.$inject = ['$q', '$state'];
+  OpenSenseMapData.$inject = ['$q'];
 
-  function OpenSenseMapData ($q, $state) {
+  function OpenSenseMapData ($q) {
     var markers = {};
-    var ONE_DAY = 1000 * 60 * 60 * 24;
-    var SEVEN_DAYS = ONE_DAY * 7;
-    var THIRTY_DAYS = ONE_DAY * 30;
 
     var service = {
       makeMarkerOptions: classify,
@@ -135,34 +132,9 @@
     }
 
     function classify (box) {
-      // decide wheter a box is active, inactive or "dead" by looking at the most recent last measurement's date
-      var now = Date.now();
-      var markerOpts = box.sensors.reduceRight(function (previous, sensor, index) {
-        if (sensor.lastMeasurement && sensor.lastMeasurement.createdAt) {
-
-            var createdAt = Date.parse(sensor.lastMeasurement.createdAt);
-
-            // if its 'old' try to determine if other sensors are newer..
-            if (previous === 'old' && (now - createdAt < THIRTY_DAYS)) {
-              previous = 'inactive';
-            }
-
-            // if its 'inactive' try to determine if other sensors are newer..
-            if (previous === 'inactive' && (now - createdAt < SEVEN_DAYS)) {
-              previous = 'active';
-            }
-        } else {
-          console.warn('no lastMeasurement, cannot classify box');
-        }
-
-        if (index === 0) { //finally return the correct options
-          var color = box.exposure === 'mobile' ? 'blue' : 'green';
-          var icon = box.exposure === 'mobile' ? 'rocket' : 'cube';
-          return makeLayerOpts(color, icon, previous);
-        } else { // else just return the state of the previous sensor
-          return previous;
-        }
-      }, 'old');
+      var color = box.exposure === 'mobile' ? 'blue' : 'green';
+      var icon = box.exposure === 'mobile' ? 'rocket' : 'cube';
+      var markerOpts = makeLayerOpts(color, icon, box.state);
 
       markerOpts.station = box;
       markerOpts.latLng = [

@@ -74,7 +74,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts/services'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts'},
           {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
         ]
       },

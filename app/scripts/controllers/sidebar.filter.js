@@ -93,7 +93,8 @@
             phenomenon: vm.inputFilter.Phenomenon,
             exposure: vm.inputFilter.Exposure,
             grouptag: vm.inputFilter.Grouptag,
-            model: vm.inputFilter.Model
+            model: vm.inputFilter.Model,
+            classify: true
           }
         };
         getBoxes(data);
@@ -120,7 +121,13 @@
       vm.inputFilter.Exposure = '';
       vm.inputFilter.Phenomenon = '';
       vm.filterActive.active = false;
-      getBoxes();
+
+      var data = {
+        params: {
+          classify: true
+        }
+      }
+      getBoxes(data);
     }
 
     function getBoxes (data) {

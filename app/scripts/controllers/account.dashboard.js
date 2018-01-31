@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('AccountDashboardController', AccountDashboardController);
 
-  AccountDashboardController.$inject = ['$http', 'OpenSenseBoxAPI', 'AccountService'];
+  AccountDashboardController.$inject = ['AccountService'];
 
-  function AccountDashboardController ($http, OpenSenseBoxAPI, AccountService) {
+  function AccountDashboardController (AccountService) {
     var vm = this;
 
     vm.boxes = [];

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseBoxAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseBoxAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -41,17 +41,17 @@
     ////
 
     function activate () {
-      console.log("Activate Header");
-      console.log(LanguageService.getLanguage());
       vm.key = LanguageService.getLanguage();
 
-      $http.get(OpenSenseBoxAPI.url+'/stats')
-       .success(function(data){
+      OpenSenseMapAPI.getStats()
+        .then(function (data) {
           vm.counts.boxes = data[0];
           vm.counts.measurements = data[1];
           vm.counts.mPerMin = data[2];
-        }).error(function(){
-      });
+        })
+        .catch(function (error) {
+
+        });
     }
 
     function changeLang (key) {

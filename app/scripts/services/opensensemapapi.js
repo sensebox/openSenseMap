@@ -18,7 +18,8 @@
       getSensorData: getSensorData,
       idwInterpolation: idwInterpolation,
       postMeasurements: postMeasurements,
-      deleteMeasurements: deleteMeasurements
+      deleteMeasurements: deleteMeasurements,
+      getStats: getStats
     };
 
     return service;
@@ -100,6 +101,13 @@
 
     function idwInterpolation (data) {
       return $http.get(getUrl() + '/statistics/idw', data)
+        .then(success)
+        .catch(failed);
+    }
+
+    function getStats () {
+      var url = getUrl() + '/stats';
+      return $http.get(url)
         .then(success)
         .catch(failed);
     }

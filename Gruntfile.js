@@ -74,7 +74,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensenseboxapi.js'], dest: '.tmp/scripts/services'},
+          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts/services'},
           {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
         ]
       },
@@ -158,14 +158,14 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/scripts/controllers/map.js',
           '<%= yeoman.app %>/scripts/controllers/register.js',
-          '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
+          // '<%= yeoman.app %>/scripts/services/opensenseboxapi.js',
           '<%= yeoman.app %>/scripts/services/opensensemapapi.js',
           '<%= yeoman.app %>/scripts/services/map.js',
           '<%= yeoman.app %>/components/leaflet.directive.js',
           '<%= yeoman.app %>/components/charts.directive.js'
         ],
         tasks: [
-          'newer:copy:api',
+          // 'newer:copy:api',
           'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',
@@ -533,12 +533,12 @@ module.exports = function (grunt) {
         dest: '.tmp/components',
         src: ['{,*/}*.js']
       },
-      api: {
-        expand: true,
-        cwd: '<%= yeoman.app %>/scripts/services',
-        dest: '.tmp/scripts/services',
-        src: ['opensenseboxapi.js', 'map.js']
-      },
+      // api: {
+      //   expand: true,
+      //   cwd: '<%= yeoman.app %>/scripts/services',
+      //   dest: '.tmp/scripts/services',
+      //   src: ['opensenseboxapi.js', 'map.js']
+      // },
       apinew: {
         expand: true,
         cwd: '<%= yeoman.app %>/scripts/services',
@@ -604,7 +604,7 @@ module.exports = function (grunt) {
         'copy:styles',
         'copy:app',
         'copy:components',
-        'copy:api',
+        // 'copy:api',
         'copy:apinew',
         'copy:maps',
         'copy:images',

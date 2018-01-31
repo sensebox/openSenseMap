@@ -5,9 +5,9 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', 'moment', 'OpenSenseBoxAPI', 'AuthenticationService', 'Box'];
+  AccountService.$inject = ['$http', '$q', 'moment', 'app', 'AuthenticationService', 'Box'];
 
-  function AccountService ($http, $q, moment, OpenSenseBoxAPI, AuthenticationService, Box) {
+  function AccountService ($http, $q, moment, app, AuthenticationService, Box) {
     var service = {
       signup: signup,
       login: login,
@@ -43,19 +43,19 @@
     }
 
     function signup (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/users/register', data)
+      return $http.post(app.API_URL + '/users/register', data)
         .then(success)
         .catch(failed);
     }
 
     function login (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/users/sign-in', data)
+      return $http.post(app.API_URL + '/users/sign-in', data)
         .then(success)
         .catch(failed);
     }
 
     function logout () {
-      return $http.post(OpenSenseBoxAPI.url + '/users/sign-out', {}, {auth: true})
+      return $http.post(app.API_URL + '/users/sign-out', {}, {auth: true})
         .then(function (response) {
           AuthenticationService.logout && AuthenticationService.logout();
         })
@@ -63,7 +63,7 @@
     }
 
     function requestReset (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/users/request-password-reset', data)
+      return $http.post(app.API_URL + '/users/request-password-reset', data)
         .then(function (response) {
           return response;
         })
@@ -71,7 +71,7 @@
     }
 
     function reset (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/users/password-reset', data)
+      return $http.post(app.API_URL + '/users/password-reset', data)
         .then(function (response) {
           return response;
         })
@@ -93,7 +93,7 @@
         token: AuthenticationService.getRefreshToken()
       };
 
-      return $http.post(OpenSenseBoxAPI.url + '/users/refresh-auth', data)
+      return $http.post(app.API_URL + '/users/refresh-auth', data)
         .then(success)
         .catch(refreshAuthFailed);
 
@@ -108,7 +108,7 @@
     }
 
     function getUserDetails () {
-      return $http.get(OpenSenseBoxAPI.url + '/users/me', {auth: true})
+      return $http.get(app.API_URL + '/users/me', {auth: true})
         .then(getUserDetailsComplete)
         .catch(getUserDetailsFailed);
 
@@ -122,7 +122,7 @@
     }
 
     function getUsersBoxes () {
-      return $http.get(OpenSenseBoxAPI.url + '/users/me/boxes', {auth: true})
+      return $http.get(app.API_URL + '/users/me/boxes', {auth: true})
         .then(getUsersBoxesComplete)
         .catch(getUsersBoxesFailed);
 
@@ -138,7 +138,7 @@
     }
 
     function updateAccount (data) {
-      return $http.put(OpenSenseBoxAPI.url + '/users/me', data, {auth: true})
+      return $http.put(app.API_URL + '/users/me', data, {auth: true})
         .then(updateAccountComplete)
         .catch(updateAccountFailed);
 
@@ -152,7 +152,7 @@
     }
 
     function updateBox (boxId, data) {
-      return $http.put(OpenSenseBoxAPI.url + '/boxes/' + boxId, data, {auth: true})
+      return $http.put(app.API_URL + '/boxes/' + boxId, data, {auth: true})
         .then(function (response) {
           return response.data;
         })
@@ -160,7 +160,7 @@
     }
 
     function getScript (boxId) {
-      return $http.get(OpenSenseBoxAPI.url + '/boxes/' + boxId + '/script', {auth: true})
+      return $http.get(app.API_URL + '/boxes/' + boxId + '/script', {auth: true})
         .then(function (response) {
           return response.data;
         })
@@ -168,7 +168,7 @@
     }
 
     function confirmEmail (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/users/confirm-email', data)
+      return $http.post(app.API_URL + '/users/confirm-email', data)
         .then(function (response) {
           return response.data;
         })
@@ -176,7 +176,7 @@
     }
 
     function deleteBox (boxId, data) {
-      return $http.delete(OpenSenseBoxAPI.url+'/boxes/' + boxId,
+      return $http.delete(app.API_URL + '/boxes/' + boxId,
         {
           auth: true,
           data: data,
@@ -191,7 +191,7 @@
     }
 
     function postNewBox (data) {
-      return $http.post(OpenSenseBoxAPI.url + '/boxes', data, {auth: true})
+      return $http.post(app.API_URL + '/boxes', data, {auth: true})
         .then(function (response) {
           return response.data;
         })
@@ -199,7 +199,7 @@
     }
 
     function deleteAccount (data) {
-      return $http.delete(OpenSenseBoxAPI.url + '/users/me',
+      return $http.delete(app.API_URL + '/users/me',
         {
           data: data,
           auth: true,

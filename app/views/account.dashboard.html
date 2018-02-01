@@ -12,8 +12,20 @@
         </div>
       </div>
     </div>
+
+    <div class="col-sm-2 col-sm-offset-10 clearfix">
+      <div class="btn-group pull-right">
+        <label class="btn btn-default" ng-model="dashboardListStyle" uib-btn-radio="'tiles'">
+          <span class="glyphicon glyphicon-th-large" aria-hidden="true"></span>
+        </label>
+        <label class="btn btn-default" ng-model="dashboardListStyle" uib-btn-radio="'list'">
+          <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+        </label>
+      </div>
+    </div>
+
   </div>
-  <div class="row">
+  <div class="row" ng-hide="dashboardListStyle==='list'">
     <div class="col-lg-6" ng-repeat="box in dashboard.boxes" style="padding-top: 15px;">
       <div class="card">
         <div class="box-selected" ng-style="{ 'background': box.markerOptions.color.hex }">
@@ -55,6 +67,68 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="row" ng-hide="dashboardListStyle==='tiles'" style="padding-bottom: 15px">
+    <div class="col-lg-12">
+        <ul class="list-group">
+            <li class="list-group-item clearfix" ng-repeat="box in dashboard.boxes">
+              <div class="dashboard-list-item dashboard-list-item-circle" ng-style="{ 'background': box.markerOptions.color.hex }"></div>
+              <h4 class="list-group-item-heading name dashboard-list-item">{{'BOX_NAME' | translate}}: {{box.name}}</h4>
+              <p class="list-group-item-text model dashboard-list-item">{{'BOX_EXPOSURE' | translate}}: {{box.exposure}}, {{'BOX_MODEL' | translate}}: {{box.model}}</p>
+              <div class="btn-group dashboard-list-item pull-right" role="group" aria-label="...">
+                  <button type="button" class="btn btn-default" ui-sref="account.edit.general({id: box._id, box: box})">Left</button>
+                  <button type="button" class="btn btn-default">Middle</button>
+                  <button type="button" class="btn btn-default">Right</button>
+                </div>
+            </li>
+        </ul>
+        <div class="box-selected" ng-style="{ 'background': box.markerOptions.color.hex }">
+          <span class="action" ui-sref="account.edit.general({id: box._id, box: box})">
+            <p>{{'EDIT' | translate}}</p>
+            <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+          </span>
+          <span>{{box.name}}</span>
+          <span ng-if="box.grouptag && box.grouptag !=''" class="ng-cloak badge sbdblue">{{'GROUP'|translate}}: {{ box.grouptag }}</span>
+          <span ng-if="box.exposure && box.exposure !=''" class="ng-cloak badge" ng-class="box.getBadgeColor(box.exposure)">{{'STATION_PLACEMENT_'+box.exposure.toUpperCase()|translate}}</span>
+          <article>
+            <div class="info">
+              <div class="name"><span>{{'BOX_NAME' | translate}}: {{box.name}}</span></div>
+              <div class="model"><span>{{'BOX_EXPOSURE' | translate}} - {{box.exposure}}</span></div>
+              <div class="model">{{'BOX_MODEL' | translate}} - {{box.model}}</div>
+            </div>
+
+          </article>
+
+          <figure ng-style="{'background-image':'url(userimages/{{box.image}})'}"></figure>
+        </div>
+
+        <div class="actions">
+          <div class="row row-no-gutter">
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <div class="action" ui-sref="explore.map.sidebar.boxdetails({id: box._id})">
+                <h1>{{'SHOW' | translate}}</h1>
+                <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <div class="action" ui-sref="account.edit.general({id: box._id, box: box})">
+                <h1>{{'EDIT' | translate}}</h1>
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div class="col-xs-4 col-sm-4 col-md-4">
+              <div class="action" ui-sref="account.dataupload({id: box._id, box: box})">
+                <h1>{{'DASHBOARD_DATAUPLOAD' | translate}}</h1>
+                <i class="fa fa-table fa-lg" aria-hidden="true"></i>
+              </div>
+            </div>
+
+          </div>
+        </div>
     </div>
   </div>
 </div>

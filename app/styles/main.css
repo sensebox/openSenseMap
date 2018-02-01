@@ -998,6 +998,16 @@ input:checked + .slider:before {
   min-height: 200px;
 }
 
+.dashboard-list-item {
+  display: inline-block;
+}
+
+.dashboard-list-item-circle {
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+}
+
 article {
   position: relative;
   z-index: 2;

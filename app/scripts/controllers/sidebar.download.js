@@ -80,7 +80,8 @@
           boxid: boxids.join(','),
           'to-date': vm.inputFilter.DateTo,
           'from-date': vm.inputFilter.DateFrom,
-          phenomenon: vm.inputFilter.Phenomenon
+          phenomenon: vm.inputFilter.Phenomenon,
+          columns: 'boxId,boxName,lat,lon,value,unit,createdAt'
         }
       };
 

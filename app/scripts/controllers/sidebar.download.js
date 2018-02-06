@@ -81,7 +81,7 @@
       vm.downloadform.pleaseWait = true;
       var boxids = getBoxIdsFromBBox(vm.map);
       var columns = [];
-      for (const key in vm.columns) {
+      for (var key in vm.columns) {
         if (vm.columns.hasOwnProperty(key)) {
           var element = vm.columns[key];
           if (element !== '') {

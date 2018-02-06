@@ -61,7 +61,7 @@
           'bottom': vm.maximizedStyle.bottom,
           'top': vm.maximizedStyle.top
         };
-        if (isMobile.phone) {
+        if (isMobile.phone && leafletBottomContainer !== null) {
           leafletBottomContainer.setAttribute("style", "bottom: 0px");
         }
       }

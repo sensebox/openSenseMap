@@ -5,9 +5,9 @@
     .module('app.services')
     .factory('OpenSenseMapAPI', OpenSenseMapAPI);
 
-  OpenSenseMapAPI.$inject = ['$http', '$q'];
+  OpenSenseMapAPI.$inject = ['$http', '$q', '$window', '$httpParamSerializer'];
 
-  function OpenSenseMapAPI ($http, $q) {
+  function OpenSenseMapAPI ($http, $q, $window, $httpParamSerializer) {
     var service = {
       getUrl: getUrl,
       getBoxes: getBoxes,
@@ -19,7 +19,8 @@
       idwInterpolation: idwInterpolation,
       postMeasurements: postMeasurements,
       deleteMeasurements: deleteMeasurements,
-      getStats: getStats
+      getStats: getStats,
+      getStatisticalData: getStatisticalData
     };
 
     return service;
@@ -45,9 +46,15 @@
     }
 
     function getData (data) {
-      return $http.get(getUrl() + '/boxes/data', data)
-        .then(success)
-        .catch(failed);
+      var query = $httpParamSerializer(data);
+      var url = encodeURI(getUrl() + '/boxes/data?' + query)
+      $window.open(url, '_blank');
+    }
+
+    function getStatisticalData (data) {
+      var query = $httpParamSerializer(data);
+      var url = encodeURI(getUrl() + '/statistics/descriptive?' + query)
+      $window.open(url, '_blank');
     }
 
     function getBox (boxId) {

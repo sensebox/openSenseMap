@@ -11,8 +11,8 @@
     var vm = this;
     vm.map;
     vm.inputFilter = {
-      DateTo: '',
-      DateFrom: ''
+      window: 'raw',
+      operation: 'arithmeticMean'
     };
     vm.downloadform = {
       format: 'CSV',
@@ -20,11 +20,24 @@
       emptyData: false,
       errorOccured: false
     };
+    vm.columns = {
+      lat: 'lat',
+      lng: 'lon',
+      height: '',
+      boxName: 'boxName',
+      boxId: 'boxId',
+      exposure: '',
+      unit: 'unit',
+      value: 'value',
+      createdAt: 'createdAt',
+      phenomenon: '',
+      sensorId: '',
+      sensorType: '',
+    }
 
-    vm.endingDate = endingDate;
-    vm.openDatePicker = openDatePicker;
     vm.dataDownload = dataDownload;
     vm.closeSidebar = closeSidebar;
+    vm.changeWindow = changeWindow;
 
     activate();
 
@@ -53,70 +66,46 @@
       $scope.$apply();
     }
 
-    function endingDate (numDays) {
-      vm.inputFilter.DateTo = moment.utc().toDate();
-      vm.inputFilter.DateFrom = moment.utc().subtract(numDays, 'days').toDate();
-    }
-
-    function openDatePicker ($event) {
-      $event.preventDefault();
-      $event.stopPropagation();
-
-      // prevent both date pickers from being opened at the same time
-      if($event.currentTarget.id === 'datepicker1') {
-        vm.opened1 = true;
-        vm.opened2 = false;
-      } else if($event.currentTarget.id === 'datepicker2') {
-        vm.opened2 = true;
-        vm.opened1 = false;
+    function changeWindow () {
+      switch (vm.inputFilter.window) {
+        case '1h':
+        case '1d':
+          vm.columns.createdAt = '';
+          vm.columns.sensorId = '';
+          vm.columns.value = '';
+          break;
       }
     }
 
     function dataDownload () {
       vm.downloadform.pleaseWait = true;
       var boxids = getBoxIdsFromBBox(vm.map);
-      var data = {
-        params: {
-          boxid: boxids.join(','),
-          'to-date': vm.inputFilter.DateTo,
-          'from-date': vm.inputFilter.DateFrom,
-          phenomenon: vm.inputFilter.Phenomenon,
-          columns: 'boxId,boxName,lat,lon,value,unit,createdAt'
+      var columns = [];
+      for (const key in vm.columns) {
+        if (vm.columns.hasOwnProperty(key)) {
+          var element = vm.columns[key];
+          if (element !== '') {
+            columns.push(element)
+          }
         }
+      }
+
+      var params = {
+        boxid: boxids.join(','),
+        'to-date': vm.inputFilter.DateTo.toISOString(),
+        'from-date': vm.inputFilter.DateFrom.toISOString(),
+        phenomenon: vm.inputFilter.Phenomenon,
+        columns: columns.join(','),
+        download: true
       };
 
-      return OpenSenseMapAPI.getData(data)
-        .then(function (data) {
-          if(data.length>0){
-            var blob = new Blob([data],{type:'text/csv;charset=utf-8;'});
-            var link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.download = 'opensensemap_org-download-' + encodeURI(vm.inputFilter.Phenomenon) + stampDownload() +'.csv';
-            link.style.visibility = 'hidden';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          } else {
-            vm.downloadform.emptyData=true;
-          }
-          vm.downloadform.pleaseWait = false;
-        })
-        .catch(function (error) {
-          vm.downloadform.pleaseWait = false;
-          if(data.length===0 && error === 404){
-            vm.downloadform.emptyData=true;
-          } else {
-            vm.downloadform.errorOccured = true;
-            console.log(error);
-          }
-        });
-    }
-
-    function stampDownload () {
-      try {
-        return '-' + moment.utc().toISOString().replace(/-|:|\.\d*Z/g,'').replace('T','_');
-      } catch (e) {
-        return '';
+      if (vm.inputFilter.window === 'raw') {
+        params.columns = columns;
+        OpenSenseMapAPI.getData(params);
+      } else {
+        params.window = vm.inputFilter.window;
+        params.operation = vm.inputFilter.operation;
+        OpenSenseMapAPI.getStatisticalData(params);
       }
     }
 

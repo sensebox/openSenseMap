@@ -4,58 +4,143 @@
     <translate translate="DOWNLOAD_INTRO"></translate>
   </div>
 
-  <span ng-show="download.selectedMarker"><h4>{{ "DOWNLOAD_DOWNLOADFROM" | translate }} <em>{{ selectedMarker.name || 'Filter' }}</em></h4></span>
   <div class="form-group">
-
-    <div class="input-group">
-    <label for="inputFilterDate">{{ "DOWNLOAD_SELECTTIMEFRAME" | translate }}</label>
-      <p class="input-group">
-        <input uib-datepicker-popup ng-model="download.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened1"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate }}" />
-        <span class="input-group-btn">
-          <button id="datepicker1" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </p>
-      <p class="input-group">
-        <input uib-datepicker-popup ng-model="download.inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="download.opened2"  datepicker-options="download.dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="needsRefresh=true" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate }}" />
-        <span class="input-group-btn">
-          <button id="datepicker2" type="button" class="btn btn-default" ng-click="download.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-        </span>
-      </p>
-    </div>
-
+    <osem-calendar
+      osem-placeholder-text-start-date="{{ 'DATEPICKER_STARTINGDATE' | translate}}"
+      osem-placeholder-text-end-date="{{ 'DATEPICKER_ENDINGDATE' | translate}}"
+      osem-current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}"
+      osem-clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"
+      osem-close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}"
+      osem-start-date="download.inputFilter.DateFrom"
+      osem-end-date="download.inputFilter.DateTo">
+    </osem-calendar>
     <br>
-    <button class="btn btn-info" ng-click="download.endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
-    <button class="btn btn-info" ng-click="download.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
-    <button class="btn btn-info" ng-click="download.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
-    <br><br>
+    <label>Mittelwerte</label>
+    <select class="form-control" ng-model="download.inputFilter.window" ng-change="download.changeWindow()">
+      <option value="raw">keine Mittelwerte (Rohdaten)</option>
+      <option value="1h">Stundenmittel</option>
+      <option value="1d">Tagesmittel</option>
+    </select>
+    <br>
+    <label>Operation</label>
+    <select class="form-control" ng-model="download.inputFilter.operation" ng-disabled="download.inputFilter.window === 'raw'">
+      <option value="arithmeticMean">Arithmetisches Mittel</option>
+      <option value="harmonicMean">Harmonisches Mittel</option>
+      <option value="geometricMean">Geometrisches Mittel</option>
+      <option value="min">Minimum</option>
+      <option value="max">Maximum</option>
+      <option value="mode">Modus</option>
+      <option value="median">Median</option>
+      <option value="variance">Varianz</option>
+      <option value="rootMeanSquare">Quadratmittel (RMS)</option>
+      <option value="standardDeviation">Standardabweichung</option>
+      <option value="sum">Summe</option>
+    </select>
+    <br>
     <label>{{ "DOWNLOAD_SELECTSENSOR" | translate }}</label>
     <select class="form-control" ng-model="download.inputFilter.Phenomenon">
       <option value=""></option>
       <option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
     </select>
     <br>
+    <label>Spalten</label>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox1" ng-model="download.columns.lat" ng-true-value="'lat'" ng-false-value="''">
+            <label for="inlineCheckbox1"> {{"BOX_LATITUDE"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox5" ng-model="download.columns.boxId" ng-true-value="'boxId'" ng-false-value="''">
+            <label for="inlineCheckbox5"> Box ID </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox12" ng-model="download.columns.sensorType" ng-true-value="'sensorType'" ng-false-value="''">
+            <label for="inlineCheckbox12"> Sensor {{"CONFIG_TYPE"|translate}} </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox2" ng-model="download.columns.lng" ng-true-value="'lon'" ng-false-value="''">
+            <label for="inlineCheckbox2"> {{"BOX_LONGITUDE"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox4" ng-model="download.columns.boxName" ng-true-value="'boxName'" ng-false-value="''">
+            <label for="inlineCheckbox4"> {{"BOX_NAME"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox11" ng-model="download.columns.sensorId" ng-true-value="'sensorId'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+            <label for="inlineCheckbox11"> Sensor ID </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox3" ng-model="download.columns.height" ng-true-value="'height'" ng-false-value="''">
+            <label for="inlineCheckbox3"> {{"BOX_HEIGHT"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox10" ng-model="download.columns.phenomenon" ng-true-value="'phenomenon'" ng-false-value="''">
+            <label for="inlineCheckbox10"> {{"CONFIG_PHENOMENON"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox7" ng-model="download.columns.unit" ng-true-value="'unit'" ng-false-value="''">
+            <label for="inlineCheckbox7"> {{"CONFIG_UNIT"|translate}} </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox6" ng-model="download.columns.exposure" ng-true-value="'exposure'" ng-false-value="''">
+            <label for="inlineCheckbox6"> {{"BOX_EXPOSURE"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox8" ng-model="download.columns.value" ng-true-value="'value'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+            <label for="inlineCheckbox8"> {{"VALUE"|translate}} </label>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-xs-4">
+          <div class="checkbox checkbox-success checkbox-inline">
+            <input type="checkbox" id="inlineCheckbox9" ng-model="download.columns.createdAt" ng-true-value="'createdAt'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+            <label for="inlineCheckbox9"> {{"CREATED_AT"|translate}} </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
     <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
-
     <br>
     <input ng-model="download.downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>
     <label for="formatCSV">CSV</label>
-    <!--
-    <br>
-    <input ng-model="downloadform.format" type="radio" name="format" id="formatJSON" value="JSON">
-    <label for="formatJSON">JSON</label>-->
   <br>
   <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
   <div uib-alert class="alert-warning">
     <p translate="DOWNLOAD_WARNING" translate-value-count="{{download.count}}"></p>
   </div>
-  <button class="btn btn-lg btn-success" ng-click="download.dataDownload(); download.downloadform.emptyData = false; download.downloadform.errorOccured = false;" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
-    <div uib-alert class="alert-info" ng-show="download.downloadform.pleaseWait">
-    <i class="fa fa-spinner fa-pulse"></i> {{ "PLEASE_WAIT_DATA" | translate }}
-    </div>
-    <div uib-alert class="alert-warning" ng-show="download.downloadform.emptyData">
-    {{ "DOWNLOAD_NODATA" | translate }}
-    </div>
-    <div uib-alert class="alert-warning" ng-show="download.downloadform.errorOccured">
-    {{ "COMMON_ERROR" | translate }}
-    </div>
+  <button class="btn btn-lg btn-success" ng-click="download.dataDownload();" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
 </div>

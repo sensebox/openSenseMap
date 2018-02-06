@@ -20,15 +20,35 @@
     ////
 
     function activate () {
+      if (boxData.exposure === 'indoor' || boxData.exposure === 'outdoor') {
+        var icon = 'cube';
+        var color = 'green';
+      }
+
+      if (boxData.exposure === 'mobile') {
+        var icon = 'rocket';
+        var color = 'blue';
+      }
+
+      var icon = L.AwesomeMarkers.icon({
+        type: 'awesomeMarker',
+        prefix: 'fa',
+        icon: icon,
+        markerColor: color
+      });
+
+      var lat = parseFloat(boxData.currentLocation.coordinates[1].toFixed(6));
+      var lng = parseFloat(boxData.currentLocation.coordinates[0].toFixed(6));
+
       vm.boxPosition = {
-        lng: parseFloat(boxData.currentLocation.coordinates[0].toFixed(6)),
-        lat: parseFloat(boxData.currentLocation.coordinates[1].toFixed(6)),
+        layerName: 'registration',
+        lng: lng,
+        lat: lat,
+        latLng: [lat, lng],
         height: boxData.currentLocation.coordinates[2],
         draggable: true,
         zoom: 17,
-        icon: {
-          markerColor: 'green'
-        }
+        icon: icon
       };
 
       angular.copy(vm.boxPosition, vm.originalPosition);
@@ -60,8 +80,11 @@
       vm.editMarker = {
         m1 : angular.copy(vm.originalPosition)
       };
-      vm.editMarker.m1.lng = parseFloat(coords.lng.toFixed(6));
-      vm.editMarker.m1.lat = parseFloat(coords.lat.toFixed(6));
+      var lng = parseFloat(coords.lng.toFixed(6));
+      var lat = parseFloat(coords.lat.toFixed(6));
+      vm.editMarker.m1.lng = lng;
+      vm.editMarker.m1.lat = lat;
+      vm.editMarker.m1.latLng = [lat, lng];
       vm.editMarker.m1.height = coords.height;
       vm.editMarkerInput.lng = vm.editMarker.m1.lng;
       vm.editMarkerInput.lat = vm.editMarker.m1.lat;

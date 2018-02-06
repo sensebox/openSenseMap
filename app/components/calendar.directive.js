@@ -31,8 +31,13 @@
     };
     return directive;
 
-    function link(scope, element, attrs) {
-      //TODO: destroy
+    function link(scope, element, attrs, ctrl) {
+      if (attrs.osemOnRangeSet === undefined) {
+        ctrl.onRangeSet = undefined;
+      }
+      if (attrs.osemOnClear === undefined) {
+        ctrl.onClear = undefined;
+      }
     }
   }
 
@@ -55,6 +60,9 @@
       maxDate: moment().startOf('day').toDate()
     };
 
+    vm.selectedDateOptions =  {};
+    vm.selectedDateModel;
+
     vm.open = open;
     vm.close = close;
     vm.clear = clear;
@@ -62,6 +70,8 @@
     vm.setRange = setRange;
     vm.hoverItem = hoverItem;
     vm.showReset = showReset;
+
+    var selectedDatePicker = '';
 
     activate();
 
@@ -77,56 +87,68 @@
     }
 
     function open (id) {
-      vm.stayFocused = true;
       switch (id) {
         case 'startDate':
+          if (vm.startDateOpen) {
+            close('startDate', true);
+            return;
+          }
+          vm.selectedDateOptions = vm.dateOptionsStartDate;
+          vm.selectedDateModel = vm.osemStartDate;
           vm.endDateOpen = false;
           vm.startDateOpen = true;
+          selectedDatePicker = 'startDate';
           break;
         case 'endDate':
+          if (vm.endDateOpen) {
+            close('endDate', true);
+            return;
+          }
+          vm.selectedDateOptions = vm.dateOptionsEndDate;
+          vm.selectedDateModel = vm.osemEndDate;
           vm.startDateOpen = false;
           vm.endDateOpen = true;
+          selectedDatePicker = 'endDate';
           break;
       }
     }
 
-    function close (id, focused) {
-      if (!vm.stayFocused && focused) {
-        switch (id) {
-          case 'startDate':
-            vm.startDateOpen = false;
-            break;
-          case 'endDate':
-            vm.endDateOpen = false;
-            break;
-        }
+    function close (id) {
+      switch (id) {
+        case 'startDate':
+          vm.startDateOpen = false;
+          break;
+        case 'endDate':
+          vm.endDateOpen = false;
+          break;
       }
     }
 
-    function dateSelected (id) {
-      vm.stayFocused = false;
-      switch (id) {
+    function dateSelected () {
+      switch (selectedDatePicker) {
         case 'startDate':
           if (angular.isUndefined(vm.osemStartDate) || vm.osemStartDate === null) {
             vm.osemStartDate = new Date();
             vm.textStartDate = vm.osemPlaceholderTextStartDate;
-          } else {
-            vm.osemStartDate = moment(vm.osemStartDate).startOf('day');
-            vm.textStartDate = moment(vm.osemStartDate).format('L');
-            vm.dateOptionsEndDate.minDate = vm.osemStartDate.clone().add(1, 'days').toDate();
           }
-          close('startDate', true);
+
+          vm.osemStartDate = moment(vm.selectedDateModel).startOf('day');
+          vm.textStartDate = moment(vm.osemStartDate).format('L');
+          vm.dateOptionsEndDate.minDate = vm.osemStartDate.clone().add(1, 'days').toDate();
+
+          close('startDate');
           break;
         case 'endDate':
           if (angular.isUndefined(vm.osemEndDate) || vm.osemEndDate === null) {
             vm.osemEndDate = new Date();
             vm.textEndDate = vm.osemPlaceholderTextEndDate;
-          } else {
-            vm.osemEndDate = moment(vm.osemEndDate).startOf('day');
-            vm.textEndDate = moment(vm.osemEndDate).format('L');
-            vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
           }
-          close('endDate', true);
+
+          vm.osemEndDate = moment(vm.selectedDateModel).startOf('day');
+          vm.textEndDate = moment(vm.osemEndDate).format('L');
+          vm.dateOptionsStartDate.maxDate = vm.osemEndDate.toDate();
+
+          close('endDate');
           break;
       }
 
@@ -149,9 +171,9 @@
     }
 
     function clear () {
-      vm.osemStartDate = new Date();
+      vm.osemStartDate = undefined;
       vm.textStartDate = vm.osemPlaceholderTextStartDate;
-      vm.osemEndDate = new Date();
+      vm.osemEndDate = undefined;
       vm.textEndDate = vm.osemPlaceholderTextEndDate;
 
       vm.dateOptionsStartDate.maxDate = moment().startOf('day').toDate();

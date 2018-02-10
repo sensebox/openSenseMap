@@ -15,26 +15,27 @@
       osem-end-date="download.inputFilter.DateTo">
     </osem-calendar>
     <br>
-    <label>Mittelwerte</label>
+    <label>{{'MEAN'|translate}}</label>
     <select class="form-control" ng-model="download.inputFilter.window" ng-change="download.changeWindow()">
-      <option value="raw">keine Mittelwerte (Rohdaten)</option>
-      <option value="1h">Stundenmittel</option>
-      <option value="1d">Tagesmittel</option>
+      <option value="raw">{{'RAW'|translate}}</option>
+      <option value="10m">10 {{'MINUTE_AVERAGE'|translate}}</option>
+      <option value="1h">{{'HOURLY_AVERAGE'|translate}}</option>
+      <option value="1d">{{'DAILY_AVERAGE'|translate}}</option>
     </select>
     <br>
     <label>Operation</label>
     <select class="form-control" ng-model="download.inputFilter.operation" ng-disabled="download.inputFilter.window === 'raw'">
-      <option value="arithmeticMean">Arithmetisches Mittel</option>
-      <option value="harmonicMean">Harmonisches Mittel</option>
-      <option value="geometricMean">Geometrisches Mittel</option>
-      <option value="min">Minimum</option>
-      <option value="max">Maximum</option>
-      <option value="mode">Modus</option>
-      <option value="median">Median</option>
-      <option value="variance">Varianz</option>
-      <option value="rootMeanSquare">Quadratmittel (RMS)</option>
-      <option value="standardDeviation">Standardabweichung</option>
-      <option value="sum">Summe</option>
+      <option value="arithmeticMean">{{'ARITHMETIC_MEAN'|translate}}</option>
+      <option value="harmonicMean">{{'HARMONIC_MEAN'|translate}}</option>
+      <option value="geometricMean">{{'GEOMETRIC_MEAN'|translate}}</option>
+      <option value="min">{{'MIN'|translate}}</option>
+      <option value="max">{{'MAX'|translate}}</option>
+      <option value="mode">{{'MODE'|translate}}</option>
+      <option value="median">{{'MEDIAN'|translate}}</option>
+      <option value="variance">{{'VARIANCE'|translate}}</option>
+      <option value="rootMeanSquare">{{'ROOT_MEAN_SQUARE'|translate}}</option>
+      <option value="standardDeviation">{{'STANDARD_DEVIATION'|translate}}</option>
+      <option value="sum">{{'SUM'|translate}}</option>
     </select>
     <br>
     <label>{{ "DOWNLOAD_SELECTSENSOR" | translate }}</label>
@@ -43,7 +44,7 @@
       <option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
     </select>
     <br>
-    <label>Spalten</label>
+    <label>{{"COLUMNS"|translate}}</label>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
         <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">

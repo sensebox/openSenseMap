@@ -13,7 +13,9 @@
   <hr>
 
   <div>
-    <input type="checkbox" name="addon" id="optionsRadios1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="extensions.extensions.feinstaub.id" ng-disabled="extensions.extensions.feinstaub.disabled">
-    {{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}
+    <div class="checkbox checkbox-success checkbox-inline">
+      <input type="checkbox" name="addon" id="extension1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="extensions.extensions.feinstaub.id" ng-disabled="extensions.extensions.feinstaub.disabled">
+      <label for="extension1"> {{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}} </label>
+    </div>
   </div>
 </form>

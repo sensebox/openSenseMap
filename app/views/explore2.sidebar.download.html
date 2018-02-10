@@ -136,8 +136,12 @@
     <br>
     <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
     <br>
-    <input ng-model="download.downloadform.format" type="radio" name="format" id="formatCSV" value="CSV" checked>
-    <label for="formatCSV">CSV</label>
+    <div class="radio radio-success">
+      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="CSV" checked="">
+      <label for="formatCSV">
+          CSV
+      </label>
+    </div>
   <br>
   <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
   <div uib-alert class="alert-warning">

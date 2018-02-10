@@ -14,8 +14,10 @@
 
   <div uib-alert class="alert-warning" ng-bind-html="'MQTT_DESCRIPTION'|translate"></div>
 
-  <input type="checkbox" ng-model="mqtt.settings.enabled">
-  <label>{{ 'MQTT_ENABLE' | translate }}</label>
+  <div class="checkbox checkbox-success checkbox-inline">
+    <input type="checkbox" id="mqtt-enabled" ng-model="mqtt.settings.enabled">
+    <label for="mqtt-enabled">{{ 'MQTT_ENABLE' | translate }}</label>
+  </div>
 
   <!-- MQTT URL -->
   <div ng-class="{'has-error': mqttSettings.mqttURL.$invalid, 'has-success': mqttSettings.mqttURL.$valid }">
@@ -32,15 +34,15 @@
   <!-- MQTT MessageFormat -->
   <div ng-class="{'has-error': mqttSettings.mqttMessageFormat.$invalid, 'has-success': mqttSettings.mqttMessageFormat.$valid }">
     <label for="mqttMessageFormat">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
-    <div class="radio">
-      <label>
-        <input type="radio" name="mqttMessageFormat" id="optionsRadios1" value="json" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+    <div class="radio radio-success">
+      <input type="radio" name="mqttMessageFormat" id="messageformat-json" value="json" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+      <label for="messageformat-json">
         {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
       </label>
     </div>
-    <div class="radio">
-      <label>
-        <input type="radio" name="mqttMessageFormat" id="optionsRadios2" value="csv" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+    <div class="radio radio-success">
+      <input type="radio" name="mqttMessageFormat" id="messageformat-csv" value="csv" ng-model="mqtt.settings.messageFormat" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+      <label for="messageformat-csv">
         {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
       </label>
     </div>

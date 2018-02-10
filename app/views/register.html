@@ -54,21 +54,21 @@
               <!-- Aufstellungsort -->
               <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.exposure.$invalid, 'has-success' :  senseboxForm.exposure.$valid }">
                 <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="exposure" id="optionsRadios1" value="indoor" ng-model="register.newSenseBox.exposure" required>
+                <div class="radio radio-success">
+                  <input type="radio" name="exposure" id="indoor" value="indoor" ng-model="register.newSenseBox.exposure" required>
+                  <label for="indoor">
                     {{'STATION_PLACEMENT_INDOOR'|translate}}
                   </label>
                 </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="exposure" id="optionsRadios2" value="outdoor" ng-model="register.newSenseBox.exposure" required>
+                <div class="radio radio-success">
+                  <input type="radio" name="exposure" id="outdoor" value="outdoor" ng-model="register.newSenseBox.exposure" required>
+                  <label for="outdoor">
                     {{'STATION_PLACEMENT_OUTDOOR'|translate}}
                   </label>
                 </div>
-                <div class="radio">
-                  <label>
-                    <input type="radio" name="exposure" id="optionsRadios3" value="mobile" ng-model="register.newSenseBox.exposure" required>
+                <div class="radio radio-success">
+                  <input type="radio" name="exposure" id="mobile" value="mobile" ng-model="register.newSenseBox.exposure" required>
+                  <label for="mobile">
                     {{'STATION_PLACEMENT_MOBILE'|translate}}
                   </label>
                 </div>
@@ -135,15 +135,15 @@
                   <uib-accordion-heading>
                     senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse1, 'glyphicon-chevron-right': !register.open.collapse1}"></i>
                   </uib-accordion-heading>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios1" value="homeEthernet" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="sensebox-ethernet" value="homeEthernet" ng-model="register.modelSelected.id" required>
+                    <label for="sensebox-ethernet">
                       senseBox:home (Ethernet)
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios2" value="homeWifi" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="sensebox-wifi" value="homeWifi" ng-model="register.modelSelected.id" required>
+                    <label for="sensebox-wifi">
                       senseBox:home (WiFi)
                     </label>
                   </div>
@@ -152,9 +152,9 @@
                   <uib-accordion-heading>
                     senseBox:{{'EDIT_EXTENSIONS'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse6, 'glyphicon-chevron-right': !open.collapse6}"></i>
                   </uib-accordion-heading>
-                  <div class="radio">
-                    <label>
-                      <input type="checkbox" name="addon" id="optionsRadios1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id">
+                  <div class="checkbox checkbox-success checkbox-inline">
+                    <input type="checkbox" name="addon" id="extension1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id">
+                    <label for="extension1">
                       {{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}
                     </label>
                   </div>
@@ -163,81 +163,81 @@
                   <uib-accordion-heading>
                     luftdaten.info <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse2, 'glyphicon-chevron-right': !register.open.collapse2}"></i>
                   </uib-accordion-heading>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios01" value="luftdaten_sds011" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sds011" value="luftdaten_sds011" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sds011">
                       Luftdaten.info Feinstaubsensor (SDS011) ohne Temperatur-/Feuchtesensor
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios02" value="luftdaten_sds011_dht11" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sds011-dht11" value="luftdaten_sds011_dht11" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sds011-dht11">
                       Luftdaten.info Feinstaubsensor (SDS011) mit DHT11
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios03" value="luftdaten_sds011_dht22" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sds011-dht22" value="luftdaten_sds011_dht22" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sds011-dht22">
                       Luftdaten.info Feinstaubsensor (SDS011) mit DHT22
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios04" value="luftdaten_sds011_bmp180" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sds011-dmp180" value="luftdaten_sds011_bmp180" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sds011-dmp180">
                       Luftdaten.info Feinstaubsensor (SDS011) mit BMP180
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios05" value="luftdaten_sds011_bme280" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sds011-bme280" value="luftdaten_sds011_bme280" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sds011-bme280">
                       Luftdaten.info Feinstaubsensor (SDS011) mit BME280
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios06" value="luftdaten_pms7003_bme280" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms7003-bme280" value="luftdaten_pms7003_bme280" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms7003-bme280">
                       Luftdaten.info Feinstaubsensor (PMS7003) mit BME280
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios07" value="luftdaten_pms7003" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms7003" value="luftdaten_pms7003" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms7003">
                       Luftdaten.info Feinstaubsensor (PMS7003) ohne Temperatur-/Feuchtesensor
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios08" value="luftdaten_pms5003_bme280" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms5003-bme280" value="luftdaten_pms5003_bme280" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms5003-bme280">
                       Luftdaten.info Feinstaubsensor (PMS5003) mit BME280
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios09" value="luftdaten_pms5003" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms5003" value="luftdaten_pms5003" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms5003">
                       Luftdaten.info Feinstaubsensor (PMS5003) ohne Temperatur-/Feuchtesensor
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios10" value="luftdaten_pms3003_bme280" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms3003-bme280" value="luftdaten_pms3003_bme280" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms3003-bme280">
                       Luftdaten.info Feinstaubsensor (PMS3003) mit BME280
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios11" value="luftdaten_pms3003" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms3003" value="luftdaten_pms3003" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms3003">
                       Luftdaten.info Feinstaubsensor (PMS3003) ohne Temperatur-/Feuchtesensor
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios12" value="luftdaten_pms1003_bme280" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms1003-bme280" value="luftdaten_pms1003_bme280" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms1003-bme280">
                       Luftdaten.info Feinstaubsensor (PMS1003) mit BME280
                     </label>
                   </div>
-                  <div class="radio">
-                    <label>
-                      <input type="radio" name="model" id="optionsRadios13" value="luftdaten_pms1003" ng-model="register.modelSelected.id" required>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-pms1003" value="luftdaten_pms1003" ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-pms1003">
                       Luftdaten.info Feinstaubsensor (PMS1003) ohne Temperatur-/Feuchtesensor
                     </label>
                   </div>
@@ -334,8 +334,10 @@
                   <uib-accordion-heading>
                     MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse4, 'glyphicon-chevron-right': !register.open.collapse4}"></i>
                   </uib-accordion-heading>
-                  <input type="checkbox" id="checkbox0" ng-model="register.mqtt.enabled"></input>
-                  <label>{{ 'MQTT_ENABLE' | translate }}</label>
+                  <div class="checkbox checkbox-success checkbox-inline">
+                    <input type="checkbox" id="checkbox0" ng-model="register.mqtt.enabled"></input>
+                    <label for="checkbox0">{{ 'MQTT_ENABLE' | translate }}</label>
+                  </div>
 
                   <!-- MQTT URL -->
                   <div class="form-group has-feedback" ng-class="{ 'has-error' : register.mqtt.enabled && !register.validMQTTURL, 'has-success' : register.mqtt.enabled && register.validMQTTURL }">
@@ -354,15 +356,15 @@
                   <!-- MQTT MessageFormat -->
                   <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.messageFormat.$invalid, 'has-success' :  senseboxForm.messageFormat.$valid && register.mqtt.messageFormat!='' }">
                     <label class="control-label">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="messageFormat" id="optionsRadios1" value="json" ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <div class="radio radio-success">
+                      <input type="radio" name="messageFormat" id="mqtt-messageformat-json" value="json" ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                      <label for="mqtt-messageformat-json">
                         {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
                       </label>
                     </div>
-                    <div class="radio">
-                      <label>
-                        <input type="radio" name="messageFormat" id="optionsRadios2" value="csv" ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <div class="radio radio-success">
+                      <input type="radio" name="messageFormat" id="mqtt-messageformat-csv" value="csv" ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                      <label for="mqtt-messageformat-csv">
                         {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
                       </label>
                     </div>
@@ -388,39 +390,41 @@
                      TheThingsNetwork - TTN <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
                    </uib-accordion-heading>
                    <div uib-alert class="alert-warning" ng-bind-html="'TTN_DESCRIPTION'|translate"></div>
-                   <input type="checkbox" id="enabledTTN" ng-model="register.ttnEnabled"></input>
-                   <label>{{ 'EDIT_TTN' | translate }}</label>
-                     <!-- TTN profile  -->
-                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_profile.$invalid, 'has-success': senseboxForm.ttn_profile.$valid }">
-                       <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
-                       <select name="ttn_profile" class="form-control" ng-model="register.ttn.profile" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
-                         <option value="sensebox/home">senseBox:home</option>
-                         <option value="lora-serialization">LoRa serialization</option>
-                         <option value="json">JSON</option>
-                       </select>
-                     </div>
-                     <!-- TTN app_id -->
-                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_app_id.$invalid, 'has-success': senseboxForm.ttn_app_id.$valid }">
-                       <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
-                       <input type="text" name="ttn_app_id" class="form-control" ng-model="register.ttn.app_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
-                     </div>
-                     <!-- TTN dev_id -->
-                     <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_dev_id.$invalid, 'has-success': senseboxForm.ttn_dev_id.$valid }">
-                       <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
-                       <input type="text" name="ttn_dev_id" class="form-control" ng-model="register.ttn.dev_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
-                     </div>
-                     <!-- TTN DecodeOptions -->
-                     <div class="form-group" ng-class="{'has-error': !register.validTTNconfig, 'has-success': register.validTTNconfig }">
-                       <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
-                       <input type="text"  name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.decodeOptions" ng-disabled="register.ttn.profile === 'sensebox/home'" ng-required="register.ttn.profile !== 'sensebox/home'">
-                     </div>
-                     <!-- TTN Port -->
-                     <div class="form-group">
-                       <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
-                       <input type="number"  name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.port" min="1" max="65535">
-                     </div>
-                     <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
-                 </div>
+                   <div class="checkbox checkbox-success checkbox-inline">
+                      <input type="checkbox" id="enabledTTN" ng-model="register.ttnEnabled"></input>
+                      <label for="enabledTTN">{{ 'EDIT_TTN' | translate }}</label>
+                  </div>
+                  <!-- TTN profile  -->
+                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_profile.$invalid, 'has-success': senseboxForm.ttn_profile.$valid }">
+                    <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
+                    <select name="ttn_profile" class="form-control" ng-model="register.ttn.profile" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                      <option value="sensebox/home">senseBox:home</option>
+                      <option value="lora-serialization">LoRa serialization</option>
+                      <option value="json">JSON</option>
+                    </select>
+                  </div>
+                  <!-- TTN app_id -->
+                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_app_id.$invalid, 'has-success': senseboxForm.ttn_app_id.$valid }">
+                    <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
+                    <input type="text" name="ttn_app_id" class="form-control" ng-model="register.ttn.app_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                  </div>
+                  <!-- TTN dev_id -->
+                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_dev_id.$invalid, 'has-success': senseboxForm.ttn_dev_id.$valid }">
+                    <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
+                    <input type="text" name="ttn_dev_id" class="form-control" ng-model="register.ttn.dev_id" ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
+                  </div>
+                  <!-- TTN DecodeOptions -->
+                  <div class="form-group" ng-class="{'has-error': !register.validTTNconfig, 'has-success': register.validTTNconfig }">
+                    <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
+                    <input type="text"  name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.decodeOptions" ng-disabled="register.ttn.profile === 'sensebox/home'" ng-required="register.ttn.profile !== 'sensebox/home'">
+                  </div>
+                  <!-- TTN Port -->
+                  <div class="form-group">
+                    <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
+                    <input type="number"  name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.port" min="1" max="65535">
+                  </div>
+                  <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>
+                </div>
               </uib-accordion>
             </div>
             <div class="form-group">

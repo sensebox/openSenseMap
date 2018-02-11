@@ -70,6 +70,7 @@
       switch (vm.inputFilter.window) {
         case '1h':
         case '1d':
+        case '10m':
           vm.columns.createdAt = '';
           vm.columns.sensorId = '';
           vm.columns.value = '';

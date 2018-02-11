@@ -44,23 +44,7 @@ angular
         url: '',
         controller: 'MapController',
         controllerAs: 'map',
-        templateUrl: 'views/explore2.map.html',
-        resolve: { /* @ngInject */
-          boxes: function (ngProgressFactory, OpenSenseMapAPI) {
-            var progressbar = ngProgressFactory.createInstance();
-            progressbar.setColor('#4EAF47');
-            progressbar.start();
-            return OpenSenseMapAPI.getBoxes({params: {classify: true}})
-              .then(function (data) {
-                progressbar.complete();
-                return data;
-              })
-              .catch(function (error) {
-                progressbar.complete();
-                return new Error('Could not resolve getBoxes() on explore.map.');
-              });
-          }
-        }
+        templateUrl: 'views/explore2.map.html'
       })
       .state('explore.map.sidebar', {
         url: 'explore',

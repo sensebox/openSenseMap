@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'boxes', 'OpenSenseMapData', 'osemMapData', 'isMobile'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'ngProgressFactory', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI'];
 
-  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, boxes, OpenSenseMapData, osemMapData, isMobile) {
+  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, ngProgressFactory, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showClustering = true;
@@ -37,18 +37,37 @@
     ////
 
     function activate () {
-      if (boxes instanceof Error) {
-        $state.go('explore.map.sidebar.error');
-        return;
-      }
+      var progressbar = ngProgressFactory.createInstance();
+      progressbar.setColor('#4EAF47');
+      progressbar.start();
+      return OpenSenseMapAPI.getBoxes({params: {classify: true}})
+        .then(function (data) {
+          return OpenSenseMapData.setMarkers(data)
+            .then(function (response) {
+              vm.mapMarkers = response;
+              progressbar.complete();
+            })
+            .catch(function (error) {
+              progressbar.complete();
+              console.error(error);
+            });
+      })
+      .catch(function (error) {
+        progressbar.complete();
+        return new Error('Could not resolve getBoxes() on explore.map.');
+      });
+      // if (boxes instanceof Error) {
+      //   $state.go('explore.map.sidebar.error');
+      //   return;
+      // }
 
-      OpenSenseMapData.setMarkers(boxes)
-        .then(function (response) {
-          vm.mapMarkers = response;
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
+      // return OpenSenseMapData.setMarkers(boxes)
+      //   .then(function (response) {
+      //     vm.mapMarkers = response;
+      //   })
+      //   .catch(function (error) {
+      //     console.error(error);
+      //   });
     }
 
     function createLegendFromTemplate (templateURI, clickHandler) {

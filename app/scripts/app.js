@@ -29,6 +29,7 @@ angular
     $locationProvider.html5Mode(true);
 
     $httpProvider.interceptors.push('AuthenticationInterceptor');
+    $httpProvider.interceptors.push('TemplateCacheInterceptor');
 
     $urlRouterProvider.otherwise('/');
 

@@ -27,6 +27,7 @@
     "grunt-contrib-uglify": "~3.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-env": "^0.4.4",
+    "grunt-gitinfo": "^0.1.8",
     "grunt-json-minify": "^1.1.0",
     "grunt-karma": "^2.0.0",
     "grunt-newer": "~1.1.1",

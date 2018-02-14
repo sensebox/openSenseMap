@@ -57,6 +57,10 @@ module.exports = function (grunt) {
             {
               match: 'VERSION',
               replacement: '<%= pkg.version %>'
+            },
+            {
+              match: 'REVISION',
+              replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
             }
           ]
         },
@@ -97,6 +101,10 @@ module.exports = function (grunt) {
             {
               match: 'VERSION',
               replacement: '<%= pkg.version %>'
+            },
+            {
+              match: 'REVISION',
+              replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
             }
           ]
         },
@@ -644,6 +652,7 @@ module.exports = function (grunt) {
       'autoprefixer',
       'replace:devapi',
       'replace:devmaps',
+      'gitinfo',
       'replace:version',
       'languages',
       'connect:livereload',
@@ -689,6 +698,7 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin',
     'replace:control',
+    'gitinfo',
     'replace:urls',
     'compress'
   ]);

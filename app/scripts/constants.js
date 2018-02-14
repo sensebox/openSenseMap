@@ -6,6 +6,7 @@
   ])
   .constant('app', {
     VERSION: '@@VERSION',
+    REVISION: '@@REVISION',
     NAME: 'Zahngold Bernd',
     API_URL: '@@OPENSENSEMAP_API_URL'
   });

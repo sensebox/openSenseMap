@@ -684,6 +684,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'clean:dist',
     'loadconst',
+    'gitinfo',
     'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
@@ -698,7 +699,6 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin',
     'replace:control',
-    'gitinfo',
     'replace:urls',
     'compress'
   ]);

@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/sensebox/openSenseMap/compare/v1.0.0...v1.1.0) (2018-02-14)
+
+
+### Bug Fixes
+
+* **download:** disable columns ([a236068](https://github.com/sensebox/openSenseMap/commit/a236068))
+* **download:** fix latitude and longitude access ([091c12d](https://github.com/sensebox/openSenseMap/commit/091c12d))
+* **edit:** fix marker in editing ([ffa363f](https://github.com/sensebox/openSenseMap/commit/ffa363f))
+* **fix opening sidebar direct through url:** Check if leafletBottomContainer is null ([7ca4815](https://github.com/sensebox/openSenseMap/commit/7ca4815)), closes [#253](https://github.com/sensebox/openSenseMap/issues/253)
+* **registration:** show marker on map in registration ([ac28553](https://github.com/sensebox/openSenseMap/commit/ac28553))
+
+
+### Features
+
+* **download:** add new features to download ([c8e9a78](https://github.com/sensebox/openSenseMap/commit/c8e9a78))
+* **User dashboard:** Added list view to senseBox user dashboard ([c7145f7](https://github.com/sensebox/openSenseMap/commit/c7145f7)), closes [#250](https://github.com/sensebox/openSenseMap/issues/250)
+
+
+
 <a name="1.0.0"></a>
 # 1.0.0 (2018-01-26)
 

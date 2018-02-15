@@ -180,6 +180,10 @@ a:focus {
   background-color: #969696;
 }
 
+.badge-container > span {
+  cursor: pointer;
+}
+
 a:hover {
   color: #4EAF47;
   text-decoration: underline;

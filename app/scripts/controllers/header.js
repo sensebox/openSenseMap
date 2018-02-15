@@ -52,6 +52,18 @@
         .catch(function (error) {
 
         });
+
+      if (isAuthed()) {
+        return AccountService.getUserDetails()
+          .then(function (data) {
+            var newData = {
+              data: {
+                user: data.data.me
+              }
+            };
+            $rootScope.$emit('loggedIn', newData);
+          });
+      }
     }
 
     function changeLang (key) {

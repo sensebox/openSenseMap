@@ -1,37 +1,51 @@
 <div class="container">
-  <div class="row register">
-    <div class="pull-right">
-      <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i class="glyphicon glyphicon-remove"></i></button>
+  <div class="row" style="margin-top: 25px;">
+    <div class="col-lg-12 col-md-12 hidden-xs" style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-lg-1 col-md-1 col-lg-offset-8 col-md-offset-8" style="text-align: right; padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i class="glyphicon glyphicon-remove"></i></button>
+      </div>
+    </div>
+    <div class="col-xs-12 hidden-lg hidden-md hidden-sm" style="padding-left: 0px; padding-right: 0px;">
+      <button type="button" class="btn btn-danger xxxl" ui-sref="account.dashboard">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{'CANCEL'|translate}}
+      </button>
     </div>
   </div>
-  <div class="row">
-    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 col-lg-offset-2 col-md-offset-2">
-      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()" ng-disabled="register.stepIndex == 0;"><i class="glyphicon glyphicon-chevron-left"></i></button>
-    </div>
-    <div class="col-lg-6 col-md-6 col-sm-10 col-xs-10" style="text-align: center;">
-      <h3 style="margin-top: 14px;">{{register.stepTitle}}</h3>
-    </div>
-    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align: right;">
-      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-show="register.showNext" ng-disabled="register.stepIsValid"><i class="glyphicon glyphicon-chevron-right"></i></button>
-      <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.completeRegistration()" ng-hide="register.showNext" ng-disabled="register.stepIsValid"><i class="glyphicon glyphicon-ok"></i></button>
+  <div class="row" style="margin-top: 25px;">
+    <div class="col-lg-12 col-md-12 col-sm 12 col-xs-12" style="padding-left: 0px; padding-right: 0px;">
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 col-lg-offset-3 col-md-offset-3" style="padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()" ng-disabled="register.stepIndex == 0;"><i class="glyphicon glyphicon-chevron-left"></i></button>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-10 col-xs-8" style="text-align: center;">
+        <h3 style="margin-top: 14px;">{{register.stepTitle}}</h3>
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style="text-align: right; padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-show="register.showNext" ng-disabled="register.stepIsValid === false"><i class="glyphicon glyphicon-chevron-right"></i></button>
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.completeRegistration()" ng-hide="register.showNext" ng-disabled="register.completed"><i class="glyphicon glyphicon-ok"></i></button>
+      </div>
     </div>
   </div>
   <div class="row" style="margin-bottom: 50px;">
-    <div class="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2">
+    <div class="col-lg-6 col-md-6 col-lg-offset-3 col-md-offset-3" style="padding-left: 0px; padding-right: 0px;">
       <wizard class="registration-wizard" name="RegistrationWizard" hide-indicators="true">
         <wz-step wz-title="{{'STEP0' | translate}}" wz-data="{translation: 'STEP0'}">
           <hr>
           <div uib-alert class="alert-warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></div>
-          <div class="form-group">
-            <hr>
-            <div class="pull-right">
-              <a class="btn btn-danger" href="/account">{{'CANCEL' | translate}}</a>
-              <button type="submit" ng-click="register.setStepTitle()" wz-next class="btn btn-primary">{{'STEP0_ACCEPT' | translate}}</button>
+          <hr>
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 col-lg-offset-9 col-md-offset-9" style="padding-left: 0px; padding-right: 0px;">
+            <div class="input-group">
+              <span class="input-group-addon">
+                <input type="checkbox" name="provacy" id="privacy" ng-model="register.stepIsValid" />
+                <label for="privacy">{{'AGREE'|translate}}</label>
+              </span>
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="submit" ng-click="register.setStepTitle()" wz-next ng-disabled="register.stepIsValid === false">{{'NEXT' | translate}}</button>
+              </span>
             </div>
           </div>
         </wz-step>
         <wz-step wz-title="{{'STEP2' | translate}}" wz-data="{translation: 'STEP2'}">
-          <input type="checkbox" ng-checked="register.stepIsValidChange(senseboxForm.$invalid)" ng-hide="true">
+          <input type="checkbox" ng-checked="register.stepIsValidChange(senseboxForm.$valid)" ng-hide="true">
           <hr>
           <form class="tab-pane" id="sensebox" name="senseboxForm" ng-keypress="register.enterEvent($event)" novalidate>
             <div id="general">

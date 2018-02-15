@@ -17,6 +17,8 @@
       error: false,
       message: ''
     };
+    vm.privacy = false;
+    vm.completed = false;
 
     //new sensebox object
     vm.newSenseBox = {
@@ -263,7 +265,7 @@
           });
           downloadArduino(data.data._id);
           vm.registeredSensors = data.data['sensors'];
-          vm.stepIsValid = true;
+          vm.completed = true;
           vm.stepIndex = 0;
         })
         .catch(function (error) {

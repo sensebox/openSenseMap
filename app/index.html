@@ -67,33 +67,33 @@
           <div class="collapse navbar-collapse" uib-collapse="header.isNavCollapsed" id="bs-example-navbar-collapse-1">
             <ul class="ng-cloak nav navbar-nav navbar-right">
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map" ui-sref-opts="{reload: true}">
+                <a ui-sref="explore.map" ui-sref-opts="{reload: true}" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon-zoom-in"></span> {{'EXPLORE' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.sidebar.interpolation">
+                <a ui-sref="explore.map.sidebar.interpolation" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'INTERPOLATION' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
-                <a ui-sref="explore.map.sidebar.filter">
+                <a ui-sref="explore.map.sidebar.filter" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon glyphicon-cloud"></span> {{'FILTER' | translate}}
                   <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.sidebar.download">
+                <a ui-sref="explore.map.sidebar.download" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon-floppy-save"></span> {{'DATADOWNLOAD' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem" ng-hide="header.isAuthed()">
-                <a ui-sref="register">
+                <a ui-sref="register" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon-barcode"></span> {{'REGISTER' | translate}}
                 </a>
               </li>
               <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="info">
+                <a ui-sref="info" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
                 </a>
               </li>

@@ -59,6 +59,7 @@
         .then(function (response) {
           vm.key = LanguageService.getLanguage();
           LocalStorageService.setValue('osem_language', key);
+          vm.isNavCollapsed = true;
         })
         .catch(function (error) {
           console.log(error);
@@ -88,6 +89,8 @@
         controller: 'SignupLoginController',
         controllerAs: 'account'
       });
+
+      vm.isNavCollapsed = true;
     }
 
     function isAuthed () {

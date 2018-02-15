@@ -37,6 +37,8 @@
         vm.$onInit = onInit;
         vm.$onDestroy = onDestroy;
 
+        vm.refresh = refresh;
+
         ////
 
         function onInit () {
@@ -73,6 +75,13 @@
         function resetTimer () {
             vm.secs = vm.refreshTime;
             vm.timerStarted = false;
+        }
+
+        function refresh () {
+          $timeout.cancel(vm.prom);
+          resetTimer();
+          var eventName = 'osemBadgeRefreshFinished';
+          $scope.$emit(eventName, {});
         }
 
         ////

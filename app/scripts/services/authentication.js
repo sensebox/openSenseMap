@@ -5,15 +5,17 @@
     .module('app.services')
     .factory('AuthenticationService', AuthenticationService);
 
-  AuthenticationService.$inject = ['$window'];
+  AuthenticationService.$inject = ['$window', 'LocalStorageService'];
 
-  function AuthenticationService ($window) {
+  function AuthenticationService ($window, LocalStorageService) {
     var service = {
       parseJwt: parseJwt,
       saveToken: saveToken,
       saveRefreshToken: saveRefreshToken,
+      saveUser: saveUser,
       getToken: getToken,
       getRefreshToken: getRefreshToken,
+      getUser: getUser,
       logout: logout
     };
 
@@ -28,24 +30,33 @@
     }
 
     function saveToken (token) {
-      $window.localStorage['osem_access_token'] = token;
+      LocalStorageService.setValue('osem_access_token', token);
     }
 
     function saveRefreshToken (token) {
-      $window.localStorage['osem_refresh_token'] = token;
+      LocalStorageService.setValue('osem_refresh_token', token);
+    }
+
+    function saveUser (user) {
+      LocalStorageService.setValue('osem.account', user);
     }
 
     function getToken () {
-      return $window.localStorage['osem_access_token'];
+      return LocalStorageService.getValue('osem_access_token');
     }
 
     function getRefreshToken () {
-      return $window.localStorage['osem_refresh_token'];
+      return LocalStorageService.getValue('osem_refresh_token');
+    }
+
+    function getUser () {
+      return LocalStorageService.getValue('osem.account');
     }
 
     function logout () {
-      $window.localStorage.removeItem('osem_access_token');
-      $window.localStorage.removeItem('osem_refresh_token');
+      LocalStorageService.removeValue('osem_access_token');
+      LocalStorageService.removeValue('osem_refresh_token');
+      LocalStorageService.removeValue('osem.account');
     }
   }
 })();

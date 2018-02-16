@@ -35,6 +35,7 @@
     function success (response) {
       AuthenticationService.saveToken(response.data.token);
       AuthenticationService.saveRefreshToken(response.data.refreshToken);
+      AuthenticationService.saveUser(JSON.stringify(response.data.data.user));
       return response.data;
     }
 
@@ -113,6 +114,7 @@
         .catch(getUserDetailsFailed);
 
       function getUserDetailsComplete (response) {
+        AuthenticationService.saveUser(JSON.stringify(response.data.data.me));
         return response.data;
       }
 

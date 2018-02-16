@@ -10,7 +10,8 @@
   function LocalStorageService ($window) {
     var service = {
       getValue: getValue,
-      setValue: setValue
+      setValue: setValue,
+      removeValue: removeValue
     };
 
     return service;
@@ -21,8 +22,12 @@
       return $window.localStorage[key];
     }
 
-    function setValue(key, value) {
+    function setValue (key, value) {
       $window.localStorage[key] = value;
+    }
+
+    function removeValue (key) {
+      $window.localStorage.removeItem(key);
     }
   }
 })();

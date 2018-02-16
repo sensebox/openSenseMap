@@ -33,6 +33,7 @@
 
                     AuthenticationService.saveToken(r.data.token);
                     AuthenticationService.saveRefreshToken(r.data.refreshToken);
+                    AuthenticationService.saveUser(JSON.stringify(r.data.data.user));
 
                     $injector.get('$rootScope').$emit('loggedIn', r.data);
 

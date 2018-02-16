@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$stateParams', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$state', '$stateParams', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar', 'LocalStorageService'];
 
-  function SidebarBoxDetailsController ($scope, $stateParams, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar) {
+  function SidebarBoxDetailsController ($scope, $state, $stateParams, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar, LocalStorageService) {
     var vm = this;
     vm.box = {};
     vm.selectedSensor = null;
@@ -16,20 +16,27 @@
     vm.selectSensor = selectSensor;
     vm.resetFilter = resetFilter;
     vm.performFilter = performFilter;
-    vm.getTimeAgo = getTimeAgo;
 
     activate();
 
     ////
 
     function activate () {
-      console.log("Activate Sidebar", moment);
       OpenSenseMapAPI.getBox($stateParams.id)
         .then(function (response) {
           vm.box = new Box(response);
           Sidebar.setTitle(vm.box.name);
           Sidebar.addAction({href: vm.box.getArchiveLink(), target: '_blank', icon: 'fa-archive', hideOnMinimized: true});
           Sidebar.addAction({handler: focusSelectedBox, icon: 'fa-thumb-tack', hideOnMinimized: false});
+
+          var account = LocalStorageService.getValue('osem.account');
+          if (account) {
+            var boxes = JSON.parse(account).boxes;
+            if (boxes.indexOf($stateParams.id) > -1) {
+              Sidebar.addAction({handler: editBox, icon: 'fa-pencil', hideOnMinimized: true});
+            }
+          }
+
           focusSelectedBox();
           if (vm.box.exposure === 'mobile') getBoxTrajectory();
         })
@@ -54,6 +61,10 @@
           focusSelectedBox(response);
           return response;
         })
+    }
+
+    function editBox () {
+      $state.go('account.edit.general', { id: vm.box._id , box: vm.box });
     }
 
     // focus current location of a box or its trajectory, if optional

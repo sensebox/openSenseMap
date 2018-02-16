@@ -44,10 +44,6 @@
         });
     }
 
-    function getTimeAgo (lastMeasurement) {
-      return moment(lastMeasurement).fromNow();
-    }
-
     function getBoxTrajectory (options) {
       var options = Object.assign({ format: 'geojson' }, options);
       var data = { params: options };
@@ -97,6 +93,9 @@
       $scope.$parent.map.legendInfo = {};
       $scope.$parent.map.boxLocations = {};
       $scope.$parent.map.selectedSensorMeasurements = [];
+
+      Sidebar.removeActions();
+      Sidebar.setTitle('');
     });
 
     $scope.$on('osemBadgeRefreshFinished', function () {
@@ -128,11 +127,6 @@
     });
     $scope.$on('osemMeasurementMouseOut.map_main', function (e, args) {
       vm.selectedSensor.chart.selectedMeasurement = undefined;
-    });
-
-    $scope.$on('$destroy', function () {
-      Sidebar.removeActions();
-      Sidebar.setTitle('');
     });
 
     function selectSensor(sensor, event) {

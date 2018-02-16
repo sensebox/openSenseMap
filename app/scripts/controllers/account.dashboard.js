@@ -26,8 +26,8 @@
 
       return getUsersBoxes()
         .then(function () {
-          console.info('Activated Dashboard View');
-          console.info(vm.boxes);
+          // console.info('Activated Dashboard View');
+          // console.info(vm.boxes);
         });
     }
 

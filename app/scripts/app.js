@@ -16,7 +16,6 @@ angular
     'ui.router',
     'angularMoment',
     'tmh.dynamicLocale',
-    'ngProgress',
     'rzModule',
     'mgo-angular-wizard',
     'angular-toArrayFilter',

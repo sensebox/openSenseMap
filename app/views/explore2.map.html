@@ -1,3 +1,10 @@
+<div ng-hide="map.loaded" style="position: absolute;z-index:1002; background-color: white; min-width: 50px; height: 100%; width: 100%;top: 0; left: 0; opacity: 0.5">
+  <div id="loader">
+    <div id="shadow"></div>
+    <div id="box"></div>
+    <div id="caption">{{map.loadingCaption}}</div>
+  </div>
+</div>
 <osem-map id="map_main" markers="map.mapMarkers" mobile-trajectory="map.boxLocations" mobile-measurements="map.selectedSensorMeasurements" mobile-legend-info="map.legendInfo" highlighted-measurement="map.highlightedMeasure"></osem-map>
 <div id="marker-label" style="position: absolute;z-index:1002; background-color: white; min-width: 50px; padding: 4px; border: 2px solid #4EAF47;" ng-style="{ left: map.hoverlabel.left, top: map.hoverlabel.top }">{{map.hoverlabel.name}}</div>
 <div ui-view="sidebar"></div>

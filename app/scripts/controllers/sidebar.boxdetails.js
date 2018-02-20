@@ -38,13 +38,12 @@
           }
 
           focusSelectedBox();
-          if (vm.box.exposure === 'mobile') getBoxTrajectory();
         })
         .catch(function (error) {
           vm.boxNotFound = true;
         })
         .finally(function () {
-          $scope.$parent.$broadcast('boxSelected', vm.box);
+          $scope.$parent.$parent.$broadcast('boxSelected', vm.box);
           $timeout(function () {
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000)
@@ -99,7 +98,7 @@
     }
 
     $scope.$on('$destroy', function(ev) {
-      $scope.$parent.$broadcast('boxDeselected', vm.box);
+      $scope.$parent.$parent.$broadcast('boxDeselected', vm.box);
       // reset externally stored state
       $scope.$parent.map.legendInfo = {};
       $scope.$parent.map.boxLocations = {};
@@ -118,8 +117,11 @@
         vm.box.exposure === 'mobile' &&
         (!vm.selectedSensor || !vm.selectedSensor.chart.toDate)
       ) {
-        if (vm.selectedSensor) getSensorData(vm.selectedSensor);
-        getBoxTrajectory();
+        if (vm.selectedSensor) {
+          var params = {};
+          params.toDate = vm.selectedSensor.lastMeasurement.createdAt;
+          performFilter(vm.selectedSensor, params);
+        }
       }
 
       $scope.$broadcast('osemBadgeRefreshStartTimer');
@@ -143,12 +145,12 @@
     function selectSensor(sensor, event) {
       $scope.$parent.map.selectedSensorMeasurements = [];
       $scope.$parent.map.legendInfo = {};
-      sensor.chart.fromDate = undefined;
-      sensor.chart.toDate = undefined;
       sensor.chart.error = false;
 
       // if already selected sensor is selected again: clear selection
       if (sensor === vm.selectedSensor) {
+        sensor.locations = $scope.$parent.map.boxLocations;
+        $scope.$parent.map.boxLocations = {};
         vm.selectedSensor = null;
         return;
       }
@@ -157,16 +159,19 @@
       // get chart data once and add measurements to the map
       // if we have them already, use the cached data
       if (!sensor.measurements) {
-        var data = {
-          params: {}
-        };
-        if (angular.isDefined(sensor.lastMeasurement)) {
-          data.params['to-date'] = sensor.lastMeasurement.createdAt;
+        if (angular.isDefined(sensor.chart.fromDate) && angular.isDefined(sensor.chart.toDate)) {
+          var params = {};
+          params.toDate = sensor.chart.toDate.toISOString();
+          params.fromDate = sensor.chart.fromDate.toISOString();
+        } else if (angular.isDefined(sensor.lastMeasurement)) {
+          var params = {};
+          params.toDate = sensor.lastMeasurement.createdAt;
         }
 
-        getSensorData(sensor, data);
+        performFilter(sensor, params);
       } else if (vm.box.exposure === 'mobile') {
         $scope.$parent.map.selectedSensorMeasurements = sensor.measurements;
+        $scope.$parent.map.boxLocations = sensor.locations;
       }
 
       sensor.chart.yAxisTitle = sensor.title + '('+sensor.unit+')';
@@ -180,6 +185,10 @@
     };
 
     function resetFilter (sensor) {
+      $scope.$parent.map.selectedSensorMeasurements = [];
+      $scope.$parent.map.legendInfo = {};
+      $scope.$parent.map.boxLocations = {};
+
       var data = {
         params: {}
       };
@@ -187,15 +196,28 @@
         data.params['to-date'] = sensor.lastMeasurement.createdAt;
       }
 
+      if (vm.box.exposure === 'mobile') {
+        getBoxTrajectory(data.params) // might need an update for the new timeframe
+      }
+
       return getSensorData(sensor, data);
     }
 
-    function performFilter (sensor) {
+    function performFilter (sensor, params) {
       var data = {
-        params: {
-          'from-date': sensor.chart.fromDate.toISOString(),
-          'to-date': sensor.chart.toDate.toISOString()
+        params: {}
+      }
+
+      if (params) {
+        if (params.toDate) {
+          data.params['to-date'] = params.toDate;
         }
+        if (params.fromDate) {
+          data.params['from-date'] = params.fromDate;
+        }
+      } else {
+        data.params['to-date'] = sensor.chart.toDate.toISOString();
+        data.params['from-date'] = sensor.chart.fromDate.toISOString();
       }
 
       if (vm.box.exposure === 'mobile') {

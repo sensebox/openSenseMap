@@ -97,7 +97,7 @@
                   <span class="glyphicon glyphicon-info-sign"></span> {{'INFO' | translate}}
                 </a>
               </li>
-              <li class="dropdown dropdown-languages" uib-dropdown>
+              <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
                 <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
                   <span class="lang-sm" lang="{{header.key}}"></span>
                   <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span>
@@ -191,14 +191,6 @@
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/moment/locale/de.js"></script>
-    <script src="bower_components/moment/locale/es.js"></script>
-    <script src="bower_components/moment/locale/pl.js"></script>
-    <script src="bower_components/moment/locale/pt.js"></script>
-    <script src="bower_components/moment/locale/it.js"></script>
-    <script src="bower_components/moment/locale/fr.js"></script>
-    <script src="bower_components/moment/locale/ms.js"></script>
-    <script src="bower_components/moment/locale/nl.js"></script>
-    <script src="bower_components/moment/locale/ru.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
     <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>

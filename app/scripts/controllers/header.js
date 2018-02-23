@@ -35,6 +35,7 @@
     vm.getLocations = getLocations;
     vm.selectBox = selectBox;
     vm.changeLang = changeLang;
+    vm.closeNavbar = closeNavbar;
 
     activate();
 
@@ -64,6 +65,10 @@
             $rootScope.$emit('loggedIn', newData);
           });
       }
+    }
+
+    function closeNavbar () {
+      vm.isNavCollapsed = true;
     }
 
     function changeLang (key) {
@@ -123,6 +128,7 @@
 
     function logout () {
       AccountService.logout && AccountService.logout();
+      closeNavbar();
       $state.go('explore.map');
     }
 

@@ -469,60 +469,60 @@ module.exports = function (grunt) {
           src: ['generated/*']
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/bower_components/leaflet/dist',
-            src: ['images/*.*'],
-            dest: '<%= yeoman.dist %>/styles/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/bower_components/leaflet/dist',
+          src: ['images/*.*'],
+          dest: '<%= yeoman.dist %>/styles/'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/bower_components/font-awesome',
-            src: ['fonts/*.*'],
-            dest: '<%= yeoman.dist %>'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/bower_components/font-awesome',
+          src: ['fonts/*.*'],
+          dest: '<%= yeoman.dist %>'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/bower_components/bootstrap/dist',
-            src: ['fonts/*.*'],
-            dest: '<%= yeoman.dist %>'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/bower_components/bootstrap-css-only',
+          src: ['fonts/*.*'],
+          dest: '<%= yeoman.dist %>'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/bower_components/bootstrap-languages',
-            src: ['languages.png'],
-            dest: '<%= yeoman.dist %>/styles/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/bower_components/bootstrap-languages',
+          src: ['languages.png'],
+          dest: '<%= yeoman.dist %>/styles/'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/images',
-            src: ['*.gif'],
-            dest: '<%= yeoman.dist %>/images/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/images',
+          src: ['*.gif'],
+          dest: '<%= yeoman.dist %>/images/'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/images',
-            src: ['*.jpg'],
-            dest: '<%= yeoman.dist %>/images/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/images',
+          src: ['*.jpg'],
+          dest: '<%= yeoman.dist %>/images/'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/images',
-            src: ['*.png'],
-            dest: '<%= yeoman.dist %>/images/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/images',
+          src: ['*.png'],
+          dest: '<%= yeoman.dist %>/images/'
         },
         {
-            expand: true,
-            dot: true,
-            cwd: '<%= yeoman.app %>/bower_components/Leaflet.awesome-markers/dist',
-            src: ['images/*.*'],
-            dest: '<%= yeoman.dist %>/styles/'
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/bower_components/Leaflet.awesome-markers/dist',
+          src: ['images/*.*'],
+          dest: '<%= yeoman.dist %>/styles/'
         }]
       },
       styles: {

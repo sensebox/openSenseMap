@@ -43,6 +43,12 @@
         "./fonts/*"
       ]
     },
+    "leaflet.markercluster": {
+      "main": [
+        "dist/leaflet.markercluster-src.js",
+        "dist/MarkerCluster.css"
+      ]
+    },
     "moment": {
       "main": [
         "moment.js",

@@ -18,7 +18,7 @@
               <form name="login" ng-submit="account.submit('login')">
                 <div class="form-group has-feedback">
                   <label for="username">{{'ACCOUNT_USERNAME'|translate}}*</label>
-                  <input type="text" ng-model="account.login.email" class="form-control" id="login-username" tabindex="1" autofocus required>
+                  <input type="text" ng-model="account.login.email" class="form-control" id="login-username" tabindex="1" auto-focus="account.active" required>
                 </div>
                 <div class="form-group has-feedback" style="position: relative;">
                   <label for="password">{{'ACCOUNT_PASSWORD'|translate}}* <small style="display: inline-block; font-size: 12px;"> <a href="" ng-click="account.resetPassword()">{{'ACCOUNT_PASSWORD_FORGOT_IT'|translate}}?</a></small></label>
@@ -58,7 +58,7 @@
               <form name="signup" ng-submit="account.submit('signup')">
                 <div class="form-group has-feedback">
                   <label for="username">{{'ACCOUNT_REGISTER_USERNAME'|translate}}*</label>
-                  <input type="text" minlength="4" maxlength="40" pattern="^[a-zA-Z0-9][a-zA-Z0-9\s._-]+[a-zA-Z0-9-_.]$" ng-model="account.signup.name" class="form-control" id="signup-username" required>
+                  <input type="text" minlength="4" maxlength="40" pattern="^[a-zA-Z0-9][a-zA-Z0-9\s._-]+[a-zA-Z0-9-_.]$" ng-model="account.signup.name" class="form-control" id="signup-username" auto-focus="account.active" required>
                 </div>
                 <div class="form-group has-feedback">
                   <label for="email">{{'ACCOUNT_EMAIL'|translate}}*</label>

@@ -24,7 +24,7 @@
   </div>
   <div class="alert alert-warning" role="alert" ng-if="filter.needsRefresh">
     <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-    Please refresh the live filter. <a ng-click="filter.refreshLiveFilter();">Refresh</a>
+    {{"SAF_REFRESH_LIVE_FILTER"|translate}} <a ng-click="filter.refreshLiveFilter();">{{"REFRESH"|translate}}</a>
   </div>
   <form>
     <div class="form-group">
@@ -103,7 +103,7 @@
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; padding-right: 0px;">
       <h3 style="margin-top: 0px; margin-bottom: 0px;">
         <span class="label label-default" ng-hide="filter.loading">{{"RESULTS"|translate}} ({{filter.results}})</span>
-        <span class="label label-default" ng-show="filter.loading">Loading...</span>
+        <span class="label label-default" ng-show="filter.loading">{{"PLEASE_WAIT"|translate}}...</span>
       </h3>
     </div>
     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; padding-right: 0px;">

@@ -52,7 +52,7 @@
       }
 
       if (classifiedMarker) {
-        for (var i = classifiedMarker.length - 1; i >= 0; i--) {
+        for (var i = 0; i < classifiedMarker.length; i++) {
           var id = makeid();
           newMarkers[id] = classifiedMarker[i];
         }

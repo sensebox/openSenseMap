@@ -8,6 +8,7 @@ angular
     'ngResource',
     'ngSanitize',
     'ngDialog',
+    'ngProgress',
     'ui.bootstrap',
     'ui.bootstrap.datetimepicker',
     'osemFilters',
@@ -44,7 +45,23 @@ angular
         url: '',
         controller: 'MapController',
         controllerAs: 'map',
-        templateUrl: 'views/explore2.map.html'
+        templateUrl: 'views/explore2.map.html',
+        resolve: { /* @ngInject */
+          boxes: function (OpenSenseMapAPI, ngProgressFactory) {
+            var progressbar = ngProgressFactory.createInstance();
+            progressbar.setColor('#4EAF47');
+            progressbar.start();
+            return OpenSenseMapAPI.getBoxes({params: {classify: true}})
+              .then(function (data) {
+                progressbar.complete();
+                return data;
+              })
+              .catch(function (error) {
+                progressbar.complete();
+                return new Error('Could not resolve getBoxes() on explore.map.');
+              });
+          }
+        }
       })
       .state('explore.map.sidebar', {
         url: 'explore',

@@ -5,15 +5,14 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI'];
+  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI', 'boxes'];
 
-  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI) {
+  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI, boxes) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showClustering = true;
     vm.showLegend = false;
     vm.cssClass = '';
-    vm.loaded = false;
 
     vm.mapMarkers = {};
     // the following get filled from childscope sidebar.boxdetails.js
@@ -38,22 +37,17 @@
     ////
 
     function activate () {
-      vm.loadingCaption = 'Loading senseBoxes...'
-      return OpenSenseMapAPI.getBoxes({params: {classify: true}})
-        .then(function (data) {
-          vm.loadingCaption = 'Classifying markers...'
-          return OpenSenseMapData.setMarkers(data)
-            .then(function (response) {
-              vm.mapMarkers = response;
-              vm.loaded = true;
-            })
-            .catch(function (error) {
-              console.error(error);
-            });
-      })
-      .catch(function (error) {
-        return new Error('Could not resolve getBoxes() on explore.map.');
-      });
+      if (boxes instanceof Error) {
+        $state.go('explore.map.sidebar.error');
+        return;
+      }
+      return OpenSenseMapData.setMarkers(boxes)
+        .then(function (response) {
+          vm.mapMarkers = response;
+        })
+        .catch(function (error) {
+          console.error(error);
+        });
     }
 
     function createLegendFromTemplate (templateURI, clickHandler) {
@@ -159,7 +153,7 @@
 
     $scope.$on('osemMarkerClick.map_main', function (e, args) {
       $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.station._id });
-    })
+    });
 
     $scope.$on('markersChanged', function (data) {
       vm.mapMarkers = OpenSenseMapData.getMarkers();

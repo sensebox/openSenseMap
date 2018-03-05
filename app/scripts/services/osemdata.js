@@ -39,23 +39,28 @@
     }
 
     function setMarkers (data, classification) {
+      if (angular.isUndefined(classification)) {
+        classification = true;
+      }
       var deferred = $q.defer();
-      setTimeout(function () {
-        var newMarkers = {};
-        var classifiedMarker;
-        classifiedMarker =  data.map(classify);
+      var newMarkers = {};
+      var classifiedMarker;
+      if (classification) {
+        classifiedMarker = data.map(classify);
+      } else {
+        classifiedMarker = data;
+      }
 
-        if (classifiedMarker) {
-          for (var i = classifiedMarker.length - 1; i >= 0; i--) {
-            var id = makeid();
-            newMarkers[id] = classifiedMarker[i];
-          }
-          markers = newMarkers;
-          deferred.resolve(markers);
-        } else {
-          deferred.reject('Error while classifying markers');
+      if (classifiedMarker) {
+        for (var i = classifiedMarker.length - 1; i >= 0; i--) {
+          var id = makeid();
+          newMarkers[id] = classifiedMarker[i];
         }
-      }, 50);
+        markers = newMarkers;
+        deferred.resolve(markers);
+      } else {
+        deferred.reject('Error while classifying markers');
+      }
       return deferred.promise;
     }
 

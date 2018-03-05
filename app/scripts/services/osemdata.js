@@ -14,7 +14,8 @@
       makeMarkerOptions: classify,
       getMarkers: getMarkers,
       setMarkers: setMarkers,
-      getMarker: getMarker
+      getMarker: getMarker,
+      justSetMarkers: justSetMarkers
     };
 
     return service;
@@ -31,6 +32,10 @@
           return markers[box];
         }
       }
+    }
+
+    function justSetMarkers (data) {
+      markers = data;
     }
 
     function setMarkers (data, classification) {

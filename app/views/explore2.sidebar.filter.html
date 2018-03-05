@@ -6,74 +6,112 @@
   <div class="input-group">
     <label for="inputFilterDate">{{ "FILTER_TIMEFRAME" | translate }} </label>
 
-    <p class="input-group">
-      <input uib-datepicker-popup ng-model="filter.inputFilter.DateFrom" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened1"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateFrom) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_STARTINGDATE' | translate}}" />
-      <span class="input-group-btn">
-        <button id="datepicker1" type="button" class="btn btn-default" ng-click="filter.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-      </span>
-    </p>
-    <p class="input-group">
-      <input uib-datepicker-popup ng-model="filter.inputFilter.DateTo" type="text" class="form-control" datepicker-popup="yyyy-MM-dd" is-open="filter.opened2"  datepicker-options="dateOptions" date-disabled="disabled(date, mode)" current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}" clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"  close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}" ng-change="(filter.inputFilter.DateTo) ? filter.needsRefresh=true : filter.needsRefresh=false" placeholder="{{ 'DATEPICKER_ENDINGDATE' | translate}}" />
-      <span class="input-group-btn">
-        <button id="datepicker2" type="button" class="btn btn-default" ng-click="filter.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-      </span>
-    </p>
-  </div>
-  <button class="btn btn-info" ng-click="filter.endingDate(1)">{{ "DOWNLOAD_LAST24HOURS" | translate }}</button>
-  <button class="btn btn-info" ng-click="filter.endingDate(7)">{{ "DOWNLOAD_LASTWEEK" | translate }}</button>
-  <button class="btn btn-info" ng-click="filter.endingDate(30)">{{ "DOWNLOAD_LASTMONTH" | translate }}</button>
-  <button ng-disabled="filter.loading" ng-show="filter.inputFilter.DateFrom && filter.inputFilter.DateTo" class="btn btn-info" ng-click="filter.performFilter();">{{"SAF_APPLY"|translate}}</button>
+    <osem-calendar
+      osem-placeholder-text-start-date="{{ 'DATEPICKER_STARTINGDATE' | translate}}"
+      osem-placeholder-text-end-date="{{ 'DATEPICKER_ENDINGDATE' | translate}}"
+      osem-current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}"
+      osem-clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"
+      osem-close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}"
+      osem-start-date="filter.inputFilter.DateFrom"
+      osem-end-date="filter.inputFilter.DateTo"
+      osem-on-clear="filter.resetFilter()"
+      osem-on-range-set="filter.performTimeFilter()">>
+    </osem-calendar>
   <hr/>
   <div class="alert alert-info" role="alert">
     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-    Die Live-Suche bezieht sich auf die unten aufgelisteten Ergebnisse.
+    {{"SAF_LIVE_SEARCH"|translate}}
   </div>
-  <div class="input-group xxxl">
-    <label for="inputFilterName">{{ "BOX_NAME" | translate }}</label>
-    <input id="inputFilterName" type="text" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Name" aria-label="Search" ng-change="filter.liveSearch()">
+  <div class="alert alert-warning" role="alert" ng-if="filter.needsRefresh">
+    <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+    Please refresh the live filter. <a ng-click="filter.refreshLiveFilter();">Refresh</a>
   </div>
-  <div class="input-group xxxl">
-    <label for="inputFilterGrouptag">{{ "GROUP" | translate }}</label>
-    <select id="inputFilterGrouptag" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Grouptag" ng-change="filter.liveSearch()">
-      <option value=""></option>
-      <option ng-repeat="m in filter.filteredMarkers | uniqueGrouptags | orderBy:m">{{ m }}</option>
-    </select>
-  </div>
-  <div class="input-group xxxl">
-    <label for="inputFilterExposure">{{ "BOX_EXPOSURE" | translate }}</label>
-    <select id="inputFilterExposure" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Exposure" ng-change="filter.liveSearch()">
-      <option value="">{{'STATION_PLACEMENT_ALL'|translate}}</option>
-      <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
-      <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
-      <option value="mobile">{{'STATION_PLACEMENT_MOBILE'|translate}}</option>
-    </select>
-  </div>
-  <div class="input-group xxxl">
-    <label for="inputFilterPhenomenon">{{ "CONFIG_PHENOMENON" | translate }}</label>
-    <select id="inputFilterPhenomenon" style="border-radius: 4px;" class="form-control" ng-model="filter.inputFilter.Phenomenon" ng-change="filter.checkPhenomNeedsRefresh()">
-      <option value=""></option>
-      <option ng-repeat="m in filter.filteredMarkers | uniquePhenomenons | orderBy:m">{{ m }}</option>
-    </select>
-  </div>
-  <div class="input-group">
-    <br/>
-    <div uib-alert class="alert-info" ng-show="filter.needsRefresh">
-      {{ "SAF_HELP" | translate }}
+  <form>
+    <div class="form-group">
+      <label for="boxName">{{"BOX_NAME"|translate}}</label>
+      <div class="input-group xxxl">
+        <input type="text" class="form-control" id="boxName" ng-model="filter.inputFilter.Name" ng-change="filter.liveSearch('box')">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="filter.reset('name');">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </span>
+      </div>
     </div>
-    <button ng-disabled="filter.loading" class="btn btn-warning" ng-click="filter.resetFilter();">
-      {{"SAF_RESET"|translate}}
-    </button> <br/><br/>
-    <div uib-alert class="alert-warning" ng-show="filter.loading">
-      {{"PLEASE_WAIT_DATA"|translate}} <i class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+    <div class="form-group">
+      <label for="groupTag">{{"GROUP"|translate}}</label>
+      <div class="input-group xxxl">
+        <select id="groupTag" class="form-control" ng-model="filter.inputFilter.Grouptag" ng-change="filter.liveSearch('box')">
+          <option ng-repeat="m in filter.liveFilteredMarkers | uniqueGrouptags | orderBy:m">{{ m }}</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="filter.reset('group');">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </span>
+      </div>
     </div>
-  </div>
-	<div class="row">
-		<hr/>
-		<!-- <div class="col-xs-12 col-md-12"> -->
-		  <h4>{{"RESULTS"|translate}} ({{(filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}).length}})</h4>
-		  <!-- <div uib-alert class="alert-info" ng-show="((filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}).length == 0) && !filter.loading">{{"NO_RESULTS"|translate}}</div>
-		  <div ng-repeat="m in filter.filteredMarkers | toArray:false | filter:{layer:'!hidden'}" class="row">
-			 <a ui-sref="explore.map.boxdetails({ id: m.station.id })"><i ng-class="m.layer" class="filter-entry fa fa-cube"></i> {{ m.station.name }}</a>
-		  </div> -->
+    <div class="form-group">
+      <label for="boxVendor">{{"BOX_MODEL"|translate}}</label>
+      <div class="input-group xxxl">
+        <select id="boxVendor"class="form-control" ng-model="filter.inputFilter.vendor" ng-change="filter.liveSearch('box')">
+          <option value="home">senseBox</option>
+          <option value="luftdaten">Luftdaten.info</option>
+          <option value="custom">Custom</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="filter.reset('vendor');">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="boxExposure">{{"BOX_EXPOSURE"|translate}}</label>
+      <div class="input-group xxxl">
+        <select id="boxExposure" class="form-control" ng-model="filter.inputFilter.Exposure" ng-change="filter.liveSearch('box')">
+          <option value="">{{'STATION_PLACEMENT_ALL'|translate}}</option>
+          <option value="indoor">{{'STATION_PLACEMENT_INDOOR'|translate}}</option>
+          <option value="outdoor">{{'STATION_PLACEMENT_OUTDOOR'|translate}}</option>
+          <option value="mobile">{{'STATION_PLACEMENT_MOBILE'|translate}}</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="filter.reset('exposure');">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phenomenon">{{"CONFIG_PHENOMENON"|translate}}</label>
+      <div class="input-group xxxl">
+        <select id="phenomenon" class="form-control" ng-model="filter.inputFilter.Phenomenon" ng-change="filter.liveSearch('phenomenon')">
+          <option value=""></option>
+          <option ng-repeat="m in filter.liveFilteredMarkers | uniquePhenomenons | orderBy:m">{{ m }}</option>
+        </select>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" ng-click="filter.reset('phenomenon');">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+          </button>
+        </span>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="row" style="padding-left: 0px; padding-right: 0px; margin-top: 25px;">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left: 0px; padding-right: 0px;">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; padding-right: 0px;">
+      <h3 style="margin-top: 0px; margin-bottom: 0px;">
+        <span class="label label-default" ng-hide="filter.loading">{{"RESULTS"|translate}} ({{filter.results}})</span>
+        <span class="label label-default" ng-show="filter.loading">Loading...</span>
+      </h3>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left: 0px; padding-right: 0px;">
+      <div class="input-group xxxl">
+        <button ng-disabled="filter.loading" class="btn btn-warning xxxl" ng-click="filter.resetFilter();">
+          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> {{"SAF_RESET"|translate}}
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -170,6 +170,9 @@
               marker.on('dragend', onMarkerDragend);
             }
           }
+          setTimeout(function () {
+            scope.$apply();
+          });
         }
       }
 

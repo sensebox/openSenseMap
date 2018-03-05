@@ -80,9 +80,13 @@
     function activate () {
       if (angular.isUndefined(vm.osemStartDate) || angular.equals({}, vm.osemStartDate)) {
         vm.textStartDate = vm.osemPlaceholderTextStartDate;
+      } else {
+        vm.textStartDate = moment(vm.osemStartDate).format('L');
       }
       if (angular.isUndefined(vm.osemEndDate) || angular.equals({}, vm.osemEndDate)) {
         vm.textEndDate = vm.osemPlaceholderTextEndDate;
+      } else {
+        vm.textEndDate = moment(vm.osemEndDate).format('L');
       }
     }
 

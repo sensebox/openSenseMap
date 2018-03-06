@@ -166,6 +166,8 @@
         } else if (angular.isDefined(sensor.lastMeasurement)) {
           var params = {};
           params.toDate = sensor.lastMeasurement.createdAt;
+        } else {
+          return;
         }
 
         performFilter(sensor, params);

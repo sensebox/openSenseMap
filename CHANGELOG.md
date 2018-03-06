@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/sensebox/openSenseMap/compare/v1.1.0...v1.2.0) (2018-03-06)
+
+
+### Bug Fixes
+
+* **calendar:** set dates ([64a009f](https://github.com/sensebox/openSenseMap/commit/64a009f))
+* **login:** emit loggedIn event ([793bca6](https://github.com/sensebox/openSenseMap/commit/793bca6))
+* **sidebar:** Show mobile box trajectory ([59d4ab7](https://github.com/sensebox/openSenseMap/commit/59d4ab7)), closes [#249](https://github.com/sensebox/openSenseMap/issues/249)
+
+
+### Features
+
+* **badge:** refresh own badge click ([4742a4f](https://github.com/sensebox/openSenseMap/commit/4742a4f)), closes [#258](https://github.com/sensebox/openSenseMap/issues/258)
+* **navbar:** Change navbar for mobile devices ([fd4116b](https://github.com/sensebox/openSenseMap/commit/fd4116b))
+* **sidebar.box:** add edit icon ([aa6a94f](https://github.com/sensebox/openSenseMap/commit/aa6a94f)), closes [#258](https://github.com/sensebox/openSenseMap/issues/258)
+
+
+### Performance Improvements
+
+* **map data:** use different for loop ([305def6](https://github.com/sensebox/openSenseMap/commit/305def6))
+* **page:** remove resolve from state ([49bf93f](https://github.com/sensebox/openSenseMap/commit/49bf93f))
+
+
+### Reverts
+
+* **map:** revert loading ([8247e53](https://github.com/sensebox/openSenseMap/commit/8247e53))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/sensebox/openSenseMap/compare/v1.0.0...v1.1.0) (2018-02-14)
 

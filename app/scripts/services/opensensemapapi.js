@@ -47,13 +47,13 @@
 
     function getData (data) {
       var query = $httpParamSerializer(data);
-      var url = encodeURI(getUrl() + '/boxes/data?' + query)
+      var url = getUrl() + '/boxes/data?' + query;
       $window.open(url, '_blank');
     }
 
     function getStatisticalData (data) {
       var query = $httpParamSerializer(data);
-      var url = encodeURI(getUrl() + '/statistics/descriptive?' + query)
+      var url = getUrl() + '/statistics/descriptive?' + query;
       $window.open(url, '_blank');
     }
 

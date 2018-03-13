@@ -44,7 +44,11 @@
       <option ng-repeat="m in download.markersFiltered | uniquePhenomenons | orderBy:m">{{ m }}</option>
     </select>
     <br>
-    <label>{{"COLUMNS"|translate}}</label>
+    <div class = "toggle">
+
+    <button type="button" class="btn btn-default" ng-click="isCollapsedHorizontal = !isCollapsedHorizontal">Columns</button>
+  <div class="horizontal-collapse" uib-collapse="isCollapsedHorizontal" horizontal>
+  <br>
     <div class="row">
       <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
         <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
@@ -133,15 +137,28 @@
         </div>
       </div>
     </div>
+  </div>
+</div>
+</div>
     <br>
-    <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
-    <br>
+    <div class = "togg">
+    <button type="button" class="btn btn-default" ng-click="CollapsedHorizontal = !CollapsedHorizontal">Select file format</button>
+    <div class="horizontal-collapse" uib-collapse="CollapsedHorizontal" horizontal>
     <div class="radio radio-success">
-      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="CSV" checked="">
+      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="csv" checked="">
+        &nbsp;&nbsp;&nbsp;
       <label for="formatCSV">
-          CSV
-      </label>
+          CSV  &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;  </label>
+
+      <input type="radio" ng-model="download.downloadform.format" name="formatJSON" id="formatJSON" value="json" checked="" >
+      <label for="formatJSON">
+          JSON   &nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp;  </label>
+
     </div>
+</div>
+</div>
   <br>
   <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
   <div uib-alert class="alert-warning">

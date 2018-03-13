@@ -16,6 +16,7 @@
     };
     vm.downloadform = {
       format: 'CSV',
+      format: 'JSON',
       pleaseWait: false,
       emptyData: false,
       errorOccured: false
@@ -97,7 +98,8 @@
         'from-date': vm.inputFilter.DateFrom.toISOString(),
         phenomenon: vm.inputFilter.Phenomenon,
         columns: columns.join(','),
-        download: true
+        download: true,
+        format: vm.downloadform.format
       };
 
       if (vm.inputFilter.window === 'raw') {
@@ -123,7 +125,9 @@
 
     ////
 
+
     $scope.$on('osemMapReady', function () {
+
       osemMapData.getMap('map_main')
         .then(function (map) {
           vm.map = map;

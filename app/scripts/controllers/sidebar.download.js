@@ -16,7 +16,7 @@
     };
     vm.downloadform = {
       format: 'CSV',
-      format: 'JSON',
+      format: 'JSON'
       pleaseWait: false,
       emptyData: false,
       errorOccured: false

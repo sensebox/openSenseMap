@@ -39,14 +39,98 @@
                   </div>
                 </span>
               </div>
-              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="border-right: 1px solid #e1e4e8;">
                 <div class="row">
-                  <span class="sensor-details" ng-hide="sensor.editing">
+                  <span class="sensor-details" ng-hide="sensor.editing || sensor.measurementsediting">
                     <strong style="display: block;">{{'CONFIG_PHENOMENON'|translate}}: {{ sensor.title }}</strong>
                     <strong>ID: </strong><code>{{sensor._id}}</code>
                     <strong style="display: block;">{{'CONFIG_UNIT'|translate}}: {{sensor.unit}}</strong>
                     <strong style="display: block;">{{'CONFIG_TYPE'|translate}}: {{sensor.sensorType}}</strong>
                   </span>
+                  <div style="padding-right: 15px;" ng-show="sensor.measurementsediting">
+                    <div class="row">
+                    <strong>{{'CONFIG_PHENOMENON'|translate}}:</strong> <code style="border-right: 1px solid #e1e4e8;">{{ sensor.title }}</code>
+                    <strong>ID: </strong><code style="border-right: 1px solid #e1e4e8;">{{sensor._id}}</code>
+                    <strong style="border-right: 1px solid #e1e4e8";>{{'CONFIG_UNIT'|translate}}: </strong><code style="border-right: 1px solid #e1e4e8;"> {{sensor.unit}} </code>
+                    <strong>{{'CONFIG_TYPE'|translate}}: </strong> <code style="border-right: 1px solid #e1e4e8;"> {{sensor.sensorType}} </code>
+                    <hr>
+                      <form>
+
+                        <p>Select your deleting options:</p>
+
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-right: 1px solid #e1e4e8;border-bottom: 1px solid #e1e4e8;">
+                        <input type="radio" ng-model="sensors.deleteOptions" value="fromToDate"> Select two dates and delete all measuerements between these dates.
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-right: 1px solid #e1e4e8;border-bottom: 1px solid #e1e4e8;">
+                        <input type="radio" ng-model="sensors.deleteOptions" value="timestamps"> Select several time- stamps of measurements you want to delete.
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="border-bottom: 1px solid #e1e4e8;">
+                        <input type="radio" ng-model="sensors.deleteOptions" value="deleteAll"> Select to enable deletion off all measurements from this sensor.
+                        </div>
+                      </form>
+                    </div>
+                    
+                    <div class="row">
+                      <div ng-switch="sensors.deleteOptions">
+
+                        <div ng-switch-when="fromToDate">   
+                          
+                          <label for="deletePickerStart">{{'INTERP_TIMESTAMPBEGIN'|translate}}</label>
+                            <div class="input-group">
+                              <input id="deletePickerStart" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="sensors.settings.deletePickerStart.date" is-open="sensors.settings.deletePickerStart.open" button-bar="sensors.settings.deletePickerStart.buttonBar" timepicker-options="sensors.settings.deletePickerStart.timepickerOptions" datepicker-options="sensors.settings.deletePickerStart.datepickerOptions" />
+                              <span class="input-group-btn">
+                                <button type="button" class="btn btn-default" ng-click="sensors.openCalendar($event, 'deletePickerStart')"><i class="fa fa-calendar"></i></button>
+                              </span>
+                            </div>
+
+                            <label for="deletePickerEnd">{{'INTERP_TIMESTAMPEND'|translate}}</label>
+                              <div class="input-group">
+                                <input id="deletePickerEnd" type="text" class="form-control" datetime-picker="dd/MM/yyyy HH:mm" ng-model="sensors.settings.deletePickerEnd.date" is-open="sensors.settings.deletePickerEnd.open" button-bar="sensors.settings.deletePickerEnd.buttonBar" timepicker-options="sensors.settings.deletePickerEnd.timepickerOptions" datepicker-options="sensors.settings.deletePickerEnd.datepickerOptions" />
+                                <span class="input-group-btn">
+                                  <button type="button" class="btn btn-default" ng-click="sensors.openCalendar($event, 'deletePickerEnd')"><i class="fa fa-calendar"></i></button>
+                                </span>
+                              </div>
+
+                          
+                        </div>
+                        <div ng-switch-when="timestamps">
+                          <!-- <osem-calendar
+                            ng-if="sensor.chart.done"
+                            osem-placeholder-text-start-date="{{ 'DATEPICKER_STARTINGDATE' | translate}}"
+                            osem-placeholder-text-end-date="{{ 'DATEPICKER_ENDINGDATE' | translate}}"
+                            osem-current-text="{{ 'DATEPICKER_CURRENTTEXT' | translate }}"
+                            osem-clear-text="{{ 'DATEPICKER_CLEARTEXT' | translate }}"
+                            osem-close-text="{{ 'DATEPICKER_CLOSETEXT' | translate }}"
+                            osem-start-date="sensor.chart.fromDate"
+                            osem-end-date="sensor.chart.toDate"
+                            osem-on-clear="details.resetFilter(sensor)"
+                            osem-on-range-set="details.performFilter(sensor)">
+                          </osem-calendar>
+ -->
+                           <osem-charts
+                            ng-if="sensor.chart.done"
+                            chart-data="sensor.chart.data"
+                            selected-measurement="sensor.chart.selectedMeasurement"
+                            y-axis-title="sensor.chart.yAxisTitle"
+                            tooltip-placeholder="{{ 'CHART_TOOLTIP_PLACEHOLDER' | translate }}">
+                          </osem-charts>
+                          Select timestamps of measurements you want to delete:
+                          <form ng-submit="sensors.addTimestamp()">
+                            <input type="text" placeholder="YYYY-MM-DDTHH:MM:SS.IIIZ" ng-model="sensors.timestampName">
+                            <button class="btn btn-primary" type="submit">Add</button>
+                            <ul>
+                              <li ng-repeat="timestamp in sensors.timestamps">
+                                {{ timestamp.name }}
+                              </li>
+                            </ul>
+                          </form>
+                        </div>
+                        <div ng-switch-when="deleteAll">
+                          <div uib-alert class="alert-warning"> Attention! If you choose this option you're going to delete ALL MEASUREMENTS from this sensor!</div>
+                        </div>
+                      </div>
+                    </div> 
+                  </div>
                   <div style="padding-right: 15px;" ng-show="sensor.editing">
                     <form>
                       <div class="form-group" ng-class="{ 'has-error' : sensorSettings.phenomenom{{sensor._id}}.$invalid, 'has-success' : sensorSettings.phenomenom{{sensor._id}}.$valid && sensor.title!='' }">
@@ -66,18 +150,27 @@
                 </div>
               </div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                <span class="sensor-details" style="height: 90px;" ng-hide="sensor.editing">
+                <span class="sensor-details" style="height: 90px;" ng-hide="sensor.editing || sensor.measurementsediting">
+                  
                   <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">{{'EDIT_CHANGESENSORS_DELETE_SENSOR'|translate}}</span>
+
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.undo(sensor)" ng-show="sensor.deleted">
                     <span class="fa fa-undo"></span> {{'UNDO'|translate}}
                   </button>
-                  <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.editSensor(sensor)" ng-show="!sensor.editing && !sensor.deleted">
+
+                  <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.editSensor(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
                     <span class="glyphicon glyphicon-edit"></span> {{'EDIT'|translate}}
                   </button>
-                  <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteSensor(sensor)" ng-show="!sensor.editing && !sensor.deleted">
-                    <span class="glyphicon glyphicon-trash"></span> {{'DELETE'|translate}}
+                  
+                  <button type="button" class="btn btn-xs btn-success" style="display: block;" ng-click="sensors.editMeasurements(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
+                    <span class="glyphicon glyphicon-trash"></span> Edit Measurements
                   </button>
+
+                  <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteSensor(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
+                    <span class="glyphicon glyphicon-trash"></span> {{'DELETE'|translate}}
+                  </button> 
                 </span>
+                
                 <span class="sensor-details" style="height: 222px;" ng-show="sensor.editing">
                     <span style="background-color:#d9534f;color:white" ng-show="sensorSettings.$invalid">{{'FORM_INVALID'|translate}}</span>
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.saveSensor(sensor)" ng-disabled="sensorSettings.$invalid">
@@ -85,6 +178,15 @@
                   </button>
                   <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.cancelSensor(sensor)">
                     <span class="glyphicon glyphicon-remove"></span> {{'CANCEL'|translate}}
+                  </button>
+                </span>
+
+                <span class="sensor-details" style="height: 222px;" ng-show="sensor.measurementsediting">
+                  <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteMeasurements(sensor)">
+                    <span class="glyphicon glyphicon-trash"></span> Delete Measurements
+                  </button>
+                  <button type="button" class="btn btn-xs btn-warning" style="display: block;" ng-click="sensors.cancelSensor(sensor)">
+                    <span class="fa fa-undo"></span> Return 
                   </button>
                 </span>
               </div>

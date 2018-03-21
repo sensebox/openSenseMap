@@ -24,6 +24,7 @@
       updateBox: updateBox,
       confirmEmail: confirmEmail,
       deleteBox: deleteBox,
+      deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount
     };
@@ -184,6 +185,21 @@
           data: data,
           headers: {
             'Content-type': 'application/json;charset=utf-8'
+          }
+        })
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function deleteMeasurement (boxId, sensorId, data) {
+      return $http.delete(app.API_URL + '/boxes/' + boxId + '/' + sensorId + '/measurements',
+        {
+          data: data,
+          auth: true,
+          headers: {
+            'Content-type': 'application/json; charset=utf-8'
           }
         })
         .then(function (response) {

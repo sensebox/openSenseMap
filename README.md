@@ -32,6 +32,7 @@ See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
 
 ### Services
 - [openSenseMap Backend](https://github.com/sensebox/openSenseMap-API)
+- [openSenseMap translations](https://github.com/sensebox/openSenseMap-i18n)
 
 ### Deployment
 - [OSeM-compose](https://github.com/sensebox/OSeM-compose)

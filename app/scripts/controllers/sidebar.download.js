@@ -14,8 +14,15 @@
       window: 'raw',
       operation: 'arithmeticMean'
     };
+
     vm.downloadform = {
       format: 'CSV',
+      pleaseWait: false,
+      emptyData: false,
+      errorOccured: false
+    };
+    vm.downloadformat = {
+      format: 'JSON',
       pleaseWait: false,
       emptyData: false,
       errorOccured: false
@@ -78,7 +85,40 @@
       }
     }
 
-    function dataDownload () {
+    function dataDownloadCSV () {
+      vm.downloadform.pleaseWait = true;
+      var boxids = getBoxIdsFromBBox(vm.map);
+      var columns = [];
+      for (var key in vm.columns) {
+        if (vm.columns.hasOwnProperty(key)) {
+          var element = vm.columns[key];
+          if (element !== '') {
+            columns.push(element)
+          }
+        }
+      }
+      var params = {
+        boxid: boxids.join(','),
+        'to-date': vm.inputFilter.DateTo.toISOString(),
+        'from-date': vm.inputFilter.DateFrom.toISOString(),
+        phenomenon: vm.inputFilter.Phenomenon,
+        columns: columns.join(','),
+        download: true,
+        format: vm.downloadform.format,
+
+      };
+
+      if (vm.inputFilter.window === 'raw') {
+        params.columns = columns;
+        OpenSenseMapAPI.getData(params);
+      } else {
+        params.window = vm.inputFilter.window;
+        params.operation = vm.inputFilter.operation;
+        OpenSenseMapAPI.getStatisticalData(params);
+      }
+    }
+
+    function dataDownloadJSON () {
       vm.downloadform.pleaseWait = true;
       var boxids = getBoxIdsFromBBox(vm.map);
       var columns = [];
@@ -98,18 +138,37 @@
         phenomenon: vm.inputFilter.Phenomenon,
         columns: columns.join(','),
         download: true,
-        format: vm.downloadform.format
+        format: vm.downloadformat.format,
+
       };
 
       if (vm.inputFilter.window === 'raw') {
         params.columns = columns;
-        OpenSenseMapAPI.getData(params);
+        var param =  JSON.stringify(params);
+        console.log(params);
+        OpenSenseMapAPI.getData(param);
       } else {
         params.window = vm.inputFilter.window;
         params.operation = vm.inputFilter.operation;
+        var param =  JSON.stringify(params);
         OpenSenseMapAPI.getStatisticalData(params);
       }
     }
+    function dataDownload(){
+
+      if (document.getElementById('formatJSON'))
+      {
+        dataDownloadJSON();
+      }
+      else {
+        if(document.getElementById('formatCSV')){
+        dataDownloadCSV();
+      }
+      else
+      return null;
+      }
+    }
+
 
     function getBoxIdsFromBBox (map){
       var boxids = [];

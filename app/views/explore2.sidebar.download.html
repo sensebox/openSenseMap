@@ -145,17 +145,17 @@
     <button type="button" class="btn btn-default" ng-click="CollapsedHorizontal = !CollapsedHorizontal">Select file format</button>
     <div class="horizontal-collapse" uib-collapse="CollapsedHorizontal" horizontal>
     <div class="radio radio-success">
-      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="csv" checked="">
+      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="csv" checked = "checked">
         &nbsp;&nbsp;&nbsp;
       <label for="formatCSV">
           CSV  &nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;  </label>
 
-      <input type="radio" ng-model="download.downloadform.format" name="formatJSON" id="formatJSON" value="json" checked="" >
+      <input type="radio" ng-model="download.downloadformat.format" name="formatJSON" id="formatJSON" value="json"  checked = "" >
       <label for="formatJSON">
           JSON   &nbsp;&nbsp;&nbsp;
       &nbsp;&nbsp;&nbsp;  </label>
- 
+
     </div>
 </div>
 </div>

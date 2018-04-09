@@ -16,7 +16,7 @@
     };
 
     vm.downloadform = {
-      format: '',
+      format: 'CSV',
       pleaseWait: false,
       emptyData: false,
       errorOccured: false
@@ -106,12 +106,12 @@
 
         params.columns = columns;
         console.log("columns :" + JSON.stringify(params));
-        OpenSenseMapAPI.getData(JSON.stringify(params));
+        OpenSenseMapAPI.getData(params);
       } else {
         params.window = vm.inputFilter.window;
         params.operation = vm.inputFilter.operation;
         console.log("columns :" + JSON.stringify(params));
-        OpenSenseMapAPI.getStatisticalData(JSON.stringify(params));
+        OpenSenseMapAPI.getStatisticalData(params);
       }
 
 }

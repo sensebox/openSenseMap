@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 
     env: {
       dev: {
-        OPENSENSEMAP_API_URL: 'https://api.osem.vo1d.space',
+        OPENSENSEMAP_API_URL: 'https://api.testing.opensensemap.org',
         OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       }
     },

@@ -9,6 +9,19 @@
 
   function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, osemMapData) {
     var vm = this;
+
+    vm.newModel = {
+      controller: null,
+      connection: null,
+      sensors: {
+        temp: false,
+        pressure: false,
+        light: false,
+        pollution: false
+      }
+    };
+
+    vm.radioModel = null;
     vm.stepTitle = '';
     vm.stepIndex = 0;
     vm.showNext = true;

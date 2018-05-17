@@ -276,9 +276,9 @@
 
       if (vm.modelSelected.id === 'homeV2') {
         vm.newSenseBox.sensorTemplates = [];
-        for (const key in vm.newModel.sensors) {
+        for (var key in vm.newModel.sensors) {
           if (vm.newModel.sensors.hasOwnProperty(key)) {
-            const element = vm.newModel.sensors[key];
+            var element = vm.newModel.sensors[key];
             if (element) {
               switch (key) {
                 case 'temp':

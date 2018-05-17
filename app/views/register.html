@@ -176,7 +176,7 @@
                         <div class="thumbnail">
                           <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525013086964-mcu_one_top.png" alt="">
                           <div class="caption">
-                            <h3>senseBox:home</h3>
+                            <h3>senseBox:home V2</h3>
                             <p>based on senseBox MCU</p>
                             <p>
                               <div class="radio radio-success">
@@ -309,6 +309,42 @@
                         </ul>
                     </div>
                   </div>
+                  <!-- <div class="row" ng-hide="register.newModel.controller === 'home' || register.newModel.controller === null">
+                    <div style="text-align: center;">
+                      <h3>Sicherheit</h3>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.deviceid.$invalid, 'has-success' :  senseboxForm.deviceid.$valid }">
+                          <label class="control-label">Device ID*</label>
+                          <input type="text" name="deviceid" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.id">
+                          <span ng-show="senseboxForm.deviceid.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.deviceid.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.devicesn.$invalid, 'has-success' :  senseboxForm.devicesn.$valid }">
+                          <label class="control-label">Device Serial number*</label>
+                          <input type="text" name="devicesn" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.sn">
+                          <span ng-show="senseboxForm.devicesn.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.devicesn.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.boxsecret.$invalid, 'has-success' :  senseboxForm.boxsecret.$valid }">
+                          <label class="control-label">Box secret*</label>
+                          <div class="input-group">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" type="button" ng-click="register.generateNewSecret()">
+                                <span class="glyphicon glyphicon-random"></span>
+                              </button>
+                            </span>
+                            <input type="text" name="boxsecret" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.secret" ng-readonly="true">
+                          </div>
+                          <span ng-show="senseboxForm.boxsecret.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.boxsecret.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse2">
                   <uib-accordion-heading>

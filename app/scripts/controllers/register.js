@@ -97,6 +97,7 @@
     vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
     vm.senseBoxSetupValid = senseBoxSetupValid;
+    vm.generateNewSecret = generateNewSecret;
 
     activate();
 
@@ -109,7 +110,21 @@
       $translate('STEP0').then(function (msg) {
         vm.stepTitle = msg;
       });
+
+      var possible = '0123456789';
+      var text = 0;
+
+      // generateNewSecret();
     }
+
+    function generateNewSecret () {
+      vm.newModel.security.secret = randomFixedInteger(16).toString(16).toUpperCase();
+    }
+
+    function randomFixedInteger (length) {
+      return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
+    }
+
 
     function isSenseBoxModel () {
       if (vm.modelSelected.id.startsWith('homeV2')) {

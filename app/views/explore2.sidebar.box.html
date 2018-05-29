@@ -15,7 +15,9 @@
       {{'BOX_BOXDETAILSINFO'|translate}}
     </div>
     <div class="thumbnail" ng-hide="!details.box.image && !details.box.description && !details.box.weblink">
-      <img id="image" ng-hide="(!details.box.image || details.box.image === '')" ng-src="{{ (details.box.image && details.box.image != '') && 'userimages/'+details.box.image }}" alt="Image for {{ details.box.name }}">
+      <a ng-href="{{ (details.box.image && details.box.image != '') && 'userimages/'+details.box.image }}" target="_blank">
+        <img id="image" ng-hide="(!details.box.image || details.box.image === '')" ng-src="{{ (details.box.image && details.box.image != '') && 'userimages/'+details.box.image }}" alt="Image for {{ details.box.name }}">
+      </a>
       <span ng-show="details.box.description && details.box.description != ''" style="white-space: pre-wrap;">{{ details.box.description }}</span>
       <span ng-show="details.box.weblink && details.box.weblink != ''"><br/><br/><a href="{{ details.box.weblink }}" target="_blank">{{ details.box.weblink }}</a></span>
     </div>

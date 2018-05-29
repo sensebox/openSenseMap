@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/sensebox/openSenseMap/compare/v1.2.2...v1.3.0) (2018-05-29)
+
+
+### Bug Fixes
+
+* **registration:** change const to var ([e2d3d4b](https://github.com/sensebox/openSenseMap/commit/e2d3d4b))
+
+
+### Features
+
+* **download:** Filter phenomenons ([04d190e](https://github.com/sensebox/openSenseMap/commit/04d190e)), closes [#267](https://github.com/sensebox/openSenseMap/issues/267)
+* **registration:** new mcu model ([c27bff1](https://github.com/sensebox/openSenseMap/commit/c27bff1))
+* **registration:** New senseBox MCU ([6b8ac68](https://github.com/sensebox/openSenseMap/commit/6b8ac68))
+* **sidebar:** Make image clickable ([2177476](https://github.com/sensebox/openSenseMap/commit/2177476)), closes [#183](https://github.com/sensebox/openSenseMap/issues/183)
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/sensebox/openSenseMap/compare/v1.2.1...v1.2.2) (2018-03-09)
 

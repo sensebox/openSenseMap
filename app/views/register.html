@@ -97,6 +97,7 @@
               </div>
             </div>
             <hr>
+            <!-- Location -->
             <div id="location">
               <div class="text-center">
                 <h1><small>{{ 'STEP2_SUB2' | translate }}</small></h1>
@@ -136,6 +137,7 @@
               </div>
             </div>
             <hr>
+            <!-- Hardware -->
             <div id="hardware">
               <div class="text-center">
                 <h1><small>{{ 'STEP2_SUB3' | translate }}</small></h1>
@@ -149,29 +151,200 @@
                   <uib-accordion-heading>
                     senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse1, 'glyphicon-chevron-right': !register.open.collapse1}"></i>
                   </uib-accordion-heading>
-                  <div class="radio radio-success">
-                    <input type="radio" name="model" id="sensebox-ethernet" value="homeEthernet" ng-model="register.modelSelected.id" required>
-                    <label for="sensebox-ethernet">
-                      senseBox:home (Ethernet)
-                    </label>
+                  <div class="row">
+                    <div style="text-align: center;">
+                      <h3>Microcontroller</h3>
+                      <hr>
+                      <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="thumbnail">
+                          <img src="/images/arduino-uno.png" alt="">
+                          <div class="caption">
+                            <h3>senseBox:home</h3>
+                            <p>based on Arduino/Genuino Uno</p>
+                            <p>
+                              <div class="radio radio-success">
+                                <input type="radio" name="model" id="home" value="home" ng-model="register.modelSelected.id" required>
+                                <label for="home">
+                                  Auswählen
+                                </label>
+                              </div>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="thumbnail">
+                          <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525013086964-mcu_one_top.png" alt="">
+                          <div class="caption">
+                            <h3>senseBox:home V2</h3>
+                            <p>based on senseBox MCU</p>
+                            <p>
+                              <div class="radio radio-success">
+                                <input type="radio" name="model" id="homeV2" value="homeV2" ng-model="register.modelSelected.id" required>
+                                <label for="homeV2">
+                                  Auswählen
+                                </label>
+                              </div>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="radio radio-success">
-                    <input type="radio" name="model" id="sensebox-wifi" value="homeWifi" ng-model="register.modelSelected.id" required>
-                    <label for="sensebox-wifi">
-                      senseBox:home (WiFi)
-                    </label>
+                  <div class="row" ng-show="register.isSenseBoxModel() !== ''">
+                    <div style="text-align: center;">
+                      <h3>Verbindungsart</h3>
+                      <hr>
+                      <div class="col-lg-6">
+                        <div class="radio radio-success">
+                          <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet" ng-model="register.newModel.connection" ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
+                          <label for="sensebox-ethernet">
+                            Ethernet
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-6">
+                        <div class="radio radio-success">
+                          <input type="radio" name="connection" id="sensebox-wifi" value="Wifi" ng-model="register.newModel.connection" ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
+                          <label for="sensebox-wifi">
+                            WiFi
+                          </label>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div uib-accordion-group class="panel-default" is-open="open.collapse6" is-disabled="register.isSenseBoxModel()">
-                  <uib-accordion-heading>
-                    senseBox:{{'EDIT_EXTENSIONS'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': open.collapse6, 'glyphicon-chevron-right': !open.collapse6}"></i>
-                  </uib-accordion-heading>
-                  <div class="checkbox checkbox-success checkbox-inline">
-                    <input type="checkbox" name="addon" id="extension1" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id">
-                    <label for="extension1">
-                      {{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}
-                    </label>
+                  <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2'">
+                    <div style="text-align: center;">
+                      <h3>Sensoren</h3>
+                      <ul class="sensor-list" style="border: none;">
+                        <li class="sensor-row" style="border-bottom: 1px solid #e1e4e8;">
+                          <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="tempSensor" ng-model="register.newModel.sensors.temp"></input>
+                                      <label for="tempSensor"> </label>
+                                    </div>
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <span style="vertical-align: middle;">Temperatur &amp; Luftfeuchtigkeit</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="pressureSensor" ng-model="register.newModel.sensors.pressure"></input>
+                                      <label for="pressureSensor"> </label>
+                                    </div>
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <span style="vertical-align: middle;">Luftdruck &amp; Temperatur</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="lightSensor" ng-model="register.newModel.sensors.light"></input>
+                                      <label for="lightSensor"> </label>
+                                    </div>
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <span style="vertical-align: middle;">Beleuchtungsstärke &amp; UV-Strahlung</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id"></input>
+                                      <label for="pollutionSensor"> </label>
+                                    </div>
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <span style="vertical-align: middle;">Feinstaub (PM10 &amp; PM2.5)</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTag">Anschluss</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTag" class="form-control" style="border-radius: 4px;" ng-model="register.newModel.serialPort">
+                                        <!---->
+                                        <option value="Serial1">Serial 1</option>
+                                        <option value="Serial2">Serial 2</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                    </div>
                   </div>
+                  <div class="row" ng-show="register.isSenseBoxModel() === 'home'">
+                    <div style="text-align: center;">
+                      <h3>{{'EDIT_EXTENSIONS'|translate}}</h3>
+                      <ul class="sensor-list" style="border: none;">
+                        <li class="sensor-row" style="border-bottom: 1px solid #e1e4e8;">
+                          <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="homeExtensionsFeinstaub" ng-true-value="'Feinstaub'" ng-false-value="''" ng-model="register.extensions.feinstaub.id"></input>
+                                      <label for="homeExtensionsFeinstaub"> </label>
+                                    </div>
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <span style="vertical-align: middle;">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                    </div>
+                  </div>
+                  <!-- <div class="row" ng-hide="register.newModel.controller === 'home' || register.newModel.controller === null">
+                    <div style="text-align: center;">
+                      <h3>Sicherheit</h3>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.deviceid.$invalid, 'has-success' :  senseboxForm.deviceid.$valid }">
+                          <label class="control-label">Device ID*</label>
+                          <input type="text" name="deviceid" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.id">
+                          <span ng-show="senseboxForm.deviceid.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.deviceid.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.devicesn.$invalid, 'has-success' :  senseboxForm.devicesn.$valid }">
+                          <label class="control-label">Device Serial number*</label>
+                          <input type="text" name="devicesn" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.sn">
+                          <span ng-show="senseboxForm.devicesn.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.devicesn.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: left;">
+                        <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.boxsecret.$invalid, 'has-success' :  senseboxForm.boxsecret.$valid }">
+                          <label class="control-label">Box secret*</label>
+                          <div class="input-group">
+                            <span class="input-group-btn">
+                              <button class="btn btn-default" type="button" ng-click="register.generateNewSecret()">
+                                <span class="glyphicon glyphicon-random"></span>
+                              </button>
+                            </span>
+                            <input type="text" name="boxsecret" class="form-control" ng-required="register.newModel.controller === 'homeV2'" ng-model="register.newModel.security.secret" ng-readonly="true">
+                          </div>
+                          <span ng-show="senseboxForm.boxsecret.$valid" class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                          <span ng-show="senseboxForm.boxsecret.$invalid" class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div> -->
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse2">
                   <uib-accordion-heading>
@@ -349,8 +522,8 @@
                     MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse4, 'glyphicon-chevron-right': !register.open.collapse4}"></i>
                   </uib-accordion-heading>
                   <div class="checkbox checkbox-success checkbox-inline">
-                    <input type="checkbox" id="checkbox0" ng-model="register.mqtt.enabled"></input>
-                    <label for="checkbox0">{{ 'MQTT_ENABLE' | translate }}</label>
+                    <input type="checkbox" id="enableMQTT" ng-model="register.mqtt.enabled"></input>
+                    <label for="enableMQTT">{{ 'MQTT_ENABLE' | translate }}</label>
                   </div>
 
                   <!-- MQTT URL -->
@@ -464,10 +637,14 @@
               <table class="table table-striped table-bordered">
                 <tbody>
                   <tr>
-                    <td style="width: 50%;">senseBox Model</td>
+                    <td style="width: 50%;">Hardware</td>
                     <td style="width: 50%;"><strong>{{register.modelSelected.name}}</strong></td>
                   </tr>
-                  <tr>
+                  <tr ng-hide="register.isSenseBoxModel() === ''">
+                      <td style="width: 50%;">Verbindungsart</td>
+                      <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
+                    </tr>
+                  <tr ng-hide="register.isSenseBoxModel() === 'homeV2' || register.isSenseBoxModel() ===''">
                       <td style="width: 50%;">senseBox {{'EDIT_EXTENSIONS'|translate}}</td>
                       <td style="width: 50%;"><strong ng-if="register.extensions.feinstaub.id !== ''">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</strong></td>
                     </tr>

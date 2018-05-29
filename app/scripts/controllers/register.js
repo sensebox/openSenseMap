@@ -9,6 +9,19 @@
 
   function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, osemMapData) {
     var vm = this;
+
+    vm.newModel = {
+      connection: null,
+      sensors: {
+        temp: false,
+        pressure: false,
+        light: false,
+        pollution: false
+      },
+      serialPort: 'Serial1'
+    };
+
+    // vm.radioModel = null;
     vm.stepTitle = '';
     vm.stepIndex = 0;
     vm.showNext = true;
@@ -84,6 +97,7 @@
     vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
     vm.senseBoxSetupValid = senseBoxSetupValid;
+    vm.generateNewSecret = generateNewSecret;
 
     activate();
 
@@ -96,14 +110,32 @@
       $translate('STEP0').then(function (msg) {
         vm.stepTitle = msg;
       });
+
+      var possible = '0123456789';
+      var text = 0;
+
+      // generateNewSecret();
     }
 
+    function generateNewSecret () {
+      vm.newModel.security.secret = randomFixedInteger(16).toString(16).toUpperCase();
+    }
+
+    function randomFixedInteger (length) {
+      return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
+    }
+
+
     function isSenseBoxModel () {
-      if (vm.modelSelected.id.startsWith('home')) {
-        return false;
+      if (vm.modelSelected.id.startsWith('homeV2')) {
+        return 'homeV2';
       }
 
-      return true;
+      if (vm.modelSelected.id.startsWith('home')) {
+        return 'home';
+      }
+
+      return '';
     }
 
     function setStepTitle() {
@@ -198,21 +230,18 @@
       sensor.icon = newIcon.name;
     };
 
-    function downloadArduino (boxId) {
-      AccountService.getScript(boxId)
+    function downloadArduino (boxId, model) {
+      var data = {};
+      if (model.startsWith('homeV2')) {
+        data.serialPort = vm.newModel.serialPort;
+      }
+      AccountService.getScript(boxId, data)
         .then(function (data) {
           vm.boxScript = data;
         })
         .catch(function (error) {
           //todo: display error and reload button
         });
-    };
-
-    $scope.open = {
-      collapse1: true,
-      collapse2: false,
-      collapse3: false,
-      collapse4: false
     };
 
     function completeRegistration () {
@@ -245,6 +274,37 @@
         vm.newSenseBox.model = vm.modelSelected.id;
       }
 
+      if (vm.modelSelected.id === 'homeV2') {
+        vm.newSenseBox.sensorTemplates = [];
+        for (var key in vm.newModel.sensors) {
+          if (vm.newModel.sensors.hasOwnProperty(key)) {
+            var element = vm.newModel.sensors[key];
+            if (element) {
+              switch (key) {
+                case 'temp':
+                  vm.newSenseBox.sensorTemplates.push('hdc1080');
+                  break;
+                case 'pressure':
+                  vm.newSenseBox.sensorTemplates.push('bmp280');
+                  break;
+                case 'light':
+                  vm.newSenseBox.sensorTemplates.push('veml6070');
+                  vm.newSenseBox.sensorTemplates.push('tsl45315');
+                  break;
+              }
+            }
+          }
+        }
+        if (vm.extensions.feinstaub.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('sds 011');
+          vm.newSenseBox.serialPort = vm.newModel.serialPort;
+        }
+      }
+
+      if (vm.newModel.connection) {
+        vm.newSenseBox.model = vm.newSenseBox.model + vm.newModel.connection;
+      }
+
       if (vm.extensions.feinstaub.id !== '') {
         vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
@@ -263,7 +323,7 @@
             vm.alerts.push(alert);
             vm.regSuccess = true;
           });
-          downloadArduino(data.data._id);
+          downloadArduino(data.data._id, data.data.model);
           vm.registeredSensors = data.data['sensors'];
           vm.completed = true;
           vm.stepIndex = 0;
@@ -391,6 +451,9 @@
         vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
         vm.sensorSetup = vm.modelSelected.id;
 
+        vm.newModel.connection = null;
+        vm.extensions.feinstaub.id = '';
+
         vm.invalidHardware = false;
 
         return;
@@ -399,6 +462,7 @@
       if (newValue.indexOf('luftdaten') === 0) {
         vm.sensorSetup = vm.modelSelected.id;
         vm.extensions.feinstaub.id = '';
+        vm.newModel.connection = null;
 
         var nameParts = newValue.split('_');
 
@@ -419,6 +483,7 @@
       if (newValue === 'custom') {
         vm.sensorSetup = '';
         vm.extensions.feinstaub.id = '';
+        vm.newModel.connection = null;
 
         vm.invalidHardware = false;
 

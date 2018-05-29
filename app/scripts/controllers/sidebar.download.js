@@ -46,6 +46,7 @@
     function activate () {
       Sidebar.setTitle('Download');
       vm.markersFiltered = OpenSenseMapData.getMarkers();
+      vm.downloadMarkers = vm.markersFiltered;
       vm.count = Object.keys(vm.markersFiltered).length;
 
       osemMapData.getMap('map_main')
@@ -113,9 +114,11 @@
     function getBoxIdsFromBBox (map){
       var boxids = [];
       var bbox = map.getBounds();
+      vm.downloadMarkers = [];
       angular.forEach(vm.markersFiltered, function(marker, key) {
         if (bbox.contains([marker.latLng[0],marker.latLng[1]])) {
           boxids.push(marker.station._id);
+          vm.downloadMarkers.push(marker);
         }
       });
       return boxids;

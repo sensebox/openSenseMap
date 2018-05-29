@@ -161,8 +161,8 @@
         .catch(failed);
     }
 
-    function getScript (boxId) {
-      return $http.get(app.API_URL + '/boxes/' + boxId + '/script', {auth: true})
+    function getScript (boxId, data) {
+      return $http.get(app.API_URL + '/boxes/' + boxId + '/script', {auth: true, params: data})
         .then(function (response) {
           return response.data;
         })

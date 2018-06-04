@@ -41,13 +41,6 @@
         $state.go('explore.map.sidebar.error');
         return;
       }
-      return OpenSenseMapData.setMarkers(boxes)
-        .then(function (response) {
-          vm.mapMarkers = response;
-        })
-        .catch(function (error) {
-          console.error(error);
-        });
     }
 
     function createLegendFromTemplate (templateURI, clickHandler) {
@@ -129,6 +122,18 @@
     }
 
     ////
+
+    $scope.$on('layerloaded', function (e, args) {
+      $timeout(function () {
+        return OpenSenseMapData.setMarkers(boxes)
+          .then(function (response) {
+            vm.mapMarkers = response;
+          })
+          .catch(function (error) {
+            console.error(error);
+          });
+      });
+    });
 
     $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
       vm.hoverlabel = {

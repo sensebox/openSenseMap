@@ -22,7 +22,7 @@
     ////
 
     function activate () {
-      OpenSenseMapAPI.getBox($stateParams.id)
+      return OpenSenseMapAPI.getBox($stateParams.id)
         .then(function (response) {
           vm.box = new Box(response);
           Sidebar.setTitle(vm.box.name);

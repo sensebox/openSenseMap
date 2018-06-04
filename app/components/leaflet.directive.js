@@ -101,13 +101,15 @@
         map.removeLayer(mapLayers['mouseOver']);
       });
 
-      L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
+      var baselayer = L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
         subdomains: 'abc',
         attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
         detectRetina: true,
         reuseTiles: true,
         maxZoom: 18
       }).addTo(map);
+
+      baselayer.on('load', layerLoaded);
 
       L.control.scale().addTo(map);
 
@@ -151,6 +153,12 @@
         scope.$watch('highlightedMeasurement', onHighlightWatch);
         $rootScope.$broadcast('osemMapReady', {});
       });
+
+      function layerLoaded () {
+        $rootScope.$broadcast('layerloaded', {});
+        $rootScope.$apply();
+        baselayer.off('load', layerLoaded);
+      }
 
       function onMarkersWatch (newVal, oldVal) {
         if (angular.isDefined(newVal) && !angular.equals({}, newVal)) {

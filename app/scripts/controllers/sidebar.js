@@ -53,7 +53,6 @@
         };
 
         if (isMobile.phone) {
-          console.log(leafletBottomContainer)
           leafletBottomContainer.setAttribute("style", "bottom: 50px;");
         }
       } else {

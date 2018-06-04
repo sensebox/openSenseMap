@@ -445,10 +445,6 @@ a:hover {
   background-color: #fff;
 }
 
-.leaflet-bottom.leaflet-left {
-  bottom: 40px;
-}
-
 .leaflet-control-my-location:hover {
   background-color: #f4f4f4;
 }

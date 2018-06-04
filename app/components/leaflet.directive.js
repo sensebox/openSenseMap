@@ -130,8 +130,10 @@
             break;
           }
         }
-        mapLayers['markerCluster'].removeLayer(marker);
-        mapLayers['selectedBoxMarker'].addLayer(marker);
+        if (marker) {
+          mapLayers['markerCluster'].removeLayer(marker);
+          mapLayers['selectedBoxMarker'].addLayer(marker);
+        }
       });
 
       scope.$on('boxDeselected', function (event, box) {

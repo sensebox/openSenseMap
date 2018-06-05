@@ -61,6 +61,7 @@
       } else {
         deferred.reject('Error while classifying markers');
       }
+
       return deferred.promise;
     }
 
@@ -78,26 +79,24 @@
       var origColor = color, layerName = state + 'Markers', opacity, zIndexOffset;
 
       switch (state) {
-        case 'active':
-          opacity = 1;
-          zIndexOffset = 200;
-          break;
-        case 'inactive':
-          opacity = 0.65;
-          zIndexOffset = 100;
-          color = 'dark' + color;
-          break;
-        case 'old':
-          opacity = 0.5;
-          zIndexOffset = 0;
-          color = 'lightgray';
-          break;
-        case 'hidden':
-          opacity = 0;
-          zIndexOffset = 300;
-          color = 'lightgray';
-        default:
-          break;
+      case 'active':
+        opacity = 1;
+        zIndexOffset = 200;
+        break;
+      case 'inactive':
+        opacity = 0.65;
+        zIndexOffset = 100;
+        color = 'dark' + color;
+        break;
+      case 'old':
+        opacity = 0.5;
+        zIndexOffset = 0;
+        color = 'lightgray';
+        break;
+      case 'hidden':
+        opacity = 0;
+        zIndexOffset = 300;
+        color = 'lightgray';
       }
 
       return {
@@ -127,12 +126,13 @@
       };
     }
 
-    function makeid() {
+    function makeid () {
       var text = '';
       var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      for( var i=0; i < 5; i++ ) {
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      for (var i = 0; i < 5; i++) {
+        text = text + possible.charAt(Math.floor(Math.random() * possible.length));
       }
+
       return text;
     }
 

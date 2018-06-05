@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -16,7 +16,7 @@
 
     ////////////////
 
-    function activate() {
+    function activate () {
     }
 
     function openChat () {

@@ -33,6 +33,7 @@
 
     function getUsersBoxes () {
       vm.boxes = [];
+
       return AccountService.getUsersBoxes()
         .then(function (boxes) {
           vm.boxes = boxes;

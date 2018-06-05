@@ -33,14 +33,13 @@
     function save () {
       var req = { ttn: angular.copy(vm.settings) };
       req.ttn.decodeOptions = JSON.parse(req.ttn.decodeOptions);
+
       return AccountService.updateBox(boxData._id, req)
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
-        .catch(function (error) {
-          console.log('ERROR RESPONSE');
-          console.log(error);
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
@@ -48,13 +47,15 @@
     ////
 
     // check if valid json for ttn decodeOptions
-    $scope.$watch('ttn.settings.decodeOptions', function(newValue) {
+    $scope.$watch('ttn.settings.decodeOptions', function (newValue) {
       if (!newValue.length) {
-        return vm.validTTNconfig = true;
+        vm.validTTNconfig = true;
+
+        return vm.validTTNconfig;
       }
       try {
         if (JSON.parse(vm.settings.decodeOptions).constructor !== Array) {
-          throw 'must be an array';
+          throw new Error('must be an array');
         }
         vm.validTTNconfig = true;
       } catch (e) {

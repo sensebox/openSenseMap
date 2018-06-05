@@ -17,18 +17,19 @@
     vm.legendTitle = '';
     vm.legendEntries = [];
     vm.settings = {
-      idwPower : 3,
-      cellWidth : 1,
-      numTimeSteps : 1,
-      exposure : 'outdoor',
+      idwPower: 3,
+      cellWidth: 1,
+      numTimeSteps: 1,
+      exposure: 'outdoor',
       layerGroup: undefined,
-      selectedPhenomenon : '',
-      minIDWPower : 1,
-      maxIDWPower : 9,
-      minNumTimeSteps : 1,
-      maxNumTimeSteps : 9,
+      selectedPhenomenon: '',
+      minIDWPower: 1,
+      maxIDWPower: 9,
+      minNumTimeSteps: 1,
+      maxNumTimeSteps: 9,
       interpolationPickerStart: {
-        date: moment().subtract(5, 'm').toDate(),
+        date: moment().subtract(5, 'm')
+          .toDate(),
         open: false,
         buttonBar: {
           show: false
@@ -69,7 +70,7 @@
         showTicks: true,
         hidePointerLabels: true,
         hideLimitLabels: true,
-        onChange: function(id, value) {
+        onChange: function (id, value) {
           changeSlider(value);
         }
       }
@@ -117,22 +118,19 @@
     function openCalendar (e, picker) {
       e.preventDefault();
       e.stopPropagation();
-      switch(picker) {
-        case 'interpolationPickerStart':
-          vm.settings.interpolationPickerStart.open = true;
-          break;
-        case 'interpolationPickerEnd':
-          vm.settings.interpolationPickerEnd.open = true;
-          vm.settings.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
-          vm.settings.interpolationPickerEnd.datepickerOptions.minDate = vm.settings.interpolationPickerStart.date;
-          vm.settings.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
-          vm.settings.interpolationPickerEnd.timepickerOptions.min = vm.settings.interpolationPickerStart.timepickerOptions.max;
-          $timeout(function () {
-            //TODO check jqLite
-            // angular.element('#interpolationPickerEnd').parent()[0].children[1].style.right = "0px";
-            // angular.element('#interpolationPickerEnd').parent()[0].children[1].style.left = "auto";
-          });
-          break;
+      switch (picker) {
+      case 'interpolationPickerStart':
+        vm.settings.interpolationPickerStart.open = true;
+        break;
+      case 'interpolationPickerEnd':
+        vm.settings.interpolationPickerEnd.open = true;
+        vm.settings.interpolationPickerEnd.datepickerOptions.maxDate = moment().toDate();
+        vm.settings.interpolationPickerEnd.datepickerOptions.minDate = vm.settings.interpolationPickerStart.date;
+        vm.settings.interpolationPickerEnd.timepickerOptions.max = moment().toDate();
+        vm.settings.interpolationPickerEnd.timepickerOptions.min = vm.settings.interpolationPickerStart.timepickerOptions.max;
+        $timeout(function () {
+        });
+        break;
       }
     }
 
@@ -143,15 +141,14 @@
     function changeIDWPower (number) {
       var newValue = vm.settings.idwPower + number;
       if (newValue >= vm.settings.minIDWPower && newValue <= vm.settings.maxIDWPower) {
-        vm.settings.idwPower += number;
+        vm.settings.idwPower = vm.settings.idwPower + number;
       }
     }
 
     function changeNumTimeSteps (number) {
-      console.log(number);
       var newValue = vm.settings.numTimeSteps + number;
       if (newValue >= vm.settings.minNumTimeSteps && newValue <= vm.settings.maxNumTimeSteps) {
-        vm.settings.numTimeSteps += number;
+        vm.settings.numTimeSteps = vm.settings.numTimeSteps + number;
       }
     }
 
@@ -183,6 +180,7 @@
       if (!angular.isUndefined(vm.map) && !angular.isUndefined(vm.layer)) {
         return true;
       }
+
       return false;
     }
 
@@ -201,41 +199,43 @@
           vm.map.removeLayer(vm.layer);
         }
         vm.map = map;
+
         return map.getBounds().toBBoxString();
-      }).then(function (bbox) {
-        var data = {
-          params: {
-            'phenomenon': vm.settings.selectedPhenomenon,
-            'from-date': moment(vm.settings.interpolationPickerStart.date).toISOString(),
-            'to-date': moment(vm.settings.interpolationPickerEnd.date).toISOString(),
-            'exposure': vm.settings.exposure,
-            'cellWidth': vm.settings.cellWidth,
-            'power': vm.settings.idwPower,
-            'numClasses': 6,
-            'bbox': bbox,
-            'numTimeSteps': vm.settings.numTimeSteps
-          }
-        };
-        OpenSenseMapAPI.idwInterpolation(data)
-          .then(function (response) {
-            if (response.code === 'NotFoundError') {
-              return response;
+      })
+        .then(function (bbox) {
+          var data = {
+            params: {
+              'phenomenon': vm.settings.selectedPhenomenon,
+              'from-date': moment(vm.settings.interpolationPickerStart.date).toISOString(),
+              'to-date': moment(vm.settings.interpolationPickerEnd.date).toISOString(),
+              'exposure': vm.settings.exposure,
+              'cellWidth': vm.settings.cellWidth,
+              'power': vm.settings.idwPower,
+              'numClasses': 6,
+              'bbox': bbox,
+              'numTimeSteps': vm.settings.numTimeSteps
             }
+          };
+          OpenSenseMapAPI.idwInterpolation(data)
+            .then(function (response) {
+              if (response.code === 'NotFoundError') {
+                return response;
+              }
 
-            vm.dates = [];
-            response.data.timesteps.forEach(function (element, index) {
-              vm.dates.push(new Date(element));
-              vm.featureCollections.push({type: 'FeatureCollection', features: []});
-            });
+              vm.dates = [];
+              response.data.timesteps.forEach(function (element) {
+                vm.dates.push(new Date(element));
+                vm.featureCollections.push({ type: 'FeatureCollection', features: [] });
+              });
 
-            vm.slider.value = vm.dates[0];
-            vm.slider.options.stepsArray = vm.dates;
-            vm.selectedTimeStep = vm.dates[0];
+              vm.slider.value = vm.dates[0];
+              vm.slider.options.stepsArray = vm.dates;
+              vm.selectedTimeStep = vm.dates[0];
 
-            vm.breaks = response.data.breaks;
+              vm.breaks = response.data.breaks;
 
-            // Set legend title
-            switch (vm.settings.selectedPhenomenon) {
+              // Set legend title
+              switch (vm.settings.selectedPhenomenon) {
               case 'Temperatur':
                 vm.legendTitle = vm.settings.selectedPhenomenon + ' in °C';
                 break;
@@ -251,73 +251,73 @@
               case 'UV-Intensität':
                 vm.legendTitle = vm.settings.selectedPhenomenon + ' in μW/cm²';
                 break;
-            }
-
-            // Generate legend
-            for (var j = 0; j < vm.breaks.length; j++) {
-              var caption = '';
-              if (j === vm.breaks.length-1) {
-                caption = '> ' + vm.breaks[j].toFixed(2);
-              } else {
-                caption = vm.breaks[j].toFixed(2) +' - '+ vm.breaks[j+1].toFixed(2);
               }
-              vm.legendEntries.push({
-                caption: caption,
-                style:{
-                  'background': vm.colors[j]
+
+              // Generate legend
+              for (var j = 0; j < vm.breaks.length; j++) {
+                var caption = '';
+                if (j === vm.breaks.length - 1) {
+                  caption = '> ' + vm.breaks[j].toFixed(2);
+                } else {
+                  caption = vm.breaks[j].toFixed(2) + ' - ' + vm.breaks[j + 1].toFixed(2);
+                }
+                vm.legendEntries.push({
+                  caption: caption,
+                  style: {
+                    'background': vm.colors[j]
+                  }
+                });
+              }
+
+              response.data.featureCollection.features.map(function (feature) {
+                for (var i = 0; i < feature.properties.idwValues.length; i++) {
+                  var newFeature = {};
+                  angular.copy(feature, newFeature);
+                  newFeature.properties.idwValues = [];
+                  var value = feature.properties.idwValues[i];
+                  newFeature.properties.idwValues.push(value);
+                  vm.featureCollections[i].features.push(newFeature);
                 }
               });
-            }
 
-            response.data.featureCollection.features.map(function (feature) {
-              for (var i = 0; i < feature.properties.idwValues.length; i++) {
-                var newFeature = {};
-                angular.copy(feature, newFeature);
-                newFeature.properties.idwValues = [];
-                var value = feature.properties.idwValues[i];
-                newFeature.properties.idwValues.push(value);
-                vm.featureCollections[i].features.push(newFeature);
+              vm.layer = createGeoJsonLayer(vm.featureCollections[0], vm.breaks);
+              vm.map.addLayer(vm.layer);
+
+              if (vm.featureCollections.length > 1) {
+                vm.visible = true;
               }
-            });
+              refreshSlider();
 
-            vm.layer = createGeoJsonLayer(vm.featureCollections[0], vm.breaks);
-            vm.map.addLayer(vm.layer);
 
-            if (vm.featureCollections.length > 1) {
-              vm.visible = true;
-            }
-            refreshSlider();
+            }, function (error) {
+              return error;
+            })
+            .then(function (error) {
+              if (angular.isUndefined(error)) {
+                return;
+              }
 
-            return;
-          }, function(error) {
-            return error;
-          })
-          .then(function (error) {
-            if (angular.isUndefined(error)) {
-              return;
-            }
-
-            switch (error.message) {
+              switch (error.message) {
               case 'planned computation too expensive ((area in square kilometers / cellWidth) > 2500)':
-                vm.alerts.push({msg: 'Der gewählte Kartenausschnitt ist zu groß!'});
+                vm.alerts.push({ msg: 'Der gewählte Kartenausschnitt ist zu groß!' });
                 break;
               case 'Invalid time frame specified: to-date is in the future':
-                vm.alerts.push({msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!'});
+                vm.alerts.push({ msg: 'Das gewählte Datum darf nicht in der Zukunft liegen!' });
                 break;
               case 'no senseBoxes found':
-                vm.alerts.push({msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!'});
+                vm.alerts.push({ msg: 'Es konnten keine senseBoxen für die Filtereinstellungen gefunden werden!' });
                 break;
               case 'no measurements found':
-                vm.alerts.push({msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!'});
+                vm.alerts.push({ msg: 'Es wurden keine Messungen für den angegebenen Zeitpunkt gefunden!' });
                 break;
               default:
-                vm.alerts.push({msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.'});
+                vm.alerts.push({ msg: 'Bei der Interpolation ist ein unbekannter Fehler aufgetreten! Bitte überprüfe die Filtereinstellungen.' });
                 break;
-            }
-          })
-          .finally(function () {
-            vm.calculating = false;
-          });
+              }
+            })
+            .finally(function () {
+              vm.calculating = false;
+            });
         });
     }
 
@@ -326,30 +326,36 @@
         style: function (feature) {
           var props = feature.properties;
           for (var key in props) {
-            var z = props[key];
-            if (!Number.isNaN(z)) {
-              var fillColor = vm.colors[0];
-              for (var i = 0; i < breaks.length; i++) {
-                if (z >= breaks[i]) {
-                  fillColor = vm.colors[i];
-                } else {
-                  break;
+            if (key) {
+              var z = props[key];
+
+              if (!Number.isNaN(z)) {
+                var fillColor = vm.colors[0];
+                for (var i = 0; i < breaks.length; i++) {
+                  if (z >= breaks[i]) {
+                    fillColor = vm.colors[i];
+                  } else {
+                    break;
+                  }
                 }
+
+                return {
+                  weight: 0.1,
+                  fillOpacity: 0.6,
+                  fillColor: fillColor
+                };
               }
+
               return {
-                weight: 0.1,
-                fillOpacity: 0.6,
-                fillColor: fillColor
+                weight: 0,
+                fillColor: 'red',
+                fillOpacity: 1
               };
             }
-            return {
-              weight: 0,
-              fillColor: 'red',
-              fillOpacity: 1
-            };
           }
         }
       });
+
       return idwLayer;
     }
 
@@ -357,7 +363,7 @@
       vm.isPlaying = true;
       vm.prom = $timeout(vm.playInterpolation, vm.delay);
       var value = 0;
-      var nextIndex = vm.dates.indexOf(vm.selectedTimeStep)+1;
+      var nextIndex = vm.dates.indexOf(vm.selectedTimeStep) + 1;
       if (angular.isUndefined(vm.dates[nextIndex])) {
         value = vm.dates[0];
       } else {
@@ -382,9 +388,9 @@
     ////
 
     // watch min and max dates to calculate difference
-    var unwatchMinMaxValues = $scope.$watch(function() {
+    var unwatchMinMaxValues = $scope.$watch(function () {
       return [vm.settings.interpolationPickerStart, vm.settings.interpolationPickerEnd];
-    }, function() {
+    }, function () {
       // min max dates
       vm.settings.interpolationPickerStart.datepickerOptions.maxDate = vm.settings.interpolationPickerEnd.date;
       vm.settings.interpolationPickerEnd.datepickerOptions.minDate = vm.settings.interpolationPickerStart.date;
@@ -395,7 +401,7 @@
     }, true);
 
     // destroy watcher
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       unwatchMinMaxValues();
       clearInterpolation();
       Sidebar.setTranslationId('');

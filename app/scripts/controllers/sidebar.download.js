@@ -33,7 +33,7 @@
       phenomenon: '',
       sensorId: '',
       sensorType: '',
-    }
+    };
 
     vm.dataDownload = dataDownload;
     vm.closeSidebar = closeSidebar;
@@ -54,6 +54,7 @@
           vm.map = map;
           $scope.$broadcast('initData', {});
           vm.map.on('zoomend moveend', mapZoomMove);
+
           return 'event attached';
         });
     }
@@ -69,13 +70,13 @@
 
     function changeWindow () {
       switch (vm.inputFilter.window) {
-        case '1h':
-        case '1d':
-        case '10m':
-          vm.columns.createdAt = '';
-          vm.columns.sensorId = '';
-          vm.columns.value = '';
-          break;
+      case '1h':
+      case '1d':
+      case '10m':
+        vm.columns.createdAt = '';
+        vm.columns.sensorId = '';
+        vm.columns.value = '';
+        break;
       }
     }
 
@@ -87,7 +88,7 @@
         if (vm.columns.hasOwnProperty(key)) {
           var element = vm.columns[key];
           if (element !== '') {
-            columns.push(element)
+            columns.push(element);
           }
         }
       }
@@ -111,18 +112,19 @@
       }
     }
 
-    function getBoxIdsFromBBox (map){
+    function getBoxIdsFromBBox (map) {
       var boxids = [];
       var bbox = map.getBounds();
       vm.downloadMarkers = [];
-      angular.forEach(vm.markersFiltered, function(marker, key) {
-        if (bbox.contains([marker.latLng[0],marker.latLng[1]])) {
+      angular.forEach(vm.markersFiltered, function (marker) {
+        if (bbox.contains([marker.latLng[0], marker.latLng[1]])) {
           boxids.push(marker.station._id);
           vm.downloadMarkers.push(marker);
         }
       });
+
       return boxids;
-    };
+    }
 
     ////
 
@@ -133,12 +135,11 @@
           $scope.$broadcast('initData', {});
           vm.map.on('zoomend moveend', mapZoomMove);
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
         });
     });
 
-    $scope.$on('initData', function (e, args) {
+    $scope.$on('initData', function () {
       vm.count = getBoxIdsFromBBox(vm.map).length;
     });
 

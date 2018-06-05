@@ -32,14 +32,12 @@
     }
 
     function save () {
-      return AccountService.updateBox(boxData._id, {mqtt: vm.settings})
+      return AccountService.updateBox(boxData._id, { mqtt: vm.settings })
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
-        .catch(function (error) {
-          console.log('ERROR RESPONSE');
-          console.log(error);
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }

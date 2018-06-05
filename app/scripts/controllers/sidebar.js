@@ -22,7 +22,7 @@
       vm.maximizedStyle = {
         'bottom': '0px',
         'top': '100px'
-      }
+      };
 
       invalidateSize();
     }
@@ -53,7 +53,7 @@
         };
 
         if (isMobile.phone) {
-          leafletBottomContainer.setAttribute("style", "bottom: 50px;");
+          leafletBottomContainer.setAttribute('style', 'bottom: 50px;');
         }
       } else {
         vm.style = {
@@ -61,7 +61,7 @@
           'top': vm.maximizedStyle.top
         };
         if (isMobile.phone && leafletBottomContainer !== null) {
-          leafletBottomContainer.setAttribute("style", "bottom: 0px");
+          leafletBottomContainer.setAttribute('style', 'bottom: 0px');
         }
       }
     }

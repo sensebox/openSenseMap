@@ -22,28 +22,31 @@
      */
     Box.prototype = {
       getBadgeColor: function () {
-        switch(this.exposure) {
-          case 'indoor':  return 'orange';
-          case 'outdoor': return 'olive';
-          case 'mobile':  return 'sbblue';
-          default: return ''
+        switch (this.exposure) {
+        case 'indoor': return 'orange';
+        case 'outdoor': return 'olive';
+        case 'mobile': return 'sbblue';
+        default: return '';
         }
       },
       getArchiveLink: function () {
-        return "https://archive.opensensemap.org/"+moment().subtract(1, 'days').format('YYYY-MM-DD')+"/"+this._id+"-"+doubleGermanS(this.name).replace(/[^A-Za-z0-9._-]/g,'_');
+        return 'https://archive.opensensemap.org/' + moment().subtract(1, 'days')
+          .format('YYYY-MM-DD') + '/' + this._id + '-' + doubleGermanS(this.name).replace(/[^A-Za-z0-9._-]/g, '_');
       },
       getLastMeasurement: function () {
         var that = this;
         OpenSenseMapAPI.getSensors(this._id)
           .then(function (response) {
             for (var index in response.sensors) {
-              var sensor = response.sensors[index];
+              if (index) {
+                var sensor = response.sensors[index];
 
-              if (angular.isDefined(sensor.lastMeasurement) &&
+                if (angular.isDefined(sensor.lastMeasurement) &&
                   angular.isDefined(that.sensors[sensor._id].lastMeasurement)
-              ) {
-                that.sensors[sensor._id].lastMeasurement.value = sensor.lastMeasurement.value;
-                that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
+                ) {
+                  that.sensors[sensor._id].lastMeasurement.value = sensor.lastMeasurement.value;
+                  that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
+                }
               }
               // if (angular.isDefined(vm.sensordata[response.sensors[i]._id])) {
               //           var data = angular.copy(vm.sensordata[response.sensors[i]._id]);
@@ -63,7 +66,7 @@
             return error;
           });
       }
-    }
+    };
 
     /**
      * Private function
@@ -71,8 +74,9 @@
      */
     var doubleGermanS = function (value) {
       value = value.replace(/[\u00A0-\u10FFFF]/g, '__');
+
       return value;
-    }
+    };
 
     var _copy = function (srcObj, destObj) {
       destObj.markerOptions = OpenSenseMapData.makeMarkerOptions(srcObj);
@@ -81,14 +85,16 @@
           destObj['sensorsArray'] = srcObj.sensors;
           destObj['sensors'] = {};
           for (var index in srcObj.sensors) {
-            var sensor = new Sensor(srcObj.sensors[index]);
-            destObj.sensors[sensor._id] = sensor;
+            if (index) {
+              var sensor = new Sensor(srcObj.sensors[index]);
+              destObj.sensors[sensor._id] = sensor;
+            }
           }
         } else {
           destObj[key] = srcObj[key];
         }
       }
-    }
+    };
 
     /**
     * Return the constructor function

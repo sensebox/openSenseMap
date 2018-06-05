@@ -20,17 +20,19 @@
     ////
 
     function activate () {
+      var icon = '';
+      var color = '';
       if (boxData.exposure === 'indoor' || boxData.exposure === 'outdoor') {
-        var icon = 'cube';
-        var color = 'green';
+        icon = 'cube';
+        color = 'green';
       }
 
       if (boxData.exposure === 'mobile') {
-        var icon = 'rocket';
-        var color = 'blue';
+        icon = 'rocket';
+        color = 'blue';
       }
 
-      var icon = L.AwesomeMarkers.icon({
+      var marker = L.AwesomeMarkers.icon({
         type: 'awesomeMarker',
         prefix: 'fa',
         icon: icon,
@@ -48,7 +50,7 @@
         height: boxData.currentLocation.coordinates[2],
         draggable: true,
         zoom: 17,
-        icon: icon
+        icon: marker
       };
 
       angular.copy(vm.boxPosition, vm.originalPosition);
@@ -60,25 +62,25 @@
     }
 
     function save () {
-      return AccountService.updateBox(boxData._id, {location: vm.editMarker.m1})
+      return AccountService.updateBox(boxData._id, { location: vm.editMarker.m1 })
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
-        .catch(function (error) {
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
 
     function resetPosition () {
       vm.editMarker = { m1: angular.copy(vm.originalPosition) };
-      vm.editMarkerInput =  angular.copy(vm.originalPosition);
+      vm.editMarkerInput = angular.copy(vm.originalPosition);
       vm.editMarker.m1.draggable = true;
     }
 
     function setCoordinates (coords) {
       vm.editMarker = {
-        m1 : angular.copy(vm.originalPosition)
+        m1: angular.copy(vm.originalPosition)
       };
       var lng = parseFloat(coords.lng.toFixed(6));
       var lat = parseFloat(coords.lat.toFixed(6));

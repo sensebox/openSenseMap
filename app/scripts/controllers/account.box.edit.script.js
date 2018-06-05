@@ -20,8 +20,7 @@
         .then(function (response) {
           vm.boxScript = response;
         })
-        .catch(function (error) {
-          //TODO log errors
+        .catch(function () {
         });
     }
   }

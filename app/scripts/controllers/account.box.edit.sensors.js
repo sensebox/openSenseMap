@@ -43,19 +43,17 @@
         if (angular.isDefined(element.new) ||
           angular.isDefined(element.edited) ||
           angular.isDefined(element.deleted)) {
-            sensors.push(element);
-          }
+          sensors.push(element);
+        }
       }
 
-      return AccountService.updateBox(boxData._id, {sensors: sensors})
+      return AccountService.updateBox(boxData._id, { sensors: sensors })
         .then(function (response) {
           angular.copy(response.data, boxData);
           angular.copy(boxData.sensors, vm.sensors);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
-        .catch(function (error) {
-          console.log('ERROR RESPONSE');
-          console.log(error);
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }
@@ -84,9 +82,9 @@
     }
 
     function deleteSensor (sensor) {
-      if(sensor.new){
+      if (sensor.new) {
         var index = vm.sensors.indexOf(sensor);
-        if(index !== -1) {
+        if (index !== -1) {
           vm.sensors.splice(index, 1);
         }
       } else {
@@ -97,33 +95,36 @@
     }
 
     function saveSensor (sensor) {
-      if(angular.isUndefined(sensor.icon) ||
+      if (angular.isUndefined(sensor.icon) ||
         angular.isUndefined(sensor.title) ||
         angular.isUndefined(sensor.sensorType) ||
         angular.isUndefined(sensor.unit))
       {
         sensor.incomplete = true;
+
         return false;
-      } else {
-        delete sensor.editing;
-        delete sensor.incomplete;
-        delete sensor.restore;
-        sensor.edited = true;
       }
+      delete sensor.editing;
+      delete sensor.incomplete;
+      delete sensor.restore;
+      sensor.edited = true;
+
 
       setSensorsEditMode();
     }
 
     function cancelSensor (sensor) {
-      if(sensor.new) {
+      if (sensor.new) {
         var index = vm.sensors.indexOf(sensor);
-        if(index !== -1) {
+        if (index !== -1) {
           vm.sensors.splice(index, 1);
         }
       } else {
         for (var key in sensor.restore) {
-          var value = sensor.restore[key];
-          sensor[key] = value;
+          if (key) {
+            var value = sensor.restore[key];
+            sensor[key] = value;
+          }
         }
         // Remove editing keys
         delete sensor.incomplete;
@@ -145,6 +146,7 @@
       for (var i = vm.sensors.length - 1; i >= 0; i--) {
         if (vm.sensors[i].editing) {
           vm.sensorsEditMode = true;
+
           return;
         }
       }
@@ -154,26 +156,27 @@
     function getIcon (sensor) {
       if (sensor.icon !== undefined) {
         return sensor.icon;
-      } else {
-        if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11')  && sensor.title === 'Temperatur') {
-          return 'osem-thermometer';
-        } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') {
-          return 'osem-humidity';
-        } else if (sensor.sensorType === 'LM386') {
-          return 'osem-volume-up';
-        } else if (sensor.sensorType === 'BMP280' && sensor.title === 'Luftdruck') {
-          return 'osem-barometer';
-        } else if (sensor.sensorType === 'TSL45315' || sensor.sensorType === 'VEML6070') {
-          return 'osem-brightness';
-        } else {
-          return 'osem-dashboard';
-        }
       }
+      if ((sensor.sensorType === 'HDC1008' || sensor.sensorType === 'DHT11') && sensor.title === 'Temperatur') {
+        return 'osem-thermometer';
+      } else if (sensor.sensorType === 'HDC1008' || sensor.title === 'rel. Luftfeuchte' || sensor.title === 'Luftfeuchtigkeit') {
+        return 'osem-humidity';
+      } else if (sensor.sensorType === 'LM386') {
+        return 'osem-volume-up';
+      } else if (sensor.sensorType === 'BMP280' && sensor.title === 'Luftdruck') {
+        return 'osem-barometer';
+      } else if (sensor.sensorType === 'TSL45315' || sensor.sensorType === 'VEML6070') {
+        return 'osem-brightness';
+      }
+
+      return 'osem-dashboard';
+
+
     }
 
-    function setIcon (sensor,newIcon) {
+    function setIcon (sensor, newIcon) {
       sensor.icon = newIcon.name;
-    };
+    }
 
     function undo (sensor) {
       delete sensor.deleted;

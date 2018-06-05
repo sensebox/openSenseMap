@@ -37,31 +37,31 @@
     }
 
     function changeActiveTab (tab) {
-      Object.keys(vm.tabActive).map(function(key, index) {
-         vm.tabActive[key] = false;
+      Object.keys(vm.tabActive).map(function (key) {
+        vm.tabActive[key] = false;
       });
       switch (tab) {
-        case 'general':
-          vm.tabActive.general = true;
-          break;
-        case 'sensors':
-          vm.tabActive.sensors = true;
-          break;
-        case 'extensions':
-          vm.tabActive.extensions = true;
-          break;
-        case 'location':
-          vm.tabActive.location = true;
-          break;
-        case 'script':
-          vm.tabActive.script = true;
-          break;
-        case 'mqtt':
-          vm.tabActive.mqtt = true;
-          break;
-        case 'ttn':
-          vm.tabActive.ttn = true;
-          break;
+      case 'general':
+        vm.tabActive.general = true;
+        break;
+      case 'sensors':
+        vm.tabActive.sensors = true;
+        break;
+      case 'extensions':
+        vm.tabActive.extensions = true;
+        break;
+      case 'location':
+        vm.tabActive.location = true;
+        break;
+      case 'script':
+        vm.tabActive.script = true;
+        break;
+      case 'mqtt':
+        vm.tabActive.mqtt = true;
+        break;
+      case 'ttn':
+        vm.tabActive.ttn = true;
+        break;
       }
     }
   }

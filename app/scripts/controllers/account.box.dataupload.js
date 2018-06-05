@@ -34,7 +34,7 @@
     function activate () {
       vm.fileReader = new FileReader();
       vm.fileReader.onload = function (e) {
-        $scope.$apply(function() {
+        $scope.$apply(function () {
           vm.measurementData = e.target.result;
         });
       };
@@ -45,10 +45,11 @@
       vm.error = '';
       if (Object.keys(vm.dataTypes).indexOf(file.file.type) === -1) {
         vm.error = { code: 'FORMAT' };
+
         return;
-      } else {
-        vm.dataFormat = file.file.type;
       }
+      vm.dataFormat = file.file.type;
+
 
       vm.fileReader.readAsText(file.file);
     }
@@ -59,12 +60,11 @@
 
       OpenSenseMapAPI
         .postMeasurements($state.params.id, vm.measurementData, vm.dataFormat)
-        .then(function (result) {
+        .then(function () {
           vm.success = true;
         })
         .catch(function (err) {
           vm.error = err;
-          console.error(err);
         });
     }
   }

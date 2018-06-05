@@ -1,4 +1,4 @@
-(function() {
+(function () {
   'use strict';
 
   angular
@@ -6,7 +6,7 @@
     .controller('InfoController', InfoController);
 
   InfoController.$inject = ['app'];
-  function InfoController(app) {
+  function InfoController (app) {
     var vm = this;
     vm.app = app;
 
@@ -14,6 +14,6 @@
 
     ////////////////
 
-    function activate() {}
+    function activate () {}
   }
 })();

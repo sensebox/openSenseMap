@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
+  SidebarDownloadController.$inject = ['$scope', '$httpParamSerializer', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
 
-  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
+  function SidebarDownloadController ($scope, $httpParamSerializer, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -38,6 +38,7 @@
     vm.dataDownload = dataDownload;
     vm.closeSidebar = closeSidebar;
     vm.changeWindow = changeWindow;
+    vm.getHref = getHref;
 
     activate();
 
@@ -80,8 +81,7 @@
       }
     }
 
-    function dataDownload () {
-      vm.downloadform.pleaseWait = true;
+    function getDownloadParameters () {
       var boxids = getBoxIdsFromBBox(vm.map);
       var columns = [];
       for (var key in vm.columns) {
@@ -102,13 +102,36 @@
         download: true
       };
 
+      return params;
+    }
+
+    function dataDownload () {
+      vm.downloadform.pleaseWait = true;
+      var params = getDownloadParameters();
+
       if (vm.inputFilter.window === 'raw') {
-        params.columns = columns;
         OpenSenseMapAPI.getData(params);
       } else {
         params.window = vm.inputFilter.window;
         params.operation = vm.inputFilter.operation;
         OpenSenseMapAPI.getStatisticalData(params);
+      }
+    }
+
+    function getHref () {
+      if (vm.map && vm.inputFilter.DateTo && vm.inputFilter.DateFrom && vm.inputFilter.Phenomenon) {
+        var params = getDownloadParameters();
+        var query = $httpParamSerializer(params);
+        var endpoint = '';
+        if (vm.inputFilter.window === 'raw') {
+          endpoint = '/boxes/data';
+        } else {
+          params.window = vm.inputFilter.window;
+          params.operation = vm.inputFilter.operation;
+          endpoint = '/statistics/descriptive';
+        }
+
+        return encodeURI(endpoint + '?' + query);
       }
     }
 

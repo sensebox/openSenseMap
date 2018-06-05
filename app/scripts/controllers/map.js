@@ -40,6 +40,13 @@
       if (boxes instanceof Error) {
         $state.go('explore.map.sidebar.error');
       }
+
+      return OpenSenseMapData.setMarkers(boxes)
+        .then(function (response) {
+          vm.mapMarkers = response;
+        })
+        .catch(function () {
+        });
     }
 
     function createLegendFromTemplate (templateURI, clickHandler) {
@@ -122,17 +129,6 @@
     }
 
     ////
-
-    $scope.$on('layerloaded', function () {
-      $timeout(function () {
-        return OpenSenseMapData.setMarkers(boxes)
-          .then(function (response) {
-            vm.mapMarkers = response;
-          })
-          .catch(function () {
-          });
-      });
-    });
 
     $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
       vm.hoverlabel = {

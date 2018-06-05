@@ -147,5 +147,5 @@
   <div uib-alert class="alert-warning">
     <p translate="DOWNLOAD_WARNING" translate-value-count="{{download.count}}"></p>
   </div>
-  <button class="btn btn-lg btn-success" ng-click="download.dataDownload();" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo "><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</button>
+  <a class="btn btn-lg btn-success" ng-click="download.dataDownload();" ng-href="{{download.getHref()}}" ng-disabled="!download.inputFilter.Phenomenon || !download.inputFilter.DateFrom || !download.inputFilter.DateTo"><span class="glyphicon glyphicon-floppy-save"></span> {{ "DOWNLOAD" | translate }}</a>
 </div>

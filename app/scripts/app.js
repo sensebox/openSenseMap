@@ -378,7 +378,7 @@
         })
         .state('info', {
           url: '/info',
-          templateUrl: 'views/info.html',
+          templateUrl: 'views/about.info.html',
           controller: 'InfoController',
           controllerAs: 'info'
         });

@@ -366,7 +366,7 @@
             'account': {
               controller: 'RegisterController',
               controllerAs: 'register',
-              templateUrl: 'views/register.html'
+              templateUrl: 'views/account.box.register.html'
             }
           }
         })

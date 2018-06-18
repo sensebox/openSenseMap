@@ -366,7 +366,7 @@
             'account': {
               controller: 'RegisterController',
               controllerAs: 'register',
-              templateUrl: 'views/register.html'
+              templateUrl: 'views/account.box.register.html'
             }
           }
         })
@@ -378,7 +378,7 @@
         })
         .state('info', {
           url: '/info',
-          templateUrl: 'views/info.html',
+          templateUrl: 'views/about.info.html',
           controller: 'InfoController',
           controllerAs: 'info'
         });

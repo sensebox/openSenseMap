@@ -5,14 +5,15 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI', 'boxes'];
+  MapController.$inject = ['$scope', '$rootScope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI', 'boxes'];
 
-  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI, boxes) {
+  function MapController ($scope, $rootScope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI, boxes) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showClustering = true;
     vm.showLegend = false;
     vm.cssClass = '';
+    vm.layerloaded = false;
 
     vm.mapMarkers = {};
     // the following get filled from childscope sidebar.boxdetails.js
@@ -40,6 +41,9 @@
       if (boxes instanceof Error) {
         $state.go('explore.map.sidebar.error');
       }
+
+      $rootScope.$broadcast('osemLoaderVisibility', { visible: true });
+      $rootScope.$broadcast('osemLoaderUpdateMessage', { messageText: 'Loading map' });
 
       return OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
@@ -157,6 +161,14 @@
 
     $scope.$on('markersChanged', function () {
       vm.mapMarkers = OpenSenseMapData.getMarkers();
+    });
+
+    $scope.$on('layerloaded', function () {
+      osemMapData.getMap('map_main')
+        .then(function (map) {
+          $rootScope.$broadcast('osemLoaderVisibility', { visible: false });
+          map.invalidateSize();
+        });
     });
 
     $scope.$on('osemMapReady', function () {

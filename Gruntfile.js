@@ -177,6 +177,7 @@ module.exports = function (grunt) {
         ],
         tasks: [
           // 'newer:copy:api',
+          'loadconst',
           'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',

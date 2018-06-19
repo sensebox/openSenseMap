@@ -71,13 +71,6 @@
         'mouseOver': L.layerGroup(),
       };
 
-      // for (var layerName in mapLayers) {
-      //   mapLayers[layerName].on('add', function () {
-      //     osemMapData.setLayer(layerName, mapLayers[layerName]);
-      //   });
-      //   map.addLayer(mapLayers[layerName]);
-      // }
-
       mcg.on('clustermouseover', function (e) {
         var allChildMarkers = e.layer.getAllChildMarkers();
         for (var childMarker in allChildMarkers) {

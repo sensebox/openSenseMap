@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', '$httpParamSerializer', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
+  SidebarDownloadController.$inject = ['$scope', '$httpParamSerializer', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar', 'boxes'];
 
-  function SidebarDownloadController ($scope, $httpParamSerializer, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
+  function SidebarDownloadController ($scope, $httpParamSerializer, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar, boxes) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -46,6 +46,7 @@
 
     function activate () {
       Sidebar.setTitle('Download');
+      OpenSenseMapData.setMarkers(boxes); // retrieved through state.resolve in app.js (because we need the full metadata for filtering)
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.downloadMarkers = vm.markersFiltered;
       vm.count = Object.keys(vm.markersFiltered).length;
@@ -132,6 +133,8 @@
         }
 
         return encodeURI(endpoint + '?' + query);
+      } else {
+        return '';
       }
     }
 

@@ -47,22 +47,12 @@
           controllerAs: 'map',
           templateUrl: 'views/explore2.map.html',
           resolve: { /* @ngInject */
-            boxes: function (OpenSenseMapAPI, ngProgressFactory) {
-              var progressbar = ngProgressFactory.createInstance();
-              progressbar.setColor('#4EAF47');
-              progressbar.start();
-
-              return OpenSenseMapAPI.getBoxes({ params: { classify: true } })
-                .then(function (data) {
-                  progressbar.complete();
-
-                  return data;
-                })
-                .catch(function () {
-                  progressbar.complete();
-
-                  return new Error('Could not resolve getBoxes() on explore.map.');
-                });
+            boxes: function (BoxesService) {
+              // FIXME: when loading the page starting with explore.map.filter,
+              // boxes are fetched twice (once with minimal, once full) due to
+              // ui-router resolve inheritance. I found no workaround, because
+              // $state.current.name is not initialized here yet.
+              return BoxesService.getBoxesMinimal();
             }
           }
         })
@@ -137,6 +127,11 @@
               controllerAs: 'filter',
               templateUrl: 'views/explore2.sidebar.filter.html'
             }
+          },
+          resolve: { /* @ngInject */
+            boxes: function(BoxesService) {
+              return BoxesService.getBoxesFullMetadata();
+            },
           }
         })
         .state('explore.map.sidebar.download', {
@@ -147,6 +142,11 @@
               controllerAs: 'download',
               templateUrl: 'views/explore2.sidebar.download.html'
             }
+          },
+          resolve: { /* @ngInject */
+            boxes: function(BoxesService) {
+              return BoxesService.getBoxesFullMetadata();
+            },
           }
         })
         .state('explore.map.sidebar.interpolation', {

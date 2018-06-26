@@ -22,6 +22,7 @@
         if (response.config.auth) {
           switch (response.status) {
             case 401:
+            case 403:
               var deferred = $q.defer();
               if(!inFlightAuthRequest) {
                   inFlightAuthRequest = $injector.get('$http').post(app.API_URL + '/users/refresh-auth', {token: AuthenticationService.getRefreshToken()});
@@ -53,6 +54,9 @@
                 return;
               });
               return deferred.promise;
+              break;
+            case 404:
+              return $q.reject(response);
               break;
             default:
               AuthenticationService.logout();

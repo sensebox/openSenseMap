@@ -11,9 +11,12 @@
     var vm = this;
     vm.sensors = [];
     vm.icons = [];
-    vm.timestamps = [{ name: '2018-03-19T18:53:18.005Z'}];
-    vm.deleteStamps = [];
-    //vm.sensor.chart.data = [];
+    vm.deleteOptions = {
+      fromDate: undefined,
+      toDate: undefined,
+      method: 'timeframe',
+      params: {}
+    }
 
     vm.addSensor = addSensor;
     vm.deleteSensor = deleteSensor;
@@ -26,48 +29,8 @@
     vm.undo = undo;
     vm.editMeasurements = editMeasurements;
     vm.deleteMeasurements = deleteMeasurements;
-    vm.getSensorData = getSensorData;
-    vm.addTimestamp = addTimestamp;
-    vm.openCalendar = openCalendar;
-
+    vm.setDeleteMethod = setDeleteMethod;
     vm.save = save;
-
-
-    vm.settings = {
-      deletePickerStart: {
-        date: moment().subtract(5, 'm').toDate(),
-        open: false,
-        buttonBar: {
-          show: false
-        },
-        timepickerOptions: {
-          readonlyInput: false,
-          showMeridian: false,
-          max: null,
-          min: null
-        },
-        datepickerOptions: {
-          minDate: null
-        }
-      },
-      deletePickerEnd: {
-        date: moment().toDate(),
-        open: false,
-        buttonBar: {
-          show: false
-        },
-        timepickerOptions: {
-          readonlyInput: false,
-          showMeridian: false,
-          max: null,
-          min: null
-        },
-        datepickerOptions: {
-          maxDate: null
-        }
-      }
-    };
-
 
     activate();
 
@@ -127,22 +90,6 @@
 
       setSensorsEditMode();
     }
-
-
-
-    /*function getLatestSensorData (boxId, sensorId) {
-      return $http.get(getUrl() + '/boxes/' + boxId + '/data/' + sensorId)
-        .then(success)
-        .then(function (measurements) {
-          // attach an id to each measurement
-          for (var i = 0; i < measurements.length; i++) {
-            measurements[i].id = i;
-          }
-
-          return measurements;
-        })
-        .catch(failed);
-    }*/
 
     function deleteSensor (sensor) {
       if(sensor.new){
@@ -242,119 +189,45 @@
       delete sensor.deleted;
     }
 
+    function setDeleteMethod (method) {
+      delete vm.deleteOptions.params;
+      switch (method) {
+        case 'timeframe':
+          vm.deleteOptions.method = 'timeframe'
+          if (angular.isDefined(vm.deleteOptions.fromDate) && angular.isDefined(vm.deleteOptions.toDate)) {  
+            vm.deleteOptions.params = {
+              'from-date': vm.deleteOptions.fromDate.toISOString(),
+              'to-date': vm.deleteOptions.toDate.toISOString()
+            }
+          }
+          break;
+        case 'all':
+          vm.deleteOptions.method = 'all';
+          vm.deleteOptions.params = {
+            deleteAllMeasurements: true
+          }
+          break;
+      }
+    }
+
     function editMeasurements (sensor) {
       sensor.restore = angular.copy(sensor);
       sensor.measurementsediting = true;
-      console.log(sensor);
-      getSensorData(sensor, {});
-      //sensor.editing = true;
-
-
-      /*return getLatestSensorData(boxData._id, sensor._id)
-        .then(function (response) {
-          angular.copy(response.data, sensor.chart.data);
-          angular.copy(sensor.chart.data, vm.sensor.chart.data);
-          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
-        })
-        .catch(function (error) {
-          console.log('ERROR RESPONSE');
-          console.log(error);
-          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
-        });*/
-
       setSensorsEditMode();
     }
 
     function deleteMeasurements (sensor){
-      console.log(vm.deleteOptions);
-      if(vm.deleteOptions === 'deleteAll'){
-        console.log('I am Delete All');
-        return AccountService.deleteMeasurement(boxData._id, sensor._id, 
-        {
-          deleteAllMeasurements: true
+      setDeleteMethod(vm.deleteOptions.method);
+      return AccountService.deleteMeasurement(boxData._id, sensor._id, vm.deleteOptions.params)
+        .then(function (response) {
+          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
+          console.log('success', response);
+          setSensorsEditMode();
+        })
+        .catch(function (error) {
+          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
+          console.log('error', error);
         });
-      }
-    
-      if(vm.deleteOptions === 'timestamps'){
-        console.log('I am timestamps');
-        var timestampsArr = vm.deleteStamps;
-        return AccountService.deleteMeasurement(boxData._id, sensor._id, 
-        {
-          timestamps: timestampsArr
-        });
-      }
-      if(vm.deleteOptions === 'fromToDate'){
-        console.log('I am fromToDate');
-        var fromDate = vm.settings.deletePickerStart.date;
-        var toDate = vm.settings.deletePickerEnd.date;
-        return AccountService.deleteMeasurement(boxData._id, sensor._id, 
-        {
-          'from-date': fromDate,
-          'to-date': toDate
-        });
-      }
-
-      setSensorsEditMode();
     }
-
-    function getSensorData (sensor, data) {
-      return OpenSenseMapAPI.getSensorData(boxData._id, sensor._id, data)
-      .then(function (response) {
-        sensor.chart = [];
-        sensor.chart.data = [];
-        for (var j = 0; j < response.length; j++) {
-          sensor.chart.data.push({
-            id: response[j].id,
-            value: parseFloat(response[j].value),
-            date: new Date(response[j].createdAt),
-            unit: sensor.unit,
-          });
-        }
-        sensor.chart.done = true;
-        return response;
-      })
-      .then(function (measurements) {
-        return measurements;
-      })
-      .catch(function (error) {
-        sensor.chart.error = true;
-      });
-    }
-
-    
-
-    function addTimestamp () {
-      console.log('hello');
-      if (vm.timestampName) {
-      vm.timestamps.push({ name: vm.timestampName });
-      vm.deleteStamps.push(vm.timestampName);
-      console.log(vm.deleteStamps);
-      vm.timestampName = '';
-      }
-    }
-
-    function openCalendar (e, picker) {
-      e.preventDefault();
-      e.stopPropagation();
-      switch(picker) {
-        case 'deletePickerStart':
-          vm.settings.deletePickerStart.open = true;
-          break;
-        case 'deletePickerEnd':
-          vm.settings.deletePickerEnd.open = true;
-          vm.settings.deletePickerEnd.datepickerOptions.maxDate = moment().toDate();
-          vm.settings.deletePickerEnd.datepickerOptions.minDate = vm.settings.deletePickerStart.date;
-          vm.settings.deletePickerEnd.timepickerOptions.max = moment().toDate();
-          vm.settings.deletePickerEnd.timepickerOptions.min = vm.settings.deletePickerStart.timepickerOptions.max;
-          /*$timeout(function () {
-            //TODO check jqLite
-            // angular.element('#deletePickerEnd').parent()[0].children[1].style.right = "0px";
-            // angular.element('#deletePickerEnd').parent()[0].children[1].style.left = "auto";
-          });*/
-          break;
-      }
-    }
-
-
   }
 })();

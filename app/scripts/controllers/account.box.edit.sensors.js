@@ -146,19 +146,15 @@
     function editSensor (sensor) {
       sensor.restore = angular.copy(sensor);
       sensor.editing = true;
-      console.log(sensor);
       setSensorsEditMode();
     }
 
     function setSensorsEditMode () {
       for (var i = vm.sensors.length - 1; i >= 0; i--) {
         if (vm.sensors[i].editing || vm.sensors[i].measurementsediting) {
-          vm.sensorsEditMode = true;
           return;
         }
       }
-      vm.sensorsEditMode = false;
-      // sensorEditMode = ??? was ist das wo wird benutzt
     }
 
     function getIcon (sensor) {
@@ -220,13 +216,10 @@
       setDeleteMethod(vm.deleteOptions.method);
       return AccountService.deleteMeasurement(boxData._id, sensor._id, vm.deleteOptions.params)
         .then(function (response) {
-          notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
-          console.log('success', response);
-          setSensorsEditMode();
+          notifications.addAlert('info', 'NOTIFICATION_SUCCESSFULLY_DELETED', sensor._id);
         })
         .catch(function (error) {
-          notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
-          console.log('error', error);
+          notifications.addAlert('danger', 'NOTIFICATION_NO_MATCHING_MEASUREMENTS');
         });
     }
   }

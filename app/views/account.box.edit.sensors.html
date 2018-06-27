@@ -55,16 +55,16 @@
                       <strong>{{'CONFIG_TYPE'|translate}}: </strong> <code style="border-right: 1px solid #e1e4e8;"> {{sensor.sensorType}} </code>
                       <hr>
 
-                      <p>Select your deleting options:</p>
+                      <p>{{"SENSOR_SELECT_DELETE_OPTION"|translate}}</p>
                       <uib-tabset active="active">
                         <uib-tab index="0" select="sensors.setDeleteMethod('timeframe')">
                           <uib-tab-heading>
-                            <i class="glyphicon glyphicon-calendar"></i> Zeitraum
+                            <i class="glyphicon glyphicon-calendar"></i> {{"TIMEFRAME"|translate}}
                           </uib-tab-heading>
                           <div class="row">
                             <div class="col-lg-11 col-md-11" style="margin-top: 25px;">
                               <div uib-alert class="alert-warning"> 
-                                Select two dates and delete all measuerements between these dates.
+                                {{"SENSOR_DELETE_TIMEFRAME_DESCRIPTION"|translate}}
                               </div>
                             </div>
                           </div>
@@ -83,11 +83,11 @@
                             <div class="col-lg-5 col-md-11" ng-if="sensors.deleteOptions.fromDate !== undefinded && sensors.deleteOptions.toDate !== undefinded">
                               <div class="panel panel-danger">
                                 <div class="panel-heading">
-                                  <h3 class="panel-title">Möchtest du für den gewählten Zeitraum wirklich alle Messungen löschen?</h3>
+                                  <h3 class="panel-title">{{"SENSOR_DELETE_TIMEFRAME_MEASUREMENTS"|translate}}</h3>
                                 </div>
                                 <div class="panel-body">
-                                  Diese Aktion kann nicht rückgängig gemacht werden!
-                                  <button ng-click="sensors.deleteMeasurements(sensor)" class="btn btn-default pull-right" style="color: #d9534f;">Delete</button>
+                                  {{"ACTION_NOT_UNDONE"|translate}}
+                                  <button ng-click="sensors.deleteMeasurements(sensor)" class="btn btn-default pull-right" style="color: #d9534f;">{{"DELETE"|translate}}</button>
                                 </div>
                               </div>
                             </div>
@@ -95,17 +95,17 @@
                         </uib-tab>
                         <uib-tab index="2" select="sensors.setDeleteMethod('all')">
                           <uib-tab-heading>
-                            <i class="glyphicon glyphicon-folder-close"></i> Alle Messungen
+                            <i class="glyphicon glyphicon-folder-close"></i> {{"ALL"|translate}} {{"MEASUREMENTS"|translate}}
                           </uib-tab-heading>
                           <div class="row">
                             <div class="col-lg-11 col-md-11" style="margin-top: 25px;">
                               <div class="panel panel-danger">
                                 <div class="panel-heading">
-                                  <h3 class="panel-title">Möchtest du wirklich alle Messungen für diesen Sensor löschen?</h3>
+                                  <h3 class="panel-title">{{"SENSOR_DELETE_ALL_MEASUREMENTS"|translate}}</h3>
                                 </div>
                                 <div class="panel-body">
-                                  Diese Aktion kann nicht rückgängig gemacht werden!
-                                  <button ng-click="sensors.deleteMeasurements(sensor)" class="btn btn-default pull-right" style="color: #d9534f;">Delete</button>
+                                  {{"ACTION_NOT_UNDONE"|translate}}
+                                  <button ng-click="sensors.deleteMeasurements(sensor)" class="btn btn-default pull-right" style="color: #d9534f;">{{"DELETE"|translate}}</button>
                                 </div>
                               </div>
                             </div>
@@ -146,7 +146,7 @@
                   </button>
                   
                   <button type="button" class="btn btn-xs btn-success" style="display: block;" ng-click="sensors.editMeasurements(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
-                    <span class="glyphicon glyphicon-trash"></span> Edit Measurements
+                    <span class="glyphicon glyphicon-trash"></span> {{"MEASUREMENTS"|translate}}
                   </button>
 
                   <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteSensor(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
@@ -165,11 +165,8 @@
                 </span>
 
                 <span class="sensor-details" style="height: 222px;" ng-show="sensor.measurementsediting">
-                  <!-- <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteMeasurements(sensor)">
-                    <span class="glyphicon glyphicon-trash"></span> Delete Measurements
-                  </button> -->
                   <button type="button" class="btn btn-xs btn-warning" style="display: block;" ng-click="sensors.cancelSensor(sensor)">
-                    <span class="fa fa-undo"></span> Return 
+                    <span class="fa fa-undo"></span> {{"PREVIOUS"|translate}}
                   </button>
                 </span>
               </div>

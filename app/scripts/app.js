@@ -209,9 +209,9 @@ angular
               getAlerts: function () {
                 return vm.alerts;
               },
-              addAlert: function (type, messageId) {
+              addAlert: function (type, messageId, sensorId) {
                 vm.alerts.pop();
-                $translate(messageId, {boxId: boxData._id}).then(function (translation) {
+                $translate(messageId, {boxId: boxData._id, sensorId: sensorId}).then(function (translation) {
                   vm.alerts.push({ type: type, msg: translation });
                 });
               },

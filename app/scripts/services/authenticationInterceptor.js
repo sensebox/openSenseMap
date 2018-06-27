@@ -23,6 +23,7 @@
         if (response.config.auth) {
           switch (response.status) {
           case 401:
+          case 403:
             var deferred = $q.defer();
             if (!inFlightAuthRequest) {
               inFlightAuthRequest = $injector.get('$http').post(app.API_URL + '/users/refresh-auth', { token: AuthenticationService.getRefreshToken() });
@@ -30,6 +31,7 @@
             inFlightAuthRequest.then(function (r) {
               inFlightAuthRequest = null;
               if (r.data.token && r.data.refreshToken) {
+                console.log('Token succesfully refreshed', r.data);
 
                 AuthenticationService.saveToken(r.data.token);
                 AuthenticationService.saveRefreshToken(r.data.refreshToken);
@@ -54,6 +56,8 @@
             });
 
             return deferred.promise;
+          case 404:
+            return $q.reject(response);
           default:
             AuthenticationService.logout();
             $injector.get('$state').go('explore.map');

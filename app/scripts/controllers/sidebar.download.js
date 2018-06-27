@@ -15,7 +15,7 @@
       operation: 'arithmeticMean'
     };
     vm.downloadform = {
-      format: 'CSV',
+      format: 'csv',
       pleaseWait: false,
       emptyData: false,
       errorOccured: false
@@ -94,6 +94,7 @@
       }
 
       var params = {
+        format: vm.downloadform.format,
         boxid: boxids.join(','),
         'to-date': vm.inputFilter.DateTo.toISOString(),
         'from-date': vm.inputFilter.DateFrom.toISOString(),

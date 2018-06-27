@@ -22,10 +22,10 @@
         };
       },
       scope: {
-        markers: '=',            // expects an array of classified markers
-        mobileTrajectory: '=',   // expects geojson linestring
+        markers: '=', // expects an array of classified markers
+        mobileTrajectory: '=', // expects geojson linestring
         mobileMeasurements: '=', // expects array of API measurements
-        mobileLegendInfo: '=',   // contains metadata for the contents of `mobileMeasurements`
+        mobileLegendInfo: '=', // contains metadata for the contents of `mobileMeasurements`
         highlightedMeasurement: '=',
         center: '=',
         events: '='
@@ -34,9 +34,9 @@
 
     return directive;
 
-    function link(scope, element, attrs, ctrl) {
+    function link (scope, element, attrs, ctrl) {
       //TODO: destroy
-      scope.mapId =  attrs.id;
+      scope.mapId = attrs.id;
 
       var map = new L.map(element[0], {
         minZoom: 2,
@@ -49,11 +49,12 @@
       map.on('click', onMapClick);
 
       var mcg = L.markerClusterGroup({
-        maxClusterRadius: 2*rmax,
+        maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon,
         disableClusteringAtZoom: 17,
         spiderfyOnMaxZoom: false,
-        showCoverageOnHover: false
+        showCoverageOnHover: false,
+        chunkedLoading: true
       });
 
       var mapLayers = {
@@ -69,13 +70,6 @@
         'oldMarkers': L.featureGroup.subGroup(mcg),
         'mouseOver': L.layerGroup(),
       };
-
-      for (var layerName in mapLayers) {
-        mapLayers[layerName].on('add', function () {
-          osemMapData.setLayer(layerName, mapLayers[layerName]);
-        });
-        map.addLayer(mapLayers[layerName]);
-      }
 
       mcg.on('clustermouseover', function (e) {
         var allChildMarkers = e.layer.getAllChildMarkers();
@@ -115,7 +109,7 @@
 
       if (angular.isDefined(scope.events) && !angular.equals({}, scope.events)) {
         if (scope.events.autolocation) {
-          map.locate({setView: true, maxZoom: 16});
+          map.locate({ setView: true, maxZoom: 16 });
           map.on('locationfound', onLocationFound);
           map.on('locationerror', onLocationError);
         }
@@ -143,11 +137,11 @@
       });
 
       // Resolve the map object to the promises
-      map.whenReady(function() {
+      map.whenReady(function () {
         osemMapData.setMap(attrs.id, map);
         // set up watches, which generate map objects from the watched raw data
         scope.$watch('center', function (newVal) {
-          if (angular.isDefined(newVal)) map.panTo(newVal);
+          if (angular.isDefined(newVal)) {map.panTo(newVal);}
         });
         scope.$watch('markers', onMarkersWatch);
         scope.$watch('mobileTrajectory', onTrajectoryWatch);
@@ -160,6 +154,12 @@
         $rootScope.$broadcast('layerloaded', {});
         $rootScope.$apply();
         baselayer.off('load', layerLoaded);
+        for (var layerName in mapLayers) {
+          mapLayers[layerName].on('add', function () {
+            osemMapData.setLayer(layerName, mapLayers[layerName]);
+          });
+          map.addLayer(mapLayers[layerName]);
+        }
       }
 
       function onMarkersWatch (newVal, oldVal) {
@@ -192,7 +192,7 @@
           !angular.isDefined(newVal) ||
           angular.equals({}, newVal) ||
           !newVal.geometry.coordinates.length
-        ) return;
+        ) {return;}
 
         // swap latLngs
         var latlngs = newVal.geometry.coordinates.map(function (latlng) {
@@ -215,10 +215,10 @@
 
       function onMeasurementsWatch (newVal, oldVal) {
         mapLayers['mobileMeasurements'].clearLayers();
-        if (!angular.isDefined(newVal) || angular.equals([], newVal)) return;
+        if (!angular.isDefined(newVal) || angular.equals([], newVal)) {return;}
 
         // find min & max values for color grading
-        var values = newVal.map(function(m) { return m.value; });
+        var values = newVal.map(function (m) { return m.value; });
         var max = Math.max.apply(null, values);
         var min = Math.min.apply(null, values);
         var palette = d3.scaleLinear()
@@ -231,7 +231,7 @@
           maxVal: max,
           // the legend uses a css color gradient, which interpolates RGB only.
           // to emulate a HCL gradient, we pass many hcl colors close to each other
-          colors: [1,2,3,4,5,6,7,8,9,10].map(palette.copy().domain([10, 1])),
+          colors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(palette.copy().domain([10, 1])),
         });
 
         for (var val in newVal) {
@@ -339,39 +339,40 @@
 
       function defineClusterIcon (cluster) {
         var children = cluster.getAllChildMarkers(),
-            n = children.length,
-            strokeWidth = 1,
-            r = rmax-2*strokeWidth-(n<10?12:n<100?8:n<1000?4:0),
-            iconDim = (r+strokeWidth)*2,
-            data = d3.nest()
-              .key(function (d) {
-                return [
-                  d.options.color.hex,
-                  d.options.color.opacity,
-                ].join('__');
-              })
-              .entries(children, d3.map),
-            html = bakeThePie({
-              data: data,
-              valueFunc: function(d){return d.values.length;},
-              strokeWidth: 1,
-              outerRadius: r,
-              innerRadius: r-10,
-              pieClass: 'cluster-pie',
-              pieLabel: n,
-              pieLabelClass: 'marker-cluster-pie-label',
-              pathStyleFunc: function (d) {
-                var col = d.data.key.split('__')[0];
-                var opac = d.data.key.split('__')[1];
+          n = children.length,
+          strokeWidth = 1,
+          r = rmax - 2 * strokeWidth - (n < 10 ? 12 : n < 100 ? 8 : n < 1000 ? 4 : 0),
+          iconDim = (r + strokeWidth) * 2,
+          data = d3.nest()
+            .key(function (d) {
+              return [
+                d.options.color.hex,
+                d.options.color.opacity,
+              ].join('__');
+            })
+            .entries(children, d3.map),
+          html = bakeThePie({
+            data: data,
+            valueFunc: function (d) {return d.values.length;},
+            strokeWidth: 1,
+            outerRadius: r,
+            innerRadius: r - 10,
+            pieClass: 'cluster-pie',
+            pieLabel: n,
+            pieLabelClass: 'marker-cluster-pie-label',
+            pathStyleFunc: function (d) {
+              var col = d.data.key.split('__')[0];
+              var opac = d.data.key.split('__')[1];
 
-                return 'fill:'+col+';stroke:'+col+';background:'+col+';border-color:'+col+';opacity:'+opac;
-              },
-            }),
-            myIcon = new L.DivIcon({
-              html: html,
-              className: 'marker-cluster',
-              iconSize: new L.Point(iconDim, iconDim)
-            });
+              return 'fill:' + col + ';stroke:' + col + ';background:' + col + ';border-color:' + col + ';opacity:' + opac;
+            },
+          }),
+          myIcon = new L.DivIcon({
+            html: html,
+            className: 'marker-cluster',
+            iconSize: new L.Point(iconDim, iconDim)
+          });
+
         return myIcon;
       }
 
@@ -381,65 +382,68 @@
           return '';
         }
         var data = options.data,
-            valueFunc = options.valueFunc,
-            r = options.outerRadius?options.outerRadius:28, //Default outer radius = 28px
-            rInner = options.innerRadius?options.innerRadius:r-10, //Default inner radius = r-10
-            strokeWidth = options.strokeWidth?options.strokeWidth:1, //Default stroke is 1
-            pathClassFunc = options.pathClassFunc?options.pathClassFunc:function(){return '';}, //Class for each path
-            pathTitleFunc = options.pathTitleFunc?options.pathTitleFunc:function(){return '';}, //Title for each path
-            pathStyleFunc = options.pathStyleFunc?options.pathStyleFunc:function(){return '';}, //Style for each path
-            pieClass = options.pieClass?options.pieClass:'marker-cluster-pie', //Class for the whole pie
-            pieLabel = options.pieLabel?options.pieLabel:d3.sum(data,valueFunc), //Label for the whole pie
-            pieLabelClass = options.pieLabelClass?options.pieLabelClass:'marker-cluster-pie-label',//Class for the pie label
+          valueFunc = options.valueFunc,
+          r = options.outerRadius ? options.outerRadius : 28, //Default outer radius = 28px
+          rInner = options.innerRadius ? options.innerRadius : r - 10, //Default inner radius = r-10
+          strokeWidth = options.strokeWidth ? options.strokeWidth : 1, //Default stroke is 1
+          pathClassFunc = options.pathClassFunc ? options.pathClassFunc : function () {return '';}, //Class for each path
+          pathTitleFunc = options.pathTitleFunc ? options.pathTitleFunc : function () {return '';}, //Title for each path
+          pathStyleFunc = options.pathStyleFunc ? options.pathStyleFunc : function () {return '';}, //Style for each path
+          pieClass = options.pieClass ? options.pieClass : 'marker-cluster-pie', //Class for the whole pie
+          pieLabel = options.pieLabel ? options.pieLabel : d3.sum(data, valueFunc), //Label for the whole pie
+          pieLabelClass = options.pieLabelClass ? options.pieLabelClass : 'marker-cluster-pie-label', //Class for the pie label
 
-            origo = (r+strokeWidth), //Center coordinate
-            w = origo*2, //width and height of the svg element
-            h = w,
-            donut = d3.pie(),
-            arc = d3.arc().innerRadius(rInner).outerRadius(r);
+          origo = (r + strokeWidth), //Center coordinate
+          w = origo * 2, //width and height of the svg element
+          h = w,
+          donut = d3.pie(),
+          arc = d3.arc().innerRadius(rInner)
+            .outerRadius(r);
 
         //Create an svg element
         var svg = document.createElementNS(d3.namespaces.svg, 'svg');
         //Create the pie chart
         var vis = d3.select(svg)
-            .data([data])
-            .attr('class', pieClass)
-            .attr('width', w)
-            .attr('height', h);
+          .data([data])
+          .attr('class', pieClass)
+          .attr('width', w)
+          .attr('height', h);
 
         var arcs = vis.selectAll('g.arc')
-            .data(donut.value(valueFunc))
-            .enter().append('svg:g')
-            .attr('class', 'arc')
-            .attr('transform', 'translate(' + origo + ',' + origo + ')');
+          .data(donut.value(valueFunc))
+          .enter()
+          .append('svg:g')
+          .attr('class', 'arc')
+          .attr('transform', 'translate(' + origo + ',' + origo + ')');
 
         arcs.append('svg:path')
-            .attr('style', pathStyleFunc)
-            .attr('class', pathClassFunc)
-            .attr('stroke-width', strokeWidth)
-            .attr('d', arc);
+          .attr('style', pathStyleFunc)
+          .attr('class', pathClassFunc)
+          .attr('stroke-width', strokeWidth)
+          .attr('d', arc);
 
         vis.append('text')
-            .attr('x',origo)
-            .attr('y',origo)
-            .attr('class', pieLabelClass)
-            .attr('text-anchor', 'middle')
-            //.attr('dominant-baseline', 'central')
-            /*IE doesn't seem to support dominant-baseline, but setting dy to .3em does the trick*/
-            .attr('dy','.3em')
-            .text(pieLabel);
+          .attr('x', origo)
+          .attr('y', origo)
+          .attr('class', pieLabelClass)
+          .attr('text-anchor', 'middle')
+        //.attr('dominant-baseline', 'central')
+        /*IE doesn't seem to support dominant-baseline, but setting dy to .3em does the trick*/
+          .attr('dy', '.3em')
+          .text(pieLabel);
         //Return the svg-markup rather than the actual element
         return serializeXmlNode(svg);
       }
 
       /*Helper function*/
-      function serializeXmlNode(xmlNode) {
-        if (typeof window.XMLSerializer != "undefined") {
-            return (new window.XMLSerializer()).serializeToString(xmlNode);
-        } else if (typeof xmlNode.xml != "undefined") {
-            return xmlNode.xml;
+      function serializeXmlNode (xmlNode) {
+        if (typeof window.XMLSerializer !== 'undefined') {
+          return (new window.XMLSerializer()).serializeToString(xmlNode);
+        } else if (typeof xmlNode.xml !== 'undefined') {
+          return xmlNode.xml;
         }
-        return "";
+
+        return '';
       }
     }
   }

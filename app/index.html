@@ -304,7 +304,9 @@
 
     <!-- Add your site or application content here -->
     <div class="container">
-        <div ui-view></div>
+      <osem-loader></osem-loader>
+      <div ui-view>
+      </div>
     </div>
 
     <!-- build:js scripts/vendor.js -->
@@ -346,6 +348,7 @@
     <script src="components/leaflet.service.js"></script>
     <script src="components/charts.directive.js"></script>
     <script src="components/badge.directive.js"></script>
+    <script src="components/loader.directive.js"></script>
     <script src="scripts/directives/autofocus.js"></script>
     <script src="scripts/controllers/info.js"></script>
     <script src="scripts/controllers/register.js"></script>

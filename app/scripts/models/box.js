@@ -41,9 +41,7 @@
               if (index) {
                 var sensor = response.sensors[index];
 
-                if (angular.isDefined(sensor.lastMeasurement) &&
-                  angular.isDefined(that.sensors[sensor._id].lastMeasurement)
-                ) {
+                if (sensor.lastMeasurement && that.sensors[sensor._id].lastMeasurement) {
                   that.sensors[sensor._id].lastMeasurement.value = sensor.lastMeasurement.value;
                   that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
                 }

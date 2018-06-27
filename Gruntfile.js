@@ -173,10 +173,12 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/leaflet.directive.js',
           '<%= yeoman.app %>/components/charts.directive.js',
           '<%= yeoman.app %>/components/calendar.directive.js',
-          '<%= yeoman.app %>/components/badge.directive.js'
+          '<%= yeoman.app %>/components/badge.directive.js',
+          '<%= yeoman.app %>/components/loader.directive.js'
         ],
         tasks: [
           // 'newer:copy:api',
+          'loadconst',
           'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',

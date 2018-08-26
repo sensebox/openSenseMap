@@ -2,7 +2,7 @@ FROM digitallyseamless/nodejs-bower-grunt AS build
 COPY package.json package-lock.json bower.json .bowerrc /data/
 RUN npm install && bower install
 COPY . /data
-RUN grunt build
+RUN grunt build --target=build
 
 
 FROM busybox:1

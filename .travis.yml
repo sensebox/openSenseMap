@@ -12,9 +12,6 @@ cache:
   - "$HOME/.cache/bower"
   - "$HOME/.npm"
 
-before_install:
-  - npm install -g grunt-cli bower
-
 script:
   # Set dev URLs
   # By default env variables contain production urls
@@ -25,7 +22,6 @@ script:
       export OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV;
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV;
     fi
-  - npm run build
   - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH-temp .
 
 after_success:

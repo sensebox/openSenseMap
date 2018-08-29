@@ -384,7 +384,7 @@
           controllerAs: 'info'
         })
         .state('info.about', {
-          url: '/about',
+          url: '^/about',
           views: {
             'info': {
               templateUrl: 'views/info.about.html'
@@ -392,7 +392,7 @@
           }
         })
         .state('info.privacy', {
-          url: '/privacy',
+          url: '^/privacy',
           views: {
             'info': {
               templateUrl: 'views/info.privacy.html'
@@ -400,7 +400,7 @@
           }
         })
         .state('info.imprint', {
-          url: '/imprint',
+          url: '^/imprint',
           views: {
             'info': {
               templateUrl: 'views/info.imprint.html'

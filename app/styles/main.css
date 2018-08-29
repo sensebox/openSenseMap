@@ -6,7 +6,7 @@
 body {
   padding-top: 50px;
   padding-bottom: 20px;
-  background: #eee;
+  /* background: #eee; */
 }
 
 html, body {
@@ -1710,7 +1710,7 @@ svg .dot {
 
 .hourglass {
   display: block;
-  background: #eee;
+  background: #fff;
   margin: 3em auto;
   width: 2em;
   height: 4em;
@@ -1739,4 +1739,9 @@ svg .dot {
     transform: rotate(180deg);
     box-shadow: inset #eee 0 2em 0 0, inset #4EAF47 0 2em 0 0, inset #eee 0 2em 0 0, inset #4EAF47 0 4em 0 0;
   }
+}
+
+nav > a.active {
+  background: white;
+  color: rgba(0, 0, 0, .5)
 }

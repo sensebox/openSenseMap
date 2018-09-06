@@ -493,6 +493,16 @@
       vm.modelSelected.name = false;
     });
 
+    $scope.$watch('register.newModel.connection', function (newValue) {
+      if (newValue === 'lora') {
+        vm.ttnEnabled = true;
+        vm.open.collapse5 = true;
+      } else {
+        vm.ttnEnabled = false;
+        vm.open.collapse5 = false;
+      }
+    });
+
     // check if valid json for ttn decodeOptions
     $scope.$watch('register.ttn.decodeOptions', function (newValue) {
       if (!newValue.length) {

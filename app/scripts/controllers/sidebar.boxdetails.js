@@ -65,7 +65,7 @@
     }
 
     function editBox () {
-      $state.go('account.edit.general', { id: vm.box._id, box: vm.box });
+      $state.go('account.edit.general', { id: vm.box._id });
     }
 
     // focus current location of a box or its trajectory, if optional

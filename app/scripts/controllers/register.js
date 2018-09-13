@@ -308,7 +308,7 @@
         vm.newSenseBox.model = vm.newSenseBox.model + vm.newModel.connection;
       }
 
-      if (vm.extensions.feinstaub.id !== '') {
+      if (vm.extensions.feinstaub.id !== '' && vm.newSenseBox.model !== 'homeV2Lora') {
         vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
@@ -494,7 +494,7 @@
     });
 
     $scope.$watch('register.newModel.connection', function (newValue) {
-      if (newValue === 'lora') {
+      if (newValue === 'Lora') {
         vm.ttnEnabled = true;
         vm.open.collapse5 = true;
       } else {

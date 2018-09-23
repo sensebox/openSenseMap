@@ -214,9 +214,9 @@
                 getAlerts: function () {
                   return vm.alerts;
                 },
-                addAlert: function (type, messageId) {
+                addAlert: function (type, messageId, sensorId) {
                   vm.alerts.pop();
-                  $translate(messageId, { boxId: boxData._id }).then(function (translation) {
+                  $translate(messageId, { boxId: boxData._id, sensorId: sensorId }).then(function (translation) {
                     vm.alerts.push({ type: type, msg: translation });
                   });
                 },
@@ -378,9 +378,34 @@
         })
         .state('info', {
           url: '/info',
-          templateUrl: 'views/about.info.html',
+          abstract: true,
+          templateUrl: 'views/info.html',
           controller: 'InfoController',
           controllerAs: 'info'
+        })
+        .state('info.about', {
+          url: '^/about',
+          views: {
+            'info': {
+              templateUrl: 'views/info.about.html'
+            }
+          }
+        })
+        .state('info.privacy', {
+          url: '^/privacy',
+          views: {
+            'info': {
+              templateUrl: 'views/info.privacy.html'
+            }
+          }
+        })
+        .state('info.imprint', {
+          url: '^/imprint',
+          views: {
+            'info': {
+              templateUrl: 'views/info.imprint.html'
+            }
+          }
         });
     }])
     .config(['$translateProvider', function ($translateProvider) {

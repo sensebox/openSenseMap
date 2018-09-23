@@ -44,104 +44,123 @@
       <option ng-repeat="m in download.downloadMarkers | uniquePhenomenons | orderBy:m">{{ m }}</option>
     </select>
     <br>
-    <label>{{"COLUMNS"|translate}}</label>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
-        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox1" ng-model="download.columns.lat" ng-true-value="'lat'" ng-false-value="''">
-            <label for="inlineCheckbox1"> {{"BOX_LATITUDE"|translate}} </label>
+    <uib-accordion close-others="oneAtATime">
+      <div uib-accordion-group class="panel-default" is-open="status.open">
+        <uib-accordion-heading>
+          {{ 'STEP2_SUB4' | translate }} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i>
+        </uib-accordion-heading>
+        <label>{{"COLUMNS"|translate}}</label>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" ng-model="download.columns.lat" ng-true-value="'lat'" ng-false-value="''">
+                <label for="inlineCheckbox1"> {{"BOX_LATITUDE"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox5" ng-model="download.columns.boxId" ng-true-value="'boxId'" ng-false-value="''">
+                <label for="inlineCheckbox5"> Box ID </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox12" ng-model="download.columns.sensorType" ng-true-value="'sensorType'" ng-false-value="''">
+                <label for="inlineCheckbox12"> Sensor {{"CONFIG_TYPE"|translate}} </label>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox5" ng-model="download.columns.boxId" ng-true-value="'boxId'" ng-false-value="''">
-            <label for="inlineCheckbox5"> Box ID </label>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox2" ng-model="download.columns.lng" ng-true-value="'lon'" ng-false-value="''">
+                <label for="inlineCheckbox2"> {{"BOX_LONGITUDE"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox4" ng-model="download.columns.boxName" ng-true-value="'boxName'" ng-false-value="''">
+                <label for="inlineCheckbox4"> {{"BOX_NAME"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox11" ng-model="download.columns.sensorId" ng-true-value="'sensorId'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+                <label for="inlineCheckbox11"> Sensor ID </label>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox12" ng-model="download.columns.sensorType" ng-true-value="'sensorType'" ng-false-value="''">
-            <label for="inlineCheckbox12"> Sensor {{"CONFIG_TYPE"|translate}} </label>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox3" ng-model="download.columns.height" ng-true-value="'height'" ng-false-value="''">
+                <label for="inlineCheckbox3"> {{"BOX_HEIGHT"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox10" ng-model="download.columns.phenomenon" ng-true-value="'phenomenon'" ng-false-value="''">
+                <label for="inlineCheckbox10"> {{"CONFIG_PHENOMENON"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox7" ng-model="download.columns.unit" ng-true-value="'unit'" ng-false-value="''">
+                <label for="inlineCheckbox7"> {{"CONFIG_UNIT"|translate}} </label>
+              </div>
+            </div>
           </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox6" ng-model="download.columns.exposure" ng-true-value="'exposure'" ng-false-value="''">
+                <label for="inlineCheckbox6"> {{"BOX_EXPOSURE"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox8" ng-model="download.columns.value" ng-true-value="'value'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+                <label for="inlineCheckbox8"> {{"VALUE"|translate}} </label>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-xs-4">
+              <div class="checkbox checkbox-success checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox9" ng-model="download.columns.createdAt" ng-true-value="'createdAt'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
+                <label for="inlineCheckbox9"> {{"CREATED_AT"|translate}} </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
+        <br>
+        <div class="radio radio-success radio-inline">
+          <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="csv" checked="">
+          <label for="formatCSV">
+              CSV
+          </label>
+        </div>
+        <div class="radio radio-success radio-inline">
+          <input type="radio" ng-model="download.downloadform.format" name="formatJSON" id="formatJSON" value="json" checked="">
+          <label for="formatJSON">
+              JSON
+          </label>
+        </div>
+        <div class="radio radio-success radio-inline" ng-if="download.inputFilter.window !== 'raw'">
+          <input type="radio" ng-model="download.downloadform.format" name="formatTidy" id="formatTidy" value="tidy" checked="">
+          <label for="formatTidy">
+              Tidy
+          </label>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
-        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox2" ng-model="download.columns.lng" ng-true-value="'lon'" ng-false-value="''">
-            <label for="inlineCheckbox2"> {{"BOX_LONGITUDE"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox4" ng-model="download.columns.boxName" ng-true-value="'boxName'" ng-false-value="''">
-            <label for="inlineCheckbox4"> {{"BOX_NAME"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox11" ng-model="download.columns.sensorId" ng-true-value="'sensorId'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
-            <label for="inlineCheckbox11"> Sensor ID </label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
-        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox3" ng-model="download.columns.height" ng-true-value="'height'" ng-false-value="''">
-            <label for="inlineCheckbox3"> {{"BOX_HEIGHT"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox10" ng-model="download.columns.phenomenon" ng-true-value="'phenomenon'" ng-false-value="''">
-            <label for="inlineCheckbox10"> {{"CONFIG_PHENOMENON"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox7" ng-model="download.columns.unit" ng-true-value="'unit'" ng-false-value="''">
-            <label for="inlineCheckbox7"> {{"CONFIG_UNIT"|translate}} </label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-lg-12 col-md-12 col-sm-12" style="padding-left: 0px; padding-right: 0px;">
-        <div class="col-lg-4 col-md-4 col-xs-4" style="padding-left: 0px; padding-right: 0px;">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox6" ng-model="download.columns.exposure" ng-true-value="'exposure'" ng-false-value="''">
-            <label for="inlineCheckbox6"> {{"BOX_EXPOSURE"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox8" ng-model="download.columns.value" ng-true-value="'value'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
-            <label for="inlineCheckbox8"> {{"VALUE"|translate}} </label>
-          </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-xs-4">
-          <div class="checkbox checkbox-success checkbox-inline">
-            <input type="checkbox" id="inlineCheckbox9" ng-model="download.columns.createdAt" ng-true-value="'createdAt'" ng-false-value="''" ng-disabled="download.inputFilter.window !== 'raw'">
-            <label for="inlineCheckbox9"> {{"CREATED_AT"|translate}} </label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <br>
-    <label>{{ "DOWNLOAD_SELECTFILEFORMAT" | translate }}</label>
-    <br>
-    <div class="radio radio-success">
-      <input type="radio" ng-model="download.downloadform.format" name="formatCSV" id="formatCSV" value="CSV" checked="">
-      <label for="formatCSV">
-          CSV
-      </label>
-    </div>
+    </uib-accordion>
   <br>
   <div uib-alert class="alert-info" ng-bind-html="'DOWNLOAD_LICENSE'|translate"></div>
   <div uib-alert class="alert-warning">

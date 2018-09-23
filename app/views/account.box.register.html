@@ -195,7 +195,7 @@
                     <div style="text-align: center;">
                       <h3>Verbindungsart</h3>
                       <hr>
-                      <div class="col-lg-6">
+                      <div ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet" ng-model="register.newModel.connection" ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-ethernet">
@@ -203,11 +203,19 @@
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-6">
+                      <div ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-wifi" value="Wifi" ng-model="register.newModel.connection" ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-wifi">
                             WiFi
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'">
+                        <div class="radio radio-success">
+                          <input type="radio" name="connection" id="sensebox-lora" value="Lora" ng-model="register.newModel.connection" ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
+                          <label for="sensebox-lora">
+                            LoRa
                           </label>
                         </div>
                       </div>

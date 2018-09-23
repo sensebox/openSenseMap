@@ -65,7 +65,7 @@
     }
 
     function editBox () {
-      $state.go('account.edit.general', { id: vm.box._id, box: vm.box });
+      $state.go('account.edit.general', { id: vm.box._id });
     }
 
     // focus current location of a box or its trajectory, if optional
@@ -87,7 +87,7 @@
       osemMapData.getMap('map_main').then(function (map) {
         var padding = 450; // sidebar width: 450px
         // consider smaller devices (250px min map-width + 450px sidebar-width)
-        if ($document.body.clientWidth <= 700) {padding = 0;}
+        if ($document[0].body.clientWidth <= 700) {padding = 0;}
         if (Sidebar.minimized) {padding = 0;}
 
         map.fitBounds(bounds, {

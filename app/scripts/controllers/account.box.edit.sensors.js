@@ -5,12 +5,18 @@
     .module('openSenseMapApp')
     .controller('EditBoxSensorsController', EditBoxSensorsController);
 
-  EditBoxSensorsController.$inject = ['boxData', 'notifications', 'SensorIcons', 'AccountService'];
+  EditBoxSensorsController.$inject = ['boxData', 'notifications', 'SensorIcons', 'AccountService', 'OpenSenseMapAPI'];
 
-  function EditBoxSensorsController (boxData, notifications, SensorIcons, AccountService) {
+  function EditBoxSensorsController (boxData, notifications, SensorIcons, AccountService, OpenSenseMapAPI) {
     var vm = this;
     vm.sensors = [];
     vm.icons = [];
+    vm.deleteOptions = {
+      fromDate: undefined,
+      toDate: undefined,
+      method: 'timeframe',
+      params: {}
+    };
 
     vm.addSensor = addSensor;
     vm.deleteSensor = deleteSensor;
@@ -21,7 +27,9 @@
     vm.getIcon = getIcon;
     vm.setIcon = setIcon;
     vm.undo = undo;
-
+    vm.editMeasurements = editMeasurements;
+    vm.deleteMeasurements = deleteMeasurements;
+    vm.setDeleteMethod = setDeleteMethod;
     vm.save = save;
 
     activate();
@@ -75,7 +83,7 @@
         title: undefined,
         unit: undefined,
         editing: true,
-        new: true
+        new: true,
       });
 
       setSensorsEditMode();
@@ -130,6 +138,7 @@
         delete sensor.incomplete;
         delete sensor.editing;
         delete sensor.restore;
+        delete sensor.measurementsediting;
       }
 
       setSensorsEditMode();
@@ -138,19 +147,15 @@
     function editSensor (sensor) {
       sensor.restore = angular.copy(sensor);
       sensor.editing = true;
-
       setSensorsEditMode();
     }
 
     function setSensorsEditMode () {
       for (var i = vm.sensors.length - 1; i >= 0; i--) {
-        if (vm.sensors[i].editing) {
-          vm.sensorsEditMode = true;
-
+        if (vm.sensors[i].editing || vm.sensors[i].measurementsediting) {
           return;
         }
       }
-      vm.sensorsEditMode = false;
     }
 
     function getIcon (sensor) {
@@ -180,6 +185,45 @@
 
     function undo (sensor) {
       delete sensor.deleted;
+    }
+
+    function setDeleteMethod (method) {
+      delete vm.deleteOptions.params;
+      switch (method) {
+      case 'timeframe':
+        vm.deleteOptions.method = 'timeframe';
+        if (angular.isDefined(vm.deleteOptions.fromDate) && angular.isDefined(vm.deleteOptions.toDate)) {
+          vm.deleteOptions.params = {
+            'from-date': vm.deleteOptions.fromDate.toISOString(),
+            'to-date': vm.deleteOptions.toDate.toISOString()
+          };
+        }
+        break;
+      case 'all':
+        vm.deleteOptions.method = 'all';
+        vm.deleteOptions.params = {
+          deleteAllMeasurements: true
+        };
+        break;
+      }
+    }
+
+    function editMeasurements (sensor) {
+      sensor.restore = angular.copy(sensor);
+      sensor.measurementsediting = true;
+      setSensorsEditMode();
+    }
+
+    function deleteMeasurements (sensor) {
+      setDeleteMethod(vm.deleteOptions.method);
+
+      return AccountService.deleteMeasurement(boxData._id, sensor._id, vm.deleteOptions.params)
+        .then(function (response) {
+          notifications.addAlert('info', 'NOTIFICATION_SUCCESSFULLY_DELETED', sensor._id);
+        })
+        .catch(function (error) {
+          notifications.addAlert('danger', 'NOTIFICATION_NO_MATCHING_MEASUREMENTS');
+        });
     }
   }
 })();

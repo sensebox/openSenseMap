@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarBoxDetailsController', SidebarBoxDetailsController);
 
-  SidebarBoxDetailsController.$inject = ['$scope', '$state', '$stateParams', '$document', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar', 'LocalStorageService'];
+  SidebarBoxDetailsController.$inject = ['$scope', '$state', '$stateParams', '$document', 'moment', '$timeout', 'Box', 'OpenSenseMapAPI', 'osemMapData', 'Sidebar', 'LocalStorageService', 'ngDialog'];
 
-  function SidebarBoxDetailsController ($scope, $state, $stateParams, $document, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar, LocalStorageService) {
+  function SidebarBoxDetailsController ($scope, $state, $stateParams, $document, moment, $timeout, Box, OpenSenseMapAPI, osemMapData, Sidebar, LocalStorageService, ngDialog) {
     var vm = this;
     vm.box = {};
     vm.selectedSensor = null;
@@ -16,6 +16,7 @@
     vm.selectSensor = selectSensor;
     vm.resetFilter = resetFilter;
     vm.performFilter = performFilter;
+    vm.openInformation = openInformation;
 
     activate();
 
@@ -48,6 +49,61 @@
             $scope.$broadcast('osemBadgeRefreshStartTimer');
           }, 1000);
         });
+    }
+
+    function openInformation (title) {
+      var prefix = '';
+      var showInfluence = true;
+      var showFunFact = true;
+      switch (title.toLowerCase()) {
+      case 'temperatur':
+      case 'temperature':
+        prefix = 'TEMPERATURE';
+        break;
+      case 'rel. luftfeuchte':
+        prefix = 'HUMIDITY';
+        break;
+      case 'luftdruck':
+        prefix = 'AIRPRESSURE';
+        break;
+      case 'beleuchtungsstärke':
+      case 'illuminence':
+        showInfluence = false;
+        prefix = 'ILLUMINENCE';
+        break;
+      case 'uv-index':
+      case 'uv-intensität':
+        prefix = 'UV';
+        showInfluence = false;
+        break;
+      case 'pm10':
+      case 'pm2.5':
+        prefix = 'PARTICULAR_MATTER';
+        showFunFact = false;
+        break;
+      }
+      if (prefix !== '') {
+        ngDialog.open({
+          template: '../../views/phenomenon.html',
+          appendClassName: 'ngdialog-custom',
+          showClose: true,
+          closeByDocument: false,
+          data: {
+            'phenomenon': title,
+            'showDefinition': true,
+            'definition': prefix + '_DEFINITION',
+            'showUnit': true,
+            'unit': prefix + '_UNIT',
+            'showInterpretation': true,
+            'interpretation': prefix + '_INTERPRETATION',
+            'showInfluence': showInfluence,
+            'influence': prefix + '_INFLUENCE',
+            'showFunFact': showFunFact,
+            'funfact': prefix + '_FUN_FACT'
+          }
+        });
+      }
+
     }
 
     function getBoxTrajectory (options) {

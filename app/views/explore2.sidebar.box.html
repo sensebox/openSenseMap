@@ -29,13 +29,13 @@
     <uib-accordion close-others="oneAtATime">
       <div uib-accordion-group class="panel-default" ng-repeat="sensor in details.box.sensors" is-open="sensor.chart.open" ng-cloak>
         <uib-accordion-heading>
-          <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor == details.selectedSensor ? 'selected-sensor' : ''">
-            <div class="col-xs-1">
+          <div class="row" ng-click="details.selectSensor(sensor, $event)" ng-class="sensor == details.selectedSensor ? 'selected-sensor' : ''" style="padding-left: 0px; padding-right: 0px;">
+            <div class="col-xs-1 col-md-1 col-lg-1" style="padding-left: 0px; padding-right: 0px;">
               <span title="{{sensor.title | translate}}">
                 <span class="icon osem-icon" ng-class="sensor.getIcon(sensor)"></span>
               </span>
             </div>
-            <div class="col-xs-10 sensor-measurement-info" >
+            <div class="col-xs-10 sensor-measurement-info" style="padding-left: 0px; padding-right: 0px;">
               <div>{{sensor.title}}</div><br/>
               <div ng-if="sensor.lastMeasurement.createdAt" uib-tooltip="{{'LAST_MEASUREMENT_FROM' | translate }} {{ sensor.lastMeasurement.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}" tooltip-placement="top-right">
                 <span style="font-weight:bold;">{{sensor.lastMeasurement.value}} {{sensor.unit}}</span>
@@ -43,6 +43,16 @@
               </div>
               <div ng-if="!sensor.lastMeasurement.createdAt">
                 <span class="sensor-measurement-info-nomeasurements"><i>{{'NO_MEASUREMENT'|translate}}</i></span>
+              </div>
+            </div>
+            <div class="col-xs-1 col-md-1 col-lg-1" style="padding-left: 0px; padding-right: 0px;" uib-tooltip="Please click for more information" tooltip-placement="top-right" tooltip-trigger="focus">
+              <div>
+                <i class="pull-right glyphicon glyphicon-info-sign"></i>
+              </div>
+              <br>
+              <br>
+              <div>
+                <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': !sensor.chart.open, 'glyphicon-chevron-up': sensor.chart.open}"></i>
               </div>
             </div>
           </div>
@@ -53,6 +63,10 @@
           </div>
           <div uib-alert class="alert-danger" ng-show="sensor.chart.error">{{'COMMON_ERROR'|translate}}</div>
           <div uib-alert class="alert-info" ng-hide="sensor.lastMeasurement">{{'CHART_NODATA'|translate}}</div>
+          <div uib-alert class="alert-info" style="border-radius: 0px;">
+            <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+            <a ng-click="details.openInformation(sensor.title);">{{'WHAT_IS'|translate}} {{sensor.title}}?</a>
+          </div>
           <osem-calendar
             ng-if="sensor.chart.done"
             osem-placeholder-text-start-date="{{ 'DATEPICKER_STARTINGDATE' | translate}}"

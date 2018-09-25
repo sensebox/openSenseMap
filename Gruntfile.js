@@ -446,7 +446,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
           dest: 'dist/translations',
-          src: ['{,*/}*.json']
+          src: ['de_DE.json','en_US.json']
         },
         {
           expand: true,

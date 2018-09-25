@@ -5,8 +5,7 @@ module.exports = {
   globals: {
     "angular": 1,
     "L": 1,
-    "moment": 1,
-    "Tawk_API": 1
+    "moment": 1
   },
   extends: [
     '@sensebox/eslint-config-sensebox',

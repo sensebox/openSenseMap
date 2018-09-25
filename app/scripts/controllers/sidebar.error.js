@@ -10,17 +10,11 @@
   function SidebarErrorController () {
     var vm = this;
 
-    vm.openChat = openChat;
-
     activate();
 
     ////////////////
 
     function activate () {
-    }
-
-    function openChat () {
-      Tawk_API.toggle();
     }
   }
 })();

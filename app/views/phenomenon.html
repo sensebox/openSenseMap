@@ -1,0 +1,31 @@
+<h1 style="text-align: center;">{{ngDialogData.phenomenon}}</h1>
+<div class="row" style="padding-top: 20px;">
+  <div class="col-lg-12">
+    <b>{{"DEFINITION"|translate}}:</b>
+    <div translate="{{ngDialogData.definition}}"></div>
+  </div>
+</div>
+<div class="row" style="padding-top: 15px;">
+  <div class="col-lg-12">
+    <b>{{"CONFIG_UNIT"|translate}}:</b>
+    <div translate="{{ngDialogData.unit}}"></div>
+  </div>
+</div>
+<div class="row" style="padding-top: 15px;">
+  <div class="col-lg-12">
+    <b>{{"INTERPRETAION"|translate}}:</b>
+    <div translate="{{ngDialogData.interpretation}}"></div>
+  </div>
+</div>
+<div class="row" style="padding-top: 15px;" ng-show="{{ngDialogData.showInfluence}}">
+  <div class="col-lg-12">
+    <b>{{"INFLUENCE"|translate}}:</b>
+    <div translate="{{ngDialogData.influence}}"></div>
+  </div>
+</div>
+<div class="row" style="padding-top: 15px;" ng-show="{{ngDialogData.showFunFact}}">
+  <div class="col-lg-12">
+    <b>{{"FUN_FACT"|translate}}:</b>
+    <div translate="{{ngDialogData.funfact}}"></div>
+  </div>
+</div>

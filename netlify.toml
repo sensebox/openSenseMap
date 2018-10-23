@@ -4,7 +4,7 @@
   environment = { OPENSENSEMAP_MAPTILES_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org" }
 
 [[redirects]]
-  from="/explore"
+  from="/explore/*"
   to="/"
   status=200
 

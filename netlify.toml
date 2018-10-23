@@ -3,15 +3,6 @@
   command = "grunt build --target=build"
   environment = { OPENSENSEMAP_MAPTILES_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org" }
 
-[[headers]]
-  from = "/*"
-
-  [headers.values]
-    X-FRAME-OPTIONS = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Cache-Control = "public, max-age: 300"
-
 # [[headers]]
 #   from = "/scripts"
 
@@ -77,3 +68,12 @@
   from="/privacy"
   to="/"
   status=200
+
+[[headers]]
+  from = "/*"
+
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age: 300"

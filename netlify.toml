@@ -3,26 +3,35 @@
   command = "grunt build --target=build"
   environment = { OPENSENSEMAP_MAPTILES_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org" }
 
-# [[headers]]
-#   from = "/scripts"
+[[headers]]
+  for = "/*"
 
-#   [headers.values]
-#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-#     Cache-Control = "public"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Cache-Control = "public, max-age: 300"
 
-# [[headers]]
-#   from = "/styles"
+[[headers]]
+  for = "/scripts"
 
-#   [headers.values]
-#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-#     Cache-Control = "public"
+  [headers.values]
+    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control = "public"
 
-# [[headers]]
-#   from = "/fonts"
+[[headers]]
+  for = "/styles"
 
-#   [headers.values]
-#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-#     Cache-Control = "public"
+  [headers.values]
+    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control = "public"
+
+[[headers]]
+  for = "/fonts"
+
+  [headers.values]
+    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+    Cache-Control = "public"
 
 [[redirects]]
   from="/explore/*"
@@ -68,12 +77,3 @@
   from="/privacy"
   to="/"
   status=200
-
-[[headers]]
-  for = "/*"
-
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Cache-Control = "public, max-age: 300"

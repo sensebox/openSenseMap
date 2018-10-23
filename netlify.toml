@@ -12,26 +12,26 @@
     X-Content-Type-Options = "nosniff"
     Cache-Control = "public, max-age: 300"
 
-[[headers]]
-  from = "/scripts"
+# [[headers]]
+#   from = "/scripts"
 
-  [headers.values]
-    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control = "public"
+#   [headers.values]
+#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+#     Cache-Control = "public"
 
-[[headers]]
-  from = "/styles"
+# [[headers]]
+#   from = "/styles"
 
-  [headers.values]
-    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control = "public"
+#   [headers.values]
+#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+#     Cache-Control = "public"
 
-[[headers]]
-  from = "/fonts"
+# [[headers]]
+#   from = "/fonts"
 
-  [headers.values]
-    Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
-    Cache-Control = "public"
+#   [headers.values]
+#     Expires = "Thu, 31 Dec 2037 23:55:55 GMT"
+#     Cache-Control = "public"
 
 [[redirects]]
   from="/explore/*"

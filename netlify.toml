@@ -70,7 +70,7 @@
   status=200
 
 [[headers]]
-  from = "/*"
+  for = "/*"
 
   [headers.values]
     X-Frame-Options = "DENY"

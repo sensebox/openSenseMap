@@ -1,9 +1,49 @@
 [context.branch-deploy]
-  publish = "dist"
+  publish = "dist/"
   command = "grunt build --target=build"
   environment = { OPENSENSEMAP_MAPTILES_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org" }
 
 [[redirects]]
+  from="/explore"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/account"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/interpolation"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/filter"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/download"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/register"
+  to="/"
+  status=200
+
+[[redirects]]
   from="/about" 
   to="/" 
+  status=200
+
+[[redirects]]
+  from="/imprint"
+  to="/"
+  status=200
+
+[[redirects]]
+  from="/privacy"
+  to="/"
   status=200

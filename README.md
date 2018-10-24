@@ -6,7 +6,7 @@ This repository contains the code of the openSenseMap frontend running at [https
 
 Originally, this frontend has been built as part of the bachelor thesis of [@mpfeil](https://github.com/mpfeil) at the ifgi (Institute for Geoinformatics, WWU Münster) and is currently maintained by [@mpfeil](https://github.com/mpfeil).
 
-The easiest way to get up and running with your own copy is clicking the `Deploy to Netlify` button below. It will clone the repository into your own account, and deploy the site to Netlify. It is going to use the default environmental variables specified under [configuration](#Configuration).
+The easiest way to get up and running with your own copy is clicking the Deploy to Netlify button below. It will clone the repository into your own account, and deploy the site to Netlify. It is going to ask for `Maptiles url` and `API endpoint`. Please use the default values listed under [configuration](#Configuration) or use your own.
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sensebox/openSenseMap)
 

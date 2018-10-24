@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarFilterController', SidebarFilterController);
 
-  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar'];
+  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar', 'boxes'];
 
-  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar) {
+  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar, boxes) {
     var vm = this;
     vm.inputFilter = {};
     vm.filteredMarkers = {};
@@ -27,6 +27,7 @@
 
     function activate () {
       Sidebar.setTranslationId('SEARCH_AND_FILTER');
+      OpenSenseMapData.setMarkers(boxes); // retrieved through state.resolve in app.js (because we need the full metadata for filtering)
       vm.filteredMarkers = OpenSenseMapData.getMarkers();
       vm.liveFilteredMarkers = OpenSenseMapData.getMarkers();
       vm.results = Object.keys(vm.filteredMarkers).length;

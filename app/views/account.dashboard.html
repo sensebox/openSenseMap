@@ -43,6 +43,8 @@
               <div class="name"><span>{{'BOX_NAME' | translate}}: {{box.name}}</span></div>
               <div class="model"><span>{{'BOX_EXPOSURE' | translate}} - {{box.exposure}}</span></div>
               <div class="model">{{'BOX_MODEL' | translate}} - {{box.model}}</div>
+              <br>
+              <div class="model">senseBox ID - <code>{{box._id}}</code></div>
             </div>
 
           </article>
@@ -85,7 +87,7 @@
         <li class="list-group-item clearfix" ng-repeat="box in dashboard.boxes | orderBy: dashboard.orderByProperty">
           <div class="dashboard-list-item dashboard-list-item-circle" ng-style="{ 'background': box.markerOptions.color.hex }"></div>
           <h4 class="list-group-item-heading name dashboard-list-item">{{'BOX_NAME' | translate}}: {{box.name}}</h4>
-          <p class="list-group-item-text model dashboard-list-item">{{'BOX_EXPOSURE' | translate}}: {{box.exposure}}, {{'BOX_MODEL' | translate}}: {{box.model}}</p>
+          <p class="list-group-item-text model dashboard-list-item">{{'BOX_EXPOSURE' | translate}}: {{box.exposure}}, {{'BOX_MODEL' | translate}}: {{box.model}}, senseBox ID - <code>{{box._id}}</code></p>
           <div class="btn-group dashboard-list-item pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-default" ui-sref="explore.map.sidebar.boxdetails({id: box._id})">
               <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>

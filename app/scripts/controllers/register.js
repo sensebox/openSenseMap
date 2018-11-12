@@ -73,7 +73,8 @@
       collapse2: false,
       collapse3: false,
       collapse4: false,
-      collapse5: false
+      collapse5: false,
+      collapse6: false
     };
 
     vm.markers = {};
@@ -478,6 +479,12 @@
         vm.invalidHardware = false;
 
         return;
+      }
+
+      if (newValue.indexOf('hackair') === 0) {
+        vm.sensorSetup = vm.modelSelected.id;
+        vm.extensions.feinstaub.id = '';
+        vm.newModel.connection = null;
       }
 
       if (newValue === 'custom') {

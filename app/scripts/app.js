@@ -129,7 +129,7 @@
             }
           },
           resolve: { /* @ngInject */
-            boxes: function(BoxesService) {
+            boxes: function (BoxesService) {
               return BoxesService.getBoxesFullMetadata();
             },
           }
@@ -144,7 +144,7 @@
             }
           },
           resolve: { /* @ngInject */
-            boxes: function(BoxesService) {
+            boxes: function (BoxesService) {
               return BoxesService.getBoxesFullMetadata();
             },
           }

@@ -437,6 +437,17 @@
                     </label>
                   </div>
                 </div>
+                <div uib-accordion-group class="panel-default" is-open="register.open.collapse6">
+                  <uib-accordion-heading>
+                    hackAIR <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse6, 'glyphicon-chevron-right': !register.open.collapse6}"></i>
+                  </uib-accordion-heading>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="hackair-home-v2" value="hackair_home_v2" ng-model="register.modelSelected.id" required>
+                    <label for="hackair-home-v2">
+                      hackAIR home sensor V2
+                    </label>
+                  </div>
+                </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse3">
                   <uib-accordion-heading>
                     {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse3, 'glyphicon-chevron-right': !register.open.collapse3}"></i>

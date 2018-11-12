@@ -10,9 +10,11 @@
   function AccountDashboardController (AccountService, LocalStorageService, $scope) {
     var vm = this;
     var localStorageKey = 'osem.dashboard.listStyle';
+    var localStorageOrderByKey = 'osem.dashboard.orderBy';
 
     vm.boxes = [];
     vm.listStyle = 'tiles';
+    vm.orderByProperty = 'createdAt';
 
     activate();
 
@@ -22,6 +24,11 @@
       var listStyleFromLocalStorage = LocalStorageService.getValue(localStorageKey);
       if (listStyleFromLocalStorage) {
         vm.listStyle = listStyleFromLocalStorage;
+      }
+
+      var orderByFromLocalStorage = LocalStorageService.getValue(localStorageOrderByKey);
+      if (orderByFromLocalStorage) {
+        vm.orderByProperty = orderByFromLocalStorage;
       }
 
       return getUsersBoxes()
@@ -42,6 +49,10 @@
 
     $scope.$watch('dashboard.listStyle', function (value) {
       LocalStorageService.setValue(localStorageKey, value);
+    });
+
+    $scope.$watch('dashboard.orderByProperty', function (value) {
+      LocalStorageService.setValue(localStorageOrderByKey, value);
     });
   }
 })();

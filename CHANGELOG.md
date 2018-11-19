@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/sensebox/openSenseMap/compare/v1.3.0...v2.0.0) (2018-11-19)
+
+
+### Bug Fixes
+
+* **authentication:** Add more cases to interceptor and handle responses ([5675818](https://github.com/sensebox/openSenseMap/commit/5675818))
+* **edit:** Fix image url ([72bcdc0](https://github.com/sensebox/openSenseMap/commit/72bcdc0)), closes [#273](https://github.com/sensebox/openSenseMap/issues/273)
+* **edit:** Get box details if edit box is called from sidebar ([abf4656](https://github.com/sensebox/openSenseMap/commit/abf4656))
+* **leaflet:** add undefined check ([7b4e6ac](https://github.com/sensebox/openSenseMap/commit/7b4e6ac))
+* **sidebar:** Fix usage of $document ([7eed54a](https://github.com/sensebox/openSenseMap/commit/7eed54a))
+* **sidebar:** Update last measurements display ([629d537](https://github.com/sensebox/openSenseMap/commit/629d537)), closes [#265](https://github.com/sensebox/openSenseMap/issues/265)
+
+
+### Features
+
+* Added functionality for user to delete measurements of sensors of their own boxes ([bd345b0](https://github.com/sensebox/openSenseMap/commit/bd345b0)), closes [#85](https://github.com/sensebox/openSenseMap/issues/85)
+* **box:** Add descriptions for sensors ([f0d522a](https://github.com/sensebox/openSenseMap/commit/f0d522a)), closes [#189](https://github.com/sensebox/openSenseMap/issues/189)
+* **dashboard:** Add orderBy property ([31c12e6](https://github.com/sensebox/openSenseMap/commit/31c12e6))
+* **dashboard:** Add senseBox ID ([e4c7cbb](https://github.com/sensebox/openSenseMap/commit/e4c7cbb))
+* **download:** direct download url ([f0a4758](https://github.com/sensebox/openSenseMap/commit/f0a4758)), closes [#255](https://github.com/sensebox/openSenseMap/issues/255)
+* **loader:** Add global loading component ([e5239aa](https://github.com/sensebox/openSenseMap/commit/e5239aa)), closes [#257](https://github.com/sensebox/openSenseMap/issues/257)
+* **measurements:** Deleting measurements ([93f1f3a](https://github.com/sensebox/openSenseMap/commit/93f1f3a)), closes [#85](https://github.com/sensebox/openSenseMap/issues/85)
+* **registration:** add new connection type ([b9c94c1](https://github.com/sensebox/openSenseMap/commit/b9c94c1)), closes [#277](https://github.com/sensebox/openSenseMap/issues/277)
+* **registration:** Add possibility to register hackAIR home station ([efa79a9](https://github.com/sensebox/openSenseMap/commit/efa79a9))
+
+
+### Performance Improvements
+
+* **explore.map:** speed up initial getBoxes() ([a1e3aa5](https://github.com/sensebox/openSenseMap/commit/a1e3aa5))
+* **leaflet:** Change way of loading layers ([b2bbc7a](https://github.com/sensebox/openSenseMap/commit/b2bbc7a))
+
+
+### Reverts
+
+* **index.html:** fix bower dependency change ([773113e](https://github.com/sensebox/openSenseMap/commit/773113e))
+
+
+### BREAKING CHANGES
+
+* Deletion of measurements was not able for users per opensensemap.org before
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/sensebox/openSenseMap/compare/v1.2.2...v1.3.0) (2018-05-29)
 

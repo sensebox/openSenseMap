@@ -35,12 +35,13 @@
           'add': vm.extensions.feinstaub.id
         }
       };
+
       return AccountService.updateBox(boxData._id, data)
-        .then(function (response){
+        .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
-        .catch(function (error) {
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_BOX_UPDATE_FAILED');
         });
     }

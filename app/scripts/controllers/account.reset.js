@@ -36,12 +36,12 @@
 
     function showPassword (element) {
       switch (element) {
-        case 'reset-password':
-          vm.newData.password.type = (vm.newData.password.type === 'password') ? vm.newData.password.type = 'text': vm.newData.password.type = 'password';
-          break;
-        case 'reset-password-confirm':
-          vm.newData.confirm.type = (vm.newData.confirm.type === 'password') ? vm.newData.confirm.type = 'text': vm.newData.confirm.type = 'password';
-          break;
+      case 'reset-password':
+        vm.newData.password.type = (vm.newData.password.type === 'password') ? vm.newData.password.type = 'text' : vm.newData.password.type = 'password';
+        break;
+      case 'reset-password-confirm':
+        vm.newData.confirm.type = (vm.newData.confirm.type === 'password') ? vm.newData.confirm.type = 'text' : vm.newData.confirm.type = 'password';
+        break;
       }
     }
 

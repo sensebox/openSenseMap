@@ -31,8 +31,9 @@
           currentPassword: vm.currentPassword,
           newPassword: vm.newPassword.password
         };
+
         return AccountService.updateAccount(data)
-          .then(function (data) {
+          .then(function () {
             AuthenticationService.logout();
             $translate('NOTIFICATION_PASSWORD_UPDATE_SUCCESS').then(function (translation) {
               vm.alerts.push({ type: 'info', msg: translation });
@@ -46,7 +47,7 @@
               $state.go('explore.map');
             }, 5000);
           })
-          .catch(function (error) {
+          .catch(function () {
             vm.currentPassword = '';
             vm.newPassword = {
               password: '',
@@ -56,11 +57,11 @@
               vm.alerts.push({ type: 'danger', msg: translation });
             });
           });
-      } else {
-        $translate('NOTIFICATION_PASSWORD_NOT_THE_SAME').then(function (translation) {
-          vm.alerts.push({ type: 'info', msg: translation });
-        });
       }
+      $translate('NOTIFICATION_PASSWORD_NOT_THE_SAME').then(function (translation) {
+        vm.alerts.push({ type: 'info', msg: translation });
+      });
+
     }
   }
 })();

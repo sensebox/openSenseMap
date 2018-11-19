@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar'];
+  SidebarDownloadController.$inject = ['$scope', '$httpParamSerializer', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar', 'boxes'];
 
-  function SidebarDownloadController ($scope, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar) {
+  function SidebarDownloadController ($scope, $httpParamSerializer, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar, boxes) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -15,7 +15,7 @@
       operation: 'arithmeticMean'
     };
     vm.downloadform = {
-      format: 'CSV',
+      format: 'csv',
       pleaseWait: false,
       emptyData: false,
       errorOccured: false
@@ -33,11 +33,12 @@
       phenomenon: '',
       sensorId: '',
       sensorType: '',
-    }
+    };
 
     vm.dataDownload = dataDownload;
     vm.closeSidebar = closeSidebar;
     vm.changeWindow = changeWindow;
+    vm.getHref = getHref;
 
     activate();
 
@@ -45,6 +46,7 @@
 
     function activate () {
       Sidebar.setTitle('Download');
+      OpenSenseMapData.setMarkers(boxes); // retrieved through state.resolve in app.js (because we need the full metadata for filtering)
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.downloadMarkers = vm.markersFiltered;
       vm.count = Object.keys(vm.markersFiltered).length;
@@ -54,6 +56,7 @@
           vm.map = map;
           $scope.$broadcast('initData', {});
           vm.map.on('zoomend moveend', mapZoomMove);
+
           return 'event attached';
         });
     }
@@ -69,30 +72,30 @@
 
     function changeWindow () {
       switch (vm.inputFilter.window) {
-        case '1h':
-        case '1d':
-        case '10m':
-          vm.columns.createdAt = '';
-          vm.columns.sensorId = '';
-          vm.columns.value = '';
-          break;
+      case '1h':
+      case '1d':
+      case '10m':
+        vm.columns.createdAt = '';
+        vm.columns.sensorId = '';
+        vm.columns.value = '';
+        break;
       }
     }
 
-    function dataDownload () {
-      vm.downloadform.pleaseWait = true;
+    function getDownloadParameters () {
       var boxids = getBoxIdsFromBBox(vm.map);
       var columns = [];
       for (var key in vm.columns) {
         if (vm.columns.hasOwnProperty(key)) {
           var element = vm.columns[key];
           if (element !== '') {
-            columns.push(element)
+            columns.push(element);
           }
         }
       }
 
       var params = {
+        format: vm.downloadform.format,
         boxid: boxids.join(','),
         'to-date': vm.inputFilter.DateTo.toISOString(),
         'from-date': vm.inputFilter.DateFrom.toISOString(),
@@ -101,8 +104,14 @@
         download: true
       };
 
+      return params;
+    }
+
+    function dataDownload () {
+      vm.downloadform.pleaseWait = true;
+      var params = getDownloadParameters();
+
       if (vm.inputFilter.window === 'raw') {
-        params.columns = columns;
         OpenSenseMapAPI.getData(params);
       } else {
         params.window = vm.inputFilter.window;
@@ -111,18 +120,38 @@
       }
     }
 
-    function getBoxIdsFromBBox (map){
+    function getHref () {
+      if (vm.map && vm.inputFilter.DateTo && vm.inputFilter.DateFrom && vm.inputFilter.Phenomenon) {
+        var params = getDownloadParameters();
+        var query = $httpParamSerializer(params);
+        var endpoint = '';
+        if (vm.inputFilter.window === 'raw') {
+          endpoint = '/boxes/data';
+        } else {
+          params.window = vm.inputFilter.window;
+          params.operation = vm.inputFilter.operation;
+          endpoint = '/statistics/descriptive';
+        }
+
+        return encodeURI(endpoint + '?' + query);
+      } else {
+        return '';
+      }
+    }
+
+    function getBoxIdsFromBBox (map) {
       var boxids = [];
       var bbox = map.getBounds();
       vm.downloadMarkers = [];
-      angular.forEach(vm.markersFiltered, function(marker, key) {
-        if (bbox.contains([marker.latLng[0],marker.latLng[1]])) {
+      angular.forEach(vm.markersFiltered, function (marker) {
+        if (bbox.contains([marker.latLng[0], marker.latLng[1]])) {
           boxids.push(marker.station._id);
           vm.downloadMarkers.push(marker);
         }
       });
+
       return boxids;
-    };
+    }
 
     ////
 
@@ -133,12 +162,11 @@
           $scope.$broadcast('initData', {});
           vm.map.on('zoomend moveend', mapZoomMove);
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
         });
     });
 
-    $scope.$on('initData', function (e, args) {
+    $scope.$on('initData', function () {
       vm.count = getBoxIdsFromBBox(vm.map).length;
     });
 

@@ -16,7 +16,7 @@
     vm.filterActive = FilterActiveService;
     vm.counts = {
       boxes: '',
-      measurements : ''
+      measurements: ''
     };
     vm.modelOptions = {
       debounce: {
@@ -50,7 +50,7 @@
           vm.counts.measurements = data[1];
           vm.counts.mPerMin = data[2];
         })
-        .catch(function (error) {
+        .catch(function () {
 
         });
 
@@ -73,13 +73,12 @@
 
     function changeLang (key) {
       LanguageService.change(key)
-        .then(function (response) {
+        .then(function () {
           vm.key = LanguageService.getLanguage();
           LocalStorageService.setValue('osem_language', key);
           vm.isNavCollapsed = true;
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
         });
     }
 
@@ -98,7 +97,7 @@
     }
 
     function open () {
-      var launchTemp = ngDialog.open({
+      ngDialog.open({
         template: '../../views/signup.login.html',
         className: 'ngdialog-theme-default',
         showClose: true,
@@ -114,16 +113,18 @@
       if (AccountService.isAuthed) {
         if (AccountService.isAuthed()) {
           return true;
-        } else {
-          if (AccountService.refreshTokenExists()) {
-            return true;
-          } else {
-            return false;
-          }
         }
-      } else {
+        if (AccountService.refreshTokenExists()) {
+          return true;
+        }
+
         return false;
+
+
       }
+
+      return false;
+
     }
 
     function logout () {
@@ -163,20 +164,19 @@
           q: searchstring
         }
       })
-      .then(function(response){
-        return results.concat(response.data);
-      })
-      .catch(function (err) {
-        console.error('error in geolocation lookup:', err);
-        return results;
-      });
+        .then(function (response) {
+          return results.concat(response.data);
+        })
+        .catch(function () {
+          return results;
+        });
     }
 
     // centers a latlng (marker) on the map while reserving space for the sidebar
     function centerLatLng (latlng) {
-      osemMapData.getMap('map_main').then(function(map) {
-        map.fitBounds([[latlng[0],latlng[2]], [latlng[1],latlng[3]]], {
-          paddingTopLeft: [0,0],
+      osemMapData.getMap('map_main').then(function (map) {
+        map.fitBounds([[latlng[0], latlng[2]], [latlng[1], latlng[3]]], {
+          paddingTopLeft: [0, 0],
           animate: false,
           zoom: 20
         });

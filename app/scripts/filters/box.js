@@ -1,21 +1,21 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('osemFilters')
     .filter('box', BoxFilter);
 
-  BoxFilter.$inject = ['$q', 'filterFilter'];
-  function BoxFilter($q, filterFilter) {
+  BoxFilter.$inject = ['$q', '$timeout', 'filterFilter'];
+  function BoxFilter ($q, $timeout, filterFilter) {
     return boxFilter;
 
     ////////////////
 
-    function boxFilter(markers, expression) {
+    function boxFilter (markers, expression) {
       var deferred = $q.defer();
       var promise = deferred.promise;
 
-      setTimeout(function () {
+      $timeout(function () {
         var results = [];
         angular.forEach(markers, function (marker) {
           var a = filterFilter([marker], expression, function (actual, expected) {
@@ -30,6 +30,7 @@
             if (actual.toLowerCase().includes(expected.toLowerCase())) {
               return true;
             }
+
             return false;
           });
           if (a.length > 0) {

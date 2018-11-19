@@ -5,23 +5,32 @@
     .module('openSenseMapApp')
     .controller('AccountDashboardController', AccountDashboardController);
 
-  AccountDashboardController.$inject = ['AccountService', 'LocalStorageService', '$scope'];
+  AccountDashboardController.$inject = ['AccountService', 'LocalStorageService', '$scope', '$rootScope'];
 
-  function AccountDashboardController (AccountService, LocalStorageService, $scope) {
+  function AccountDashboardController (AccountService, LocalStorageService, $scope, $rootScope) {
     var vm = this;
     var localStorageKey = 'osem.dashboard.listStyle';
+    var localStorageOrderByKey = 'osem.dashboard.orderBy';
 
     vm.boxes = [];
     vm.listStyle = 'tiles';
+    vm.orderByProperty = 'createdAt';
 
     activate();
 
     ////
 
     function activate () {
+      $rootScope.$broadcast('osemLoaderVisibility', { visible: false });
+
       var listStyleFromLocalStorage = LocalStorageService.getValue(localStorageKey);
       if (listStyleFromLocalStorage) {
         vm.listStyle = listStyleFromLocalStorage;
+      }
+
+      var orderByFromLocalStorage = LocalStorageService.getValue(localStorageOrderByKey);
+      if (orderByFromLocalStorage) {
+        vm.orderByProperty = orderByFromLocalStorage;
       }
 
       return getUsersBoxes()
@@ -33,6 +42,7 @@
 
     function getUsersBoxes () {
       vm.boxes = [];
+
       return AccountService.getUsersBoxes()
         .then(function (boxes) {
           vm.boxes = boxes;
@@ -41,6 +51,10 @@
 
     $scope.$watch('dashboard.listStyle', function (value) {
       LocalStorageService.setValue(localStorageKey, value);
+    });
+
+    $scope.$watch('dashboard.orderByProperty', function (value) {
+      LocalStorageService.setValue(localStorageOrderByKey, value);
     });
   }
 })();

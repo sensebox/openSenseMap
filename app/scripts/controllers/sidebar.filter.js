@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarFilterController', SidebarFilterController);
 
-  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar'];
+  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar', 'boxes'];
 
-  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar) {
+  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar, boxes) {
     var vm = this;
     vm.inputFilter = {};
     vm.filteredMarkers = {};
@@ -27,6 +27,7 @@
 
     function activate () {
       Sidebar.setTranslationId('SEARCH_AND_FILTER');
+      OpenSenseMapData.setMarkers(boxes); // retrieved through state.resolve in app.js (because we need the full metadata for filtering)
       vm.filteredMarkers = OpenSenseMapData.getMarkers();
       vm.liveFilteredMarkers = OpenSenseMapData.getMarkers();
       vm.results = Object.keys(vm.filteredMarkers).length;
@@ -51,10 +52,10 @@
     */
     vm._timeout;
     function liveSearch (filter) {
-      if(vm._timeout){
+      if (vm._timeout) {
         $timeout.cancel(vm._timeout);
       }
-      vm._timeout = $timeout(function() {
+      vm._timeout = $timeout(function () {
         performLiveFilter(filter);
         vm._timeout = null;
       }, 500);
@@ -67,57 +68,56 @@
     function performLiveFilter (filter, useLiveFilteredMarkers, markers) {
       vm.loading = true;
       switch (filter) {
-        case 'box':
-          var nameexpr = {
-            station: {
-              name: vm.inputFilter.Name,
-              grouptag: vm.inputFilter.Grouptag,
-              exposure: vm.inputFilter.Exposure,
-              model: vm.inputFilter.vendor
-            }
-          };
-
-          if (useLiveFilteredMarkers) {
-            return boxFilter(markers, nameexpr)
-              .then(function (response) {
-                setMarkersLive(response);
-              });
+      case 'box':
+        var nameexpr = {
+          station: {
+            name: vm.inputFilter.Name,
+            grouptag: vm.inputFilter.Grouptag,
+            exposure: vm.inputFilter.Exposure,
+            model: vm.inputFilter.vendor
           }
+        };
 
-          return boxFilter(vm.filteredMarkers, nameexpr)
+        if (useLiveFilteredMarkers) {
+          return boxFilter(markers, nameexpr)
             .then(function (response) {
-              if (vm.inputFilter.Phenomenon) {
-                return performLiveFilter('phenomenon', true, response);
-              }
               setMarkersLive(response);
             });
-          break;
-        case 'phenomenon':
-          if (useLiveFilteredMarkers) {
-            return phenomenonFilter(markers, vm.inputFilter.Phenomenon)
-              .then(function (response) {
-                setMarkersLive(response);
-              });
-          }
-          return phenomenonFilter(vm.filteredMarkers, vm.inputFilter.Phenomenon)
+        }
+
+        return boxFilter(vm.filteredMarkers, nameexpr)
+          .then(function (response) {
+            if (vm.inputFilter.Phenomenon) {
+              return performLiveFilter('phenomenon', true, response);
+            }
+            setMarkersLive(response);
+          });
+      case 'phenomenon':
+        if (useLiveFilteredMarkers) {
+          return phenomenonFilter(markers, vm.inputFilter.Phenomenon)
             .then(function (response) {
-              if (vm.inputFilter.Exposure !== undefined ||
+              setMarkersLive(response);
+            });
+        }
+
+        return phenomenonFilter(vm.filteredMarkers, vm.inputFilter.Phenomenon)
+          .then(function (response) {
+            if (vm.inputFilter.Exposure !== undefined ||
                   vm.inputFilter.Name !== undefined ||
                   vm.inputFilter.vendor !== undefined ||
                   vm.inputFilter.Grouptag !== undefined) {
-                    return performLiveFilter('box', true, response);
-              }
-              setMarkersLive(response);
-            });
-          break;
+              return performLiveFilter('box', true, response);
+            }
+            setMarkersLive(response);
+          });
       }
     }
 
     function performTimeFilter () {
       var date = [vm.inputFilter.DateFrom.toISOString(), vm.inputFilter.DateTo.toISOString()];
-      if(date !== '' && Array.isArray(date)) {
+      if (date !== '' && Array.isArray(date)) {
         date = date.join(',');
-      };
+      }
       var data = {
         params: {
           date: date,
@@ -136,7 +136,8 @@
         params: {
           classify: true
         }
-      }
+      };
+
       return getBoxes(data)
         .then(function () {
           vm.inputFilter.Name = undefined;
@@ -155,34 +156,34 @@
     function reset (filter) {
       var filterType = 'box';
       switch (filter) {
-        case "name":
-          vm.inputFilter.Name = undefined;
-          break;
-        case "group":
-          vm.inputFilter.Grouptag = undefined;
-          break;
-        case "vendor":
-          vm.inputFilter.vendor = undefined;
-          break;
-        case "exposure":
-          vm.inputFilter.Exposure = undefined;
-          break;
-        case "phenomenon":
-          vm.inputFilter.Phenomenon = undefined;
-          filterType = 'box';
-          break;
+      case 'name':
+        vm.inputFilter.Name = undefined;
+        break;
+      case 'group':
+        vm.inputFilter.Grouptag = undefined;
+        break;
+      case 'vendor':
+        vm.inputFilter.vendor = undefined;
+        break;
+      case 'exposure':
+        vm.inputFilter.Exposure = undefined;
+        break;
+      case 'phenomenon':
+        vm.inputFilter.Phenomenon = undefined;
+        filterType = 'box';
+        break;
       }
       liveSearch(filterType);
     }
 
     function getBoxes (data) {
       vm.loading = true;
+
       return OpenSenseMapAPI.getBoxes(data)
         .then(function (response) {
           setMarkers(response);
         })
-        .catch(function (error) {
-          console.error(error);
+        .catch(function () {
         })
         .finally(function () {
           vm.loading = false;
@@ -204,8 +205,7 @@
           }
           FilterActiveService.query = vm.inputFilter;
         })
-        .catch(function (error) {
-          console.error(error);
+        .catch(function () {
         })
         .finally(function () {
           vm.loading = false;
@@ -224,9 +224,9 @@
     }
 
     // destroy watcher
-    $scope.$on('$destroy', function() {
+    $scope.$on('$destroy', function () {
       Sidebar.setTranslationId('');
-      $timeout.cancel( vm._timeout );
+      $timeout.cancel(vm._timeout);
       if (FilterActiveService.active) {
         FilterActiveService.filteredResults = vm.filteredMarkers;
       } else {

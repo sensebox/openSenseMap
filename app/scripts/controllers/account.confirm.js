@@ -1,5 +1,5 @@
 (function () {
-  'user strict';
+  'use strict';
 
   angular
     .module('openSenseMapApp')
@@ -18,9 +18,9 @@
     function activate () {
       var email = $state.params.email;
       var token = $state.params.token;
-      return confirmEmail(email,token)
+
+      return confirmEmail(email, token)
         .then(function () {
-          console.info('Activated Confirm Email View');
         });
     }
 
@@ -29,12 +29,13 @@
         email: email,
         token: token
       };
+
       return AccountService.confirmEmail(params)
         .then(function (data) {
-          vm.alerts.push({type: 'success', msg: data.message});
+          vm.alerts.push({ type: 'success', msg: data.message });
         })
         .catch(function (error) {
-          vm.alerts.push({type: 'danger', msg: error.message});
+          vm.alerts.push({ type: 'danger', msg: error.message });
         });
     }
   }

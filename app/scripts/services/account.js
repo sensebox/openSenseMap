@@ -24,6 +24,7 @@
       updateBox: updateBox,
       confirmEmail: confirmEmail,
       deleteBox: deleteBox,
+      deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount
     };
@@ -36,6 +37,7 @@
       AuthenticationService.saveToken(response.data.token);
       AuthenticationService.saveRefreshToken(response.data.refreshToken);
       AuthenticationService.saveUser(JSON.stringify(response.data.data.user));
+
       return response.data;
     }
 
@@ -56,8 +58,8 @@
     }
 
     function logout () {
-      return $http.post(app.API_URL + '/users/sign-out', {}, {auth: true})
-        .then(function (response) {
+      return $http.post(app.API_URL + '/users/sign-out', {}, { auth: true })
+        .then(function () {
           AuthenticationService.logout && AuthenticationService.logout();
         })
         .catch(failed);
@@ -81,12 +83,14 @@
 
     function isAuthed () {
       var token = AuthenticationService.getToken();
-      if(token) {
+      if (token) {
         var params = AuthenticationService.parseJwt(token);
+
         return moment.utc() <= moment.utc(params.exp * 1000);
-      } else {
-        return false;
       }
+
+      return false;
+
     }
 
     function refreshAuth () {
@@ -98,10 +102,11 @@
         .then(success)
         .catch(refreshAuthFailed);
 
-        function refreshAuthFailed (error) {
-          AuthenticationService.logout && AuthenticationService.logout();
-          return $q.reject(error);
-        }
+      function refreshAuthFailed (error) {
+        AuthenticationService.logout && AuthenticationService.logout();
+
+        return $q.reject(error);
+      }
     }
 
     function refreshTokenExists () {
@@ -109,12 +114,13 @@
     }
 
     function getUserDetails () {
-      return $http.get(app.API_URL + '/users/me', {auth: true})
+      return $http.get(app.API_URL + '/users/me', { auth: true })
         .then(getUserDetailsComplete)
         .catch(getUserDetailsFailed);
 
       function getUserDetailsComplete (response) {
         AuthenticationService.saveUser(JSON.stringify(response.data.data.me));
+
         return response.data;
       }
 
@@ -124,7 +130,7 @@
     }
 
     function getUsersBoxes () {
-      return $http.get(app.API_URL + '/users/me/boxes', {auth: true})
+      return $http.get(app.API_URL + '/users/me/boxes', { auth: true })
         .then(getUsersBoxesComplete)
         .catch(getUsersBoxesFailed);
 
@@ -140,7 +146,7 @@
     }
 
     function updateAccount (data) {
-      return $http.put(app.API_URL + '/users/me', data, {auth: true})
+      return $http.put(app.API_URL + '/users/me', data, { auth: true })
         .then(updateAccountComplete)
         .catch(updateAccountFailed);
 
@@ -154,7 +160,7 @@
     }
 
     function updateBox (boxId, data) {
-      return $http.put(app.API_URL + '/boxes/' + boxId, data, {auth: true})
+      return $http.put(app.API_URL + '/boxes/' + boxId, data, { auth: true })
         .then(function (response) {
           return response.data;
         })
@@ -162,7 +168,7 @@
     }
 
     function getScript (boxId, data) {
-      return $http.get(app.API_URL + '/boxes/' + boxId + '/script', {auth: true, params: data})
+      return $http.get(app.API_URL + '/boxes/' + boxId + '/script', { auth: true, params: data })
         .then(function (response) {
           return response.data;
         })
@@ -192,8 +198,23 @@
         .catch(failed);
     }
 
+    function deleteMeasurement (boxId, sensorId, data) {
+      return $http.delete(app.API_URL + '/boxes/' + boxId + '/' + sensorId + '/measurements',
+        {
+          data: data,
+          auth: true,
+          headers: {
+            'Content-type': 'application/json; charset=utf-8'
+          }
+        })
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
     function postNewBox (data) {
-      return $http.post(app.API_URL + '/boxes', data, {auth: true})
+      return $http.post(app.API_URL + '/boxes', data, { auth: true })
         .then(function (response) {
           return response.data;
         })

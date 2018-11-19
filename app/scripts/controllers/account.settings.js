@@ -29,7 +29,6 @@
     function activate () {
       return getUserDetails()
         .then(function () {
-          console.info('Settings View activated!');
           angular.copy(vm.backupDetails, vm.details);
         });
     }
@@ -38,6 +37,7 @@
       return AccountService.getUserDetails()
         .then(function (data) {
           vm.backupDetails = data.data.me;
+
           return vm.backupDetails;
         });
     }
@@ -47,7 +47,6 @@
       if (angular.isDefined(vm.currentPassword)) {
         vm.newDetails.currentPassword = vm.currentPassword;
       } else {
-        console.log('Please provide your current password');
         return false;
       }
 
@@ -64,11 +63,10 @@
             .then(function (response) {
               $scope.$emit('languageChanged', response);
             })
-            .catch(function (error) {
-              console.log(error);
+            .catch(function () {
             });
         })
-        .catch(function (error) {
+        .catch(function () {
           vm.currentPassword = '';
           $translate('NOTIFICATION_USER_UPDATE_FAILED').then(function (translation) {
             vm.alerts.push({ type: 'danger', msg: translation });
@@ -83,11 +81,11 @@
     function updateDisabled () {
       if (angular.equals(vm.details, vm.backupDetails)) {
         return true;
-      } else {
-        if (angular.isUndefined(vm.currentPassword) || vm.currentPassword === '') {
-          return true;
-        }
       }
+      if (angular.isUndefined(vm.currentPassword) || vm.currentPassword === '') {
+        return true;
+      }
+
       return false;
     }
 
@@ -108,8 +106,9 @@
       var data = {
         password: vm.password
       };
+
       return AccountService.deleteAccount(data)
-        .then(function (data) {
+        .then(function () {
           $translate('NOTIFICATION_USER_ACCOUNT_DELETE_SUCCESS').then(function (translation) {
             vm.alerts.push({ type: 'info', msg: translation });
           });
@@ -118,7 +117,7 @@
             $state.go('explore.map');
           }, 5000);
         })
-        .catch(function (error) {
+        .catch(function () {
           $translate('NOTIFICATION_USER_ACCOUNT_DELETE_FAILED').then(function (translation) {
             vm.alerts.push({ type: 'danger', msg: translation });
           });

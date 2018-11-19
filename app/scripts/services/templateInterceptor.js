@@ -1,12 +1,12 @@
-(function() {
+(function () {
   'use strict';
 
   angular
     .module('app.services')
     .factory('TemplateCacheInterceptor', TemplateCacheInterceptor);
 
-  TemplateCacheInterceptor.$inject = ['$injector'];
-  function TemplateCacheInterceptor($injector) {
+  TemplateCacheInterceptor.$inject = [];
+  function TemplateCacheInterceptor () {
     return {
       'request': function (config) {
 
@@ -18,6 +18,6 @@
 
         return config;
       }
-    }
+    };
   }
 })();

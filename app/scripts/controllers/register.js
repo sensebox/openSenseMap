@@ -1,3 +1,4 @@
+/* eslint no-undef: "off" */
 (function () {
   'use strict';
 
@@ -72,7 +73,8 @@
       collapse2: false,
       collapse3: false,
       collapse4: false,
-      collapse5: false
+      collapse5: false,
+      collapse6: false
     };
 
     vm.markers = {};
@@ -103,26 +105,27 @@
 
     ////
 
-    function activate() {
+    function activate () {
       vm.icons = SensorIcons;
-      vm.editMarkerInput =  angular.copy(vm.markers);
+      vm.editMarkerInput = angular.copy(vm.markers);
       vm.registering = false;
       $translate('STEP0').then(function (msg) {
         vm.stepTitle = msg;
       });
 
-      var possible = '0123456789';
-      var text = 0;
+      // var possible = '0123456789';
+      // var text = 0;
 
       // generateNewSecret();
     }
 
     function generateNewSecret () {
-      vm.newModel.security.secret = randomFixedInteger(16).toString(16).toUpperCase();
+      vm.newModel.security.secret = randomFixedInteger(16).toString(16)
+        .toUpperCase();
     }
 
     function randomFixedInteger (length) {
-      return Math.floor(Math.pow(10, length-1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length-1) - 1));
+      return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
     }
 
 
@@ -138,14 +141,14 @@
       return '';
     }
 
-    function setStepTitle() {
+    function setStepTitle () {
       vm.stepTitle = WizardHandler.wizard('RegistrationWizard').currentStepTitle();
     }
 
     function stepBack () {
       WizardHandler.wizard('RegistrationWizard').previous();
       setStepTitle();
-      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber()-1 === 2) {
+      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() - 1 === 2) {
         vm.showNext = true;
       } else {
         vm.showNext = true;
@@ -169,28 +172,30 @@
       }
     }
 
-    function enterEvent(keyEvent) {
-      if (keyEvent.which === 13)
-        var stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
-        switch (stepNumber) {
-          case 2:
-            if (vm.modelSelected.id === false) {
-              vm.invalidHardware = true;
-            } else {
-              vm.invalidHardware = false;
-            }
-            if (vm.sensors.length === 0) {
-              vm.sensorIncomplete = true;
-            } else {
-              vm.sensorIncomplete = false;
-            }
-            if (senseboxForm.$valid) {
-              WizardHandler.wizard('RegistrationWizard').next();
-            }
-            break;
-          case 3:
-            completeRegistration();
+    function enterEvent (keyEvent) {
+      var stepNumber = -1;
+      if (keyEvent.which === 13) {
+        stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+      }
+      switch (stepNumber) {
+      case 2:
+        if (vm.modelSelected.id === false) {
+          vm.invalidHardware = true;
+        } else {
+          vm.invalidHardware = false;
         }
+        if (vm.sensors.length === 0) {
+          vm.sensorIncomplete = true;
+        } else {
+          vm.sensorIncomplete = false;
+        }
+        if (senseboxForm.$valid) {
+          WizardHandler.wizard('RegistrationWizard').next();
+        }
+        break;
+      case 3:
+        completeRegistration();
+      }
     }
 
     function add () {
@@ -205,30 +210,30 @@
       vm.sensorSetup = JSON.stringify(vm.sensors);
       edit(sensor.id);
       vm.sensorIncomplete = false;
-    };
+    }
 
     function remove (index) {
-        vm.sensors.splice(index,1);
-        vm.isCustom[index]=false;
-        vm.editing[index]=false;
-        for(var i=0; i < vm.sensors.length; i++){
-          vm.sensors[i].id=i;
-        }
-        if ( vm.sensors.length === 0) {
-          vm.sensorSetup = '';
-          vm.sensorIncomplete = true;
-        } else {
-          vm.sensorSetup = JSON.stringify($scope.sensors);
-        }
-      };
+      vm.sensors.splice(index, 1);
+      vm.isCustom[index] = false;
+      vm.editing[index] = false;
+      for (var i = 0; i < vm.sensors.length; i++) {
+        vm.sensors[i].id = i;
+      }
+      if (vm.sensors.length === 0) {
+        vm.sensorSetup = '';
+        vm.sensorIncomplete = true;
+      } else {
+        vm.sensorSetup = JSON.stringify($scope.sensors);
+      }
+    }
 
     function edit (index) {
       vm.editing[index] = true;
-    };
+    }
 
     function setSensorIcon (sensor, newIcon) {
       sensor.icon = newIcon.name;
-    };
+    }
 
     function downloadArduino (boxId, model) {
       var data = {};
@@ -239,10 +244,9 @@
         .then(function (data) {
           vm.boxScript = data;
         })
-        .catch(function (error) {
-          //todo: display error and reload button
+        .catch(function () {
         });
-    };
+    }
 
     function completeRegistration () {
       setStepTitle();
@@ -281,16 +285,16 @@
             var element = vm.newModel.sensors[key];
             if (element) {
               switch (key) {
-                case 'temp':
-                  vm.newSenseBox.sensorTemplates.push('hdc1080');
-                  break;
-                case 'pressure':
-                  vm.newSenseBox.sensorTemplates.push('bmp280');
-                  break;
-                case 'light':
-                  vm.newSenseBox.sensorTemplates.push('veml6070');
-                  vm.newSenseBox.sensorTemplates.push('tsl45315');
-                  break;
+              case 'temp':
+                vm.newSenseBox.sensorTemplates.push('hdc1080');
+                break;
+              case 'pressure':
+                vm.newSenseBox.sensorTemplates.push('bmp280');
+                break;
+              case 'light':
+                vm.newSenseBox.sensorTemplates.push('veml6070');
+                vm.newSenseBox.sensorTemplates.push('tsl45315');
+                break;
               }
             }
           }
@@ -305,14 +309,15 @@
         vm.newSenseBox.model = vm.newSenseBox.model + vm.newModel.connection;
       }
 
-      if (vm.extensions.feinstaub.id !== '') {
+      if (vm.extensions.feinstaub.id !== '' && vm.newSenseBox.model !== 'homeV2Lora') {
         vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
-          console.log('new sensebox successful', data);
           vm.newSenseBox.id = data.data._id;
+          vm.newSenseBox.access_token = data.data.access_token;
+
           WizardHandler.wizard('RegistrationWizard').next();
           vm.registering = false;
           $translate('REGISTRATION_SUCCESS').then(function (msg) {
@@ -328,8 +333,7 @@
           vm.completed = true;
           vm.stepIndex = 0;
         })
-        .catch(function (error) {
-          console.log(error);
+        .catch(function () {
           $translate('REGISTRATION_FAIL').then(function (msg) {
             var alert = {
               type: 'danger',
@@ -358,12 +362,12 @@
 
     ////
 
-    $scope.$on('osemMapClick.map_register', function(e, args) {
+    $scope.$on('osemMapClick.map_register', function (e, args) {
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
             'layerName': 'registration',
-            'latLng': [parseFloat(args.latlng.lat.toFixed(6)),parseFloat(args.latlng.lng.toFixed(6))],
+            'latLng': [parseFloat(args.latlng.lat.toFixed(6)), parseFloat(args.latlng.lng.toFixed(6))],
             'lat': parseFloat(args.latlng.lat.toFixed(6)),
             'lng': parseFloat(args.latlng.lng.toFixed(6)),
             'draggable': true
@@ -378,10 +382,10 @@
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
         vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
       }
-      vm.editMarkerInput =  angular.copy(vm.markers);
+      vm.editMarkerInput = angular.copy(vm.markers);
     });
 
-    $scope.$on('osemMarkerDragend.map_register', function(e, args) {
+    $scope.$on('osemMarkerDragend.map_register', function (e, args) {
       vm.markers = angular.copy(vm.markers);
       vm.markers.box.latLng = [
         parseFloat(args.target._latlng.lat.toFixed(6)),
@@ -389,7 +393,7 @@
       ];
       vm.markers.box.lat = parseFloat(args.target._latlng.lat.toFixed(6));
       vm.markers.box.lng = parseFloat(args.target._latlng.lng.toFixed(6));
-      vm.editMarkerInput =  angular.copy(vm.markers);
+      vm.editMarkerInput = angular.copy(vm.markers);
     });
 
     $scope.$on('osemMapOnLocationFound.map_register', function (e, args) {
@@ -398,14 +402,14 @@
         vm.markers = {
           box: {
             'layerName': 'registration',
-            'latLng': [parseFloat(args.latlng.lat.toFixed(6)),parseFloat(args.latlng.lng.toFixed(6))],
+            'latLng': [parseFloat(args.latlng.lat.toFixed(6)), parseFloat(args.latlng.lng.toFixed(6))],
             'lat': parseFloat(args.latlng.lat.toFixed(6)),
             'lng': parseFloat(args.latlng.lng.toFixed(6)),
             'draggable': true
           }
         };
         if (args.latlng.altitude) {
-          vm.markers.box.height = parseFloat(args.latlng.altitude.toFixed(2))
+          vm.markers.box.height = parseFloat(args.latlng.altitude.toFixed(2));
         }
       } else {
         vm.markers = angular.copy(vm.markers);
@@ -416,10 +420,10 @@
         vm.markers.box.lat = parseFloat(args.latlng.lat.toFixed(6));
         vm.markers.box.lng = parseFloat(args.latlng.lng.toFixed(6));
       }
-      vm.editMarkerInput =  angular.copy(vm.markers);
+      vm.editMarkerInput = angular.copy(vm.markers);
     });
 
-    $scope.$on('osemMapOnLocationError.map_register', function(e, args){
+    $scope.$on('osemMapOnLocationError.map_register', function (e, args) {
       vm.geolocationError.error = true;
       vm.geolocationError.message = args.message;
     });
@@ -436,17 +440,16 @@
             .then(function (map) {
               map.invalidateSize();
               if (!vm.geolocationError.error) {
-                map.setView([vm.markers.box.lat,vm.markers.box.lng],16);
+                map.setView([vm.markers.box.lat, vm.markers.box.lng], 16);
               }
             })
-            .catch(function (error) {
-              console.log(error);
+            .catch(function () {
             });
         }, 200);
       }
     });
 
-    $scope.$watch('register.modelSelected.id', function(newValue) {
+    $scope.$watch('register.modelSelected.id', function (newValue) {
       if (newValue.indexOf('home') === 0) {
         vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
         vm.sensorSetup = vm.modelSelected.id;
@@ -469,15 +472,21 @@
         var name = 'Luftdaten.info Feinstaubsensor (' + nameParts[1].toUpperCase() + ')';
 
         if (!nameParts[2]) {
-          name += ' ohne Temperatur-/Feuchtesensor';
+          name = name + ' ohne Temperatur-/Feuchtesensor';
         } else {
-          name += ' mit ' + nameParts[2].toUpperCase();
+          name = name + (' mit ' + nameParts[2].toUpperCase());
         }
         vm.modelSelected.name = name;
 
         vm.invalidHardware = false;
 
         return;
+      }
+
+      if (newValue.indexOf('hackair') === 0) {
+        vm.sensorSetup = vm.modelSelected.id;
+        vm.extensions.feinstaub.id = '';
+        vm.newModel.connection = null;
       }
 
       if (newValue === 'custom') {
@@ -493,14 +502,26 @@
       vm.modelSelected.name = false;
     });
 
+    $scope.$watch('register.newModel.connection', function (newValue) {
+      if (newValue === 'Lora') {
+        vm.ttnEnabled = true;
+        vm.open.collapse5 = true;
+      } else {
+        vm.ttnEnabled = false;
+        vm.open.collapse5 = false;
+      }
+    });
+
     // check if valid json for ttn decodeOptions
-    $scope.$watch('register.ttn.decodeOptions', function(newValue) {
+    $scope.$watch('register.ttn.decodeOptions', function (newValue) {
       if (!newValue.length) {
-        return vm.validTTNconfig = true;
+        vm.validTTNconfig = true;
+
+        return vm.validTTNconfig;
       }
       try {
         if (JSON.parse(vm.ttn.decodeOptions).constructor !== Array) {
-          throw 'must be an array';
+          throw new Error('must be an array');
         }
         vm.validTTNconfig = true;
       } catch (e) {
@@ -508,22 +529,24 @@
       }
     });
 
-    $scope.$watch('register.mqtt.url', function(newValue) {
+    $scope.$watch('register.mqtt.url', function (newValue) {
       if (angular.isUndefined(newValue) || !newValue.length) {
-        return vm.validMQTTURL = false;
+        vm.validMQTTURL = false;
+
+        return vm.validMQTTURL;
       }
       try {
-        if (vm.mqtt.url.indexOf('mqtt://') == 0 || vm.mqtt.url.indexOf('mqtts://') == 0) {
+        if (vm.mqtt.url.indexOf('mqtt://') === 0 || vm.mqtt.url.indexOf('mqtts://') === 0) {
           vm.validMQTTURL = true;
         } else {
-          throw 'must start with mqtt[s]://';
+          throw new Error('must start with mqtt[s]://');
         }
       } catch (e) {
         vm.validMQTTURL = false;
       }
     });
 
-    $scope.$watchCollection('register.open.collapse3',function (newValue) {
+    $scope.$watchCollection('register.open.collapse3', function (newValue) {
       if (newValue) {
         vm.modelSelected.id = 'custom';
       }
@@ -534,7 +557,7 @@
         if (Object.keys(vm.markers).length === 0) {
           vm.markers = {
             box: {
-              'latLng': [parseFloat(newValue.lat.toFixed(6)),parseFloat(newValue.lng.toFixed(6))],
+              'latLng': [parseFloat(newValue.lat.toFixed(6)), parseFloat(newValue.lng.toFixed(6))],
               'lat': parseFloat(newValue.lat.toFixed(6)),
               'lng': parseFloat(newValue.lng.toFixed(6)),
               'height': newValue.height,
@@ -551,23 +574,25 @@
           vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
           vm.markers.box.height = newValue.height;
         }
-        vm.editMarkerInput =  angular.copy(vm.markers);
+        vm.editMarkerInput = angular.copy(vm.markers);
       }
     });
 
-    $scope.$watchCollection('register.newSenseBox.exposure', function (newValue, oldValue) {
+    $scope.$watchCollection('register.newSenseBox.exposure', function (newValue) {
       if (newValue === '') {
         return;
       }
+      var icon = '';
+      var color = '';
 
       if (newValue === 'indoor' || newValue === 'outdoor') {
-        var icon = 'cube';
-        var color = 'green';
+        icon = 'cube';
+        color = 'green';
       }
 
       if (newValue === 'mobile') {
-        var icon = 'rocket';
-        var color = 'blue';
+        icon = 'rocket';
+        color = 'blue';
       }
       vm.markers = angular.copy(vm.markers);
       vm.markers.box.icon = L.AwesomeMarkers.icon({

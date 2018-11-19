@@ -1,3 +1,4 @@
+/* eslint angular/controller-as: "off" */
 (function () {
   'use strict';
 
@@ -50,7 +51,7 @@
       vm.errors = [];
 
       if (form === 'signup') {
-        var data = {
+        var signupData = {
           name: vm.signup.name,
           email: vm.signup.email,
           password: vm.signup.password.value
@@ -60,10 +61,11 @@
           vm.errors.push({
             error: 'Password not matching!'
           });
+
           return;
         }
 
-        signup(data)
+        signup(signupData)
           .then(function (response) {
             $rootScope.$emit('loggedIn', response);
             if (angular.isDefined(registration)) {
@@ -79,12 +81,12 @@
             });
           });
       } else if (form === 'login') {
-        var data = {
+        var loginData = {
           email: vm.login.email,
           password: vm.login.password.value
         };
 
-        login(data)
+        login(loginData)
           .then(function (response) {
             $rootScope.$emit('loggedIn', response);
             if (angular.isDefined(registration)) {
@@ -94,7 +96,7 @@
               $state.go('account.dashboard');
             }
           })
-          .catch(function (error) {
+          .catch(function () {
             vm.errors.push({
               error: 'User and or password not valid!'
             });
@@ -154,15 +156,15 @@
 
     function showPassword (element) {
       switch (element) {
-        case 'login-password':
-          vm.login.password.type = (vm.login.password.type === 'password') ? vm.login.password.type = 'text' : vm.login.password.type = 'password';
-          break;
-        case 'signup-password':
-          vm.signup.password.type = (vm.signup.password.type === 'password') ? vm.signup.password.type = 'text': vm.signup.password.type = 'password';
-          break;
-        case 'signup-password-confirm':
-          vm.signup.confirm.type = (vm.signup.confirm.type === 'password') ? vm.signup.confirm.type = 'text': vm.signup.confirm.type = 'password';
-          break;
+      case 'login-password':
+        vm.login.password.type = (vm.login.password.type === 'password') ? vm.login.password.type = 'text' : vm.login.password.type = 'password';
+        break;
+      case 'signup-password':
+        vm.signup.password.type = (vm.signup.password.type === 'password') ? vm.signup.password.type = 'text' : vm.signup.password.type = 'password';
+        break;
+      case 'signup-password-confirm':
+        vm.signup.confirm.type = (vm.signup.confirm.type === 'password') ? vm.signup.confirm.type = 'text' : vm.signup.confirm.type = 'password';
+        break;
       }
     }
 

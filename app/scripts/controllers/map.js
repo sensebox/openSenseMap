@@ -5,14 +5,15 @@
     .module('openSenseMapApp')
     .controller('MapController', MapController);
 
-  MapController.$inject = ['$scope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI', 'boxes'];
+  MapController.$inject = ['$scope', '$rootScope', '$state', '$timeout', '$document', '$templateRequest', '$compile', 'OpenSenseMapData', 'osemMapData', 'isMobile', 'OpenSenseMapAPI', 'boxes'];
 
-  function MapController ($scope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI, boxes) {
+  function MapController ($scope, $rootScope, $state, $timeout, $document, $templateRequest, $compile, OpenSenseMapData, osemMapData, isMobile, OpenSenseMapAPI, boxes) {
     var vm = this;
     vm.showAllMarkers = true;
     vm.showClustering = true;
     vm.showLegend = false;
     vm.cssClass = '';
+    vm.layerloaded = false;
 
     vm.mapMarkers = {};
     // the following get filled from childscope sidebar.boxdetails.js
@@ -39,14 +40,16 @@
     function activate () {
       if (boxes instanceof Error) {
         $state.go('explore.map.sidebar.error');
-        return;
       }
+
+      $rootScope.$broadcast('osemLoaderVisibility', { visible: true });
+      $rootScope.$broadcast('osemLoaderUpdateMessage', { messageText: 'Loading map' });
+
       return OpenSenseMapData.setMarkers(boxes)
         .then(function (response) {
           vm.mapMarkers = response;
         })
-        .catch(function (error) {
-          console.error(error);
+        .catch(function () {
         });
     }
 
@@ -54,9 +57,9 @@
       var legend = L.control({ position: 'bottomleft' });
       legend.onAdd = function () {
         var _div = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-        this._div = _div;
+        vm._div = _div;
         $templateRequest(templateURI)
-          .then(function(html) {
+          .then(function (html) {
             var template = angular.element(html);
             var infoDiv = angular.element(_div);
             var infoContainer = angular.element(legend._container);
@@ -65,50 +68,51 @@
             $compile(template)($scope);
           });
 
-        this._div.onclick = clickHandler;
-        return this._div;
+        vm._div.onclick = clickHandler;
+
+        return vm._div;
       };
 
       return legend;
     }
 
     function toggleLegend (event, showLegend) {
-      var zoomControl = document.getElementsByClassName('leaflet-top leaflet-left');
+      var zoomControl = $document[0].getElementsByClassName('leaflet-top leaflet-left');
       if (angular.isDefined(showLegend)) {
         vm.cssClass = '';
-        if (document.body.clientHeight <= 400 ) {
+        if ($document[0].body.clientHeight <= 400) {
           zoomControl[0].classList.remove('hidden');
         }
         vm.showLegend = showLegend;
         event.stopPropagation();
       } else {
         vm.cssClass = 'legend-big';
-        if (document.body.clientHeight <= 400 ) {
+        if ($document[0].body.clientHeight <= 400) {
           zoomControl[0].classList.add('hidden');
         }
         vm.showLegend = true;
       }
     }
 
-    function toggleLayer (type, event) {
+    function toggleLayer (type) {
       osemMapData.getLayers()
-        .then(function(layers){
+        .then(function (layers) {
           osemMapData.getMap('map_main')
-            .then(function(map){
+            .then(function (map) {
               if (map.hasLayer(layers[type])) {
                 map.removeLayer(layers[type]);
               } else {
                 map.addLayer(layers[type]);
               }
-            })
+            });
         });
     }
 
-    function toggleClustering (event) {
+    function toggleClustering () {
       osemMapData.getLayers()
-        .then(function(layers){
+        .then(function (layers) {
           osemMapData.getMap('map_main')
-            .then(function(map){
+            .then(function (map) {
               if (map.hasLayer(layers.markerCluster)) {
                 map.removeLayer(layers.markerCluster);
                 layers.activeMarkers.setParentGroupSafe(map);
@@ -120,11 +124,11 @@
                 layers.activeMarkers.setParentGroupSafe(layers.markerCluster);
                 map.addLayer(layers.markerCluster);
               }
-            })
+            });
         });
     }
 
-    function resetHoverlabel() {
+    function resetHoverlabel () {
       vm.hoverlabel = { left: 0, top: 0, name: '' };
     }
 
@@ -133,7 +137,7 @@
     $scope.$on('osemMeasurementMouseOver.map_main', function (e, args) {
       vm.hoverlabel = {
         left: (args.containerPoint.x + 10) + 'px',
-        top:  (args.containerPoint.y - 43) + 'px',
+        top: (args.containerPoint.y - 43) + 'px',
         name: args.target.options.hoverlabelContent
       };
     });
@@ -141,8 +145,8 @@
     $scope.$on('osemMarkerMouseOver.map_main', function (e, args) {
       var markerBounds = args.target._icon.getBoundingClientRect();
       vm.hoverlabel = {
-        left: markerBounds.left+'px',
-        top: (markerBounds.top-33)+'px',
+        left: markerBounds.left + 'px',
+        top: (markerBounds.top - 33) + 'px',
         name: args.target.options.station.name
       };
     });
@@ -155,8 +159,16 @@
       $state.go('explore.map.sidebar.boxdetails', { id: args.target.options.station._id });
     });
 
-    $scope.$on('markersChanged', function (data) {
+    $scope.$on('markersChanged', function () {
       vm.mapMarkers = OpenSenseMapData.getMarkers();
+    });
+
+    $scope.$on('layerloaded', function () {
+      osemMapData.getMap('map_main')
+        .then(function (map) {
+          $rootScope.$broadcast('osemLoaderVisibility', { visible: false });
+          map.invalidateSize();
+        });
     });
 
     $scope.$on('osemMapReady', function () {
@@ -169,12 +181,11 @@
 
         if (isMobile.phone || isMobile.tablet) {
           var element = $document[0].getElementsByClassName('leaflet-bottom leaflet-left');
-          element[0].setAttribute("style", "bottom: 0px;");
+          element[0].setAttribute('style', 'bottom: 0px;');
         }
       })
-      .catch(function (error) {
-        console.log(error);
-      });
+        .catch(function () {
+        });
     });
   }
 })();

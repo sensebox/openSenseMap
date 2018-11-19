@@ -1,4 +1,5 @@
 // Generated on 2014-05-20 using generator-angular 0.8.0
+
 'use strict';
 
 // # Globbing
@@ -40,7 +41,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/views/explore2.map.html'], dest: '<%= yeoman.dist %>/views/'}
+          { expand: true, flatten: true, src: ['<%= yeoman.dist %>/views/explore2.map.html'], dest: '<%= yeoman.dist %>/views/' }
         ]
       },
       urls: {
@@ -65,7 +66,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/'}
+          { expand: true, flatten: true, src: ['<%= yeoman.dist %>/scripts/*.scripts.js'], dest: '<%= yeoman.dist %>/scripts/' }
         ]
       },
       devapi: {
@@ -78,8 +79,8 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts'},
-          {expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services'}
+          { expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts' },
+          { expand: true, flatten: true, src: ['.tmp/scripts/services/opensensemapapi.js'], dest: '.tmp/scripts/services' }
         ]
       },
       devmaps: {
@@ -92,7 +93,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/components/leaflet.directive.js'], dest: '.tmp/components'}
+          { expand: true, flatten: true, src: ['.tmp/components/leaflet.directive.js'], dest: '.tmp/components' }
         ]
       },
       version: {
@@ -109,7 +110,7 @@ module.exports = function (grunt) {
           ]
         },
         files: [
-          {expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts'}
+          { expand: true, flatten: true, src: ['.tmp/scripts/constants.js'], dest: '.tmp/scripts' }
         ]
       }
     },
@@ -132,7 +133,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/scripts/{,*/}*.js',
           '<%= yeoman.app %>/components/{,*/}*.js'
         ],
-        tasks: ['newer:jshint:all'],
+        tasks: ['newer:eslint'],
         options: {
           livereload: true
         }
@@ -172,10 +173,12 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/leaflet.directive.js',
           '<%= yeoman.app %>/components/charts.directive.js',
           '<%= yeoman.app %>/components/calendar.directive.js',
-          '<%= yeoman.app %>/components/badge.directive.js'
+          '<%= yeoman.app %>/components/badge.directive.js',
+          '<%= yeoman.app %>/components/loader.directive.js'
         ],
         tasks: [
           // 'newer:copy:api',
+          'loadconst',
           'newer:copy:apinew',
           'newer:copy:maps',
           'replace:devapi',
@@ -204,12 +207,13 @@ module.exports = function (grunt) {
             '.tmp',
             '<%= yeoman.app %>'
           ],
-          middleware: function(connect, options) {
+          middleware: function (connect, options) {
             var middlewares = [];
             middlewares.push(modRewrite(['!\\.html|\\.js|\\.css|\\.svg|\\.jp(e?)g|\\.png|\\.woff2|\\.gif|\\.ttf$ /index.html']));
-            options.base.forEach(function(base) {
+            options.base.forEach(function (base) {
               middlewares.push(serveStatic(base));
             });
+
             return middlewares;
           }
         }
@@ -232,21 +236,8 @@ module.exports = function (grunt) {
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc',
-        reporter: require('jshint-stylish')
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
-      ],
-      test: {
-        options: {
-          jshintrc: 'test/.jshintrc'
-        },
-        src: ['test/spec/{,*/}*.js']
-      }
+    eslint: {
+      target: ['<%= yeoman.app %>/scripts/{,*/}*.js']
     },
 
     // Empties folders to start fresh
@@ -255,13 +246,13 @@ module.exports = function (grunt) {
         files: [{
           dot: true,
           src: [
-            '.tmp',
+            '.tmp/',
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*'
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp/'
     },
 
     // Add vendor prefixed styles
@@ -329,9 +320,10 @@ module.exports = function (grunt) {
       options: {
         assetsDirs: ['<%= yeoman.dist %>'],
         blockReplacements: {
-          js: function (block){
+          js: function (block) {
             console.log(block.dest);
-            return '<script defer src="' + block.dest + '"><\/script>';
+
+            return `<script defer src="${  block.dest  }"><\/script>`;
           }
         }
       }
@@ -454,7 +446,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
           dest: 'dist/translations',
-          src: ['{,*/}*.json']
+          src: ['de_DE.json','en_US.json']
         },
         {
           expand: true,
@@ -576,16 +568,16 @@ module.exports = function (grunt) {
           mode: 'gzip'
         },
         files: [
-          {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz'},
-          {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.gz'},
-          {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz'},
-          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz'},
-          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz'},
-          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.gz'},
-          {expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.gz'},
-          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz'}
+          { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz' },
+          { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.gz' },
+          { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz' },
+          { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz' },
+          { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz' },
+          { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz' },
+          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz' },
+          { expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.gz' },
+          { expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.gz' },
+          { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz' }
 
         ]
       },
@@ -594,16 +586,16 @@ module.exports = function (grunt) {
           mode: 'brotli'
         },
         files: [
-          {expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br'},
-          {expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext:'.html.br'},
-          {expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br'},
-          {expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br'},
-          {expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br'},
-          {expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.br'},
-          {expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.br'},
-          {expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br'}
+          { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br' },
+          { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.br' },
+          { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br' },
+          { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br' },
+          { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br' },
+          { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br' },
+          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br' },
+          { expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.br' },
+          { expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.br' },
+          { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br' }
         ]
       }
     },
@@ -663,11 +655,11 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run(['serve:' + target]);
+    grunt.task.run([`serve:${  target}`]);
   });
 
-  grunt.registerTask('loadconst', 'Load constants', function(target) {
-    console.log("Load constants: ", process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL);
+  grunt.registerTask('loadconst', 'Load constants', function (target) {
+    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL);
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
     grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
   });
@@ -705,12 +697,12 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
+    'newer:eslint',
     'test',
     'build'
   ]);
 
-  grunt.registerTask('languages','',function () {
+  grunt.registerTask('languages', '', function () {
     var target = grunt.option('target');
     var translationsFolder = '.tmp/translations/';
     var targetFile = '.tmp/index.html';
@@ -721,27 +713,27 @@ module.exports = function (grunt) {
 
     var fs = require('fs');
     var done = this.async();
-    fs.readFile('app/index.html', 'utf8', function (err,data) {
+    fs.readFile('app/index.html', 'utf8', function (err, data) {
       if (err) {
         return console.log(err);
       }
       var html = '';
-      grunt.file.recurse(translationsFolder, function(abspath, rootdir, subdir, filename){
+      grunt.file.recurse(translationsFolder, function (abspath, rootdir, subdir, filename) {
         if (subdir !== undefined) { return; }
         if (filename.indexOf('disabled') === -1) {
           var languageCode = filename.split('.')[0];
           var language = languageCode.split('_')[0];
-          html += '<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>';
+          html = html + ('<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>');
         }
       });
       var resultStart = data.split('<!-- languages-start -->');
       var resultEnd = data.split('<!-- languages-end -->');
-      var res = resultStart[0] + '<!-- languages-start -->' + html + '<!-- languages-end -->' + resultEnd[1];
+      var res = `${resultStart[0]  }<!-- languages-start -->${  html  }<!-- languages-end -->${  resultEnd[1]}`;
 
       fs.writeFile(targetFile, res, 'utf8', function (err) {
-          if (err) { return console.log(err); }
-          // grunt.file.copy('.tmp/index.html','app/index.html');
-          done();
+        if (err) { return console.log(err); }
+        // grunt.file.copy('.tmp/index.html','app/index.html');
+        done();
       });
     });
   });

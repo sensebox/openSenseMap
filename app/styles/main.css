@@ -6,6 +6,7 @@
 body {
   padding-top: 50px;
   padding-bottom: 20px;
+  /* background: #eee; */
 }
 
 html, body {
@@ -229,6 +230,11 @@ a:hover {
   border-radius: 0;
 }
 
+.ngdialog.ngdialog-theme-default.ngdialog-custom .ngdialog-content {
+  min-width: 300px;
+  width: 30%;
+}
+
 .xxxl {
   width: 100%;
 }
@@ -443,10 +449,6 @@ a:hover {
   width:26px;
   height:26px;
   background-color: #fff;
-}
-
-.leaflet-bottom.leaflet-left {
-  bottom: 40px;
 }
 
 .leaflet-control-my-location:hover {
@@ -1251,7 +1253,7 @@ article {
 
 .icon {
   /*width: 84px;*/
-  height: 84px;
+  /* height: 84px; */
   -webkit-order: 0;
   -ms-flex-order: 0;
   order: 0;
@@ -1638,49 +1640,6 @@ svg .dot {
   animation: spinner .6s linear infinite;
 }
 
-.loader,
-.loader:after {
-  border-radius: 50%;
-  width: 2em;
-  height: 2em;
-}
-.loader {
-  display: inline-block;
-  vertical-align: middle;
-  font-size: 10px;
-  position: relative;
-  text-indent: -9999em;
-  border-top: 0.1em solid rgba(0,0,0, 0.2);
-  border-right: 0.1em solid rgba(0,0,0, 0.2);
-  border-bottom: 0.1em solid rgba(0,0,0, 0.2);
-  border-left: 0.1em solid #000000;
-  -webkit-transform: translateZ(0);
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-  -webkit-animation: load8 1.1s infinite linear;
-  animation: load8 1.1s infinite linear;
-}
-@-webkit-keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes load8 {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-
 @media (max-width: 420px) {
   .dateInput {
     width: 39%;
@@ -1701,7 +1660,7 @@ svg .dot {
   }
 }
 
-#loader {
+.loader {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1752,4 +1711,42 @@ svg .dot {
   50% {
     transform: scale(1.2,1);
   }
+}
+
+.hourglass {
+  display: block;
+  background: #fff;
+  margin: 3em auto;
+  width: 2em;
+  height: 4em;
+  box-shadow: inset #eee 0 0 0 0, inset #4EAF47 0 2em 0 0, inset #eee 0 0 4em 0;
+  animation: hourglass 1s linear infinite;
+}
+
+.outer {
+  fill: #4EAF47;
+}
+
+.middle {
+  fill: #eee;
+}
+
+@keyframes hourglass {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: inset #eee 0 0 0 0, inset #4EAF47 0 2em 0 0, inset #eee 0 4em 0 0, inset #4EAF47 0 4em 0 0;
+  }
+  80% {
+    transform: rotate(0deg);
+    box-shadow: inset #eee 0 2em 0 0, inset #4EAF47 0 2em 0 0, inset #eee 0 2em 0 0, inset #4EAF47 0 4em 0 0;
+  }
+  100% {
+    transform: rotate(180deg);
+    box-shadow: inset #eee 0 2em 0 0, inset #4EAF47 0 2em 0 0, inset #eee 0 2em 0 0, inset #4EAF47 0 4em 0 0;
+  }
+}
+
+nav > a.active {
+  background: white;
+  color: rgba(0, 0, 0, .5)
 }

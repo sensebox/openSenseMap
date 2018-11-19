@@ -95,8 +95,8 @@
                   {{'REGISTER' | translate}}
                 </a>
               </li>
-              <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="info" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+              <li ui-sref-active="{'active': 'info.**'}" class="menuitem">
+                <a ui-sref="info.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <i class="fa fa-info-circle" aria-hidden="true"></i>
                   {{'INFO' | translate}}
                 </a>
@@ -304,7 +304,9 @@
 
     <!-- Add your site or application content here -->
     <div class="container">
-        <div ui-view></div>
+      <osem-loader></osem-loader>
+      <div ui-view>
+      </div>
     </div>
 
     <!-- build:js scripts/vendor.js -->
@@ -321,7 +323,7 @@
     <script src="bower_components/moment/moment.js"></script>
     <script src="bower_components/moment/locale/de.js"></script>
     <script src="bower_components/angular-moment/angular-moment.js"></script>
-    <script src="bower_components/angular-dynamic-locale/src/tmhDynamicLocale.js"></script>
+    <script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
     <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
@@ -346,6 +348,7 @@
     <script src="components/leaflet.service.js"></script>
     <script src="components/charts.directive.js"></script>
     <script src="components/badge.directive.js"></script>
+    <script src="components/loader.directive.js"></script>
     <script src="scripts/directives/autofocus.js"></script>
     <script src="scripts/controllers/info.js"></script>
     <script src="scripts/controllers/register.js"></script>
@@ -376,6 +379,7 @@
     <script src="scripts/services/language.js"></script>
     <script src="scripts/services/opensensemapapi.js"></script>
     <script src="scripts/services/osemdata.js"></script>
+    <script src="scripts/services/boxesService.js"></script>
     <script src="scripts/services/sensoricons.js"></script>
     <script src="scripts/services/localstorage.js"></script>
     <script src="scripts/services/authentication.js"></script>
@@ -404,19 +408,5 @@
     </script>
     <noscript><p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p></noscript>
     <!-- End Piwik Code -->
-
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-      var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-      (function(){
-        var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-        s1.async=true;
-        s1.src='https://embed.tawk.to/58259b7de808d60cd081071c/default';
-        s1.charset='UTF-8';
-        s1.setAttribute('crossorigin','*');
-        s0.parentNode.insertBefore(s1,s0);
-      })();
-    </script>
-    <!-- End of Tawk.to Script -->
     </body>
 </html>

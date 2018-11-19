@@ -47,13 +47,13 @@
 
     function getData (data) {
       var query = $httpParamSerializer(data);
-      var url = getUrl() + '/boxes/data?' + query;
+      var url = encodeURI(getUrl() + '/boxes/data?' + query);
       $window.open(url, '_blank');
     }
 
     function getStatisticalData (data) {
       var query = $httpParamSerializer(data);
-      var url = getUrl() + '/statistics/descriptive?' + query;
+      var url = encodeURI(getUrl() + '/statistics/descriptive?' + query);
       $window.open(url, '_blank');
     }
 
@@ -90,18 +90,20 @@
         .catch(failed);
     }
 
-    function postMeasurements(boxId, measurements, format) {
+    function postMeasurements (boxId, measurements, format) {
       var url = getUrl() + '/boxes/' + boxId + '/data';
+
       return $http.post(url, measurements, {
-          headers: { 'content-type': format }
-        })
+        headers: { 'content-type': format }
+      })
         .then(success)
         .catch(failed);
     }
 
     function deleteMeasurements (boxId, sensorId) {
       var url = getUrl() + '/boxes/' + boxId + '/' + sensorId + '/measurements';
-      return $http.delete(url, {auth: true})
+
+      return $http.delete(url, { auth: true })
         .then(success)
         .catch(failed);
     }
@@ -114,6 +116,7 @@
 
     function getStats () {
       var url = getUrl() + '/stats';
+
       return $http.get(url)
         .then(success)
         .catch(failed);

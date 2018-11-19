@@ -316,6 +316,8 @@
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
           vm.newSenseBox.id = data.data._id;
+          vm.newSenseBox.access_token = data.data.access_token;
+
           WizardHandler.wizard('RegistrationWizard').next();
           vm.registering = false;
           $translate('REGISTRATION_SUCCESS').then(function (msg) {

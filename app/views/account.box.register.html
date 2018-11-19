@@ -735,6 +735,10 @@
                     <td style="width: 50%;">senseBox ID</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.id}}</strong></td>
                   </tr>
+                  <tr ng-if="register.newSenseBox.model == 'hackair_home_v2'">
+                    <td style="width: 50%;">senseBox access token</td>
+                    <td style="width: 50%;"><strong>{{register.newSenseBox.access_token}}</strong></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

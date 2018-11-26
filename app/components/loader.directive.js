@@ -45,7 +45,7 @@
     }
 
     function activate () {
-      vm.visible = true;
+      vm.visible = false;
       vm.messageText = 'Fetching boxes and measurements';
     }
 

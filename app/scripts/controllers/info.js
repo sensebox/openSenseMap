@@ -5,8 +5,8 @@
     .module('openSenseMapApp')
     .controller('InfoController', InfoController);
 
-  InfoController.$inject = ['$rootScope', '$state', 'app'];
-  function InfoController ($rootScope, $state, app) {
+  InfoController.$inject = ['$state', 'app'];
+  function InfoController ($state, app) {
     var vm = this;
     vm.app = app;
     vm.tabActive = {
@@ -22,7 +22,6 @@
     ////////////////
 
     function activate () {
-      $rootScope.$broadcast('osemLoaderVisibility', { visible: false });
       changeActiveTab($state.current.url.split('/')[1]);
     }
 

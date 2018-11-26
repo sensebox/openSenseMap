@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('AccountDashboardController', AccountDashboardController);
 
-  AccountDashboardController.$inject = ['AccountService', 'LocalStorageService', '$scope', '$rootScope'];
+  AccountDashboardController.$inject = ['AccountService', 'LocalStorageService', '$scope'];
 
-  function AccountDashboardController (AccountService, LocalStorageService, $scope, $rootScope) {
+  function AccountDashboardController (AccountService, LocalStorageService, $scope) {
     var vm = this;
     var localStorageKey = 'osem.dashboard.listStyle';
     var localStorageOrderByKey = 'osem.dashboard.orderBy';
@@ -21,8 +21,6 @@
     ////
 
     function activate () {
-      $rootScope.$broadcast('osemLoaderVisibility', { visible: false });
-
       var listStyleFromLocalStorage = LocalStorageService.getValue(localStorageKey);
       if (listStyleFromLocalStorage) {
         vm.listStyle = listStyleFromLocalStorage;

@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/sensebox/openSenseMap/compare/v2.0.0...v2.0.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **edit:** fix saving issue in edit mode ([f81a9d8](https://github.com/sensebox/openSenseMap/commit/f81a9d8)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+* **loader:** Disable loader by default ([b56092b](https://github.com/sensebox/openSenseMap/commit/b56092b)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/sensebox/openSenseMap/compare/v1.3.0...v2.0.0) (2018-11-19)
 

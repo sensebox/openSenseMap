@@ -6,9 +6,9 @@
     .module('openSenseMapApp')
     .controller('SignupLoginController', SignupLoginController);
 
-  SignupLoginController.$inject = ['$rootScope', '$scope', '$state', '$window', '$document', '$q', 'AccountService'];
+  SignupLoginController.$inject = ['$rootScope', '$scope', '$state', '$q', 'AccountService'];
 
-  function SignupLoginController ($rootScope, $scope, $state, $window, $document, $q, AccountService) {
+  function SignupLoginController ($rootScope, $scope, $state, $q, AccountService) {
     var vm = this;
 
     vm.signup = {

@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxGeneralController', EditBoxGeneralController);
 
-  EditBoxGeneralController.$inject = ['$state', '$document', 'notifications', 'boxData', 'AccountService'];
+  EditBoxGeneralController.$inject = ['$document', 'notifications', 'boxData', 'AccountService'];
 
-  function EditBoxGeneralController ($state, $document, notifications, boxData, AccountService) {
+  function EditBoxGeneralController ($document, notifications, boxData, AccountService) {
     var vm = this;
     vm.editingMarker = {};
     vm.password = '';
@@ -25,7 +25,7 @@
     }
 
     function save () {
-      var imgsrc = angular.element($document.getElementById('flowUploadImage')).attr('src');
+      var imgsrc = angular.element($document[0].getElementById('flowUploadImage')).attr('src');
       var data = {
         name: vm.editingMarker.name,
         description: vm.editingMarker.description,

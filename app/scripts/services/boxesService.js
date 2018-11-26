@@ -30,24 +30,27 @@
         return getBoxesWithProgress({ minimal: true, classify: true })
           .then(function (response) {
             boxes = response;
+
             return boxes;
           });
-      } else {
-        return Promise.resolve(boxes);
       }
+
+      return Promise.resolve(boxes);
     }
 
-    function getBoxesFullMetadata() {
+    function getBoxesFullMetadata () {
       if (!fullMetadataLoaded) {
         return getBoxesWithProgress({ minimal: false, classify: true })
           .then(function (response) {
             fullMetadataLoaded = true;
             boxes = response;
+
             return boxes;
           });
-      } else {
-        return Promise.resolve(boxes);
       }
+
+      return Promise.resolve(boxes);
+
     }
 
     function getBoxesWithProgress (params) {

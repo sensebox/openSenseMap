@@ -9,14 +9,36 @@
 
   function EditBoxScriptController (boxData, AccountService) {
     var vm = this;
+    vm.box = boxData;
+
+    vm.serialPort = 'Serial1';
     vm.boxScript = '';
+    vm.showConfiguration = false;
+
+    vm.changeSerialPort = changeSerialPort;
 
     activate();
 
     ////
 
     function activate () {
-      return AccountService.getScript(boxData._id)
+      if (boxData.model.startsWith('homeV2')) {
+        vm.showConfiguration = true;
+      }
+
+      return getScript();
+    }
+
+    function changeSerialPort () {
+      vm.boxScript = 'Neuer Sketch wird generiert...';
+
+      return getScript();
+    }
+
+    function getScript () {
+      return AccountService.getScript(boxData._id, {
+        serialPort: vm.serialPort
+      })
         .then(function (response) {
           vm.boxScript = response;
         })

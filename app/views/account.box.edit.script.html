@@ -1,6 +1,22 @@
 <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_SCRIPT'|translate}}</h2>
 <hr>
 
+<div ng-if="script.showConfiguration">
+  <h3>Konfiguration</h5>
+  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height: 90px; text-align: left; margin-top: 15px;">
+    <div class="form-group">
+      <label for="groupTag">Anschluss (Feinstaubsensor)</label>
+      <div class="input-group xxxl">
+        <select id="groupTag" class="form-control" style="border-radius: 4px;" ng-model="script.serialPort" ng-change="script.changeSerialPort()">
+          <!---->
+          <option value="Serial1">Serial 1</option>
+          <option value="Serial2">Serial 2</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div>
   <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()" style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
 </div>

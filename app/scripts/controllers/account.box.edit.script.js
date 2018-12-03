@@ -14,22 +14,33 @@
     vm.serialPort = 'Serial1';
     vm.boxScript = '';
     vm.showConfiguration = false;
+    vm.showSerialPort = false;
+    vm.compiling = false;
+    vm.wifi = {
+      ssid: '',
+      password: ''
+    };
 
-    vm.changeSerialPort = changeSerialPort;
+    vm.generateScript = generateScript;
+    vm.compile = compile;
 
     activate();
 
     ////
 
     function activate () {
-      if (boxData.model.startsWith('homeV2')) {
+      if (boxData.model.startsWith('homeV2Wifi')) {
         vm.showConfiguration = true;
+      }
+
+      if (boxData.model === 'homeV2WifiFeinstaub') {
+        vm.showSerialPort = true;
       }
 
       return getScript();
     }
 
-    function changeSerialPort () {
+    function generateScript () {
       vm.boxScript = 'Neuer Sketch wird generiert...';
 
       return getScript();
@@ -37,12 +48,30 @@
 
     function getScript () {
       return AccountService.getScript(boxData._id, {
-        serialPort: vm.serialPort
+        serialPort: vm.serialPort,
+        ssid: vm.wifi.ssid,
+        password: vm.wifi.password
       })
         .then(function (response) {
           vm.boxScript = response;
         })
         .catch(function () {
+        });
+    }
+
+    function compile () {
+      vm.compiling = true;
+
+      return AccountService.compileSketch({
+        board: 'sensebox-mcu',
+        sketch: vm.boxScript
+      })
+        .then(function () {
+        })
+        .catch(function () {
+        })
+        .finally(function () {
+          vm.compiling = false;
         });
     }
   }

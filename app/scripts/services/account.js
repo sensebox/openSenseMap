@@ -5,9 +5,9 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', 'moment', 'app', 'AuthenticationService', 'Box'];
+  AccountService.$inject = ['$http', '$q', '$window', 'moment', 'app', 'AuthenticationService', 'Box'];
 
-  function AccountService ($http, $q, moment, app, AuthenticationService, Box) {
+  function AccountService ($http, $q, $window, moment, app, AuthenticationService, Box) {
     var service = {
       signup: signup,
       login: login,
@@ -26,7 +26,8 @@
       deleteBox: deleteBox,
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
-      deleteAccount: deleteAccount
+      deleteAccount: deleteAccount,
+      compileSketch: compileSketch
     };
 
     return service;
@@ -232,6 +233,16 @@
         })
         .then(function (response) {
           return response.data;
+        })
+        .catch(failed);
+    }
+
+    function compileSketch (data) {
+      return $http.post('https://compiler.sensebox.de/compile', data)
+        .then(function (response) {
+          var url = encodeURI('https://compiler.sensebox.de/download?id=' + response.data.data.id + '&board=sensebox-mcu');
+
+          return $window.open(url, '_self');
         })
         .catch(failed);
     }

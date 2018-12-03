@@ -2,12 +2,12 @@
 <hr>
 
 <div ng-if="script.showConfiguration">
-  <h3>Konfiguration</h5>
+  <h3>Konfiguration</h3>
   <form class="form-inline">
     <div class="form-group" ng-if="script.showSerialPort">
       <label for="serialport">Anschluss</label>
       <div class="input-group"
-        uib-tooltip-html="'<img src=\'/images/serialports.png\'></img>'"
+        uib-tooltip-template="'tooltip_serialports.html'"
         tooltip-placement="bottom"
         tooltip-trigger="'mouseenter'">
         <select type="text" class="form-control" id="serialport" ng-model="script.serialPort" ng-change="script.generateScript()">
@@ -75,3 +75,7 @@
     </li>
   </ul>
 </div>
+
+<script type="text/ng-template" id="tooltip_serialports.html">
+  <img src="/images/serialports.png" alt="" srcset="">
+</script>

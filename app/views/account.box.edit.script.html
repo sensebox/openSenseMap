@@ -2,10 +2,10 @@
 <hr>
 
 <div ng-if="script.showConfiguration">
-  <h3>Konfiguration</h3>
+  <h3>{{'CONFIGURATION'|translate}}</h3>
   <form class="form-inline">
     <div class="form-group" ng-if="script.showSerialPort">
-      <label for="serialport">Anschluss</label>
+      <label for="serialport">{{'PORT'|translate}}</label>
       <div class="input-group"
         uib-tooltip-template="'tooltip_serialports.html'"
         tooltip-placement="bottom"
@@ -19,36 +19,35 @@
         </div>
       </div>
     </div>
-    <div class="form-group has-warning has-feedback">
+    <div class="form-group">
       <label for="ssid">WiFi SSID</label>
       <div class="input-group"
-        uib-tooltip="Der Name (SSID) wird im Klartext übertragen"
+        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
         tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
         <input type="text" class="form-control" id="ssid" ng-model="script.wifi.ssid" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
-        <span class="form-control-feedback" aria-hidden="true"></span>
         <div class="input-group-addon">
           <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
         </div>
       </div>
     </div>
-    <div class="form-group has-warning has-feedback" >
-      <label for="password">WiFi Password</label>
+    <div class="form-group" >
+      <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
       <div class="input-group"
-        uib-tooltip="Das Passwort wird im Klartext übertragen"
+        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
         tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
         <input type="password" class="form-control" id="password" ng-model="script.wifi.password" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
-        <span class="form-control-feedback" aria-hidden="true"></span>
         <div class="input-group-addon">
           <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
         </div>
       </div>
     </div>
     <button type="button" class="btn btn-success" ng-click="script.compile()" ng-disabled="script.compiling">
-        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> Kompilieren
+        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> {{'COMPILE'|translate}}
     </button>
   </form>
+  <hr>
 </div>
 
 <br>

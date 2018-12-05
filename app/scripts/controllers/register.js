@@ -100,6 +100,7 @@
     vm.stepIsValid = false;
     vm.senseBoxSetupValid = senseBoxSetupValid;
     vm.generateNewSecret = generateNewSecret;
+    vm.addSensorTemplate = addSensorTemplate;
 
     activate();
 
@@ -198,13 +199,13 @@
       }
     }
 
-    function add () {
+    function add (icon, title, unit, sensorType) {
       var sensor = {
         id: vm.sensors.length,
-        icon: '',
-        title: '',
-        unit: '',
-        sensorType: ''
+        icon: icon,
+        title: title,
+        unit: unit,
+        sensorType: sensorType
       };
       vm.sensors.push(sensor);
       vm.sensorSetup = JSON.stringify(vm.sensors);
@@ -270,7 +271,7 @@
         vm.newSenseBox.grouptag = vm.tag;
       }
 
-      if (vm.modelSelected.id === 'custom') {
+      if (vm.modelSelected.id === 'custom' || vm.modelSelected.id === 'edu') {
         for (var i = 0; i < vm.sensors.length; i++) {
           vm.newSenseBox.sensors = vm.sensors;
         }
@@ -358,6 +359,64 @@
       }
 
       return validTTN && validMQTT;
+    }
+
+    function addSensorTemplate (template) {
+      var icon = '';
+      var title = '';
+      var unit = '';
+      var sensorType = '';
+      switch (template) {
+      case 'HDC1080_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'HDC1080';
+        break;
+      case 'HDC1080_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'HDC1080';
+        break;
+      case 'BMP280_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BMP280';
+        break;
+      case 'BMP280_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BMP280';
+        break;
+      case 'TSL45315':
+        icon = 'osem-brightness';
+        title = 'Beleuchtungsstärke';
+        unit = 'lx';
+        sensorType = 'TSL45315';
+        break;
+      case 'VEML6070':
+        icon = 'osem-brightness';
+        title = 'UV-Intensität';
+        unit = 'μW/cm²';
+        sensorType = 'VEML6070';
+        break;
+      case 'PM25':
+        icon = 'osem-cloud';
+        title = 'PM2.5';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      case 'PM10':
+        icon = 'osem-cloud';
+        title = 'PM10';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      }
+      add(icon, title, unit, sensorType);
     }
 
     ////
@@ -549,6 +608,13 @@
     $scope.$watchCollection('register.open.collapse3', function (newValue) {
       if (newValue) {
         vm.modelSelected.id = 'custom';
+      }
+    });
+
+    $scope.$watchCollection('register.open.collapse7', function (newValue) {
+      if (newValue) {
+        vm.modelSelected.id = 'edu';
+        vm.tag = 'edu';
       }
     });
 

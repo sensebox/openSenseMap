@@ -63,6 +63,12 @@
           .catch(function (error) {
             return error;
           });
+      },
+      getSupportSubject: function () {
+        return encodeURI('Problem with my box: ' + this.name + '(' + this._id + ')');
+      },
+      getSupportBody: function () {
+        return encodeURI('senseBox model:' + this.model + '\n\nPlease attach a picture of your hardware setup.');
       }
     };
 

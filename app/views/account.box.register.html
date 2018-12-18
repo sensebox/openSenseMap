@@ -1037,6 +1037,54 @@
               </table>
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
+            <div class="alert alert-success" role="alert" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
+              <h5>Du hast kein Arduino installiert? Kein Problem! Konfiguriere hier dein WiFi und klicke auf
+                kompilieren. Danach erhälst du eine <kbd>sketch.bin</kbd> Datei, die du per Drag&Drop auf deine
+                senseBox MCU
+                kopieren kannst.
+              </h5>
+              <div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
+                  <label for="serialport">{{'PORT'|translate}}</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
+                    tooltip-trigger="'mouseenter'">
+                    <select type="text" class="form-control" id="serialport" ng-model="register.newSenseBox.serialPort"
+                      ng-change="register.generateScript()">
+                      <option value="Serial1">Serial 1</option>
+                      <option value="Serial2">Serial 2</option>
+                    </select>
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="ssid">WiFi SSID</label>
+                  <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="ssid" ng-model="register.wifi.ssid" ng-model-options="{ debounce: 500 }"
+                      ng-change="register.generateScript()">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
+                  <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="password" class="form-control" id="password" ng-model="register.wifi.password"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <button type="button" class="btn btn-success" ng-click="register.compile()" ng-disabled="register.compiling">
+                  <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="register.compiling"></i> {{'COMPILE'|translate}}
+                </button>
+              </div>
+            </div>
             <div class="well" ng-if="register.tag != 'edu'">
               <div uib-alert class="alert-warning" ng-show="!register.boxScript">{{'PLEASE_WAIT_DATA'|translate}}
                 <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.calculating"></i>

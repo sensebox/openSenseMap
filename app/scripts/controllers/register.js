@@ -22,6 +22,11 @@
       serialPort: 'Serial1'
     };
 
+    vm.wifi = {
+      ssid: '',
+      pasword: ''
+    };
+
     // vm.radioModel = null;
     vm.stepTitle = '';
     vm.stepIndex = 0;
@@ -101,6 +106,8 @@
     vm.senseBoxSetupValid = senseBoxSetupValid;
     vm.generateNewSecret = generateNewSecret;
     vm.addSensorTemplate = addSensorTemplate;
+    vm.generateScript = generateScript;
+    vm.compile = compile;
 
     activate();
 
@@ -129,6 +136,40 @@
       return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
     }
 
+    function generateScript () {
+      vm.boxScript = 'Neuer Sketch wird generiert...';
+
+      return getScript();
+    }
+
+    function getScript () {
+      return AccountService.getScript(vm.newSenseBox.id, {
+        serialPort: vm.newSenseBox.serialPort,
+        ssid: vm.wifi.ssid,
+        password: vm.wifi.password
+      })
+        .then(function (response) {
+          vm.boxScript = response;
+        })
+        .catch(function () {
+        });
+    }
+
+    function compile () {
+      vm.compiling = true;
+
+      return AccountService.compileSketch({
+        board: 'sensebox-mcu',
+        sketch: vm.boxScript
+      })
+        .then(function () {
+        })
+        .catch(function () {
+        })
+        .finally(function () {
+          vm.compiling = false;
+        });
+    }
 
     function isSenseBoxModel () {
       if (vm.modelSelected.id.startsWith('homeV2')) {

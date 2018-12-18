@@ -7,7 +7,9 @@
           <p>{{'REGISTERED_BOXES_INFO' | translate}}</p>
           <p>
             <a ui-sref="account.register" class="btn btn-primary" role="button">{{'ACCOUNT_NEW_SENSEBOX' | translate}}</a>
-            <a href="https://books.sensebox.de" target="_blank" class="btn btn-default" role="button">{{'DOCUMENTATION' | translate}}</a>
+            <a href="https://books.sensebox.de" target="_blank" class="btn btn-default" role="button">{{'DOCUMENTATION'
+              | translate}}</a>
+            <a href="https://forum.sensebox.de" target="_blank" class="btn btn-default" role="button">Forum</a>
           </p>
         </div>
       </div>
@@ -24,10 +26,12 @@
       </div>
 
       <div class="btn-group pull-right" style="margin-right: 15px;">
-        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt descending" uib-btn-radio="'-createdAt'">
+        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt descending"
+          uib-btn-radio="'-createdAt'">
           <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt ascending" uib-btn-radio="'createdAt'">
+        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt ascending"
+          uib-btn-radio="'createdAt'">
           <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
         </button>
       </div>

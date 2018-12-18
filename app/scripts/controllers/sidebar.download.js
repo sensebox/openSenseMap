@@ -123,7 +123,6 @@
     function getHref () {
       if (vm.map && vm.inputFilter.DateTo && vm.inputFilter.DateFrom && vm.inputFilter.Phenomenon) {
         var params = getDownloadParameters();
-        var query = $httpParamSerializer(params);
         var endpoint = '';
         if (vm.inputFilter.window === 'raw') {
           endpoint = '/boxes/data';
@@ -132,11 +131,13 @@
           params.operation = vm.inputFilter.operation;
           endpoint = '/statistics/descriptive';
         }
+        var query = $httpParamSerializer(params);
 
         return encodeURI(endpoint + '?' + query);
-      } else {
-        return '';
       }
+
+      return '';
+
     }
 
     function getBoxIdsFromBBox (map) {

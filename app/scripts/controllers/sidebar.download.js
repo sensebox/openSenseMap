@@ -5,9 +5,27 @@
     .module('openSenseMapApp')
     .controller('SidebarDownloadController', SidebarDownloadController);
 
-  SidebarDownloadController.$inject = ['$scope', '$httpParamSerializer', 'moment', 'OpenSenseMapAPI', 'OpenSenseMapData', 'osemMapData', 'Sidebar', 'boxes'];
+  SidebarDownloadController.$inject = [
+    '$scope',
+    '$httpParamSerializer',
+    'app',
+    'OpenSenseMapAPI',
+    'OpenSenseMapData',
+    'osemMapData',
+    'Sidebar',
+    'boxes'
+  ];
 
-  function SidebarDownloadController ($scope, $httpParamSerializer, moment, OpenSenseMapAPI, OpenSenseMapData, osemMapData, Sidebar, boxes) {
+  function SidebarDownloadController (
+    $scope,
+    $httpParamSerializer,
+    app,
+    OpenSenseMapAPI,
+    OpenSenseMapData,
+    osemMapData,
+    Sidebar,
+    boxes
+  ) {
     var vm = this;
     vm.map;
     vm.inputFilter = {
@@ -32,7 +50,7 @@
       createdAt: 'createdAt',
       phenomenon: '',
       sensorId: '',
-      sensorType: '',
+      sensorType: ''
     };
 
     vm.dataDownload = dataDownload;
@@ -51,14 +69,13 @@
       vm.downloadMarkers = vm.markersFiltered;
       vm.count = Object.keys(vm.markersFiltered).length;
 
-      osemMapData.getMap('map_main')
-        .then(function (map) {
-          vm.map = map;
-          $scope.$broadcast('initData', {});
-          vm.map.on('zoomend moveend', mapZoomMove);
+      osemMapData.getMap('map_main').then(function (map) {
+        vm.map = map;
+        $scope.$broadcast('initData', {});
+        vm.map.on('zoomend moveend', mapZoomMove);
 
-          return 'event attached';
-        });
+        return 'event attached';
+      });
     }
 
     function closeSidebar () {
@@ -121,7 +138,12 @@
     }
 
     function getHref () {
-      if (vm.map && vm.inputFilter.DateTo && vm.inputFilter.DateFrom && vm.inputFilter.Phenomenon) {
+      if (
+        vm.map &&
+        vm.inputFilter.DateTo &&
+        vm.inputFilter.DateFrom &&
+        vm.inputFilter.Phenomenon
+      ) {
         var params = getDownloadParameters();
         var endpoint = '';
         if (vm.inputFilter.window === 'raw') {
@@ -133,11 +155,10 @@
         }
         var query = $httpParamSerializer(params);
 
-        return encodeURI(endpoint + '?' + query);
+        return encodeURI(app.API_URL + '/' + endpoint + '?' + query);
       }
 
       return '';
-
     }
 
     function getBoxIdsFromBBox (map) {
@@ -157,14 +178,14 @@
     ////
 
     $scope.$on('osemMapReady', function () {
-      osemMapData.getMap('map_main')
+      osemMapData
+        .getMap('map_main')
         .then(function (map) {
           vm.map = map;
           $scope.$broadcast('initData', {});
           vm.map.on('zoomend moveend', mapZoomMove);
         })
-        .catch(function () {
-        });
+        .catch(function () {});
     });
 
     $scope.$on('initData', function () {

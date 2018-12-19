@@ -1,9 +1,7 @@
 (function () {
   'use strict';
 
-  angular
-    .module('app.services')
-    .factory('OpenSenseMapAPI', OpenSenseMapAPI);
+  angular.module('app.services').factory('OpenSenseMapAPI', OpenSenseMapAPI);
 
   OpenSenseMapAPI.$inject = ['$http', '$q', '$window', '$httpParamSerializer'];
 
@@ -40,7 +38,8 @@
     }
 
     function getBoxes (data) {
-      return $http.get(getUrl() + '/boxes', data)
+      return $http
+        .get(getUrl() + '/boxes', data)
         .then(success)
         .catch(failed);
     }
@@ -48,17 +47,18 @@
     function getData (data) {
       var query = $httpParamSerializer(data);
       var url = encodeURI(getUrl() + '/boxes/data?' + query);
-      $window.open(url, '_blank');
+      $window.open(url, '_self');
     }
 
     function getStatisticalData (data) {
       var query = $httpParamSerializer(data);
       var url = encodeURI(getUrl() + '/statistics/descriptive?' + query);
-      $window.open(url, '_blank');
+      $window.open(url, '_self');
     }
 
     function getBox (boxId) {
-      return $http.get(getUrl() + '/boxes/' + boxId)
+      return $http
+        .get(getUrl() + '/boxes/' + boxId)
         .then(success)
         .catch(failed);
     }
@@ -71,13 +71,15 @@
     }
 
     function getSensors (boxId) {
-      return $http.get(getUrl() + '/boxes/' + boxId + '/sensors')
+      return $http
+        .get(getUrl() + '/boxes/' + boxId + '/sensors')
         .then(success)
         .catch(failed);
     }
 
     function getSensorData (boxId, sensorId, data) {
-      return $http.get(getUrl() + '/boxes/' + boxId + '/data/' + sensorId, data)
+      return $http
+        .get(getUrl() + '/boxes/' + boxId + '/data/' + sensorId, data)
         .then(success)
         .then(function (measurements) {
           // attach an id to each measurement
@@ -93,9 +95,10 @@
     function postMeasurements (boxId, measurements, format) {
       var url = getUrl() + '/boxes/' + boxId + '/data';
 
-      return $http.post(url, measurements, {
-        headers: { 'content-type': format }
-      })
+      return $http
+        .post(url, measurements, {
+          headers: { 'content-type': format }
+        })
         .then(success)
         .catch(failed);
     }
@@ -103,13 +106,15 @@
     function deleteMeasurements (boxId, sensorId) {
       var url = getUrl() + '/boxes/' + boxId + '/' + sensorId + '/measurements';
 
-      return $http.delete(url, { auth: true })
+      return $http
+        .delete(url, { auth: true })
         .then(success)
         .catch(failed);
     }
 
     function idwInterpolation (data) {
-      return $http.get(getUrl() + '/statistics/idw', data)
+      return $http
+        .get(getUrl() + '/statistics/idw', data)
         .then(success)
         .catch(failed);
     }
@@ -117,7 +122,8 @@
     function getStats () {
       var url = getUrl() + '/stats';
 
-      return $http.get(url)
+      return $http
+        .get(url)
         .then(success)
         .catch(failed);
     }

@@ -11,6 +11,7 @@
     'app',
     'OpenSenseMapAPI',
     'OpenSenseMapData',
+    'FilterActiveService',
     'osemMapData',
     'Sidebar',
     'boxes'
@@ -22,16 +23,14 @@
     app,
     OpenSenseMapAPI,
     OpenSenseMapData,
+    FilterActiveService,
     osemMapData,
     Sidebar,
     boxes
   ) {
     var vm = this;
     vm.map;
-    vm.inputFilter = {
-      window: 'raw',
-      operation: 'arithmeticMean'
-    };
+    vm.inputFilter = { window: 'raw', operation: 'arithmeticMean' };
     vm.downloadform = {
       format: 'csv',
       pleaseWait: false,
@@ -64,7 +63,9 @@
 
     function activate () {
       Sidebar.setTitle('Download');
-      OpenSenseMapData.setMarkers(boxes); // retrieved through state.resolve in app.js (because we need the full metadata for filtering)
+      if (!FilterActiveService.active) {
+        OpenSenseMapData.setMarkers(boxes);
+      }
       vm.markersFiltered = OpenSenseMapData.getMarkers();
       vm.downloadMarkers = vm.markersFiltered;
       vm.count = Object.keys(vm.markersFiltered).length;

@@ -174,7 +174,8 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/charts.directive.js',
           '<%= yeoman.app %>/components/calendar.directive.js',
           '<%= yeoman.app %>/components/badge.directive.js',
-          '<%= yeoman.app %>/components/loader.directive.js'
+          '<%= yeoman.app %>/components/loader.directive.js',
+          '<%= yeoman.app %>/components/clipboard.directive.js'
         ],
         tasks: [
           // 'newer:copy:api',
@@ -323,7 +324,7 @@ module.exports = function (grunt) {
           js: function (block) {
             console.log(block.dest);
 
-            return `<script defer src="${  block.dest  }"><\/script>`;
+            return `<script defer src="${block.dest}"><\/script>`;
           }
         }
       }
@@ -446,7 +447,7 @@ module.exports = function (grunt) {
           expand: true,
           cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
           dest: 'dist/translations',
-          src: ['de_DE.json','en_US.json']
+          src: ['de_DE.json', 'en_US.json']
         },
         {
           expand: true,
@@ -655,7 +656,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', function (target) {
     grunt.log.warn('The `server` task has been deprecated. Use `grunt serve` to start a server.');
-    grunt.task.run([`serve:${  target}`]);
+    grunt.task.run([`serve:${target}`]);
   });
 
   grunt.registerTask('loadconst', 'Load constants', function (target) {
@@ -723,12 +724,12 @@ module.exports = function (grunt) {
         if (filename.indexOf('disabled') === -1) {
           var languageCode = filename.split('.')[0];
           var language = languageCode.split('_')[0];
-          html = html + ('<li><a ng-click="header.changeLang(\''+languageCode+'\')"><span class="lang-sm lang-lbl-full" lang="'+language+'"></span></a></li>');
+          html = html + ('<li><a ng-click="header.changeLang(\'' + languageCode + '\')"><span class="lang-sm lang-lbl-full" lang="' + language + '"></span></a></li>');
         }
       });
       var resultStart = data.split('<!-- languages-start -->');
       var resultEnd = data.split('<!-- languages-end -->');
-      var res = `${resultStart[0]  }<!-- languages-start -->${  html  }<!-- languages-end -->${  resultEnd[1]}`;
+      var res = `${resultStart[0]}<!-- languages-start -->${html}<!-- languages-end -->${resultEnd[1]}`;
 
       fs.writeFile(targetFile, res, 'utf8', function (err) {
         if (err) { return console.log(err); }

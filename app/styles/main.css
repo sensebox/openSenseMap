@@ -1750,3 +1750,20 @@ nav > a.active {
   background: white;
   color: rgba(0, 0, 0, .5)
 }
+
+.btn-toClipboard {
+  border: 0;
+  top: .5rem;
+  right: .5rem;
+  border-radius: .25rem;
+  background-color: transparent;
+  cursor: pointer;
+  color: #818a91;
+  padding: .25rem .5rem;
+  margin-left: .5rem;
+}
+
+.btn-toClipboard:hover {
+  color:#fff;
+  background-color: #4EAF47;
+}

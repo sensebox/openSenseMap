@@ -144,7 +144,7 @@
               </div>
               <div class="alert alert-info" role="alert">
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                {{'STEP2_SUB3_DESCRIPTION' | translate}}
+                {{'STEP2_SUB3_DESCRIPTION' | translate }}
               </div>
               <uib-accordion close-others="true">
                 <div uib-accordion-group class="panel-default" is-open="register.open.collapse1">
@@ -160,12 +160,12 @@
                           <img src="/images/arduino-uno.png" alt="">
                           <div class="caption">
                             <h3>senseBox:home</h3>
-                            <p>based on Arduino/Genuino Uno</p>
+                            <p>{{'BASED_ARDUINO' | translate}}</p>
                             <p>
                               <div class="radio radio-success">
                                 <input type="radio" name="model" id="home" value="home" ng-model="register.modelSelected.id" required>
                                 <label for="home">
-                                  Auswählen
+                                  {{'SELECT' | translate}}
                                 </label>
                               </div>
                             </p>
@@ -177,12 +177,12 @@
                           <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525013086964-mcu_one_top.png" alt="">
                           <div class="caption">
                             <h3>senseBox:home V2</h3>
-                            <p>based on senseBox MCU</p>
+                            <p>{{'BASED_MCU' | translate}}</p>
                             <p>
                               <div class="radio radio-success">
                                 <input type="radio" name="model" id="homeV2" value="homeV2" ng-model="register.modelSelected.id" required>
                                 <label for="homeV2">
-                                  Auswählen
+                                  {{'SELECT' | translate}}
                                 </label>
                               </div>
                             </p>
@@ -193,7 +193,7 @@
                   </div>
                   <div class="row" ng-show="register.isSenseBoxModel() !== ''">
                     <div style="text-align: center;">
-                      <h3>Verbindungsart</h3>
+                      <h3>{{'CONNECTION_TYPE' | translate}}</h3>
                       <hr>
                       <div ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
@@ -223,7 +223,7 @@
                   </div>
                   <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2'">
                     <div style="text-align: center;">
-                      <h3>Sensoren</h3>
+                      <h3>{{'SENSORS' | translate}}</h3>
                       <ul class="sensor-list" style="border: none;">
                         <li class="sensor-row" style="border-bottom: 1px solid #e1e4e8;">
                           <div class="row">
@@ -236,7 +236,7 @@
                                       <label for="tempSensor"> </label>
                                     </div>
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
-                                    <span style="vertical-align: middle;">Temperatur &amp; Luftfeuchtigkeit</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_HUMI' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -248,7 +248,7 @@
                                       <label for="pressureSensor"> </label>
                                     </div>
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
-                                    <span style="vertical-align: middle;">Luftdruck &amp; Temperatur</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -260,7 +260,7 @@
                                       <label for="lightSensor"> </label>
                                     </div>
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
-                                    <span style="vertical-align: middle;">Beleuchtungsstärke &amp; UV-Strahlung</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_LIGHT_UV' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -272,12 +272,12 @@
                                       <label for="pollutionSensor"> </label>
                                     </div>
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg" style="vertical-align: middle; height: 90px; width: 90px;"/>
-                                    <span style="vertical-align: middle;">Feinstaub (PM10 &amp; PM2.5)</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
                                   </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height: 90px; text-align: left; margin-top: 15px;">
                                   <div class="form-group">
-                                    <label for="groupTag">Anschluss</label>
+                                    <label for="groupTag">{{'CONNECTION' | translate}}</label>
                                     <div class="input-group xxxl">
                                       <select id="groupTag" class="form-control" style="border-radius: 4px;" ng-model="register.newModel.serialPort">
                                         <!---->
@@ -361,79 +361,79 @@
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-sds011" value="luftdaten_sds011" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011">
-                      Luftdaten.info Feinstaubsensor (SDS011) ohne Temperatur-/Feuchtesensor
+                      {{'LD_INFO_SDS_WITHOUT_TEMP' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-sds011-dht11" value="luftdaten_sds011_dht11" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011-dht11">
-                      Luftdaten.info Feinstaubsensor (SDS011) mit DHT11
+                      {{'LD_INFO_SDS_WITH' | translate}} DHT11
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-sds011-dht22" value="luftdaten_sds011_dht22" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011-dht22">
-                      Luftdaten.info Feinstaubsensor (SDS011) mit DHT22
+                      {{'LD_INFO_SDS_WITH' | translate}} DHT22
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-sds011-dmp180" value="luftdaten_sds011_bmp180" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011-dmp180">
-                      Luftdaten.info Feinstaubsensor (SDS011) mit BMP180
+                      {{'LD_INFO_SDS_WITH' | translate}} BMP180
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-sds011-bme280" value="luftdaten_sds011_bme280" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011-bme280">
-                      Luftdaten.info Feinstaubsensor (SDS011) mit BME280
+                      {{'LD_INFO_SDS_WITH' | translate}} BME280
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms7003-bme280" value="luftdaten_pms7003_bme280" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms7003-bme280">
-                      Luftdaten.info Feinstaubsensor (PMS7003) mit BME280
+                      {{'LD_INFO_PMS7003_WITH_BME' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms7003" value="luftdaten_pms7003" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms7003">
-                      Luftdaten.info Feinstaubsensor (PMS7003) ohne Temperatur-/Feuchtesensor
+                      {{'LD_INFO_PMS7003_WITHOUT' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms5003-bme280" value="luftdaten_pms5003_bme280" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms5003-bme280">
-                      Luftdaten.info Feinstaubsensor (PMS5003) mit BME280
+                      {{'LD_INFO_PMS5003_WITH_BME' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms5003" value="luftdaten_pms5003" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms5003">
-                      Luftdaten.info Feinstaubsensor (PMS5003) ohne Temperatur-/Feuchtesensor
+                      {{'LD_INFO_PMS5003_WITHOUT' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms3003-bme280" value="luftdaten_pms3003_bme280" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms3003-bme280">
-                      Luftdaten.info Feinstaubsensor (PMS3003) mit BME280
+                      {{'LD_INFO_PMS3003_WITH_BME' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms3003" value="luftdaten_pms3003" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms3003">
-                      Luftdaten.info Feinstaubsensor (PMS3003) ohne Temperatur-/Feuchtesensor
+                      {{'LD_INFO_PMS3003_WITHOUT' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms1003-bme280" value="luftdaten_pms1003_bme280" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms1003-bme280">
-                      Luftdaten.info Feinstaubsensor (PMS1003) mit BME280
+                      {{'LD_INFO_PMS1003_WITH_BME' | translate}}
                     </label>
                   </div>
                   <div class="radio radio-success">
                     <input type="radio" name="model" id="luftdaten-pms1003" value="luftdaten_pms1003" ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms1003">
-                      Luftdaten.info Feinstaubsensor (PMS1003) ohne Temperatur-/Feuchtesensor
+                      {{'LD_INFO_PMS1003_WITHOUT' | translate}}
                     </label>
                   </div>
                 </div>
@@ -660,7 +660,7 @@
                     <td style="width: 50%;"><strong>{{register.modelSelected.name}}</strong></td>
                   </tr>
                   <tr ng-hide="register.isSenseBoxModel() === ''">
-                      <td style="width: 50%;">Verbindungsart</td>
+                      <td style="width: 50%;">{{'CONNECTION' | translate}}</td>
                       <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
                     </tr>
                   <tr ng-hide="register.isSenseBoxModel() === 'homeV2' || register.isSenseBoxModel() ===''">
@@ -683,7 +683,7 @@
               </table>
             </div>
             <div ng-show="register.modelSelected.id == 'custom'">
-              <h3>Sensoren</h3>
+              <h3>{{'SENSORS' | translate}}</h3>
               <div class="well">
                 <ul>
                   <li ng-repeat="sensor in register.sensors">
@@ -742,7 +742,7 @@
                 </tbody>
               </table>
             </div>
-            <h3>Sensoren &amp; IDs</h3>
+            <h3>{{'SENSORS' | translate }} &amp; IDs</h3>
             <div class="well">
               <div uib-alert class="alert-warning" ng-show="!register.registeredSensors">{{'PLEASE_WAIT_DATA'|translate}}
                 <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.calculating"></i>
@@ -763,11 +763,11 @@
               </div>
               <textarea ng-show="register.boxScript" class="form-control" ng-model="register.boxScript" onclick="this.select()" style="resize:none;height:200px;font-family:monospace;font-size:80%"></textarea>
             </div>
-            <h3>Nützliche Links</h3>
+            <h3>{{'USEFUL_LINKS' | translate}}</h3>
             <div class="well">
               <ul>
-                <li><a href="https://books.sensebox.de">Anleitungen</a></li>
-                <li><a ng-href="explore/{{register.newSenseBox.id}}">Deine senseBox</a></li>
+                <li><a href="https://books.sensebox.de">{{'MANUAL' | translate}}</a></li>
+                <li><a ng-href="explore/{{register.newSenseBox.id}}">{{'YOUR_SENSEBOX' | translate}}</a></li>
               </ul>
             </div>
           </form>

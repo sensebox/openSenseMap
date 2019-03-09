@@ -262,14 +262,8 @@
                                       <input type="checkbox" id="tempSensor" ng-model="register.newModel.sensors.temp">
                                       <label for="tempSensor"> </label>
                                     </div>
-<<<<<<< HEAD
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">Temperatur &amp; Luftfeuchtigkeit</span>
-=======
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
                                     <span style="vertical-align: middle;">{{'SENSOR_TEMP_HUMI' | translate}}</span>
->>>>>>> development-translations
                                   </div>
                                 </div>
                               </div>
@@ -280,14 +274,9 @@
                                       <input type="checkbox" id="pressureSensor" ng-model="register.newModel.sensors.pressure">
                                       <label for="pressureSensor"> </label>
                                     </div>
-<<<<<<< HEAD
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">Luftdruck &amp; Temperatur</span>
-=======
+
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
                                     <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}}</span>
->>>>>>> development-translations
                                   </div>
                                 </div>
                               </div>
@@ -298,14 +287,8 @@
                                       <input type="checkbox" id="lightSensor" ng-model="register.newModel.sensors.light">
                                       <label for="lightSensor"> </label>
                                     </div>
-<<<<<<< HEAD
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">Beleuchtungsstärke &amp; UV-Strahlung</span>
-=======
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
                                     <span style="vertical-align: middle;">{{'SENSOR_LIGHT_UV' | translate}}</span>
->>>>>>> development-translations
                                   </div>
                                 </div>
                               </div>
@@ -317,14 +300,8 @@
                                         ng-false-value="''" ng-model="register.extensions.feinstaub.id">
                                       <label for="pollutionSensor"> </label>
                                     </div>
-<<<<<<< HEAD
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">Feinstaub (PM10 &amp; PM2.5)</span>
-=======
                                     <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg" style="vertical-align: middle; height: 90px; width: 90px;"/>
                                     <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
->>>>>>> development-translations
                                   </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height: 90px; text-align: left; margin-top: 15px;">
@@ -420,7 +397,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Temperatur</h4>
+                          <h4>{{'TEMPERATURE' | translate}}</h4>
                           <p>(HDC1080)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('HDC1080_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
@@ -433,7 +410,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Luftfeuchtigkeit</h4>
+                          <h4>{{'Humidity' | translate}}</h4>
                           <p>(HDC1080)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('HDC1080_HUMIDITY')">{{'ADD_SENSOR'|translate}}</button>
@@ -446,7 +423,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Luftdruck</h4>
+                          <h4>{{'AIRPRESSURE' | translate}}</h4>
                           <p>(BMP280)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('BMP280_PRESSURE')">{{'ADD_SENSOR'|translate}}</button>
@@ -459,7 +436,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Temperatur</h4>
+                          <h4>{{'TEMPERATURE' | translate}}</h4>
                           <p>(BMP280)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('BMP280_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
@@ -474,7 +451,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Beleuchtungsstärke</h4>
+                          <h4>{{'ILLUMINATION' | translate}}</h4>
                           <p>(TSL45315)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('TSL45315')">{{'ADD_SENSOR'|translate}}</button>
@@ -487,7 +464,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>UV-Strahlung</h4>
+                          <h4>{{'UV' | translate}}</h4>
                           <p>(VEML6070)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('VEML6070')">{{'ADD_SENSOR'|translate}}</button>
@@ -500,7 +477,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Feinstaub PM2.5</h4>
+                          <h4>{{'PARTICULLARMATTER' | translate}} PM2.5</h4>
                           <p>(SDS011)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
@@ -513,7 +490,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Feinstaub PM10</h4>
+                          <h4>{{'PARTICULLARMATTER' | translate}} PM10</h4>
                           <p>(SDS011)</p>
                           <p>
                             <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('PM10')">{{'ADD_SENSOR'|translate}}</button>
@@ -959,15 +936,9 @@
                     <td style="width: 50%;"><strong>{{register.modelSelected.name}}</strong></td>
                   </tr>
                   <tr ng-hide="register.isSenseBoxModel() === ''">
-<<<<<<< HEAD
-                    <td style="width: 50%;">Verbindungsart</td>
-                    <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
-                  </tr>
-=======
                       <td style="width: 50%;">{{'CONNECTION' | translate}}</td>
                       <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
                     </tr>
->>>>>>> development-translations
                   <tr ng-hide="register.isSenseBoxModel() === 'homeV2' || register.isSenseBoxModel() ===''">
                     <td style="width: 50%;">senseBox {{'EDIT_EXTENSIONS'|translate}}</td>
                     <td style="width: 50%;"><strong ng-if="register.extensions.feinstaub.id !== ''">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</strong></td>

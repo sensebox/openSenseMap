@@ -5,9 +5,29 @@
     .module('openSenseMapApp')
     .controller('SidebarFilterController', SidebarFilterController);
 
-  SidebarFilterController.$inject = ['$scope', '$timeout', 'boxFilter', 'phenomenonFilter', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'Sidebar', 'boxes'];
+  SidebarFilterController.$inject = [
+    '$scope',
+    '$timeout',
+    'boxFilter',
+    'phenomenonFilter',
+    'OpenSenseMapData',
+    'OpenSenseMapAPI',
+    'FilterActiveService',
+    'Sidebar',
+    'boxes'
+  ];
 
-  function SidebarFilterController ($scope, $timeout, boxFilter, phenomenonFilter, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, Sidebar, boxes) {
+  function SidebarFilterController (
+    $scope,
+    $timeout,
+    boxFilter,
+    phenomenonFilter,
+    OpenSenseMapData,
+    OpenSenseMapAPI,
+    FilterActiveService,
+    Sidebar,
+    boxes
+  ) {
     var vm = this;
     vm.inputFilter = {};
     vm.filteredMarkers = {};
@@ -79,42 +99,50 @@
         };
 
         if (useLiveFilteredMarkers) {
-          return boxFilter(markers, nameexpr)
-            .then(function (response) {
-              setMarkersLive(response);
-            });
-        }
-
-        return boxFilter(vm.filteredMarkers, nameexpr)
-          .then(function (response) {
-            if (vm.inputFilter.Phenomenon) {
-              return performLiveFilter('phenomenon', true, response);
-            }
+          return boxFilter(markers, nameexpr).then(function (response) {
             setMarkersLive(response);
           });
+        }
+
+        return boxFilter(vm.filteredMarkers, nameexpr).then(function (
+          response
+        ) {
+          if (vm.inputFilter.Phenomenon) {
+            return performLiveFilter('phenomenon', true, response);
+          }
+          setMarkersLive(response);
+        });
       case 'phenomenon':
         if (useLiveFilteredMarkers) {
-          return phenomenonFilter(markers, vm.inputFilter.Phenomenon)
-            .then(function (response) {
+          return phenomenonFilter(markers, vm.inputFilter.Phenomenon).then(
+            function (response) {
               setMarkersLive(response);
-            });
+            }
+          );
         }
 
-        return phenomenonFilter(vm.filteredMarkers, vm.inputFilter.Phenomenon)
-          .then(function (response) {
-            if (vm.inputFilter.Exposure !== undefined ||
-                  vm.inputFilter.Name !== undefined ||
-                  vm.inputFilter.vendor !== undefined ||
-                  vm.inputFilter.Grouptag !== undefined) {
-              return performLiveFilter('box', true, response);
-            }
-            setMarkersLive(response);
-          });
+        return phenomenonFilter(
+          vm.filteredMarkers,
+          vm.inputFilter.Phenomenon
+        ).then(function (response) {
+          if (
+            vm.inputFilter.Exposure !== undefined ||
+              vm.inputFilter.Name !== undefined ||
+              vm.inputFilter.vendor !== undefined ||
+              vm.inputFilter.Grouptag !== undefined
+          ) {
+            return performLiveFilter('box', true, response);
+          }
+          setMarkersLive(response);
+        });
       }
     }
 
     function performTimeFilter () {
-      var date = [vm.inputFilter.DateFrom.toISOString(), vm.inputFilter.DateTo.toISOString()];
+      var date = [
+        vm.inputFilter.DateFrom.toISOString(),
+        vm.inputFilter.DateTo.toISOString()
+      ];
       if (date !== '' && Array.isArray(date)) {
         date = date.join(',');
       }
@@ -125,10 +153,9 @@
         }
       };
 
-      return getBoxes(data)
-        .then(function () {
-          FilterActiveService.active = true;
-        });
+      return getBoxes(data).then(function () {
+        FilterActiveService.active = true;
+      });
     }
 
     function resetFilter () {
@@ -138,19 +165,18 @@
         }
       };
 
-      return getBoxes(data)
-        .then(function () {
-          vm.inputFilter.Name = undefined;
-          vm.inputFilter.Grouptag = undefined;
-          vm.inputFilter.DateFrom = undefined;
-          vm.inputFilter.DateTo = undefined;
-          vm.inputFilter.Exposure = undefined;
-          vm.inputFilter.Phenomenon = undefined;
-          vm.inputFilter.vendor = undefined;
-          FilterActiveService.active = false;
-          FilterActiveService.query = {};
-          vm.needsRefresh = false;
-        });
+      return getBoxes(data).then(function () {
+        vm.inputFilter.Name = undefined;
+        vm.inputFilter.Grouptag = undefined;
+        vm.inputFilter.DateFrom = undefined;
+        vm.inputFilter.DateTo = undefined;
+        vm.inputFilter.Exposure = undefined;
+        vm.inputFilter.Phenomenon = undefined;
+        vm.inputFilter.vendor = undefined;
+        FilterActiveService.active = false;
+        FilterActiveService.query = {};
+        vm.needsRefresh = false;
+      });
     }
 
     function reset (filter) {
@@ -183,8 +209,7 @@
         .then(function (response) {
           setMarkers(response);
         })
-        .catch(function () {
-        })
+        .catch(function () {})
         .finally(function () {
           vm.loading = false;
         });
@@ -196,17 +221,18 @@
           vm.filteredMarkers = response;
           vm.results = Object.keys(vm.filteredMarkers).length;
           $scope.$emit('markersChanged', {});
-          if (vm.inputFilter.Exposure !== undefined ||
-              vm.inputFilter.Name !== undefined ||
-              vm.inputFilter.vendor !== undefined ||
-              vm.inputFilter.Phenomenon !== undefined ||
-              vm.inputFilter.Grouptag !== undefined) {
+          if (
+            vm.inputFilter.Exposure !== undefined ||
+            vm.inputFilter.Name !== undefined ||
+            vm.inputFilter.vendor !== undefined ||
+            vm.inputFilter.Phenomenon !== undefined ||
+            vm.inputFilter.Grouptag !== undefined
+          ) {
             vm.needsRefresh = true;
           }
           FilterActiveService.query = vm.inputFilter;
         })
-        .catch(function () {
-        })
+        .catch(function () {})
         .finally(function () {
           vm.loading = false;
         });

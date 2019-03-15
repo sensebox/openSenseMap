@@ -6,8 +6,11 @@
           <h3 translate="REGISTERED_BOXES" translate-values="{count: dashboard.boxes.length}"></h3>
           <p>{{'REGISTERED_BOXES_INFO' | translate}}</p>
           <p>
-            <a ui-sref="account.register" class="btn btn-primary" role="button">{{'ACCOUNT_NEW_SENSEBOX' | translate}}</a>
-            <a href="https://books.sensebox.de" target="_blank" class="btn btn-default" role="button">{{'DOCUMENTATION' | translate}}</a>
+            <a ui-sref="account.register" class="btn btn-primary"
+              role="button">{{'ACCOUNT_NEW_SENSEBOX' | translate}}</a>
+            <a href="https://books.sensebox.de" target="_blank" class="btn btn-default" role="button">{{'DOCUMENTATION'
+              | translate}}</a>
+            <a href="https://forum.sensebox.de" target="_blank" class="btn btn-default" role="button">Forum</a>
           </p>
         </div>
       </div>
@@ -24,10 +27,12 @@
       </div>
 
       <div class="btn-group pull-right" style="margin-right: 15px;">
-        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt descending" uib-btn-radio="'-createdAt'">
+        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt descending"
+          uib-btn-radio="'-createdAt'">
           <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt ascending" uib-btn-radio="'createdAt'">
+        <button class="btn btn-default" ng-model="dashboard.orderByProperty" title="Sort by createdAt ascending"
+          uib-btn-radio="'createdAt'">
           <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
         </button>
       </div>
@@ -35,7 +40,8 @@
 
   </div>
   <div class="row" ng-show="dashboard.listStyle==='tiles'">
-    <div class="col-lg-6" ng-repeat="box in dashboard.boxes | orderBy: dashboard.orderByProperty" style="padding-top: 15px;">
+    <div class="col-lg-6" ng-repeat="box in dashboard.boxes | orderBy: dashboard.orderByProperty"
+      style="padding-top: 15px;">
       <div class="card">
         <div class="box-selected" ng-style="{ 'background': box.markerOptions.color.hex }">
           <article>
@@ -44,8 +50,11 @@
               <div class="model"><span>{{'BOX_EXPOSURE' | translate}} - {{box.exposure}}</span></div>
               <div class="model">{{'BOX_MODEL' | translate}} - {{box.model}}</div>
               <br>
-              <div class="model">senseBox ID - <code>{{box._id}}</code></div>
-              <div class="model" ng-if="box.model == 'hackair_home_v2'">access token - <code>{{box.access_token}}</code></div>
+              <div class="model">senseBox ID -
+                <code>{{box._id}} <button osem-clipboard class="btn-toClipboard" text="box._id" title="Copy to Clipboard"><i class="fa fa-clipboard"></i></button></code>
+              </div>
+              <div class="model" ng-if="box.model == 'hackair_home_v2'">access token - <code>{{box.access_token}}</code>
+              </div>
             </div>
 
           </article>
@@ -55,27 +64,36 @@
 
         <div class="actions">
           <div class="row row-no-gutter">
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-3 col-sm-3 col-md-3">
               <div class="action" ui-sref="explore.map.sidebar.boxdetails({id: box._id})">
                 <h1>{{'SHOW' | translate}}</h1>
                 <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
               </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-3 col-sm-3 col-md-3">
               <div class="action" ui-sref="account.edit.general({id: box._id, box: box})">
                 <h1>{{'EDIT' | translate}}</h1>
                 <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
               </div>
             </div>
 
-            <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="col-xs-3 col-sm-3 col-md-3">
               <div class="action" ui-sref="account.dataupload({id: box._id, box: box})">
                 <h1>{{'DASHBOARD_DATAUPLOAD' | translate}}</h1>
                 <i class="fa fa-table fa-lg" aria-hidden="true"></i>
               </div>
             </div>
 
+            <div class="col-xs-3 col-sm-3 col-md-3">
+              <a class="action" style="color: #333; text-decoration: none;"
+                href="mailto:support@sensebox.de?subject={{box.getSupportSubject()}}&body={{box.getSupportBody()}}">
+                <div class="action">
+                  <h1>Support</h1>
+                  <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -86,9 +104,13 @@
     <div class="col-lg-12" style="padding-top: 15px;">
       <ul class="list-group">
         <li class="list-group-item clearfix" ng-repeat="box in dashboard.boxes | orderBy: dashboard.orderByProperty">
-          <div class="dashboard-list-item dashboard-list-item-circle" ng-style="{ 'background': box.markerOptions.color.hex }"></div>
+          <div class="dashboard-list-item dashboard-list-item-circle"
+            ng-style="{ 'background': box.markerOptions.color.hex }"></div>
           <h4 class="list-group-item-heading name dashboard-list-item">{{'BOX_NAME' | translate}}: {{box.name}}</h4>
-          <p class="list-group-item-text model dashboard-list-item">{{'BOX_EXPOSURE' | translate}}: {{box.exposure}}, {{'BOX_MODEL' | translate}}: {{box.model}}, senseBox ID - <code>{{box._id}}</code><span ng-if="box.model == 'hackair_home_v2'">, access token - <code>{{box.access_token}}</span></p>
+          <p class="list-group-item-text model dashboard-list-item">{{'BOX_EXPOSURE' | translate}}: {{box.exposure}},
+            {{'BOX_MODEL' | translate}}: {{box.model}}, senseBox ID - <code>{{box._id}} <button osem-clipboard class="btn-toClipboard" text="box._id" title="Copy to Clipboard"><i
+                class="fa fa-clipboard"></i></button></code><span ng-if="box.model == 'hackair_home_v2'">,
+              access token - <code>{{box.access_token}}</code></span></p>
           <div class="btn-group dashboard-list-item pull-right" role="group" aria-label="...">
             <button type="button" class="btn btn-default" ui-sref="explore.map.sidebar.boxdetails({id: box._id})">
               <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
@@ -102,6 +124,11 @@
               <i class="fa fa-table fa-lg" aria-hidden="true"></i>
               <span>{{'DASHBOARD_DATAUPLOAD' | translate}}</span>
             </button>
+            <a class="btn btn-default" role="button"
+              href="mailto:support@sensebox.de?subject={{box.getSupportSubject()}}&body={{box.getSupportBody()}}">
+              <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>
+              <span>Support</span>
+            </a>
           </div>
         </li>
       </ul>

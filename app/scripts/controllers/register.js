@@ -6,9 +6,25 @@
     .module('openSenseMapApp')
     .controller('RegisterController', RegisterController);
 
-  RegisterController.$inject = ['$scope', '$translate', '$timeout', 'SensorIcons', 'WizardHandler', 'AccountService', 'osemMapData'];
+  RegisterController.$inject = [
+    '$scope',
+    '$translate',
+    '$timeout',
+    'SensorIcons',
+    'WizardHandler',
+    'AccountService',
+    'osemMapData'
+  ];
 
-  function RegisterController ($scope, $translate, $timeout, SensorIcons, WizardHandler, AccountService, osemMapData) {
+  function RegisterController (
+    $scope,
+    $translate,
+    $timeout,
+    SensorIcons,
+    WizardHandler,
+    AccountService,
+    osemMapData
+  ) {
     var vm = this;
 
     vm.newModel = {
@@ -20,6 +36,11 @@
         pollution: false
       },
       serialPort: 'Serial1'
+    };
+
+    vm.wifi = {
+      ssid: '',
+      pasword: ''
     };
 
     // vm.radioModel = null;
@@ -69,12 +90,13 @@
       decodeOptions: '[]'
     };
     vm.open = {
-      collapse1: true,
-      collapse2: false,
-      collapse3: false,
-      collapse4: false,
-      collapse5: false,
-      collapse6: false
+      sensebox: true,
+      luftdaten: false,
+      custom: false,
+      mqtt: false,
+      ttn: false,
+      hackair: false,
+      edu: false
     };
 
     vm.markers = {};
@@ -100,6 +122,9 @@
     vm.stepIsValid = false;
     vm.senseBoxSetupValid = senseBoxSetupValid;
     vm.generateNewSecret = generateNewSecret;
+    vm.addSensorTemplate = addSensorTemplate;
+    vm.generateScript = generateScript;
+    vm.compile = compile;
 
     activate();
 
@@ -120,14 +145,49 @@
     }
 
     function generateNewSecret () {
-      vm.newModel.security.secret = randomFixedInteger(16).toString(16)
+      vm.newModel.security.secret = randomFixedInteger(16)
+        .toString(16)
         .toUpperCase();
     }
 
     function randomFixedInteger (length) {
-      return Math.floor(Math.pow(10, length - 1) + Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1));
+      return Math.floor(
+        Math.pow(10, length - 1) +
+          Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
+      );
     }
 
+    function generateScript () {
+      vm.boxScript = 'Neuer Sketch wird generiert...';
+
+      return getScript();
+    }
+
+    function getScript () {
+      return AccountService.getScript(vm.newSenseBox.id, {
+        serialPort: vm.newSenseBox.serialPort,
+        ssid: vm.wifi.ssid,
+        password: vm.wifi.password
+      })
+        .then(function (response) {
+          vm.boxScript = response;
+        })
+        .catch(function () {});
+    }
+
+    function compile () {
+      vm.compiling = true;
+
+      return AccountService.compileSketch({
+        board: 'sensebox-mcu',
+        sketch: vm.boxScript
+      })
+        .then(function () {})
+        .catch(function () {})
+        .finally(function () {
+          vm.compiling = false;
+        });
+    }
 
     function isSenseBoxModel () {
       if (vm.modelSelected.id.startsWith('homeV2')) {
@@ -142,13 +202,18 @@
     }
 
     function setStepTitle () {
-      vm.stepTitle = WizardHandler.wizard('RegistrationWizard').currentStepTitle();
+      vm.stepTitle = WizardHandler.wizard(
+        'RegistrationWizard'
+      ).currentStepTitle();
     }
 
     function stepBack () {
       WizardHandler.wizard('RegistrationWizard').previous();
       setStepTitle();
-      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() - 1 === 2) {
+      if (
+        WizardHandler.wizard('RegistrationWizard').currentStepNumber() - 1 ===
+        2
+      ) {
         vm.showNext = true;
       } else {
         vm.showNext = true;
@@ -159,7 +224,9 @@
     function stepForward () {
       WizardHandler.wizard('RegistrationWizard').next();
       setStepTitle();
-      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
+      if (
+        WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2
+      ) {
         vm.showNext = false;
       } else {
         vm.showNext = true;
@@ -167,7 +234,9 @@
     }
 
     function stepIsValidChange (value) {
-      if (WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2) {
+      if (
+        WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2
+      ) {
         vm.stepIsValid = value;
       }
     }
@@ -175,7 +244,9 @@
     function enterEvent (keyEvent) {
       var stepNumber = -1;
       if (keyEvent.which === 13) {
-        stepNumber = WizardHandler.wizard('RegistrationWizard').currentStepNumber();
+        stepNumber = WizardHandler.wizard(
+          'RegistrationWizard'
+        ).currentStepNumber();
       }
       switch (stepNumber) {
       case 2:
@@ -198,13 +269,13 @@
       }
     }
 
-    function add () {
+    function add (icon, title, unit, sensorType) {
       var sensor = {
         id: vm.sensors.length,
-        icon: '',
-        title: '',
-        unit: '',
-        sensorType: ''
+        icon: icon,
+        title: title,
+        unit: unit,
+        sensorType: sensorType
       };
       vm.sensors.push(sensor);
       vm.sensorSetup = JSON.stringify(vm.sensors);
@@ -244,8 +315,7 @@
         .then(function (data) {
           vm.boxScript = data;
         })
-        .catch(function () {
-        });
+        .catch(function () {});
     }
 
     function completeRegistration () {
@@ -270,7 +340,7 @@
         vm.newSenseBox.grouptag = vm.tag;
       }
 
-      if (vm.modelSelected.id === 'custom') {
+      if (vm.modelSelected.id === 'custom' || vm.modelSelected.id === 'edu') {
         for (var i = 0; i < vm.sensors.length; i++) {
           vm.newSenseBox.sensors = vm.sensors;
         }
@@ -309,8 +379,12 @@
         vm.newSenseBox.model = vm.newSenseBox.model + vm.newModel.connection;
       }
 
-      if (vm.extensions.feinstaub.id !== '' && vm.newSenseBox.model !== 'homeV2Lora') {
-        vm.newSenseBox.model = vm.newSenseBox.model + vm.extensions.feinstaub.id;
+      if (
+        vm.extensions.feinstaub.id !== '' &&
+        vm.newSenseBox.model !== 'homeV2Lora'
+      ) {
+        vm.newSenseBox.model =
+          vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
       AccountService.postNewBox(vm.newSenseBox)
@@ -360,17 +434,78 @@
       return validTTN && validMQTT;
     }
 
+    function addSensorTemplate (template) {
+      var icon = '';
+      var title = '';
+      var unit = '';
+      var sensorType = '';
+      switch (template) {
+      case 'HDC1080_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'HDC1080';
+        break;
+      case 'HDC1080_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'HDC1080';
+        break;
+      case 'BMP280_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BMP280';
+        break;
+      case 'BMP280_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BMP280';
+        break;
+      case 'TSL45315':
+        icon = 'osem-brightness';
+        title = 'Beleuchtungsstärke';
+        unit = 'lx';
+        sensorType = 'TSL45315';
+        break;
+      case 'VEML6070':
+        icon = 'osem-brightness';
+        title = 'UV-Intensität';
+        unit = 'μW/cm²';
+        sensorType = 'VEML6070';
+        break;
+      case 'PM25':
+        icon = 'osem-cloud';
+        title = 'PM2.5';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      case 'PM10':
+        icon = 'osem-cloud';
+        title = 'PM10';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      }
+      add(icon, title, unit, sensorType);
+    }
+
     ////
 
     $scope.$on('osemMapClick.map_register', function (e, args) {
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
-            'layerName': 'registration',
-            'latLng': [parseFloat(args.latlng.lat.toFixed(6)), parseFloat(args.latlng.lng.toFixed(6))],
-            'lat': parseFloat(args.latlng.lat.toFixed(6)),
-            'lng': parseFloat(args.latlng.lng.toFixed(6)),
-            'draggable': true
+            layerName: 'registration',
+            latLng: [
+              parseFloat(args.latlng.lat.toFixed(6)),
+              parseFloat(args.latlng.lng.toFixed(6))
+            ],
+            lat: parseFloat(args.latlng.lat.toFixed(6)),
+            lng: parseFloat(args.latlng.lng.toFixed(6)),
+            draggable: true
           }
         };
       } else {
@@ -401,11 +536,14 @@
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
-            'layerName': 'registration',
-            'latLng': [parseFloat(args.latlng.lat.toFixed(6)), parseFloat(args.latlng.lng.toFixed(6))],
-            'lat': parseFloat(args.latlng.lat.toFixed(6)),
-            'lng': parseFloat(args.latlng.lng.toFixed(6)),
-            'draggable': true
+            layerName: 'registration',
+            latLng: [
+              parseFloat(args.latlng.lat.toFixed(6)),
+              parseFloat(args.latlng.lng.toFixed(6))
+            ],
+            lat: parseFloat(args.latlng.lat.toFixed(6)),
+            lng: parseFloat(args.latlng.lng.toFixed(6)),
+            draggable: true
           }
         };
         if (args.latlng.altitude) {
@@ -436,15 +574,15 @@
       });
       if (index.index === 1) {
         $timeout(function () {
-          osemMapData.getMap('map_register')
+          osemMapData
+            .getMap('map_register')
             .then(function (map) {
               map.invalidateSize();
               if (!vm.geolocationError.error) {
                 map.setView([vm.markers.box.lat, vm.markers.box.lng], 16);
               }
             })
-            .catch(function () {
-            });
+            .catch(function () {});
         }, 200);
       }
     });
@@ -469,7 +607,8 @@
 
         var nameParts = newValue.split('_');
 
-        var name = 'Luftdaten.info Feinstaubsensor (' + nameParts[1].toUpperCase() + ')';
+        var name =
+          'Luftdaten.info Feinstaubsensor (' + nameParts[1].toUpperCase() + ')';
 
         if (!nameParts[2]) {
           name = name + ' ohne Temperatur-/Feuchtesensor';
@@ -505,10 +644,10 @@
     $scope.$watch('register.newModel.connection', function (newValue) {
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
-        vm.open.collapse5 = true;
+        vm.open.ttn = true;
       } else {
         vm.ttnEnabled = false;
-        vm.open.collapse5 = false;
+        vm.open.ttn = false;
       }
     });
 
@@ -536,7 +675,10 @@
         return vm.validMQTTURL;
       }
       try {
-        if (vm.mqtt.url.indexOf('mqtt://') === 0 || vm.mqtt.url.indexOf('mqtts://') === 0) {
+        if (
+          vm.mqtt.url.indexOf('mqtt://') === 0 ||
+          vm.mqtt.url.indexOf('mqtts://') === 0
+        ) {
           vm.validMQTTURL = true;
         } else {
           throw new Error('must start with mqtt[s]://');
@@ -546,31 +688,48 @@
       }
     });
 
-    $scope.$watchCollection('register.open.collapse3', function (newValue) {
-      if (newValue) {
-        vm.modelSelected.id = 'custom';
+    $scope.$watchCollection('register.open', function (accordion) {
+      vm.tag = '';
+      if (accordion) {
+        if (accordion.custom) {
+          vm.modelSelected.id = 'custom';
+        } else if (accordion.edu) {
+          vm.modelSelected.id = 'edu';
+          vm.tag = 'edu';
+        }
       }
     });
 
-    $scope.$watchCollection('register.editMarkerInput.box', function (newValue, oldValue) {
-      if (newValue && newValue.lat && newValue.lng && !angular.equals(newValue, oldValue)) {
+    $scope.$watchCollection('register.editMarkerInput.box', function (
+      newValue,
+      oldValue
+    ) {
+      if (
+        newValue &&
+        newValue.lat &&
+        newValue.lng &&
+        !angular.equals(newValue, oldValue)
+      ) {
         if (Object.keys(vm.markers).length === 0) {
           vm.markers = {
             box: {
-              'latLng': [parseFloat(newValue.lat.toFixed(6)), parseFloat(newValue.lng.toFixed(6))],
-              'lat': parseFloat(newValue.lat.toFixed(6)),
-              'lng': parseFloat(newValue.lng.toFixed(6)),
-              'height': newValue.height,
-              'draggable': true
+              latLng: [
+                parseFloat(newValue.lat.toFixed(6)),
+                parseFloat(newValue.lng.toFixed(6))
+              ],
+              lat: parseFloat(newValue.lat.toFixed(6)),
+              lng: parseFloat(newValue.lng.toFixed(6)),
+              height: newValue.height,
+              draggable: true
             }
           };
         } else {
           vm.markers = angular.copy(vm.markers);
-          vm.markers.box.latLng = [
+          (vm.markers.box.latLng = [
             parseFloat(newValue.lat.toFixed(6)),
             parseFloat(newValue.lng.toFixed(6))
-          ],
-          vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6));
+          ]),
+          (vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6)));
           vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
           vm.markers.box.height = newValue.height;
         }
@@ -578,7 +737,9 @@
       }
     });
 
-    $scope.$watchCollection('register.newSenseBox.exposure', function (newValue) {
+    $scope.$watchCollection('register.newSenseBox.exposure', function (
+      newValue
+    ) {
       if (newValue === '') {
         return;
       }

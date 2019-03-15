@@ -43,7 +43,8 @@
                 <div class="row">
                   <span class="sensor-details" ng-hide="sensor.editing || sensor.measurementsediting">
                     <strong style="display: block;">{{'CONFIG_PHENOMENON'|translate}}: {{ sensor.title }}</strong>
-                    <strong>ID: </strong><code>{{sensor._id}}</code>
+                    <strong>ID: </strong><code>{{sensor._id}}<button osem-clipboard class="btn-toClipboard" title="Copy to Clipboard" text="sensor._id">
+                      <i class="fa fa-clipboard"></i></button></code>
                     <strong style="display: block;">{{'CONFIG_UNIT'|translate}}: {{sensor.unit}}</strong>
                     <strong style="display: block;">{{'CONFIG_TYPE'|translate}}: {{sensor.sensorType}}</strong>
                   </span>
@@ -63,7 +64,7 @@
                           </uib-tab-heading>
                           <div class="row">
                             <div class="col-lg-11 col-md-11" style="margin-top: 25px;">
-                              <div uib-alert class="alert-warning"> 
+                              <div uib-alert class="alert-warning">
                                 {{"SENSOR_DELETE_TIMEFRAME_DESCRIPTION"|translate}}
                               </div>
                             </div>
@@ -134,7 +135,7 @@
               </div>
               <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                 <span class="sensor-details" style="height: 90px;" ng-hide="sensor.editing || sensor.measurementsediting">
-                  
+
                   <span style="background-color:#d9534f;color:white" ng-show="sensor.deleted">{{'EDIT_CHANGESENSORS_DELETE_SENSOR'|translate}}</span>
 
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.undo(sensor)" ng-show="sensor.deleted">
@@ -144,16 +145,16 @@
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.editSensor(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
                     <span class="glyphicon glyphicon-edit"></span> {{'EDIT'|translate}}
                   </button>
-                  
+
                   <button type="button" class="btn btn-xs btn-success" style="display: block;" ng-click="sensors.editMeasurements(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
                     <span class="glyphicon glyphicon-trash"></span> {{"MEASUREMENTS"|translate}}
                   </button>
 
                   <button type="button" class="btn btn-xs btn-danger" style="display: block;" ng-click="sensors.deleteSensor(sensor)" ng-hide="sensor.editing || sensor.measurementsediting || sensor.deleted">
                     <span class="glyphicon glyphicon-trash"></span> {{'DELETE'|translate}}
-                  </button> 
+                  </button>
                 </span>
-                
+
                 <span class="sensor-details" style="height: 222px;" ng-show="sensor.editing">
                     <span style="background-color:#d9534f;color:white" ng-show="sensorSettings.$invalid">{{'FORM_INVALID'|translate}}</span>
                   <button type="button" class="btn btn-xs btn-primary" style="display: block;" ng-click="sensors.saveSensor(sensor)" ng-disabled="sensorSettings.$invalid">

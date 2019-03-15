@@ -10,9 +10,7 @@
    * - allows to fetch boxes with minimal metadata
    */
 
-  angular
-    .module('app.services')
-    .factory('BoxesService', BoxesService);
+  angular.module('app.services').factory('BoxesService', BoxesService);
 
   BoxesService.$inject = ['OpenSenseMapAPI', 'ngProgressFactory'];
 
@@ -22,17 +20,18 @@
 
     return {
       getBoxesMinimal: getBoxesMinimal,
-      getBoxesFullMetadata: getBoxesFullMetadata,
+      getBoxesFullMetadata: getBoxesFullMetadata
     };
 
     function getBoxesMinimal () {
       if (!boxes) {
-        return getBoxesWithProgress({ minimal: true, classify: true })
-          .then(function (response) {
+        return getBoxesWithProgress({ minimal: true, classify: true }).then(
+          function (response) {
             boxes = response;
 
             return boxes;
-          });
+          }
+        );
       }
 
       return Promise.resolve(boxes);
@@ -40,17 +39,17 @@
 
     function getBoxesFullMetadata () {
       if (!fullMetadataLoaded) {
-        return getBoxesWithProgress({ minimal: false, classify: true })
-          .then(function (response) {
+        return getBoxesWithProgress({ minimal: false, classify: true }).then(
+          function (response) {
             fullMetadataLoaded = true;
             boxes = response;
 
             return boxes;
-          });
+          }
+        );
       }
 
       return Promise.resolve(boxes);
-
     }
 
     function getBoxesWithProgress (params) {

@@ -63,6 +63,12 @@
           .catch(function (error) {
             return error;
           });
+      },
+      getSupportSubject: function () {
+        return encodeURI('Problem with my box: ' + this.name + ' (' + this._id + ')');
+      },
+      getSupportBody: function () {
+        return encodeURI('### Please describe your problem:\n\n### Details:\nsenseBox model:' + this.model + '\n\n### Your Environment:\n-Arduino version:\n-senseBox MCU Core version:\n\n### Please attach a picture of your hardware setup.');
       }
     };
 

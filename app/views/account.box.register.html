@@ -1035,9 +1035,7 @@
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
             <div class="alert alert-success" role="alert" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
-              <h5>
-                {{'COMPILE_SKETCH' | translate}}
-              </h5>
+              <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
               <div>
                 <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
                   <label for="serialport">{{'PORT'|translate}}</label>

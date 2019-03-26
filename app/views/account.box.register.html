@@ -1056,7 +1056,7 @@
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
                     <input type="text" class="form-control" id="ssid" ng-model="register.wifi.ssid" ng-model-options="{ debounce: 500 }"
-                      ng-change="register.generateScript()">
+                      ng-change="register.generateScript()" autocomplete="off">
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
@@ -1067,7 +1067,7 @@
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
                     <input type="password" class="form-control" id="password" ng-model="register.wifi.password"
-                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()" autocomplete="off">
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>

@@ -54,6 +54,7 @@
     };
     vm.privacy = false;
     vm.completed = false;
+    vm.sensorIncomplete = true;
 
     //new sensebox object
     vm.newSenseBox = {
@@ -102,9 +103,7 @@
     vm.markers = {};
     vm.sensors = [];
     vm.editMarkerInput = {};
-    vm.sensorSetup = '';
     vm.editing = {};
-    vm.isCustom = {};
     vm.events = {
       autolocation: true
     };
@@ -153,7 +152,7 @@
     function randomFixedInteger (length) {
       return Math.floor(
         Math.pow(10, length - 1) +
-          Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
+        Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
       );
     }
 
@@ -172,7 +171,7 @@
         .then(function (response) {
           vm.boxScript = response;
         })
-        .catch(function () {});
+        .catch(function () { });
     }
 
     function compile () {
@@ -182,8 +181,8 @@
         board: 'sensebox-mcu',
         sketch: vm.boxScript
       })
-        .then(function () {})
-        .catch(function () {})
+        .then(function () { })
+        .catch(function () { })
         .finally(function () {
           vm.compiling = false;
         });
@@ -271,35 +270,25 @@
 
     function add (icon, title, unit, sensorType) {
       var sensor = {
-        id: vm.sensors.length,
+        id: randomFixedInteger(4),
+        index: vm.sensors.length,
         icon: icon,
         title: title,
         unit: unit,
         sensorType: sensorType
       };
       vm.sensors.push(sensor);
-      vm.sensorSetup = JSON.stringify(vm.sensors);
-      edit(sensor.id);
       vm.sensorIncomplete = false;
     }
 
     function remove (index) {
       vm.sensors.splice(index, 1);
-      vm.isCustom[index] = false;
-      vm.editing[index] = false;
       for (var i = 0; i < vm.sensors.length; i++) {
-        vm.sensors[i].id = i;
+        vm.sensors[i].index = i;
       }
       if (vm.sensors.length === 0) {
-        vm.sensorSetup = '';
         vm.sensorIncomplete = true;
-      } else {
-        vm.sensorSetup = JSON.stringify($scope.sensors);
       }
-    }
-
-    function edit (index) {
-      vm.editing[index] = true;
     }
 
     function setSensorIcon (sensor, newIcon) {
@@ -315,7 +304,7 @@
         .then(function (data) {
           vm.boxScript = data;
         })
-        .catch(function () {});
+        .catch(function () { });
     }
 
     function completeRegistration () {
@@ -422,6 +411,7 @@
     function senseBoxSetupValid () {
       var validTTN = true;
       var validMQTT = true;
+      var validSensorSetup = false;
 
       if (vm.ttnEnabled) {
         validTTN = vm.validTTNconfig;
@@ -431,7 +421,11 @@
         validMQTT = vm.validMQTTURL;
       }
 
-      return validTTN && validMQTT;
+      if (vm.modelSelected.id === 'custom' || vm.modelSelected.id === 'edu') {
+        validSensorSetup = vm.sensorIncomplete;
+      }
+
+      return validTTN && validMQTT && !validSensorSetup;
     }
 
     function addSensorTemplate (template) {
@@ -582,7 +576,7 @@
                 map.setView([vm.markers.box.lat, vm.markers.box.lng], 16);
               }
             })
-            .catch(function () {});
+            .catch(function () { });
         }, 200);
       }
     });
@@ -590,7 +584,6 @@
     $scope.$watch('register.modelSelected.id', function (newValue) {
       if (newValue.indexOf('home') === 0) {
         vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
-        vm.sensorSetup = vm.modelSelected.id;
 
         vm.newModel.connection = null;
         vm.extensions.feinstaub.id = '';
@@ -601,7 +594,6 @@
       }
 
       if (newValue.indexOf('luftdaten') === 0) {
-        vm.sensorSetup = vm.modelSelected.id;
         vm.extensions.feinstaub.id = '';
         vm.newModel.connection = null;
 
@@ -623,13 +615,11 @@
       }
 
       if (newValue.indexOf('hackair') === 0) {
-        vm.sensorSetup = vm.modelSelected.id;
         vm.extensions.feinstaub.id = '';
         vm.newModel.connection = null;
       }
 
       if (newValue === 'custom') {
-        vm.sensorSetup = '';
         vm.extensions.feinstaub.id = '';
         vm.newModel.connection = null;
 
@@ -690,6 +680,7 @@
 
     $scope.$watchCollection('register.open', function (accordion) {
       vm.tag = '';
+      vm.modelSelected.id = '';
       if (accordion) {
         if (accordion.custom) {
           vm.modelSelected.id = 'custom';

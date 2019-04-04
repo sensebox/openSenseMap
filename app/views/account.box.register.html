@@ -1,8 +1,10 @@
 <div class="container">
   <div class="row" style="margin-top: 25px;">
     <div class="col-lg-12 col-md-12 hidden-xs" style="padding-left: 0px; padding-right: 0px;">
-      <div class="col-lg-1 col-md-1 col-lg-offset-8 col-md-offset-8" style="text-align: right; padding-left: 0px; padding-right: 0px;">
-        <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i class="glyphicon glyphicon-remove"></i></button>
+      <div class="col-lg-1 col-md-1 col-lg-offset-8 col-md-offset-8"
+        style="text-align: right; padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-danger btn-circle btn-lg" ui-sref="account.dashboard"><i
+            class="glyphicon glyphicon-remove"></i></button>
       </div>
     </div>
     <div class="col-xs-12 hidden-lg hidden-md hidden-sm" style="padding-left: 0px; padding-right: 0px;">
@@ -13,16 +15,19 @@
   </div>
   <div class="row" style="margin-top: 25px;">
     <div class="col-lg-12 col-md-12 col-sm 12 col-xs-12" style="padding-left: 0px; padding-right: 0px;">
-      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 col-lg-offset-3 col-md-offset-3" style="padding-left: 0px; padding-right: 0px;">
-        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()" ng-disabled="register.stepIndex == 0;"><i
-            class="glyphicon glyphicon-chevron-left"></i></button>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 col-lg-offset-3 col-md-offset-3"
+        style="padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepBack()"
+          ng-disabled="register.stepIndex == 0;"><i class="glyphicon glyphicon-chevron-left"></i></button>
       </div>
       <div class="col-lg-4 col-md-4 col-sm-10 col-xs-8" style="text-align: center;">
         <h3 style="margin-top: 14px;">{{register.stepTitle}}</h3>
       </div>
-      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2" style="text-align: right; padding-left: 0px; padding-right: 0px;">
-        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()" ng-show="register.showNext"
-          ng-disabled="register.stepIsValid === false"><i class="glyphicon glyphicon-chevron-right"></i></button>
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2"
+        style="text-align: right; padding-left: 0px; padding-right: 0px;">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.stepForward()"
+          ng-show="register.showNext" ng-disabled="register.stepIsValid === false"><i
+            class="glyphicon glyphicon-chevron-right"></i></button>
         <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="register.completeRegistration()"
           ng-hide="register.showNext" ng-disabled="register.completed"><i class="glyphicon glyphicon-ok"></i></button>
       </div>
@@ -35,14 +40,16 @@
           <hr>
           <div uib-alert class="alert-warning" ng-bind-html="'STEP0_DESCRIPTION'|translate"></div>
           <hr>
-          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 col-lg-offset-9 col-md-offset-9" style="padding-left: 0px; padding-right: 0px;">
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 col-lg-offset-9 col-md-offset-9"
+            style="padding-left: 0px; padding-right: 0px;">
             <div class="input-group">
               <span class="input-group-addon">
                 <input type="checkbox" name="provacy" id="privacy" ng-model="register.stepIsValid" />
                 <label for="privacy">{{'AGREE'|translate}}</label>
               </span>
               <span class="input-group-btn">
-                <button class="btn btn-primary" type="submit" ng-click="register.setStepTitle()" wz-next ng-disabled="register.stepIsValid === false">{{'NEXT'
+                <button class="btn btn-primary" type="submit" ng-click="register.setStepTitle()" wz-next
+                  ng-disabled="register.stepIsValid === false">{{'NEXT'
                   | translate}}</button>
               </span>
             </div>
@@ -62,10 +69,11 @@
               </div>
 
               <!-- NAME -->
-              <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.name.$invalid, 'has-success' :  senseboxForm.name.$valid }">
+              <div class="form-group has-feedback"
+                ng-class="{ 'has-error' : senseboxForm.name.$invalid, 'has-success' :  senseboxForm.name.$valid }">
                 <label class="control-label">{{ 'NAME_YOUR_STATION' | translate}}*</label>
-                <input type="text" name="name" class="form-control" ng-model="register.newSenseBox.name" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}"
-                  required>
+                <input type="text" name="name" class="form-control" ng-model="register.newSenseBox.name"
+                  title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" required>
                 <span ng-show="senseboxForm.name.$valid" class="glyphicon glyphicon-ok form-control-feedback"
                   aria-hidden="true"></span>
                 <span ng-show="senseboxForm.name.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
@@ -73,25 +81,26 @@
               </div>
 
               <!-- Aufstellungsort -->
-              <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.exposure.$invalid, 'has-success' :  senseboxForm.exposure.$valid }">
+              <div class="form-group has-feedback"
+                ng-class="{ 'has-error' : senseboxForm.exposure.$invalid, 'has-success' :  senseboxForm.exposure.$valid }">
                 <label class="control-label">{{'STATION_PLACEMENT'|translate}}*</label>
                 <div class="radio radio-success">
-                  <input type="radio" name="exposure" id="indoor" value="indoor" ng-model="register.newSenseBox.exposure"
-                    required>
+                  <input type="radio" name="exposure" id="indoor" value="indoor"
+                    ng-model="register.newSenseBox.exposure" required>
                   <label for="indoor">
                     {{'STATION_PLACEMENT_INDOOR'|translate}}
                   </label>
                 </div>
                 <div class="radio radio-success">
-                  <input type="radio" name="exposure" id="outdoor" value="outdoor" ng-model="register.newSenseBox.exposure"
-                    required>
+                  <input type="radio" name="exposure" id="outdoor" value="outdoor"
+                    ng-model="register.newSenseBox.exposure" required>
                   <label for="outdoor">
                     {{'STATION_PLACEMENT_OUTDOOR'|translate}}
                   </label>
                 </div>
                 <div class="radio radio-success">
-                  <input type="radio" name="exposure" id="mobile" value="mobile" ng-model="register.newSenseBox.exposure"
-                    required>
+                  <input type="radio" name="exposure" id="mobile" value="mobile"
+                    ng-model="register.newSenseBox.exposure" required>
                   <label for="mobile">
                     {{'STATION_PLACEMENT_MOBILE'|translate}}
                   </label>
@@ -105,7 +114,8 @@
               <!-- Gruppenkennzeichnung -->
               <div class="form-group">
                 <label class="control-label">{{'GROUP_NAME'|translate}}</label>
-                <input type="text" name="tag" class="form-control" ng-model="register.tag" placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
+                <input type="text" name="tag" class="form-control" ng-model="register.tag"
+                  placeholder="{{'PLEASE_SPECIFY_GROUPID'|translate}}">
               </div>
             </div>
             <hr>
@@ -123,36 +133,39 @@
               </div>
               <div id="boxPosition" class="row">
                 <div class="col-md-4">
-                  <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLat.$invalid, 'has-success' :  senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined}">
+                  <div class="form-group has-feedback"
+                    ng-class="{'has-error': senseboxForm.boxLat.$invalid, 'has-success' :  senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLat">{{'BOX_LATITUDE'|translate}}</label>
-                    <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06" ng-model="register.editMarkerInput.box.lat"
-                      step="0.000001" required>
-                    <span ng-show="senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
-                    <span ng-show="senseboxForm.boxLat.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                      aria-hidden="true"></span>
+                    <input name="boxLat" class="form-control" type="number" min="-85.06" max="85.06"
+                      ng-model="register.editMarkerInput.box.lat" step="0.000001" required>
+                    <span ng-show="senseboxForm.boxLat.$valid && register.editMarkerInput.box!==undefined"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.boxLat.$invalid"
+                      class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxLng.$invalid, 'has-success' :  senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined}">
+                  <div class="form-group has-feedback"
+                    ng-class="{'has-error': senseboxForm.boxLng.$invalid, 'has-success' :  senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxLng">{{'BOX_LONGITUDE'|translate}}</label>
-                    <input name="boxLng" class="form-control" type="number" min="-180" max="180" ng-model="register.editMarkerInput.box.lng"
-                      step="0.000001" required>
-                    <span ng-show="senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
-                    <span ng-show="senseboxForm.boxLng.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                      aria-hidden="true"></span>
+                    <input name="boxLng" class="form-control" type="number" min="-180" max="180"
+                      ng-model="register.editMarkerInput.box.lng" step="0.000001" required>
+                    <span ng-show="senseboxForm.boxLng.$valid && register.editMarkerInput.box!==undefined"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.boxLng.$invalid"
+                      class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
                 <div class="col-md-4">
-                  <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.boxHeight.$invalid, 'has-success' :  senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined}">
+                  <div class="form-group has-feedback"
+                    ng-class="{'has-error': senseboxForm.boxHeight.$invalid, 'has-success' :  senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined}">
                     <label for="boxHeight">{{'BOX_HEIGHT'|translate}}</label>
-                    <input name="boxHeight" class="form-control" type="number" ng-model="register.editMarkerInput.box.height"
-                      step="0.5">
-                    <span ng-show="senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
-                    <span ng-show="senseboxForm.boxHeight.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                      aria-hidden="true"></span>
+                    <input name="boxHeight" class="form-control" type="number"
+                      ng-model="register.editMarkerInput.box.height" step="0.5">
+                    <span ng-show="senseboxForm.boxHeight.$valid && register.editMarkerInput.box!==undefined"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.boxHeight.$invalid"
+                      class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                 </div>
               </div>
@@ -170,7 +183,8 @@
               <uib-accordion close-others="true">
                 <div uib-accordion-group class="panel-default" is-open="register.open.sensebox">
                   <uib-accordion-heading>
-                    senseBox:home <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse1, 'glyphicon-chevron-right': !register.open.collapse1}"></i>
+                    senseBox:home <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse1, 'glyphicon-chevron-right': !register.open.collapse1}"></i>
                   </uib-accordion-heading>
                   <div class="row">
                     <div style="text-align: center;">
@@ -184,8 +198,8 @@
                             <p>{{'BASED_ARDUINO' | translate}}</p>
                             <p>
                               <div class="radio radio-success">
-                                <input type="radio" name="model" id="home" value="home" ng-model="register.modelSelected.id"
-                                  required>
+                                <input type="radio" name="model" id="home" value="home"
+                                  ng-model="register.modelSelected.id" required>
                                 <label for="home">
                                   {{'SELECT' | translate}}
                                 </label>
@@ -196,15 +210,16 @@
                       </div>
                       <div class="col-sm-6 col-md-6 col-lg-6">
                         <div class="thumbnail">
-                          <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525013086964-mcu_one_top.png"
+                          <img
+                            src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525013086964-mcu_one_top.png"
                             alt="">
                           <div class="caption">
                             <h3>senseBox:home V2</h3>
                             <p>{{'BASED_MCU' | translate}}</p>
                             <p>
                               <div class="radio radio-success">
-                                <input type="radio" name="model" id="homeV2" value="homeV2" ng-model="register.modelSelected.id"
-                                  required>
+                                <input type="radio" name="model" id="homeV2" value="homeV2"
+                                  ng-model="register.modelSelected.id" required>
                                 <label for="homeV2">
                                   {{'SELECT' | translate}}
                                 </label>
@@ -219,18 +234,22 @@
                     <div style="text-align: center;">
                       <h3>{{'CONNECTION_TYPE' | translate}}</h3>
                       <hr>
-                      <div ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                      <div
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
-                          <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet" ng-model="register.newModel.connection"
+                          <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet"
+                            ng-model="register.newModel.connection"
                             ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-ethernet">
                             Ethernet
                           </label>
                         </div>
                       </div>
-                      <div ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                      <div
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
-                          <input type="radio" name="connection" id="sensebox-wifi" value="Wifi" ng-model="register.newModel.connection"
+                          <input type="radio" name="connection" id="sensebox-wifi" value="Wifi"
+                            ng-model="register.newModel.connection"
                             ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-wifi">
                             WiFi
@@ -239,7 +258,8 @@
                       </div>
                       <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'">
                         <div class="radio radio-success">
-                          <input type="radio" name="connection" id="sensebox-lora" value="Lora" ng-model="register.newModel.connection"
+                          <input type="radio" name="connection" id="sensebox-lora" value="Lora"
+                            ng-model="register.newModel.connection"
                             ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-lora">
                             LoRa
@@ -256,59 +276,79 @@
                           <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
                                       <input type="checkbox" id="tempSensor" ng-model="register.newModel.sensors.temp">
                                       <label for="tempSensor"> </label>
                                     </div>
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_TEMP_HUMI' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
-                                      <input type="checkbox" id="pressureSensor" ng-model="register.newModel.sensors.pressure">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="pressureSensor"
+                                        ng-model="register.newModel.sensors.pressure">
                                       <label for="pressureSensor"> </label>
                                     </div>
 
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
-                                      <input type="checkbox" id="lightSensor" ng-model="register.newModel.sensors.light">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="lightSensor"
+                                        ng-model="register.newModel.sensors.light">
                                       <label for="lightSensor"> </label>
                                     </div>
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_LIGHT_UV' | translate}}</span>
                                   </div>
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
                                       <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'"
                                         ng-false-value="''" ng-model="register.extensions.feinstaub.id">
                                       <label for="pollutionSensor"> </label>
                                     </div>
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg" style="vertical-align: middle; height: 90px; width: 90px;"/>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
                                   </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="height: 90px; text-align: left; margin-top: 15px;">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
                                   <div class="form-group">
                                     <label for="groupTag">{{'CONNECTION' | translate}}</label>
                                     <div class="input-group xxxl">
-                                      <select id="groupTag" class="form-control" style="border-radius: 4px;" ng-model="register.newModel.serialPort">
+                                      <select id="groupTag" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.newModel.serialPort">
                                         <!---->
                                         <option value="Serial1">Serial 1</option>
                                         <option value="Serial2">Serial 2</option>
@@ -333,14 +373,17 @@
                               <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
                                       <input type="checkbox" id="homeExtensionsFeinstaub" ng-true-value="'Feinstaub'"
                                         ng-false-value="''" ng-model="register.extensions.feinstaub.id">
                                       <label for="homeExtensionsFeinstaub"> </label>
                                     </div>
-                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                                       style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</span>
+                                    <span
+                                      style="vertical-align: middle;">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</span>
                                   </div>
                                 </div>
                               </div>
@@ -389,7 +432,8 @@
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.edu">
                   <uib-accordion-heading>
-                    senseBox:edu <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse7, 'glyphicon-chevron-right': !register.open.collapse7}"></i>
+                    senseBox:edu <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse7, 'glyphicon-chevron-right': !register.open.collapse7}"></i>
                   </uib-accordion-heading>
                   <div class="row" style="text-align: center;">
                     <div class="col-sm-3 col-md-3 col-lg-3">
@@ -400,7 +444,8 @@
                           <h4>{{'TEMPERATURE' | translate}}</h4>
                           <p>(HDC1080)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('HDC1080_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('HDC1080_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -410,36 +455,41 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'Humidity' | translate}}</h4>
+                          <h4>{{'HUMIDITY' | translate}}</h4>
                           <p>(HDC1080)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('HDC1080_HUMIDITY')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('HDC1080_HUMIDITY')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'AIRPRESSURE' | translate}}</h4>
                           <p>(BMP280)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('BMP280_PRESSURE')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BMP280_PRESSURE')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'TEMPERATURE' | translate}}</h4>
                           <p>(BMP280)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('BMP280_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BMP280_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -448,52 +498,60 @@
                   <div class="row" style="text-align: center;">
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'ILLUMINATION' | translate}}</h4>
                           <p>(TSL45315)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('TSL45315')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('TSL45315')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'UV' | translate}}</h4>
                           <p>(VEML6070)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('VEML6070')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('VEML6070')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'PARTICULLARMATTER' | translate}} PM2.5</h4>
                           <p>(SDS011)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>{{'PARTICULLARMATTER' | translate}} PM10</h4>
                           <p>(SDS011)</p>
                           <p>
-                            <button type="button" class="btn btn-success" ng-click="register.addSensorTemplate('PM10')">{{'ADD_SENSOR'|translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('PM10')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -515,56 +573,64 @@
                       <tr ng-repeat="sensor in register.sensors">
                         <td>
                           <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
-                          <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
-                            <div class="btn-group xxxl" uib-dropdown ng-show="register.editing[sensor.id] && !register.isCustom[sensor.id]">
+                          <div class="form-group has-feedback"
+                            ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
+                            <div class="btn-group xxxl" uib-dropdown
+                              ng-show="register.editing[sensor.id] && !register.isCustom[sensor.id]">
                               <button id="btn-append-to-body" type="button" class="form-control btn btn-default xxxl"
                                 uib-dropdown-toggle>
-                                <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
+                                <span class="icon osem-icon" ng-class="sensor.icon"></span><span
+                                  class="icon-caret caret"></span>
                               </button>
-                              <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                              <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu"
+                                aria-labelledby="btn-append-to-body">
                                 <li ng-repeat="icon in register.icons" ng-click="register.setSensorIcon(sensor,icon)">
                                   <span class="osem-icon" ng-class="icon.name"></span>
                                 </li>
                               </ul>
                             </div>
-                            <span ng-show="senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.icon{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!=''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.icon{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
-                            <input name="phenomenom{{sensor.id}}" class="form-control" type="text" ng-model="sensor.title"
-                              required>
-                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                          <div class="form-group has-feedback"
+                            ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
+                            <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
+                              ng-model="sensor.title" required>
+                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.unit{{sensor.id}}.$invalid, 'has-success' : senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''}">
+                          <div class="form-group has-feedback"
+                            ng-class="{'has-error': senseboxForm.unit{{sensor.id}}.$invalid, 'has-success' : senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''}">
                             <input name="unit{{sensor.id}}" class="form-control" type="text" ng-model="sensor.unit"
                               required>
-                            <span ng-show="senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.unit{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.unit{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
-                            <input name="sensorType{{sensor.id}}" class="form-control" type="text" ng-model="sensor.sensorType"
-                              required>
-                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                          <div class="form-group has-feedback"
+                            ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
+                            <input name="sensorType{{sensor.id}}" class="form-control" type="text"
+                              ng-model="sensor.sensorType" required>
+                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td style="white-space: nowrap">
-                          <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]" ng-click="register.remove(sensor.id);">
+                          <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]"
+                            ng-click="register.remove(sensor.id);">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
                         </td>
@@ -574,18 +640,20 @@
                   <div uib-alert class="alert-danger" ng-show="register.sensorIncomplete">{{
                     'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</div>
                   <div class="col-lg-12" ng-show="register.modelSelected.id == 'edu'">
-                    <button type="button" ng-click="register.add();" class="btn btn-default"><i class="fa fa-plus-circle"></i>
+                    <button type="button" ng-click="register.add();" class="btn btn-default"><i
+                        class="fa fa-plus-circle"></i>
                       {{'ADD_SENSOR'|translate}}</button>
                     <hr>
                   </div>
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.luftdaten">
                   <uib-accordion-heading>
-                    luftdaten.info <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse2, 'glyphicon-chevron-right': !register.open.collapse2}"></i>
+                    luftdaten.info <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse2, 'glyphicon-chevron-right': !register.open.collapse2}"></i>
                   </uib-accordion-heading>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="luftdaten-sds011" value="luftdaten_sds011" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="luftdaten-sds011" value="luftdaten_sds011"
+                      ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-sds011">
                       {{'LD_INFO_SDS_WITHOUT_TEMP' | translate}}
                     </label>
@@ -626,8 +694,8 @@
                     </label>
                   </div>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="luftdaten-pms7003" value="luftdaten_pms7003" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="luftdaten-pms7003" value="luftdaten_pms7003"
+                      ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms7003">
                       {{'LD_INFO_PMS7003_WITHOUT' | translate}}
                     </label>
@@ -640,8 +708,8 @@
                     </label>
                   </div>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="luftdaten-pms5003" value="luftdaten_pms5003" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="luftdaten-pms5003" value="luftdaten_pms5003"
+                      ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms5003">
                       {{'LD_INFO_PMS5003_WITHOUT' | translate}}
                     </label>
@@ -654,8 +722,8 @@
                     </label>
                   </div>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="luftdaten-pms3003" value="luftdaten_pms3003" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="luftdaten-pms3003" value="luftdaten_pms3003"
+                      ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms3003">
                       {{'LD_INFO_PMS3003_WITHOUT' | translate}}
                     </label>
@@ -668,8 +736,8 @@
                     </label>
                   </div>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="luftdaten-pms1003" value="luftdaten_pms1003" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="luftdaten-pms1003" value="luftdaten_pms1003"
+                      ng-model="register.modelSelected.id" required>
                     <label for="luftdaten-pms1003">
                       {{'LD_INFO_PMS1003_WITHOUT' | translate}}
                     </label>
@@ -677,11 +745,12 @@
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.hackair">
                   <uib-accordion-heading>
-                    hackAIR <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse6, 'glyphicon-chevron-right': !register.open.collapse6}"></i>
+                    hackAIR <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse6, 'glyphicon-chevron-right': !register.open.collapse6}"></i>
                   </uib-accordion-heading>
                   <div class="radio radio-success">
-                    <input type="radio" name="model" id="hackair-home-v2" value="hackair_home_v2" ng-model="register.modelSelected.id"
-                      required>
+                    <input type="radio" name="model" id="hackair-home-v2" value="hackair_home_v2"
+                      ng-model="register.modelSelected.id" required>
                     <label for="hackair-home-v2">
                       hackAIR home sensor V2
                     </label>
@@ -689,16 +758,18 @@
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.custom">
                   <uib-accordion-heading>
-                    {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse3, 'glyphicon-chevron-right': !register.open.collapse3}"></i>
+                    {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse3, 'glyphicon-chevron-right': !register.open.collapse3}"></i>
                   </uib-accordion-heading>
                   <div class="radio">
                     <label ng-hide="true">
-                      <input type="radio" name="model" id="optionsRadios2" value="custom" ng-model="register.modelSelected.id"
-                        required>
+                      <input type="radio" name="model" id="optionsRadios2" value="custom"
+                        ng-model="register.modelSelected.id" required>
                       {{'MANUAL_CONFIGURATION'|translate}}
                     </label>
                   </div>
-                  <textarea ng-hide="true" name="sensorsetup" id="" cols="30" rows="10" required ng-model="register.sensorSetup"></textarea>
+                  <textarea ng-hide="true" name="sensorsetup" id="" cols="30" rows="10" required
+                    ng-model="register.sensorSetup"></textarea>
                   <br>
                   <div uib-alert class="alert-info" ng-bind-html="'CUSTOMBOX'|translate">
                   </div>
@@ -717,56 +788,64 @@
                       <tr ng-repeat="sensor in register.sensors">
                         <td>
                           <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
-                          <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
-                            <div class="btn-group xxxl" uib-dropdown ng-show="register.editing[sensor.id] && !register.isCustom[sensor.id]">
+                          <div class="form-group has-feedback"
+                            ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
+                            <div class="btn-group xxxl" uib-dropdown
+                              ng-show="register.editing[sensor.id] && !register.isCustom[sensor.id]">
                               <button id="btn-append-to-body" type="button" class="form-control btn btn-default xxxl"
                                 uib-dropdown-toggle>
-                                <span class="icon osem-icon" ng-class="sensor.icon"></span><span class="icon-caret caret"></span>
+                                <span class="icon osem-icon" ng-class="sensor.icon"></span><span
+                                  class="icon-caret caret"></span>
                               </button>
-                              <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu" aria-labelledby="btn-append-to-body">
+                              <ul class="dropdown-menu list-inline" uib-dropdown-menu role="menu"
+                                aria-labelledby="btn-append-to-body">
                                 <li ng-repeat="icon in register.icons" ng-click="register.setSensorIcon(sensor,icon)">
                                   <span class="osem-icon" ng-class="icon.name"></span>
                                 </li>
                               </ul>
                             </div>
-                            <span ng-show="senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.icon{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!=''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.icon{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
-                            <input name="phenomenom{{sensor.id}}" class="form-control" type="text" ng-model="sensor.title"
-                              required>
-                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                          <div class="form-group has-feedback"
+                            ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
+                            <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
+                              ng-model="sensor.title" required>
+                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.unit{{sensor.id}}.$invalid, 'has-success' : senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''}">
+                          <div class="form-group has-feedback"
+                            ng-class="{'has-error': senseboxForm.unit{{sensor.id}}.$invalid, 'has-success' : senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''}">
                             <input name="unit{{sensor.id}}" class="form-control" type="text" ng-model="sensor.unit"
                               required>
-                            <span ng-show="senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.unit{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.unit{{sensor.id}}.$valid && sensor.unit!==''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.unit{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td>
-                          <div class="form-group has-feedback" ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
-                            <input name="sensorType{{sensor.id}}" class="form-control" type="text" ng-model="sensor.sensorType"
-                              required>
-                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''" class="glyphicon glyphicon-ok form-control-feedback"
-                              aria-hidden="true"></span>
-                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                              aria-hidden="true"></span>
+                          <div class="form-group has-feedback"
+                            ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
+                            <input name="sensorType{{sensor.id}}" class="form-control" type="text"
+                              ng-model="sensor.sensorType" required>
+                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''"
+                              class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                            <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid"
+                              class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                           </div>
                         </td>
                         <td style="white-space: nowrap">
-                          <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]" ng-click="register.remove(sensor.id);">
+                          <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]"
+                            ng-click="register.remove(sensor.id);">
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
                         </td>
@@ -776,7 +855,8 @@
                   <div uib-alert class="alert-danger" ng-show="register.sensorIncomplete">{{
                     'CUSTOMBOX_SENSORINCOMPLETE'|translate }}</div>
                   <div class="col-lg-12" ng-show="register.modelSelected.id == 'custom'">
-                    <button type="button" ng-click="register.add();" class="btn btn-default"><i class="fa fa-plus-circle"></i>
+                    <button type="button" ng-click="register.add();" class="btn btn-default"><i
+                        class="fa fa-plus-circle"></i>
                       {{'ADD_SENSOR'|translate}}</button>
                     <hr>
                   </div>
@@ -793,7 +873,8 @@
                 <div uib-accordion-group class="panel-default" is-open="register.open.mqtt">
                   <div uib-alert class="alert-warning" ng-bind-html="'MQTT_DESCRIPTION'|translate"></div>
                   <uib-accordion-heading>
-                    MQTT <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse4, 'glyphicon-chevron-right': !register.open.collapse4}"></i>
+                    MQTT <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse4, 'glyphicon-chevron-right': !register.open.collapse4}"></i>
                   </uib-accordion-heading>
                   <div class="checkbox checkbox-success checkbox-inline">
                     <input type="checkbox" id="enableMQTT" ng-model="register.mqtt.enabled">
@@ -801,46 +882,51 @@
                   </div>
 
                   <!-- MQTT URL -->
-                  <div class="form-group has-feedback" ng-class="{ 'has-error' : register.mqtt.enabled && !register.validMQTTURL, 'has-success' : register.mqtt.enabled && register.validMQTTURL }">
+                  <div class="form-group has-feedback"
+                    ng-class="{ 'has-error' : register.mqtt.enabled && !register.validMQTTURL, 'has-success' : register.mqtt.enabled && register.validMQTTURL }">
                     <label class="control-label">{{ 'MQTT_URL' | translate}}*</label>
-                    <input type="text" name="url" class="form-control" ng-model="register.mqtt.url" ng-required="register.mqtt.enabled"
-                      ng-disabled="!register.mqtt.enabled">
-                    <span ng-show="register.mqtt.enabled && register.validMQTTURL" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
-                    <span ng-show="register.mqtt.enabled && !register.validMQTTURL" class="glyphicon glyphicon-remove form-control-feedback"
-                      aria-hidden="true"></span>
+                    <input type="text" name="url" class="form-control" ng-model="register.mqtt.url"
+                      ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <span ng-show="register.mqtt.enabled && register.validMQTTURL"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="register.mqtt.enabled && !register.validMQTTURL"
+                      class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                   <!-- MQTT TOPIC -->
-                  <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.topic.$invalid, 'has-success' : senseboxForm.topic.$valid && register.mqtt.topic!='' }">
+                  <div class="form-group has-feedback"
+                    ng-class="{ 'has-error' : senseboxForm.topic.$invalid, 'has-success' : senseboxForm.topic.$valid && register.mqtt.topic!='' }">
                     <label class="control-label">{{ 'MQTT_TOPIC' | translate}}*</label>
-                    <input type="text" name="topic" class="form-control" ng-model="register.mqtt.topic" ng-required="register.mqtt.enabled"
-                      ng-disabled="!register.mqtt.enabled">
-                    <span ng-show="senseboxForm.topic.$valid && register.mqtt.topic!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
+                    <input type="text" name="topic" class="form-control" ng-model="register.mqtt.topic"
+                      ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                    <span ng-show="senseboxForm.topic.$valid && register.mqtt.topic!=''"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                     <span ng-show="senseboxForm.topic.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
                       aria-hidden="true"></span>
                   </div>
                   <!-- MQTT MessageFormat -->
-                  <div class="form-group has-feedback" ng-class="{ 'has-error' : senseboxForm.messageFormat.$invalid, 'has-success' :  senseboxForm.messageFormat.$valid && register.mqtt.messageFormat!='' }">
+                  <div class="form-group has-feedback"
+                    ng-class="{ 'has-error' : senseboxForm.messageFormat.$invalid, 'has-success' :  senseboxForm.messageFormat.$valid && register.mqtt.messageFormat!='' }">
                     <label class="control-label">{{'MQTT_MESSAGEFORMAT'|translate}}*</label>
                     <div class="radio radio-success">
-                      <input type="radio" name="messageFormat" id="mqtt-messageformat-json" value="json" ng-model="register.mqtt.messageFormat"
-                        ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                      <input type="radio" name="messageFormat" id="mqtt-messageformat-json" value="json"
+                        ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled"
+                        ng-disabled="!register.mqtt.enabled">
                       <label for="mqtt-messageformat-json">
                         {{'MQTT_MESSAGEFORMAT_JSON'|translate}}
                       </label>
                     </div>
                     <div class="radio radio-success">
-                      <input type="radio" name="messageFormat" id="mqtt-messageformat-csv" value="csv" ng-model="register.mqtt.messageFormat"
-                        ng-required="register.mqtt.enabled" ng-disabled="!register.mqtt.enabled">
+                      <input type="radio" name="messageFormat" id="mqtt-messageformat-csv" value="csv"
+                        ng-model="register.mqtt.messageFormat" ng-required="register.mqtt.enabled"
+                        ng-disabled="!register.mqtt.enabled">
                       <label for="mqtt-messageformat-csv">
                         {{'MQTT_MESSAGEFORMAT_CSV'|translate}}
                       </label>
                     </div>
-                    <span ng-show="senseboxForm.messageFormat.$valid && register.mqtt.messageFormat!=''" class="glyphicon glyphicon-ok form-control-feedback"
-                      aria-hidden="true"></span>
-                    <span ng-show="senseboxForm.messageFormat.$invalid" class="glyphicon glyphicon-remove form-control-feedback"
-                      aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.messageFormat.$valid && register.mqtt.messageFormat!=''"
+                      class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                    <span ng-show="senseboxForm.messageFormat.$invalid"
+                      class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
                   </div>
                   <!-- MQTT DecodeOptions -->
                   <div class="form-group">
@@ -851,8 +937,8 @@
                   <!-- MQTT ConnectionOptions -->
                   <div class="form-group">
                     <label class="control-label">{{ 'MQTT_CONNECTIONOPTIONS' | translate}}</label>
-                    <input type="text" name="connectionOptions" class="form-control" ng-model="register.mqtt.connectionOptions"
-                      ng-disabled="!register.mqtt.enabled">
+                    <input type="text" name="connectionOptions" class="form-control"
+                      ng-model="register.mqtt.connectionOptions" ng-disabled="!register.mqtt.enabled">
                   </div>
                   <div ng-show="register.mqtt.enabled">
                     <div uib-alert class="alert-danger" ng-hide="register.validMQTTURL">{{ 'MQTT_INVALID_URL' |
@@ -861,7 +947,8 @@
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.ttn">
                   <uib-accordion-heading>
-                    TheThingsNetwork - TTN <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
+                    TheThingsNetwork - TTN <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
                   </uib-accordion-heading>
                   <div uib-alert class="alert-warning" ng-bind-html="'TTN_DESCRIPTION'|translate"></div>
                   <div class="checkbox checkbox-success checkbox-inline">
@@ -869,38 +956,43 @@
                     <label for="enabledTTN">{{ 'EDIT_TTN' | translate }}</label>
                   </div>
                   <!-- TTN profile  -->
-                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_profile.$invalid, 'has-success': senseboxForm.ttn_profile.$valid }">
+                  <div class="form-group"
+                    ng-class="{'has-error': senseboxForm.ttn_profile.$invalid, 'has-success': senseboxForm.ttn_profile.$valid }">
                     <label class="control-label">{{ 'TTN_PROFILE' | translate }}</label>
-                    <select name="ttn_profile" class="form-control" ng-model="register.ttn.profile" ng-required="register.ttnEnabled"
-                      ng-disabled="!register.ttnEnabled">
+                    <select name="ttn_profile" class="form-control" ng-model="register.ttn.profile"
+                      ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
                       <option value="sensebox/home">senseBox:home</option>
                       <option value="lora-serialization">LoRa serialization</option>
                       <option value="json">JSON</option>
                     </select>
                   </div>
                   <!-- TTN app_id -->
-                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_app_id.$invalid, 'has-success': senseboxForm.ttn_app_id.$valid }">
+                  <div class="form-group"
+                    ng-class="{'has-error': senseboxForm.ttn_app_id.$invalid, 'has-success': senseboxForm.ttn_app_id.$valid }">
                     <label class="control-label">{{ 'TTN_APPID' | translate }}</label>
                     <input type="text" name="ttn_app_id" class="form-control" ng-model="register.ttn.app_id"
                       ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
                   </div>
                   <!-- TTN dev_id -->
-                  <div class="form-group" ng-class="{'has-error': senseboxForm.ttn_dev_id.$invalid, 'has-success': senseboxForm.ttn_dev_id.$valid }">
+                  <div class="form-group"
+                    ng-class="{'has-error': senseboxForm.ttn_dev_id.$invalid, 'has-success': senseboxForm.ttn_dev_id.$valid }">
                     <label class="control-label">{{ 'TTN_DEVID' | translate }}</label>
                     <input type="text" name="ttn_dev_id" class="form-control" ng-model="register.ttn.dev_id"
                       ng-required="register.ttnEnabled" ng-disabled="!register.ttnEnabled">
                   </div>
                   <!-- TTN DecodeOptions -->
-                  <div class="form-group" ng-class="{'has-error': !register.validTTNconfig, 'has-success': register.validTTNconfig }">
+                  <div class="form-group"
+                    ng-class="{'has-error': !register.validTTNconfig, 'has-success': register.validTTNconfig }">
                     <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
-                    <input type="text" name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.decodeOptions"
-                      ng-disabled="register.ttn.profile === 'sensebox/home'" ng-required="register.ttn.profile !== 'sensebox/home'">
+                    <input type="text" name="ttn_decodeoptions" class="form-control monospace"
+                      ng-model="register.ttn.decodeOptions" ng-disabled="register.ttn.profile === 'sensebox/home'"
+                      ng-required="register.ttn.profile !== 'sensebox/home'">
                   </div>
                   <!-- TTN Port -->
                   <div class="form-group">
                     <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
-                    <input type="number" name="ttn_decodeoptions" class="form-control monospace" ng-model="register.ttn.port"
-                      min="1" max="65535">
+                    <input type="number" name="ttn_decodeoptions" class="form-control monospace"
+                      ng-model="register.ttn.port" min="1" max="65535">
                   </div>
                   <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' |
                     translate }}</div>
@@ -911,7 +1003,8 @@
               <hr>
               <div class="pull-right">
                 <a class="btn btn-default" ng-click="register.stepBack()">{{'PREVIOUS' | translate}}</a>
-                <button type="submit" ng-disabled="(senseboxForm.$valid) ? (register.senseBoxSetupValid()) ? false : true : true"
+                <button type="submit"
+                  ng-disabled="(senseboxForm.$valid) ? (register.senseBoxSetupValid()) ? false : true : true"
                   ng-click="register.stepForward()" class="btn btn-primary">{{'NEXT' | translate}}</button>
               </div>
             </div>
@@ -936,12 +1029,14 @@
                     <td style="width: 50%;"><strong>{{register.modelSelected.name}}</strong></td>
                   </tr>
                   <tr ng-hide="register.isSenseBoxModel() === ''">
-                      <td style="width: 50%;">{{'CONNECTION' | translate}}</td>
-                      <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
-                    </tr>
+                    <td style="width: 50%;">{{'CONNECTION' | translate}}</td>
+                    <td style="width: 50%;"><strong>{{register.newModel.connection}}</strong></td>
+                  </tr>
                   <tr ng-hide="register.isSenseBoxModel() === 'homeV2' || register.isSenseBoxModel() ===''">
                     <td style="width: 50%;">senseBox {{'EDIT_EXTENSIONS'|translate}}</td>
-                    <td style="width: 50%;"><strong ng-if="register.extensions.feinstaub.id !== ''">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</strong></td>
+                    <td style="width: 50%;"><strong
+                        ng-if="register.extensions.feinstaub.id !== ''">{{'EXTENSIONS_FINE_PARTICULATE_MATTER'|translate}}</strong>
+                    </td>
                   </tr>
                   <tr>
                     <td style="width: 50%;">senseBox Name</td>
@@ -974,8 +1069,8 @@
               <div class="pull-right">
                 <a class="btn btn-default" ng-click="register.stepBack()">{{'PREVIOUS' | translate}}</a>
                 <a class="btn btn-danger" href="/account">{{'CANCEL' | translate}}</a>
-                <button type="submit" ng-click="register.completeRegistration()" wz-next ng-disabled="register.registering"
-                  class="btn btn-success">{{'FINISH' | translate}}
+                <button type="submit" ng-click="register.completeRegistration()" wz-next
+                  ng-disabled="register.registering" class="btn btn-success">{{'FINISH' | translate}}
                   <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.registering"></i>
                   <span class="sr-only">Loading...</span>
                 </button>
@@ -1021,7 +1116,8 @@
             </div>
             <h3>{{'SENSORS' | translate }} &amp; IDs</h3>
             <div class="well">
-              <div uib-alert class="alert-warning" ng-show="!register.registeredSensors">{{'PLEASE_WAIT_DATA'|translate}}
+              <div uib-alert class="alert-warning" ng-show="!register.registeredSensors">
+                {{'PLEASE_WAIT_DATA'|translate}}
                 <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.calculating"></i>
               </div>
               <table ng-show="register.registeredSensors" class="table table-striped table-bordered">
@@ -1034,7 +1130,8 @@
               </table>
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
-            <div class="alert alert-success" role="alert" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
+            <div class="alert alert-success" role="alert"
+              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
               <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
               <div>
                 <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
@@ -1055,8 +1152,8 @@
                   <label for="ssid">WiFi SSID</label>
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
-                    <input type="text" class="form-control" id="ssid" ng-model="register.wifi.ssid" ng-model-options="{ debounce: 500 }"
-                      ng-change="register.generateScript()">
+                    <input type="text" class="form-control" id="ssid" ng-model="register.wifi.ssid"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
@@ -1073,7 +1170,8 @@
                     </div>
                   </div>
                 </div>
-                <button type="button" class="btn btn-success" ng-click="register.compile()" ng-disabled="register.compiling">
+                <button type="button" class="btn btn-success" ng-click="register.compile()"
+                  ng-disabled="register.compiling">
                   <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="register.compiling"></i> {{'COMPILE'|translate}}
                 </button>
               </div>
@@ -1082,8 +1180,8 @@
               <div uib-alert class="alert-warning" ng-show="!register.boxScript">{{'PLEASE_WAIT_DATA'|translate}}
                 <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-show="register.calculating"></i>
               </div>
-              <textarea ng-show="register.boxScript" class="form-control" ng-model="register.boxScript" onclick="this.select()"
-                style="resize:none;height:200px;font-family:monospace;font-size:80%"></textarea>
+              <textarea ng-show="register.boxScript" class="form-control" ng-model="register.boxScript"
+                onclick="this.select()" style="resize:none;height:200px;font-family:monospace;font-size:80%"></textarea>
             </div>
             <h3>{{'USEFUL_LINKS' | translate}}</h3>
             <div class="well">

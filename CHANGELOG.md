@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/sensebox/openSenseMap/compare/v2.1.0...v2.1.2) (2019-04-04)
+
+
+### Bug Fixes
+
+* **registration:** Update translation package ([4c9ca88](https://github.com/sensebox/openSenseMap/commit/4c9ca88))
+
+
+
 <a name="2.1.0"></a>
 # [2.1.0](https://github.com/sensebox/openSenseMap/compare/v2.0.1...v2.1.0) (2019-03-15)
 

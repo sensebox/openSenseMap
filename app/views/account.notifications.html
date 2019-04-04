@@ -1,0 +1,26 @@
+<div>
+    <ul>
+        <li ng-repeat="rule in accountNotification.notificationRules">
+            <div>
+                <div ng-repeat="sensor in rule.sensors">
+                    {{sensor}}
+                </div>
+                {{rule._id}}
+                {{rule.activationOperator}}
+                {{rule.activationThreshold}}
+                {{rule.active}}
+                <div class="action" ui-sref="account.notificationsedit({id: rule._id, notificationRule: rule})">
+                    <h1>{{'EDIT' | translate}}</h1>
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </div>
+        
+            </div>
+        </li>
+    </ul>
+</div>
+
+
+<button type="button" class="btn btn-default" ui-sref="account.notificationscreate">
+    <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+    <span>{{'ADD_NOTIFICATION' | translate}}</span>
+</button>

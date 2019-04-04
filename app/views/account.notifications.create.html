@@ -1,0 +1,41 @@
+<div class="container">
+    <h2>{{'CREATE_NOTIFICATION_RULE' | translate}}</h2>
+
+    <form class="form-inline" ng-submit="accountNotificationCreateController.createRule()">
+
+        <div class="form-group">
+            <label for="">{{'BOX'|translate}}</label>
+            <select type="text" class="form-control" id="box-select" ng-change="accountNotificationCreateController.selectBox()" ng-model="accountNotificationCreateController.notificationRule.boxId"  required> 
+                <option ng-repeat="box in accountNotificationCreateController.boxes" ng-value="box._id">{{box.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="">{{'SENSOR'|translate}}</label>
+            <select type="text" class="form-control" id="sensor" ng-model="accountNotificationCreateController.notificationRule.sensors"  required>
+                <option ng-repeat="sensor in accountNotificationCreateController.selectedBox.sensorsArray" ng-value="sensor._id">{{sensor.title}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">{{'ACTIVATIONOPERATOR'|translate}}</label>
+            <select type="text" class="form-control" ng-model="accountNotificationCreateController.notificationRule.activationOperator" required>
+                <option value="under">{{'UNDER' | translate}}</option>
+                <option value="over">{{'OVER' | translate}}</option>
+                <option value="equal">{{'EQUAL' | translate}}</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="">{{'ACTIVATIONTRESHOLD'|translate}}</label>
+            <input type="number" class="form-control" ng-model="accountNotificationCreateController.notificationRule.activationThreshold" required>
+        </div>
+
+
+        <div class="form-group">
+            <label for="">{{'ACTIVE'| translate}}</label>
+            <input type="checkbox" ng-model="accountNotificationCreateController.notificationRule.active">
+        </div>
+        <hr>
+        <button type="submit" class="btn btn-default pull-right">{{'CREATE_NOTIFICATION_RULE_SUBMIT'|translate}}</button>
+    </form>
+</div>

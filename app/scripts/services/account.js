@@ -27,7 +27,10 @@
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount,
-      compileSketch: compileSketch
+      compileSketch: compileSketch,
+      getNotificationRule: getNotificationRule,
+      addNotificationRule: addNotificationRule,
+      getNotificationRules: getNotificationRules,
     };
 
     return service;
@@ -243,6 +246,30 @@
           var url = encodeURI('https://compiler.sensebox.de/download?id=' + response.data.data.id + '&board=sensebox-mcu');
 
           return $window.open(url, '_self');
+        })
+        .catch(failed);
+    }
+
+    function getNotificationRule(id){
+      return $http.get(app.API_URL + '/notification/notificationRule/' + id, { auth: true })
+        .then(function(response){
+          return response;
+        })
+        .catch(failed);
+
+    }
+    function getNotificationRules(){
+      return $http.get(app.API_URL + '/notification/notificationRule', { auth: true })
+        .then(function(response){
+          return response.data.data;
+        })
+        .catch(failed);
+    }
+
+    function addNotificationRule(rule){
+      return $http.post(app.API_URL + '/notification/notificationRule', rule, { auth: true })
+        .then(function (response) {
+          return response;
         })
         .catch(failed);
     }

@@ -90,7 +90,7 @@
       decodeOptions: '[]'
     };
     vm.open = {
-      sensebox: true,
+      sensebox: false,
       luftdaten: false,
       custom: false,
       mqtt: false,

@@ -4,13 +4,15 @@
 <div ng-if="script.showConfiguration">
   <h3>{{'CONFIGURATION'|translate}}</h3>
   <form class="form-inline">
+    <!-- Firefox workaround https://github.com/sensebox/openSenseMap/issues/295-->
+    <input type="password" style="display:none;">
+    <!-- Firefox workaround end -->
     <div class="form-group" ng-if="script.showSerialPort">
       <label for="serialport">{{'PORT'|translate}}</label>
-      <div class="input-group"
-        uib-tooltip-template="'tooltip_serialports.html'"
-        tooltip-placement="bottom"
+      <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
         tooltip-trigger="'mouseenter'">
-        <select type="text" class="form-control" id="serialport" ng-model="script.serialPort" ng-change="script.generateScript()">
+        <select type="text" class="form-control" id="serialport" ng-model="script.serialPort"
+          ng-change="script.generateScript()">
           <option value="Serial1">Serial 1</option>
           <option value="Serial2">Serial 2</option>
         </select>
@@ -21,30 +23,31 @@
     </div>
     <div class="form-group">
       <label for="ssid">WiFi SSID</label>
-      <div class="input-group"
-        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
-        tooltip-placement="top"
+      <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
-        <input type="text" class="form-control" id="ssid" ng-model="script.wifi.ssid" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <input type="textarea" class="form-control" id="ssid" ng-model="script.wifi.ssid"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
         <div class="input-group-addon">
           <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
         </div>
       </div>
     </div>
-    <div class="form-group" >
+    <div class="form-group">
       <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
-      <div class="input-group"
-        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
-        tooltip-placement="top"
+      <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
-        <input type="password" class="form-control" id="password" ng-model="script.wifi.password" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <input type="password" class="form-control" id="password" ng-model="script.wifi.password"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()" name="whatever"
+          autocomplete="new-password">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
         <div class="input-group-addon">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
         </div>
       </div>
     </div>
     <button type="button" class="btn btn-success" ng-click="script.compile()" ng-disabled="script.compiling">
-        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> {{'COMPILE'|translate}}
+      <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> {{'COMPILE'|translate}}
     </button>
   </form>
   <hr>
@@ -54,7 +57,8 @@
 
 <div class="row">
   <div class="col-lg-12">
-    <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()" style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
+    <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()"
+      style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
   </div>
 </div>
 
@@ -67,10 +71,12 @@
   <!-- List group -->
   <ul class="list-group">
     <li class="list-group-item">
-      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_MANUAL'|translate" style="margin-bottom: 0px;"></div>
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_MANUAL'|translate" style="margin-bottom: 0px;">
+      </div>
     </li>
     <li class="list-group-item">
-      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_DOWNLOAD_RESOURCES'|translate" style="margin-bottom: 0px;"></div>
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_DOWNLOAD_RESOURCES'|translate"
+        style="margin-bottom: 0px;"></div>
     </li>
   </ul>
 </div>

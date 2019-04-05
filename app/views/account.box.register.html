@@ -1081,6 +1081,9 @@
         <wz-step wz-title="{{'STEP4' | translate}}" wz-data="{translation: 'STEP4'}">
           <hr>
           <form class="tab-pane" id="last" name="lastForm" rc-step>
+            <!-- Firefox workaround https://github.com/sensebox/openSenseMap/issues/295-->
+            <input type="password" style="display:none;">
+            <!-- Firefox workaround end -->
             <div uib-alert ng-repeat="alert in register.alerts" ng-class="'alert-' + (alert.type)">{{alert.msg}}</div>
 
             <h3>senseBox</h3>
@@ -1164,7 +1167,10 @@
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
                     <input type="password" class="form-control" id="password" ng-model="register.wifi.password"
-                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()" name="whatever"
+                      autocomplete="new-password">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>

@@ -396,15 +396,25 @@
               controllerAs: 'accountNotificationCreateController',
               templateUrl: 'views/account.notifications.create.html'
             }
+          },
+          resolve: {
+            boxes: function($state, $stateParams,AccountService) {
+              return AccountService.getUsersBoxes();
+            }
           }
         })
         .state('account.notificationsedit', {
-          url: '/notifications/edit/:id',
+          url: '/notifications/edit/:box/:id',
           views: {
             'account': {
               controller: 'AccountNotificationCreateController',
               controllerAs: 'accountNotificationCreateController',
               templateUrl: 'views/account.notifications.create.html'
+            }
+          },
+          resolve: {
+            boxes: function($state, $stateParams,AccountService) {
+              return AccountService.getUsersBoxes();
             }
           }
         })

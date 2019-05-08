@@ -9,11 +9,15 @@
                 {{rule.activationOperator}}
                 {{rule.activationThreshold}}
                 {{rule.active}}
-                <div class="action" ui-sref="account.notificationsedit({id: rule._id, notificationRule: rule})">
+                <div class="action" ui-sref="account.notificationsedit({id: rule._id, box: rule.box, notificationRule: rule})">
                     <h1>{{'EDIT' | translate}}</h1>
                     <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                 </div>
-        
+                <div>
+                    <ul>
+                        <li ng-repeat="notification in rule.notifications">{{notification.notificationTime}}</li>
+                    </ul>
+                </div>
             </div>
         </li>
     </ul>

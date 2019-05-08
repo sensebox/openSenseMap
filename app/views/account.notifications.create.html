@@ -1,11 +1,16 @@
 <div class="container">
+    <div style="margin-top: 15px;">
+        <div uib-alert ng-repeat="alert in accountNotificationCreateController.alerts" ng-class="'alert-' + (alert.type || 'warning')" close="accountNotificationCreateController.closeAlert($index)">
+            <div ng-bind-html="alert.msg"></div>
+        </div>
+    </div>
     <h2>{{'CREATE_NOTIFICATION_RULE' | translate}}</h2>
 
     <form class="form-inline" ng-submit="accountNotificationCreateController.createRule()">
 
         <div class="form-group">
             <label for="">{{'BOX'|translate}}</label>
-            <select type="text" class="form-control" id="box-select" ng-change="accountNotificationCreateController.selectBox()" ng-model="accountNotificationCreateController.notificationRule.boxId"  required> 
+            <select type="text" class="form-control" id="box-select" ng-change="accountNotificationCreateController.selectBox()" ng-model="accountNotificationCreateController.notificationRule.box"  required> 
                 <option ng-repeat="box in accountNotificationCreateController.boxes" ng-value="box._id">{{box.name}}</option>
             </select>
         </div>

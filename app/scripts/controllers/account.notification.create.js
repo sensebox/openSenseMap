@@ -5,39 +5,45 @@
       .module('openSenseMapApp')
       .controller('AccountNotificationCreateController', AccountNotificationCreateController);
   
-    AccountNotificationCreateController.$inject = ['AccountService', '$stateParams', 'LocalStorageService', '$scope'];
+    AccountNotificationCreateController.$inject = ['boxes', 'AccountService', '$stateParams', '$state', 'LocalStorageService', '$scope'];
   
-    function AccountNotificationCreateController (AccountService,stateParams, LocalStorageService, $scope) {
+    function AccountNotificationCreateController (boxes, AccountService,stateParams, $state, LocalStorageService, $scope) {
         var vm = this;
-        vm.boxes = [];
+        vm.boxes = boxes;
         vm.selectedBox = [];
+        vm.alerts = [];
+
         vm.selectedBoxId;
         vm.selectBox = selectBox;
         vm.createRule = createRule;
+        vm.closeAlert = closeAlert;
+
         vm.notificationRule = {active: false};
-        if(stateParams.id){
-            AccountService.getNotificationRule(stateParams.id)
+        
+        // getUsersNotifcationRules();
+        
+        if(stateParams.id && stateParams.box){
+            AccountService.getNotificationRule(stateParams.box, stateParams.id)
                 .then(function(rule){
-                    console.log(rule);
-                    vm.notificationRule = rule;
+                    vm.notificationRule = {...rule, sensors: rule.sensors[0]};
+                    selectBox();
                 })
         }
-        getUsersNotifcationRules();
 
-        stateParams.id
 
-        function getUsersNotifcationRules() {
-            vm.boxes = [];
+        // function getUsersNotifcationRules() {
+        //     vm.boxes = [];
       
-            return AccountService.getUsersBoxes()
-              .then(function (boxes) {
-                vm.boxes = boxes;
-            });
-        }
+        //     return AccountService.getUsersBoxes()
+        //       .then(function (boxes) {
+        //         vm.boxes = boxes;
+        //         selectBox();
+        //     });
+        // }
 
         function selectBox() {
             vm.boxes.forEach(box => {
-                if(box._id === vm.notificationRule.boxId){
+                if(box._id === vm.notificationRule.box){
                     vm.selectedBox = box;
                     return;
                 }
@@ -52,14 +58,35 @@
                 activationTrigger: 'any',
                 notificationChannel: [{ channel: 'email', email: 'xxx@ccsad.her' }]
             }
-            AccountService.addNotificationRule(rule)
-                .then(function (data) {
-                    console.log('done', data);
 
-                })
-                .catch(function(e) {
-                    console.log(e);
-                });
+            //IF stateparams ID update, otherwise create
+            if(stateParams.id){
+                AccountService.updateNotificationRule(rule)
+                    .then(function (data) {
+                        console.log('done', data);
+
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                    });
+            } else {
+                AccountService.addNotificationRule(rule)
+                    .then(function (data) {
+                        console.log('done', data);
+                        $state.go('account.notifications');
+                        // vm.alerts.push({ type: 'info', msg: 'Notification Created' });
+
+    
+                    })
+                    .catch(function(e) {
+                        console.log(e);
+                        vm.alerts.push({ type: 'info', msg: e.message });
+                    });
+            }
+        }
+
+        function closeAlert (index) {
+            vm.alerts.splice(index, 1);
         }
     }
   })();

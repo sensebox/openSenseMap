@@ -30,6 +30,7 @@
       compileSketch: compileSketch,
       getNotificationRule: getNotificationRule,
       addNotificationRule: addNotificationRule,
+      updateNotificationRule: updateNotificationRule,
       getNotificationRules: getNotificationRules,
     };
 
@@ -250,10 +251,10 @@
         .catch(failed);
     }
 
-    function getNotificationRule(id){
-      return $http.get(app.API_URL + '/notification/notificationRule/' + id, { auth: true })
+    function getNotificationRule(box, rule){
+      return $http.get(app.API_URL + '/notification/notificationRule/'+ box + '/'+ rule, { auth: true })
         .then(function(response){
-          return response;
+          return response.data.data;
         })
         .catch(failed);
 
@@ -268,6 +269,14 @@
 
     function addNotificationRule(rule){
       return $http.post(app.API_URL + '/notification/notificationRule', rule, { auth: true })
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function updateNotificationRule(rule){
+      return $http.put(app.API_URL + '/notification/notificationRule/'+ rule._id, rule, { auth: true })
         .then(function (response) {
           return response;
         })

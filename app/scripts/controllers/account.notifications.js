@@ -5,9 +5,9 @@
       .module('openSenseMapApp')
       .controller('AccountNotificationController', AccountNotificationController);
   
-    AccountNotificationController.$inject = ['notificationRules' ,'AccountService', 'LocalStorageService', '$scope'];
+    AccountNotificationController.$inject = ['notificationRules'];
   
-    function AccountNotificationController (notificationRules, AccountService, LocalStorageService, $scope) {
+    function AccountNotificationController (notificationRules) {
         var vm = this
         vm.notificationRules = notificationRules;
         vm.listStyle = 'tiles';

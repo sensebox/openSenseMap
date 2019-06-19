@@ -5,9 +5,9 @@
       .module('openSenseMapApp')
       .controller('AccountNotificationCreateController', AccountNotificationCreateController);
   
-    AccountNotificationCreateController.$inject = ['boxes', 'AccountService', '$stateParams', '$state', 'LocalStorageService', '$scope'];
+    AccountNotificationCreateController.$inject = ['boxes', 'AccountService', '$stateParams', '$state'];
   
-    function AccountNotificationCreateController (boxes, AccountService, stateParams, $state, LocalStorageService, $scope) {
+    function AccountNotificationCreateController (boxes, AccountService, stateParams, $state) {
         var vm = this;
         vm.boxes = boxes;
         vm.selectedBox = [];
@@ -21,26 +21,15 @@
 
         vm.notificationRule = {active: false};
         
-        // getUsersNotifcationRules();
         
         if(stateParams.id && stateParams.box){
             AccountService.getNotificationRule(stateParams.box, stateParams.id)
                 .then(function(rule){
-                    vm.notificationRule = {...rule, sensors: rule.sensors[0]};
+                    rule.sensors = rule.sensors[0];
+                    vm.notificationRule = rule;
                     selectBox();
                 })
         }
-
-
-        // function getUsersNotifcationRules() {
-        //     vm.boxes = [];
-      
-        //     return AccountService.getUsersBoxes()
-        //       .then(function (boxes) {
-        //         vm.boxes = boxes;
-        //         selectBox();
-        //     });
-        // }
 
         function selectBox() {
             vm.boxes.forEach(box => {

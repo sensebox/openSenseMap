@@ -1,30 +1,127 @@
-<div>
-    <ul>
-        <li ng-repeat="rule in accountNotification.notificationRules">
-            <div>
-                <div ng-repeat="sensor in rule.sensors">
-                    {{sensor}}
-                </div>
-                {{rule._id}}
-                {{rule.activationOperator}}
-                {{rule.activationThreshold}}
-                {{rule.active}}
-                <div class="action" ui-sref="account.notificationsedit({id: rule._id, box: rule.box, notificationRule: rule})">
-                    <h1>{{'EDIT' | translate}}</h1>
-                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
-                </div>
-                <div>
-                    <ul>
-                        <li ng-repeat="notification in rule.notifications">{{notification.notificationTime}}</li>
-                    </ul>
-                </div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 col-sm-12 col-md-12" style="padding-top: 15px;">
+      <div class="thumbnail">
+        <div class="caption">
+          <h3>{{'NOTIFICATION_HEADLINE' | translate}}</h3>
+          <p>{{'NOTIFICATION_INFO' | translate}}</p>
+          <div uib-alert class="alert-warning">
+            {{'NOTIFICATION_INFO_WARNING' | translate}}
+          </div>
+          <p>
+            <a ui-sref="account.notificationscreate" class="btn btn-primary"
+              role="button">{{'NEW_NOTIIFICATION' | translate}}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h3>{{'NOTIFICATION_RULE_HEADLINE' | translate}}</h3>
+    
+    <div class="notification-rule-controls">
+      <div class="col-sm-4 col-sm-offset-8 clearfix">
+        <div class="btn-group pull-right">
+          <label class="btn btn-default" ng-model="accountNotification.listStyle" uib-btn-radio="'tiles'">
+            <i class="fa fa-th-large" aria-hidden="true"></i>
+          </label>
+          <label class="btn btn-default" ng-model="accountNotification.listStyle" uib-btn-radio="'list'">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </label>
+        </div>
+  
+        <div class="btn-group pull-right" style="margin-right: 15px;">
+          <button class="btn btn-default" ng-model="accountNotification.orderByProperty" title="Sort by name descending"
+            uib-btn-radio="'-name'">
+            <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i>
+          </button>
+          <button class="btn btn-default" ng-model="accountNotification.orderByProperty" title="Sort by name ascending"
+            uib-btn-radio="'name'">
+            <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-show="accountNotification.listStyle==='tiles'">
+
+      <div ng-repeat="rule in accountNotification.notificationRules | orderBy: accountNotification.orderByProperty" class="notification-card">
+        <div class="card">
+          <article ng-style="{ 'background': rule.active ? '#72B026' : '#bbb' }"> 
+            <div class="info notification-info">
+              <div class="name"><span>{{'NAME' | translate}}: {{rule.name}}</span></div>
+              <div class="name"><span>{{'ID' | translate}}: {{rule._id}}</span></div>
+              <div class="rule">{{'NOTIFICATION_ACTIVE' | translate}}<span>: </span><span ng-show="rule.active">{{'YES' | translate}}</span><span ng-show="!rule.active">{{'NO' | translate}}</span></div>
+              <div class="rule"><span>{{rule.activationThreshold}}{{rule.activationOperator}}</span></div>
             </div>
-        </li>
-    </ul>
+          </article>
+          <div class="actions">
+            <div class="row row-no-gutter">
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="action" ng-click="accountNotification.toggleNotification(rule)">
+                  <h1>{{'SHOW_LAST_10_NOTIFICATIONS' | translate}}</h1>
+                  <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </div>
+              </div>
+              <div class="col-xs-6 col-sm-6 col-md-6">
+                <div class="action" ui-sref="account.notificationsedit({id: rule._id, box: rule.box, notificationRule: rule})">
+                  <h1>{{'EDIT' | translate}}</h1>
+                  <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="notifications-list" ng-show="rule.showNotifications">
+            <h3>{{'LAST_10_ACTIVATIONS' | translate}}</h3>
+            <ul>
+              <li ng-repeat="notification in rule.notifications" class="row">
+                <div class="notification-time col-sm-7">
+                  {{notification.notificationTime | amUtc | amLocal | amDateFormat:'l LTS'}}
+                </div>
+                <div class="notification-value col-sm-5">
+                  <b>{{notification.notificationValue}}</b>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="row" ng-show="accountNotification.listStyle==='list'">
+      <div class="col-lg-12" style="padding-top: 15px;">
+        <ul class="list-group">
+          <li class="list-group-item clearfix" ng-repeat="rule in accountNotification.notificationRules | orderBy: accountNotification.orderByProperty">
+            <div class="dashboard-list-item dashboard-list-item-circle"
+              ng-style="{ 'background': box.markerOptions.color.hex }"></div>
+            <h4 class="list-group-item-heading name dashboard-list-item">{{'NAME' | translate}}: {{rule.name}}</h4>
+            <p class="list-group-item-text model dashboard-list-item">{{'NOTIFICATION_ACTIVE' | translate}}<span>: </span><span ng-show="rule.active">{{'YES' | translate}}</span><span ng-show="!rule.active">{{'NO' | translate}}</span></p>
+            <div class="btn-group dashboard-list-item pull-right" role="group" aria-label="...">
+              <button type="button" class="btn btn-default" ng-click="accountNotification.toggleNotification(rule)">
+                <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
+                <span>{{'SHOW_LAST_10_NOTIFICATIONS' | translate}}</span>
+              </button>
+              <button type="button" class="btn btn-default" ui-sref="account.notificationsedit({id: rule._id, box: rule.box, notificationRule: rule})">
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                <span>{{'EDIT' | translate}}</span>
+              </button>
+            </div>
+            <div class="notifications-list" ng-show="rule.showNotifications">
+              <h3>{{'LAST_10_ACTIVATIONS' | translate}}</h3>
+              <ul>
+                <li ng-repeat="notification in rule.notifications" class="row">
+                  <div class="notification-time col-sm-7">
+                    {{notification.notificationTime | amUtc | amLocal | amDateFormat:'l LTS'}}
+                  </div>
+                  <div class="notification-value col-sm-5">
+                    <b>{{notification.notificationValue}}</b>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div> 
 </div>
-
-
-<button type="button" class="btn btn-default" ui-sref="account.notificationscreate">
-    <i class="fa fa-map-marker fa-lg" aria-hidden="true"></i>
-    <span>{{'ADD_NOTIFICATION' | translate}}</span>
-</button>

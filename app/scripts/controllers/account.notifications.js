@@ -10,6 +10,16 @@
     function AccountNotificationController (notificationRules, AccountService, LocalStorageService, $scope) {
         var vm = this
         vm.notificationRules = notificationRules;
+        vm.listStyle = 'tiles';
+        vm.orderByProperty = 'createdAt';
+
+        vm.toggleNotification = function(rule) {
+          if(rule.showNotifications){
+            rule.showNotifications = false;
+          } else {
+            rule.showNotifications = true
+          }
+        }
     }
   })();
   

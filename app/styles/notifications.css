@@ -1,0 +1,27 @@
+.notification-rule-controls {
+    overflow: auto;
+    padding: 1em 0;
+}
+
+.notifications-list {
+    padding: 1em;
+}
+
+.notifications-list ul {
+    list-style: none;
+    padding-left: 0.2em;
+}
+
+.notifications-list li {
+    padding: 0.3em 0;
+    border-bottom: 1px solid #eee;
+}
+
+.notifications-list li:hover {
+    background: #eee;
+}
+
+
+.notification-card {
+    padding: 0.4em 0;
+}

@@ -17,6 +17,7 @@
         vm.selectBox = selectBox;
         vm.createRule = createRule;
         vm.closeAlert = closeAlert;
+        vm.deleteRule = deleteRule;
 
         vm.notificationRule = {active: false};
         
@@ -87,6 +88,16 @@
 
         function closeAlert (index) {
             vm.alerts.splice(index, 1);
+        }
+
+        function deleteRule(id){
+            AccountService.deleteNotificationRule(id).then(function() {
+                vm.alerts.push({ type: 'info', msg: 'NOTIFICATION_NOTIFICATIONRULE_DELETED' });
+            })
+            .catch(function () {
+                vm.alerts.push({ type: 'danger', msg: 'NOTIFICATION_NOTIFICATIONRULE_DELETE_FAILED' });
+            });
+
         }
     }
   })();

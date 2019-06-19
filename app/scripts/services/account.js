@@ -32,6 +32,7 @@
       addNotificationRule: addNotificationRule,
       updateNotificationRule: updateNotificationRule,
       getNotificationRules: getNotificationRules,
+      deleteNotificationRule: deleteNotificationRule
     };
 
     return service;
@@ -277,6 +278,14 @@
 
     function updateNotificationRule(rule){
       return $http.put(app.API_URL + '/notification/notificationRule/'+ rule._id, rule, { auth: true })
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function deleteNotificationRule(id){
+      return $http.delete(app.API_URL + '/notification/notificationRule/'+ id, { auth: true })
         .then(function (response) {
           return response;
         })

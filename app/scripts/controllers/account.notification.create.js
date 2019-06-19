@@ -7,7 +7,7 @@
   
     AccountNotificationCreateController.$inject = ['boxes', 'AccountService', '$stateParams', '$state', 'LocalStorageService', '$scope'];
   
-    function AccountNotificationCreateController (boxes, AccountService,stateParams, $state, LocalStorageService, $scope) {
+    function AccountNotificationCreateController (boxes, AccountService, stateParams, $state, LocalStorageService, $scope) {
         var vm = this;
         vm.boxes = boxes;
         vm.selectedBox = [];

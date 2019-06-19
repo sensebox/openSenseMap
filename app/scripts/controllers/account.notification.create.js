@@ -32,7 +32,7 @@
         }
 
         function selectBox() {
-            vm.boxes.forEach(box => {
+            vm.boxes.forEach(function(box) {
                 if(box._id === vm.notificationRule.box){
                     vm.selectedBox = box;
                     return;
@@ -42,12 +42,11 @@
 
         function createRule(){
             //add missing parameters for now until api is extended
-            var rule = {
-                ...vm.notificationRule,
-                sensors: [ vm.notificationRule.sensors],
-                activationTrigger: 'any',
-                notificationChannel: [{ channel: 'email', email: 'xxx@ccsad.her' }]
-            }
+            var rule = vm.notificationRule;
+            rule.sensors = [ vm.notificationRule.sensors];
+            rule.activationTrigger = 'any';
+            rule.notificationChannel = [{ channel: 'email', email: 'xxx@ccsad.her' }];
+
 
             //IF stateparams ID update, otherwise create
             if(stateParams.id){

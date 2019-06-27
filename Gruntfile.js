@@ -118,16 +118,17 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'app',
+      app: 'app',
+      // app: require('./bower.json').appPath || 'app',
       dist: 'dist'
     },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['bowerInstall']
-      },
+      // bower: {
+      //   files: ['bower.json'],
+      //   tasks: ['bowerInstall']
+      // },
       js: {
         files: [
           '<%= yeoman.app %>/scripts/{,*/}*.js',
@@ -648,7 +649,6 @@ module.exports = function (grunt) {
       'clean:server',
       'env:dev',
       'loadconst',
-      'bowerInstall',
       'concurrent:server',
       'autoprefixer',
       'replace:devapi',
@@ -686,7 +686,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'loadconst',
     'gitinfo',
-    'bowerInstall',
+    // 'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
     'copy:dist',

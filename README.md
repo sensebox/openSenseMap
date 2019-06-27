@@ -20,11 +20,10 @@ You can configure the API endpoint and/or map tiles using the following environm
 
 You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/master/Gruntfile.js#L25).
 
-
 ## Development
-- Have [Node.js] v10, [grunt]() and [bower]() installed
+- Have [Node.js] v10, [grunt]() and [Yarn] installed
 - Check out a branch for your feature (`git checkout my-aweseome-feature`)
-- Run `npm install` and `npx bower install`
+- Run `yarn install` to install all dependencies
 - Run frontend in development mode (`npx grunt serve`)
 - Commit your changes to your branch and push it to your fork
 - Create a pull request against the `master` branch
@@ -69,7 +68,6 @@ Following ```build-args``` are availble:
 | OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
 | OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
-
 ## License
 
 [MIT](LICENSE) - Matthias Pfeil 2015 - now
@@ -78,3 +76,4 @@ Following ```build-args``` are availble:
 [Node.js]:http://nodejs.org/
 [openSenseMap]:https://opensensemap.org/
 [senseBox]:https://sensebox.de/
+[Yarn]:https://yarnpkg.com/en/

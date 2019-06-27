@@ -25,6 +25,11 @@ script:
       export OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV;
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV;
     fi
+  - if [[ -z "$TRAVIS_BRANCH" === "feat-notifications" ]]; then
+      echo "Lets use the staging envs";
+      export OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_STAGING;
+      export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_STAGING;
+    fi
   - npm run build
   - docker build -t $IMAGE_NAME:$TRAVIS_BRANCH-temp .
 

@@ -20,11 +20,10 @@ You can configure the API endpoint and/or map tiles using the following environm
 
 You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/development/Gruntfile.js#L24).
 
-
 ## Development
-- Have [Node.js] v8, [grunt]() and [bower]() installed
+- Have [Node.js] v8, [grunt]() and [Yarn] installed
 - Check out `development` branch (`git checkout development`)
-- Run `npm install` and `bower install`
+- Run `yarn install` to install all dependencies
 - Create your own branch `git checkout -b my-awesome-branch`
 - Run frontend in development mode (`grunt serve`)
 - Commit your changes to your branch and push it to your fork
@@ -72,7 +71,6 @@ Following ```build-args``` are availble:
 | OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
 | OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
-
 ## License
 
 [MIT](LICENSE) - Matthias Pfeil 2015 - now
@@ -81,3 +79,4 @@ Following ```build-args``` are availble:
 [Node.js]:http://nodejs.org/
 [openSenseMap]:https://opensensemap.org/
 [senseBox]:https://sensebox.de/
+[Yarn]:https://yarnpkg.com/en/

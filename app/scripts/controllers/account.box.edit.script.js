@@ -39,7 +39,9 @@
         vm.showSerialPort = true;
       }
 
-      if (boxData.sensorsArray.filter(s => s.sensorType === 'SMT50').length > 0) {
+      if (boxData.sensorsArray.filter(function (s) {
+        return s.sensorType === 'SMT50';
+      }).length !== 0) {
         vm.showSoilDigitalPort = true;
       }
 

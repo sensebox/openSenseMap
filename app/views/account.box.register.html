@@ -332,6 +332,36 @@
                                   <div style="text-align: left;">
                                     <div class="checkbox checkbox-success checkbox-inline"
                                       style="vertical-align: middle;">
+                                      <input type="checkbox" id="bmeSensor" ng-true-value="'BME680'"
+                                        ng-false-value="''" ng-model="register.newModel.sensors.bme680">
+                                      <label for="bmeSensor"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">BME680</span>
+                                  </div>
+                                </div>
+                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagBME">{{'PHENOMENON' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagBME" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.newModel.bmePhenomenon">
+                                        <option value="tempHumiPress">{{'TEMPERATURE_HUMIDITY_PRESSURE' | translate}}</option>
+                                        <option value="voc">VOC</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
                                       <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'"
                                         ng-false-value="''" ng-model="register.extensions.feinstaub.id">
                                       <label for="pollutionSensor"> </label>
@@ -357,6 +387,69 @@
                                   </div>
                                 </div>
                               </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="soilMoistureSensor" ng-true-value="'Bodenfeuchte'"
+                                        ng-false-value="''" ng-model="register.extensions.soilMoisture.id">
+                                      <label for="soilMoistureSensor"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'SOIL_MOISTURE' | translate}}</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagSoilMoisture">{{'DIGITAL_PORT' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagSoilMoisture" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.extensions.soilMoisture.port">
+                                        <!---->
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="soundLevelMeter" ng-true-value="'Lautstärke'"
+                                        ng-false-value="''" ng-model="register.extensions.soundLevelMeter.id">
+                                      <label for="soundLevelMeter"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">Lautstärke</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagSoundLevelMeter">Digitaler Port</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagSoundLevelMeter" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.extensions.soundLevelMeter.port">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>      -->
                             </div>
                           </div>
                         </li>
@@ -1145,6 +1238,20 @@
                       ng-change="register.generateScript()">
                       <option value="Serial1">Serial 1</option>
                       <option value="Serial2">Serial 2</option>
+                    </select>
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control" id="soilDigitalPort" ng-model="register.newSenseBox.soilDigitalPort"
+                      ng-change="register.generateScript()">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
                     </select>
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>

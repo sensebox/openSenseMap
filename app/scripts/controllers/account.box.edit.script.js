@@ -15,6 +15,8 @@
     vm.boxScript = '';
     vm.showConfiguration = false;
     vm.showSerialPort = false;
+    vm.soilDigitalPort = 'A';
+    vm.showSoilDigitalPort = false;
     vm.compiling = false;
     vm.wifi = {
       ssid: '',
@@ -37,6 +39,12 @@
         vm.showSerialPort = true;
       }
 
+      if (boxData.sensorsArray.filter(function (s) {
+        return s.sensorType === 'SMT50';
+      }).length !== 0) {
+        vm.showSoilDigitalPort = true;
+      }
+
       return getScript();
     }
 
@@ -49,6 +57,7 @@
     function getScript () {
       return AccountService.getScript(boxData._id, {
         serialPort: vm.serialPort,
+        soilDigitalPort: vm.soilDigitalPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password
       })

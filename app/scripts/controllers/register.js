@@ -33,9 +33,12 @@
         temp: false,
         pressure: false,
         light: false,
-        pollution: false
+        pollution: false,
+        bme680: false,
       },
-      serialPort: 'Serial1'
+      serialPort: 'Serial1',
+      soilDigitalPort: 'A',
+      bmePhenomenon: 'tempHumiPress'
     };
 
     vm.wifi = {
@@ -69,6 +72,14 @@
     vm.extensions = {
       feinstaub: {
         id: ''
+      },
+      soilMoisture: {
+        id: '',
+        port: 'A'
+      },
+      soundLevelMeter: {
+        id: '',
+        port: 'B'
       }
     };
 
@@ -166,6 +177,7 @@
     function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
         serialPort: vm.newSenseBox.serialPort,
+        soilDigitalPort: vm.newSenseBox.soilDigitalPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password
       })
@@ -310,6 +322,7 @@
       var data = {};
       if (model.startsWith('homeV2')) {
         data.serialPort = vm.newModel.serialPort;
+        data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
       }
       AccountService.getScript(boxId, data)
         .then(function (data) {
@@ -365,6 +378,9 @@
                 vm.newSenseBox.sensorTemplates.push('veml6070');
                 vm.newSenseBox.sensorTemplates.push('tsl45315');
                 break;
+              case 'bme680':
+                vm.newSenseBox.sensorTemplates.push('bme680');
+                break;
               }
             }
           }
@@ -372,6 +388,14 @@
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
           vm.newSenseBox.serialPort = vm.newModel.serialPort;
+        }
+        if (vm.extensions.soilMoisture.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('smt50');
+          vm.newSenseBox.soilDigitalPort = vm.extensions.soilMoisture.port;
+        }
+        if (vm.extensions.soundLevelMeter.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('soundlevelmeter');
+          vm.newSenseBox.soundLevelMeterPort = vm.extensions.soundLevelMeter.port;
         }
       }
 
@@ -476,6 +500,30 @@
         unit = 'μW/cm²';
         sensorType = 'VEML6070';
         break;
+      case 'BME680_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_VOC':
+        icon = 'osem-barometer';
+        title = 'VOC';
+        unit = 'kΩ';
+        sensorType = 'BME680';
+        break;
       case 'PM25':
         icon = 'osem-cloud';
         title = 'PM2.5';
@@ -487,6 +535,24 @@
         title = 'PM10';
         unit = 'µg/m³';
         sensorType = 'SDS 011';
+        break;
+      case 'smt50_soilmoisture':
+        icon = 'osem-humidity';
+        title = 'Bodenfeuchte';
+        unit = '%';
+        sensorType = 'SMT50';
+        break;
+      case 'smt50_soiltemperature':
+        icon = 'osem-thermometer';
+        title = 'Bodentemperatur';
+        unit = '°C';
+        sensorType = 'SMT50';
+        break;
+      case 'soundlevelmeter':
+        icon = 'osem-microphone';
+        title = 'Lautstärke';
+        unit = 'dB';
+        sensorType = 'soundlevelmeter';
         break;
       }
       add(icon, title, unit, sensorType);

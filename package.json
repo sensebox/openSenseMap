@@ -2,7 +2,7 @@
   "name": "opensensemap",
   "version": "2.0.0",
   "dependencies": {
-    "@sensebox/opensensemap-i18n": "^3.0.1",
+    "@sensebox/opensensemap-i18n": "^3.1.1",
     "angular-i18n": "^1.6.7"
   },
   "devDependencies": {
@@ -19,7 +19,7 @@
     "grunt-bower-install": "~1.6.0",
     "grunt-concurrent": "~2.1.0",
     "grunt-contrib-clean": "~0.7.0",
-    "grunt-contrib-compress": "^1.4.0",
+    "grunt-contrib-compress": "1.4.0",
     "grunt-contrib-concat": "~0.5.1",
     "grunt-contrib-connect": "^0.11.2",
     "grunt-contrib-copy": "~0.8.2",

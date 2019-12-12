@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/sensebox/openSenseMap/compare/v2.1.2...v2.1.1) (2019-04-04)
+
+
+### Bug Fixes
+
+* **registration:** Update translation package ([4c9ca88](https://github.com/sensebox/openSenseMap/commit/4c9ca88))
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/sensebox/openSenseMap/compare/v2.0.1...v2.1.0) (2019-03-15)
+
+
+### Bug Fixes
+
+* **download:** Fix download link ([2e2806e](https://github.com/sensebox/openSenseMap/commit/2e2806e))
+* **download:** just use filtered boxes ([908a3c5](https://github.com/sensebox/openSenseMap/commit/908a3c5))
+* **edit:** Add configuration for serial port in editing mode ([4354322](https://github.com/sensebox/openSenseMap/commit/4354322))
+* **edit:** Make SerialPort configurable in editing mode ([6076f39](https://github.com/sensebox/openSenseMap/commit/6076f39))
+* **navbar:** Fix about link ([60a89b9](https://github.com/sensebox/openSenseMap/commit/60a89b9))
+
+
+### Features
+
+* **dashboard:** Add copy to clipboard button ([284203e](https://github.com/sensebox/openSenseMap/commit/284203e)), closes [#288](https://github.com/sensebox/openSenseMap/issues/288)
+* **dashboard:** add support button to dashboard ([bb59244](https://github.com/sensebox/openSenseMap/commit/bb59244))
+* **registration:** add compile functionality ([da570b4](https://github.com/sensebox/openSenseMap/commit/da570b4))
+* **registration:** New hardware model senseBox edu ([7d73fec](https://github.com/sensebox/openSenseMap/commit/7d73fec))
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/sensebox/openSenseMap/compare/v2.0.0...v2.0.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **edit:** fix saving issue in edit mode ([f81a9d8](https://github.com/sensebox/openSenseMap/commit/f81a9d8)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+* **loader:** Disable loader by default ([b56092b](https://github.com/sensebox/openSenseMap/commit/b56092b)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/sensebox/openSenseMap/compare/v1.3.0...v2.0.0) (2018-11-19)
 

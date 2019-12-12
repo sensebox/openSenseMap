@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/sensebox/openSenseMap/compare/v2.1.1...v2.2.0) (2019-12-12)
+
+
+### Bug Fixes
+
+* **clipboard:** Fix copy to clipboard directive ([#303](https://github.com/sensebox/openSenseMap/issues/303)) ([4aaa633](https://github.com/sensebox/openSenseMap/commit/4aaa633)), closes [#297](https://github.com/sensebox/openSenseMap/issues/297)
+* **dashboard:** Do not autofill ssid and password ([#301](https://github.com/sensebox/openSenseMap/issues/301)) ([1b55c9a](https://github.com/sensebox/openSenseMap/commit/1b55c9a)), closes [#295](https://github.com/sensebox/openSenseMap/issues/295)
+
+
+### Features
+
+* **registration:** Add BME680 and soil moisture sensor with port selection ([fed2d7a](https://github.com/sensebox/openSenseMap/commit/fed2d7a))
+
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/sensebox/openSenseMap/compare/v2.1.2...v2.1.1) (2019-04-04)
 

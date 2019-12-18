@@ -37,6 +37,9 @@
     <!-- endbower -->
     <!-- endbuild -->
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
+
+
     <!-- build:css({.tmp,app}) styles/main.css -->
     <link rel="stylesheet" href="styles/BrixSlab-font.css">
     <link rel="stylesheet" href="styles/main.css">
@@ -400,19 +403,84 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <script>
+    window.cookieconsent.initialise({
+      "palette": {
+        "popup": {
+          "background": "#efefef",
+          "text": "#404040"
+        },
+        "button": {
+          "background": "#8ec760",
+          "text": "#ffffff"
+        }
+      },
+      "theme": "classic",
+      "position": "bottom-right",
+      "type": "opt-in",
+      onInitialise: function (status) {
+        var type = this.options.type;
+        var didConsent = this.hasConsented();
+        if (type == 'opt-in' && didConsent) {
+          var _paq = _paq || [];
+          _paq.push(["setDomains", ["*.opensensemap.org"]]);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//piwik.uni-muenster.de/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 31]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+        }
+      },
+
+      onStatusChange: function (status, chosenBefore) {
+        var type = this.options.type;
+        var didConsent = this.hasConsented();
+        if (type == 'opt-in' && didConsent) {
+          // enable cookies
+          var _paq = _paq || [];
+          _paq.push(["setDomains", ["*.opensensemap.org"]]);
+          _paq.push(['trackPageView']);
+          _paq.push(['enableLinkTracking']);
+          (function() {
+            var u="//piwik.uni-muenster.de/";
+            _paq.push(['setTrackerUrl', u+'piwik.php']);
+            _paq.push(['setSiteId', 31]);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+          })();
+        }
+      },
+
+      onRevokeChoice: function () {
+        var type = this.options.type;
+        if (type == 'opt-in') {
+          // disable cookies
+          var _paq = _paq || [];
+          _paq.push(['disableCookies']);
+          _paq.push(['trackPageView']);
+        }
+      },
+    });
+    </script>
+
     <!-- Piwik -->
     <script type="text/javascript">
-      var _paq = _paq || [];
-      _paq.push(["setDomains", ["*.opensensemap.org"]]);
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//piwik.uni-muenster.de/";
-        _paq.push(['setTrackerUrl', u+'piwik.php']);
-        _paq.push(['setSiteId', 31]);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-      })();
+      // var _paq = _paq || [];
+      // _paq.push(["setDomains", ["*.opensensemap.org"]]);
+      // _paq.push(['trackPageView']);
+      // _paq.push(['enableLinkTracking']);
+      // (function() {
+      //   var u="//piwik.uni-muenster.de/";
+      //   _paq.push(['setTrackerUrl', u+'piwik.php']);
+      //   _paq.push(['setSiteId', 31]);
+      //   var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      //   g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      // })();
     </script>
     <noscript><p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p></noscript>
     <!-- End Piwik Code -->

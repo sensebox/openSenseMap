@@ -35,6 +35,20 @@
         </div>
       </div>
     </div>
+    <div class="form-group" ng-if="script.showSoundMeterPort">
+      <label for="soundMeterPort">Lautstärke<br/>{{'DIGITAL_PORT'|translate}}</label>
+      <div class="input-group">
+        <select type="text" class="form-control" id="soundMeterPort" ng-model="script.soundMeterPort"
+          ng-change="script.generateScript()">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
     <div class="form-group">
       <label for="ssid">WiFi SSID</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"

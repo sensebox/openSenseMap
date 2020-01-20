@@ -17,6 +17,8 @@
     vm.showSerialPort = false;
     vm.soilDigitalPort = 'A';
     vm.showSoilDigitalPort = false;
+    vm.soundMeterPort = 'B';
+    vm.showSoundMeterPort = false;
     vm.compiling = false;
     vm.wifi = {
       ssid: '',
@@ -45,6 +47,12 @@
         vm.showSoilDigitalPort = true;
       }
 
+      if (boxData.sensorsArray.filter(function (s) {
+        return s.sensorType === 'SOUNDLEVELMETER';
+      }).length !== 0) {
+        vm.showSoundMeterPort = true;
+      }
+
       return getScript();
     }
 
@@ -58,6 +66,7 @@
       return AccountService.getScript(boxData._id, {
         serialPort: vm.serialPort,
         soilDigitalPort: vm.soilDigitalPort,
+        soundMeterPort: vm.soundMeterPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password
       })

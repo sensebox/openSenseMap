@@ -745,7 +745,7 @@
                           src="https://sensebox.kaufen/api/public/uploads/1579187023927-176092104_illustrator_02_gimp%20overlay_cropped.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Schallpegelmesser</h4>
+                          <h4>{{'SOUND_LEVEL'|translate}}</h4>
                           <p>
                             <button type="button" class="btn btn-success"
                               ng-click="register.addSensorTemplate('soundlevelmeter')">{{'ADD_SENSOR'|translate}}</button>
@@ -1363,7 +1363,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label for="soundMeterPort">Lautstärke {{'DIGITAL_PORT'|translate}}</label>
+                  <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}} {{'DIGITAL_PORT'|translate}}</label>
                   <div class="input-group">
                     <select type="text" class="form-control" id="soundMeterPort" ng-model="register.newSenseBox.soundMeterPort"
                       ng-change="register.generateScript()">

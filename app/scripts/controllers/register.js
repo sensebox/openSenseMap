@@ -38,6 +38,7 @@
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
+      soundMeterPort: 'B',
       bmePhenomenon: 'tempHumiPress'
     };
 
@@ -178,6 +179,7 @@
       return AccountService.getScript(vm.newSenseBox.id, {
         serialPort: vm.newSenseBox.serialPort,
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
+        soundMeterPort: vm.newSenseBox.soundMeterPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password
       })
@@ -323,6 +325,7 @@
       if (model.startsWith('homeV2')) {
         data.serialPort = vm.newModel.serialPort;
         data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
+        data.soundMeterPort = vm.newSenseBox.soundMeterPort;
       }
       AccountService.getScript(boxId, data)
         .then(function (data) {
@@ -395,7 +398,7 @@
         }
         if (vm.extensions.soundLevelMeter.id !== '') {
           vm.newSenseBox.sensorTemplates.push('soundlevelmeter');
-          vm.newSenseBox.soundLevelMeterPort = vm.extensions.soundLevelMeter.port;
+          vm.newSenseBox.soundMeterPort = vm.extensions.soundLevelMeter.port;
         }
       }
 

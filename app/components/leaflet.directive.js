@@ -97,7 +97,7 @@
 
       var baselayer = L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
         subdomains: 'abc',
-        attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
+        attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
         detectRetina: true,
         reuseTiles: true,
         maxZoom: 18

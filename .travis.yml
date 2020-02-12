@@ -29,7 +29,7 @@ script:
       export OPENSENSEMAP_API_URL=$OPENSENSEMAP_API_URL_DEV;
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL_DEV;
     fi
-  - if [[ -z "$TRAVIS_TAG" && "$TRAVIS_BRANCH" === "workshop" ]]; then
+  - if [[ -z "$TRAVIS_TAG" && "$TRAVIS_BRANCH" == "workshop" ]]; then
       echo "Lets use the workshop envs";
       export OPENSENSEMAP_API_URL=$WORKSHOP_API_URL;
       export OPENSENSEMAP_MAPTILES_URL=$OPENSENSEMAP_MAPTILES_URL;

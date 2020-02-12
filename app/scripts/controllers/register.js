@@ -108,7 +108,7 @@
       mqtt: false,
       ttn: false,
       hackair: false,
-      edu: false
+      edu: true
     };
 
     vm.markers = {};

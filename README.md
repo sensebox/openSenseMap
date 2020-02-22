@@ -24,9 +24,9 @@ You can set them in your `terminal` or change the default values in the [Gruntfi
 ## Development
 - Have [Node.js] v8, [grunt]() and [bower]() installed
 - Check out `development` branch (`git checkout development`)
-- Run `npm install` and `bower install`
+- Run `npm install` and `npx bower install`
 - Create your own branch `git checkout -b my-awesome-branch`
-- Run frontend in development mode (`grunt serve`)
+- Run frontend in development mode (`npx grunt serve`)
 - Commit your changes to your branch and push it to your fork
 - Create a pull request against the `development` branch
 

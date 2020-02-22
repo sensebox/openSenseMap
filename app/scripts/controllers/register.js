@@ -757,14 +757,27 @@
       }
     });
 
-    $scope.$watchCollection('register.open', function (accordion) {
-      vm.tag = '';
-      if (accordion) {
-        if (accordion.custom) {
+    $scope.$watchCollection('register.open', function (
+      newAccordion,
+      oldAccordion
+    ) {
+      if (
+        vm.tag === 'edu' &&
+        newAccordion &&
+        oldAccordion &&
+        oldAccordion.edu === true &&
+        newAccordion.edu === false
+      ) {
+        vm.tag = '';
+      }
+      if (newAccordion) {
+        if (newAccordion.custom === true) {
           vm.modelSelected.id = 'custom';
-        } else if (accordion.edu) {
+        } else if (newAccordion.edu === true) {
           vm.modelSelected.id = 'edu';
-          vm.tag = 'edu';
+          if (vm.tag === '') {
+            vm.tag = 'edu';
+          }
         }
       }
     });

@@ -435,6 +435,8 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            'browserconfig.xml',
+            'site.webmanifest',
             'views/{,*/}*.html',
             'components/{,*/}*.html',
             'images/{,*/}*.{webp}',
@@ -513,6 +515,13 @@ module.exports = function (grunt) {
         {
           expand: true,
           dot: true,
+          cwd: '<%= yeoman.app %>/images',
+          src: ['*.ico'],
+          dest: '<%= yeoman.dist %>/images/'
+        },
+        {
+          expand: true,
+          dot: true,
           cwd: '<%= yeoman.app %>/bower_components/Leaflet.awesome-markers/dist',
           src: ['images/*.*'],
           dest: '<%= yeoman.dist %>/styles/'
@@ -571,13 +580,12 @@ module.exports = function (grunt) {
         files: [
           { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz' },
           { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.gz' },
+          { expand: true, src: ['dist/components/*.html'], dest: './', extDot: 'last', ext: '.html.gz' },
           { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz' },
           { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz' },
           { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz' },
           { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz' },
           { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz' },
-          { expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.gz' },
-          { expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.gz' },
           { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz' }
 
         ]
@@ -589,13 +597,12 @@ module.exports = function (grunt) {
         files: [
           { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br' },
           { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.br' },
+          { expand: true, src: ['dist/components/*.html'], dest: './', extDot: 'last', ext: '.html.br' },
           { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br' },
           { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br' },
           { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br' },
           { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br' },
           { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br' },
-          { expand: true, src: ['dist/images/**/*.png'], dest: './', extDot: 'last', ext: '.png.br' },
-          { expand: true, src: ['dist/styles/images/*.png'], dest: './', extDot: 'last', ext: '.png.br' },
           { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br' }
         ]
       }

@@ -449,7 +449,7 @@
                                     </div>
                                   </div>
                                 </div>
-                              </div>     
+                              </div>
                             </div>
                           </div>
                         </li>
@@ -1255,7 +1255,7 @@
               <div class="well">
                 <ul>
                   <li ng-repeat="sensor in register.sensors">
-                    {{sensor.title}} ({{sensor.unit}})
+                    {{sensor.title}} ({{sensor.unit}}) - {{sensor.sensorType}}
                   </li>
                 </ul>
               </div>
@@ -1323,7 +1323,7 @@
               <table ng-show="register.registeredSensors" class="table table-striped table-bordered">
                 <tbody>
                   <tr ng-repeat="sensor in register.registeredSensors">
-                    <td style="width: 50%;">{{sensor.title}} ({{sensor.unit}})</td>
+                    <td style="width: 50%;">{{sensor.title}} ({{sensor.unit}}) - {{sensor.sensorType}}</td>
                     <td style="width: 50%;"><strong>{{sensor._id}}</strong></td>
                   </tr>
                 </tbody>

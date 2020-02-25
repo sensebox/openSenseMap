@@ -51,6 +51,8 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+    <div id="orejime"></div>
+
     <!-- Fixed navbar -->
     <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
       <div class="navbar-inner">
@@ -403,84 +405,57 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
-    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js" data-cfasync="false"></script>
+    <link rel="stylesheet" href="https://unpkg.com/orejime@1.1.1/dist/orejime.css" />
+    <script src="https://unpkg.com/orejime@1.1.1/dist/orejime.js"></script>
     <script>
-    window.cookieconsent.initialise({
-      "palette": {
-        "popup": {
-          "background": "#efefef",
-          "text": "#404040"
+      Orejime.init({
+        privacyPolicy: "https://opensensemap.org/privacy",
+        lang: "de",
+        translations: {
+        de: {
+          accept: 'Akzeptieren',
+          acceptAll: 'Alle akzeptieren',
+          declineAll: 'Alle ablehnen',
+          purposes: {
+              analytics: "Analytics",
+              userExperience: 'User Experience'
+          },
         },
-        "button": {
-          "background": "#8ec760",
-          "text": "#ffffff"
-        }
-      },
-      "theme": "classic",
-      "position": "bottom-right",
-      "type": "opt-in",
-      onInitialise: function (status) {
-        var type = this.options.type;
-        var didConsent = this.hasConsented();
-        if (type == 'opt-in' && didConsent) {
-          var _paq = _paq || [];
-          _paq.push(["setDomains", ["*.opensensemap.org"]]);
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="//piwik.uni-muenster.de/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', 31]);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-          })();
-        }
-      },
-
-      onStatusChange: function (status, chosenBefore) {
-        var type = this.options.type;
-        var didConsent = this.hasConsented();
-        if (type == 'opt-in' && didConsent) {
-          // enable cookies
-          var _paq = _paq || [];
-          _paq.push(["setDomains", ["*.opensensemap.org"]]);
-          _paq.push(['trackPageView']);
-          _paq.push(['enableLinkTracking']);
-          (function() {
-            var u="//piwik.uni-muenster.de/";
-            _paq.push(['setTrackerUrl', u+'piwik.php']);
-            _paq.push(['setSiteId', 31]);
-            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-            g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-          })();
-        }
-      },
-
-      onRevokeChoice: function () {
-        var type = this.options.type;
-        if (type == 'opt-in') {
-          // disable cookies
-          var _paq = _paq || [];
-          _paq.push(['disableCookies']);
-          _paq.push(['trackPageView']);
-        }
-      },
+    },
+        apps: [
+            {
+                name: "piwik",
+                title: "External Tracker",
+                cookies: ["piwik"],
+                purposes: ['analytics'],
+                required: false
+            },
+            {
+                name: "osem",
+                title: "Essentiell",
+                cookies: ["osem"],
+                purposes: ['userExperience'],
+                required: true
+            }
+        ],
     });
     </script>
 
     <!-- Piwik -->
-    <script type="text/javascript">
-      // var _paq = _paq || [];
-      // _paq.push(["setDomains", ["*.opensensemap.org"]]);
-      // _paq.push(['trackPageView']);
-      // _paq.push(['enableLinkTracking']);
-      // (function() {
-      //   var u="//piwik.uni-muenster.de/";
-      //   _paq.push(['setTrackerUrl', u+'piwik.php']);
-      //   _paq.push(['setSiteId', 31]);
-      //   var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      //   g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-      // })();
+    <script type="opt-in"
+       data-type="application/javascript"
+       data-name="piwik">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.opensensemap.org"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//piwik.uni-muenster.de/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 31]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
     </script>
     <noscript><p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p></noscript>
     <!-- End Piwik Code -->

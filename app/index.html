@@ -400,8 +400,46 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
+    <link rel="stylesheet" href="https://unpkg.com/orejime@1.1.1/dist/orejime.css" />
+    <script src="https://unpkg.com/orejime@1.1.1/dist/orejime.js"></script>
+    <script>
+      Orejime.init({
+        privacyPolicy: "https://opensensemap.org/privacy",
+        lang: "de",
+        translations: {
+        de: {
+          accept: 'Akzeptieren',
+          acceptAll: 'Alle akzeptieren',
+          declineAll: 'Alle ablehnen',
+          purposes: {
+              analytics: "Analytics",
+              userExperience: 'User Experience'
+          },
+        },
+    },
+        apps: [
+            {
+                name: "piwik",
+                title: "External Tracker",
+                cookies: ["piwik"],
+                purposes: ['analytics'],
+                required: false
+            },
+            {
+                name: "osem",
+                title: "Essentiell",
+                cookies: ["osem"],
+                purposes: ['userExperience'],
+                required: true
+            }
+        ],
+    });
+    </script>
+
     <!-- Piwik -->
-    <script type="text/javascript">
+    <script type="opt-in"
+       data-type="application/javascript"
+       data-name="piwik">
       var _paq = _paq || [];
       _paq.push(["setDomains", ["*.opensensemap.org"]]);
       _paq.push(['trackPageView']);

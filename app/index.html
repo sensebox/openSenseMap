@@ -10,9 +10,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <base href="/">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <link rel="icon" href="images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="openSenseMap">
+    <meta name="application-name" content="openSenseMap">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- build:css styles/vendor.css -->
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
@@ -393,8 +400,46 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
+    <link rel="stylesheet" href="https://unpkg.com/orejime@1.1.1/dist/orejime.css" />
+    <script src="https://unpkg.com/orejime@1.1.1/dist/orejime.js"></script>
+    <script>
+      Orejime.init({
+        privacyPolicy: "https://opensensemap.org/privacy",
+        lang: "de",
+        translations: {
+        de: {
+          accept: 'Akzeptieren',
+          acceptAll: 'Alle akzeptieren',
+          declineAll: 'Alle ablehnen',
+          purposes: {
+              analytics: "Analytics",
+              userExperience: 'User Experience'
+          },
+        },
+    },
+        apps: [
+            {
+                name: "piwik",
+                title: "External Tracker",
+                cookies: ["piwik"],
+                purposes: ['analytics'],
+                required: false
+            },
+            {
+                name: "osem",
+                title: "Essentiell",
+                cookies: ["osem"],
+                purposes: ['userExperience'],
+                required: true
+            }
+        ],
+    });
+    </script>
+
     <!-- Piwik -->
-    <script type="text/javascript">
+    <script type="opt-in"
+       data-type="application/javascript"
+       data-name="piwik">
       var _paq = _paq || [];
       _paq.push(["setDomains", ["*.opensensemap.org"]]);
       _paq.push(['trackPageView']);

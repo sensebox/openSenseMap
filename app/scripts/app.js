@@ -370,6 +370,54 @@
             }
           }
         })
+        .state('account.notifications', {
+          url: '/notifications',
+          views: {
+            'account': {
+              controller: 'AccountNotificationController',
+              controllerAs: 'accountNotification',
+              templateUrl: 'views/account.notifications.html'
+            }
+          },
+          resolve: {
+            notificationRules: function ($state, $stateParams, AccountService) {
+              return AccountService.getNotificationRules();
+            }
+          },
+          data: {
+            requiresLogin: false
+          }
+        })
+        .state('account.notificationscreate', {
+          url: '/notifications/create',
+          views: {
+            'account': {
+              controller: 'AccountNotificationCreateController',
+              controllerAs: 'accountNotificationCreateController',
+              templateUrl: 'views/account.notifications.create.html'
+            }
+          },
+          resolve: {
+            boxes: function($state, $stateParams,AccountService) {
+              return AccountService.getUsersBoxes();
+            }
+          }
+        })
+        .state('account.notificationsedit', {
+          url: '/notifications/edit/:box/:id',
+          views: {
+            'account': {
+              controller: 'AccountNotificationCreateController',
+              controllerAs: 'accountNotificationCreateController',
+              templateUrl: 'views/account.notifications.create.html'
+            }
+          },
+          resolve: {
+            boxes: function($state, $stateParams,AccountService) {
+              return AccountService.getUsersBoxes();
+            }
+          }
+        })
         .state('register', {
           url: '/register',
           templateUrl: 'views/registration.html',
@@ -406,7 +454,7 @@
               templateUrl: 'views/info.imprint.html'
             }
           }
-        });
+        })
     }])
     .config(['$translateProvider', function ($translateProvider) {
       $translateProvider.useStaticFilesLoader({

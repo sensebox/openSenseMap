@@ -27,7 +27,12 @@
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount,
-      compileSketch: compileSketch
+      compileSketch: compileSketch,
+      getNotificationRule: getNotificationRule,
+      addNotificationRule: addNotificationRule,
+      updateNotificationRule: updateNotificationRule,
+      getNotificationRules: getNotificationRules,
+      deleteNotificationRule: deleteNotificationRule
     };
 
     return service;
@@ -243,6 +248,46 @@
           var url = encodeURI('https://compiler.sensebox.de/download?id=' + response.data.data.id + '&board=sensebox-mcu');
 
           return $window.open(url, '_self');
+        })
+        .catch(failed);
+    }
+
+    function getNotificationRule(box, rule){
+      return $http.get(app.API_URL + '/notification/notificationRule/'+ box + '/'+ rule, { auth: true })
+        .then(function(response){
+          return response.data.data;
+        })
+        .catch(failed);
+
+    }
+    function getNotificationRules(){
+      return $http.get(app.API_URL + '/notification/notificationRule', { auth: true })
+        .then(function(response){
+          return response.data.data;
+        })
+        .catch(failed);
+    }
+
+    function addNotificationRule(rule){
+      return $http.post(app.API_URL + '/notification/notificationRule', rule, { auth: true })
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function updateNotificationRule(rule){
+      return $http.put(app.API_URL + '/notification/notificationRule/'+ rule._id, rule, { auth: true })
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function deleteNotificationRule(id){
+      return $http.delete(app.API_URL + '/notification/notificationRule/'+ id, { auth: true })
+        .then(function (response) {
+          return response;
         })
         .catch(failed);
     }

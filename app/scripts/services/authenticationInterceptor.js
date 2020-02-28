@@ -58,6 +58,8 @@
             return deferred.promise;
           case 404:
             return $q.reject(response);
+          case 500:
+            break;
           default:
             AuthenticationService.logout();
             $injector.get('$state').go('explore.map');

@@ -175,6 +175,7 @@ module.exports = function (grunt) {
           '<%= yeoman.app %>/components/calendar.directive.js',
           '<%= yeoman.app %>/components/badge.directive.js',
           '<%= yeoman.app %>/components/loader.directive.js',
+          '<%= yeoman.app %>/components/workshop.directive.js',
           '<%= yeoman.app %>/components/clipboard.directive.js'
         ],
         tasks: [

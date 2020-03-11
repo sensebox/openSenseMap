@@ -62,7 +62,7 @@
             <span id="brand_with_logo">
               <a class="navbar-brand" ui-sref="explore.map" ui-sref-opts="{reload: true}">
                 <img src="images/favicon.svg">
-                <div class='oSeM-brand'>&nbsp;openSenseMap</div>
+                <div class='oSeM-brand'>&nbsp;openSenseMap <span ng-click="workshop.activate()">workshop</span></div>
               </a>
             </span>
             <div class="ng-cloak brand-stats">
@@ -312,6 +312,7 @@
     <!-- Add your site or application content here -->
     <div class="container">
       <osem-loader></osem-loader>
+      <osem-workshop></osem-workshop>
       <div ui-view>
       </div>
     </div>
@@ -356,6 +357,7 @@
     <script src="components/charts.directive.js"></script>
     <script src="components/badge.directive.js"></script>
     <script src="components/loader.directive.js"></script>
+    <script src="components/workshop.directive.js"></script>
     <script src="components/clipboard.directive.js"></script>
     <script src="scripts/directives/autofocus.js"></script>
     <script src="scripts/controllers/info.js"></script>

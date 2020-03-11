@@ -823,6 +823,17 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   display: inline;
 }
 
+.oSeM-brand > span {
+  transform: rotate(15deg);
+  display: inline-block;
+  color: darkgreen;
+  position: relative;
+  left: 0px;
+  border: darkgreen solid;
+  padding: 3px;
+  border-radius: 2px;
+}
+
 .typeahead-search .custom-popup-wrapper {
   position: absolute;
   top: 100%;
@@ -1029,7 +1040,7 @@ input:checked + .slider:before {
   border-bottom-right-radius: 4px;
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 503px) {
   .oSeM-brand {
     display: none;
   }

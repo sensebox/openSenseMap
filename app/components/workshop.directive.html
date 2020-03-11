@@ -1,0 +1,18 @@
+<div style="position: absolute; top: 0; left: 0; bottom: 0; width: 100%; z-index: 1600;" ng-if="workshop.visible">
+    <div class="modal-dialog" role="document" style="z-index: 2000; margin: auto; height: 100vh !important; display: flex;">
+      <div class="modal-content" style="margin: auto !important; height: fit-content !important;">
+        <div class="modal-header">
+          <h5 class="modal-title">openSenseMap Workshop</h5>
+        </div>
+        <div class="modal-body">
+          <p>Willkommen auf openSenseMap workshop. Diese Instanz ist für Workshops ausgelegt und sollte nicht für permanente Messungen genutzt werden. Die Datenbank wird jeden Sonntag Abend zurückgesetzt. Wenn Du Deine Messwerte behalten möchtest dann nutze bitte <a href="https://opensensemap.org/">https://opensensemap.org/</a></p>
+
+          <!-- <a href="https://opensensemap.org/"><button type="button" class="btn btn-default">zu openSenseMap</button></a> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" ng-click="workshop.close()">OK</button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-backdrop show" style="opacity: 0.5"></div>
+</div>

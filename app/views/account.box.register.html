@@ -183,21 +183,23 @@
                       ng-class="{'glyphicon-chevron-down': register.open.collapse7, 'glyphicon-chevron-right': !register.open.collapse7}"></i>
                   </uib-accordion-heading>
                   <div class="row" style="text-align: center;">
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'TEMPERATURE' | translate}}</h4>
-                          <p>(HDC1080)</p>
+                          <h4>HDC1080</h4>
+                          <!-- <p>(HDC1080)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('HDC1080_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('HDC1080_TEMPERATURE')">{{'TEMPERATURE' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('HDC1080_HUMIDITY')">{{'HUMIDITY' | translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
@@ -210,23 +212,25 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'AIRPRESSURE' | translate}}</h4>
-                          <p>(BMP280)</p>
+                          <h4>BMP280</h4>
+                          <!-- <p>(BMP280)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('BMP280_PRESSURE')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('BMP280_PRESSURE')">{{'AIRPRESSURE' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BMP280_TEMPERATURE')">{{'TEMPERATURE' | translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
@@ -240,25 +244,27 @@
                           </p>
                         </div>
                       </div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="row" style="text-align: center;">
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'ILLUMINATION' | translate}}</h4>
-                          <p>(TSL45315)</p>
+                          <h4>TSL45315 & VEML6070</h4>
+                          <!-- <p>(TSL45315)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('TSL45315')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('TSL45315')">{{'ILLUMINATION' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('VEML6070')">{{'UV'|translate}}</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
@@ -272,23 +278,27 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'PARTICULLARMATTER' | translate}} PM2.5</h4>
-                          <p>(SDS011)</p>
+                          <h4>SDS011</h4>
+                          <!-- <p>(SDS011)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('PM25')">PM2.5</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('PM10')">PM10</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                  </div>
+                  <div class="row" style="text-align: center;">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
@@ -302,23 +312,35 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'TEMPERATURE' | translate}}</h4>
-                          <p>(BME680)</p>
+                          <h4>BME680</h4>
+                          <!-- <p>(BME680)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('BME680_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('BME680_TEMPERATURE')">{{'TEMPERATURE' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_HUMIDITY')">{{'HUMIDITY' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_PRESSURE')">{{'AIRPRESSURE' | translate}}</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_IAQ')">IAQ</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_IAQ_ACCURACY')">IAQ Accuracy</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_CO2')">CO2</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_VOC')">Breath VOC Equivalent</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
@@ -332,8 +354,8 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
@@ -347,8 +369,8 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
@@ -362,26 +384,28 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>Bodenfeuchte</h4>
-                          <p>(SMT50)</p>
+                          <h4>SMT50</h4>
+                          <!-- <p>(SMT50)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('smt50_soilmoisture')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('smt50_soilmoisture')">Bodenfeuchte</button>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('smt50_soiltemperature')">Bodentemperatur</button>
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                  </div>
+                  <div class="row" style="text-align: center;">
+                    <!-- <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>Bodentemperatur</h4>
@@ -392,18 +416,18 @@
                           </p>
                         </div>
                       </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
+                    </div> -->
+                    <div class="col-sm-6 col-md-6 col-lg-6">
                       <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api/public/uploads/1579187023927-176092104_illustrator_02_gimp%20overlay_cropped.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'SOUND_LEVEL'|translate}}</h4>
-                          <p>(Sound Level Meter)</p>
+                          <h4>Sound Level Meter</h4>
+                          <!-- <p>(Sound Level Meter)</p> -->
                           <p>
                             <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('soundlevelmeter')">{{'ADD_SENSOR'|translate}}</button>
+                              ng-click="register.addSensorTemplate('soundlevelmeter')">{{'SOUND_LEVEL'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -791,8 +815,8 @@
                 <div class="form-group">
                   <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>
                   <div class="input-group">
-                    <select type="text" class="form-control" id="soilDigitalPort" ng-model="register.newSenseBox.soilDigitalPort"
-                      ng-change="register.generateScript()">
+                    <select type="text" class="form-control" id="soilDigitalPort"
+                      ng-model="register.newSenseBox.soilDigitalPort" ng-change="register.generateScript()">
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="C">C</option>
@@ -805,8 +829,8 @@
                 <div class="form-group">
                   <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}} {{'DIGITAL_PORT'|translate}}</label>
                   <div class="input-group">
-                    <select type="text" class="form-control" id="soundMeterPort" ng-model="register.newSenseBox.soundMeterPort"
-                      ng-change="register.generateScript()">
+                    <select type="text" class="form-control" id="soundMeterPort"
+                      ng-model="register.newSenseBox.soundMeterPort" ng-change="register.generateScript()">
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="C">C</option>

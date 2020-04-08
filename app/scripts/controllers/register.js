@@ -521,6 +521,24 @@
         unit = 'hPa';
         sensorType = 'BME680';
         break;
+      case 'BME680_IAQ':
+        icon = 'osem-barometer';
+        title = 'IAQ';
+        unit = '?';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_IAQ_ACCURACY':
+        icon = 'osem-barometer';
+        title = 'IAQ Genauigkeit';
+        unit = '?';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_CO2':
+        icon = 'osem-barometer';
+        title = 'CO2';
+        unit = '?';
+        sensorType = 'BME680';
+        break;
       case 'BME680_VOC':
         icon = 'osem-barometer';
         title = 'VOC';

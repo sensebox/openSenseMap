@@ -523,25 +523,25 @@
         break;
       case 'BME680_IAQ':
         icon = 'osem-barometer';
-        title = 'IAQ';
+        title = 'Innenraumluftqualität (IAQ)';
         unit = '?';
         sensorType = 'BME680';
         break;
-      case 'BME680_IAQ_ACCURACY':
+      case 'BME680_CALIBRATION':
         icon = 'osem-barometer';
-        title = 'IAQ Genauigkeit';
+        title = 'Kalibrierungswert';
         unit = '?';
         sensorType = 'BME680';
         break;
       case 'BME680_CO2':
         icon = 'osem-barometer';
-        title = 'CO2';
+        title = 'CO2 Äquivalent';
         unit = '?';
         sensorType = 'BME680';
         break;
       case 'BME680_VOC':
         icon = 'osem-barometer';
-        title = 'VOC';
+        title = 'Atemluft VOC Äquivalent';
         unit = 'kΩ';
         sensorType = 'BME680';
         break;

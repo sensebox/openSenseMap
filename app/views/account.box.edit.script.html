@@ -22,7 +22,7 @@
       </div>
     </div>
     <div class="form-group" ng-if="script.showSoilDigitalPort">
-      <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}}<br/>{{'DIGITAL_PORT'|translate}}</label>
+      <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
       <div class="input-group">
         <select type="text" class="form-control" id="soilDigitalPort" ng-model="script.soilDigitalPort"
           ng-change="script.generateScript()">
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="form-group" ng-if="script.showSoundMeterPort">
-      <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}}<br/>{{'DIGITAL_PORT'|translate}}</label>
+      <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
       <div class="input-group">
         <select type="text" class="form-control" id="soundMeterPort" ng-model="script.soundMeterPort"
           ng-change="script.generateScript()">
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-if="script.showWifiConfiguration">
       <label for="ssid">WiFi SSID</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
@@ -60,13 +60,50 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" ng-if="script.showWifiConfiguration">
       <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
         <input type="password" class="form-control" id="password" ng-model="script.wifi.password"
           ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()" name="whatever"
           autocomplete="new-password">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="script.showTTNConfiguration">
+      <label for="devEUI">The Things Network Device EUI</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="devEUI" ng-model="script.ttn.devEUI"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="script.showTTNConfiguration">
+      <label for="appEUI">The Things Network Application EUI</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="appEUI" ng-model="script.ttn.appEUI"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="script.showTTNConfiguration">
+      <label for="appKey">The Things Network Application Key</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="appKey" ng-model="script.ttn.appKey"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
         <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
         <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
         <div class="input-group-addon">
@@ -111,4 +148,14 @@
 
 <script type="text/ng-template" id="tooltip_serialports.html">
   <img src="/images/serialports.png" alt="" srcset="">
+</script>
+
+<script type="text/ng-template" id="tooltip_ttn_keys.html">
+  <b>{{'DATA_NOT_STORED'|translate}}</b>
+  <p>Die TTN Keys findest Du auf der TTN Console unter deinem Device</p>
+</script>
+
+<script type="text/ng-template" id="tooltip_ttn_keys.html">
+  <b>{{'DATA_NOT_STORED'|translate}}</b>
+  <p>Die TTN Keys findest Du auf der TTN Console unter deinem Device</p>
 </script>

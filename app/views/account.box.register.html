@@ -332,8 +332,8 @@
                                   <div style="text-align: left;">
                                     <div class="checkbox checkbox-success checkbox-inline"
                                       style="vertical-align: middle;">
-                                      <input type="checkbox" id="bmeSensor" ng-true-value="'BME680'"
-                                        ng-false-value="''" ng-model="register.newModel.sensors.bme680">
+                                      <input type="checkbox" id="bmeSensor" ng-true-value="'BME680'" ng-false-value="''"
+                                        ng-model="register.newModel.sensors.bme680">
                                       <label for="bmeSensor"> </label>
                                     </div>
                                     <img
@@ -440,8 +440,8 @@
                                   <div class="form-group">
                                     <label for="groupTagSoundLevelMeter">Digitaler Port</label>
                                     <div class="input-group xxxl">
-                                      <select id="groupTagSoundLevelMeter" class="form-control" style="border-radius: 4px;"
-                                        ng-model="register.extensions.soundLevelMeter.port">
+                                      <select id="groupTagSoundLevelMeter" class="form-control"
+                                        style="border-radius: 4px;" ng-model="register.extensions.soundLevelMeter.port">
                                         <option value="A">A</option>
                                         <option value="B">B</option>
                                         <option value="C">C</option>
@@ -711,8 +711,7 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>Bodenfeuchte</h4>
@@ -726,8 +725,7 @@
                     </div>
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
                           <h4>Bodentemperatur</h4>
@@ -1331,7 +1329,7 @@
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
             <div class="alert alert-success" role="alert"
-              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
+              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'">
               <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
               <div>
                 <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
@@ -1348,11 +1346,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('smt50')">
                   <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>
                   <div class="input-group">
-                    <select type="text" class="form-control" id="soilDigitalPort" ng-model="register.newSenseBox.soilDigitalPort"
-                      ng-change="register.generateScript()">
+                    <select type="text" class="form-control" id="soilDigitalPort"
+                      ng-model="register.newSenseBox.soilDigitalPort" ng-change="register.generateScript()">
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="C">C</option>
@@ -1362,11 +1360,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('soundlevelmeter')">
                   <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}} {{'DIGITAL_PORT'|translate}}</label>
                   <div class="input-group">
-                    <select type="text" class="form-control" id="soundMeterPort" ng-model="register.newSenseBox.soundMeterPort"
-                      ng-change="register.generateScript()">
+                    <select type="text" class="form-control" id="soundMeterPort"
+                      ng-model="register.newSenseBox.soundMeterPort" ng-change="register.generateScript()">
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="C">C</option>
@@ -1376,7 +1374,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group"
+                  ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
                   <label for="ssid">WiFi SSID</label>
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
@@ -1387,13 +1386,51 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group"
+                  ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
                   <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
                     <input type="password" class="form-control" id="password" ng-model="register.wifi.password"
                       ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()" name="whatever"
                       autocomplete="new-password">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="devEUI">Device EUI</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="devEUI" ng-model="register.ttn.devEUI"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="appEUI">Application EUI</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="appEUI" ng-model="register.ttn.appEUI"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="appKey">Application Key</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="appKey" ng-model="register.ttn.appKey"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
                     <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
                     <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
                     <div class="input-group-addon">

@@ -1332,7 +1332,7 @@
               ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'">
               <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
               <div>
-                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('sds 011')">
                   <label for="serialport">{{'PORT'|translate}}</label>
                   <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
                     tooltip-trigger="'mouseenter'">
@@ -1464,3 +1464,12 @@
     </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="tooltip_serialports.html">
+  <img src="/images/serialports.png" alt="" srcset="">
+</script>
+
+<script type="text/ng-template" id="tooltip_ttn_keys.html">
+  <b>{{'DATA_NOT_STORED'|translate}}</b>
+  <p>{{'TTN_KEYS'|translate}}</p>
+</script>

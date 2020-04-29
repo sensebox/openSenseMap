@@ -45,8 +45,6 @@
         vm.showWifiConfiguration = true;
       }
 
-      console.log(boxData);
-
       if (boxData.model === 'homeV2WifiFeinstaub' || boxData.sensorsArray.filter(function (s) {
         return s.title === 'PM10';
       }).length > 0) {

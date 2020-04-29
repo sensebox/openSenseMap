@@ -41,7 +41,7 @@
     </div>
     <!-- TTN Port -->
     <div class="form-group">
-      <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
+      <label class="control-label">{{ 'TTN_PORT' | translate }} (optional)</label>
       <input type="number"  name="ttn_decodeoptions" class="form-control monospace" ng-model="ttn.settings.port" min="1" max="65535">
     </div>
     <div uib-alert class="alert-danger" ng-hide="ttn.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' | translate }}</div>

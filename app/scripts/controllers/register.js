@@ -47,6 +47,12 @@
       pasword: ''
     };
 
+    vm.ttn = {
+      devEUI: '',
+      appEUI: '',
+      appKey: ''
+    };
+
     // vm.radioModel = null;
     vm.stepTitle = '';
     vm.stepIndex = 0;
@@ -181,7 +187,10 @@
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
         soundMeterPort: vm.newSenseBox.soundMeterPort,
         ssid: vm.wifi.ssid,
-        password: vm.wifi.password
+        password: vm.wifi.password,
+        devEUI: vm.ttn.devEUI,
+        appEUI: vm.ttn.appEUI,
+        appKey: vm.ttn.appKey
       })
         .then(function (response) {
           vm.boxScript = response;

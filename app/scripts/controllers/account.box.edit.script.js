@@ -24,6 +24,13 @@
       ssid: '',
       password: ''
     };
+    vm.showWifiConfiguration = false;
+    vm.ttn = {
+      devEUI: '',
+      appEUI: '',
+      appKey: ''
+    };
+    vm.showTTNConfiguration = false;
 
     vm.generateScript = generateScript;
     vm.compile = compile;
@@ -35,10 +42,18 @@
     function activate () {
       if (boxData.model.startsWith('homeV2Wifi')) {
         vm.showConfiguration = true;
+        vm.showWifiConfiguration = true;
       }
 
-      if (boxData.model === 'homeV2WifiFeinstaub') {
+      if (boxData.model === 'homeV2WifiFeinstaub' || boxData.sensorsArray.filter(function (s) {
+        return s.title === 'PM10';
+      }).length > 0) {
         vm.showSerialPort = true;
+      }
+
+      if (boxData.model === 'homeV2Lora') {
+        vm.showConfiguration = true;
+        vm.showTTNConfiguration = true;
       }
 
       if (boxData.sensorsArray.filter(function (s) {
@@ -68,7 +83,10 @@
         soilDigitalPort: vm.soilDigitalPort,
         soundMeterPort: vm.soundMeterPort,
         ssid: vm.wifi.ssid,
-        password: vm.wifi.password
+        password: vm.wifi.password,
+        devEUI: vm.ttn.devEUI,
+        appEUI: vm.ttn.appEUI,
+        appKey: vm.ttn.appKey
       })
         .then(function (response) {
           vm.boxScript = response;

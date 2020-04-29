@@ -7,7 +7,7 @@
     <!-- Firefox workaround https://github.com/sensebox/openSenseMap/issues/295-->
     <input type="password" style="display:none;">
     <!-- Firefox workaround end -->
-    <div class="form-group" ng-if="script.showSerialPort">
+    <div class="form-group break" ng-if="script.showSerialPort">
       <label for="serialport">{{'PORT'|translate}}</label>
       <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
         tooltip-trigger="'mouseenter'">
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showSoilDigitalPort">
+    <div class="form-group break" ng-if="script.showSoilDigitalPort">
       <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
       <div class="input-group">
         <select type="text" class="form-control" id="soilDigitalPort" ng-model="script.soilDigitalPort"
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showSoundMeterPort">
+    <div class="form-group break" ng-if="script.showSoundMeterPort">
       <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
       <div class="input-group">
         <select type="text" class="form-control" id="soundMeterPort" ng-model="script.soundMeterPort"
@@ -49,7 +49,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showWifiConfiguration">
+    <div class="form-group break" ng-if="script.showWifiConfiguration">
       <label for="ssid">WiFi SSID</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
@@ -60,7 +60,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showWifiConfiguration">
+    <div class="form-group break" ng-if="script.showWifiConfiguration">
       <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showTTNConfiguration">
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
       <label for="devEUI">The Things Network Device EUI</label>
       <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
@@ -85,7 +85,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showTTNConfiguration">
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
       <label for="appEUI">The Things Network Application EUI</label>
       <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">
@@ -98,7 +98,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group" ng-if="script.showTTNConfiguration">
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
       <label for="appKey">The Things Network Application Key</label>
       <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
         tooltip-trigger="'mouseenter'">

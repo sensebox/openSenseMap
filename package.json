@@ -1,6 +1,6 @@
 {
   "name": "opensensemap",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "dependencies": {
     "@sensebox/opensensemap-i18n": "^3.5.0",
     "angular-i18n": "^1.6.7"

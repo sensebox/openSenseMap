@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.3"></a>
+## [2.2.3](https://github.com/sensebox/openSenseMap/compare/v2.2.2...v2.2.3) (2020-04-29)
+
+
+### Bug Fixes
+
+* **TTN:** TTN port optional and sketch params layout ([b557c85](https://github.com/sensebox/openSenseMap/commit/b557c85))
+
+
+
 <a name="2.2.2"></a>
 ## [2.2.2](https://github.com/sensebox/openSenseMap/compare/v2.2.1...v2.2.2) (2020-02-28)
 

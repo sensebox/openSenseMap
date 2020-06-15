@@ -49,6 +49,20 @@
         </div>
       </div>
     </div>
+    <div class="form-group break" ng-if="script.showWindSpeedPort">
+      <label for="windSpeedPort">{{'WIND_SPEED'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
+      <div class="input-group">
+        <select type="text" class="form-control" id="windSpeedPort" ng-model="script.windSpeedPort"
+          ng-change="script.generateScript()">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
     <div class="form-group break" ng-if="script.showWifiConfiguration">
       <label for="ssid">WiFi SSID</label>
       <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"

@@ -39,6 +39,7 @@
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
       soundMeterPort: 'B',
+      windSpeedPort: 'C',
       bmePhenomenon: 'tempHumiPress'
     };
 
@@ -87,6 +88,10 @@
       soundLevelMeter: {
         id: '',
         port: 'B'
+      },
+      windSpeed: {
+        id: '',
+        port: 'C'
       }
     };
 
@@ -186,6 +191,7 @@
         serialPort: vm.newSenseBox.serialPort,
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
         soundMeterPort: vm.newSenseBox.soundMeterPort,
+        windSpeedPort: vm.newSenseBox.windSpeedPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password,
         devEUI: vm.ttn.devEUI,
@@ -335,6 +341,7 @@
         data.serialPort = vm.newModel.serialPort;
         data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
         data.soundMeterPort = vm.newSenseBox.soundMeterPort;
+        data.windSpeedPort = vm.newSenseBox.windSpeedPort;
       }
       AccountService.getScript(boxId, data)
         .then(function (data) {
@@ -408,6 +415,10 @@
         if (vm.extensions.soundLevelMeter.id !== '') {
           vm.newSenseBox.sensorTemplates.push('soundlevelmeter');
           vm.newSenseBox.soundMeterPort = vm.extensions.soundLevelMeter.port;
+        }
+        if (vm.extensions.windSpeed.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('windspeed');
+          vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
       }
 
@@ -565,6 +576,12 @@
         title = 'Lautstärke';
         unit = 'dB';
         sensorType = 'soundlevelmeter';
+        break;
+      case 'windspeed':
+        icon = 'osem-particulate-matter';
+        title = 'Windgeschwindigkeit';
+        unit = 'm/s';
+        sensorType = 'WINDSPEED';
         break;
       }
       add(icon, title, unit, sensorType);

@@ -19,6 +19,8 @@
     vm.showSoilDigitalPort = false;
     vm.soundMeterPort = 'B';
     vm.showSoundMeterPort = false;
+    vm.windSpeedPort = 'C';
+    vm.showWindSpeedPort = false;
     vm.compiling = false;
     vm.wifi = {
       ssid: '',
@@ -68,6 +70,12 @@
         vm.showSoundMeterPort = true;
       }
 
+      if (boxData.sensorsArray.filter(function (s) {
+        return s.sensorType === 'WINDSPEED';
+      }).length !== 0) {
+        vm.showWindSpeedPort = true;
+      }
+
       return getScript();
     }
 
@@ -82,6 +90,7 @@
         serialPort: vm.serialPort,
         soilDigitalPort: vm.soilDigitalPort,
         soundMeterPort: vm.soundMeterPort,
+        windSpeedPort: vm.windSpeedPort,
         ssid: vm.wifi.ssid,
         password: vm.wifi.password,
         devEUI: vm.ttn.devEUI,

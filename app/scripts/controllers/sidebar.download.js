@@ -156,7 +156,8 @@
         }
         var query = $httpParamSerializer(params);
 
-        return encodeURI(app.API_URL + '/' + endpoint + '?' + query);
+        // return encodeURI(app.API_URL + '/' + endpoint + '?' + query);
+        return app.API_URL + '/' + endpoint + '?' + query;
       }
 
       return '';

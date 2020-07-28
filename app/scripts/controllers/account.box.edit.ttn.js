@@ -19,6 +19,9 @@
 
     vm.save = save;
 
+    vm.decodeOptions = [];
+    vm.cayenneLppDecodingChanged = cayenneLppDecodingChanged;
+
     activate();
 
     ////
@@ -27,7 +30,15 @@
       if (angular.isDefined(boxData.integrations) && angular.isDefined(boxData.integrations.ttn)) {
         angular.copy(boxData.integrations.ttn, vm.settings);
         vm.settings.decodeOptions = JSON.stringify(vm.settings.decodeOptions);
+
+        vm.decodeOptions = JSON.parse(vm.settings.decodeOptions)
       }
+    }
+
+    function cayenneLppDecodingChanged(sensor, index) {
+      vm.decodeOptions[index].sensor_title = sensor.sensor_title
+      vm.decodeOptions[index].sensor_type = sensor.sensor_type
+      vm.settings.decodeOptions = JSON.stringify(vm.decodeOptions)
     }
 
     function save () {

@@ -22,6 +22,7 @@
         <option value="sensebox/home">senseBox:home</option>
         <option value="lora-serialization">LoRa serialization</option>
         <option value="json">JSON</option>
+        <option value="cayenne-lpp">Cayenne LPP (beta)</option>
       </select>
     </div>
     <!-- TTN app_id -->
@@ -37,7 +38,53 @@
     <!-- TTN DecodeOptions -->
     <div class="form-group">
       <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
-      <textarea  name="ttn_decodeoptions" class="form-control monospace" style="resize: vertical;" ng-model="ttn.settings.decodeOptions" ng-disabled="ttn.settings.profile === 'sensebox/home'"></textarea>
+      <textarea  name="ttn_decodeoptions" class="form-control monospace" style="resize: vertical;" ng-model="ttn.settings.decodeOptions" ng-disabled="ttn.settings.profile === 'sensebox/home'" ng-show="ttn.settings.profile != 'cayenne-lpp'"></textarea>
+      <table class="table table-striped table-bordered" ng-show="ttn.settings.profile == 'cayenne-lpp'">
+        <thead>
+          <tr style="font-weight: bold">
+            <td style="width:30%">{{'CONFIG_PHENOMENON'|translate}}</td>
+            <td style="width:25%">{{'CONFIG_TYPE'|translate}}</td>
+            <td style="width:30%">Cayenne LPP {{'CONFIG_PHENOMENON'|translate}}</td>
+            <td style="width:15%">Cayenne LPP Channel</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="sensor in ttn.decodeOptions">
+            <td>
+              <div class="form-group">
+                <input class="form-control" type="text"
+                  ng-model="sensor.sensor_title" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input class="form-control" type="text"
+                  ng-model="sensor.sensor_type" readonly>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <select name="cayenne_lpp_settings" class="form-control" 
+                  ng-model="sensor.decoder"
+                  ng-change="ttn.cayenneLppDecodingChanged(sensor, $index)">
+                  <option value="temperature">{{'TEMPERATURE' | translate}}</option>
+                  <option value="relative_humidity">{{'HUMIDITY' | translate}}</option>
+                  <option value="barometric_pressure">{{'AIRPRESSURE' | translate}}</option>
+                  <option value="luminosity">{{'ILLUMINATION' | translate}}</option>
+                  <option value="analog_in">Analog In</option>
+                </select>
+              </div>
+            </td>
+            <td>
+              <div class="form-group">
+                <input class="form-control" type="number" min="0" max="64" value="1" required
+                  ng-model="sensor.channel"
+                  ng-change="ttn.cayenneLppDecodingChanged(sensor, $index)">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
     <!-- TTN Port -->
     <div class="form-group">

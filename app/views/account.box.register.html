@@ -1204,6 +1204,7 @@
                       <option value="sensebox/home">senseBox:home</option>
                       <option value="lora-serialization">LoRa serialization</option>
                       <option value="json">JSON</option>
+                      <option value="cayenne-lpp">Cayenne LPP (beta)</option>
                     </select>
                   </div>
                   <!-- TTN app_id -->
@@ -1226,7 +1227,64 @@
                     <label class="control-label">{{ 'TTN_DECODEOPTIONS' | translate }}</label>
                     <input type="text" name="ttn_decodeoptions" class="form-control monospace"
                       ng-model="register.ttn.decodeOptions" ng-disabled="register.ttn.profile === 'sensebox/home'"
-                      ng-required="register.ttn.profile !== 'sensebox/home'">
+                      ng-required="register.ttn.profile !== 'sensebox/home'"
+                      ng-show="register.ttn.profile != 'cayenne-lpp'">
+                    <table class="table table-striped table-bordered" ng-show="register.ttn.profile == 'cayenne-lpp'">
+                      <thead>
+                        <tr style="font-weight: bold">
+                          <td style="width:30%">{{'CONFIG_PHENOMENON'|translate}}</td>
+                          <td style="width:25%">{{'CONFIG_TYPE'|translate}}</td>
+                          <td style="width:30%">Cayenne LPP {{'CONFIG_PHENOMENON'|translate}}</td>
+                          <td style="width:15%">Cayenne LPP Channel</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sensor in register.sensors">
+                          <td>
+                            <div class="form-group has-feedback"
+                              ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
+                              <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
+                                ng-model="sensor.title" required>
+                              <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
+                                class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                              <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid"
+                                class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group has-feedback"
+                              ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
+                              <input name="sensorType{{sensor.id}}" class="form-control" type="text"
+                                ng-model="sensor.sensorType" required>
+                              <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''"
+                                class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                              <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid"
+                                class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <select name="cayenne_lpp_settings" class="form-control" 
+                                ng-model="register.ttn.cayenneLppDecoding[sensor.id].decoder"
+                                ng-change="register.cayenneLppDecodingChanged(sensor)">
+                                <option value="temperature">{{'TEMPERATURE' | translate}}</option>
+                                <option value="relative_humidity">{{'HUMIDITY' | translate}}</option>
+                                <option value="barometric_pressure">{{'AIRPRESSURE' | translate}}</option>
+                                <option value="luminosity">{{'ILLUMINATION' | translate}}</option>
+                                <option value="analog_in">Analog In</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <input class="form-control" type="number" min="0" max="64" value="1" required
+                                ng-model="register.ttn.cayenneLppDecoding[sensor.id].channel"
+                                ng-change="register.cayenneLppDecodingChanged(sensor)">
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                   <!-- TTN Port -->
                   <div class="form-group">

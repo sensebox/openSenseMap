@@ -1,6 +1,6 @@
 {
   "name": "open-sense-map",
-  "version": "2.2.5",
+  "version": "2.3.0",
   "dependencies": {
     "angular": "1.5",
     "angular-resource": "1.5",

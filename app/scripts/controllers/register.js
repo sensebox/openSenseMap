@@ -479,7 +479,6 @@
     function cayenneLppDecodingChanged(sensor) {
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType
-      console.log(vm.ttn.cayenneLppDecoding, sensor)
       vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding)
     }
 
@@ -773,13 +772,13 @@
     });
 
     function updateCayenneDecoding() {
-      vm.ttn.cayenneLppDecoding = vm.sensors.map(sensor => {
-        let decoderGuess = 'analog_in';
+      vm.ttn.cayenneLppDecoding = vm.sensors.map(function(sensor) {
+        var decoderGuess = 'analog_in';
 
-        let tempSubstr = ['temp']
-        let humiSubstr = ['humi', 'feucht']
-        let pressSubstr = ['press', 'druck']
-        let illuSubstr = ['hell', 'illu', 'uv', 'beleuch']
+        var tempSubstr = ['temp']
+        var humiSubstr = ['humi', 'feucht']
+        var pressSubstr = ['press', 'druck']
+        var illuSubstr = ['hell', 'illu', 'uv', 'beleuch']
         if(new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
           decoderGuess = 'temperature'
         } else if(new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
@@ -790,13 +789,12 @@
           decoderGuess = 'luminosity'
         } 
         
-        return {
+        return Object.assign({
           sensor_title: sensor.title,
           sensor_type: sensor.sensorType,
           decoder: decoderGuess,
-          channel: 1,
-          ...vm.ttn.cayenneLppDecoding[sensor.id]
-        }
+          channel: 1
+        }, vm.ttn.cayenneLppDecoding[sensor.id])
       });
       vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding)
     }

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/sensebox/openSenseMap/compare/v2.3.1...v2.3.2) (2020-10-08)
+
+
+### Bug Fixes
+
+* **Leaflet directive:** leaflet mapbox tiles ([e37727a](https://github.com/sensebox/openSenseMap/commit/e37727a))
+
+
+
 <a name="2.3.1"></a>
 ## [2.3.1](https://github.com/sensebox/openSenseMap/compare/v2.3.0...v2.3.1) (2020-08-04)
 

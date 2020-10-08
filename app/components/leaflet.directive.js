@@ -98,9 +98,12 @@
       var baselayer = L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
         subdomains: 'abc',
         attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
-        detectRetina: true,
+        // detectRetina: true,
         reuseTiles: true,
-        maxZoom: 18
+        maxZoom: 18,
+        // https://docs.mapbox.com/help/troubleshooting/migrate-legacy-static-tiles-api/
+        tileSize: 512,
+        zoomOffset: -1,
       }).addTo(map);
 
       baselayer.on('load', layerLoaded);

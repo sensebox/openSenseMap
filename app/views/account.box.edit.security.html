@@ -1,0 +1,45 @@
+<form name="securitySettings">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_SECURITY'|translate}}</h2>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="pull-right">
+          <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="security.save()" ng-disabled="!securitySettings.$valid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+        </div>
+      </div>
+    </div>
+  
+    <hr>
+    <div uib-alert class="alert-warning">
+      <span ng-if="security.useAuth">
+        {{'AUTH_WARNING_ENABLED' | translate}}
+      </span>
+      
+      <span ng-if="!security.useAuth">
+      {{'AUTH_WARNING_DISABLED' | translate}} 
+      </span>
+    </div>
+    <div>
+      <div class="checkbox checkbox-success checkbox-inline">
+        <input name="useAuth" class="form-control" type="checkbox" ng-model="security.useAuth">
+        <label for="useAuth">{{'USE_AUTH_LABEL'|translate}}</label>
+      </div>
+    </div>
+    <br>
+
+    <div>
+        <label for="accessToken">
+          {{'ACCESS_TOKEN'|translate}}
+          <a ng-click="security.revealPassword()"><i class="fa fa-eye"></i></a>
+
+        </label>
+        <input name="accessToken" id="password-field" class="form-control" type="password" ng-model="security.access_token" disabled>
+    </div>
+    <br>
+    <div uib-alert class="alert-warning">
+      {{'GENERATE_NEW_TOKEN_WARNING' | translate}}<br>
+      <button class="btn" ng-click="security.generateNewToken()"><i class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
+    </div>
+  </form>
+  

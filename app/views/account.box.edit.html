@@ -15,6 +15,7 @@
         <li ng-class="{'active': edit.tabActive.sensors}" ng-click="edit.changeActiveTab('sensors')"><a ui-sref="account.edit.sensors"><i class="fa fa-table fa-fw"></i> {{'EDIT_CHANGESENSORS'|translate}}</a></li>
         <li ng-hide="edit.custom" ng-class="{'active': edit.tabActive.extensions}" ng-click="edit.changeActiveTab('extensions')"><a ui-sref="account.edit.extensions"><i class="fa fa-table fa-fw"></i> {{'EDIT_EXTENSIONS'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.location}" ng-click="edit.changeActiveTab('location')"><a ui-sref="account.edit.location"><i class="fa fa-map-marker fa-fw"></i> {{'BOX_POSITION'|translate}}</a></li>
+        <li ng-class="{'active': edit.tabActive.security}" ng-click="edit.changeActiveTab('security')"><a ui-sref="account.edit.security"><i class="fa fa-lock fa-fw"></i> {{'BOX_SECURITY'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.script}" ng-click="edit.changeActiveTab('script')"><a ui-sref="account.edit.script"><i class="fa fa-file-text-o fa-fw"></i> {{'EDIT_SCRIPT'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.mqtt}" ng-click="edit.changeActiveTab('mqtt')"><a ui-sref="account.edit.mqtt"><i class="fa fa-wifi fa-fw"></i> {{'EDIT_MQTTOPTIONS'|translate}}</a></li>
         <li ng-class="{'active': edit.tabActive.ttn}" ng-click="edit.changeActiveTab('ttn')"><a ui-sref="account.edit.ttn"><i class="fa fa-cloud-upload fa-fw"></i> {{'EDIT_TTN'|translate}}</a></li>

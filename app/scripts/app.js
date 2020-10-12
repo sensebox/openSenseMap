@@ -254,6 +254,16 @@
             }
           }
         })
+        .state('account.edit.security', {
+          url: '/security',
+          views: {
+            'edit': {
+              controller: 'EditBoxSecurityController',
+              controllerAs: 'security',
+              templateUrl: 'views/account.box.edit.security.html'
+            }
+          }
+        })
         .state('account.edit.extensions', {
           url: '/extensions',
           views: {

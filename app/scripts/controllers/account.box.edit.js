@@ -13,6 +13,7 @@
       general: true,
       sensors: false,
       location: false,
+      security: false,
       script: false,
       mqtt: false,
       ttn: false
@@ -52,6 +53,9 @@
         break;
       case 'location':
         vm.tabActive.location = true;
+        break;
+      case 'security':
+        vm.tabActive.security = true;
         break;
       case 'script':
         vm.tabActive.script = true;

@@ -34,12 +34,14 @@
           <a ng-click="security.revealPassword()"><i class="fa fa-eye"></i></a>
 
         </label>
-        <input name="accessToken" id="password-field" class="form-control" type="password" ng-model="security.access_token" disabled>
+        <input name="accessToken" id="password-field" class="form-control" type="password" ng-model="security.boxData.access_token" disabled>
     </div>
     <br>
     <div uib-alert class="alert-warning">
-      {{'GENERATE_NEW_TOKEN_WARNING' | translate}}<br>
-      <button class="btn" ng-click="security.generateNewToken()"><i class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
+      {{'GENERATE_NEW_TOKEN_WARNING' | translate}}
+      <br>
+      <br>
+      <button class="btn" ng-click="security.generateNewToken()"><i style="padding-right: 0.5em" class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
     </div>
   </form>
   

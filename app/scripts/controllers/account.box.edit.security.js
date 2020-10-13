@@ -5,14 +5,15 @@
       .module('openSenseMapApp')
       .controller('EditBoxSecurityController', EditBoxSecurityController);
   
-    EditBoxSecurityController.$inject = ['$document', 'notifications', 'boxData', 'AccountService'];
+    EditBoxSecurityController.$inject = ['$document', 'notifications', 'boxData', 'AccountService', 'Box'];
   
-    function EditBoxSecurityController ($document, notifications, boxData, AccountService)  {
+    function EditBoxSecurityController ($document, notifications, boxData, AccountService, Box)  {
       var vm = this;
   
       vm.access_token = "";
       vm.useAuth = false;
       vm.refreshAccessToken = false;
+      vm.boxData = boxData;
 
       vm.revealPassword = revealPassword;
       vm.generateNewToken = generateNewToken;
@@ -39,8 +40,9 @@
       function generateNewToken(){
         return AccountService.updateBox(boxData._id, { generate_access_token: true })
           .then(function (response) {
-            angular.copy(response.data, boxData);
-            vm.access_token = boxData.access_token;
+            angular.copy(new Box(response.data), boxData);
+            // vm.access_token = boxData.access_token;
+            vm.boxData = boxData;
             notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
           })
           .catch(function () {
@@ -53,7 +55,8 @@
         console.log(vm.useAuth)
         return AccountService.updateBox(boxData._id, { useAuth: vm.useAuth === true ? true : 'false', refreshAccessToken: vm.refreshAccessToken })
           .then(function (response) {
-            angular.copy(response.data, boxData);
+            angular.copy(new Box(response.data), boxData);
+            vm.boxData = boxData;
             notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
           })
           .catch(function () {

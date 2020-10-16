@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService', 'HelpModalService'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService, HelpModalService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -111,16 +111,7 @@
     }
 
     function openHelp () {
-      // for now, only support english and german
-      var lang = vm.key === 'de' ? 'de' : 'en';
-
-      ngDialog.open({
-        template: '../../views/help_' + lang + '.html',
-        className: 'ngdialog-theme-default',
-        showClose: true,
-        closeByDocument: false,
-      });
-
+      HelpModalService.open();
       vm.isNavCollapsed = true;
     }
 

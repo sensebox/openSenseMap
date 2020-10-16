@@ -1788,3 +1788,38 @@ nav > a.active {
 .break {
   display: block !important;
 }
+
+.ngdialog.help-modal .ngdialog-content {
+  width: 800px;
+  height: 100%;
+}
+
+.help-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.external-help {
+  flex: 1;
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.help-footer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.help-footer > input, .help-footer > label {
+  padding: 0 !important;
+  margin: 0 5px 0 0 !important;
+}
+
+.help-footer > button {
+  margin-right: 5px;
+}

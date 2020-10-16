@@ -11,9 +11,10 @@
 
   function HelpModalService (ngDialog, $cookies) {
     var vm = this;
+    vm.hasCookie = hasCookie;
+    vm.onStartup = onStartup;
     vm.open = open;
     vm.setDontShowAgain = setDontShowAgain;
-    vm.onStartup = onStartup;
 
     return vm;
 
@@ -37,10 +38,14 @@
       }
     }
 
-    function onStartup () {
+    function hasCookie () {
       var cookie = $cookies.get(cookieId);
 
-      if (!cookie) {
+      return Boolean(cookie);
+    }
+
+    function onStartup () {
+      if (!vm.hasCookie()) {
         vm.open();
       }
     }

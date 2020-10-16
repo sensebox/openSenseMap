@@ -31,7 +31,7 @@
 
     function setDontShowAgain (value) {
       if (value) {
-        $cookies.put(cookieId, 'true');
+        $cookies.put(cookieId, 'true', { secure: true });
       } else {
         $cookies.remove(cookieId);
       }

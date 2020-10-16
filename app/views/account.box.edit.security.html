@@ -1,7 +1,7 @@
 <form name="securitySettings">
     <div class="row">
       <div class="col-md-6 col-lg-6">
-        <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_SECURITY'|translate}}</h2>
+        <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_SECURITY' | translate}}</h2>
       </div>
       <div class="col-md-6 col-lg-6">
         <div class="pull-right">
@@ -12,13 +12,29 @@
   
     <hr>
     <div uib-alert class="alert-warning">
-      <span ng-if="security.useAuth">
-        {{'AUTH_WARNING_ENABLED' | translate}}
-      </span>
+      <div ng-if="security.boxData.useAuth">
+        <span>
+          {{'AUTH_WARNING_ENABLED' | translate}}
+        </span>
+      </div>
       
-      <span ng-if="!security.useAuth">
-      {{'AUTH_WARNING_DISABLED' | translate}} 
-      </span>
+      <div ng-if="!security.boxData.useAuth">
+        <div ng-if="security.boxData.model.indexOf('luftdaten') != -1">
+          <h5>{{'LUFTDATEN_AUTH_HEADER'}}</h5>
+          <p>{{'LUFTDATEN_AUTH_TEXT'}}</p>
+        </div>
+  
+        <div ng-if="security.boxData.model.indexOf('home') != -1">
+          <h5>{{'HOME_AUTH_HEADER'}}</h5>
+          <p>{{'HOME_AUTH_TEXT'}}</p>
+        </div>
+  
+        <div ng-if="security.boxData.model.indexOf('custom') != -1">
+          <h5>{{'CUSTOM_AUTH_HEADER'}}</h5>
+          <p>{{'CUSTOM_AUTH_TEXT'}}</p>
+        </div>
+      </div>
+
     </div>
     <div>
       <div class="checkbox checkbox-success checkbox-inline">
@@ -29,12 +45,16 @@
     <br>
 
     <div>
-        <label for="accessToken">
-          {{'ACCESS_TOKEN'|translate}}
-          <a ng-click="security.revealPassword()"><i class="fa fa-eye"></i></a>
-
-        </label>
+      <label for="accessToken">
+        {{'ACCESS_TOKEN'|translate}}
+        
+      </label>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="security.revealPassword()" type="button"><i class="fa fa-eye"></i></button>
+        </span>
         <input name="accessToken" id="password-field" class="form-control" type="password" ng-model="security.boxData.access_token" disabled>
+      </div>
     </div>
     <br>
     <div uib-alert class="alert-warning">

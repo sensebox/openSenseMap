@@ -41,7 +41,30 @@
       {{'GENERATE_NEW_TOKEN_WARNING' | translate}}
       <br>
       <br>
-      <button class="btn" ng-click="security.generateNewToken()"><i style="padding-right: 0.5em" class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
+      <button class="btn" ng-click="security.toggleModal()"><i style="padding-right: 0.5em" class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
     </div>
+
+
+    <!-- Modal  -->
+    <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 100%; z-index: 1600;" ng-if="security.modalVisible">
+      <div class="modal-dialog" role="document" style="z-index: 2000; margin: auto; display: flex;">
+        <div class="modal-content" style="margin: auto !important; height: fit-content !important;">
+          <div class="modal-header">
+            <h5 class="modal-title">{{'GENERATE_NEW_TOKEN' | translate}}</h5>
+          </div>
+          <div class="modal-body">
+            <div uib-alert class="alert-danger">
+              <p>{{'GENERATE_NEW_TOKEN_WARNING' | translate}}</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="security.toggleModal()">Abbrechen</button>
+            <button type="button" class="btn btn-primary" ng-click="security.generateNewToken()">OK</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-backdrop show" style="opacity: 0.5"></div>
+  </div>
+
   </form>
   

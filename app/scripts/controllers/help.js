@@ -12,7 +12,7 @@
     var language = LanguageService.getLanguage() === 'de' ? '' : 'en.';
     vm.iframeSrc = $sce.trustAsResourceUrl('https://' + language + 'docs.sensebox.de/opensensemap/opensensemap-faq/');
     vm.onClose = onClose;
-    vm.dontshowagain = false;
+    vm.dontshowagain = HelpModalService.hasCookie();
 
     function onClose () {
       HelpModalService.setDontShowAgain(vm.dontshowagain);

@@ -16,8 +16,11 @@
       vm.boxData = boxData;
 
       vm.revealPassword = revealPassword;
+      vm.toggleModal = toggleModal;
       vm.generateNewToken = generateNewToken;
       vm.save = save;
+
+      vm.modalVisible = false;
   
       activate();
   
@@ -37,7 +40,13 @@
         }
       }
 
+      function toggleModal() {
+        this.modalVisible = !this.modalVisible
+      }
+
       function generateNewToken(){
+        this.modalVisible = false;
+        
         return AccountService.updateBox(boxData._id, { generate_access_token: true })
           .then(function (response) {
             angular.copy(new Box(response.data), boxData);

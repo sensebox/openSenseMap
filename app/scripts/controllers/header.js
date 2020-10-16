@@ -32,6 +32,7 @@
     vm.searchStringChanged = searchStringChanged;
     vm.clearSearch = clearSearch;
     vm.open = open;
+    vm.openHelp = openHelp;
     vm.getLocations = getLocations;
     vm.selectBox = selectBox;
     vm.changeLang = changeLang;
@@ -104,6 +105,20 @@
         closeByDocument: false,
         controller: 'SignupLoginController',
         controllerAs: 'account'
+      });
+
+      vm.isNavCollapsed = true;
+    }
+
+    function openHelp () {
+      // for now, only support english and german
+      var lang = vm.key === 'de' ? 'de' : 'en';
+
+      ngDialog.open({
+        template: '../../views/help_' + lang + '.html',
+        className: 'ngdialog-theme-default',
+        showClose: true,
+        closeByDocument: false,
       });
 
       vm.isNavCollapsed = true;

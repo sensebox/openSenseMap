@@ -108,6 +108,12 @@
                   {{'INFO' | translate}}
                 </a>
               </li>
+              <li class="menuitem">
+                <a ng-click="header.openHelp()">
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                  FAQ
+                </a>
+              </li>
               <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
                 <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
                   <span class="lang-sm" lang="{{header.key}}"></span>

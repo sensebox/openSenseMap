@@ -10,7 +10,7 @@
   function HelpController (LanguageService, HelpModalService, $sce) {
     var vm = this;
     var language = LanguageService.getLanguage() === 'de' ? '' : 'en.';
-    vm.iframeSrc = $sce.trustAsResourceUrl('https://' + language + 'docs.sensebox.de/opensensemap/opensensemap-faq/');
+    vm.iframeSrc = $sce.trustAsResourceUrl('https://' + language + 'docs.sensebox.de/opensensemap-faq/');
     vm.onClose = onClose;
     vm.dontshowagain = HelpModalService.hasCookie();
 

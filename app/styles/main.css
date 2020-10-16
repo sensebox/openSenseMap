@@ -1788,3 +1788,39 @@ nav > a.active {
 .break {
   display: block !important;
 }
+
+.ngdialog.help-modal .ngdialog-content {
+  width: 800px;
+  height: 100%;
+}
+
+.help-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="%23000000" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="72" text-anchor="middle">⏳</text></svg>') 0px 0px no-repeat;
+}
+
+.external-help {
+  flex: 1;
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.help-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.help-footer > input, .help-footer > label {
+  padding: 0 !important;
+  margin: 0 5px 0 0 !important;
+}
+
+.help-footer > button {
+  margin-right: 5px;
+}

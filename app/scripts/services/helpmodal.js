@@ -24,7 +24,7 @@
         className: 'ngdialog-theme-default',
         appendClassName: 'help-modal',
         showClose: true,
-        closeByDocument: false,
+        closeByDocument: true,
         controller: 'HelpController',
         controllerAs: 'help'
       });

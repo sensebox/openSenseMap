@@ -20,18 +20,18 @@
       
       <div ng-if="!security.boxData.useAuth">
         <div ng-if="security.boxData.model.indexOf('luftdaten') != -1">
-          <h5>{{'LUFTDATEN_AUTH_HEADER'}}</h5>
-          <p>{{'LUFTDATEN_AUTH_TEXT'}}</p>
+          <h5>{{'LUFTDATEN_AUTH_HEADER' | translate}}</h5>
+          <p>{{'LUFTDATEN_AUTH_TEXT' | translate}}</p>
         </div>
   
         <div ng-if="security.boxData.model.indexOf('home') != -1">
-          <h5>{{'HOME_AUTH_HEADER'}}</h5>
-          <p>{{'HOME_AUTH_TEXT'}}</p>
+          <h5>{{'HOME_AUTH_HEADER' | translate}}</h5>
+          <p>{{'HOME_AUTH_TEXT' | translate}}</p>
         </div>
   
         <div ng-if="security.boxData.model.indexOf('custom') != -1">
-          <h5>{{'CUSTOM_AUTH_HEADER'}}</h5>
-          <p>{{'CUSTOM_AUTH_TEXT'}}</p>
+          <h5>{{'CUSTOM_AUTH_HEADER' | translate}}</h5>
+          <p>{{'CUSTOM_AUTH_TEXT' | translate}}</p>
         </div>
       </div>
 

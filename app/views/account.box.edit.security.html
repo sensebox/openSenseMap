@@ -57,7 +57,7 @@
     </div>
     <br>
     <div uib-alert class="alert-warning">
-      {{'GENERATE_NEW_TOKEN_WARNING' | translate}}
+      <span ng-bind-html="'GENERATE_NEW_TOKEN_WARNING' | translate"></span>
       <br>
       <br>
       <button class="btn" ng-click="security.toggleModal()"><i style="padding-right: 0.5em" class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
@@ -73,7 +73,7 @@
           </div>
           <div class="modal-body">
             <div uib-alert class="alert-danger">
-              <p>{{'GENERATE_NEW_TOKEN_WARNING' | translate}}</p>
+              <p ng-bind-html="'GENERATE_NEW_TOKEN_WARNING' | translate"></p>
             </div>
           </div>
           <div class="modal-footer">

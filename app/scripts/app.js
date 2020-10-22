@@ -20,7 +20,8 @@
       'tmh.dynamicLocale',
       'rzModule',
       'mgo-angular-wizard',
-      'ismobile'
+      'ismobile',
+      'ngCookies'
     ])
     .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
       $compileProvider.debugInfoEnabled(false);
@@ -254,6 +255,16 @@
             }
           }
         })
+        .state('account.edit.security', {
+          url: '/security',
+          views: {
+            'edit': {
+              controller: 'EditBoxSecurityController',
+              controllerAs: 'security',
+              templateUrl: 'views/account.box.edit.security.html'
+            }
+          }
+        })
         .state('account.edit.extensions', {
           url: '/extensions',
           views: {
@@ -422,6 +433,9 @@
 
     .run(['LanguageService', function (LanguageService) {
       LanguageService.initialize();
+    }])
+    .run(['HelpModalService', function (HelpModalService) {
+      HelpModalService.onStartup();
     }])
 
     .filter('unsafe', ['$sce', function ($sce) {

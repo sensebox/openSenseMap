@@ -108,6 +108,12 @@
                   {{'INFO' | translate}}
                 </a>
               </li>
+              <li class="menuitem">
+                <a ng-click="header.openHelp()">
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                  FAQ
+                </a>
+              </li>
               <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
                 <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
                   <span class="lang-sm" lang="{{header.key}}"></span>
@@ -197,6 +203,12 @@
                         <a ui-sref="info.about" ng-click="header.closeNavbar()">
                           <i class="fa fa-info-circle" aria-hidden="true"></i>
                           <span style="line-height: 30px">{{'INFO' | translate}}</span>
+                        </a>
+                      </li>
+                      <li class="menuitem">
+                        <a ng-click="header.openHelp()">
+                          <i class="fa fa-question" aria-hidden="true"></i>
+                          FAQ
                         </a>
                       </li>
                     </ul>
@@ -342,6 +354,7 @@
     <script src="bower_components/Leaflet.FeatureGroup.SubGroup/src/subgroup.js"></script>
     <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -359,6 +372,7 @@
     <script src="components/clipboard.directive.js"></script>
     <script src="scripts/directives/autofocus.js"></script>
     <script src="scripts/controllers/info.js"></script>
+    <script src="scripts/controllers/help.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/sidebar.js"></script>
@@ -379,6 +393,7 @@
     <script src="scripts/controllers/account.box.edit.sensors.js"></script>
     <script src="scripts/controllers/account.box.edit.extensions.js"></script>
     <script src="scripts/controllers/account.box.edit.location.js"></script>
+    <script src="scripts/controllers/account.box.edit.security.js"></script>
     <script src="scripts/controllers/account.box.edit.script.js"></script>
     <script src="scripts/controllers/account.box.edit.mqtt.js"></script>
     <script src="scripts/controllers/account.box.edit.ttn.js"></script>
@@ -393,6 +408,7 @@
     <script src="scripts/services/authentication.js"></script>
     <script src="scripts/services/authenticationInterceptor.js"></script>
     <script src="scripts/services/templateInterceptor.js"></script>
+    <script src="scripts/services/helpmodal.js"></script>
     <script src="scripts/filters/filter.module.js"></script>
     <script src="scripts/filters/box.js"></script>
     <script src="scripts/filters/group.js"></script>
@@ -400,49 +416,74 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
-    <link rel="stylesheet" href="https://unpkg.com/orejime@1.1.1/dist/orejime.css" />
     <style>
-      .orejime-Notice {
-        z-index: 1001;
+      .cookie-notice, .cookie-modal {
+        z-index: 1001 !important;
       }
     </style>
-    <script src="https://unpkg.com/orejime@1.1.1/dist/orejime.js"></script>
     <script>
-      Orejime.init({
-        privacyPolicy: "https://opensensemap.org/privacy",
-        lang: "de",
-        translations: {
-        de: {
-          accept: 'Akzeptieren',
-          acceptAll: 'Alle akzeptieren',
-          declineAll: 'Alle ablehnen',
-          purposes: {
-              analytics: "Analytics",
-              userExperience: 'User Experience'
+      window.klaroConfig = {
+          lang: (navigator.language || navigator.userLanguage).substring(0,2),
+          elementID: 'klaro',
+          storageMethod: 'cookie',
+          storageName: 'klaro',
+          translations: {
+              zz: {
+                  privacyPolicyUrl: '/privacy',
+              },
+              de: {
+                  privacyPolicyUrl: '/privacy',
+                  purposes: {
+                      analytics: {
+                          title: 'Besucher-Statistiken'
+                      },
+                  },
+              },
           },
-        },
-    },
-        apps: [
-            {
-                name: "piwik",
-                title: "External Tracker",
-                cookies: ["piwik"],
-                purposes: ['analytics'],
-                required: false
-            },
-            {
-                name: "osem",
-                title: "Essentiell",
-                cookies: ["osem"],
-                purposes: ['userExperience'],
-                required: true
-            }
-        ],
-    });
+          services: [
+              {
+                  name: 'piwik',
+                  default: true,
+                  translations: {
+                      zz: {
+                          title: 'Matomo/Piwik'
+                      },
+                      en: {
+                          description: 'Matomo is a simple, self-hosted analytics service.'
+                      },
+                      de: {
+                          description: 'Matomo ist ein einfacher, selbstgehosteter Analytics-Service.'
+                      },
+                  },
+                  purposes: ['analytics'],
+                  cookies: [
+                      [/^_pk_.*$/, '/', 'opensensemap.org'],
+                      [/^_pk_.*$/, '/', 'localhost'],
+                      'piwik_ignore',
+                  ],
+                  required: false,
+                  optOut: false,
+                  onlyOnce: true,
+              },
+              {
+                  name: 'openSenseMap',
+                  default: true,
+                  purposes: ['functional'],
+                  cookies: [
+                      'osem',
+                      'faq'
+                  ],
+                  required: true,
+                  optOut: false,
+                  onlyOnce: true,
+              },
+          ],
+      };
     </script>
+    <script defer type="text/javascript" src="https://cdn.kiprotect.com/klaro/v0.7.2/klaro.js"></script>
 
     <!-- Piwik -->
-    <script type="opt-in"
+    <script type="text/plain"
        data-type="application/javascript"
        data-name="piwik">
       var _paq = _paq || [];

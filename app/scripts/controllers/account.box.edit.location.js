@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxLocationController', EditBoxLocationController);
 
-  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService'];
+  EditBoxLocationController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService', 'Box'];
 
-  function EditBoxLocationController ($scope, boxData, notifications, AccountService) {
+  function EditBoxLocationController ($scope, boxData, notifications, AccountService, Box) {
     var vm = this;
     vm.editMarkerInput = {};
     vm.originalPosition = {};
@@ -64,7 +64,7 @@
     function save () {
       return AccountService.updateBox(boxData._id, { location: vm.editMarker.m1 })
         .then(function (response) {
-          angular.copy(response.data, boxData);
+          angular.copy(new Box(response.data), boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function () {

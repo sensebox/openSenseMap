@@ -35,6 +35,7 @@
         light: false,
         pollution: false,
         bme680: false,
+        co2: false
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
@@ -410,6 +411,9 @@
               case 'bme680':
                 vm.newSenseBox.sensorTemplates.push('bme680');
                 break;
+              case 'co2':
+                vm.newSenseBox.sensorTemplates.push('scd30');
+                break;
               }
             }
           }
@@ -598,6 +602,12 @@
         title = 'Windgeschwindigkeit';
         unit = 'm/s';
         sensorType = 'WINDSPEED';
+        break;
+      case 'scd30_co2':
+        icon = 'osem-co2';
+        title = 'CO2';
+        unit = 'ppm';
+        sensorType = 'SCD30';
         break;
       }
       add(icon, title, unit, sensorType);

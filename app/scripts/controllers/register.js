@@ -605,7 +605,7 @@
         break;
       case 'scd30_co2':
         icon = 'osem-co2';
-        title = 'CO2';
+        title = 'CO₂';
         unit = 'ppm';
         sensorType = 'SCD30';
         break;

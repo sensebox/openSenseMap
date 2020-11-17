@@ -104,6 +104,8 @@
       decodeOptions: '',
       connectionOptions: ''
     };
+
+
     vm.ttnEnabled = false;
     vm.validTTNconfig = true;
     vm.validMQTTURL = false;
@@ -114,12 +116,18 @@
       decodeOptions: '[]',
       cayenneLppDecoding: []
     };
+    vm.gsmEnabled = false;
+    vm.gsm = {
+      secret_code:'',
+      imsi:''
+    };
     vm.open = {
       sensebox: false,
       luftdaten: false,
       custom: false,
       mqtt: false,
       ttn: false,
+      gsm: false,
       hackair: false,
       edu: false
     };
@@ -766,9 +774,20 @@
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
         vm.open.ttn = true;
-      } else {
+        vm.gsmEnabled = false;
+        vm.open.gsm = false;
+      }
+      if (newValue === 'GSM'){
+        vm.gsmEnabled = true;
+        vm.open.gsm = true;
         vm.ttnEnabled = false;
         vm.open.ttn = false;
+      }
+      else {
+        vm.ttnEnabled = false;
+        vm.open.ttn = false;
+        vm.gsmEnabled = false;
+        vm.open.gsm = false;
       }
     });
 

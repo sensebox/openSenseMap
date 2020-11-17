@@ -270,7 +270,7 @@
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-gsm" value="GSM"
                             ng-model="register.newModel.connection"
-                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
+                            ng-required="register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-gsm">
                             GSM
                           </label>
@@ -1345,18 +1345,22 @@
                     GSM - tingg <i class="pull-right glyphicon"
                       ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
                   </uib-accordion-heading>
-                  <div uib-alert class="alert-warning" ng-bind-html="'GSM'|translate"></div>
+                  <div uib-alert class="alert-warning" ng-bind-html="'GSM_TING_DISCLAIMER'|translate"></div>
+                  <div class="checkbox checkbox-success checkbox-inline">
+                    <input type="checkbox" id="enabledGSM" ng-model="register.gsmEnabled">
+                    <label for="enabledGSM">{{ 'ENABLE_TINGG' | translate }}</label>
+                  </div>
                   <div class="form-group"
                   ng-class="{'has-error': senseboxForm.gsm_secret_code.$invalid, 'has-success': senseboxForm.gsm_secret_code.$valid }">
                   <label class="control-label">{{ 'GSM_SECRET_CODE' | translate }}</label>
                   <input type="text" name="gsm_secret_code" class="form-control" ng-model="register.gsm.secret_code"
-                    ng-required="register.gsmEnabled">
+                    ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
                 </div>
                 <div class="form-group"
                 ng-class="{'has-error': senseboxForm.gsm_imsi.$invalid, 'has-success': senseboxForm.gsm_imsi.$valid }">
                 <label class="control-label">{{ 'GSM_IMSI' | translate }}</label>
                 <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
-                  ng-required="register.gsmEnabled">
+                  ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
               </div>
 
                 </div>

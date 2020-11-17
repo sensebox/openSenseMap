@@ -380,6 +380,9 @@
         vm.newSenseBox.ttn = vm.ttn;
         vm.newSenseBox.ttn.decodeOptions = JSON.parse(vm.ttn.decodeOptions);
       }
+      if(vm.gsmEnabled){
+        vm.newSenseBox.gsm = vm.gsm;
+      }
       vm.newSenseBox.location.push(vm.markers.box.lng);
       vm.newSenseBox.location.push(vm.markers.box.lat);
       if (vm.markers.box.height) {
@@ -771,15 +774,18 @@
     });
 
     $scope.$watch('register.newModel.connection', function (newValue) {
+      console.log(newValue);
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
         vm.open.ttn = true;
+
         vm.gsmEnabled = false;
         vm.open.gsm = false;
       }
-      if (newValue === 'GSM'){
+      else if (newValue === 'GSM'){
         vm.gsmEnabled = true;
         vm.open.gsm = true;
+        
         vm.ttnEnabled = false;
         vm.open.ttn = false;
       }

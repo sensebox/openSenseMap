@@ -1339,6 +1339,28 @@
                   <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' |
                     translate }}</div>
                 </div>
+                <!-- GSM -->
+                <div uib-accordion-group class="panel-default" is-open="register.open.gsm">
+                  <uib-accordion-heading>
+                    GSM - tingg <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
+                  </uib-accordion-heading>
+                  <div uib-alert class="alert-warning" ng-bind-html="'GSM'|translate"></div>
+                  <div class="form-group"
+                  ng-class="{'has-error': senseboxForm.gsm_secret_code.$invalid, 'has-success': senseboxForm.gsm_secret_code.$valid }">
+                  <label class="control-label">{{ 'GSM_SECRET_CODE' | translate }}</label>
+                  <input type="text" name="gsm_secret_code" class="form-control" ng-model="register.gsm.secret_code"
+                    ng-required="register.gsmEnabled">
+                </div>
+                <div class="form-group"
+                ng-class="{'has-error': senseboxForm.gsm_imsi.$invalid, 'has-success': senseboxForm.gsm_imsi.$valid }">
+                <label class="control-label">{{ 'GSM_IMSI' | translate }}</label>
+                <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
+                  ng-required="register.gsmEnabled">
+              </div>
+
+                </div>
+                
               </uib-accordion>
             </div>
             <div class="form-group">

@@ -235,7 +235,7 @@
                       <h3>{{'CONNECTION_TYPE' | translate}}</h3>
                       <hr>
                       <div
-                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-3': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet"
                             ng-model="register.newModel.connection"
@@ -246,7 +246,7 @@
                         </div>
                       </div>
                       <div
-                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-3': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-wifi" value="Wifi"
                             ng-model="register.newModel.connection"
@@ -256,13 +256,23 @@
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'">
+                      <div class="col-lg-3" ng-if="register.modelSelected.id === 'homeV2'">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-lora" value="Lora"
                             ng-model="register.newModel.connection"
                             ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-lora">
                             LoRa
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3" ng-if="register.modelSelected.id === 'homeV2'">
+                        <div class="radio radio-success">
+                          <input type="radio" name="connection" id="sensebox-gsm" value="GSM"
+                            ng-model="register.newModel.connection"
+                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
+                          <label for="sensebox-gsm">
+                            GSM
                           </label>
                         </div>
                       </div>

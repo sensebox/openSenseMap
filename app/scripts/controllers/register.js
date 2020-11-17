@@ -459,6 +459,7 @@
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
+
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
           vm.newSenseBox.id = data.data._id;
@@ -774,7 +775,6 @@
     });
 
     $scope.$watch('register.newModel.connection', function (newValue) {
-      console.log(newValue);
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
         vm.open.ttn = true;

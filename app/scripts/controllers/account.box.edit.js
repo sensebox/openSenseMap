@@ -16,7 +16,8 @@
       security: false,
       script: false,
       mqtt: false,
-      ttn: false
+      ttn: false,
+      tingg:false
     };
     vm.alerts = [];
     vm.custom = false;
@@ -65,6 +66,9 @@
         break;
       case 'ttn':
         vm.tabActive.ttn = true;
+        break;
+      case 'tingg':
+        vm.tabActive.tingg = true;
         break;
       }
     }

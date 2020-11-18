@@ -1,0 +1,14 @@
+<form name="tinggSettings">
+  <div>
+    <h3>{{'TINGG_SECTION'|translate}}</h3>
+    <div uib-alert class="alert alert-warning">
+      {{'DEACTIVATE_BOX'|translate}}
+    </div>
+    <div class="form-group">
+      <input name="editDeleteConfirm" class="form-control" type="password" ng-model="general.password" ng-trim="false">
+    </div>
+    <button ng-disabled="general.password == ''" ng-click="general.deactivateTingg()" class="btn btn-danger col-md-6"><i class="fa fa-times"></i>&nbsp; {{'DEACTIVATE_BOX_BTN'|translate}}</button>
+    <div uib-alert class="alert-danger" ng-show="errorDuringDelete">{{'DEACTIVATE_BOX_BTN'|translate}}</div>
+  </div>
+</form>
+

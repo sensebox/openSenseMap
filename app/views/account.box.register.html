@@ -1418,6 +1418,14 @@
                     <td style="width: 50%;">{{'STATION_PLACEMENT'|translate}}</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.exposure}}</strong></td>
                   </tr>
+                  <tr ng-if="register.gsmEnabled">
+                    <td style="width: 50%;">{{'IMSI'|translate}}</td>
+                    <td style="width: 50%;"><strong>{{register.gsm.imsi}}</strong></td>
+                  </tr>
+                  <tr ng-if="register.gsmEnabled">
+                    <td style="width: 50%;">{{'Secret Code'|translate}}</td>
+                    <td style="width: 50%;"><strong>{{register.gsm.secret_code}}</strong></td>
+                  </tr>
                 </tbody>
               </table>
             </div>

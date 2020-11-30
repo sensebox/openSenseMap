@@ -461,10 +461,11 @@
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
+      if(gsmEnabled){
+        // do verification here ????
 
-
-
-
+        AccountService.verifyModem(vm.gsm)
+      }
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {

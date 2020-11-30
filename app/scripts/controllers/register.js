@@ -890,6 +890,7 @@
       }
       try {
         // secret code validation 
+        //todo: get requirements for secret code 
         if(newValue.length < 15){
           vm.validGSMSecret = true;
         }
@@ -912,12 +913,10 @@
         // imsi code validation 
         //todo: what are requirements of an imsi, 15 chars max =>what else ?
         if(newValue.length < 15){
-          console.log("valid");
           vm.validGSMIMSI = true;
         }
         else{
           throw new Error("Must not be over 15 chars")
-
         }
       } catch (e) {
         vm.validGSMIMSI = false;

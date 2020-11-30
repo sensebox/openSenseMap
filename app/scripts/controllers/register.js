@@ -121,6 +121,8 @@
       secret_code:'',
       imsi:''
     };
+    vm.validGSMIMSI = false;
+    vm.validGSMSecret = false;
     vm.open = {
       sensebox: false,
       luftdaten: false,
@@ -460,6 +462,10 @@
       }
 
 
+
+
+
+
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
           vm.newSenseBox.id = data.data._id;
@@ -501,7 +507,7 @@
     function senseBoxSetupValid () {
       var validTTN = true;
       var validMQTT = true;
-
+      var validGSM = true;
       if (vm.ttnEnabled) {
         validTTN = vm.validTTNconfig;
       }
@@ -510,7 +516,12 @@
         validMQTT = vm.validMQTTURL;
       }
 
-      return validTTN && validMQTT;
+      if(vm.gsmEnabled){
+        validGSM = vm.validGSMSecret && vm.validGSMIMSI;
+      }
+
+
+      return validTTN && validMQTT && validGSM;
     }
 
     function addSensorTemplate (template) {
@@ -868,6 +879,48 @@
         }
       } catch (e) {
         vm.validMQTTURL = false;
+      }
+    });
+
+    $scope.$watch('register.gsm.secret_code', function (newValue) {
+      if (angular.isUndefined(newValue) || !newValue.length) {
+        vm.validGSMSecret = false;
+
+        return vm.validGSMSecret;
+      }
+      try {
+        // secret code validation 
+        if(newValue.length < 15){
+          vm.validGSMSecret = true;
+        }
+        else {
+          throw new Error("Must not be over 15 chars")
+
+        }
+      } catch (e) {
+        vm.validGSMSecret = false;
+      }
+    });
+
+    $scope.$watch('register.gsm.imsi', function (newValue) {
+      if (angular.isUndefined(newValue) || !newValue.length) {
+        vm.validGSMIMSI = false;
+
+        return vm.validGSMIMSI;
+      }
+      try {
+        // imsi code validation 
+        //todo: what are requirements of an imsi, 15 chars max =>what else ?
+        if(newValue.length < 15){
+          console.log("valid");
+          vm.validGSMIMSI = true;
+        }
+        else{
+          throw new Error("Must not be over 15 chars")
+
+        }
+      } catch (e) {
+        vm.validGSMIMSI = false;
       }
     });
 

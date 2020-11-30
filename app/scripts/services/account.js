@@ -27,7 +27,11 @@
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount,
-      compileSketch: compileSketch
+      compileSketch: compileSketch,
+      verifyModem:verifyModem,
+      createThingType:createThingType,
+      createThing:createThing,
+      linkModem:linkModem
     };
 
     return service;
@@ -246,5 +250,41 @@
         })
         .catch(failed);
     }
+
+    /* calls   GET https://api.tingg.io/v1/modems/:imsi/verify?code=:code to verify imsi and secret code
+      input: imsi and secret code from register ui
+      output:200/400 status code
+    */
+    function verifyModem(data){
+
+    }
+
+    /*
+      calls POST https://api.tingg.io/v1/thing-types to create thing types 
+      input: sensors, box , name
+      output: thing_type_id
+    */
+    function createThingType(data){
+
+    }
+
+    /*
+      calls POST https://api.tingg.io/v1/things to create a thing
+      input: thing_type_id from previous request
+      output: thing_id
+    
+    */
+    function createThing(data){
+
+    }
+    /*
+      calls POST https://api.tingg.io/v1/modems/:imsi/link to verify modem and thing id 
+      input: imsi and thing_id 
+      output:200/400 status code 
+    */
+    function linkModem(data){
+
+    }
+
   }
 })();

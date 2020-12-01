@@ -271,6 +271,7 @@
       if (
         WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2
       ) {
+        completeTingg();
         vm.showNext = false;
       } else {
         vm.showNext = true;
@@ -373,6 +374,30 @@
         .catch(function () {});
     }
 
+    function completeTingg(){
+
+
+      if(TinggService.verifyModem(vm.gsm))
+      {
+
+        
+        const data = {
+          "name":vm.newSenseBox.name,
+          "ressources":[
+            {
+              "topic":"/osm/sensorid",
+              "method":"pub",
+              "type":"number"
+            },
+
+          ]
+        }
+        console.log(data);
+      }
+
+
+    }
+
     function completeRegistration () {
       setStepTitle();
       vm.alerts = [];
@@ -463,10 +488,9 @@
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
 
-      if(gsmEnabled){
+      if(vm.gsmEnabled){
         // do verification here ????
-
-        AccountService.verifyModem(vm.gsm)
+          TinggService.verifyModem(vm.gsm);
       }
 
       AccountService.postNewBox(vm.newSenseBox)
@@ -486,6 +510,9 @@
           });
           downloadArduino(data.data._id, data.data.model);
           vm.registeredSensors = data.data['sensors'];
+          console.log(vm.registeredSensors);
+          /// do tingg verfication and thing creation here
+          TinggService.createThingType(vm.registeredSensors,vm.newSenseBox.id,vm.newSenseBox.model)
           vm.completed = true;
           vm.stepIndex = 0;
         })

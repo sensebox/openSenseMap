@@ -13,7 +13,8 @@
     'SensorIcons',
     'WizardHandler',
     'AccountService',
-    'osemMapData'
+    'osemMapData',
+    'TinggService'
   ];
 
   function RegisterController (
@@ -23,7 +24,8 @@
     SensorIcons,
     WizardHandler,
     AccountService,
-    osemMapData
+    osemMapData,
+    TinggService
   ) {
     var vm = this;
 

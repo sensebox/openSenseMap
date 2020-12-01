@@ -14,12 +14,12 @@
      * 
      */
     angular
-        .module('app.services')
-        .factory("TinggService", TinggService);
+        .module('app.services', [])
+        .factory('TinggService', TinggService);
 
-        AccountService.$inject = ['$http', '$window', 'app'];
+    TinggService.$inject = ['$http', '$window', 'app'];
 
-    function TinggService($http,$window,app) {
+    function TinggService($http, $window, app) {
         var service = {
             verifyModem: verifyModem,
             createThingType: createThingType,
@@ -28,21 +28,22 @@
         };
 
         return service;
-        function failed (error) {
+
+        function failed(error) {
             return $q.reject(error.data);
-          }
+        }
         /* calls   GET https://api.tingg.io/v1/modems/:imsi/verify?code=:code to verify imsi and secret code
           input: imsi and secret code from register ui
           output:200/400 status code
         */
         function verifyModem(data) {
             console.log("verifyModem", data);
-            return $http.get(app.TINGG_URL+'/modems/'+data.imsi + "/verify?code="+data.secret_code),{auth:true}
-            .then(function(response){
-                console.log("link success")
-                return response
-            })
-            .catch(failed)
+            return $http.get(app.TINGG_URL + '/modems/' + data.imsi + "/verify?code=" + data.secret_code), { auth: true }
+                .then(function (response) {
+                    console.log("link success")
+                    return response
+                })
+                .catch(failed)
         }
 
         /*
@@ -52,12 +53,12 @@
           output: thing_type_id
         */
         function createThingType(data) {
-            console.log("createthingtype",data)
-            return $http.post(app.TINGG_URL + '/thing-types',data,{auth:true})
-            .then(function(response){
-                console.log(response)
-            })
-            .catch(failed)
+            console.log("createthingtype", data)
+            return $http.post(app.TINGG_URL + '/thing-types', data, { auth: true })
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(failed)
         }
 
         /*
@@ -67,12 +68,12 @@
         
         */
         function createThing(data) {
-            console.log("createThing",data);
-            return $http.post(app.TINGG_URL+'/things',data,{auth:true})
-            .then(function(response){
-                console.log(response)
-            })
-            .catch(failed)
+            console.log("createThing", data);
+            return $http.post(app.TINGG_URL + '/things', data, { auth: true })
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(failed)
         }
         /*
           calls POST https://api.tingg.io/v1/modems/:imsi/link to verify modem and thing id 
@@ -80,12 +81,12 @@
           output:200/400 status code 
         */
         function linkModem(data) {
-            console.log('link modem',data)
-            return $http.post(app.TINGG_URL + '/modems/'+data.imsi+'/link',data.thing_id,{auth:true})
-            .then(function(response){
-                console.log(response)
-            })
-            .catch(failed)
+            console.log('link modem', data)
+            return $http.post(app.TINGG_URL + '/modems/' + data.imsi + '/link', data.thing_id, { auth: true })
+                .then(function (response) {
+                    console.log(response)
+                })
+                .catch(failed)
         }
 
 

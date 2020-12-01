@@ -11,7 +11,7 @@
       var service = {
         parseJwt: parseJwt,
         saveToken: saveToken,
-        getToken: getToken,
+        getToken: getToken
       };
   
       return service;
@@ -26,16 +26,12 @@
       }
   
       function saveToken (token) {
-        LocalStorageService.setValue('tingg_acess_token', token);
+        LocalStorageService.setValue('tingg_access_token', token);
       }
 
-      function getToken(){
-        return LocalStorageService.get('tingg_access_token');
-        }
-
-  
-  
-
+      function getToken (){
+        return LocalStorageService.getValue('tingg_access_token');
+      }
     }
   })();
   

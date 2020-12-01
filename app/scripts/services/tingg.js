@@ -36,7 +36,7 @@
         }
 
         function success(response){
-            console.log('saving token');
+            console.log('saving token',response);
             TinggAuthenticationService.saveToken(response.data.token)
         }
 
@@ -75,7 +75,7 @@
 
         function verifyModem(data) {
             console.log("verifyModem", data);
-            return $http.get(app.TINGG_URL + '/modems/' + data.imsi + "/verify?code=" + data.secret_code), { tinggAuth: true }
+            return $http.get(app.TINGG_URL + '/modems/' + data.imsi + "/verify?code=" + data.secret_code,{ tinggAuth: true }) 
                 .then(function (response) {
                     console.log("link success")
                     return true;
@@ -91,10 +91,10 @@
         */
         function createThingType(data,boxid,name) {
             const body = buildThingTypeBody(data,boxid,name);
-            console.log("createThingTypeBody",body);
             return $http.post(app.TINGG_URL + '/thing-types', body, { tinggAuth: true })
                 .then(function (response) {
-                    console.log(response)
+                    console.log(response);
+                    console.log("creating thing now");
                     createThing({"name":name,"thing_type_id":response.id})
                 })
                 .catch(failed)
@@ -140,7 +140,6 @@
          * @param {sensor array from registration} data 
          */
         function buildThingTypeBody(sensordata,boxid,name){
-            console.log('buildThingTypeBody',sensordata);
             let ressources = []
             let body = {
                 "name":name,

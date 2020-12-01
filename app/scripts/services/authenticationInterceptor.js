@@ -5,7 +5,7 @@
     .module('app.services')
     .factory('AuthenticationInterceptor', AuthenticationInterceptor);
 
-  AuthenticationInterceptor.$inject = ['$q', '$injector', 'AuthenticationService', 'app','TinggAuthenticationService'];
+  AuthenticationInterceptor.$inject = ['$q', '$injector', 'AuthenticationService','TinggAuthenticationService', 'app'];
 
   function AuthenticationInterceptor ($q, $injector, AuthenticationService,TinggAuthenticationService, app) {
     var inFlightAuthRequest = null;
@@ -17,7 +17,7 @@
           console.log("osm auth")
           config.headers.Authorization = 'Bearer ' + AuthenticationService.getToken();
         }
-        if(angular.isDefined(config.tinggAuth) && config.tinggAuth){
+        if(angular.isDefined(config.tinggAuth) && config.tinggAuth && TinggAuthenticationService.getToken()){
           console.log("tingg auth")
           config.headers.Authorization = 'Bearer ' + TinggAuthenticationService.getToken()
         }

@@ -487,6 +487,9 @@
               .then(() => {
                 console.log("logged in")
                 TinggService.createThingType(vm.registeredSensors, vm.newSenseBox.id, vm.newSenseBox.model)
+                .then((data)=>{
+                  TinggService.createThing({"name":vm.newSenseBox.model,"thing_type_id":data.id})
+                })
               }
               )
           }

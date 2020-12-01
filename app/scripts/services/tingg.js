@@ -32,6 +32,7 @@
         return service;
 
         function failed(error) {
+            console.log(error)
             return $q.reject(error.data);
         }
 
@@ -45,7 +46,7 @@
          * @param {"email":"email","password":"password"} data 
          */
         function login(data) {
-            console.log("logging in", data);
+            console.log("logging in to tingg", data);
             return $http.post(app.TINGG_URL + '/auth/login', data)
                 .then(success)
                 .catch(failed)
@@ -56,10 +57,10 @@
          */
         function refreshToken() {
             var data = {token: TinggAuthenticationService.getAccessToken()};
-            console.log("refresh token");
             return $http.post(app.TINGG_URL + '/auth/token-refresh', data)
                 .then(function (response) {
                     console.log("refresh token", response)
+                    TinggAuthenticationService.saveToken(response.data.token)
                 })
                 .catch(failed)
         }
@@ -77,7 +78,7 @@
             console.log("verifyModem", data);
             return $http.get(app.TINGG_URL + '/modems/' + data.imsi + "/verify?code=" + data.secret_code,{ tinggAuth: true }) 
                 .then(function (response) {
-                    console.log("link success")
+                    console.log("verify success")
                     return true;
                 })
                 .catch(failed)
@@ -91,12 +92,10 @@
         */
         function createThingType(data,boxid,name) {
             const body = buildThingTypeBody(data,boxid,name);
-            console.log("thing type body",body)
             return $http.post(app.TINGG_URL + '/thing-types', body, { tinggAuth: true })
                 .then(function (response) {
-                    console.log(response);
                     console.log("creating thing now");
-                    createThing({"name":name,"thing_type_id":response.data.id})
+                    return response.data
                 })
                 .catch(failed)
 
@@ -114,7 +113,6 @@
         
         */
         function createThing(data) {
-            console.log("createThing", data);
             return $http.post(app.TINGG_URL + '/things', data, { tinggAuth: true })
                 .then(function (response) {
                     console.log("thing created!",response)

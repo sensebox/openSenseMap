@@ -486,9 +486,9 @@
             TinggService.login({ "email": "YOURMAIL", "password": "YOURMAIL" })
               .then(() => {
                 console.log("logged in")
-                TinggService.createThingType(vm.registeredSensors, vm.newSenseBox.id, vm.newSenseBox.model)
+                TinggService.createThingType(vm.registeredSensors, vm.newSenseBox.id)
                 .then((data)=>{
-                  TinggService.createThing({"name":vm.newSenseBox.model,"thing_type_id":data.id})
+                  TinggService.createThing({"name":vm.newSenseBox.name,"thing_type_id":data.id})
                 })
               }
               )

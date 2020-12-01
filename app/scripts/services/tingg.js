@@ -90,8 +90,8 @@
           input: sensors, box , name (look pdf for body example)
           output: thing_type_id
         */
-        function createThingType(data,boxid,name) {
-            const body = buildThingTypeBody(data,boxid,name);
+        function createThingType(data,boxid) {
+            const body = buildThingTypeBody(data,boxid);
             return $http.post(app.TINGG_URL + '/thing-types', body, { tinggAuth: true })
                 .then(function (response) {
                     console.log("creating thing now");
@@ -138,7 +138,7 @@
          *  needs name and box id
          * @param {sensor array from registration} data 
          */
-        function buildThingTypeBody(sensordata,boxid,name){
+        function buildThingTypeBody(sensordata,boxid){
             let resources = []
             if(sensordata){
                 sensordata.map((sensor)=>{
@@ -151,7 +151,7 @@
                 })
             }
             let body = {
-                "name":name,
+                "name":boxid,
                 "description":"some basic desccription",
                 "resources":resources
             }

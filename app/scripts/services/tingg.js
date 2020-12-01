@@ -91,11 +91,12 @@
         */
         function createThingType(data,boxid,name) {
             const body = buildThingTypeBody(data,boxid,name);
+            console.log("thing type body",body)
             return $http.post(app.TINGG_URL + '/thing-types', body, { tinggAuth: true })
                 .then(function (response) {
                     console.log(response);
                     console.log("creating thing now");
-                    createThing({"name":name,"thing_type_id":response.id})
+                    createThing({"name":name,"thing_type_id":response.data.id})
                 })
                 .catch(failed)
 
@@ -140,11 +141,7 @@
          * @param {sensor array from registration} data 
          */
         function buildThingTypeBody(sensordata,boxid,name){
-            let ressources = []
-            let body = {
-                "name":name,
-                "ressources":ressources
-            }
+            let resources = []
             if(sensordata){
                 sensordata.map((sensor)=>{
                     let toAdd = {
@@ -152,8 +149,13 @@
                         "method":"pub",
                         "type":"number" 
                     }
-                    ressources.push(toAdd); 
+                    resources.push(toAdd); 
                 })
+            }
+            let body = {
+                "name":name,
+                "description":"some basic desccription",
+                "resources":resources
             }
             return body;
         }

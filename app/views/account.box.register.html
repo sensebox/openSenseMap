@@ -1361,6 +1361,9 @@
                 <label class="control-label">{{ 'GSM_IMSI' | translate }}</label>
                 <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
                   ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
+                  <div class="pull-right">
+                    <a class="btn btn-default" ng-class="{'has-error': !register.gsmverified, 'has-success': register.gsmverified}" ng-click="register.verifyGSM()">{{'VERIFY' | translate}}</a>
+                  </div>
               </div>
 
                 </div>

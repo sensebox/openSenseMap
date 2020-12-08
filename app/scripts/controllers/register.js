@@ -125,6 +125,7 @@
     };
     vm.validGSMIMSI = false;
     vm.validGSMSecret = false;
+    vm.gsmverified = false;
     vm.open = {
       sensebox: false,
       luftdaten: false,
@@ -163,6 +164,7 @@
     vm.addSensorTemplate = addSensorTemplate;
     vm.generateScript = generateScript;
     vm.compile = compile;
+    vm.verifyGSM = verifyGSM;
 
     activate();
 
@@ -373,6 +375,13 @@
         .catch(function () { });
     }
 
+    function verifyGSM(){
+      console.log("verifying gsm creds. now",vm.gsm);
+//      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
+      //TinggService.verifyModem(vm.gsm)
+      vm.gsmverified = true;
+    }
+
 
     function completeRegistration() {
       setStepTitle();
@@ -463,9 +472,11 @@
         vm.newSenseBox.model =
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
+      console.log(vm.newSenseBox)
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
+          console.log(vm.newSenseBox)
           vm.newSenseBox.id = data.data._id;
           vm.newSenseBox.access_token = data.data.access_token;
 
@@ -481,18 +492,7 @@
           });
           downloadArduino(data.data._id, data.data.model);
           vm.registeredSensors = data.data['sensors'];
-          if (vm.gsmEnabled) {
-            /// do tingg verfication and thing creation here
-            TinggService.login({ "email": "YOURMAIL", "password": "YOURMAIL" })
-              .then(() => {
-                console.log("logged in")
-                TinggService.createThingType(vm.registeredSensors, vm.newSenseBox.id)
-                .then((data)=>{
-                  TinggService.createThing({"name":vm.newSenseBox.name,"thing_type_id":data.id})
-                })
-              }
-              )
-          }
+
 
           vm.completed = true;
           vm.stepIndex = 0;
@@ -528,7 +528,7 @@
       }
 
       if (vm.gsmEnabled) {
-        validGSM = vm.validGSMSecret && vm.validGSMIMSI;
+        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified;
       }
 
 

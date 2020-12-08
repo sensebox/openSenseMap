@@ -1362,7 +1362,7 @@
                 <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
                   ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
                   <div class="pull-right">
-                    <a class="btn btn-default" ng-class="{'has-error': !register.gsmverified, 'has-success': register.gsmverified}" ng-click="register.verifyGSM()">{{'VERIFY' | translate}}</a>
+                    <a class="btn" style="margin-top:10px;" ng-disabled="!register.gsmEnabled" ng-class="{'btn-danger': !register.gsmverified, 'btn-success': register.gsmverified}" ng-click="register.verifyGSM()"><span ng-class="{'glyphicon glyphicon-question-sign':!register.gsmverified, 'glyphicon glyphicon-ok-sign':register.gsmverified}"></span> {{'VERIFY' | translate}}</a>
                   </div>
               </div>
 

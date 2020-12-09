@@ -125,7 +125,7 @@
     };
     vm.validGSMIMSI = false;
     vm.validGSMSecret = false;
-    vm.gsmverified = false;
+    vm.gsmverified = 'init';
     vm.open = {
       sensebox: false,
       luftdaten: false,
@@ -379,7 +379,7 @@
       console.log("verifying gsm creds. now",vm.gsm);
 //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
       //TinggService.verifyModem(vm.gsm)
-      vm.gsmverified = true;
+      vm.gsmverified = 'false';
     }
 
 

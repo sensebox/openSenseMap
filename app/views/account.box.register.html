@@ -1362,7 +1362,8 @@
                 <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
                   ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
                   <div class="pull-right">
-                    <a class="btn" style="margin-top:10px;" ng-disabled="!register.gsmEnabled" ng-class="{'btn-danger': !register.gsmverified, 'btn-success': register.gsmverified}" ng-click="register.verifyGSM()"><span ng-class="{'glyphicon glyphicon-question-sign':!register.gsmverified, 'glyphicon glyphicon-ok-sign':register.gsmverified}"></span> {{'VERIFY' | translate}}</a>
+                    <a class="btn" style="margin-top:10px;" ng-disabled="!register.gsmEnabled" ng-class="{'btn-danger': register.gsmverified === 'false', 'btn-success': register.gsmverified === 'true','btn-primary':register.gsmverified==='init'}" ng-click="register.verifyGSM()"><span ng-class="{'glyphicon glyphicon-question-sign':register.gsmverified === 'init', 'glyphicon glyphicon-ok-sign':register.gsmverified === 'true','glyphicon glyphicon-remove-sign':register.gsmverified==='false'}"></span>
+                       {{'VERIFY' | translate}}</a>
                   </div>
               </div>
 

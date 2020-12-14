@@ -16,9 +16,8 @@
 
     function TinggService($http, $window, app,$q) {
         var service = {
-            login: login,
-            refreshToken: refreshToken,
-            verifyModem: verifyModem
+            verifyModem: verifyModem,
+            deactivateModem:deactivateModem
         };
 
         return service;
@@ -49,6 +48,14 @@
                 })
                 .catch(failed)
         }
+
+        //
+        function deactivateModem(data){
+            return $http.get(app.API_URL + '/users/deactivateModem/'+data.integrations.gsm.imsi,{auth:true})
+              .then(function(response){
+                console.log("success")
+              })
+          }
 
 
 

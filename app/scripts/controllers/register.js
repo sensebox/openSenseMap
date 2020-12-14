@@ -379,7 +379,7 @@
       console.log("verifying gsm creds. now",vm.gsm);
 //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
       //TinggService.verifyModem(vm.gsm)
-      vm.gsmverified = 'false';
+      vm.gsmverified = 'true';
     }
 
 
@@ -528,7 +528,7 @@
       }
 
       if (vm.gsmEnabled) {
-        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified;
+        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified==='true';
       }
 
 

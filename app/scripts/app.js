@@ -402,6 +402,16 @@
             }
           }
         })
+        .state('info.faq', {
+          url: '^/faq',
+          views: {
+            'info': {
+              templateUrl: 'views/info.faq.html',
+              controller: 'HelpController',
+              controllerAs: 'help'
+            }
+          }
+        })
         .state('info.privacy', {
           url: '^/privacy',
           views: {

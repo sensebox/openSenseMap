@@ -1,12 +1,19 @@
-<div class="help-wrapper">
-  <iframe
+<div class="donation-wrapper">
+  <div class="donation-text">
+    <!-- <h3>{{'INFO_SUPPORT' | translate}}</h3> -->
+    <div ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
+  </div>
+  <!-- <iframe
     class="external-help"
     ng-src="{{ help.iframeSrc }}"
-    sandbox="allow-same-origin"></iframe>
+    sandbox="allow-same-origin"></iframe> -->
 
   <div class="help-footer">
-    <button class="btn btn-default" ng-click="help.onClose(); closeThisDialog()">{{'CLOSESIDEBAR'|translate}}</button>
+    <a href="https://www.uni-muenster.de/openSenseMap/" target="_blank" class="btn donation-button">{{'INFO_DONATE_NOW'|translate}}</a>
+    <!-- <a href="https://www.uni-muenster.de/openSenseMap/" target="_blank" class="btn donation-button" ng-click="help.onClose(); closeThisDialog()">{{'INFO_DONATE_NOW'|translate}}</a> -->
+  </div>
+  <!-- <div class="small">
     <input type="checkbox" id="dont-show-again" name="dont-show-again" ng-model="help.dontshowagain">
     <label for="dont-show-again">{{'DONT_SHOW_AGAIN'|translate}}</label>
-  </div>
+  </div> -->
 </div>

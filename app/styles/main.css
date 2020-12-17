@@ -1791,7 +1791,7 @@ nav > a.active {
 
 .ngdialog.help-modal .ngdialog-content {
   width: 800px;
-  height: 100%;
+  /* height: 100%; */
 }
 
 .help-wrapper {
@@ -1823,4 +1823,39 @@ nav > a.active {
 
 .help-footer > button {
   margin-right: 5px;
+}
+
+.donation-text {
+  font-family: BrixSlab;
+  color: #3A9B33;
+  padding: 0.5em 0.7em;
+}
+
+.donation-button {
+  background-color: #4EAF47 !important;
+  font-family: BrixSlab-Bold;
+  color: white !important;
+  border-radius: 1;
+}
+
+.donation-button:hover {
+  background-color: #4EAF47;
+}
+
+.faq-wrapper {
+  height: 1900px;
+}
+@media (max-width: 767px) {
+  .faq-wrapper {
+    height: 2800px;
+  }
+}
+
+.figure img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.small {
+  font-size: 0.6em;
 }

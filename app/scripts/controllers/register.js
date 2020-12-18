@@ -375,11 +375,14 @@
         .catch(function () { });
     }
 
-    function verifyGSM(){
-      console.log("verifying gsm creds. now",vm.gsm);
-//      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
-      //TinggService.verifyModem(vm.gsm)
-      vm.gsmverified = 'true';
+    function verifyGSM() {
+      vm.gsmverified = 'loading';
+      TinggService.verifyModem(vm.gsm)
+      .then(function(response){
+        vm.gsmverified = 'true'
+      })
+      .catch(function(err){vm.gsmverified = 'false'})
+      //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
     }
 
 
@@ -528,7 +531,7 @@
       }
 
       if (vm.gsmEnabled) {
-        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified==='true';
+        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified === 'true';
       }
 
 
@@ -923,7 +926,7 @@
       try {
         // imsi code validation 
         //todo: what are requirements of an imsi, 15 chars max =>what else ?
-        if (newValue.length < 15) {
+        if (newValue.length < 20) {
           vm.validGSMIMSI = true;
         }
         else {

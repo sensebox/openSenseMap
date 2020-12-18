@@ -41,10 +41,9 @@
 
         function verifyModem(data) {
             console.log("verifyModem", data);
-            return $http.get(app.TINGG_URL + '/modems/' + data.imsi + "/verify?code=" + data.secret_code,{ tinggAuth: true }) 
+            return $http.get(app.API_URL + '/users/verifyTinggModem/' + data.imsi + '/' + data.secret_code,{auth:true}) 
                 .then(function (response) {
-                    console.log("verify success")
-                    return true;
+                    return response;
                 })
                 .catch(failed)
         }

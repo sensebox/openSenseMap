@@ -9,12 +9,10 @@
 
   function EditBoxTinggController ($scope, boxData, notifications, TinggService) {
     var vm = this;
-    let gsmverified = false;
-    let errorText;
     activate();
     vm.deactivateModem = deactivateModem;
-    vm.gsmverified = gsmverified
-    vm.errorText = errorText
+    vm.gsmverified = 'init' ;
+    vm.errorText = '';
     ////
 
     function activate () {
@@ -23,8 +21,12 @@
     }
 
     function deactivateModem(){
-      TinggService.deactivateModem(boxData).then((res)=>vm.gsmverified = true)
-      .catch((error)=> {console.log(error) } )
+      TinggService.deactivateModem(boxData).then((res)=>vm.gsmverified = 'true')
+      .catch((error)=> {
+        vm.gsmverified = 'false';
+        vm.errorText = error.code; 
+      
+      } )
     }
 
   }

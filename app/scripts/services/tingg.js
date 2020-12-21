@@ -27,7 +27,6 @@
         }
 
         function success(response){
-            console.log('saving token',response);
         }
         /**  calls   GET https://api.tingg.io/v1/modems/:imsi/verify?code=:code to verify imsi and secret code
          *  
@@ -39,7 +38,6 @@
 
 
         function verifyModem(data) {
-            console.log("verifyModem", data);
             return $http.get(app.API_URL + '/users/verifyTinggModem/' + data.imsi + '/' + data.secret_code,{auth:true}) 
                 .then(function (response) {
                     return response;
@@ -51,7 +49,6 @@
         function deactivateModem(data){
             return $http.get(app.API_URL + '/users/deactivateModem/'+data.integrations.gsm.imsi,{auth:true})
               .then(function(response){
-                console.log("success")
               })
               .catch(failed)
           }

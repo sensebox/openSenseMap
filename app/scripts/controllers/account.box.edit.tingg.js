@@ -9,11 +9,10 @@
 
   function EditBoxTinggController ($scope, boxData, notifications, TinggService) {
     var vm = this;
-    activate();
     vm.deactivateModem = deactivateModem;
     vm.gsmverified = 'init' ;
     vm.errorText = '';
-    ////
+    activate();
 
     function activate () {
 

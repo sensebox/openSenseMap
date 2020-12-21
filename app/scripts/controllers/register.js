@@ -478,11 +478,9 @@
         vm.newSenseBox.model =
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
-      console.log(vm.newSenseBox)
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
-          console.log(vm.newSenseBox)
           vm.newSenseBox.id = data.data._id;
           vm.newSenseBox.access_token = data.data.access_token;
 

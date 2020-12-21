@@ -4,8 +4,8 @@
     <div uib-alert class="alert alert-warning">
       {{'DEACTIVATE_BOX'|translate}}
     </div>
-    <div uib-alert ng-if='tingg.gsmverified === "true"' class="alert-success" >IMSI has been deactivated</div>
-    <div uib-alert ng-if='tingg.gsmverified === "false"' class="alert-danger" >{{tingg.errorText}}</div>
+    <div uib-alert ng-if='tingg.gsmverified === "true"' class="alert-success">IMSI has been deactivated</div>
+    <div uib-alert ng-if='tingg.gsmverified === "false"' class="alert-danger">Error when deactivating modem<div>
     <div class="form-group">
       <input name="editDeleteConfirm" class="form-control" type="password" ng-model="general.password" ng-trim="false">
     </div>

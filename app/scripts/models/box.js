@@ -46,18 +46,6 @@
                   that.sensors[sensor._id].lastMeasurement.createdAt = sensor.lastMeasurement.createdAt;
                 }
               }
-              // if (angular.isDefined(vm.sensordata[response.sensors[i]._id])) {
-              //           var data = angular.copy(vm.sensordata[response.sensors[i]._id]);
-              //           console.log(data);
-              //           data.unshift(datapair);
-              //           console.log(data.length)
-              //           console.log(data);
-              //           // remove first entry
-              //           //todo check amount of data depending on selected time frame
-              //           data.pop();
-              //           console.log(data.length)
-              //           vm.sensordata[response.sensors[i]._id] = data;
-              //         }
             }
           })
           .catch(function (error) {

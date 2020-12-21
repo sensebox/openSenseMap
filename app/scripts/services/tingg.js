@@ -9,7 +9,7 @@
      * 
      */
     angular
-        .module('app.services',[])
+        .module('app.services')
         .factory('TinggService', TinggService);
 
     TinggService.$inject = ['$http', '$window', 'app','$q'];

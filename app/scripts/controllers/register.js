@@ -126,6 +126,7 @@
     vm.validGSMIMSI = false;
     vm.validGSMSecret = false;
     vm.gsmverified = 'init';
+    vm.gsmErrorText = '';
     vm.open = {
       sensebox: false,
       luftdaten: false,
@@ -381,7 +382,9 @@
       .then(function(response){
         vm.gsmverified = 'true'
       })
-      .catch(function(err){vm.gsmverified = 'false'})
+      .catch(function(err){
+        vm.gsmErrorText = err.message
+        vm.gsmverified = 'false'})
       //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
     }
 
@@ -897,6 +900,7 @@
     });
 
     $scope.$watch('register.gsm.secret_code', function (newValue) {
+      vm.gsmverified = 'init';
       if (angular.isUndefined(newValue) || !newValue.length) {
         vm.validGSMSecret = false;
 
@@ -918,6 +922,7 @@
     });
 
     $scope.$watch('register.gsm.imsi', function (newValue) {
+      vm.gsmverified = 'init';
       if (angular.isUndefined(newValue) || !newValue.length) {
         vm.validGSMIMSI = false;
 

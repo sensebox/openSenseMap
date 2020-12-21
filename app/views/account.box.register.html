@@ -1346,7 +1346,7 @@
                       ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
                   </uib-accordion-heading>
 
-                  <div uib-alert ng-if='register.gsmverified === "false"' class="alert-danger" ng-bind-html="'GSM_TING_FAILVERIFICATION'|translate"></div>
+                  <div uib-alert ng-if='register.gsmverified === "false"' class="alert-danger" ng-bind-html="register.gsmErrorText"></div>
                   <div uib-alert ng-if='register.gsmverified === "true"' class="alert-success" ng-bind-html="'GSM_TING_SUCCESSVERIFICATION'|translate"></div>
                   <div uib-alert class="alert-warning" ng-bind-html="'GSM_TING_DISCLAIMER'|translate"></div>
                   <div class="checkbox checkbox-success checkbox-inline">

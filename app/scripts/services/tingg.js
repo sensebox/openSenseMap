@@ -23,7 +23,6 @@
         return service;
 
         function failed(error) {
-            console.log(error)
             return $q.reject(error.data);
         }
 
@@ -54,6 +53,7 @@
               .then(function(response){
                 console.log("success")
               })
+              .catch(failed)
           }
 
 

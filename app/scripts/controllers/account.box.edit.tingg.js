@@ -20,8 +20,8 @@
     }
 
     function deactivateModem(){
-      TinggService.deactivateModem(boxData).then((res)=>vm.gsmverified = 'true')
-      .catch((error)=> {
+      TinggService.deactivateModem(boxData).then(function(res){vm.gsmverified = 'true'})
+      .catch(function(error){
         vm.gsmverified = 'false';
         vm.errorText = error.code; 
       

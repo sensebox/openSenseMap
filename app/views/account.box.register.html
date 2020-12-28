@@ -1351,7 +1351,7 @@
                   <div uib-alert class="alert-warning" ng-bind-html="'GSM_TING_DISCLAIMER'|translate"></div>
                   <div class="checkbox checkbox-success checkbox-inline">
                     <input type="checkbox" id="enabledGSM" ng-model="register.gsmEnabled">
-                    <label for="enabledGSM">{{ 'ENABLE_TINGG' | translate }}</label>
+                    <label for="enabledGSM">{{ 'GSM_ENABLE' | translate }}</label>
                   </div>
                   <div class="form-group"
                   ng-class="{'has-error': !register.validGSMIMSI, 'has-success': register.validGSMIMSI }">
@@ -1360,14 +1360,14 @@
                     ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
                   <div class="form-group"
                   ng-class="{'has-error': !register.validGSMSecret, 'has-success': register.validGSMSecret }">
-                  <label class="control-label">{{ 'GSM_SECRET_CODE' | translate }}</label>
+                  <label class="control-label">{{ 'GSM_SECRETCODE' | translate }}</label>
                   <input type="text" name="gsm_secret_code" class="form-control" ng-model="register.gsm.secret_code"
                     ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
                 </div>
 
                   <div class="pull-right">
                     <a class="btn" style="margin-top:10px;" ng-disabled="!register.gsmEnabled" ng-class="{'btn-danger': register.gsmverified === 'false', 'btn-success': register.gsmverified === 'true','btn-primary':register.gsmverified==='init','btn-info':register.gsmverified === 'loading'}" ng-click="register.verifyGSM()"><span ng-class="{'glyphicon glyphicon-question-sign':register.gsmverified === 'init', 'glyphicon glyphicon-ok-sign':register.gsmverified === 'true','glyphicon glyphicon-remove-sign':register.gsmverified==='false','glyphicon glyphicon-time':register.gsmverified ==='loading'}"></span>
-                       {{'VERIFY' | translate}}</a>
+                       {{'GSM_VERIFY' | translate}}</a>
                   </div>
               </div>
 

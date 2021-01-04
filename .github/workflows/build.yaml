@@ -3,9 +3,11 @@ name: Build
 on:
   push:
     branches:
+      - master
       - development
   pull_request:
     branches:
+      - master
       - development
 
 jobs:
@@ -48,8 +50,7 @@ jobs:
           echo "##[set-output name=branch_name;]${branch_name}"
           echo "##[set-output name=short_sha;]${short_sha}"
 
-          #if [ "$branch_name" = "master" ]; then
-          if [ "$branch_name" = "merge" ]; then
+          if [ "$branch_name" = "master" ]; then
             echo "OPENSENSEMAP_API_URL=https://api.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_MAPTILES_URL=${{ secrets.OPENSENSEMAP_MAPTILES_URL_PROD }}" >> $GITHUB_ENV
           else
@@ -73,8 +74,7 @@ jobs:
       - name: Build container image and push to Docker Hub (not for PRs)
         uses: docker/build-push-action@v2
         with:
-          # push: ${{ github.event_name == 'push' }}
-          push: true
-          tags: docker.io/${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }},docker.io/${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }}-${{ steps.branch_info.outputs.short_sha }}
+          push: ${{ github.event_name == 'push' }}
+          tags: ${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }},${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }}-${{ steps.branch_info.outputs.short_sha }}
           context: ./
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max

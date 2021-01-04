@@ -49,7 +49,7 @@ jobs:
           echo "##[set-output name=short_sha;]${short_sha}"
 
           #if [ "$branch_name" = "master" ]; then
-          if [ "$branch_name" = "development" ]; then
+          if [ "$branch_name" = "merge" ]; then
             echo "OPENSENSEMAP_API_URL=https://api.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_MAPTILES_URL=${{ secrets.OPENSENSEMAP_MAPTILES_URL_PROD }}" >> $GITHUB_ENV
           else

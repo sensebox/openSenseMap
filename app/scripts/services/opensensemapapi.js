@@ -92,7 +92,7 @@
         .catch(failed);
     }
 
-    function postMeasurements (boxId, measurements, format,access_token) {
+    function postMeasurements (boxId, measurements, format, access_token) {
       var url = getUrl() + '/boxes/' + boxId + '/data';
 
       return $http

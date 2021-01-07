@@ -97,7 +97,7 @@
 
       return $http
         .post(url, measurements, {
-          headers: { 'content-type': format , 'Authorization': access_token}
+          headers: { 'content-type': format , 'Authorization': access_token }
         })
         .then(success)
         .catch(failed);

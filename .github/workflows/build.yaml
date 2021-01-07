@@ -9,6 +9,9 @@ on:
     branches:
       - master
       - development
+  release:
+    types:
+      - published
 
 jobs:
   build:

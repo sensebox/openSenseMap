@@ -22,7 +22,7 @@ You can set them in your `terminal` or change the default values in the [Gruntfi
 
 
 ## Development
-- Have [Node.js] v8, [grunt]() and [bower]() installed
+- Have [Node.js] v10, [grunt]() and [bower]() installed
 - Check out `development` branch (`git checkout development`)
 - Run `npm install` and `npx bower install`
 - Create your own branch `git checkout -b my-awesome-branch`

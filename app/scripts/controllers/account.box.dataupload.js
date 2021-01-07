@@ -58,7 +58,7 @@
       vm.success = false;
       vm.error = '';
       OpenSenseMapAPI
-        .postMeasurements($state.params.id, vm.measurementData, vm.dataFormat,$state.params.box.access_token)
+        .postMeasurements($state.params.id, vm.measurementData, vm.dataFormat, $state.params.box.access_token)
         .then(function () {
           vm.success = true;
         })

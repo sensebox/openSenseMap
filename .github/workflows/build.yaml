@@ -41,6 +41,12 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - name: Bump package.json version
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        run: |
+          # steps.branch_info.outputs.branch_name equals version tag on release
+          npm version ${{ steps.branch_info.outputs.branch_name }}
+
       - name: Install project dependencies
         run: |
           npm install && npx bower install
@@ -60,12 +66,6 @@ jobs:
             echo "OPENSENSEMAP_API_URL=https://api.testing.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_MAPTILES_URL=https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" >> $GITHUB_ENV
           fi
-
-      - name: Bump package.json version
-        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
-        run: |
-          # steps.branch_info.outputs.branch_name equals version tag on release
-          npm version ${{ steps.branch_info.outputs.branch_name }}
 
       - name: Build
         run: |

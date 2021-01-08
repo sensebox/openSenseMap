@@ -32,7 +32,7 @@
     }
 
     function revealPassword () {
-      var passField = document.getElementById('password-field');
+      var passField = $document.getElementById('password-field');
       if (passField.type === 'password') {
         passField.type = 'text';
       } else {
@@ -41,11 +41,11 @@
     }
 
     function toggleModal () {
-      this.modalVisible = !this.modalVisible;
+      vm.modalVisible = !vm.modalVisible;
     }
 
     function generateNewToken () {
-      this.modalVisible = false;
+      vm.modalVisible = false;
 
       return AccountService.updateBox(boxData._id, { generate_access_token: true })
         .then(function (response) {
@@ -61,8 +61,6 @@
     }
 
     function save () {
-      console.log(vm.useAuth);
-
       return AccountService.updateBox(boxData._id, { useAuth: vm.useAuth === true ? true : 'false', refreshAccessToken: vm.refreshAccessToken })
         .then(function (response) {
           angular.copy(new Box(response.data), boxData);

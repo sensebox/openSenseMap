@@ -5,12 +5,12 @@
     .module('app.services')
     .factory('HelpModalService', HelpModalService);
 
-  HelpModalService.$inject = ['ngDialog', '$cookies'];
+  HelpModalService.$inject = ['ngDialog' /*, '$cookies' */];
 
   //COOKIE FUNCTIONALITY DISABLED FOR NOW (add again later?)
   // var cookieId = 'dontShowHelpAgain';
 
-  function HelpModalService (ngDialog, $cookies) {
+  function HelpModalService (ngDialog /*, $cookies */) {
     var vm = this;
     // vm.hasCookie = hasCookie;
     vm.onStartup = onStartup;

@@ -32,7 +32,7 @@
     }
 
     function revealPassword () {
-      var passField = $document.getElementById('password-field');
+      var passField = $document[0].getElementById('password-field');
       if (passField.type === 'password') {
         passField.type = 'text';
       } else {

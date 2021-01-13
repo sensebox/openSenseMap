@@ -42,7 +42,6 @@
     ////
 
     function activate () {
-      console.log(boxData)
       if (boxData.model.startsWith('homeV2Wifi')) {
         vm.showConfiguration = true;
         vm.showWifiConfiguration = true;

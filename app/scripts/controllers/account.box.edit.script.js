@@ -10,7 +10,7 @@
   function EditBoxScriptController (boxData, AccountService) {
     var vm = this;
     vm.box = boxData;
-
+    vm.display_enabled = false;
     vm.serialPort = 'Serial1';
     vm.boxScript = '';
     vm.showConfiguration = false;
@@ -42,6 +42,7 @@
     ////
 
     function activate () {
+      console.log(boxData)
       if (boxData.model.startsWith('homeV2Wifi')) {
         vm.showConfiguration = true;
         vm.showWifiConfiguration = true;
@@ -94,7 +95,9 @@
         password: vm.wifi.password,
         devEUI: vm.ttn.devEUI,
         appEUI: vm.ttn.appEUI,
-        appKey: vm.ttn.appKey
+        appKey: vm.ttn.appKey,
+        display_enabled:vm.display_enabled
+
       })
         .then(function (response) {
           vm.boxScript = response;

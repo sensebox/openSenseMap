@@ -35,7 +35,8 @@
     function setDontShowAgain (value) {
       if (value) {
         var currentDate = new Date();
-        $cookies.put(cookieId, 'true', { secure: true, expires: new Date(currentDate.setMonth(currentDate.getMonth()+1))});
+        currentDate = currentDate.setDate(currentDate.getDate() + 2 * 7);
+        $cookies.put(cookieId, 'true', { secure: true, expires: currentDate});
       } else {
         $cookies.remove(cookieId);
       }

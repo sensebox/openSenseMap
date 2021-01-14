@@ -200,7 +200,7 @@
         devEUI: vm.ttn.devEUI,
         appEUI: vm.ttn.appEUI,
         appKey: vm.ttn.appKey,
-        display_enabled:vm.display_enabled
+        display_enabled: vm.display_enabled
       })
         .then(function (response) {
           vm.boxScript = response;

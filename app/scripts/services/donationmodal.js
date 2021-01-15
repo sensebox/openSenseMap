@@ -10,7 +10,7 @@
   //COOKIE FUNCTIONALITY DISABLED FOR NOW (add again later?)
   var cookieId = 'dontShowDonationAgain';
 
-  function DonationModalService (ngDialog, $cookies) {
+  function DonationModalService(ngDialog, $cookies) {
     var vm = this;
     vm.hasCookie = hasCookie;
     vm.onStartup = onStartup;
@@ -19,7 +19,7 @@
 
     return vm;
 
-    function open () {
+    function open() {
       console.log("OPEN")
       ngDialog.open({
         template: '../../views/donation.html',
@@ -32,23 +32,23 @@
       });
     }
 
-    function setDontShowAgain (value) {
+    function setDontShowAgain(value) {
       if (value) {
         var currentDate = new Date();
         currentDate = currentDate.setDate(currentDate.getDate() + 2 * 7);
-        $cookies.put(cookieId, 'true', { secure: true, expires: currentDate});
+        $cookies.put(cookieId, 'true', { secure: true, expires: currentDate });
       } else {
         $cookies.remove(cookieId);
       }
     }
 
-    function hasCookie () {
+    function hasCookie() {
       var cookie = $cookies.get(cookieId);
 
       return Boolean(cookie);
     }
 
-    function onStartup () {
+    function onStartup() {
       if (!vm.hasCookie()) {
         vm.open();
       }

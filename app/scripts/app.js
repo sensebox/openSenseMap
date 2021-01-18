@@ -49,6 +49,7 @@
           templateUrl: 'views/explore2.map.html',
           resolve: { /* @ngInject */
             boxes: function (BoxesService) {
+              // eslint-disable-next-line no-warning-comments
               // FIXME: when loading the page starting with explore.map.filter,
               // boxes are fetched twice (once with minimal, once full) due to
               // ui-router resolve inheritance. I found no workaround, because
@@ -444,8 +445,8 @@
     .run(['LanguageService', function (LanguageService) {
       LanguageService.initialize();
     }])
-    .run(['HelpModalService', function (HelpModalService) {
-      HelpModalService.onStartup();
+    .run(['DonationModalService', function (DonationModalService) {
+      DonationModalService.onStartup();
     }])
 
     .filter('unsafe', ['$sce', function ($sce) {

@@ -77,7 +77,7 @@ jobs:
 
       - name: Install project dependencies
         run: |
-          npm ci && npx bower@1.8.8 install && npx bower install
+          npm ci && npx bower@1.8.8 install
 
       - name: Prepare build environment variables
         id: branch_info

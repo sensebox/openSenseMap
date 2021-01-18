@@ -43,7 +43,7 @@
       windSpeedPort: 'C',
       bmePhenomenon: 'tempHumiPress'
     };
-
+    vm.display_enabled = false;
     vm.wifi = {
       ssid: '',
       pasword: ''
@@ -199,7 +199,8 @@
         password: vm.wifi.password,
         devEUI: vm.ttn.devEUI,
         appEUI: vm.ttn.appEUI,
-        appKey: vm.ttn.appKey
+        appKey: vm.ttn.appKey,
+        display_enabled: vm.display_enabled
       })
         .then(function (response) {
           vm.boxScript = response;

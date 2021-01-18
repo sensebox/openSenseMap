@@ -1469,6 +1469,19 @@
               ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'">
               <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
               <div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Lora'">
+                  <div style="text-align: left;">
+                    <div class="checkbox checkbox-success checkbox-inline"
+                      style="vertical-align: middle;">
+                      <input type="checkbox" id="display_enabled" ng-model="register.display_enabled" ng-change="register.generateScript()">
+                      <label for="display_enabled"> </label>
+                    </div>
+                    <img
+                      src="https://sensebox.kaufen/api/public/uploads/1524084885676-oled_top.png"
+                      style="vertical-align: middle; height: 60px; width: 80px;" />
+                    <span style="vertical-align: middle;">{{'DISPLAY_ENABLED' | translate}}</span>
+                  </div>
+                </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('sds 011')">
                   <label for="serialport">{{'PORT'|translate}}</label>
                   <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"

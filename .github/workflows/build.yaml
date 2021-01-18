@@ -70,11 +70,10 @@ jobs:
             ~/.npm
             ~/.cache/bower
             app/bower_components
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-build-v2-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-build-v2-${{ env.cache-name }}-
+        
 
       - name: Install project dependencies
         run: |

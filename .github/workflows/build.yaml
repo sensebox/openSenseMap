@@ -58,7 +58,7 @@ jobs:
       - name: Install Node.js 8
         uses: actions/setup-node@v2.1.4
         with:
-          node-version: 8
+          node-version: 8.16.2
 
       - name: Cache node modules
         uses: actions/cache@v2
@@ -78,7 +78,7 @@ jobs:
 
       - name: Install project dependencies
         run: |
-          npm i qs && npm ci && npx bower install
+          npm ci && npx bower install
 
       - name: Prepare build environment variables
         id: branch_info

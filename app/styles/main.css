@@ -1826,9 +1826,18 @@ nav > a.active {
 }
 
 .donation-text {
-  font-family: BrixSlab;
-  color: #3A9B33;
+  font-family: BrixSlab-Regular;
+  color: black;
   padding: 0.5em 0.7em;
+}
+
+.donation-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.donation-footer div {
+  align-self: flex-end;
 }
 
 .donation-button {
@@ -1857,5 +1866,16 @@ nav > a.active {
 }
 
 .small {
-  font-size: 0.6em;
+  font-size: 0.8em;
+  font-family: BrixSlab-Regular;
+}
+
+.small #dont-show-again {
+  position: relative;
+  top: 4px;
+  margin: 3px;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  width: 600px;
 }

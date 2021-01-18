@@ -445,8 +445,8 @@
     .run(['LanguageService', function (LanguageService) {
       LanguageService.initialize();
     }])
-    .run(['HelpModalService', function (HelpModalService) {
-      HelpModalService.onStartup();
+    .run(['DonationModalService', function (DonationModalService) {
+      DonationModalService.onStartup();
     }])
 
     .filter('unsafe', ['$sce', function ($sce) {

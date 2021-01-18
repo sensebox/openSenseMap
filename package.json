@@ -50,6 +50,7 @@
     "karma-sinon": "^1.0.5",
     "load-grunt-tasks": "~3.4.0",
     "mocha": "^5.2.0",
+    "qs": "^6.9.6",
     "serve-static": "^1.10.2",
     "sinon": "^4.1.2",
     "sinon-chai": "^2.14.0",

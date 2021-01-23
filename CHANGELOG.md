@@ -2,6 +2,130 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.3.3"></a>
+## [2.3.3](https://github.com/sensebox/openSenseMap/compare/v2.3.2...v2.3.3) (2020-10-29)
+
+
+
+<a name="2.3.2"></a>
+## [2.3.2](https://github.com/sensebox/openSenseMap/compare/v2.3.1...v2.3.2) (2020-10-08)
+
+
+### Bug Fixes
+
+* **Leaflet directive:** leaflet mapbox tiles ([e37727a](https://github.com/sensebox/openSenseMap/commit/e37727a))
+
+
+
+<a name="2.3.1"></a>
+## [2.3.1](https://github.com/sensebox/openSenseMap/compare/v2.3.0...v2.3.1) (2020-08-04)
+
+
+
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/sensebox/openSenseMap/compare/v2.2.5...v2.3.0) (2020-07-28)
+
+
+### Bug Fixes
+
+* **Syntax:** Use "traditional" JS syntax ([039632f](https://github.com/sensebox/openSenseMap/commit/039632f))
+
+
+### Features
+
+* **TTN Decoding:** Cayenne LPP Decoding ([1201161](https://github.com/sensebox/openSenseMap/commit/1201161))
+
+
+
+<a name="2.2.5"></a>
+## [2.2.5](https://github.com/sensebox/openSenseMap/compare/v2.2.4...v2.2.5) (2020-07-24)
+
+
+
+<a name="2.2.4"></a>
+## [2.2.4](https://github.com/sensebox/openSenseMap/compare/v2.2.3...v2.2.4) (2020-06-18)
+
+
+
+<a name="2.2.3"></a>
+## [2.2.3](https://github.com/sensebox/openSenseMap/compare/v2.2.2...v2.2.3) (2020-04-29)
+
+
+### Bug Fixes
+
+* **TTN:** TTN port optional and sketch params layout ([b557c85](https://github.com/sensebox/openSenseMap/commit/b557c85))
+
+
+
+<a name="2.2.2"></a>
+## [2.2.2](https://github.com/sensebox/openSenseMap/compare/v2.2.1...v2.2.2) (2020-02-28)
+
+
+
+<a name="2.2.1"></a>
+## [2.2.1](https://github.com/sensebox/openSenseMap/compare/v2.2.0...v2.2.1) (2020-02-05)
+
+
+
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/sensebox/openSenseMap/compare/v2.1.1...v2.2.0) (2019-12-12)
+
+
+### Bug Fixes
+
+* **clipboard:** Fix copy to clipboard directive ([#303](https://github.com/sensebox/openSenseMap/issues/303)) ([4aaa633](https://github.com/sensebox/openSenseMap/commit/4aaa633)), closes [#297](https://github.com/sensebox/openSenseMap/issues/297)
+* **dashboard:** Do not autofill ssid and password ([#301](https://github.com/sensebox/openSenseMap/issues/301)) ([1b55c9a](https://github.com/sensebox/openSenseMap/commit/1b55c9a)), closes [#295](https://github.com/sensebox/openSenseMap/issues/295)
+
+
+### Features
+
+* **registration:** Add BME680 and soil moisture sensor with port selection ([fed2d7a](https://github.com/sensebox/openSenseMap/commit/fed2d7a))
+
+
+
+<a name="2.1.1"></a>
+## [2.1.1](https://github.com/sensebox/openSenseMap/compare/v2.1.2...v2.1.1) (2019-04-04)
+
+
+### Bug Fixes
+
+* **registration:** Update translation package ([4c9ca88](https://github.com/sensebox/openSenseMap/commit/4c9ca88))
+
+
+
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/sensebox/openSenseMap/compare/v2.0.1...v2.1.0) (2019-03-15)
+
+
+### Bug Fixes
+
+* **download:** Fix download link ([2e2806e](https://github.com/sensebox/openSenseMap/commit/2e2806e))
+* **download:** just use filtered boxes ([908a3c5](https://github.com/sensebox/openSenseMap/commit/908a3c5))
+* **edit:** Add configuration for serial port in editing mode ([4354322](https://github.com/sensebox/openSenseMap/commit/4354322))
+* **edit:** Make SerialPort configurable in editing mode ([6076f39](https://github.com/sensebox/openSenseMap/commit/6076f39))
+* **navbar:** Fix about link ([60a89b9](https://github.com/sensebox/openSenseMap/commit/60a89b9))
+
+
+### Features
+
+* **dashboard:** Add copy to clipboard button ([284203e](https://github.com/sensebox/openSenseMap/commit/284203e)), closes [#288](https://github.com/sensebox/openSenseMap/issues/288)
+* **dashboard:** add support button to dashboard ([bb59244](https://github.com/sensebox/openSenseMap/commit/bb59244))
+* **registration:** add compile functionality ([da570b4](https://github.com/sensebox/openSenseMap/commit/da570b4))
+* **registration:** New hardware model senseBox edu ([7d73fec](https://github.com/sensebox/openSenseMap/commit/7d73fec))
+
+
+
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/sensebox/openSenseMap/compare/v2.0.0...v2.0.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **edit:** fix saving issue in edit mode ([f81a9d8](https://github.com/sensebox/openSenseMap/commit/f81a9d8)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+* **loader:** Disable loader by default ([b56092b](https://github.com/sensebox/openSenseMap/commit/b56092b)), closes [#286](https://github.com/sensebox/openSenseMap/issues/286)
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/sensebox/openSenseMap/compare/v1.3.0...v2.0.0) (2018-11-19)
 

@@ -10,11 +10,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <base href="/">
 
-    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-    <link rel="icon" href="images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="icon" href="images/favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="apple-mobile-web-app-title" content="openSenseMap">
+    <meta name="application-name" content="openSenseMap">
+    <meta name="msapplication-TileColor" content="#2d89ef">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- build:css styles/vendor.css -->
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
     <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
@@ -23,7 +31,6 @@
     <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
     <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css" />
     <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
     <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
     <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
@@ -100,6 +107,18 @@
                 <a ui-sref="info.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
                   <i class="fa fa-info-circle" aria-hidden="true"></i>
                   {{'INFO' | translate}}
+                </a>
+              </li>
+              <!-- <li class="menuitem">
+                <a ng-click="header.openHelp()">
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                  FAQ
+                </a>
+              </li> -->
+              <li class="menuitem">
+                <a ng-click="header.openHelp()">
+                  <i class="fas fa-hand-holding-usd" aria-hidden="true"></i>
+                  {{'DONATE' | translate}}
                 </a>
               </li>
               <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
@@ -194,6 +213,12 @@
                         <a ui-sref="info.about" ng-click="header.closeNavbar()">
                           <i class="fa fa-info-circle" aria-hidden="true"></i>
                           <span style="line-height: 30px">{{'INFO' | translate}}</span>
+                        </a>
+                      </li>
+                      <li class="menuitem">
+                        <a ng-click="header.openHelp()">
+                          <i class="fa fa-question" aria-hidden="true"></i>
+                          FAQ
                         </a>
                       </li>
                     </ul>
@@ -314,6 +339,7 @@
     </div>
 
     <!-- build:js scripts/vendor.js -->
+    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <!-- bower:js -->
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-resource/angular-resource.js"></script>
@@ -332,13 +358,13 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
-    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
     <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
     <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
     <script src="bower_components/d3/d3.js"></script>
     <script src="bower_components/Leaflet.FeatureGroup.SubGroup/src/subgroup.js"></script>
     <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
     <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -356,6 +382,8 @@
     <script src="components/clipboard.directive.js"></script>
     <script src="scripts/directives/autofocus.js"></script>
     <script src="scripts/controllers/info.js"></script>
+    <script src="scripts/controllers/help.js"></script>
+    <script src="scripts/controllers/donation.js"></script>
     <script src="scripts/controllers/register.js"></script>
     <script src="scripts/controllers/map.js"></script>
     <script src="scripts/controllers/sidebar.js"></script>
@@ -376,6 +404,7 @@
     <script src="scripts/controllers/account.box.edit.sensors.js"></script>
     <script src="scripts/controllers/account.box.edit.extensions.js"></script>
     <script src="scripts/controllers/account.box.edit.location.js"></script>
+    <script src="scripts/controllers/account.box.edit.security.js"></script>
     <script src="scripts/controllers/account.box.edit.script.js"></script>
     <script src="scripts/controllers/account.box.edit.mqtt.js"></script>
     <script src="scripts/controllers/account.box.edit.ttn.js"></script>
@@ -392,6 +421,7 @@
     <script src="scripts/services/authentication.js"></script>
     <script src="scripts/services/authenticationInterceptor.js"></script>
     <script src="scripts/services/templateInterceptor.js"></script>
+    <script src="scripts/services/donationmodal.js"></script>
     <script src="scripts/filters/filter.module.js"></script>
     <script src="scripts/filters/box.js"></script>
     <script src="scripts/filters/group.js"></script>
@@ -399,8 +429,76 @@
     <script src="scripts/filters/phenomenons.js"></script>
     <!-- endbuild -->
 
+    <style>
+      .cookie-notice, .cookie-modal {
+        z-index: 1001 !important;
+      }
+    </style>
+    <script>
+      window.klaroConfig = {
+          lang: (navigator.language || navigator.userLanguage).substring(0,2),
+          elementID: 'klaro',
+          storageMethod: 'cookie',
+          storageName: 'klaro',
+          translations: {
+              zz: {
+                  privacyPolicyUrl: '/privacy',
+              },
+              de: {
+                  privacyPolicyUrl: '/privacy',
+                  purposes: {
+                      analytics: {
+                          title: 'Besucher-Statistiken'
+                      },
+                  },
+              },
+          },
+          services: [
+              {
+                  name: 'piwik',
+                  default: true,
+                  translations: {
+                      zz: {
+                          title: 'Matomo/Piwik'
+                      },
+                      en: {
+                          description: 'Matomo is a simple, self-hosted analytics service.'
+                      },
+                      de: {
+                          description: 'Matomo ist ein einfacher, selbstgehosteter Analytics-Service.'
+                      },
+                  },
+                  purposes: ['analytics'],
+                  cookies: [
+                      [/^_pk_.*$/, '/', 'opensensemap.org'],
+                      [/^_pk_.*$/, '/', 'localhost'],
+                      'piwik_ignore',
+                  ],
+                  required: false,
+                  optOut: false,
+                  onlyOnce: true,
+              },
+              {
+                  name: 'openSenseMap',
+                  default: true,
+                  purposes: ['functional'],
+                  cookies: [
+                      'osem',
+                      'faq'
+                  ],
+                  required: true,
+                  optOut: false,
+                  onlyOnce: true,
+              },
+          ],
+      };
+    </script>
+    <script defer type="text/javascript" src="https://cdn.kiprotect.com/klaro/v0.7.2/klaro.js"></script>
+
     <!-- Piwik -->
-    <script type="text/javascript">
+    <script type="text/plain"
+       data-type="application/javascript"
+       data-name="piwik">
       var _paq = _paq || [];
       _paq.push(["setDomains", ["*.opensensemap.org"]]);
       _paq.push(['trackPageView']);

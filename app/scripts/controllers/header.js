@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService'];
+  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService', 'DonationModalService'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService) {
+  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService, DonationModalService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -32,6 +32,7 @@
     vm.searchStringChanged = searchStringChanged;
     vm.clearSearch = clearSearch;
     vm.open = open;
+    vm.openHelp = openHelp;
     vm.getLocations = getLocations;
     vm.selectBox = selectBox;
     vm.changeLang = changeLang;
@@ -106,6 +107,11 @@
         controllerAs: 'account'
       });
 
+      vm.isNavCollapsed = true;
+    }
+
+    function openHelp () {
+      DonationModalService.open();
       vm.isNavCollapsed = true;
     }
 

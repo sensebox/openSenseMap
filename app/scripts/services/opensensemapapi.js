@@ -46,13 +46,13 @@
 
     function getData (data) {
       var query = $httpParamSerializer(data);
-      var url = encodeURI(getUrl() + '/boxes/data?' + query);
+      var url = getUrl() + '/boxes/data?' + query;
       $window.open(url, '_self');
     }
 
     function getStatisticalData (data) {
       var query = $httpParamSerializer(data);
-      var url = encodeURI(getUrl() + '/statistics/descriptive?' + query);
+      var url = getUrl() + '/statistics/descriptive?' + query;
       $window.open(url, '_self');
     }
 
@@ -92,12 +92,12 @@
         .catch(failed);
     }
 
-    function postMeasurements (boxId, measurements, format) {
+    function postMeasurements (boxId, measurements, format, access_token) {
       var url = getUrl() + '/boxes/' + boxId + '/data';
 
       return $http
         .post(url, measurements, {
-          headers: { 'content-type': format }
+          headers: { 'content-type': format, 'Authorization': access_token }
         })
         .then(success)
         .catch(failed);

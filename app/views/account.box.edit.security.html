@@ -1,0 +1,93 @@
+<form name="securitySettings">
+    <div class="row">
+      <div class="col-md-6 col-lg-6">
+        <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_SECURITY' | translate}}</h2>
+      </div>
+      <div class="col-md-6 col-lg-6">
+        <div class="pull-right">
+          <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="security.save()" ng-disabled="!securitySettings.$valid"><i class="glyphicon glyphicon-floppy-disk"></i></button>
+        </div>
+      </div>
+    </div>
+  
+    <hr>
+    <div uib-alert class="alert-warning">
+      <div ng-if="security.boxData.useAuth">
+        <span>
+          {{'AUTH_WARNING_ENABLED' | translate}}
+        </span>
+      </div>
+      
+      <div ng-if="!security.boxData.useAuth">
+        <div ng-if="security.boxData.model.indexOf('luftdaten') != -1">
+          <h5>{{'LUFTDATEN_AUTH_HEADER' | translate}}</h5>
+          <p>{{'LUFTDATEN_AUTH_TEXT' | translate}}</p>
+        </div>
+  
+        <div ng-if="security.boxData.model.indexOf('home') != -1">
+          <h5>{{'HOME_AUTH_HEADER' | translate}}</h5>
+          <p>{{'HOME_AUTH_TEXT' | translate}}</p>
+        </div>
+  
+        <div ng-if="security.boxData.model.indexOf('custom') != -1">
+          <h5>{{'CUSTOM_AUTH_HEADER' | translate}}</h5>
+          <p>{{'CUSTOM_AUTH_TEXT' | translate}}</p>
+        </div>
+      </div>
+
+    </div>
+    <div>
+      <div class="checkbox checkbox-success checkbox-inline">
+        <input id="useAuth" name="useAuth" class="form-control" type="checkbox" ng-model="security.useAuth">
+        <label for="useAuth">{{'USE_AUTH_LABEL'|translate}}</label>
+      </div>
+    </div>
+    <br>
+
+    <div>
+      <label for="accessToken">
+        {{'ACCESS_TOKEN'|translate}}    
+      </label>
+      <div class="input-group">
+        <span class="input-group-btn">
+          <button class="btn btn-default" ng-click="security.revealPassword()" type="button"><i class="fa fa-eye"></i></button>
+        </span>
+        <input name="accessToken" id="password-field" class="form-control" type="password" ng-model="security.boxData.access_token" disabled>
+      </div>
+    </div>
+    <br>
+    <div uib-alert class="alert-warning">
+      <span ng-bind-html="'GENERATE_NEW_TOKEN_WARNING' | translate"></span>
+      <br>
+      <br>
+      <button class="btn" ng-click="security.toggleModal()"><i style="padding-right: 0.5em" class="fa fa-refresh"></i>{{'GENERATE_NEW_TOKEN' | translate}}</button>
+    </div>
+
+
+    <!-- Modal  -->
+    <div style="position: absolute; top: 0; left: 0; bottom: 0; width: 100%; z-index: 1600;" ng-if="security.modalVisible">
+      <div class="modal-dialog" role="document" style="z-index: 2000; margin: auto; display: flex;">
+        <div class="modal-content" style="margin: auto !important; height: fit-content !important;">
+          <div class="modal-header">
+            <h5 class="modal-title">{{'GENERATE_NEW_TOKEN' | translate}}</h5>
+          </div>
+          <div class="modal-body">
+            <div uib-alert class="alert-danger">
+              <p ng-bind-html="'GENERATE_NEW_TOKEN_WARNING' | translate"></p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" ng-click="security.toggleModal()">{{'CANCEL' | translate}}</button>
+            <button type="button" class="btn btn-primary" ng-click="security.generateNewToken()">OK</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-backdrop show" style="opacity: 0.5"></div>
+  </div>
+
+  <div uib-alert class="alert-info">
+    {{'FURTHER_SECURITY_INFORMATION' | translate}} <a href="{{'FURTHER_SECURITY_INFORMATION_LINK' | translate}}">{{'FURTHER_SECURITY_INFORMATION_LINK' | translate}}</a>
+  </div>
+
+  </form>
+  

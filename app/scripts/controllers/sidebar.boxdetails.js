@@ -58,12 +58,15 @@
       switch (title.toLowerCase()) {
       case 'temperatur':
       case 'temperature':
+      case 'lufttemperatur':
         prefix = 'TEMPERATURE';
         break;
       case 'rel. luftfeuchte':
+      case 'luftfeuchte':
         prefix = 'HUMIDITY';
         break;
       case 'luftdruck':
+      case 'atm. luftdruck':
         prefix = 'AIRPRESSURE';
         break;
       case 'beleuchtungsstärke':
@@ -81,7 +84,25 @@
         prefix = 'PARTICULAR_MATTER';
         showFunFact = false;
         break;
+      case 'innenraumluftqualität (iaq)':
+        prefix = 'IAQ';
+        break;
+      case 'kalibrierungswert':
+        prefix = 'CALIBRATION';
+        showFunFact = false;
+        showInfluence = false;
+        break;
+      case 'co2 äquivalent':
+        prefix = 'CO2';
+        showInfluence = false;
+        break;
+      case 'atemluft voc äquivalent':
+        prefix = 'VOC';
+        showInfluence = false;
+        showFunFact = false;
+        break;
       }
+
       if (prefix !== '') {
         ngDialog.open({
           template: '../../views/phenomenon.html',

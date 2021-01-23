@@ -4,13 +4,15 @@
 <div ng-if="script.showConfiguration">
   <h3>{{'CONFIGURATION'|translate}}</h3>
   <form class="form-inline">
-    <div class="form-group" ng-if="script.showSerialPort">
+    <!-- Firefox workaround https://github.com/sensebox/openSenseMap/issues/295-->
+    <input type="password" style="display:none;">
+    <!-- Firefox workaround end -->
+    <div class="form-group break" ng-if="script.showSerialPort">
       <label for="serialport">{{'PORT'|translate}}</label>
-      <div class="input-group"
-        uib-tooltip-template="'tooltip_serialports.html'"
-        tooltip-placement="bottom"
+      <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
         tooltip-trigger="'mouseenter'">
-        <select type="text" class="form-control" id="serialport" ng-model="script.serialPort" ng-change="script.generateScript()">
+        <select type="text" class="form-control" id="serialport" ng-model="script.serialPort"
+          ng-change="script.generateScript()">
           <option value="Serial1">Serial 1</option>
           <option value="Serial2">Serial 2</option>
         </select>
@@ -19,32 +21,125 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <label for="ssid">WiFi SSID</label>
-      <div class="input-group"
-        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
-        tooltip-placement="top"
-        tooltip-trigger="'mouseenter'">
-        <input type="text" class="form-control" id="ssid" ng-model="script.wifi.ssid" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+    <div class="form-group break" ng-if="script.showSoilDigitalPort">
+      <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
+      <div class="input-group">
+        <select type="text" class="form-control" id="soilDigitalPort" ng-model="script.soilDigitalPort"
+          ng-change="script.generateScript()">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
         <div class="input-group-addon">
           <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
         </div>
       </div>
     </div>
-    <div class="form-group" >
-      <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
-      <div class="input-group"
-        uib-tooltip="{{'DATA_NOT_STORED'|translate}}"
-        tooltip-placement="top"
-        tooltip-trigger="'mouseenter'">
-        <input type="password" class="form-control" id="password" ng-model="script.wifi.password" ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+    <div class="form-group break" ng-if="script.showSoundMeterPort">
+      <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
+      <div class="input-group">
+        <select type="text" class="form-control" id="soundMeterPort" ng-model="script.soundMeterPort"
+          ng-change="script.generateScript()">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
         <div class="input-group-addon">
-          <span class="glyphicon glyphicon-info-sign" aria-hidden="true" ></span>
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showWindSpeedPort">
+      <label for="windSpeedPort">{{'WIND_SPEED'|translate}}<br />{{'DIGITAL_PORT'|translate}}</label>
+      <div class="input-group">
+        <select type="text" class="form-control" id="windSpeedPort" ng-model="script.windSpeedPort"
+          ng-change="script.generateScript()">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+        </select>
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group" ng-if="script.box.model === 'homeV2Wifi' || script.box.model === 'homeV2WifiFeinstaub' || script.box.model === 'homeV2Lora'">
+      <div style="text-align: left;">
+        <div class="checkbox checkbox-success checkbox-inline"
+          style="vertical-align: middle;">
+          <input type="checkbox" id="display_enabled" ng-model="script.display_enabled" ng-change="script.generateScript()">
+          <label for="display_enabled"> </label>
+        </div>
+        <img
+          src="https://sensebox.kaufen/api/public/uploads/1524084885676-oled_top.png"
+          style="vertical-align: middle; height: 60px; width: 80px;" />
+        <span style="vertical-align: middle;">{{'DISPLAY_ENABLED' | translate}}</span>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showWifiConfiguration">
+      <label for="ssid">WiFi SSID</label>
+      <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="textarea" class="form-control" id="ssid" ng-model="script.wifi.ssid"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showWifiConfiguration">
+      <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
+      <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="password" class="form-control" id="password" ng-model="script.wifi.password"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()" name="whatever"
+          autocomplete="new-password">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
+      <label for="devEUI">The Things Network Device EUI</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="devEUI" ng-model="script.ttn.devEUI"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
+      <label for="appEUI">The Things Network Application EUI</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="appEUI" ng-model="script.ttn.appEUI"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showTTNConfiguration">
+      <label for="appKey">The Things Network Application Key</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+        tooltip-trigger="'mouseenter'">
+        <input type="text" class="form-control" id="appKey" ng-model="script.ttn.appKey"
+          ng-model-options="{ debounce: 500 }" ng-change="script.generateScript()">
+        <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+        <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
         </div>
       </div>
     </div>
     <button type="button" class="btn btn-success" ng-click="script.compile()" ng-disabled="script.compiling">
-        <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> {{'COMPILE'|translate}}
+      <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="script.compiling"></i> {{'COMPILE'|translate}}
     </button>
   </form>
   <hr>
@@ -54,7 +149,8 @@
 
 <div class="row">
   <div class="col-lg-12">
-    <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()" style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
+    <textarea class="form-control" ng-model="script.boxScript" onclick="this.select()"
+      style="height:350px;font-family:monospace;font-size:80%;resize: vertical;"></textarea>
   </div>
 </div>
 
@@ -67,14 +163,21 @@
   <!-- List group -->
   <ul class="list-group">
     <li class="list-group-item">
-      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_MANUAL'|translate" style="margin-bottom: 0px;"></div>
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_MANUAL'|translate" style="margin-bottom: 0px;">
+      </div>
     </li>
     <li class="list-group-item">
-      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_DOWNLOAD_RESOURCES'|translate" style="margin-bottom: 0px;"></div>
+      <div uib-alert class="alert-warning" ng-bind-html="'EDIT_SCRIPT_DOWNLOAD_RESOURCES'|translate"
+        style="margin-bottom: 0px;"></div>
     </li>
   </ul>
 </div>
 
 <script type="text/ng-template" id="tooltip_serialports.html">
   <img src="/images/serialports.png" alt="" srcset="">
+</script>
+
+<script type="text/ng-template" id="tooltip_ttn_keys.html">
+  <b>{{'DATA_NOT_STORED'|translate}}</b>
+  <p>{{'TTN_KEYS'|translate}}</p>
 </script>

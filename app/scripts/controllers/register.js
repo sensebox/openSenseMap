@@ -33,14 +33,26 @@
         temp: false,
         pressure: false,
         light: false,
-        pollution: false
+        pollution: false,
+        bme680: false,
+        co2: false
       },
-      serialPort: 'Serial1'
+      serialPort: 'Serial1',
+      soilDigitalPort: 'A',
+      soundMeterPort: 'B',
+      windSpeedPort: 'C',
+      bmePhenomenon: 'tempHumiPress'
     };
-
+    vm.display_enabled = false;
     vm.wifi = {
       ssid: '',
       pasword: ''
+    };
+
+    vm.ttn = {
+      devEUI: '',
+      appEUI: '',
+      appKey: ''
     };
 
     // vm.radioModel = null;
@@ -69,6 +81,18 @@
     vm.extensions = {
       feinstaub: {
         id: ''
+      },
+      soilMoisture: {
+        id: '',
+        port: 'A'
+      },
+      soundLevelMeter: {
+        id: '',
+        port: 'B'
+      },
+      windSpeed: {
+        id: '',
+        port: 'C'
       }
     };
 
@@ -87,10 +111,11 @@
       profile: 'sensebox/home',
       app_id: '',
       dev_id: '',
-      decodeOptions: '[]'
+      decodeOptions: '[]',
+      cayenneLppDecoding: []
     };
     vm.open = {
-      sensebox: true,
+      sensebox: false,
       luftdaten: false,
       custom: false,
       mqtt: false,
@@ -120,6 +145,7 @@
     vm.stepIsValidChange = stepIsValidChange;
     vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
+    vm.cayenneLppDecodingChanged = cayenneLppDecodingChanged;
     vm.senseBoxSetupValid = senseBoxSetupValid;
     vm.generateNewSecret = generateNewSecret;
     vm.addSensorTemplate = addSensorTemplate;
@@ -166,8 +192,15 @@
     function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
         serialPort: vm.newSenseBox.serialPort,
+        soilDigitalPort: vm.newSenseBox.soilDigitalPort,
+        soundMeterPort: vm.newSenseBox.soundMeterPort,
+        windSpeedPort: vm.newSenseBox.windSpeedPort,
         ssid: vm.wifi.ssid,
-        password: vm.wifi.password
+        password: vm.wifi.password,
+        devEUI: vm.ttn.devEUI,
+        appEUI: vm.ttn.appEUI,
+        appKey: vm.ttn.appKey,
+        display_enabled: vm.display_enabled
       })
         .then(function (response) {
           vm.boxScript = response;
@@ -281,6 +314,10 @@
       vm.sensorSetup = JSON.stringify(vm.sensors);
       edit(sensor.id);
       vm.sensorIncomplete = false;
+
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      }
     }
 
     function remove (index) {
@@ -296,6 +333,10 @@
       } else {
         vm.sensorSetup = JSON.stringify($scope.sensors);
       }
+
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      }
     }
 
     function edit (index) {
@@ -310,6 +351,9 @@
       var data = {};
       if (model.startsWith('homeV2')) {
         data.serialPort = vm.newModel.serialPort;
+        data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
+        data.soundMeterPort = vm.newSenseBox.soundMeterPort;
+        data.windSpeedPort = vm.newSenseBox.windSpeedPort;
       }
       AccountService.getScript(boxId, data)
         .then(function (data) {
@@ -365,6 +409,12 @@
                 vm.newSenseBox.sensorTemplates.push('veml6070');
                 vm.newSenseBox.sensorTemplates.push('tsl45315');
                 break;
+              case 'bme680':
+                vm.newSenseBox.sensorTemplates.push('bme680');
+                break;
+              case 'co2':
+                vm.newSenseBox.sensorTemplates.push('scd30');
+                break;
               }
             }
           }
@@ -372,6 +422,18 @@
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
           vm.newSenseBox.serialPort = vm.newModel.serialPort;
+        }
+        if (vm.extensions.soilMoisture.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('smt50');
+          vm.newSenseBox.soilDigitalPort = vm.extensions.soilMoisture.port;
+        }
+        if (vm.extensions.soundLevelMeter.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('soundlevelmeter');
+          vm.newSenseBox.soundMeterPort = vm.extensions.soundLevelMeter.port;
+        }
+        if (vm.extensions.windSpeed.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('windspeed');
+          vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
       }
 
@@ -417,6 +479,12 @@
           });
           vm.registering = false;
         });
+    }
+
+    function cayenneLppDecodingChanged (sensor) {
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title;
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType;
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
     }
 
     function senseBoxSetupValid () {
@@ -476,6 +544,30 @@
         unit = 'μW/cm²';
         sensorType = 'VEML6070';
         break;
+      case 'BME680_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_VOC':
+        icon = 'osem-barometer';
+        title = 'VOC';
+        unit = 'kΩ';
+        sensorType = 'BME680';
+        break;
       case 'PM25':
         icon = 'osem-cloud';
         title = 'PM2.5';
@@ -487,6 +579,36 @@
         title = 'PM10';
         unit = 'µg/m³';
         sensorType = 'SDS 011';
+        break;
+      case 'smt50_soilmoisture':
+        icon = 'osem-humidity';
+        title = 'Bodenfeuchte';
+        unit = '%';
+        sensorType = 'SMT50';
+        break;
+      case 'smt50_soiltemperature':
+        icon = 'osem-thermometer';
+        title = 'Bodentemperatur';
+        unit = '°C';
+        sensorType = 'SMT50';
+        break;
+      case 'soundlevelmeter':
+        icon = 'osem-microphone';
+        title = 'Lautstärke';
+        unit = 'dB';
+        sensorType = 'soundlevelmeter';
+        break;
+      case 'windspeed':
+        icon = 'osem-particulate-matter';
+        title = 'Windgeschwindigkeit';
+        unit = 'm/s';
+        sensorType = 'WINDSPEED';
+        break;
+      case 'scd30_co2':
+        icon = 'osem-co2';
+        title = 'CO₂';
+        unit = 'ppm';
+        sensorType = 'SCD30';
         break;
       }
       add(icon, title, unit, sensorType);
@@ -651,6 +773,43 @@
       }
     });
 
+    $scope.$watch('register.ttn.profile', function (newValue) {
+      if (newValue === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      } else {
+        vm.ttn.cayenneLppDecoding = [];
+        vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
+      }
+    });
+
+    function updateCayenneDecoding () {
+      vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
+        var decoderGuess = 'analog_in';
+
+        var tempSubstr = ['temp'];
+        var humiSubstr = ['humi', 'feucht'];
+        var pressSubstr = ['press', 'druck'];
+        var illuSubstr = ['hell', 'illu', 'uv', 'beleuch'];
+        if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'temperature';
+        } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'relative_humidity';
+        } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'barometric_pressure';
+        } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'luminosity';
+        }
+
+        return Object.assign({
+          sensor_title: sensor.title,
+          sensor_type: sensor.sensorType,
+          decoder: decoderGuess,
+          channel: 1
+        }, vm.ttn.cayenneLppDecoding[sensor.id]);
+      });
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
+    }
+
     // check if valid json for ttn decodeOptions
     $scope.$watch('register.ttn.decodeOptions', function (newValue) {
       if (!newValue.length) {
@@ -688,14 +847,27 @@
       }
     });
 
-    $scope.$watchCollection('register.open', function (accordion) {
-      vm.tag = '';
-      if (accordion) {
-        if (accordion.custom) {
+    $scope.$watchCollection('register.open', function (
+      newAccordion,
+      oldAccordion
+    ) {
+      if (
+        vm.tag === 'edu' &&
+        newAccordion &&
+        oldAccordion &&
+        oldAccordion.edu === true &&
+        newAccordion.edu === false
+      ) {
+        vm.tag = '';
+      }
+      if (newAccordion) {
+        if (newAccordion.custom === true) {
           vm.modelSelected.id = 'custom';
-        } else if (accordion.edu) {
+        } else if (newAccordion.edu === true) {
           vm.modelSelected.id = 'edu';
-          vm.tag = 'edu';
+          if (vm.tag === '') {
+            vm.tag = 'edu';
+          }
         }
       }
     });

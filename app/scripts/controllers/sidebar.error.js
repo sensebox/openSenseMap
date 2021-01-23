@@ -8,8 +8,6 @@
   SidebarErrorController.$inject = [];
 
   function SidebarErrorController () {
-    var vm = this;
-
     activate();
 
     ////////////////

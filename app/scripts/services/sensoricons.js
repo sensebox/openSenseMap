@@ -30,7 +30,8 @@
       { name: 'osem-microphone' },
       { name: 'osem-wifi' },
       { name: 'osem-battery' },
-      { name: 'osem-radioactive' }
+      { name: 'osem-radioactive' },
+      { name: 'osem-co2' }
     ];
 
     return icons;

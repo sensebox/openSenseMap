@@ -1,0 +1,14 @@
+<div class="donation-wrapper">
+  <div>
+    <h3>{{'INFO_SUPPORT' | translate}}</h3>
+    <div class="donation-text" ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
+  </div>
+
+
+  <div class="help-footer">
+    <button class="btn btn-default" ng-click="help.onClose(); closeThisDialog()">{{'CLOSESIDEBAR'|translate}}</button>
+    <input type="checkbox" id="dont-show-again" name="dont-show-again" ng-model="help.dontshowagain">
+    <label for="dont-show-again">{{'DONT_SHOW_AGAIN'|translate}}</label>
+  </div>
+</div>
+  

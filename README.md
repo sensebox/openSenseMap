@@ -21,7 +21,7 @@ You can configure the API endpoint and/or map tiles using the following environm
 You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/master/Gruntfile.js#L25).
 
 ## Development
-- Have [Node.js] v10, [grunt]() and [Yarn] installed
+- Have [Node.js] v14, [grunt]() and [Yarn] installed
 - Check out a branch for your feature (`git checkout my-aweseome-feature`)
 - Run `yarn install` to install all dependencies
 - Run frontend in development mode (`npx grunt serve`)

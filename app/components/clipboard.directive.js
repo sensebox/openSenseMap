@@ -20,9 +20,9 @@
     return directive;
 
     function link (scope, element) {
-      element.on('click', function (event) {
-        // event.stopPropagation();
-        // event.preventDefault();
+      element.on('click', function () {
+
+        var isOS = $window.navigator.userAgent.match(/ipad|iphone/i);
 
         var textField = $window.document.createElement('textarea');
         // Place in top-left corner of screen regardless of scroll position.
@@ -39,15 +39,23 @@
         textField.innerText = scope.text;
         $window.document.body.appendChild(textField);
 
-        var range, selection;
-        range = $window.document.createRange();
-        range.selectNodeContents(textField);
-        selection = $window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        textField.setSelectionRange(0, 999999);
+        if (isOS) {
+          var range, selection;
+          range = $window.document.createRange();
+          range.selectNodeContents(textField);
+          selection = $window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+          textField.setSelectionRange(0, 999999);
+        } else {
+          textField.select();
+        }
 
-        $window.document.execCommand('copy');
+        try {
+          $window.document.execCommand('copy');
+        } catch (err) {
+          console.log('Oops, unable to cut');
+        }
         $window.document.body.removeChild(textField);
       });
     }

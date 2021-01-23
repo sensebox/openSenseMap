@@ -31,8 +31,6 @@
             inFlightAuthRequest.then(function (r) {
               inFlightAuthRequest = null;
               if (r.data.token && r.data.refreshToken) {
-                console.log('Token succesfully refreshed', r.data);
-
                 AuthenticationService.saveToken(r.data.token);
                 AuthenticationService.saveRefreshToken(r.data.refreshToken);
                 AuthenticationService.saveUser(JSON.stringify(r.data.data.user));

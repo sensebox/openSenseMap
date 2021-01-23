@@ -14,6 +14,10 @@
   version "2.5.0"
   resolved "https://codeload.github.com/angular-ui/bootstrap-bower/tar.gz/752d6a79f500391a7efb06d80f37405c920a6f2b"
 
+"@bower_components/angular-cookies@angular/bower-angular-cookies#^1.5.11":
+  version "1.8.2"
+  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/f40feabc73f8e07aa1a29bf2bae7eb0af3d27b87"
+
 "@bower_components/angular-dynamic-locale@lgalfaso/angular-dynamic-locale#^0.1.32":
   version "0.1.37"
   resolved "https://codeload.github.com/lgalfaso/angular-dynamic-locale/tar.gz/dbefe31b9cc5134952b93583354b1037a1fe2193"
@@ -132,9 +136,10 @@
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@sensebox/eslint-config-sensebox/-/eslint-config-sensebox-1.1.0.tgz#2fec4ec7945f34e7296c619fabd589d722ecd984"
 
-"@sensebox/opensensemap-i18n@^3.0.0":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@sensebox/opensensemap-i18n/-/opensensemap-i18n-3.0.1.tgz#e0c3b4b9fede5eb8757b90b1d39e037d9d48df80"
+"@sensebox/opensensemap-i18n@^3.9.7":
+  version "3.9.7"
+  resolved "https://registry.yarnpkg.com/@sensebox/opensensemap-i18n/-/opensensemap-i18n-3.9.7.tgz#7fc5cc4ecd45d90d5f98eb24315c8acd9bc91ee1"
+  integrity sha512-mWy4recUUtlwlmpDH3EkBkxFluymxjOtx/9/7yEtaF4zjSrqRH3vv/jd8G7eqfHJSVrHcbLeB4ngTS1w+GvHYA==
 
 "@sinonjs/commons@^1", "@sinonjs/commons@^1.0.2", "@sinonjs/commons@^1.4.0":
   version "1.4.0"
@@ -364,9 +369,10 @@ archiver-utils@^1.3.0:
     normalize-path "^2.0.0"
     readable-stream "^2.0.0"
 
-archiver@^1.3.0:
+archiver@^1.0.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/archiver/-/archiver-1.3.0.tgz#4f2194d6d8f99df3f531e6881f14f15d55faaf22"
+  integrity sha1-TyGU1tj5nfP1MeaIHxTxXVX6ryI=
   dependencies:
     archiver-utils "^1.3.0"
     async "^2.0.0"
@@ -2788,17 +2794,17 @@ grunt-contrib-clean@~0.7.0:
   dependencies:
     rimraf "^2.2.1"
 
-grunt-contrib-compress@^1.4.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/grunt-contrib-compress/-/grunt-contrib-compress-1.5.0.tgz#ba5f80e22acf192897ce43cb60250cab2cb1f09b"
+grunt-contrib-compress@1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/grunt-contrib-compress/-/grunt-contrib-compress-1.4.0.tgz#bdf7e88853724748e153c4ba52173aaef1eb6010"
+  integrity sha1-vffoiFNyR0jhU8S6Uhc6rvHrYBA=
   dependencies:
-    archiver "^1.3.0"
+    archiver "^1.0.0"
     chalk "^1.1.1"
+    iltorb "^1.0.13"
     lodash "^4.7.0"
-    pretty-bytes "^4.0.2"
+    pretty-bytes "^3.0.1"
     stream-buffers "^2.1.0"
-  optionalDependencies:
-    iltorb "^1.3.10"
 
 grunt-contrib-concat@~0.5.1:
   version "0.5.1"
@@ -3266,9 +3272,10 @@ ignore@^3.3.3:
   version "3.3.10"
   resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
 
-iltorb@^1.3.10:
+iltorb@^1.0.13:
   version "1.3.10"
   resolved "https://registry.yarnpkg.com/iltorb/-/iltorb-1.3.10.tgz#a0d9e4e7d52bf510741442236cbe0cc4230fc9f8"
+  integrity sha512-nyB4+ru1u8CQqQ6w7YjasboKN3NQTN8GH/V/eEssNRKhW6UbdxdWhB9fJ5EEdjJfezKY0qPrcwLyIcgjL8hHxA==
   dependencies:
     detect-libc "^0.2.0"
     nan "^2.6.2"
@@ -5204,10 +5211,6 @@ pretty-bytes@^3.0.0, pretty-bytes@^3.0.1:
   resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-3.0.1.tgz#27d0008d778063a0b4811bb35c79f1bd5d5fbccf"
   dependencies:
     number-is-nan "^1.0.0"
-
-pretty-bytes@^4.0.2:
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-4.0.2.tgz#b2bf82e7350d65c6c33aa95aaa5a4f6327f61cd9"
 
 pretty-ms@^2.1.0:
   version "2.1.0"

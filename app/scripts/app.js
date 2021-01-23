@@ -20,7 +20,8 @@
       'tmh.dynamicLocale',
       'rzModule',
       'mgo-angular-wizard',
-      'ismobile'
+      'ismobile',
+      'ngCookies'
     ])
     .config(['$stateProvider', '$httpProvider', '$urlRouterProvider', '$locationProvider', '$compileProvider', '$logProvider', 'tmhDynamicLocaleProvider', function ($stateProvider, $httpProvider, $urlRouterProvider, $locationProvider, $compileProvider, $logProvider, tmhDynamicLocaleProvider) {
       $compileProvider.debugInfoEnabled(false);
@@ -48,6 +49,7 @@
           templateUrl: 'views/explore2.map.html',
           resolve: { /* @ngInject */
             boxes: function (BoxesService) {
+              // eslint-disable-next-line no-warning-comments
               // FIXME: when loading the page starting with explore.map.filter,
               // boxes are fetched twice (once with minimal, once full) due to
               // ui-router resolve inheritance. I found no workaround, because
@@ -254,6 +256,16 @@
             }
           }
         })
+        .state('account.edit.security', {
+          url: '/security',
+          views: {
+            'edit': {
+              controller: 'EditBoxSecurityController',
+              controllerAs: 'security',
+              templateUrl: 'views/account.box.edit.security.html'
+            }
+          }
+        })
         .state('account.edit.extensions', {
           url: '/extensions',
           views: {
@@ -439,6 +451,16 @@
             }
           }
         })
+        .state('info.faq', {
+          url: '^/faq',
+          views: {
+            'info': {
+              templateUrl: 'views/info.faq.html',
+              controller: 'HelpController',
+              controllerAs: 'help'
+            }
+          }
+        })
         .state('info.privacy', {
           url: '^/privacy',
           views: {
@@ -470,6 +492,9 @@
 
     .run(['LanguageService', function (LanguageService) {
       LanguageService.initialize();
+    }])
+    .run(['DonationModalService', function (DonationModalService) {
+      DonationModalService.onStartup();
     }])
 
     .filter('unsafe', ['$sce', function ($sce) {

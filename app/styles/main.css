@@ -1784,3 +1784,98 @@ nav > a.active {
   color:#fff;
   background-color: #4EAF47;
 }
+
+.break {
+  display: block !important;
+}
+
+.ngdialog.help-modal .ngdialog-content {
+  width: 800px;
+  /* height: 100%; */
+}
+
+.help-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: url('data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100% 100%"><text fill="%23000000" x="50%" y="50%" font-family="\'Lucida Grande\', sans-serif" font-size="72" text-anchor="middle">⏳</text></svg>') 0px 0px no-repeat;
+}
+
+.external-help {
+  flex: 1;
+  border: none;
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+}
+
+.help-footer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.help-footer > input, .help-footer > label {
+  padding: 0 !important;
+  margin: 0 5px 0 0 !important;
+}
+
+.help-footer > button {
+  margin-right: 5px;
+}
+
+.donation-text {
+  font-family: BrixSlab-Regular;
+  color: black;
+  padding: 0.5em 0.7em;
+}
+
+.donation-footer {
+  display: flex;
+  flex-direction: column;
+}
+
+.donation-footer div {
+  align-self: flex-end;
+}
+
+.donation-button {
+  background-color: #4EAF47 !important;
+  font-family: BrixSlab-Bold;
+  color: white !important;
+  border-radius: 1;
+}
+
+.donation-button:hover {
+  background-color: #4EAF47;
+}
+
+.faq-wrapper {
+  height: 1900px;
+}
+@media (max-width: 767px) {
+  .faq-wrapper {
+    height: 2800px;
+  }
+}
+
+.figure img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.small {
+  font-size: 0.8em;
+  font-family: BrixSlab-Regular;
+}
+
+.small #dont-show-again {
+  position: relative;
+  top: 4px;
+  margin: 3px;
+}
+
+.ngdialog.ngdialog-theme-default .ngdialog-content {
+  width: 600px;
+}

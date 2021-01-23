@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - master
-      - boweraway
   pull_request:
     branches:
       - master
+      - boweraway
   release:
     branches:
       - master

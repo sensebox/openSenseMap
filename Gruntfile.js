@@ -118,16 +118,17 @@ module.exports = function (grunt) {
     // Project settings
     yeoman: {
       // configurable paths
-      app: require('./bower.json').appPath || 'app',
+      app: 'app',
+      // app: require('./bower.json').appPath || 'app',
       dist: 'dist'
     },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
-      bower: {
-        files: ['bower.json'],
-        tasks: ['bowerInstall']
-      },
+      // bower: {
+      //   files: ['bower.json'],
+      //   tasks: ['bowerInstall']
+      // },
       js: {
         files: [
           '<%= yeoman.app %>/scripts/{,*/}*.js',
@@ -571,43 +572,6 @@ module.exports = function (grunt) {
       }
     },
 
-    // gzip html, css and js files
-    compress: {
-      gzip: {
-        options: {
-          mode: 'gzip'
-        },
-        files: [
-          { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.gz' },
-          { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.gz' },
-          { expand: true, src: ['dist/components/*.html'], dest: './', extDot: 'last', ext: '.html.gz' },
-          { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.gz' },
-          { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz' },
-          { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz' },
-          { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz' },
-          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz' },
-          { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz' }
-
-        ]
-      },
-      brotli: {
-        options: {
-          mode: 'brotli'
-        },
-        files: [
-          { expand: true, src: ['dist/*.html'], dest: './', ext: '.html.br' },
-          { expand: true, src: ['dist/views/*.html'], dest: './', extDot: 'last', ext: '.html.br' },
-          { expand: true, src: ['dist/components/*.html'], dest: './', extDot: 'last', ext: '.html.br' },
-          { expand: true, src: ['dist/scripts/*.vendor.js'], dest: './', extDot: 'last', ext: '.js.br' },
-          { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br' },
-          { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br' },
-          { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br' },
-          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br' },
-          { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br' }
-        ]
-      }
-    },
-
     // Run some tasks in parallel to speed up the build process
     concurrent: {
       server: [
@@ -648,7 +612,6 @@ module.exports = function (grunt) {
       'clean:server',
       'env:dev',
       'loadconst',
-      'bowerInstall',
       'concurrent:server',
       'autoprefixer',
       'replace:devapi',
@@ -686,7 +649,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'loadconst',
     'gitinfo',
-    'bowerInstall',
+    // 'bowerInstall',
     'useminPrepare',
     'concurrent:dist',
     'copy:dist',
@@ -700,8 +663,7 @@ module.exports = function (grunt) {
     'usemin',
     'htmlmin',
     'replace:control',
-    'replace:urls',
-    'compress'
+    'replace:urls'
   ]);
 
   grunt.registerTask('default', [

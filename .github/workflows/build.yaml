@@ -25,29 +25,25 @@ jobs:
         with:
           node-version: 10
 
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache node modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: |
-            ~/.npm
-            ~/.cache/bower
-            app/bower_components
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-yarn-
 
       - name: Install project dependencies
         run: |
-          npm ci
+          yarn install --frozen-lockfile
 
       - name: Run eslint
         run: |
-          npm run lint
+          yarn lint
 
   build:
     name: Build frontend
@@ -60,25 +56,21 @@ jobs:
         with:
           node-version: 10
 
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
       - name: Cache node modules
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
         with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: |
-            ~/.npm
-            ~/.cache/bower
-            app/bower_components
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+            ${{ runner.os }}-yarn-
 
       - name: Install project dependencies
         run: |
-          npm ci && npx bower@1.8.8 install
+          yarn install --frozen-lockfile
 
       - name: Prepare build environment variables
         id: branch_info

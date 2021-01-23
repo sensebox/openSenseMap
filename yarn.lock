@@ -14,9 +14,9 @@
   version "2.5.0"
   resolved "https://codeload.github.com/angular-ui/bootstrap-bower/tar.gz/752d6a79f500391a7efb06d80f37405c920a6f2b"
 
-"@bower_components/angular-cookies@angular/bower-angular-cookies#^1.5.11":
-  version "1.8.2"
-  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/f40feabc73f8e07aa1a29bf2bae7eb0af3d27b87"
+"@bower_components/angular-cookies@angular/bower-angular-cookies#~1.5.11":
+  version "1.5.11"
+  resolved "https://codeload.github.com/angular/bower-angular-cookies/tar.gz/a443bb1d7edc1688acf8d820932f27b4b19b89bc"
 
 "@bower_components/angular-dynamic-locale@lgalfaso/angular-dynamic-locale#^0.1.32":
   version "0.1.37"

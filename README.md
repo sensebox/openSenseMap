@@ -24,7 +24,6 @@ You can set them in your `terminal` or change the default values in the [Gruntfi
 - Have [Node.js] v10, [grunt]() and [Yarn] installed
 - Check out a branch for your feature (`git checkout my-aweseome-feature`)
 - Run `yarn install` to install all dependencies
-- Create your own branch `git checkout -b my-awesome-branch`
 - Run frontend in development mode (`npx grunt serve`)
 - Commit your changes to your branch and push it to your fork
 - Create a pull request against the `master` branch

@@ -8,7 +8,7 @@
     "@bower_components/Leaflet.awesome-markers": "lvoogdt/Leaflet.awesome-markers#^2.0.2",
     "@bower_components/angular": "angular/bower-angular#1.5",
     "@bower_components/angular-bootstrap": "angular-ui/bootstrap-bower#^2.5.0",
-    "@bower_components/angular-cookies": "angular/bower-angular-cookies#^1.5.11",
+    "@bower_components/angular-cookies": "angular/bower-angular-cookies#~1.5.11",
     "@bower_components/angular-dynamic-locale": "lgalfaso/angular-dynamic-locale#^0.1.32",
     "@bower_components/angular-ismobile": "ronnyhaase/angular-ismobile#^1.1.0",
     "@bower_components/angular-mocks": "angular/bower-angular-mocks#1.5",

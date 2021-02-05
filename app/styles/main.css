@@ -1879,3 +1879,7 @@ nav > a.active {
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   width: 600px;
 }
+
+.hello_weigo{
+  color:green;
+}

@@ -428,7 +428,24 @@
               templateUrl: 'views/info.imprint.html'
             }
           }
-        });
+        })
+        .state('donate',{
+          url: '/donate',
+          abstract: true,
+          templateUrl: 'views/donors.html',
+          controller: 'DonorsController',
+          controllerAs: 'donors'
+        })
+        .state('donate.about', {
+          url:'^/donate',
+          views : {
+            'donors':
+            {
+              templateUrl:'views/donors.html'
+            }
+          }
+        })
+        ;
     }])
     .config(['$translateProvider', function ($translateProvider) {
       $translateProvider.useStaticFilesLoader({

@@ -1,56 +1,48 @@
 <div class="content-container">
-    <div ui-view="donate" style="margin-top: 50px;">
-        <h1 style="text-align: center;"> {{'DANKE!' | translate}} </h1> <br>
-        <h2 style="text-align: center;">{{'DANKESTEXT' | translate}}
-        </h2>
-        <br>
-        <h3 style="text-align: center;">{{'BESONDERERDANK:' | translate}}
-        </h3>
-        <br>
-        <br>
-        <div class="row">
-            <div class="column">
-            </div>
-            <div class="column" style="background-color:rgb(255, 255, 255);">
-                <img src="/images/logos/Stiftungen-SPK-MSLO.jpg" style="width: 100%;"></img>
-            </div>
-            <div class="column">
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="column" style="background-color:rgb(67, 155, 16);">
-                    <h3 style="color: antiquewhite; text-align: center;">Jörg Richter</h3>
-            </div>
-            <div class="column" style="background-color:rgb(15, 119, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Alexander Zach</h3>
-            </div>
-            <div class="column" style="background-color:rgb(5, 77, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Dr. Mark Sakschewski</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column" style="background-color:rgb(67, 155, 16);">
-                    <h3 style="color: antiquewhite; text-align: center;">Jörg Richter</h3>
-            </div>
-            <div class="column" style="background-color:rgb(15, 119, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Alexander Zach</h3>
-            </div>
-            <div class="column" style="background-color:rgb(5, 77, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Dr. Mark Sakschewski</h3>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="column" style="background-color:rgb(67, 155, 16);">
-                    <h3 style="color: antiquewhite; text-align: center;">Andrej Shadura</h3>
-            </div>
-            <div class="column" style="background-color:rgb(15, 119, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Robert Welling</h3>
-            </div>
-            <div class="column" style="background-color:rgb(5, 77, 5);">
-                <h3 style="color: antiquewhite; text-align: center;">Sparkassen Stiftung Münsterland Ost</h3>
-            </div>
+  <div ui-view="donate" style="margin-top: 50px;">
+    <div class="donation-wrapper inline-donation">
+      <div class="inner-wrapper-donation">
+        <div class="donation-text">
+          <!-- <h3>{{'INFO_SUPPORT' | translate}}</h3> -->
+          <div ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
         </div>
+        <!-- <iframe
+          class="external-help"
+          ng-src="{{ help.iframeSrc }}"
+          sandbox="allow-same-origin"></iframe> -->
+      
+        <div class="donation-footer">
+          <div class="small">
+          </div>
+          <div>
+            <a href="https://www.uni-muenster.de/openSenseMap/spendefuerdieopensensemap/" target="_blank" class="btn donation-button">{{'INFO_DONATE_NOW'|translate}}</a>
+          </div>
+        </div>
+      </div>
     </div>
+    <h3 style="text-align: center;"> {{'THANKSDONATION' | translate}}</h3> <br>
+    <h4 style="text-align: center;" ng-bind-html="'DONATIONTHANKS_TEXT' | translate"></h4>
+    <br>
+    <p style="text-align: center;">{{'SPECIALTHANKS' | translate}}</p>
+    <br>
+    <br>
+    <div class="row">
+      <div class="column">
+      </div>
+      <div class="column" style="background-color:rgb(255, 255, 255);">
+        <img src="/images/logos/Stiftungen-SPK-MSLO.jpg" style="width: 100%;"></img>
+      </div>
+      <div class="column">
+      </div>
+    </div>
+    <br>
+    <ul class="donor-list">
+      <li>Jörg Richter</li>
+      <li>Alexander Zach</li>
+      <li>Dr. Mark Sakschewski</li>
+      <li>Andrej Shadura</li>
+      <li>Robert Welling</li>
+      <li>Sparkassen Stiftung Münsterland Ost</li>
+    </ul>
 </div>

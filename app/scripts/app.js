@@ -185,12 +185,12 @@
         .state('account.edit', {
           url: '/:id/edit',
           params: {
-            box: { }
+            box: {}
           },
           resolve: { /* @ngInject */
             boxData: function ($state, $stateParams, AccountService) {
-            // Resolve boxData if called directly by URL
-            // $stateParams.box is set if called from account dashboard
+              // Resolve boxData if called directly by URL
+              // $stateParams.box is set if called from account dashboard
               if (angular.equals({}, $stateParams.box)) {
                 return AccountService.getUsersBoxes()
                   .then(function (response) {
@@ -426,6 +426,22 @@
           views: {
             'info': {
               templateUrl: 'views/info.imprint.html'
+            }
+          }
+        })
+        .state('donate', {
+          url: '/donate',
+          abstract: true,
+          templateUrl: 'views/donors.html',
+          controller: 'DonorsController',
+          controllerAs: 'donors'
+        })
+        .state('donate.about', {
+          url: '^/donate',
+          views: {
+            'donors':
+            {
+              templateUrl: 'views/donors.html'
             }
           }
         });

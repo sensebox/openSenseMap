@@ -30,6 +30,12 @@ a:focus {
   margin-left: auto;
   margin-right: auto;
 }
+.centerimg {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
 
 .navbar-form {
   border-top: 0px;
@@ -782,7 +788,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
   }
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1299px) {
   .navbar-header {
       float: none;
   }
@@ -1825,6 +1831,22 @@ nav > a.active {
   margin-right: 5px;
 }
 
+.donation-wrapper.inline-donation {
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 4em;
+}
+
+.inner-wrapper-donation {
+  max-width: 800px;
+}
+
+.inline-donation {
+  font-size: 1.2em;
+}
+
 .donation-text {
   font-family: BrixSlab-Regular;
   color: black;
@@ -1849,6 +1871,14 @@ nav > a.active {
 
 .donation-button:hover {
   background-color: #4EAF47;
+}
+
+.donor-list {
+  list-style: none;
+  text-align: center;
+  font-size: 1.2em;
+  padding-bottom: 3em;
+  padding-left: 0;
 }
 
 .faq-wrapper {
@@ -1878,4 +1908,37 @@ nav > a.active {
 
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   width: 600px;
+}
+
+.hello_weigo{
+  color:green;
+}
+
+/* Create three equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 10px;
+  height: 200px; /* Should be removed. Only for demonstration */
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - makes the three columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    width: 100%;
+  }
+}
+.vertical-center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }

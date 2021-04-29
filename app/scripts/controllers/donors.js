@@ -6,7 +6,7 @@
     .controller('DonorsController', DonorsController);
 
   DonorsController.$inject = ['$state', 'app'];
-  function DonorsController($state, app) {
+  function DonorsController ($state, app) {
     var vm = this;
     vm.app = app;
 
@@ -16,7 +16,7 @@
 
     ////////////////
 
-    function activate() {
+    function activate () {
     }
 
   }

@@ -444,8 +444,7 @@
               templateUrl: 'views/donors.html'
             }
           }
-        })
-        ;
+        });
     }])
     .config(['$translateProvider', function ($translateProvider) {
       $translateProvider.useStaticFilesLoader({

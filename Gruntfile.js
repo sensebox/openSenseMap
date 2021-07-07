@@ -56,6 +56,10 @@ module.exports = function (grunt) {
               replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
             },
             {
+              match: 'MICROADAPTER_TINGG',
+              replacement: '<%= MICROADAPTER_TINGG %>'
+            },
+            {
               match: 'VERSION',
               replacement: '<%= pkg.version %>'
             },

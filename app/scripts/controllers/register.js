@@ -380,10 +380,10 @@
       vm.gsmverified = 'loading';
       TinggService.verifyModem(vm.gsm)
       .then(function(response){
-        vm.gsmverified = 'true'
+        vm.gsmverified = 'true';
       })
       .catch(function(err){
-        vm.gsmErrorText = err.message
+        vm.gsmErrorText = err
         vm.gsmverified = 'false'})
       //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
     }

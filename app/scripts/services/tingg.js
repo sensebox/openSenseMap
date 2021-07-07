@@ -17,7 +17,10 @@
     function TinggService($http, $window, app,$q) {
         var service = {
             verifyModem: verifyModem,
-            deactivateModem:deactivateModem
+            deactivateModem:deactivateModem,
+            init:init,
+            updateTingg:updateTingg,
+            deleteTingg:deleteTingg
         };
 
         return service;
@@ -35,14 +38,62 @@
          * 
          * @param {*} data {"imsi":imsi,"secret_code":secret_code}
          */
+        function init(data){
+            console.log(data);
+            return $http({
+                method:'POST',
+                url:'http://0.0.0.0:3000/init',
+                data:data
+            })
+            .then(function(response){
+                return response;
+            })
+            .catch(failed);
+        }
+
+        function updateTingg(data){
+            console.log(data);
+            return $http({
+                method:'POST',
+                url:'http://0.0.0.0:3000/update',
+                data:data
+            })
+            .then(function(response){
+                return response;
+            })
+            .catch(failed);
+        }
+
+        function deleteTingg(data) {
+            console.log(data);
+            return $http({
+                method:'POST',
+                url:'http://0.0.0.0:3000/delete/',
+                data:data.integrations.gsm.imsi
+            })
+            .then(function(response){
+                return response;
+            })
+            .catch(failed)
+        }
 
 
         function verifyModem(data) {
-            return $http.get(app.API_URL + '/users/verifyTinggModem/' + data.imsi + '/' + data.secret_code,{auth:true}) 
-                .then(function (response) {
-                    return response;
-                })
-                .catch(failed)
+            return $http({
+                method:'POST',
+                url:'http://0.0.0.0:3000/verify/',
+                data:{"imsi":data.imsi,"secret_code": data.secret_code}
+            })
+            .then(function(response){
+                return response;
+            })
+            .catch(failed)
+
+            // return $http.post(app.TINGG_URL + '/verify/') 
+            //     .then(function (response) {
+            //         return response;
+            //     })
+            //     .catch(failed)
         }
 
         //

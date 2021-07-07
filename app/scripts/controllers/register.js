@@ -350,11 +350,7 @@
       }
 
       if (vm.ttn.profile === 'cayenne-lpp') {
-<<<<<<< HEAD
-        updateCayenneDecoding()
-=======
         updateCayenneDecoding();
->>>>>>> origin/master
       }
     }
 
@@ -837,24 +833,6 @@
       }
     });
 
-<<<<<<< HEAD
-    function updateCayenneDecoding() {
-      vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
-        var decoderGuess = 'analog_in';
-
-        var tempSubstr = ['temp']
-        var humiSubstr = ['humi', 'feucht']
-        var pressSubstr = ['press', 'druck']
-        var illuSubstr = ['hell', 'illu', 'uv', 'beleuch']
-        if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'temperature'
-        } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'relative_humidity'
-        } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'barometric_pressure'
-        } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'luminosity'
-=======
     function updateCayenneDecoding () {
       vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
@@ -871,7 +849,6 @@
           decoderGuess = 'barometric_pressure';
         } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
           decoderGuess = 'luminosity';
->>>>>>> origin/master
         }
 
         return Object.assign({

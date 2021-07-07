@@ -17,7 +17,7 @@
       script: false,
       mqtt: false,
       ttn: false,
-      tingg:false
+      tingg: false
     };
     vm.alerts = [];
     vm.custom = false;

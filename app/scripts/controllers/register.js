@@ -17,7 +17,7 @@
     'TinggService'
   ];
 
-  function RegisterController(
+  function RegisterController (
     $scope,
     $translate,
     $timeout,
@@ -171,7 +171,7 @@
 
     ////
 
-    function activate() {
+    function activate () {
       vm.icons = SensorIcons;
       vm.editMarkerInput = angular.copy(vm.markers);
       vm.registering = false;
@@ -185,26 +185,26 @@
       // generateNewSecret();
     }
 
-    function generateNewSecret() {
+    function generateNewSecret () {
       vm.newModel.security.secret = randomFixedInteger(16)
         .toString(16)
         .toUpperCase();
     }
 
-    function randomFixedInteger(length) {
+    function randomFixedInteger (length) {
       return Math.floor(
         Math.pow(10, length - 1) +
         Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
       );
     }
 
-    function generateScript() {
+    function generateScript () {
       vm.boxScript = 'Neuer Sketch wird generiert...';
 
       return getScript();
     }
 
-    function getScript() {
+    function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
         serialPort: vm.newSenseBox.serialPort,
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
@@ -223,7 +223,7 @@
         .catch(function () { });
     }
 
-    function compile() {
+    function compile () {
       vm.compiling = true;
 
       return AccountService.compileSketch({
@@ -380,12 +380,13 @@
     function verifyGSM() {
       vm.gsmverified = 'loading';
       TinggService.verifyModem(vm.gsm)
-      .then(function(response){
-        vm.gsmverified = 'true';
-      })
-      .catch(function(err){
-        vm.gsmErrorText = err
-        vm.gsmverified = 'false'})
+        .then(function (response) {
+          vm.gsmverified = 'true';
+        })
+        .catch(function (err) {
+          vm.gsmErrorText = err
+          vm.gsmverified = 'false'
+        })
       //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
     }
 
@@ -514,7 +515,7 @@
         });
     }
 
-    function cayenneLppDecodingChanged (sensor) {
+    function cayenneLppDecodingChanged(sensor) {
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title;
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType;
       vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
@@ -833,7 +834,7 @@
       }
     });
 
-    function updateCayenneDecoding () {
+    function updateCayenneDecoding() {
       vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
 

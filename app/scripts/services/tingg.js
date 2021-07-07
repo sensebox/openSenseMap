@@ -35,7 +35,7 @@
         function init (data) {
             return $http({
                 method: 'POST',
-                url: 'https://tingg.testing.opensensemap.org/init',
+                url: app.MICROADAPTER_TINGG_URL + '/init',
                 data: data
             })
                 .then(function (response) {
@@ -47,7 +47,7 @@
         function updateTingg (data) {
             return $http({
                 method: 'POST',
-                url: 'https://tingg.testing.opensensemap.org/update',
+                url: app.MICROADAPTER_TINGG_URL + '/update',
                 data: data
             })
                 .then(function (response) {
@@ -59,7 +59,7 @@
         function deleteTingg (data) {
             return $http({
                 method: 'POST',
-                url: 'https://tingg.testing.opensensemap.org/delete',
+                url: app.MICROADAPTER_TINGG_URL + '/delete',
                 data: data.integrations.gsm.imsi
             })
                 .then(function (response) {
@@ -71,7 +71,7 @@
         function verifyModem (data) {
             return $http({
                 method: 'POST',
-                url: 'https://tingg.testing.opensensemap.org/verify/',
+                url: app.MICROADAPTER_TINGG_URL + '/verify/',
                 data: { 'imsi': data.imsi, 'secret_code': data.secret_code }
             })
                 .then(function (response) {

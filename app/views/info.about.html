@@ -3,7 +3,47 @@
 Version: <code style="color: #4EAF47;">{{info.app.VERSION}}-{{info.app.REVISION}} ({{info.app.NAME}})</code>
 <h4 ng-bind-html="'INFO_COPYRIGHT_NOTICES'|translate"></h4>
 <p ng-bind-html="'INFO_MADE_BY'|translate"></p>
-  © <a href="http://sensebox.de" target="_blank">senseBox</a> 2014 - 2018<br/><br/>
+  © <a href="http://sensebox.de" target="_blank">senseBox</a> 2014 - 2020<br/><br/>
+</div>
+
+<div class="container main-container">
+  <h3>{{'INFO_RESPONSIBLE' | translate}}</h3>
+  <div class="row">
+    <div class="item col-md-6 col-12">
+        <div class="item-inner m-2">
+            <div class="row">
+                <div class="figure col-md-5 col-12">
+                    <img class="img-fluid" src="images/team/schwering.jpeg" alt="">
+                </div>
+                <div class="info col-md-7 col-12">
+                    <h3 class="name">Prof. Dr. Angela Schwering</h3>
+                    <p>{{'INFO_SCHWERING_DESC' | translate }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="item col-md-6 col-12">
+        <div class="item-inner m-2">
+            <div class="row">
+                <div class="figure col-md-5 col-12">
+                    <img class="img-fluid" src="" alt="">
+                </div>
+                <div class="info col-md-7 col-12">
+                    <h3 class="name">Philip Weiger</h3>
+                    <p>{{'INFO_WEIGER_DESC' | translate }}</p>
+                </div>
+            </div>
+        </div>
+    </div> -->
+  </div>
+</div>
+
+<div>
+  <h3>{{'INFO_SUPPORT' | translate}}</h3>
+  <div class="donation-text">
+    <p ng-bind-html="'INFO_SUPPORT_TEXT'|translate"></p>
+  </div>
+  <a href="https://www.uni-muenster.de/openSenseMap/" target="_blank" class="btn donation-button">{{'INFO_DONATE_NOW'|translate}}</a>
 </div>
 
 <div class="col-lg-7 col-lg-offset-2" style="clear: both; padding-top: 2em;">
@@ -12,8 +52,8 @@ Version: <code style="color: #4EAF47;">{{info.app.VERSION}}-{{info.app.REVISION}
       <img src="images/logos/BMBF.png" style="max-width: 90%;max-height: 80%;">
     </div>
     <div class="col-md-8">
-        <h3>BMBF Open Photonics</h3>
-        {{'INFO_BMBF'|translate}}
+      <h3>BMBF Open Photonics</h3>
+      {{'INFO_BMBF'|translate}}
     </div>
   </div>
 </div>

@@ -45,7 +45,7 @@
       windSpeedPort: 'C',
       bmePhenomenon: 'tempHumiPress'
     };
-
+    vm.display_enabled = false;
     vm.wifi = {
       ssid: '',
       pasword: ''
@@ -214,7 +214,8 @@
         password: vm.wifi.password,
         devEUI: vm.ttn.devEUI,
         appEUI: vm.ttn.appEUI,
-        appKey: vm.ttn.appKey
+        appKey: vm.ttn.appKey,
+        display_enabled: vm.display_enabled
       })
         .then(function (response) {
           vm.boxScript = response;
@@ -330,7 +331,7 @@
       vm.sensorIncomplete = false;
 
       if (vm.ttn.profile === 'cayenne-lpp') {
-        updateCayenneDecoding()
+        updateCayenneDecoding();
       }
     }
 
@@ -349,7 +350,11 @@
       }
 
       if (vm.ttn.profile === 'cayenne-lpp') {
+<<<<<<< HEAD
         updateCayenneDecoding()
+=======
+        updateCayenneDecoding();
+>>>>>>> origin/master
       }
     }
 
@@ -513,10 +518,10 @@
         });
     }
 
-    function cayenneLppDecodingChanged(sensor) {
-      vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title
-      vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType
-      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding)
+    function cayenneLppDecodingChanged (sensor) {
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title;
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType;
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
     }
 
     function senseBoxSetupValid() {
@@ -825,13 +830,14 @@
 
     $scope.$watch('register.ttn.profile', function (newValue) {
       if (newValue === 'cayenne-lpp') {
-        updateCayenneDecoding()
+        updateCayenneDecoding();
       } else {
         vm.ttn.cayenneLppDecoding = [];
-        vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding)
+        vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
       }
     });
 
+<<<<<<< HEAD
     function updateCayenneDecoding() {
       vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
@@ -848,6 +854,24 @@
           decoderGuess = 'barometric_pressure'
         } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
           decoderGuess = 'luminosity'
+=======
+    function updateCayenneDecoding () {
+      vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
+        var decoderGuess = 'analog_in';
+
+        var tempSubstr = ['temp'];
+        var humiSubstr = ['humi', 'feucht'];
+        var pressSubstr = ['press', 'druck'];
+        var illuSubstr = ['hell', 'illu', 'uv', 'beleuch'];
+        if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'temperature';
+        } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'relative_humidity';
+        } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'barometric_pressure';
+        } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
+          decoderGuess = 'luminosity';
+>>>>>>> origin/master
         }
 
         return Object.assign({
@@ -855,9 +879,9 @@
           sensor_type: sensor.sensorType,
           decoder: decoderGuess,
           channel: 1
-        }, vm.ttn.cayenneLppDecoding[sensor.id])
+        }, vm.ttn.cayenneLppDecoding[sensor.id]);
       });
-      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding)
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
     }
 
     // check if valid json for ttn decodeOptions

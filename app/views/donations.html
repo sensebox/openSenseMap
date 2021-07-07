@@ -1,8 +1,9 @@
-<div class="help-wrapper">
-  <iframe
-    class="external-help"
-    ng-src="{{ help.iframeSrc }}"
-    sandbox="allow-same-origin"></iframe>
+<div class="donation-wrapper">
+  <div>
+    <h3>{{'INFO_SUPPORT' | translate}}</h3>
+    <div class="donation-text" ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
+  </div>
+
 
   <div class="help-footer">
     <button class="btn btn-default" ng-click="help.onClose(); closeThisDialog()">{{'CLOSESIDEBAR'|translate}}</button>
@@ -10,3 +11,4 @@
     <label for="dont-show-again">{{'DONT_SHOW_AGAIN'|translate}}</label>
   </div>
 </div>
+  

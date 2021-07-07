@@ -49,6 +49,7 @@
           templateUrl: 'views/explore2.map.html',
           resolve: { /* @ngInject */
             boxes: function (BoxesService) {
+              // eslint-disable-next-line no-warning-comments
               // FIXME: when loading the page starting with explore.map.filter,
               // boxes are fetched twice (once with minimal, once full) due to
               // ui-router resolve inheritance. I found no workaround, because
@@ -184,12 +185,12 @@
         .state('account.edit', {
           url: '/:id/edit',
           params: {
-            box: { }
+            box: {}
           },
           resolve: { /* @ngInject */
             boxData: function ($state, $stateParams, AccountService) {
-            // Resolve boxData if called directly by URL
-            // $stateParams.box is set if called from account dashboard
+              // Resolve boxData if called directly by URL
+              // $stateParams.box is set if called from account dashboard
               if (angular.equals({}, $stateParams.box)) {
                 return AccountService.getUsersBoxes()
                   .then(function (response) {
@@ -412,6 +413,16 @@
             }
           }
         })
+        .state('info.faq', {
+          url: '^/faq',
+          views: {
+            'info': {
+              templateUrl: 'views/info.faq.html',
+              controller: 'HelpController',
+              controllerAs: 'help'
+            }
+          }
+        })
         .state('info.privacy', {
           url: '^/privacy',
           views: {
@@ -425,6 +436,22 @@
           views: {
             'info': {
               templateUrl: 'views/info.imprint.html'
+            }
+          }
+        })
+        .state('donate', {
+          url: '/donate',
+          abstract: true,
+          templateUrl: 'views/donors.html',
+          controller: 'DonorsController',
+          controllerAs: 'donors'
+        })
+        .state('donate.about', {
+          url: '^/donate',
+          views: {
+            'donors':
+            {
+              templateUrl: 'views/donors.html'
             }
           }
         });
@@ -444,8 +471,8 @@
     .run(['LanguageService', function (LanguageService) {
       LanguageService.initialize();
     }])
-    .run(['HelpModalService', function (HelpModalService) {
-      HelpModalService.onStartup();
+    .run(['DonationModalService', function (DonationModalService) {
+      DonationModalService.onStartup();
     }])
 
     .filter('unsafe', ['$sce', function ($sce) {

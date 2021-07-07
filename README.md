@@ -2,7 +2,7 @@
 
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
-This repository contains the code of the openSenseMap frontend running at [https://opensensemap.org](https://opensensemap.org). To get more information about openSenseMap and senseBox visit the before mentioned links or have a look at this [video](https://www.youtube.com/watch?v=I8ZeT6hzjKQ) or read the [openSenseMap](https://osem.books.sensebox.de/) chapter in our [books](https://books.sensebox.de/). openSenseMap is part of the [senseBox] project.
+This repository contains the code of the openSenseMap frontend running at [https://opensensemap.org](https://opensensemap.org). To get more information about openSenseMap and senseBox visit the before mentioned links or have a look at this [video](https://www.youtube.com/watch?v=I8ZeT6hzjKQ) or read the [openSenseMap](https://docs.sensebox.de/category/opensensemap/) chapter in our documentation. openSenseMap is part of the [senseBox] project.
 
 Originally, this frontend has been built as part of the bachelor thesis of [@mpfeil](https://github.com/mpfeil) at the ifgi (Institute for Geoinformatics, WWU Münster) and is currently maintained by [@mpfeil](https://github.com/mpfeil).
 
@@ -18,17 +18,16 @@ You can configure the API endpoint and/or map tiles using the following environm
 | OPENSENSEMAP_API_URL     | https://api.testing.opensensemap.org |
 | OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
 
-You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/development/Gruntfile.js#L24).
+You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/master/Gruntfile.js#L25).
 
 
 ## Development
-- Have [Node.js] v8, [grunt]() and [bower]() installed
-- Check out `development` branch (`git checkout development`)
+- Have [Node.js] v10, [grunt]() and [bower]() installed
+- Check out a branch for your feature (`git checkout my-aweseome-feature`)
 - Run `npm install` and `npx bower install`
-- Create your own branch `git checkout -b my-awesome-branch`
 - Run frontend in development mode (`npx grunt serve`)
 - Commit your changes to your branch and push it to your fork
-- Create a pull request against the `development` branch
+- Create a pull request against the `master` branch
 
 See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
 
@@ -49,10 +48,8 @@ See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
 ## Organization
 
 ### Branches
-- master (runs in production)
-  - Is used for container build tags
-- development (runs on testing server)
-  - Bleeding edge and possibly unstable development version
+- master (runs on testing server)
+  - Is used for production container build tags
 
 ## Docker
 

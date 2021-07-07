@@ -42,7 +42,7 @@
             console.log(data);
             return $http({
                 method:'POST',
-                url:'http://0.0.0.0:3000/init',
+                url:'https://tingg.testing.opensensemap.org/init',
                 data:data
             })
             .then(function(response){
@@ -55,7 +55,7 @@
             console.log(data);
             return $http({
                 method:'POST',
-                url:'http://0.0.0.0:3000/update',
+                url:'https://tingg.testing.opensensemap.org/update',
                 data:data
             })
             .then(function(response){
@@ -68,7 +68,7 @@
             console.log(data);
             return $http({
                 method:'POST',
-                url:'http://0.0.0.0:3000/delete/',
+                url:'https://tingg.testing.opensensemap.org/delete',
                 data:data.integrations.gsm.imsi
             })
             .then(function(response){
@@ -81,7 +81,7 @@
         function verifyModem(data) {
             return $http({
                 method:'POST',
-                url:'http://0.0.0.0:3000/verify/',
+                url:'https://tingg.testing.opensensemap.org/verify/',
                 data:{"imsi":data.imsi,"secret_code": data.secret_code}
             })
             .then(function(response){

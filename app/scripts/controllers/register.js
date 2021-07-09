@@ -237,7 +237,7 @@
         });
     }
 
-    function isSenseBoxModel() {
+    function isSenseBoxModel () {
       if (vm.modelSelected.id.startsWith('homeV2')) {
         return 'homeV2';
       }
@@ -249,13 +249,13 @@
       return '';
     }
 
-    function setStepTitle() {
+    function setStepTitle () {
       vm.stepTitle = WizardHandler.wizard(
         'RegistrationWizard'
       ).currentStepTitle();
     }
 
-    function stepBack() {
+    function stepBack () {
       WizardHandler.wizard('RegistrationWizard').previous();
       setStepTitle();
       if (
@@ -269,7 +269,7 @@
       }
     }
 
-    function stepForward() {
+    function stepForward () {
       WizardHandler.wizard('RegistrationWizard').next();
       setStepTitle();
       if (
@@ -281,7 +281,7 @@
       }
     }
 
-    function stepIsValidChange(value) {
+    function stepIsValidChange (value) {
       if (
         WizardHandler.wizard('RegistrationWizard').currentStepNumber() === 2
       ) {
@@ -289,7 +289,7 @@
       }
     }
 
-    function enterEvent(keyEvent) {
+    function enterEvent (keyEvent) {
       var stepNumber = -1;
       if (keyEvent.which === 13) {
         stepNumber = WizardHandler.wizard(
@@ -297,27 +297,27 @@
         ).currentStepNumber();
       }
       switch (stepNumber) {
-        case 2:
-          if (vm.modelSelected.id === false) {
-            vm.invalidHardware = true;
-          } else {
-            vm.invalidHardware = false;
-          }
-          if (vm.sensors.length === 0) {
-            vm.sensorIncomplete = true;
-          } else {
-            vm.sensorIncomplete = false;
-          }
-          if (senseboxForm.$valid) {
-            WizardHandler.wizard('RegistrationWizard').next();
-          }
-          break;
-        case 3:
-          completeRegistration();
+      case 2:
+        if (vm.modelSelected.id === false) {
+          vm.invalidHardware = true;
+        } else {
+          vm.invalidHardware = false;
+        }
+        if (vm.sensors.length === 0) {
+          vm.sensorIncomplete = true;
+        } else {
+          vm.sensorIncomplete = false;
+        }
+        if (senseboxForm.$valid) {
+          WizardHandler.wizard('RegistrationWizard').next();
+        }
+        break;
+      case 3:
+        completeRegistration();
       }
     }
 
-    function add(icon, title, unit, sensorType) {
+    function add (icon, title, unit, sensorType) {
       var sensor = {
         id: vm.sensors.length,
         icon: icon,
@@ -335,7 +335,7 @@
       }
     }
 
-    function remove(index) {
+    function remove (index) {
       vm.sensors.splice(index, 1);
       vm.isCustom[index] = false;
       vm.editing[index] = false;
@@ -354,15 +354,15 @@
       }
     }
 
-    function edit(index) {
+    function edit (index) {
       vm.editing[index] = true;
     }
 
-    function setSensorIcon(sensor, newIcon) {
+    function setSensorIcon (sensor, newIcon) {
       sensor.icon = newIcon.name;
     }
 
-    function downloadArduino(boxId, model) {
+    function downloadArduino (boxId, model) {
       var data = {};
       if (model.startsWith('homeV2')) {
         data.serialPort = vm.newModel.serialPort;
@@ -377,21 +377,21 @@
         .catch(function () { });
     }
 
-    function verifyGSM() {
+    function verifyGSM () {
       vm.gsmverified = 'loading';
       TinggService.verifyModem(vm.gsm)
-        .then(function (response) {
+        .then(function () {
           vm.gsmverified = 'true';
         })
         .catch(function (err) {
-          vm.gsmErrorText = err
-          vm.gsmverified = 'false'
-        })
+          vm.gsmErrorText = err;
+          vm.gsmverified = 'false';
+        });
       //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
     }
 
 
-    function completeRegistration() {
+    function completeRegistration () {
       setStepTitle();
       vm.alerts = [];
 
@@ -431,22 +431,22 @@
             var element = vm.newModel.sensors[key];
             if (element) {
               switch (key) {
-                case 'temp':
-                  vm.newSenseBox.sensorTemplates.push('hdc1080');
-                  break;
-                case 'pressure':
-                  vm.newSenseBox.sensorTemplates.push('bmp280');
-                  break;
-                case 'light':
-                  vm.newSenseBox.sensorTemplates.push('veml6070');
-                  vm.newSenseBox.sensorTemplates.push('tsl45315');
-                  break;
-                case 'bme680':
-                  vm.newSenseBox.sensorTemplates.push('bme680');
-                  break;
-                case 'co2':
-                  vm.newSenseBox.sensorTemplates.push('scd30');
-                  break;
+              case 'temp':
+                vm.newSenseBox.sensorTemplates.push('hdc1080');
+                break;
+              case 'pressure':
+                vm.newSenseBox.sensorTemplates.push('bmp280');
+                break;
+              case 'light':
+                vm.newSenseBox.sensorTemplates.push('veml6070');
+                vm.newSenseBox.sensorTemplates.push('tsl45315');
+                break;
+              case 'bme680':
+                vm.newSenseBox.sensorTemplates.push('bme680');
+                break;
+              case 'co2':
+                vm.newSenseBox.sensorTemplates.push('scd30');
+                break;
               }
             }
           }
@@ -515,13 +515,13 @@
         });
     }
 
-    function cayenneLppDecodingChanged(sensor) {
+    function cayenneLppDecodingChanged (sensor) {
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title;
       vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType;
       vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
     }
 
-    function senseBoxSetupValid() {
+    function senseBoxSetupValid () {
       var validTTN = true;
       var validMQTT = true;
       var validGSM = true;
@@ -541,114 +541,114 @@
       return validTTN && validMQTT && validGSM;
     }
 
-    function addSensorTemplate(template) {
+    function addSensorTemplate (template) {
       var icon = '';
       var title = '';
       var unit = '';
       var sensorType = '';
       switch (template) {
-        case 'HDC1080_TEMPERATURE':
-          icon = 'osem-thermometer';
-          title = 'Temperatur';
-          unit = '°C';
-          sensorType = 'HDC1080';
-          break;
-        case 'HDC1080_HUMIDITY':
-          icon = 'osem-humidity';
-          title = 'rel. Luftfeuchte';
-          unit = '%';
-          sensorType = 'HDC1080';
-          break;
-        case 'BMP280_PRESSURE':
-          icon = 'osem-barometer';
-          title = 'Luftdruck';
-          unit = 'hPa';
-          sensorType = 'BMP280';
-          break;
-        case 'BMP280_TEMPERATURE':
-          icon = 'osem-thermometer';
-          title = 'Temperatur';
-          unit = '°C';
-          sensorType = 'BMP280';
-          break;
-        case 'TSL45315':
-          icon = 'osem-brightness';
-          title = 'Beleuchtungsstärke';
-          unit = 'lx';
-          sensorType = 'TSL45315';
-          break;
-        case 'VEML6070':
-          icon = 'osem-brightness';
-          title = 'UV-Intensität';
-          unit = 'μW/cm²';
-          sensorType = 'VEML6070';
-          break;
-        case 'BME680_TEMPERATURE':
-          icon = 'osem-thermometer';
-          title = 'Temperatur';
-          unit = '°C';
-          sensorType = 'BME680';
-          break;
-        case 'BME680_HUMIDITY':
-          icon = 'osem-humidity';
-          title = 'rel. Luftfeuchte';
-          unit = '%';
-          sensorType = 'BME680';
-          break;
-        case 'BME680_PRESSURE':
-          icon = 'osem-barometer';
-          title = 'Luftdruck';
-          unit = 'hPa';
-          sensorType = 'BME680';
-          break;
-        case 'BME680_VOC':
-          icon = 'osem-barometer';
-          title = 'VOC';
-          unit = 'kΩ';
-          sensorType = 'BME680';
-          break;
-        case 'PM25':
-          icon = 'osem-cloud';
-          title = 'PM2.5';
-          unit = 'µg/m³';
-          sensorType = 'SDS 011';
-          break;
-        case 'PM10':
-          icon = 'osem-cloud';
-          title = 'PM10';
-          unit = 'µg/m³';
-          sensorType = 'SDS 011';
-          break;
-        case 'smt50_soilmoisture':
-          icon = 'osem-humidity';
-          title = 'Bodenfeuchte';
-          unit = '%';
-          sensorType = 'SMT50';
-          break;
-        case 'smt50_soiltemperature':
-          icon = 'osem-thermometer';
-          title = 'Bodentemperatur';
-          unit = '°C';
-          sensorType = 'SMT50';
-          break;
-        case 'soundlevelmeter':
-          icon = 'osem-microphone';
-          title = 'Lautstärke';
-          unit = 'dB';
-          sensorType = 'soundlevelmeter';
-          break;
-        case 'windspeed':
-          icon = 'osem-particulate-matter';
-          title = 'Windgeschwindigkeit';
-          unit = 'm/s';
-          sensorType = 'WINDSPEED';
-          break;
-        case 'scd30_co2':
-          icon = 'osem-co2';
-          title = 'CO₂';
-          unit = 'ppm';
-          sensorType = 'SCD30';
-          break;
+      case 'HDC1080_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'HDC1080';
+        break;
+      case 'HDC1080_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'HDC1080';
+        break;
+      case 'BMP280_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BMP280';
+        break;
+      case 'BMP280_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BMP280';
+        break;
+      case 'TSL45315':
+        icon = 'osem-brightness';
+        title = 'Beleuchtungsstärke';
+        unit = 'lx';
+        sensorType = 'TSL45315';
+        break;
+      case 'VEML6070':
+        icon = 'osem-brightness';
+        title = 'UV-Intensität';
+        unit = 'μW/cm²';
+        sensorType = 'VEML6070';
+        break;
+      case 'BME680_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_VOC':
+        icon = 'osem-barometer';
+        title = 'VOC';
+        unit = 'kΩ';
+        sensorType = 'BME680';
+        break;
+      case 'PM25':
+        icon = 'osem-cloud';
+        title = 'PM2.5';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      case 'PM10':
+        icon = 'osem-cloud';
+        title = 'PM10';
+        unit = 'µg/m³';
+        sensorType = 'SDS 011';
+        break;
+      case 'smt50_soilmoisture':
+        icon = 'osem-humidity';
+        title = 'Bodenfeuchte';
+        unit = '%';
+        sensorType = 'SMT50';
+        break;
+      case 'smt50_soiltemperature':
+        icon = 'osem-thermometer';
+        title = 'Bodentemperatur';
+        unit = '°C';
+        sensorType = 'SMT50';
+        break;
+      case 'soundlevelmeter':
+        icon = 'osem-microphone';
+        title = 'Lautstärke';
+        unit = 'dB';
+        sensorType = 'soundlevelmeter';
+        break;
+      case 'windspeed':
+        icon = 'osem-particulate-matter';
+        title = 'Windgeschwindigkeit';
+        unit = 'm/s';
+        sensorType = 'WINDSPEED';
+        break;
+      case 'scd30_co2':
+        icon = 'osem-co2';
+        title = 'CO₂';
+        unit = 'ppm';
+        sensorType = 'SCD30';
+        break;
       }
       add(icon, title, unit, sensorType);
     }
@@ -834,7 +834,7 @@
       }
     });
 
-    function updateCayenneDecoding() {
+    function updateCayenneDecoding () {
       vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
 
@@ -907,13 +907,12 @@
         return vm.validGSMSecret;
       }
       try {
-        // secret code validation 
-        //todo: get requirements for secret code 
+        // secret code validation
         if (newValue.length < 15) {
           vm.validGSMSecret = true;
         }
         else {
-          throw new Error("Must not be over 15 chars")
+          throw new Error('Must not be over 15 chars');
 
         }
       } catch (e) {
@@ -929,13 +928,12 @@
         return vm.validGSMIMSI;
       }
       try {
-        // imsi code validation 
-        //todo: what are requirements of an imsi, 15 chars max =>what else ?
+        // imsi code validation
         if (newValue.length < 20) {
           vm.validGSMIMSI = true;
         }
         else {
-          throw new Error("Must not be over 15 chars")
+          throw new Error('Must not be over 15 chars');
         }
       } catch (e) {
         vm.validGSMIMSI = false;
@@ -996,7 +994,7 @@
             parseFloat(newValue.lat.toFixed(6)),
             parseFloat(newValue.lng.toFixed(6))
           ]),
-            (vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6)));
+          (vm.markers.box.lat = parseFloat(newValue.lat.toFixed(6)));
           vm.markers.box.lng = parseFloat(newValue.lng.toFixed(6));
           vm.markers.box.height = newValue.height;
         }

@@ -225,6 +225,7 @@
           if (data.gsm) {
             TinggService.init(response.data.data);
           }
+
           return response.data;
         })
         .catch(failed);

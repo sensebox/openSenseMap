@@ -13,7 +13,8 @@
     'SensorIcons',
     'WizardHandler',
     'AccountService',
-    'osemMapData'
+    'osemMapData',
+    'TinggService'
   ];
 
   function RegisterController (
@@ -23,7 +24,8 @@
     SensorIcons,
     WizardHandler,
     AccountService,
-    osemMapData
+    osemMapData,
+    TinggService
   ) {
     var vm = this;
 
@@ -104,6 +106,8 @@
       decodeOptions: '',
       connectionOptions: ''
     };
+
+
     vm.ttnEnabled = false;
     vm.validTTNconfig = true;
     vm.validMQTTURL = false;
@@ -114,12 +118,22 @@
       decodeOptions: '[]',
       cayenneLppDecoding: []
     };
+    vm.gsmEnabled = false;
+    vm.gsm = {
+      secret_code: '',
+      imsi: ''
+    };
+    vm.validGSMIMSI = false;
+    vm.validGSMSecret = false;
+    vm.gsmverified = 'init';
+    vm.gsmErrorText = '';
     vm.open = {
       sensebox: false,
       luftdaten: false,
       custom: false,
       mqtt: false,
       ttn: false,
+      gsm: false,
       hackair: false,
       edu: false
     };
@@ -151,6 +165,7 @@
     vm.addSensorTemplate = addSensorTemplate;
     vm.generateScript = generateScript;
     vm.compile = compile;
+    vm.verifyGSM = verifyGSM;
 
     activate();
 
@@ -179,7 +194,7 @@
     function randomFixedInteger (length) {
       return Math.floor(
         Math.pow(10, length - 1) +
-          Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
+        Math.random() * (Math.pow(10, length) - Math.pow(10, length - 1) - 1)
       );
     }
 
@@ -205,7 +220,7 @@
         .then(function (response) {
           vm.boxScript = response;
         })
-        .catch(function () {});
+        .catch(function () { });
     }
 
     function compile () {
@@ -215,8 +230,8 @@
         board: 'sensebox-mcu',
         sketch: vm.boxScript
       })
-        .then(function () {})
-        .catch(function () {})
+        .then(function () { })
+        .catch(function () { })
         .finally(function () {
           vm.compiling = false;
         });
@@ -359,8 +374,22 @@
         .then(function (data) {
           vm.boxScript = data;
         })
-        .catch(function () {});
+        .catch(function () { });
     }
+
+    function verifyGSM () {
+      vm.gsmverified = 'loading';
+      TinggService.verifyModem(vm.gsm)
+        .then(function () {
+          vm.gsmverified = 'true';
+        })
+        .catch(function (err) {
+          vm.gsmErrorText = err;
+          vm.gsmverified = 'false';
+        });
+      //      * @param {*} data {"imsi":imsi,"secret_code":secret_code}
+    }
+
 
     function completeRegistration () {
       setStepTitle();
@@ -372,6 +401,9 @@
       if (vm.ttnEnabled) {
         vm.newSenseBox.ttn = vm.ttn;
         vm.newSenseBox.ttn.decodeOptions = JSON.parse(vm.ttn.decodeOptions);
+      }
+      if (vm.gsmEnabled) {
+        vm.newSenseBox.gsm = vm.gsm;
       }
       vm.newSenseBox.location.push(vm.markers.box.lng);
       vm.newSenseBox.location.push(vm.markers.box.lat);
@@ -466,6 +498,8 @@
           });
           downloadArduino(data.data._id, data.data.model);
           vm.registeredSensors = data.data['sensors'];
+
+
           vm.completed = true;
           vm.stepIndex = 0;
         })
@@ -490,7 +524,7 @@
     function senseBoxSetupValid () {
       var validTTN = true;
       var validMQTT = true;
-
+      var validGSM = true;
       if (vm.ttnEnabled) {
         validTTN = vm.validTTNconfig;
       }
@@ -499,7 +533,12 @@
         validMQTT = vm.validMQTTURL;
       }
 
-      return validTTN && validMQTT;
+      if (vm.gsmEnabled) {
+        validGSM = vm.validGSMSecret && vm.validGSMIMSI && vm.gsmverified === 'true';
+      }
+
+
+      return validTTN && validMQTT && validGSM;
     }
 
     function addSensorTemplate (template) {
@@ -704,7 +743,7 @@
                 map.setView([vm.markers.box.lat, vm.markers.box.lng], 16);
               }
             })
-            .catch(function () {});
+            .catch(function () { });
         }, 200);
       }
     });
@@ -767,9 +806,22 @@
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
         vm.open.ttn = true;
-      } else {
+
+        vm.gsmEnabled = false;
+        vm.open.gsm = false;
+      }
+      else if (newValue === 'GSM') {
+        vm.gsmEnabled = true;
+        vm.open.gsm = true;
+
         vm.ttnEnabled = false;
         vm.open.ttn = false;
+      }
+      else {
+        vm.ttnEnabled = false;
+        vm.open.ttn = false;
+        vm.gsmEnabled = false;
+        vm.open.gsm = false;
       }
     });
 
@@ -844,6 +896,47 @@
         }
       } catch (e) {
         vm.validMQTTURL = false;
+      }
+    });
+
+    $scope.$watch('register.gsm.secret_code', function (newValue) {
+      vm.gsmverified = 'init';
+      if (angular.isUndefined(newValue) || !newValue.length) {
+        vm.validGSMSecret = false;
+
+        return vm.validGSMSecret;
+      }
+      try {
+        // secret code validation
+        if (newValue.length < 15) {
+          vm.validGSMSecret = true;
+        }
+        else {
+          throw new Error('Must not be over 15 chars');
+
+        }
+      } catch (e) {
+        vm.validGSMSecret = false;
+      }
+    });
+
+    $scope.$watch('register.gsm.imsi', function (newValue) {
+      vm.gsmverified = 'init';
+      if (angular.isUndefined(newValue) || !newValue.length) {
+        vm.validGSMIMSI = false;
+
+        return vm.validGSMIMSI;
+      }
+      try {
+        // imsi code validation
+        if (newValue.length < 20) {
+          vm.validGSMIMSI = true;
+        }
+        else {
+          throw new Error('Must not be over 15 chars');
+        }
+      } catch (e) {
+        vm.validGSMIMSI = false;
       }
     });
 

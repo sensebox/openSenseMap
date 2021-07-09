@@ -26,6 +26,7 @@ module.exports = function (grunt) {
       dev: {
         OPENSENSEMAP_API_URL: 'https://api.testing.opensensemap.org',
         OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        TINGG_MICRO_URL: 'https://tingg.testing.opensensemap.org',
       }
     },
 
@@ -62,6 +63,10 @@ module.exports = function (grunt) {
             {
               match: 'REVISION',
               replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
+            },
+            {
+              match: 'TINGG_MICRO_URL',
+              replacement: '<%= TINGG_MICRO_URL %>'
             }
           ]
         },
@@ -75,6 +80,10 @@ module.exports = function (grunt) {
             {
               match: 'OPENSENSEMAP_API_URL',
               replacement: '<%= OPENSENSEMAP_API_URL %>'
+            },
+            {
+              match: 'TINGG_MICRO_URL',
+              replacement: '<%= TINGG_MICRO_URL %>'
             }
           ]
         },
@@ -667,9 +676,10 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('loadconst', 'Load constants', function (target) {
-    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL);
+    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL,process.env.TINGG_MICRO_URL);
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
     grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
+    grunt.config('TINGG_MICRO_URL', process.env.TINGG_MICRO_URL);
   });
 
   grunt.registerTask('test', [

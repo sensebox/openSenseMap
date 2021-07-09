@@ -54,6 +54,8 @@
       return LocalStorageService.getValue('osem.account');
     }
 
+
+
     function logout () {
       LocalStorageService.removeValue('osem_access_token');
       LocalStorageService.removeValue('osem_refresh_token');

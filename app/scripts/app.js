@@ -316,6 +316,16 @@
             }
           }
         })
+        .state('account.edit.tingg', {
+          url: '/tingg',
+          views: {
+            'edit': {
+              controller: 'EditBoxTinggController',
+              controllerAs: 'tingg',
+              templateUrl: 'views/account.box.edit.tingg.html'
+            }
+          }
+        })
         .state('account.dashboard', {
           url: '',
           views: {

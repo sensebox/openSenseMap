@@ -5,9 +5,9 @@
     .module('app.services', [])
     .factory('AccountService', AccountService);
 
-  AccountService.$inject = ['$http', '$q', '$window', 'moment', 'app', 'AuthenticationService', 'Box'];
+  AccountService.$inject = ['$http', '$q', '$window', 'moment', 'app', 'AuthenticationService', 'TinggService', 'Box'];
 
-  function AccountService ($http, $q, $window, moment, app, AuthenticationService, Box) {
+  function AccountService ($http, $q, $window, moment, app, AuthenticationService, TinggService, Box) {
     var service = {
       signup: signup,
       login: login,
@@ -27,7 +27,8 @@
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount,
-      compileSketch: compileSketch
+      compileSketch: compileSketch,
+
     };
 
     return service;
@@ -163,6 +164,10 @@
     function updateBox (boxId, data) {
       return $http.put(app.API_URL + '/boxes/' + boxId, data, { auth: true })
         .then(function (response) {
+          if (response.data.data.integrations.gsm) {
+            TinggService.updateTingg(response.data.data);
+          }
+
           return response.data;
         })
         .catch(failed);
@@ -217,6 +222,10 @@
     function postNewBox (data) {
       return $http.post(app.API_URL + '/boxes', data, { auth: true })
         .then(function (response) {
+          if (data.gsm) {
+            TinggService.init(response.data.data);
+          }
+
           return response.data;
         })
         .catch(failed);
@@ -246,5 +255,8 @@
         })
         .catch(failed);
     }
+
+
+
   }
 })();

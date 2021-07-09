@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature-GSM-Eric
   pull_request:
     branches:
       - master

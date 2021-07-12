@@ -16,9 +16,10 @@ You can configure the API endpoint and/or map tiles using the following environm
 | ENV | Default value |
 | --------- | ----------------- |
 | OPENSENSEMAP_API_URL     | https://api.testing.opensensemap.org |
-| OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
+| OPENSENSEMAP_STYLE_URL |  <YOUR_MAPBOX_STYLE_URL> |
+| OPENSENSEMAP_ACCESS_TOKEN | <YOUR_MAPBOX_ACCESS_TOKEN> |
 
-You can set them in your `terminal` or change the default values in the [Gruntfile](https://github.com/sensebox/openSenseMap/blob/master/Gruntfile.js#L25).
+You can set them in your `terminal` or create a file called `.env` and set the values.
 
 
 ## Development
@@ -67,7 +68,8 @@ Following ```build-args``` are availble:
 | Build Arg | Default value |
 | --------- | ----------------- |
 | OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
-| OPENSENSEMAP_MAPTILES_URL | http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png |
+| OPENSENSEMAP_STYLE_URL |  <YOUR_MAPBOX_STYLE_URL> |
+| OPENSENSEMAP_ACCESS_TOKE | <YOUR_MAPBOX_ACCESS_TOKEN> |
 
 
 ## License

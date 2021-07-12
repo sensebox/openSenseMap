@@ -22,6 +22,9 @@
     "leaflet": "^1.1.0",
     "Leaflet.awesome-markers": "leaflet-awesome-markers#^2.0.2",
     "leaflet.markercluster": "Leaflet.markercluster#^1.0.6",
+    "mapbox-gl-js": "https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.js",
+    "mapbox-gl-css": "https://api.mapbox.com/mapbox-gl-js/v1.13.1/mapbox-gl.css",
+    "mapbox-gl-leaflet": "https://github.com/mapbox/mapbox-gl-leaflet.git#f3901fc",
     "d3": "^4.10.0",
     "Leaflet.FeatureGroup.SubGroup": "^1.0.3",
     "angular-ismobile": "^1.1.0",
@@ -54,6 +57,21 @@
       "main": [
         "moment.js",
         "locale/de.js"
+      ]
+    },
+    "mapbox-gl-js": {
+      "main": [
+        "index.js"
+      ]
+    },
+    "mapbox-gl-css": {
+      "main": [
+        "index.css"
+      ]
+    },
+    "mapbox-gl-leaflet": {
+      "main": [
+        "leaflet-mapbox-gl.js"
       ]
     }
   }

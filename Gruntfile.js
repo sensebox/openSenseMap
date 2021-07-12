@@ -24,8 +24,7 @@ module.exports = function (grunt) {
 
     env: {
       dev: {
-        OPENSENSEMAP_API_URL: 'https://api.testing.opensensemap.org',
-        OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        src: ".env"
       }
     },
 
@@ -52,8 +51,12 @@ module.exports = function (grunt) {
               replacement: '<%= OPENSENSEMAP_API_URL %>'
             },
             {
-              match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
+              match: 'OPENSENSEMAP_STYLE_URL',
+              replacement: '<%= OPENSENSEMAP_STYLE_URL %>'
+            },
+            {
+              match: 'OPENSENSEMAP_ACCESS_TOKEN',
+              replacement: '<%= OPENSENSEMAP_ACCESS_TOKEN %>'
             },
             {
               match: 'VERSION',
@@ -87,8 +90,12 @@ module.exports = function (grunt) {
         options: {
           patterns: [
             {
-              match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
+              match: 'OPENSENSEMAP_STYLE_URL',
+              replacement: '<%= OPENSENSEMAP_STYLE_URL %>'
+            },
+            {
+              match: 'OPENSENSEMAP_ACCESS_TOKEN',
+              replacement: '<%= OPENSENSEMAP_ACCESS_TOKEN %>'
             }
           ]
         },
@@ -667,9 +674,10 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('loadconst', 'Load constants', function (target) {
-    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL);
+    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_STYLE_URL, process.env.OPENSENSEMAP_ACCESS_TOKEN);
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
-    grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
+    grunt.config('OPENSENSEMAP_STYLE_URL', process.env.OPENSENSEMAP_STYLE_URL);
+    grunt.config('OPENSENSEMAP_ACCESS_TOKEN', process.env.OPENSENSEMAP_ACCESS_TOKEN);
   });
 
   grunt.registerTask('test', [

@@ -705,7 +705,11 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('languages', '', function () {
+    var target = grunt.option('target');
     var targetFile = '.tmp/index.html';
+    if (target === 'build' || target === 'testBuild') {
+      targetFile = 'dist/index.html';
+    }
     var fs = require('fs');
     var done = this.async();
     fs.readFile('app/index.html', 'utf8', function (err, data) {

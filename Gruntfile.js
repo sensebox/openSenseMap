@@ -11,6 +11,7 @@
 module.exports = function (grunt) {
   var modRewrite = require('connect-modrewrite');
   var serveStatic = require('serve-static');
+  var { uniqueNamesGenerator, adjectives, animals } = require('unique-names-generator');
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -113,6 +114,10 @@ module.exports = function (grunt) {
             {
               match: 'REVISION',
               replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
+            },
+            {
+              match: 'NAME',
+              replacement: '<%= OPENSENSEMAP_RELEASE_NAME %>'
             }
           ]
         },
@@ -664,6 +669,14 @@ module.exports = function (grunt) {
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
     grunt.config('OPENSENSEMAP_STYLE_URL', process.env.OPENSENSEMAP_STYLE_URL);
     grunt.config('OPENSENSEMAP_ACCESS_TOKEN', process.env.OPENSENSEMAP_ACCESS_TOKEN);
+
+    var  shortName = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals], // colors can be omitted here as not used
+      length: 2
+    }); // big-donkey
+
+    console.log(shortName);
+    grunt.config('OPENSENSEMAP_RELEASE_NAME', shortName);
   });
 
   grunt.registerTask('test', [

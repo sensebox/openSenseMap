@@ -98,6 +98,11 @@ jobs:
             echo "OPENSENSEMAP_ACCESS_TOKEN=${{ secrets.OPENSENSEMAP_ACCESS_TOKEN_TESTING }}" >> $GITHUB_ENV
           fi
 
+      - name: Update version in package.json
+        if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+        run: |
+          npm version ${{ github.event.release.tag_name }} --no-git-tag-version --no-commit-hooks
+
       - name: Build
         run: |
           npx grunt build --target=build

@@ -64,6 +64,10 @@ module.exports = function (grunt) {
               replacement: '<%= pkg.version %>'
             },
             {
+              match: 'NAME',
+              replacement: '<%= OPENSENSEMAP_RELEASE_NAME %>'
+            },
+            {
               match: 'REVISION',
               replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
             }
@@ -706,7 +710,6 @@ module.exports = function (grunt) {
     'uglify',
     'usemin',
     'htmlmin',
-    'replace:version',
     'replace:control',
     'replace:urls',
     'compress'

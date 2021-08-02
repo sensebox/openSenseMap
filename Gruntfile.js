@@ -26,7 +26,7 @@ module.exports = function (grunt) {
       dev: {
         OPENSENSEMAP_API_URL: 'https://api.testing.opensensemap.org',
         OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        TINGG_MICRO_URL: 'https://tingg.testing.opensensemap.org',
+        TINGG_MICRO_URL: 'https://tingg.opensensemap.org',
       }
     },
 

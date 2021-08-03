@@ -710,6 +710,7 @@ module.exports = function (grunt) {
     'uglify',
     'usemin',
     'htmlmin',
+    'replace:version',
     'replace:control',
     'replace:urls',
     'compress'

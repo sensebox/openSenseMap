@@ -49,7 +49,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="sensor in ttn.decodeOptions">
+          <tr ng-repeat="sensor in ttn.cayenneDecodingOptions">
             <td>
               <div class="form-group">
                 <input class="form-control" type="text"
@@ -64,7 +64,7 @@
             </td>
             <td>
               <div class="form-group">
-                <select name="cayenne_lpp_settings" class="form-control" 
+                <select name="cayenne_lpp_settings" class="form-control"
                   ng-model="sensor.decoder"
                   ng-change="ttn.cayenneLppDecodingChanged(sensor, $index)">
                   <option value="temperature">{{'TEMPERATURE' | translate}}</option>

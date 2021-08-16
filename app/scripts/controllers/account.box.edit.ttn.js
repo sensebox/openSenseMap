@@ -18,6 +18,7 @@
     };
 
     vm.save = save;
+    vm.reloadCayenne = createCayenneEncoding;
 
     vm.decodeOptions = [];
     vm.cayenneLppDecodingChanged = cayenneLppDecodingChanged;
@@ -72,7 +73,7 @@
      * Create basic and initial Cayenne encoding
      */
     function createCayenneEncoding () {
-      vm.cayenneDecodingOptions = boxData.sensorsArray.map(function (sensor) {
+      vm.cayenneDecodingOptions = boxData.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
 
         var tempSubstr = ['temp'];

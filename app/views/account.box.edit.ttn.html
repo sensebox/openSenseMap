@@ -5,6 +5,7 @@
     </div>
     <div class="col-md-6  col-lg-6">
       <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="ttn.reloadCayenne()" ng-show="ttn.settings.profile == 'cayenne-lpp'"><i class="glyphicon glyphicon-refresh"></i></button>
         <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="ttn.save()" ng-disabled=" (ttnSettings.$valid && ttn.validTTNconfig) ? false : true"><i class="glyphicon glyphicon-floppy-disk"></i></button>
       </div>
     </div>

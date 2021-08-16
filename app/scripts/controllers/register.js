@@ -614,9 +614,30 @@
       add(icon, title, unit, sensorType);
     }
 
+    function generateMarkerIcon () {
+      var icon = 'circle';
+      var color = 'red';
+
+      if (vm.newSenseBox.exposure === 'indoor' || vm.newSenseBox.exposure === 'outdoor') {
+        icon = 'cube';
+        color = 'green';
+      } else if (vm.newSenseBox.exposure === 'mobile') {
+        icon = 'rocket';
+        color = 'blue';
+      }
+
+      return L.AwesomeMarkers.icon({
+        type: 'awesomeMarker',
+        prefix: 'fa',
+        icon: icon,
+        markerColor: color
+      });
+    }
+
     ////
 
     $scope.$on('osemMapClick.map_register', function (e, args) {
+
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
@@ -627,7 +648,8 @@
             ],
             lat: parseFloat(args.latlng.lat.toFixed(6)),
             lng: parseFloat(args.latlng.lng.toFixed(6)),
-            draggable: true
+            draggable: true,
+            icon: generateMarkerIcon()
           }
         };
       } else {
@@ -665,7 +687,8 @@
             ],
             lat: parseFloat(args.latlng.lat.toFixed(6)),
             lng: parseFloat(args.latlng.lng.toFixed(6)),
-            draggable: true
+            draggable: true,
+            icon: generateMarkerIcon()
           }
         };
         if (args.latlng.altitude) {
@@ -762,6 +785,11 @@
 
       vm.modelSelected.name = false;
     });
+
+    // Watch selected sensors if model is homev2
+    $scope.$watch('register.newModel.sensors', function (newValue, oldValue) {
+      // TODO: push selected sensors to register.sensors
+    }, true);
 
     $scope.$watch('register.newModel.connection', function (newValue) {
       if (newValue === 'Lora') {
@@ -885,6 +913,7 @@
         if (Object.keys(vm.markers).length === 0) {
           vm.markers = {
             box: {
+              layerName: 'registration',
               latLng: [
                 parseFloat(newValue.lat.toFixed(6)),
                 parseFloat(newValue.lng.toFixed(6))
@@ -892,7 +921,8 @@
               lat: parseFloat(newValue.lat.toFixed(6)),
               lng: parseFloat(newValue.lng.toFixed(6)),
               height: newValue.height,
-              draggable: true
+              draggable: true,
+              icon: generateMarkerIcon()
             }
           };
         } else {
@@ -909,31 +939,11 @@
       }
     });
 
-    $scope.$watchCollection('register.newSenseBox.exposure', function (
-      newValue
-    ) {
-      if (newValue === '') {
-        return;
+    $scope.$watchCollection('register.newSenseBox.exposure', function () {
+      if (vm.markers.box) {
+        vm.markers = angular.copy(vm.markers);
+        vm.markers.box.icon = generateMarkerIcon();
       }
-      var icon = '';
-      var color = '';
-
-      if (newValue === 'indoor' || newValue === 'outdoor') {
-        icon = 'cube';
-        color = 'green';
-      }
-
-      if (newValue === 'mobile') {
-        icon = 'rocket';
-        color = 'blue';
-      }
-      vm.markers = angular.copy(vm.markers);
-      vm.markers.box.icon = L.AwesomeMarkers.icon({
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: icon,
-        markerColor: color
-      });
     });
   }
 })();

@@ -614,9 +614,10 @@
       }
 
       return {
-        icon,
-        title,
-        unit, sensorType
+        icon: icon,
+        title: title,
+        unit: unit,
+        sensorType: sensorType
       };
     }
 

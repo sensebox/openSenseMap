@@ -863,7 +863,6 @@
 
     // Watch extensions because they also add sensors
     $scope.$watch('register.extensions', function (newValue, oldValue) {
-      console.log(newValue);
       // Add sensor template
       if (newValue.feinstaub.id !== '') {
         addSensorTemplate('PM25');

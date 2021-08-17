@@ -629,15 +629,15 @@
 
       // Remove specific sensor template
       for (var index = 0; index < vm.sensors.length; index++) {
-        const element = vm.sensors[index];
+        var element = vm.sensors[index];
         if (element.sensorType === template.sensorType && element.title === template.title) {
           vm.sensors.splice(index, 1);
         }
       }
 
       // Rewrite sensor ids
-      var tempSensors = vm.sensors.map(function (sensor, index) {
-        sensor.id = index;
+      var tempSensors = vm.sensors.map(function (sensor, idx) {
+        sensor.id = idx;
 
         return sensor;
       });

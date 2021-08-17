@@ -5,10 +5,11 @@
     .module('openSenseMapApp')
     .controller('EditBoxTtnController', EditBoxTtnController);
 
-  EditBoxTtnController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService'];
+  EditBoxTtnController.$inject = ['$scope', 'boxData', 'notifications', 'AccountService', 'Box'];
 
-  function EditBoxTtnController ($scope, boxData, notifications, AccountService) {
+  function EditBoxTtnController ($scope, boxData, notifications, AccountService, Box) {
     var vm = this;
+    vm.editingBox = {};
     vm.validTTNconfig = true;
     vm.settings = {
       profile: 'sensebox/home',
@@ -38,6 +39,8 @@
           vm.cayenneDecodingOptions = JSON.parse(vm.settings.decodeOptions);
         }
       }
+
+      angular.copy(new Box(boxData), vm.editingBox);
     }
 
     function cayenneLppDecodingChanged (sensor, index) {
@@ -59,7 +62,7 @@
       }
 
 
-      return AccountService.updateBox(boxData._id, req)
+      return AccountService.updateBox(vm.editingBox._id, req)
         .then(function (response) {
           angular.copy(response.data, boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
@@ -73,7 +76,7 @@
      * Create basic and initial Cayenne encoding
      */
     function createCayenneEncoding () {
-      vm.cayenneDecodingOptions = boxData.sensors.map(function (sensor) {
+      vm.cayenneDecodingOptions = vm.editingBox.sensorsArray.map(function (sensor) {
         var decoderGuess = 'analog_in';
 
         var tempSubstr = ['temp'];
@@ -102,7 +105,7 @@
     ////
 
     // Watch for a profile change
-    $scope.$watch('ttn.settings.profile', function(newValue) {
+    $scope.$watch('ttn.settings.profile', function (newValue) {
       // Changed to Cayenne -> create Cayenne encoding
       if (newValue === 'cayenne-lpp' && vm.cayenneDecodingOptions.length === 0) {
         createCayenneEncoding();

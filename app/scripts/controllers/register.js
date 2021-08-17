@@ -502,12 +502,13 @@
       return validTTN && validMQTT;
     }
 
-    function addSensorTemplate (template) {
+    function generateSensorTemplate (templateName) {
       var icon = '';
       var title = '';
       var unit = '';
       var sensorType = '';
-      switch (template) {
+
+      switch (templateName) {
       case 'HDC1080_TEMPERATURE':
         icon = 'osem-thermometer';
         title = 'Temperatur';
@@ -611,7 +612,42 @@
         sensorType = 'SCD30';
         break;
       }
-      add(icon, title, unit, sensorType);
+
+      return {
+        icon,
+        title,
+        unit, sensorType
+      };
+    }
+
+
+    function removeSensorTemplate (template) {
+      if (template === '' || template === null || template === undefined) {
+        return;
+      }
+
+      // Remove specific sensor template
+      for (let index = 0; index < vm.sensors.length; index++) {
+        const element = vm.sensors[index];
+        if (element.sensorType === template.sensorType && element.title === template.title) {
+          vm.sensors.splice(index, 1);
+        }
+      }
+
+      // Rewrite sensor ids
+      var tempSensors = vm.sensors.map(function (sensor, index) {
+        sensor.id = index;
+
+        return sensor;
+      });
+
+      angular.copy(tempSensors, vm.sensors);
+
+    }
+
+    function addSensorTemplate (templateName) {
+      var template = generateSensorTemplate(templateName);
+      add(template.icon, template.title, template.unit, template.sensorType);
     }
 
     function generateMarkerIcon () {
@@ -788,7 +824,78 @@
 
     // Watch selected sensors if model is homev2
     $scope.$watch('register.newModel.sensors', function (newValue, oldValue) {
-      // TODO: push selected sensors to register.sensors
+      // Add sensor templates
+      if (newValue.temp && oldValue.temp === false) {
+        addSensorTemplate('HDC1080_TEMPERATURE');
+        addSensorTemplate('HDC1080_HUMIDITY');
+      } else if (newValue.pressure && oldValue.pressure === false) {
+        addSensorTemplate('BMP280_PRESSURE');
+      } else if (newValue.light && oldValue.light === false) {
+        addSensorTemplate('VEML6070');
+        addSensorTemplate('TSL45315');
+      } else if (newValue.bme680 && oldValue.bme680 === false) {
+        addSensorTemplate('BME680_TEMPERATURE');
+        addSensorTemplate('BME680_HUMIDITY');
+        addSensorTemplate('BME680_PRESSURE');
+        addSensorTemplate('BME680_VOC');
+      } else if (newValue.co2 && oldValue.co2 === false) {
+        addSensorTemplate('scd30_co2');
+      }
+
+      // Remove sensor templates
+      if (oldValue.temp && newValue.temp === false) {
+        removeSensorTemplate(generateSensorTemplate('HDC1080_TEMPERATURE'));
+        removeSensorTemplate(generateSensorTemplate('HDC1080_HUMIDITY'));
+      } else if (oldValue.pressure && newValue.pressure === false) {
+        removeSensorTemplate(generateSensorTemplate('BMP280_PRESSURE'));
+      } else if (oldValue.light && newValue.light === false) {
+        removeSensorTemplate(generateSensorTemplate('VEML6070'));
+        removeSensorTemplate(generateSensorTemplate('TSL45315'));
+      } else if (oldValue.bme680 && newValue.bme680 === '') {
+        removeSensorTemplate(generateSensorTemplate('BME680_TEMPERATURE'));
+        removeSensorTemplate(generateSensorTemplate('BME680_HUMIDITY'));
+        removeSensorTemplate(generateSensorTemplate('BME680_PRESSURE'));
+        removeSensorTemplate(generateSensorTemplate('BME680_VOC'));
+      } else if (oldValue.co2 && newValue.co2 === '') {
+        removeSensorTemplate(generateSensorTemplate('scd30_co2'));
+      }
+    }, true);
+
+    // Watch extensions because they also add sensors
+    $scope.$watch('register.extensions', function (newValue, oldValue) {
+      console.log(newValue);
+      // Add sensor template
+      if (newValue.feinstaub.id !== '') {
+        addSensorTemplate('PM25');
+        addSensorTemplate('PM10');
+      } else if (newValue.soilMoisture.id !== '') {
+        addSensorTemplate('smt50_soilmoisture');
+        addSensorTemplate('smt50_soiltemperature');
+      } else if (newValue.soundLevelMeter.id !== '') {
+        addSensorTemplate('soundlevelmeter');
+      } else if (newValue.windSpeed.id !== '') {
+        addSensorTemplate('windspeed');
+      }
+
+      // Remove sensor template
+      if (newValue.feinstaub.id === '' && oldValue.feinstaub.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('PM25'));
+        removeSensorTemplate(generateSensorTemplate('PM10'));
+      } else if (newValue.soilMoisture.id === '' && oldValue.soilMoisture.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('smt50_soilmoisture'));
+        removeSensorTemplate(generateSensorTemplate('smt50_soiltemperature'));
+      } else if (newValue.soundLevelMeter.id === '' && oldValue.soundLevelMeter.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('soundlevelmeter'));
+      } else if (newValue.windSpeed.id === '' && oldValue.windSpeed.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('windspeed'));
+      }
+    }, true);
+
+    // Watch added sensors if selected model is custom or edu
+    $scope.$watch('register.sensors', function () {
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      }
     }, true);
 
     $scope.$watch('register.newModel.connection', function (newValue) {
@@ -811,21 +918,25 @@
     });
 
     function updateCayenneDecoding () {
-      vm.ttn.cayenneLppDecoding = vm.sensors.map(function (sensor) {
+      var tempCayenneLppDecoding = vm.sensors.map(function (sensor) {
         var decoderGuess = 'analog_in';
 
         var tempSubstr = ['temp'];
         var humiSubstr = ['humi', 'feucht'];
         var pressSubstr = ['press', 'druck'];
         var illuSubstr = ['hell', 'illu', 'uv', 'beleuch'];
-        if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'temperature';
-        } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'relative_humidity';
-        } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'barometric_pressure';
-        } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
-          decoderGuess = 'luminosity';
+
+        // Title could be undefined in manual configuration after adding a sensor
+        if (sensor.title) {
+          if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'temperature';
+          } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'relative_humidity';
+          } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'barometric_pressure';
+          } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'luminosity';
+          }
         }
 
         return Object.assign({
@@ -833,8 +944,11 @@
           sensor_type: sensor.sensorType,
           decoder: decoderGuess,
           channel: 1
-        }, vm.ttn.cayenneLppDecoding[sensor.id]);
+        });
       });
+
+      // Copy and apply changes to scope variables
+      angular.copy(tempCayenneLppDecoding, vm.ttn.cayenneLppDecoding);
       vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
     }
 

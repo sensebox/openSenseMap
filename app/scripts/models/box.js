@@ -86,12 +86,14 @@
       destObj.markerOptions = OpenSenseMapData.makeMarkerOptions(srcObj);
       for (var key in srcObj) {
         if (key === 'sensors') {
-          destObj['sensorsArray'] = srcObj.sensors;
+          // destObj['sensorsArray'] = srcObj.sensors;
+          destObj['sensorsArray'] = [];
           destObj['sensors'] = {};
           for (var index in srcObj.sensors) {
             if (index) {
               var sensor = new Sensor(srcObj.sensors[index]);
               destObj.sensors[sensor._id] = sensor;
+              destObj.sensorsArray.push(sensor);
             }
           }
         } else {

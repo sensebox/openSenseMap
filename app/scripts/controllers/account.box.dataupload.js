@@ -27,6 +27,8 @@
     vm.submitData = submitData;
     vm.onFileSelect = onFileSelect;
 
+    var mimeTypes = ['text/csv', 'application/vnd.ms-excel', 'application/json'];
+
     activate();
 
     ////
@@ -36,7 +38,6 @@
       vm.fileReader = new FileReader();
       vm.fileReader.onload = function (e) {
         $scope.$apply(function () {
-          console.log(e);
           vm.measurementData = e.target.result;
         });
       };
@@ -46,7 +47,7 @@
       event.preventDefault();
       vm.error = '';
       console.log(file);
-      if (Object.keys(vm.dataTypes).indexOf(file.file.type) === -1) {
+      if (mimeTypes.indexOf(file.file.type) === -1) {
         vm.error = { code: 'FORMAT' };
 
         return;

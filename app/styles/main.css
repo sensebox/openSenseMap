@@ -22,9 +22,35 @@ a:focus {
   text-decoration: none;
 }
 
+.navbar-fixed-top {
+  top: 50px;
+}
+
 .monospace {
   font-family: Courier New, Courier, monospace;
 }
+
+section {
+  padding: 20px;
+}
+
+.announcement-top-bar {
+  position: fixed;
+  top: 0;
+  min-height: 50px;
+  width: 100%;
+  z-index: 1003;
+}
+
+.announcement-top-bar p {
+  margin: 0;
+  text-align: center;
+}
+
+/* .announcement-top-bar.alert-dismissible .close {
+  top: 50%;
+  transform: translateY(-55%);
+} */
 
 .center {
   margin-left: auto;
@@ -164,7 +190,7 @@ a:focus {
 }
 
 #map_main .leaflet-top {
-  top: 125px;
+  top: 175px;
 }
 
 #app_info_button {

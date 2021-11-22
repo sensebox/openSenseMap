@@ -52,8 +52,19 @@
 
         return;
       }
-      vm.dataFormat = file.file.type;
 
+      switch (file.file.type) {
+      case 'text/csv':
+      case 'application/vnd.ms-excel':
+        vm.dataFormat = 'text/csv';
+        break;
+      case 'application/json':
+        vm.dataFormat = 'application/json';
+        break;
+      default:
+        vm.dataFormat = file.file.type;
+        break;
+      }
 
       vm.fileReader.readAsText(file.file);
     }

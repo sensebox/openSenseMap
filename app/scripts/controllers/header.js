@@ -13,6 +13,7 @@
     vm.searchString = '';
     vm.showClearSearch = false;
     vm.isNavCollapsed = true;
+    vm.showAnnouncment = true;
     vm.filterActive = FilterActiveService;
     vm.counts = {
       boxes: '',

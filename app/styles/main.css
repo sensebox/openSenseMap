@@ -22,7 +22,7 @@ a:focus {
   text-decoration: none;
 }
 
-.navbar-fixed-top {
+.navbar-fixed-top-announcment {
   top: 50px;
 }
 
@@ -35,6 +35,7 @@ section {
 }
 
 .announcement-top-bar {
+  display: flex;
   position: fixed;
   top: 0;
   min-height: 50px;
@@ -43,14 +44,10 @@ section {
 }
 
 .announcement-top-bar p {
+  flex-grow: 1;
   margin: 0;
   text-align: center;
 }
-
-/* .announcement-top-bar.alert-dismissible .close {
-  top: 50%;
-  transform: translateY(-55%);
-} */
 
 .center {
   margin-left: auto;

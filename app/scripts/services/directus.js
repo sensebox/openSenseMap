@@ -5,17 +5,9 @@
     .module('app.services')
     .factory('DirectusService', DirectusService);
 
-  DirectusService.$inject = [
-    '$http',
-    '$q',
-    'app',
-  ];
+  DirectusService.$inject = ['$http', '$q', 'app'];
 
-  function DirectusService (
-    $http,
-    $q,
-    app,
-  ) {
+  function DirectusService ($http, $q, app) {
     var service = {
       getAnnouncement: getAnnouncement,
     };

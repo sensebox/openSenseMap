@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ghcr.io/sensebox/osem-frontend
+  IMAGE_NAME: ${{ env.REGISTRY }}/${{ env.GITHUB_REPOSITORY_OWNER }}/${{ secrets.GHCR_IMAGE_NAME }}
 
 jobs:
   lint:

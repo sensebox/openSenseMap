@@ -57,13 +57,18 @@
       // fetch CMS endpoint
       return DirectusService.getAnnouncement()
         .then(function (response) {
+          if (!response.data.text) {
+            close();
+
+            return;
+          }
           vm.variant = variantPrefix + response.data.variant;
           vm.markdown = response.data.text;
         })
         .catch(function () {
           // no need to catch errors
           // instead hide announcment
-          vm.show = false;
+          close();
         });
     }
 

@@ -54,20 +54,13 @@
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
+  <!-- Announcment bar -->
+  <div class="announcment-top-bar-container">
+    <osem-announcement class="announcement-top-bar" />
+  </div>
+
   <!-- Fixed navbar -->
   <nav class="navbar navbar-default navbar-fixed-top" ng-class="{'navbar-fixed-top-announcment': header.showAnnouncment}" ng-controller="HeaderController as header">
-    <!-- Announcment bar -->
-    <div class="announcment-top-bar-container">
-      <div class="announcement-top-bar alert alert-success alert-dismissible" role="alert" ng-show="header.showAnnouncment">
-        <p>
-          We are releasing a new version of openSenseMap.org soon. Have a look at the <a href="https://beta.opensensemap.org"
-            target="_blank"><b>Beta Version</b></a>.
-        </p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="header.showAnnouncment = !header.showAnnouncment">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-    </div>
     <div class="navbar-inner">
       <div class="container">
         <div class="navbar-header">
@@ -382,6 +375,8 @@
   <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
   <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
   <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <script src="bower_components/showdown/dist/showdown.js"></script>
+  <script src="bower_components/ng-showdown/dist/ng-showdown.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -390,6 +385,7 @@
   <script src="scripts/constants.js"></script>
   <script src="scripts/models/box.js"></script>
   <script src="scripts/models/sensor.js"></script>
+  <script src="components/announcement.directive.js"></script>
   <script src="components/calendar.directive.js"></script>
   <script src="components/leaflet.directive.js"></script>
   <script src="components/leaflet.service.js"></script>
@@ -428,6 +424,7 @@
   <script src="scripts/controllers/account.box.edit.ttn.js"></script>
   <script src="scripts/controllers/account.box.dataupload.js"></script>
   <script src="scripts/services/account.js"></script>
+  <script src="scripts/services/directus.js"></script>
   <script src="scripts/services/language.js"></script>
   <script src="scripts/services/opensensemapapi.js"></script>
   <script src="scripts/services/osemdata.js"></script>

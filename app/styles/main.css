@@ -34,7 +34,11 @@ section {
   padding: 20px;
 }
 
-.announcement-top-bar {
+.announcement-container {
+  width: 100%;
+}
+
+.announcement-content {
   display: flex;
   position: fixed;
   top: 0;
@@ -43,7 +47,7 @@ section {
   z-index: 1003;
 }
 
-.announcement-top-bar p {
+.announcement-content p {
   flex-grow: 1;
   margin: 0;
   text-align: center;
@@ -611,8 +615,9 @@ div.box {
   }
 }
 @media (max-width: 767px) {
-  .announcement-top-bar {
+  .announcement-content {
     min-height: 70px;
+    height: 70px;
     width: 100%;
   }
   .navbar-fixed-top {

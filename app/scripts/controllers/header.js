@@ -205,5 +205,9 @@
       vm.key = data.data.user.language.split('_')[0];
       LanguageService.change(data.data.user.language);
     });
+
+    $rootScope.$on('osemAnnouncementClosed', function (event, data) {
+      vm.showAnnouncment = false;
+    });
   }
 })();

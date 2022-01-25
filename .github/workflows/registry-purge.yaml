@@ -14,5 +14,5 @@ jobs:
         with:
           token: ${{ secrets.GHCR_TOKEN}}
           organization: ${{ github.repository_owner}}
-          container: ${{ github.event.repository.name }}
+          container: ${{ secrets.GHCR_IMAGE_NAME }}
           untagged: true

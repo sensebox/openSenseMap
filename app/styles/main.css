@@ -620,7 +620,7 @@ div.box {
     height: 70px;
     width: 100%;
   }
-  .navbar-fixed-top {
+  .navbar-fixed-top-announcment {
     top: 70px;
   }
   .languages-select.visible-xs {
@@ -838,7 +838,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   }
   .navbar-fixed-top {
-    top: 50;
+    /* top: 50px; */
     border-width: 0 0 1px;
   }
   .navbar-collapse.collapse {

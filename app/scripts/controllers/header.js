@@ -206,7 +206,7 @@
       LanguageService.change(data.data.user.language);
     });
 
-    $rootScope.$on('osemAnnouncementClosed', function (event, data) {
+    $rootScope.$on('osemAnnouncementClosed', function () {
       vm.showAnnouncment = false;
     });
   }

@@ -15,6 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
+  IMAGE_NAME: osem-frontend
 
 jobs:
   lint:
@@ -124,6 +125,6 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: ${{ github.event_name == 'push' || ( github.event_name == 'release' && github.event.action == 'published' ) }}
-          tags: ${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }},${{ secrets.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }}-${{ steps.branch_info.outputs.short_sha }}
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }},${{ env.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }}-${{ steps.branch_info.outputs.short_sha }}
           context: ./
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max

@@ -16,6 +16,7 @@ You can configure the API endpoint and/or map tiles using the following environm
 | ENV | Default value |
 | --------- | ----------------- |
 | OPENSENSEMAP_API_URL     | https://api.testing.opensensemap.org |
+| OPENSENSEMAP_CMS_URL     | <YOUR_DIRECTUS_CMS_URL> |
 | OPENSENSEMAP_STYLE_URL |  <YOUR_MAPBOX_STYLE_URL> |
 | OPENSENSEMAP_ACCESS_TOKEN | <YOUR_MAPBOX_ACCESS_TOKEN> |
 
@@ -68,6 +69,7 @@ Following ```build-args``` are availble:
 | Build Arg | Default value |
 | --------- | ----------------- |
 | OPENSENSEMAP_API_URL     | https://api.opensensemap.org |
+| OPENSENSEMAP_CMS_URL     | <YOUR_DIRECTUS_CMS_URL> |
 | OPENSENSEMAP_STYLE_URL |  <YOUR_MAPBOX_STYLE_URL> |
 | OPENSENSEMAP_ACCESS_TOKE | <YOUR_MAPBOX_ACCESS_TOKEN> |
 

@@ -8,6 +8,7 @@
       VERSION: '@@VERSION',
       REVISION: '@@REVISION',
       NAME: '@@NAME',
-      API_URL: '@@OPENSENSEMAP_API_URL'
+      API_URL: '@@OPENSENSEMAP_API_URL',
+      CMS_URL: '@@OPENSENSEMAP_CMS_URL'
     });
 })();

@@ -27,9 +27,9 @@
     function link (scope, element, attrs) {}
   }
 
-  AnnouncementController.$inject = ['$scope', 'DirectusService'];
+  AnnouncementController.$inject = ['$scope', '$timeout', 'DirectusService'];
 
-  function AnnouncementController ($scope, DirectusService) {
+  function AnnouncementController ($scope, $timeout, DirectusService) {
     var vm = this;
     var variantPrefix = 'alert-';
 
@@ -75,7 +75,10 @@
     function close () {
       vm.show = false;
 
-      $scope.$emit('osemAnnouncementClosed', {});
+      // Delay event emitting
+      $timeout(function () {
+        $scope.$emit('osemAnnouncementClosed', {});
+      }, 100);
     }
 
     ////

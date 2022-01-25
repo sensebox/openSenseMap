@@ -15,7 +15,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: osem-frontend
+  IMAGE_NAME: ghcr.io/sensebox/osem-frontend
 
 jobs:
   lint:

@@ -2,501 +2,518 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-  <head>
-    <meta charset="utf-8">
-    <title>openSenseMap</title>
-    <meta name="description" content="OpenSenseMap is a platform for publishing and visualizing environmental sensor data.">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <base href="/">
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
 
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-    <link rel="icon" href="images/favicon.ico">
-    <link rel="manifest" href="site.webmanifest">
-    <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="apple-mobile-web-app-title" content="openSenseMap">
-    <meta name="application-name" content="openSenseMap">
-    <meta name="msapplication-TileColor" content="#2d89ef">
-    <meta name="theme-color" content="#ffffff">
+<head>
+  <meta charset="utf-8">
+  <title>openSenseMap.org</title>
+  <meta name="description"
+    content="openSenseMap.org is a platform for publishing and visualizing environmental sensor data.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <base href="/">
 
-    <!-- build:css styles/vendor.css -->
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
-    <!-- bower:css -->
-    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
-    <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
-    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
-    <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
-    <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css" />
-    <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
-    <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
-    <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
-    <!-- endbower -->
-    <!-- endbuild -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+  <link rel="icon" href="images/favicon.ico">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="mask-icon" href="images/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="apple-mobile-web-app-title" content="openSenseMap">
+  <meta name="application-name" content="openSenseMap">
+  <meta name="msapplication-TileColor" content="#2d89ef">
+  <meta name="theme-color" content="#ffffff">
 
-    <!-- build:css({.tmp,app}) styles/main.css -->
-    <link rel="stylesheet" href="styles/BrixSlab-font.css">
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/osemicons.css">
-    <!-- endbuild -->
-  </head>
-  <body ng-app="openSenseMapApp" flow-prevent-drop>
-    <!--[if lt IE 7]>
+  <!-- build:css styles/vendor.css -->
+  <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css" />
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
+  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+  <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-languages/languages.min.css" />
+  <link rel="stylesheet" href="bower_components/angularjs-slider/dist/rzslider.css" />
+  <link rel="stylesheet" href="bower_components/angular-wizard/dist/angular-wizard.min.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap-css-only/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css" />
+  <link rel="stylesheet" href="bower_components/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="bower_components/mapbox-gl-css/index.css" />
+  <link rel="stylesheet" href="bower_components/ngprogress/ngProgress.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+
+  <!-- build:css({.tmp,app}) styles/main.css -->
+  <link rel="stylesheet" href="styles/BrixSlab-font.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="styles/osemicons.css">
+  <!-- endbuild -->
+</head>
+
+<body ng-app="openSenseMapApp" flow-prevent-drop>
+  <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
-    <!-- Fixed navbar -->
-    <nav class="navbar navbar-default navbar-fixed-top" ng-controller="HeaderController as header">
-      <div class="navbar-inner">
-        <div class="container">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-click="header.isNavCollapsed = !header.isNavCollapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <span id="brand_with_logo">
-              <a class="navbar-brand" ui-sref="explore.map" ui-sref-opts="{reload: true}">
-                <img src="images/favicon.svg">
-                <div class='oSeM-brand'>&nbsp;openSenseMap</div>
-              </a>
-            </span>
-            <div class="ng-cloak brand-stats">
-              <span class="sensebox-stats">{{ header.counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br/>
-              <span class="sensebox-stats" title="{{header.counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{ header.counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
-            </div>
+  <!-- Fixed navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top" ng-class="{'navbar-fixed-top-announcment': header.showAnnouncment}" ng-controller="HeaderController as header">
+    <!-- Announcment bar -->
+    <div class="announcment-top-bar-container">
+      <div class="announcement-top-bar alert alert-success alert-dismissible" role="alert" ng-show="header.showAnnouncment">
+        <p>
+          We are releasing a new version of openSenseMap.org soon. Have a look at the <a href="https://beta.opensensemap.org"
+            target="_blank"><b>Beta Version</b></a>.
+        </p>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="header.showAnnouncment = !header.showAnnouncment">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar-inner">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" ng-click="header.isNavCollapsed = !header.isNavCollapsed"
+            data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span id="brand_with_logo">
+            <a class="navbar-brand" ui-sref="explore.map" ui-sref-opts="{reload: true}">
+              <img src="images/favicon.svg">
+              <div class='oSeM-brand'>&nbsp;openSenseMap</div>
+            </a>
+          </span>
+          <div class="ng-cloak brand-stats">
+            <span class="sensebox-stats">{{ header.counts.boxes }}</span> {{'SENSEBOXES'|translate}}<br />
+            <span class="sensebox-stats" title="{{header.counts.mPerMin}} {{'MEASUREMENTS'|translate}}/min">{{
+              header.counts.measurements }}</span> {{'MEASUREMENTS'|translate}}
           </div>
-          <div class="collapse navbar-collapse" uib-collapse="header.isNavCollapsed" id="bs-example-navbar-collapse-1" style="max-height: none;">
-            <ul class="ng-cloak nav navbar-nav navbar-right hidden-xs">
-              <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map" ui-sref-opts="{reload: true}" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-search-plus" aria-hidden="true"></i>
-                  {{'EXPLORE' | translate}}
-                </a>
-              </li>
-              <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.sidebar.interpolation" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-cloud" aria-hidden="true"></i>
-                  {{'INTERPOLATION' | translate}}
-                </a>
-              </li>
-              <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
-                <a ui-sref="explore.map.sidebar.filter" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-filter" aria-hidden="true"></i>{{'FILTER' | translate}}
-                  <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
-                </a>
-              </li>
-              <li ui-sref-active-eq="active" class="menuitem">
-                <a ui-sref="explore.map.sidebar.download" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-download" aria-hidden="true"></i>
-                  {{'DATADOWNLOAD' | translate}}
-                </a>
-              </li>
-              <li ui-sref-active-eq="active" class="menuitem" ng-hide="header.isAuthed()">
-                <a ui-sref="register" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-barcode" aria-hidden="true"></i>
-                  {{'REGISTER' | translate}}
-                </a>
-              </li>
-              <li ui-sref-active="{'active': 'info.**'}" class="menuitem">
-                <a ui-sref="info.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  {{'INFO' | translate}}
-                </a>
-              </li>
-              <!-- <li class="menuitem">
+        </div>
+        <div class="collapse navbar-collapse" uib-collapse="header.isNavCollapsed" id="bs-example-navbar-collapse-1"
+          style="max-height: none;">
+          <ul class="ng-cloak nav navbar-nav navbar-right hidden-xs">
+            <li ui-sref-active-eq="active" class="menuitem">
+              <a ui-sref="explore.map" ui-sref-opts="{reload: true}"
+                ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-search-plus" aria-hidden="true"></i>
+                {{'EXPLORE' | translate}}
+              </a>
+            </li>
+            <li ui-sref-active-eq="active" class="menuitem">
+              <a ui-sref="explore.map.sidebar.interpolation" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-cloud" aria-hidden="true"></i>
+                {{'INTERPOLATION' | translate}}
+              </a>
+            </li>
+            <li ui-sref-active-eq="active" class="menuitem" ng-class="{filteractive: header.filterActive.active}">
+              <a ui-sref="explore.map.sidebar.filter" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-filter" aria-hidden="true"></i>{{'FILTER' | translate}}
+                <span style="font-size:smaller;" ng-if="header.filterActive.active"><br /><i
+                    class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+              </a>
+            </li>
+            <li ui-sref-active-eq="active" class="menuitem">
+              <a ui-sref="explore.map.sidebar.download" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-download" aria-hidden="true"></i>
+                {{'DATADOWNLOAD' | translate}}
+              </a>
+            </li>
+            <li ui-sref-active-eq="active" class="menuitem" ng-hide="header.isAuthed()">
+              <a ui-sref="register" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-barcode" aria-hidden="true"></i>
+                {{'REGISTER' | translate}}
+              </a>
+            </li>
+            <li ui-sref-active="{'active': 'info.**'}" class="menuitem">
+              <a ui-sref="info.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                {{'INFO' | translate}}
+              </a>
+            </li>
+            <!-- <li class="menuitem">
                 <a ng-click="header.openHelp()">
                   <i class="fa fa-question" aria-hidden="true"></i>
                   FAQ
                 </a>
               </li> -->
-              <li ui-sref-active="{'active': 'donate.**'}" class="menuitem">
-                <a ui-sref="donate.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
-                  <i class="fa fa-info-circle" aria-hidden="true"></i>
-                  {{'DONATE' | translate}}
-                </a>
-              </li>
-              <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
-                <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true" aria-expanded="false">
-                  <span class="lang-sm" lang="{{header.key}}"></span>
-                  <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span>
-                  <b class="caret"></b>
-                </a>
-                <ul uib-dropdown-menu class="dropdown-menu" role="menu">
-                  <!-- languages-start -->
-                  <!-- languages-end -->
-                </ul>
-              </li>
-              <li class="menuitem" ng-hide="header.isAuthed()">
-                <a ng-click="header.open()">
-                  <i class="fa fa-sign-in" aria-hidden="true"></i> {{'ACCOUNT_LOGIN'|translate}}
-                </a>
-              </li>
-              <li class="menuitem" ng-show="header.isAuthed()" uib-dropdown>
-                <a uib-dropdown-toggle>
-                  <i class="fa fa-user-circle-o" aria-hidden="true"></i>
-                  <b class="caret"></b>
-                </a>
-                <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
-                  <li>
-                    <div style="padding: 3px 20px;">
-                      {{'ACCOUNT_SIGNED_IN_AS'|translate}} <strong>{{header.username}}</strong>
-                    </div>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a ui-sref="account.dashboard">{{'ACCOUNT_DASHBOARD'|translate}}</a>
-                  </li>
-                  <li>
-                    <a ui-sref="account.register">{{'ACCOUNT_NEW_SENSEBOX'|translate}}</a>
-                  </li>
-                  <li class="divider"></li>
-                  <li>
-                    <a ui-sref="account.settings">{{'ACCOUNT_SETTINGS'|translate}}</a>
-                  </li>
-                  <li>
-                    <a ng-click="header.logout()">{{'ACCOUNT_SIGN_OUT'|translate}}</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <!-- mobile navbar -->
-            <div class="nav navbar-nav navbar-right visible-xs" style="height: calc(100vh - 50px)">
-              <div class="row">
-                <div class="col-xs-12">
-                  <div class="col-xs-6">
-                    <ul class="nav navbar-nav">
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="explore.map" ui-sref-opts="{reload: true}" ng-click="header.closeNavbar()">
-                          <i class="fa fa-search-plus" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'EXPLORE' | translate}}</span>
-                        </a>
-                      </li>
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="explore.map.sidebar.filter" ng-click="header.closeNavbar()">
-                          <i class="fa fa-filter" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'FILTER' | translate}}</span>
-                          <span style="font-size:smaller;" ng-if="header.filterActive.active"><br/><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
-                        </a>
-                      </li>
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="register" ng-click="header.closeNavbar()">
-                          <i class="fa fa-barcode" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'REGISTER' | translate}}</span>
-                        </a>
-                      </li>
-                    </ul>
+            <li ui-sref-active="{'active': 'donate.**'}" class="menuitem">
+              <a ui-sref="donate.about" ng-click="header.isNavCollapsed = !header.isNavCollapsed">
+                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                {{'DONATE' | translate}}
+              </a>
+            </li>
+            <li class="dropdown dropdown-languages" uib-dropdown ng-hide="header.isAuthed()">
+              <a role="button" class="dropdown-toggle" uib-dropdown-toggle="" aria-haspopup="true"
+                aria-expanded="false">
+                <span class="lang-sm" lang="{{header.key}}"></span>
+                <span class="languages-select visible-xs">{{'CHANGE_LANG' | translate}}</span>
+                <b class="caret"></b>
+              </a>
+              <ul uib-dropdown-menu class="dropdown-menu" role="menu">
+                <!-- languages-start -->
+                <!-- languages-end -->
+              </ul>
+            </li>
+            <li class="menuitem" ng-hide="header.isAuthed()">
+              <a ng-click="header.open()">
+                <i class="fa fa-sign-in" aria-hidden="true"></i> {{'ACCOUNT_LOGIN'|translate}}
+              </a>
+            </li>
+            <li class="menuitem" ng-show="header.isAuthed()" uib-dropdown>
+              <a uib-dropdown-toggle>
+                <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+                <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+                <li>
+                  <div style="padding: 3px 20px;">
+                    {{'ACCOUNT_SIGNED_IN_AS'|translate}} <strong>{{header.username}}</strong>
                   </div>
-                  <div class="col-xs-6">
-                    <ul class="nav navbar-nav">
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="explore.map.sidebar.interpolation" ng-click="header.closeNavbar()">
-                          <i class="fa fa-cloud" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'INTERPOLATION' | translate}}</span>
-                        </a>
-                      </li>
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="explore.map.sidebar.download" ng-click="header.closeNavbar()">
-                          <i class="fa fa-download" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'DATADOWNLOAD' | translate}}</span>
-                        </a>
-                      </li>
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="info.about" ng-click="header.closeNavbar()">
-                          <i class="fa fa-info-circle" aria-hidden="true"></i>
-                          <span style="line-height: 30px">{{'INFO' | translate}}</span>
-                        </a>
-                      </li>
-                      <li class="menuitem">
-                        <a ng-click="header.openHelp()">
-                          <i class="fa fa-question" aria-hidden="true"></i>
-                          FAQ
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a ui-sref="account.dashboard">{{'ACCOUNT_DASHBOARD'|translate}}</a>
+                </li>
+                <li>
+                  <a ui-sref="account.register">{{'ACCOUNT_NEW_SENSEBOX'|translate}}</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a ui-sref="account.settings">{{'ACCOUNT_SETTINGS'|translate}}</a>
+                </li>
+                <li>
+                  <a ng-click="header.logout()">{{'ACCOUNT_SIGN_OUT'|translate}}</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+          <!-- mobile navbar -->
+          <div class="nav navbar-nav navbar-right visible-xs" style="height: calc(100vh - 50px)">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="col-xs-6">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="explore.map" ui-sref-opts="{reload: true}" ng-click="header.closeNavbar()">
+                        <i class="fa fa-search-plus" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'EXPLORE' | translate}}</span>
+                      </a>
+                    </li>
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="explore.map.sidebar.filter" ng-click="header.closeNavbar()">
+                        <i class="fa fa-filter" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'FILTER' | translate}}</span>
+                        <span style="font-size:smaller;" ng-if="header.filterActive.active"><br /><i
+                            class="fa fa-exclamation-triangle" aria-hidden="true"></i> Filter active</span>
+                      </a>
+                    </li>
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="register" ng-click="header.closeNavbar()">
+                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'REGISTER' | translate}}</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              </div>
-              <div class="row" ng-show="header.isAuthed()">
-                <hr>
-                <div class="col-xs-12">
-                  <div class="col-xs-4" style="text-align: center;">
-                    <ul class="nav navbar-nav">
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="account.dashboard" style="line-height: 30px;" ng-click="header.closeNavbar()">
-                          {{'ACCOUNT_DASHBOARD'|translate}}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-xs-4" style="text-align: center;">
-                    <ul class="nav navbar-nav">
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="account.register" style="line-height: 30px;" ng-click="header.closeNavbar()">
-                          {{'ACCOUNT_NEW_SENSEBOX'|translate}}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-xs-4" style="text-align: center;">
-                    <ul class="nav navbar-nav">
-                      <li ui-sref-active-eq="active" class="menuitem">
-                        <a ui-sref="account.settings" style="line-height: 30px;" ng-click="header.closeNavbar()">
-                          {{'ACCOUNT_SETTINGS'|translate}}
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <hr>
-              </div>
-              <div class="row">
-                <div class="col-xs-12" ng-show="header.isAuthed()">
-                  <div class="col-xs-6">
-                    <ul class="nav navbar-nav">
-                      <li class="menuitem">
-                        <a style="text-align: center;">
-                          <span>
-                            <strong>{{header.username}}</strong>
-                          </span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                  <div class="col-xs-6">
-                    <ul class="nav navbar-nav">
-                      <li class="menuitem">
-                        <a ng-click="header.logout()" style="text-align: center;">
-                          <i class="fa fa-sign-out" aria-hidden="true"></i>
-                          <span>{{'ACCOUNT_SIGN_OUT'|translate}}</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="col-xs-12" ng-hide="header.isAuthed()">
-                  <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
-                    <ul class="nav navbar-nav">
-                      <li class="menuitem">
-                        <a ng-click="header.open()" style="text-align: center;">
-                          <i class="fa fa-sign-in" aria-hidden="true"></i>
-                          <span>{{'ACCOUNT_LOGIN'|translate}}</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                <div class="col-xs-6">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="explore.map.sidebar.interpolation" ng-click="header.closeNavbar()">
+                        <i class="fa fa-cloud" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'INTERPOLATION' | translate}}</span>
+                      </a>
+                    </li>
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="explore.map.sidebar.download" ng-click="header.closeNavbar()">
+                        <i class="fa fa-download" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'DATADOWNLOAD' | translate}}</span>
+                      </a>
+                    </li>
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="info.about" ng-click="header.closeNavbar()">
+                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                        <span style="line-height: 30px">{{'INFO' | translate}}</span>
+                      </a>
+                    </li>
+                    <li class="menuitem">
+                      <a ng-click="header.openHelp()">
+                        <i class="fa fa-question" aria-hidden="true"></i>
+                        FAQ
+                      </a>
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>
-            <!-- mobile sidebar -->
+            <div class="row" ng-show="header.isAuthed()">
+              <hr>
+              <div class="col-xs-12">
+                <div class="col-xs-4" style="text-align: center;">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="account.dashboard" style="line-height: 30px;" ng-click="header.closeNavbar()">
+                        {{'ACCOUNT_DASHBOARD'|translate}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-xs-4" style="text-align: center;">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="account.register" style="line-height: 30px;" ng-click="header.closeNavbar()">
+                        {{'ACCOUNT_NEW_SENSEBOX'|translate}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-xs-4" style="text-align: center;">
+                  <ul class="nav navbar-nav">
+                    <li ui-sref-active-eq="active" class="menuitem">
+                      <a ui-sref="account.settings" style="line-height: 30px;" ng-click="header.closeNavbar()">
+                        {{'ACCOUNT_SETTINGS'|translate}}
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <hr>
+            </div>
+            <div class="row">
+              <div class="col-xs-12" ng-show="header.isAuthed()">
+                <div class="col-xs-6">
+                  <ul class="nav navbar-nav">
+                    <li class="menuitem">
+                      <a style="text-align: center;">
+                        <span>
+                          <strong>{{header.username}}</strong>
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-xs-6">
+                  <ul class="nav navbar-nav">
+                    <li class="menuitem">
+                      <a ng-click="header.logout()" style="text-align: center;">
+                        <i class="fa fa-sign-out" aria-hidden="true"></i>
+                        <span>{{'ACCOUNT_SIGN_OUT'|translate}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-xs-12" ng-hide="header.isAuthed()">
+                <div class="col-xs-6 col-xs-offset-3" style="text-align: center">
+                  <ul class="nav navbar-nav">
+                    <li class="menuitem">
+                      <a ng-click="header.open()" style="text-align: center;">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        <span>{{'ACCOUNT_LOGIN'|translate}}</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
+          <!-- mobile sidebar -->
         </div>
-      </div>
-      <div class="navbar-inner">
-        <div class="container">
-          <form class="navbar-form search">
-            <div class="form-group typeahead-search" style="display: inline;">
-              <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
-                <input id="searchField" type="text" style="border-radius: 4px;" class="form-control"
-                  ng-model="header.searchString"
-                  ng-change="header.searchStringChanged()"
-                  ng-model-options="header.modelOptions"
-                  placeholder="{{ 'SEARCH' | translate }}"
-                  uib-typeahead="address.display_name for address in header.getLocations($viewValue)"
-                  typeahead-on-select="header.selectBox($item)"
-                  typeahead-loading="header.loadingLocations"
-                  typeahead-no-results="header.noResults"
-                  typeahead-popup-template-url="/views/search.html"
-                  typeahead-template-url="views/search.item.html"
-                  typeahead-min-length="3"
-                />
-                <div id="reset_search" ng-show="header.showClearSearch" ng-cloak>
-                  <span class="helper"></span>
-                  <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="header.clearSearch()"></i>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Add your site or application content here -->
-    <div class="container">
-      <osem-loader></osem-loader>
-      <div ui-view>
       </div>
     </div>
+    <div class="navbar-inner">
+      <div class="container">
+        <form class="navbar-form search">
+          <div class="form-group typeahead-search" style="display: inline;">
+            <div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px;">
+              <input id="searchField" type="text" style="border-radius: 4px;" class="form-control"
+                ng-model="header.searchString" ng-change="header.searchStringChanged()"
+                ng-model-options="header.modelOptions" placeholder="{{ 'SEARCH' | translate }}"
+                uib-typeahead="address.display_name for address in header.getLocations($viewValue)"
+                typeahead-on-select="header.selectBox($item)" typeahead-loading="header.loadingLocations"
+                typeahead-no-results="header.noResults" typeahead-popup-template-url="/views/search.html"
+                typeahead-template-url="views/search.item.html" typeahead-min-length="3" />
+              <div id="reset_search" ng-show="header.showClearSearch" ng-cloak>
+                <span class="helper"></span>
+                <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="header.clearSearch()"></i>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nav>
 
-    <!-- build:js scripts/vendor.js -->
-    <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
-    <!-- bower:js -->
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-resource/angular-resource.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/ngDialog/js/ngDialog.js"></script>
-    <script src="bower_components/flow.js/dist/flow.js"></script>
-    <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
-    <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/moment/moment.js"></script>
-    <script src="bower_components/moment/locale/de.js"></script>
-    <script src="bower_components/angular-moment/angular-moment.js"></script>
-    <script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
-    <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
-    <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
-    <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
-    <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/Leaflet.FeatureGroup.SubGroup/src/subgroup.js"></script>
-    <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
-    <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+  <!-- Add your site or application content here -->
+  <div class="container">
+    <osem-loader></osem-loader>
+    <div ui-view>
+    </div>
+  </div>
 
-    <!-- build:js({.tmp,app}) scripts/scripts.js -->
-    <script src="scripts/app.js"></script>
-    <script src="scripts/constants.js"></script>
-    <script src="scripts/models/box.js"></script>
-    <script src="scripts/models/sensor.js"></script>
-    <script src="components/calendar.directive.js"></script>
-    <script src="components/leaflet.directive.js"></script>
-    <script src="components/leaflet.service.js"></script>
-    <script src="components/charts.directive.js"></script>
-    <script src="components/badge.directive.js"></script>
-    <script src="components/loader.directive.js"></script>
-    <script src="components/clipboard.directive.js"></script>
-    <script src="scripts/directives/autofocus.js"></script>
-    <script src="scripts/controllers/info.js"></script>
-    <script src="scripts/controllers/help.js"></script>
-    <script src="scripts/controllers/donation.js"></script>
-    <script src="scripts/controllers/donors.js"></script>
-    <script src="scripts/controllers/register.js"></script>
-    <script src="scripts/controllers/map.js"></script>
-    <script src="scripts/controllers/sidebar.js"></script>
-    <script src="scripts/controllers/sidebar.error.js"></script>
-    <script src="scripts/controllers/sidebar.boxdetails.js"></script>
-    <script src="scripts/controllers/sidebar.filter.js"></script>
-    <script src="scripts/controllers/sidebar.interpolation.js"></script>
-    <script src="scripts/controllers/sidebar.download.js"></script>
-    <script src="scripts/controllers/header.js"></script>
-    <script src="scripts/controllers/signup.login.js"></script>
-    <script src="scripts/controllers/account.dashboard.js"></script>
-    <script src="scripts/controllers/account.reset.js"></script>
-    <script src="scripts/controllers/account.settings.js"></script>
-    <script src="scripts/controllers/account.settings.changepassword.js"></script>
-    <script src="scripts/controllers/account.confirm.js"></script>
-    <script src="scripts/controllers/account.box.edit.js"></script>
-    <script src="scripts/controllers/account.box.edit.general.js"></script>
-    <script src="scripts/controllers/account.box.edit.sensors.js"></script>
-    <script src="scripts/controllers/account.box.edit.extensions.js"></script>
-    <script src="scripts/controllers/account.box.edit.location.js"></script>
-    <script src="scripts/controllers/account.box.edit.security.js"></script>
-    <script src="scripts/controllers/account.box.edit.script.js"></script>
-    <script src="scripts/controllers/account.box.edit.mqtt.js"></script>
-    <script src="scripts/controllers/account.box.edit.ttn.js"></script>
-    <script src="scripts/controllers/account.box.edit.tingg.js"></script>
-    <script src="scripts/controllers/account.box.dataupload.js"></script>
-    <script src="scripts/services/account.js"></script>
-    <script src="scripts/services/tingg.js"></script>
-    <script src="scripts/services/language.js"></script>
-    <script src="scripts/services/opensensemapapi.js"></script>
-    <script src="scripts/services/osemdata.js"></script>
-    <script src="scripts/services/boxesService.js"></script>
-    <script src="scripts/services/sensoricons.js"></script>
-    <script src="scripts/services/localstorage.js"></script>
-    <script src="scripts/services/authentication.js"></script>
-    <script src="scripts/services/authenticationInterceptor.js"></script>
-    <script src="scripts/services/templateInterceptor.js"></script>
-    <script src="scripts/services/donationmodal.js"></script>
-    <script src="scripts/filters/filter.module.js"></script>
-    <script src="scripts/filters/box.js"></script>
-    <script src="scripts/filters/group.js"></script>
-    <script src="scripts/filters/phenomenon.js"></script>
-    <script src="scripts/filters/phenomenons.js"></script>
+  <!-- build:js scripts/vendor.js -->
+  <script src="bower_components/leaflet/dist/leaflet-src.js"></script>
+  <!-- bower:js -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-resource/angular-resource.js"></script>
+  <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+  <script src="bower_components/ngDialog/js/ngDialog.js"></script>
+  <script src="bower_components/flow.js/dist/flow.js"></script>
+  <script src="bower_components/ng-flow/dist/ng-flow.js"></script>
+  <script src="bower_components/angular-translate/angular-translate.js"></script>
+  <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/moment/moment.js"></script>
+  <script src="bower_components/moment/locale/de.js"></script>
+  <script src="bower_components/angular-moment/angular-moment.js"></script>
+  <script src="bower_components/angular-dynamic-locale/dist/tmhDynamicLocale.js"></script>
+  <script src="bower_components/angularjs-slider/dist/rzslider.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+  <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
+  <script src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
+  <script src="bower_components/Leaflet.awesome-markers/dist/leaflet.awesome-markers.js"></script>
+  <script src="bower_components/leaflet.markercluster/dist/leaflet.markercluster-src.js"></script>
+  <script src="bower_components/mapbox-gl-js/index.js"></script>
+  <script src="bower_components/mapbox-gl-leaflet/leaflet-mapbox-gl.js"></script>
+  <script src="bower_components/d3/d3.js"></script>
+  <script src="bower_components/Leaflet.FeatureGroup.SubGroup/src/subgroup.js"></script>
+  <script src="bower_components/angular-ismobile/dist/angular-ismobile.js"></script>
+  <script src="bower_components/ngprogress/build/ngprogress.min.js"></script>
+  <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+  <!-- endbower -->
+  <!-- endbuild -->
+  
+  <!-- build:js({.tmp,app}) scripts/scripts.js -->
+  <script src="scripts/app.js"></script>
+  <script src="scripts/constants.js"></script>
+  <script src="scripts/models/box.js"></script>
+  <script src="scripts/models/sensor.js"></script>
+  <script src="components/calendar.directive.js"></script>
+  <script src="components/leaflet.directive.js"></script>
+  <script src="components/leaflet.service.js"></script>
+  <script src="components/charts.directive.js"></script>
+  <script src="components/badge.directive.js"></script>
+  <script src="components/loader.directive.js"></script>
+  <script src="components/clipboard.directive.js"></script>
+  <script src="scripts/directives/autofocus.js"></script>
+  <script src="scripts/controllers/info.js"></script>
+  <script src="scripts/controllers/help.js"></script>
+  <script src="scripts/controllers/donation.js"></script>
+  <script src="scripts/controllers/donors.js"></script>
+  <script src="scripts/controllers/register.js"></script>
+  <script src="scripts/controllers/map.js"></script>
+  <script src="scripts/controllers/sidebar.js"></script>
+  <script src="scripts/controllers/sidebar.error.js"></script>
+  <script src="scripts/controllers/sidebar.boxdetails.js"></script>
+  <script src="scripts/controllers/sidebar.filter.js"></script>
+  <script src="scripts/controllers/sidebar.interpolation.js"></script>
+  <script src="scripts/controllers/sidebar.download.js"></script>
+  <script src="scripts/controllers/header.js"></script>
+  <script src="scripts/controllers/signup.login.js"></script>
+  <script src="scripts/controllers/account.dashboard.js"></script>
+  <script src="scripts/controllers/account.reset.js"></script>
+  <script src="scripts/controllers/account.settings.js"></script>
+  <script src="scripts/controllers/account.settings.changepassword.js"></script>
+  <script src="scripts/controllers/account.confirm.js"></script>
+  <script src="scripts/controllers/account.box.edit.js"></script>
+  <script src="scripts/controllers/account.box.edit.general.js"></script>
+  <script src="scripts/controllers/account.box.edit.sensors.js"></script>
+  <script src="scripts/controllers/account.box.edit.extensions.js"></script>
+  <script src="scripts/controllers/account.box.edit.location.js"></script>
+  <script src="scripts/controllers/account.box.edit.security.js"></script>
+  <script src="scripts/controllers/account.box.edit.script.js"></script>
+  <script src="scripts/controllers/account.box.edit.mqtt.js"></script>
+  <script src="scripts/controllers/account.box.edit.ttn.js"></script>
+  <script src="scripts/controllers/account.box.dataupload.js"></script>
+  <script src="scripts/services/account.js"></script>
+  <script src="scripts/services/language.js"></script>
+  <script src="scripts/services/opensensemapapi.js"></script>
+  <script src="scripts/services/osemdata.js"></script>
+  <script src="scripts/services/boxesService.js"></script>
+  <script src="scripts/services/sensoricons.js"></script>
+  <script src="scripts/services/localstorage.js"></script>
+  <script src="scripts/services/authentication.js"></script>
+  <script src="scripts/services/authenticationInterceptor.js"></script>
+  <script src="scripts/services/templateInterceptor.js"></script>
+  <script src="scripts/services/donationmodal.js"></script>
+  <script src="scripts/filters/filter.module.js"></script>
+  <script src="scripts/filters/box.js"></script>
+  <script src="scripts/filters/group.js"></script>
+  <script src="scripts/filters/phenomenon.js"></script>
+  <script src="scripts/filters/phenomenons.js"></script>
+  <!-- endbuild -->
 
-    <!-- endbuild -->
-
-    <style>
-      .cookie-notice, .cookie-modal {
-        z-index: 1001 !important;
-      }
-    </style>
-    <script>
-      window.klaroConfig = {
-          lang: (navigator.language || navigator.userLanguage).substring(0,2),
-          elementID: 'klaro',
-          storageMethod: 'cookie',
-          storageName: 'klaro',
-          translations: {
-              zz: {
-                  privacyPolicyUrl: '/privacy',
-              },
-              de: {
-                  privacyPolicyUrl: '/privacy',
-                  purposes: {
-                      analytics: {
-                          title: 'Besucher-Statistiken'
-                      },
-                  },
-              },
+  <style>
+    .cookie-notice,
+    .cookie-modal {
+      z-index: 1001 !important;
+    }
+  </style>
+  <script>
+    window.klaroConfig = {
+      lang: (navigator.language || navigator.userLanguage).substring(0, 2),
+      elementID: 'klaro',
+      storageMethod: 'cookie',
+      storageName: 'klaro',
+      translations: {
+        zz: {
+          privacyPolicyUrl: '/privacy',
+        },
+        de: {
+          privacyPolicyUrl: '/privacy',
+          purposes: {
+            analytics: {
+              title: 'Besucher-Statistiken'
+            },
           },
-          services: [
-              {
-                  name: 'piwik',
-                  default: true,
-                  translations: {
-                      zz: {
-                          title: 'Matomo/Piwik'
-                      },
-                      en: {
-                          description: 'Matomo is a simple, self-hosted analytics service.'
-                      },
-                      de: {
-                          description: 'Matomo ist ein einfacher, selbstgehosteter Analytics-Service.'
-                      },
-                  },
-                  purposes: ['analytics'],
-                  cookies: [
-                      [/^_pk_.*$/, '/', 'opensensemap.org'],
-                      [/^_pk_.*$/, '/', 'localhost'],
-                      'piwik_ignore',
-                  ],
-                  required: false,
-                  optOut: false,
-                  onlyOnce: true,
-              },
-              {
-                  name: 'openSenseMap',
-                  default: true,
-                  purposes: ['functional'],
-                  cookies: [
-                      'osem',
-                      'faq'
-                  ],
-                  required: true,
-                  optOut: false,
-                  onlyOnce: true,
-              },
+        },
+      },
+      services: [
+        {
+          name: 'piwik',
+          default: true,
+          translations: {
+            zz: {
+              title: 'Matomo/Piwik'
+            },
+            en: {
+              description: 'Matomo is a simple, self-hosted analytics service.'
+            },
+            de: {
+              description: 'Matomo ist ein einfacher, selbstgehosteter Analytics-Service.'
+            },
+          },
+          purposes: ['analytics'],
+          cookies: [
+            [/^_pk_.*$/, '/', 'opensensemap.org'],
+            [/^_pk_.*$/, '/', 'localhost'],
+            'piwik_ignore',
           ],
-      };
-    </script>
-    <script defer type="text/javascript" src="https://cdn.kiprotect.com/klaro/v0.7.2/klaro.js"></script>
+          required: false,
+          optOut: false,
+          onlyOnce: true,
+        },
+        {
+          name: 'openSenseMap',
+          default: true,
+          purposes: ['functional'],
+          cookies: [
+            'osem',
+            'faq'
+          ],
+          required: true,
+          optOut: false,
+          onlyOnce: true,
+        },
+      ],
+    };
+  </script>
+  <script defer type="text/javascript" src="https://cdn.kiprotect.com/klaro/v0.7.2/klaro.js"></script>
 
-    <!-- Piwik -->
-    <script type="text/plain"
-       data-type="application/javascript"
-       data-name="piwik">
+  <!-- Piwik -->
+  <script type="text/plain" data-type="application/javascript" data-name="piwik">
       var _paq = _paq || [];
       _paq.push(["setDomains", ["*.opensensemap.org"]]);
       _paq.push(['trackPageView']);
@@ -509,7 +526,10 @@
         g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
       })();
     </script>
-    <noscript><p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p></noscript>
-    <!-- End Piwik Code -->
-    </body>
+  <noscript>
+    <p><img src="//piwik.uni-muenster.de/piwik.php?idsite=31" style="border:0;" alt="" /></p>
+  </noscript>
+  <!-- End Piwik Code -->
+</body>
+
 </html>

@@ -11,6 +11,7 @@
 module.exports = function (grunt) {
   var modRewrite = require('connect-modrewrite');
   var serveStatic = require('serve-static');
+  var { uniqueNamesGenerator, adjectives, animals } = require('unique-names-generator');
 
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -24,9 +25,7 @@ module.exports = function (grunt) {
 
     env: {
       dev: {
-        OPENSENSEMAP_API_URL: 'https://api.testing.opensensemap.org',
-        OPENSENSEMAP_MAPTILES_URL: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-        TINGG_MICRO_URL: 'https://tingg.testing.opensensemap.org',
+        src: ".env"
       }
     },
 
@@ -53,12 +52,20 @@ module.exports = function (grunt) {
               replacement: '<%= OPENSENSEMAP_API_URL %>'
             },
             {
-              match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
+              match: 'OPENSENSEMAP_STYLE_URL',
+              replacement: '<%= OPENSENSEMAP_STYLE_URL %>'
+            },
+            {
+              match: 'OPENSENSEMAP_ACCESS_TOKEN',
+              replacement: '<%= OPENSENSEMAP_ACCESS_TOKEN %>'
             },
             {
               match: 'VERSION',
               replacement: '<%= pkg.version %>'
+            },
+            {
+              match: 'NAME',
+              replacement: '<%= OPENSENSEMAP_RELEASE_NAME %>'
             },
             {
               match: 'REVISION',
@@ -96,8 +103,12 @@ module.exports = function (grunt) {
         options: {
           patterns: [
             {
-              match: 'OPENSENSEMAP_MAPTILES_URL',
-              replacement: '<%= OPENSENSEMAP_MAPTILES_URL %>'
+              match: 'OPENSENSEMAP_STYLE_URL',
+              replacement: '<%= OPENSENSEMAP_STYLE_URL %>'
+            },
+            {
+              match: 'OPENSENSEMAP_ACCESS_TOKEN',
+              replacement: '<%= OPENSENSEMAP_ACCESS_TOKEN %>'
             }
           ]
         },
@@ -115,6 +126,10 @@ module.exports = function (grunt) {
             {
               match: 'REVISION',
               replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
+            },
+            {
+              match: 'NAME',
+              replacement: '<%= OPENSENSEMAP_RELEASE_NAME %>'
             }
           ]
         },
@@ -422,12 +437,6 @@ module.exports = function (grunt) {
         files: [
           {
             expand: true,
-            cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
-            dest: '.tmp/translations',
-            src: ['de_DE.json', 'en_US.json']
-          },
-          {
-            expand: true,
             cwd: 'node_modules/angular-i18n/',
             dest: '.tmp/translations/angular',
             src: ['angular-locale_{<%= pkg.languages %>}.js']
@@ -453,12 +462,6 @@ module.exports = function (grunt) {
             'fonts/*.*',
             'fonts/webfonts/*.*'
           ]
-        },
-        {
-          expand: true,
-          cwd: 'node_modules/@sensebox/opensensemap-i18n/dist',
-          dest: 'dist/translations',
-          src: ['de_DE.json', 'en_US.json']
         },
         {
           expand: true,
@@ -594,7 +597,6 @@ module.exports = function (grunt) {
           { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.gz' },
           { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.gz' },
           { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.gz' },
-          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.gz' },
           { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.gz' }
 
         ]
@@ -611,7 +613,6 @@ module.exports = function (grunt) {
           { expand: true, src: ['dist/scripts/*.scripts.js'], dest: './', extDot: 'last', ext: '.js.br' },
           { expand: true, src: ['dist/styles/*.css'], dest: './', extDot: 'last', ext: '.css.br' },
           { expand: true, src: ['dist/translations/angular/*.js'], dest: './', extDot: 'last', ext: '.js.br' },
-          { expand: true, src: ['dist/translations/*.json'], dest: './', extDot: 'last', ext: '.json.br' },
           { expand: true, src: ['dist/images/*.svg'], dest: './', extDot: 'last', ext: '.svg.br' }
         ]
       }
@@ -676,10 +677,19 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('loadconst', 'Load constants', function (target) {
-    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_MAPTILES_URL,process.env.TINGG_MICRO_URL);
+    console.log('Load constants: ', process.env.OPENSENSEMAP_API_URL, process.env.OPENSENSEMAP_STYLE_URL, process.env.OPENSENSEMAP_ACCESS_TOKEN);
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
-    grunt.config('OPENSENSEMAP_MAPTILES_URL', process.env.OPENSENSEMAP_MAPTILES_URL);
+    grunt.config('OPENSENSEMAP_STYLE_URL', process.env.OPENSENSEMAP_STYLE_URL);
+    grunt.config('OPENSENSEMAP_ACCESS_TOKEN', process.env.OPENSENSEMAP_ACCESS_TOKEN);
     grunt.config('TINGG_MICRO_URL', process.env.TINGG_MICRO_URL);
+
+    var  shortName = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals], // colors can be omitted here as not used
+      length: 2
+    }); // big-donkey
+
+    console.log(shortName);
+    grunt.config('OPENSENSEMAP_RELEASE_NAME', shortName);
   });
 
   grunt.registerTask('test', [
@@ -709,6 +719,7 @@ module.exports = function (grunt) {
     'uglify',
     'usemin',
     'htmlmin',
+    'replace:version',
     'replace:control',
     'replace:urls',
     'compress'
@@ -722,13 +733,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('languages', '', function () {
     var target = grunt.option('target');
-    var translationsFolder = '.tmp/translations/';
     var targetFile = '.tmp/index.html';
     if (target === 'build' || target === 'testBuild') {
-      translationsFolder = 'dist/translations/';
       targetFile = 'dist/index.html';
     }
-
     var fs = require('fs');
     var done = this.async();
     fs.readFile('app/index.html', 'utf8', function (err, data) {
@@ -736,14 +744,13 @@ module.exports = function (grunt) {
         return console.log(err);
       }
       var html = '';
-      grunt.file.recurse(translationsFolder, function (abspath, rootdir, subdir, filename) {
-        if (subdir !== undefined) { return; }
-        if (filename.indexOf('disabled') === -1) {
-          var languageCode = filename.split('.')[0];
-          var language = languageCode.split('_')[0];
-          html = html + ('<li><a ng-click="header.changeLang(\'' + languageCode + '\')"><span class="lang-sm lang-lbl-full" lang="' + language + '"></span></a></li>');
-        }
-      });
+      var pkg = grunt.file.readJSON('package.json');
+      for (let index = 0; index < pkg.i18n.length; index++) {
+        const languageCode = pkg.i18n[index];
+        var language = languageCode.split('_')[0];
+        html = html + ('<li><a ng-click="header.changeLang(\'' + languageCode + '\')"><span class="lang-sm lang-lbl-full" lang="' + language + '"></span></a></li>');
+      }
+
       var resultStart = data.split('<!-- languages-start -->');
       var resultEnd = data.split('<!-- languages-end -->');
       var res = `${resultStart[0]}<!-- languages-start -->${html}<!-- languages-end -->${resultEnd[1]}`;

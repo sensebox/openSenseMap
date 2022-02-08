@@ -5,6 +5,7 @@
     </div>
     <div class="col-md-6  col-lg-6">
       <div class="pull-right">
+        <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="ttn.reloadCayenne()" ng-show="ttn.settings.profile == 'cayenne-lpp'"><i class="glyphicon glyphicon-refresh"></i></button>
         <button type="button" class="btn btn-default btn-circle btn-lg" ng-click="ttn.save()" ng-disabled=" (ttnSettings.$valid && ttn.validTTNconfig) ? false : true"><i class="glyphicon glyphicon-floppy-disk"></i></button>
       </div>
     </div>
@@ -49,7 +50,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="sensor in ttn.decodeOptions">
+          <tr ng-repeat="sensor in ttn.cayenneDecodingOptions">
             <td>
               <div class="form-group">
                 <input class="form-control" type="text"
@@ -64,7 +65,7 @@
             </td>
             <td>
               <div class="form-group">
-                <select name="cayenne_lpp_settings" class="form-control" 
+                <select name="cayenne_lpp_settings" class="form-control"
                   ng-model="sensor.decoder"
                   ng-change="ttn.cayenneLppDecodingChanged(sensor, $index)">
                   <option value="temperature">{{'TEMPERATURE' | translate}}</option>

@@ -458,7 +458,7 @@
     }])
     .config(['$translateProvider', function ($translateProvider) {
       $translateProvider.useStaticFilesLoader({
-        prefix: '../translations/',
+        prefix: 'https://unpkg.com/@sensebox/opensensemap-i18n@latest/dist/',
         suffix: '.json'
       });
       $translateProvider.use('de_DE');

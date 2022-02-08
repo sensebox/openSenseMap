@@ -95,18 +95,14 @@
         map.removeLayer(mapLayers['mouseOver']);
       });
 
-      var baselayer = L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
-        subdomains: 'abc',
+      var gl = L.mapboxGL({
         attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
-        // detectRetina: true,
-        reuseTiles: true,
-        maxZoom: 18,
-        // https://docs.mapbox.com/help/troubleshooting/migrate-legacy-static-tiles-api/
-        tileSize: 512,
-        zoomOffset: -1,
+        accessToken: '@@OPENSENSEMAP_ACCESS_TOKEN',
+        style: '@@OPENSENSEMAP_STYLE_URL'
       }).addTo(map);
+      var mapboxMap = gl.getMapboxMap();
 
-      baselayer.on('load', layerLoaded);
+      mapboxMap.on('load', layerLoaded);
 
       L.control.scale().addTo(map);
 
@@ -156,7 +152,7 @@
       function layerLoaded () {
         $rootScope.$broadcast('layerloaded', {});
         $rootScope.$apply();
-        baselayer.off('load', layerLoaded);
+        mapboxMap.off('load', layerLoaded);
         for (var layerName in mapLayers) {
           mapLayers[layerName].on('add', function () {
             osemMapData.setLayer(layerName, mapLayers[layerName]);

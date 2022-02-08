@@ -22,8 +22,31 @@ a:focus {
   text-decoration: none;
 }
 
+.navbar-fixed-top-announcment {
+  top: 50px;
+}
+
 .monospace {
   font-family: Courier New, Courier, monospace;
+}
+
+section {
+  padding: 20px;
+}
+
+.announcement-top-bar {
+  display: flex;
+  position: fixed;
+  top: 0;
+  min-height: 50px;
+  width: 100%;
+  z-index: 1003;
+}
+
+.announcement-top-bar p {
+  flex-grow: 1;
+  margin: 0;
+  text-align: center;
 }
 
 .center {
@@ -164,7 +187,7 @@ a:focus {
 }
 
 #map_main .leaflet-top {
-  top: 125px;
+  top: 175px;
 }
 
 #app_info_button {
@@ -588,6 +611,13 @@ div.box {
   }
 }
 @media (max-width: 767px) {
+  .announcement-top-bar {
+    min-height: 70px;
+    width: 100%;
+  }
+  .navbar-fixed-top {
+    top: 70px;
+  }
   .languages-select.visible-xs {
     display:inline-block !important;
   }
@@ -803,7 +833,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   }
   .navbar-fixed-top {
-    top: 0;
+    top: 50;
     border-width: 0 0 1px;
   }
   .navbar-collapse.collapse {
@@ -1848,9 +1878,7 @@ nav > a.active {
 }
 
 .donation-text {
-  font-family: BrixSlab-Regular;
   color: black;
-  padding: 0.5em 0.7em;
 }
 
 .donation-footer {
@@ -1864,7 +1892,6 @@ nav > a.active {
 
 .donation-button {
   background-color: #4EAF47 !important;
-  font-family: BrixSlab-Bold;
   color: white !important;
   border-radius: 1;
 }

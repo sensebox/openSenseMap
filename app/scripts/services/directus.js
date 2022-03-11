@@ -9,7 +9,7 @@
 
   function DirectusService ($http, $q, app) {
     var service = {
-      getAnnouncement: getAnnouncement,
+      getAnnouncement: getAnnouncement
     };
 
     return service;

@@ -17,7 +17,7 @@
       controller: AnnouncementController,
       controllerAs: 'announcement',
       bindToController: true, // because the scope is isolated
-      scope: {},
+      scope: {}
     };
 
     return directive;
@@ -27,9 +27,9 @@
     function link (scope, element, attrs) {}
   }
 
-  AnnouncementController.$inject = ['$scope', '$timeout', 'DirectusService'];
+  AnnouncementController.$inject = ['$rootScope', '$timeout', 'DirectusService'];
 
-  function AnnouncementController ($scope, $timeout, DirectusService) {
+  function AnnouncementController ($rootScope, $timeout, DirectusService) {
     var vm = this;
     var variantPrefix = 'alert-';
 
@@ -76,9 +76,7 @@
       vm.show = false;
 
       // Delay event emitting
-      $timeout(function () {
-        $scope.$emit('osemAnnouncementClosed', {});
-      }, 100);
+      $rootScope.$broadcast('osemAnnouncementClosed', {});
     }
 
     ////

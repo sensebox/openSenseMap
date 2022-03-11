@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('SidebarController', SidebarController);
 
-  SidebarController.$inject = ['$scope', '$rootScope', '$timeout', '$window', 'Sidebar', 'isMobile'];
+  SidebarController.$inject = ['$scope', '$timeout', '$window', 'Sidebar', 'isMobile'];
 
-  function SidebarController ($scope, $rootScope, $timeout, $window, Sidebar, isMobile) {
+  function SidebarController ($scope, $timeout, $window, Sidebar, isMobile) {
     var vm = this;
     vm.minimized = false;
     vm.Sidebar = Sidebar;
@@ -74,7 +74,7 @@
       });
     });
 
-    $rootScope.$on('osemAnnouncementClosed', function () {
+    $scope.$on('osemAnnouncementClosed', function () {
       vm.maximizedStyle = {
         'bottom': '0px',
         'top': '100px'

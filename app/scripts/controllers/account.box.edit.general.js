@@ -30,7 +30,7 @@
         name: vm.editingMarker.name,
         description: vm.editingMarker.description,
         weblink: vm.editingMarker.weblink,
-        grouptag: vm.editingMarker.grouptag,
+        grouptag: vm.editingMarker.grouptag.split(','),
         exposure: vm.editingMarker.exposure,
         image: imgsrc
       };

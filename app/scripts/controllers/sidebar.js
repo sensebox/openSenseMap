@@ -34,7 +34,12 @@
     }
 
     function invalidateSize () {
+      console.log('Invalidate siez');
       var elem = $window.document.querySelector('#sidebar-title');
+      var announcementContainer = $window.document.querySelector(
+        '#announcement-container'
+      );
+      var announcementDisplay = $window.getComputedStyle(announcementContainer).display;
       var leafletBottomContainer = $window.document.querySelector('.leaflet-bottom.leaflet-left');
       if (elem === null) {
         return;
@@ -60,6 +65,11 @@
           'bottom': vm.maximizedStyle.bottom,
           'top': vm.maximizedStyle.top
         };
+
+        if (announcementDisplay === 'none') {
+          vm.style['top'] = '100px';
+        }
+
         if (isMobile.phone && leafletBottomContainer !== null) {
           leafletBottomContainer.setAttribute('style', 'bottom: 0px');
         }

@@ -40,7 +40,7 @@
 
       var map = new L.map(element[0], {
         minZoom: 2,
-        maxZoom: 18,
+        maxZoom: 25,
         worldCopyJump: true,
         scrollWheelZoom: true
       }).setView([51.04139389812637, 10.2172851562], 3);
@@ -51,7 +51,7 @@
       var mcg = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon,
-        disableClusteringAtZoom: 17,
+        disableClusteringAtZoom: 24,
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         chunkedLoading: true

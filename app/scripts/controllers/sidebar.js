@@ -21,7 +21,7 @@
     function activate () {
       vm.maximizedStyle = {
         'bottom': '0px',
-        'top': '100px'
+        'top': '150px'
       };
 
       invalidateSize();
@@ -35,6 +35,10 @@
 
     function invalidateSize () {
       var elem = $window.document.querySelector('#sidebar-title');
+      var announcementContainer = $window.document.querySelector(
+        '#announcement-container'
+      );
+      var announcementDisplay = $window.getComputedStyle(announcementContainer).display;
       var leafletBottomContainer = $window.document.querySelector('.leaflet-bottom.leaflet-left');
       if (elem === null) {
         return;
@@ -60,6 +64,11 @@
           'bottom': vm.maximizedStyle.bottom,
           'top': vm.maximizedStyle.top
         };
+
+        if (announcementDisplay === 'none') {
+          vm.style['top'] = '100px';
+        }
+
         if (isMobile.phone && leafletBottomContainer !== null) {
           leafletBottomContainer.setAttribute('style', 'bottom: 0px');
         }
@@ -69,6 +78,17 @@
     ////
 
     $scope.$on('sidebar:titleChanged', function () {
+      $timeout(function () {
+        invalidateSize();
+      });
+    });
+
+    $scope.$on('osemAnnouncementClosed', function () {
+      vm.maximizedStyle = {
+        'bottom': '0px',
+        'top': '100px'
+      };
+
       $timeout(function () {
         invalidateSize();
       });

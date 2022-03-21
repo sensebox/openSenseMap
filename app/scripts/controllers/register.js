@@ -381,7 +381,7 @@
       vm.registering = true;
 
       if (vm.tag !== '') {
-        vm.newSenseBox.grouptag = vm.tag;
+        vm.newSenseBox.grouptag = vm.tag.split(',');
       }
 
       if (vm.modelSelected.id === 'custom' || vm.modelSelected.id === 'edu') {

@@ -34,7 +34,11 @@ section {
   padding: 20px;
 }
 
-.announcement-top-bar {
+.announcement-container {
+  width: 100%;
+}
+
+.announcement-content {
   display: flex;
   position: fixed;
   top: 0;
@@ -43,7 +47,7 @@ section {
   z-index: 1003;
 }
 
-.announcement-top-bar p {
+.announcement-content p {
   flex-grow: 1;
   margin: 0;
   text-align: center;
@@ -144,11 +148,11 @@ section {
 
 .content-container {
   position: absolute;
-  top: 0;
+  top: 40px;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   padding-left: 15px;
   padding-right: 15px;
 }
@@ -611,11 +615,12 @@ div.box {
   }
 }
 @media (max-width: 767px) {
-  .announcement-top-bar {
+  .announcement-content {
     min-height: 70px;
+    height: 70px;
     width: 100%;
   }
-  .navbar-fixed-top {
+  .navbar-fixed-top-announcment {
     top: 70px;
   }
   .languages-select.visible-xs {
@@ -833,7 +838,7 @@ li.menuitem.filteractive > a .fa-exclamation-triangle {
       box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
   }
   .navbar-fixed-top {
-    top: 50;
+    /* top: 50px; */
     border-width: 0 0 1px;
   }
   .navbar-collapse.collapse {

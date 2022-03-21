@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('HeaderController', HeaderController);
 
-  HeaderController.$inject = ['$rootScope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService', 'DonationModalService'];
+  HeaderController.$inject = ['$rootScope', '$scope', '$state', '$http', '$document', 'ngDialog', 'OpenSenseMapData', 'OpenSenseMapAPI', 'FilterActiveService', 'AccountService', 'LanguageService', 'osemMapData', 'LocalStorageService', 'DonationModalService'];
 
-  function HeaderController ($rootScope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService, DonationModalService) {
+  function HeaderController ($rootScope, $scope, $state, $http, $document, ngDialog, OpenSenseMapData, OpenSenseMapAPI, FilterActiveService, AccountService, LanguageService, osemMapData, LocalStorageService, DonationModalService) {
     var vm = this;
     vm.key = 'de';
     vm.searchString = '';
@@ -204,6 +204,11 @@
       vm.username = data.data.user.name;
       vm.key = data.data.user.language.split('_')[0];
       LanguageService.change(data.data.user.language);
+    });
+
+    $rootScope.$on('osemAnnouncementClosed', function () {
+      console.log('header closed');
+      vm.showAnnouncment = false;
     });
   }
 })();

@@ -207,7 +207,6 @@
     });
 
     $rootScope.$on('osemAnnouncementClosed', function () {
-      console.log('header closed');
       vm.showAnnouncment = false;
     });
   }

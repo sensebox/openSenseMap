@@ -148,11 +148,11 @@ section {
 
 .content-container {
   position: absolute;
-  top: 0;
+  top: 40px;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
   padding-left: 15px;
   padding-right: 15px;
 }

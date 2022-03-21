@@ -34,7 +34,6 @@
     }
 
     function invalidateSize () {
-      console.log('Invalidate siez');
       var elem = $window.document.querySelector('#sidebar-title');
       var announcementContainer = $window.document.querySelector(
         '#announcement-container'

@@ -235,7 +235,7 @@
                       <h3>{{'CONNECTION_TYPE' | translate}}</h3>
                       <hr>
                       <div
-                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-3': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet"
                             ng-model="register.newModel.connection"
@@ -246,7 +246,7 @@
                         </div>
                       </div>
                       <div
-                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-4': register.modelSelected.id != 'home'}">
+                        ng-class="{'col-lg-6': register.modelSelected.id === 'home','col-lg-3': register.modelSelected.id != 'home'}">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-wifi" value="Wifi"
                             ng-model="register.newModel.connection"
@@ -256,13 +256,23 @@
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'">
+                      <div class="col-lg-3" ng-if="register.modelSelected.id === 'homeV2'">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-lora" value="Lora"
                             ng-model="register.newModel.connection"
                             ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2'">
                           <label for="sensebox-lora">
                             LoRa
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col-lg-3" ng-if="register.modelSelected.id === 'homeV2'">
+                        <div class="radio radio-success">
+                          <input type="radio" name="connection" id="sensebox-gsm" value="GSM"
+                            ng-model="register.newModel.connection"
+                            ng-required="register.modelSelected.id === 'homeV2'">
+                          <label for="sensebox-gsm">
+                            GSM
                           </label>
                         </div>
                       </div>
@@ -1329,6 +1339,40 @@
                   <div uib-alert class="alert-danger" ng-hide="register.validTTNconfig">{{ 'TTN_INVALID_DECODEOPTS' |
                     translate }}</div>
                 </div>
+                <!-- GSM -->
+                <div uib-accordion-group class="panel-default" is-open="register.open.gsm">
+                  <uib-accordion-heading>
+                    GSM - tingg <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse5, 'glyphicon-chevron-right': !register.open.collapse5}"></i>
+                  </uib-accordion-heading>
+
+                  <div uib-alert ng-if='register.gsmverified === "false"' class="alert-danger" ng-bind-html="register.gsmErrorText"></div>
+                  <div uib-alert ng-if='register.gsmverified === "true"' class="alert-success" ng-bind-html="'GSM_TING_SUCCESSVERIFICATION'|translate"></div>
+                  <div uib-alert class="alert-warning" ng-bind-html="'GSM_TING_DISCLAIMER'|translate"></div>
+                  <div class="checkbox checkbox-success checkbox-inline">
+                    <input type="checkbox" id="enabledGSM" ng-model="register.gsmEnabled">
+                    <label for="enabledGSM">{{ 'GSM_ENABLE' | translate }}</label>
+                  </div>
+                  <div class="form-group"
+                  ng-class="{'has-error': !register.validGSMIMSI, 'has-success': register.validGSMIMSI }">
+                  <label class="control-label">{{ 'GSM_IMSI' | translate }}</label>
+                  <input type="text" name="gsm_imsi" class="form-control" ng-model="register.gsm.imsi"
+                    ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
+                  <div class="form-group"
+                  ng-class="{'has-error': !register.validGSMSecret, 'has-success': register.validGSMSecret }">
+                  <label class="control-label">{{ 'GSM_SECRETCODE' | translate }}</label>
+                  <input type="text" name="gsm_secret_code" class="form-control" ng-model="register.gsm.secret_code"
+                    ng-required="register.gsmEnabled" ng-disabled="!register.gsmEnabled">
+                </div>
+
+                  <div class="pull-right">
+                    <a class="btn" style="margin-top:10px;" ng-disabled="!register.gsmEnabled" ng-class="{'btn-danger': register.gsmverified === 'false', 'btn-success': register.gsmverified === 'true','btn-primary':register.gsmverified==='init','btn-info':register.gsmverified === 'loading'}" ng-click="register.verifyGSM()"><span ng-class="{'glyphicon glyphicon-question-sign':register.gsmverified === 'init', 'glyphicon glyphicon-ok-sign':register.gsmverified === 'true','glyphicon glyphicon-remove-sign':register.gsmverified==='false','glyphicon glyphicon-time':register.gsmverified ==='loading'}"></span>
+                       {{'GSM_VERIFY' | translate}}</a>
+                  </div>
+              </div>
+
+                </div>
+                
               </uib-accordion>
             </div>
             <div class="form-group">
@@ -1381,6 +1425,14 @@
                   <tr>
                     <td style="width: 50%;">{{'STATION_PLACEMENT'|translate}}</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.exposure}}</strong></td>
+                  </tr>
+                  <tr ng-if="register.gsmEnabled">
+                    <td style="width: 50%;">{{'IMSI'|translate}}</td>
+                    <td style="width: 50%;"><strong>{{register.gsm.imsi}}</strong></td>
+                  </tr>
+                  <tr ng-if="register.gsmEnabled">
+                    <td style="width: 50%;">{{'Secret Code'|translate}}</td>
+                    <td style="width: 50%;"><strong>{{register.gsm.secret_code}}</strong></td>
                   </tr>
                 </tbody>
               </table>

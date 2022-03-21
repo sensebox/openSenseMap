@@ -70,6 +70,10 @@ module.exports = function (grunt) {
             {
               match: 'REVISION',
               replacement: '<%= gitinfo.local.branch.current.shortSHA %>'
+            },
+            {
+              match: 'TINGG_MICRO_URL',
+              replacement: '<%= TINGG_MICRO_URL %>'
             }
           ]
         },
@@ -83,6 +87,10 @@ module.exports = function (grunt) {
             {
               match: 'OPENSENSEMAP_API_URL',
               replacement: '<%= OPENSENSEMAP_API_URL %>'
+            },
+            {
+              match: 'TINGG_MICRO_URL',
+              replacement: '<%= TINGG_MICRO_URL %>'
             }
           ]
         },
@@ -673,6 +681,7 @@ module.exports = function (grunt) {
     grunt.config('OPENSENSEMAP_API_URL', process.env.OPENSENSEMAP_API_URL);
     grunt.config('OPENSENSEMAP_STYLE_URL', process.env.OPENSENSEMAP_STYLE_URL);
     grunt.config('OPENSENSEMAP_ACCESS_TOKEN', process.env.OPENSENSEMAP_ACCESS_TOKEN);
+    grunt.config('TINGG_MICRO_URL', process.env.TINGG_MICRO_URL);
 
     var  shortName = uniqueNamesGenerator({
       dictionaries: [adjectives, animals], // colors can be omitted here as not used

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - feature-GSM-Eric
   pull_request:
     branches:
       - master
@@ -96,10 +97,14 @@ jobs:
             echo "OPENSENSEMAP_API_URL=https://api.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_STYLE_URL=${{ secrets.OPENSENSEMAP_STYLE_URL }}" >> $GITHUB_ENV
             echo "OPENSENSEMAP_ACCESS_TOKEN=${{ secrets.OPENSENSEMAP_ACCESS_TOKEN }}" >> $GITHUB_ENV
+            echo "TINGG_MICRO_URL=https://tingg.opensensemap.org" >> $GITHUB_ENV
+
           else
             echo "OPENSENSEMAP_API_URL=https://api.testing.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_STYLE_URL=mapbox://styles/mapbox/streets-v11" >> $GITHUB_ENV
             echo "OPENSENSEMAP_ACCESS_TOKEN=${{ secrets.OPENSENSEMAP_ACCESS_TOKEN_TESTING }}" >> $GITHUB_ENV
+            echo "TINGG_MICRO_URL=https://tingg.opensensemap.org" >> $GITHUB_ENV
+
           fi
 
       - name: Update version in package.json

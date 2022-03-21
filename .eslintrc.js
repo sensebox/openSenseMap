@@ -3,10 +3,10 @@ module.exports = {
     browser: true
   },
   globals: {
-    "angular": 1,
-    "L": 1,
-    "moment": 1,
-    "Promise": 1,
+    "angular": 'readonly',
+    "L": 'readonly',
+    "moment": 'readonly',
+    "Promise": 'readonly',
   },
   extends: [
     '@sensebox/eslint-config-sensebox',

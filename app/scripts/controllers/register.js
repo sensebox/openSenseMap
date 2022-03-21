@@ -10,7 +10,6 @@
     '$scope',
     '$translate',
     '$timeout',
-    '$http',
     'SensorIcons',
     'WizardHandler',
     'AccountService',
@@ -21,23 +20,12 @@
     $scope,
     $translate,
     $timeout,
-    $http,
     SensorIcons,
     WizardHandler,
     AccountService,
     osemMapData
   ) {
     var vm = this;
-
-    vm.searchString = '';
-    vm.showClearSearch = false;
-    vm.modelOptions = {
-      debounce: {
-        default: 300,
-        blur: 250,
-      },
-      getterSetter: true,
-    };
 
     vm.newModel = {
       connection: null,
@@ -163,8 +151,6 @@
     vm.addSensorTemplate = addSensorTemplate;
     vm.generateScript = generateScript;
     vm.compile = compile;
-    vm.searchStringChanged = searchStringChanged;
-    vm.getLocations = getLocations;
     vm.selectBox = selectBox;
 
     activate();
@@ -286,35 +272,6 @@
       ) {
         vm.stepIsValid = value;
       }
-    }
-
-    function searchStringChanged () {
-      if (vm.searchString !== '') {
-        vm.showClearSearch = true;
-      } else {
-        vm.showClearSearch = false;
-      }
-    }
-
-    function getLocations (searchstring) {
-      var results = [];
-
-      return $http
-        .get('//locationiq.org/v1/search.php', {
-          params: {
-            format: 'json',
-            key: '23e12b10d8c3aad04e8e',
-            addressdetails: 1,
-            limit: 4,
-            q: searchstring,
-          },
-        })
-        .then(function (response) {
-          return results.concat(response.data);
-        })
-        .catch(function () {
-          return results;
-        });
     }
 
     function selectBox ($item) {

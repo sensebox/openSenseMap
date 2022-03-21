@@ -57,6 +57,10 @@
         vm.showTTNConfiguration = true;
       }
 
+      if (boxData.model === 'homeV2Ethernet') {
+        vm.showConfiguration = true;
+      }
+
       if (boxData.sensorsArray.filter(function (s) {
         return s.sensorType === 'SMT50';
       }).length !== 0) {

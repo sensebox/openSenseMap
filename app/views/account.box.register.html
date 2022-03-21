@@ -1298,7 +1298,7 @@
                           </td>
                           <td>
                             <div class="form-group">
-                              <select name="cayenne_lpp_settings" class="form-control" 
+                              <select name="cayenne_lpp_settings" class="form-control"
                                 ng-model="register.ttn.cayenneLppDecoding[sensor.id].decoder"
                                 ng-change="register.cayenneLppDecodingChanged(sensor)">
                                 <option value="temperature">{{'TEMPERATURE' | translate}}</option>
@@ -1466,8 +1466,10 @@
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
             <div class="alert alert-success" role="alert"
-              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'">
-              <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
+              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora' || register.newSenseBox.model === 'homeV2Ethernet'">
+              <!-- Check model to show correct compile hint -->
+              <h5 ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'" ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
+              <h5 ng-if="register.newSenseBox.model === 'homeV2Ethernet'" ng-bind-html="'COMPILE_ETHERNET_SKETCH'|translate"></h5>
               <div>
                 <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Lora'">
                   <div style="text-align: left;">

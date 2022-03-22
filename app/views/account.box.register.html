@@ -271,6 +271,7 @@
                   <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2'">
                     <div style="text-align: center;">
                       <h3>{{'SENSORS' | translate}}</h3>
+                      <div uib-alert class="alert-warning" ng-show="register.showSameAddressWarning">Gleiche Adresse</div>
                       <ul class="sensor-list" style="border: none;">
                         <li class="sensor-row" style="border-bottom: 1px solid #e1e4e8;">
                           <div class="row">
@@ -287,7 +288,7 @@
                                     <img
                                       src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                                       style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_HUMI' | translate}}</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_HUMI' | translate}} (HDC1080)</span>
                                   </div>
                                 </div>
                               </div>
@@ -305,7 +306,21 @@
                                     <img
                                       src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524085326737-bmp%20v2%20top.png"
                                       style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}}</span>
+                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}} (BMP280)</span>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="DPS310Sensor" ng-model="register.newModel.sensors.dps310">
+                                      <label for="DPS310Sensor"> </label>
+                                    </div>
+
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1646750298507-1646737282568-sensebox-dps310_1.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'SENSOR_TEMP_PRESSURE' | translate}} (DPS310)</span>
                                   </div>
                                 </div>
                               </div>
@@ -400,7 +415,7 @@
                                     <img
                                       src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
                                       style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'SOIL_MOISTURE' | translate}}</span>
+                                    <span style="vertical-align: middle;">{{'SOIL_MOISTURE' | translate}} (SMT50)</span>
                                   </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
@@ -494,7 +509,7 @@
                                     <img
                                       src="https://sensebox.kaufen/api/public/uploads/1603979080866-scd30.png"
                                       style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">CO<sub>2</sub></span>
+                                    <span style="vertical-align: middle;">CO<sub>2</sub> (SCD30)</span>
                                   </div>
                                 </div>
                               </div>
@@ -639,6 +654,34 @@
                   <div class="row" style="text-align: center;">
                     <div class="col-sm-3 col-md-3 col-lg-3">
                       <div class="thumbnail">
+                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1646750298507-1646737282568-sensebox-dps310_1.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'AIRPRESSURE' | translate}}</h4>
+                          <p>(DPS310)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('DPS310_AIRPRESSURE')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1646750298507-1646737282568-sensebox-dps310_1.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'TEMPERATURE' | translate}}</h4>
+                          <p>(DPS310)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('DPS310_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
                         <img
                           src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525169435866-v+uv%20bottom.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
@@ -663,36 +706,6 @@
                           <p>
                             <button type="button" class="btn btn-success"
                               ng-click="register.addSensorTemplate('VEML6070')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>{{'PARTICULLARMATTER' | translate}} PM2.5</h4>
-                          <p>(SDS011)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>{{'PARTICULLARMATTER' | translate}} PM10</h4>
-                          <p>(SDS011)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('PM10')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -753,6 +766,36 @@
                           <p>
                             <button type="button" class="btn btn-success"
                               ng-click="register.addSensorTemplate('BME680_VOC')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'PARTICULLARMATTER' | translate}} PM2.5</h4>
+                          <p>(SDS011)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('PM25')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'PARTICULLARMATTER' | translate}} PM10</h4>
+                          <p>(SDS011)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('PM10')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>

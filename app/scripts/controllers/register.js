@@ -35,7 +35,8 @@
         light: false,
         pollution: false,
         bme680: false,
-        co2: false
+        co2: false,
+        dps310: false
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
@@ -133,6 +134,7 @@
     vm.events = {
       autolocation: true
     };
+    vm.showSameAddressWarning = false;
 
     vm.enterEvent = enterEvent;
     vm.add = add;
@@ -415,6 +417,9 @@
               case 'co2':
                 vm.newSenseBox.sensorTemplates.push('scd30');
                 break;
+              case 'dps310':
+                vm.newSenseBox.sensorTemplates.push('dps310');
+                break;
               }
             }
           }
@@ -610,6 +615,18 @@
         title = 'CO₂';
         unit = 'ppm';
         sensorType = 'SCD30';
+        break;
+      case 'DPS310_AIRPRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'DPS310';
+        break;
+      case 'DPS310_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'DPS310';
         break;
       }
 
@@ -841,6 +858,9 @@
         addSensorTemplate('BME680_VOC');
       } else if (newValue.co2 && oldValue.co2 === false) {
         addSensorTemplate('scd30_co2');
+      } else if (newValue.dps310 && oldValue.dps310 === false) {
+        addSensorTemplate('DPS310_AIRPRESSURE');
+        addSensorTemplate('DPS310_TEMPERATURE');
       }
 
       // Remove sensor templates
@@ -859,6 +879,16 @@
         removeSensorTemplate(generateSensorTemplate('BME680_VOC'));
       } else if (oldValue.co2 && newValue.co2 === '') {
         removeSensorTemplate(generateSensorTemplate('scd30_co2'));
+      } else if (oldValue.dps310 && newValue.dps310 === '') {
+        removeSensorTemplate(generateSensorTemplate('DPS310_AIRPRESSURE'));
+        removeSensorTemplate(generateSensorTemplate('DPS310_TEMPERATURE'));
+      }
+
+      // Check on change for sensors with same address
+      if ([vm.newModel.sensors.bme680, vm.newModel.sensors.dps310, vm.newModel.sensors.pressure].filter(Boolean).length >= 2) {
+        vm.showSameAddressWarning = true;
+      } else {
+        vm.showSameAddressWarning = false;
       }
     }, true);
 

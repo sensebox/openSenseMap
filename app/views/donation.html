@@ -1,0 +1,20 @@
+<div class="donation-wrapper">
+  <div class="donation-text">
+    <!-- <h3>{{'INFO_SUPPORT' | translate}}</h3> -->
+    <div ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
+  </div>
+  <!-- <iframe
+    class="external-help"
+    ng-src="{{ help.iframeSrc }}"
+    sandbox="allow-same-origin"></iframe> -->
+
+  <div class="donation-footer">
+    <div class="small">
+      <input ng-click="donation.onCheck()"  type="checkbox" id="dont-show-again" name="dont-show-again" ng-model="donation.dontshowagain">
+      <label for="dont-show-again">{{'DONT_SHOW_AGAIN'|translate}}</label>
+    </div>
+    <div>
+      <a href="https://www.betterplace.org/de/projects/89947-opensensemap-org-die-freie-karte-fuer-umweltdaten" target="_blank" class="btn donation-button">{{'INFO_DONATE_NOW'|translate}}</a>
+    </div>
+  </div>
+</div>

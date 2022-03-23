@@ -1,12 +1,15 @@
-<div class="row" style="margin-top: 50px; background: #fff; min-height: 100%">
-  <div id="start" style="width: 86%; padding-top: 40px; margin-left: auto; margin-right: auto; max-width: 1100px; text-decoration: none;">
-    <nav style="width: 100%; float:left; text-align: center; margin-top: 5px; margin-bottom: 5px; padding: 2px; border-radius: 15px; vertical-align: middle; background: rgba(0, 0, 0, 0.1);">
-      <a ui-sref="info.about" ng-class="{'active': info.tabActive.about}" ng-click="info.changeActiveTab('about')" style="width: 33.33%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_TITLE'|translate}}</a>
-      <a ui-sref="info.imprint" ng-class="{'active': info.tabActive.imprint}" ng-click="info.changeActiveTab('imprint')" style="width: 33.33%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_IMPRINT_HEADER'|translate}}</a>
-      <a ui-sref="info.privacy" ng-class="{'active': info.tabActive.privacy}" ng-click="info.changeActiveTab('privacy')" style="width: 33.33%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_PRIVACY_HEADER'|translate}}</a>
-    </nav>
-  </div>
-  <div style="width: 86%; margin-left: auto; margin-right: auto; max-width: 1100px; margin-top: 120px!important; margin-bottom: 120px!important;">
-    <div ui-view="info"></div>
+<div class="content-container">
+  <div class="row" style="background: #fff; min-height: 100%">
+    <div id="start" style="width: 86%; padding-top: 40px; margin-left: auto; margin-right: auto; max-width: 1100px; text-decoration: none;">
+      <nav style="width: 100%; float:left; text-align: center; margin-top: 5px; margin-bottom: 5px; padding: 2px; border-radius: 15px; vertical-align: middle; background: rgba(0, 0, 0, 0.1);">
+        <a ui-sref="info.about" ng-class="{'active': info.tabActive.about}" ng-click="info.changeActiveTab('about')" style="width: 25%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_TITLE'|translate}}</a>
+        <a ui-sref="info.faq" ng-class="{'active': info.tabActive.faq}" ng-click="info.changeActiveTab('faq')" style="width: 25%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_FAQ'|translate}}</a>
+        <a ui-sref="info.imprint" ng-class="{'active': info.tabActive.imprint}" ng-click="info.changeActiveTab('imprint')" style="width: 25%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_IMPRINT_HEADER'|translate}}</a>
+        <a ui-sref="info.privacy" ng-class="{'active': info.tabActive.privacy}" ng-click="info.changeActiveTab('privacy')" style="width: 25%; float: left; font-weight: normal; cursor: pointer; vertical-align: top; text-decoration: none; display: inline-block; border-radius: 16px; padding: 3px 10px; font-size: 18px; line-height: 26px;">{{'INFO_PRIVACY_HEADER'|translate}}</a>
+      </nav>
+    </div>
+    <div style="width: 86%; margin-left: auto; margin-right: auto; max-width: 1100px; margin-top: 120px!important; margin-bottom: 120px!important;">
+      <div ui-view="info"></div>
+    </div>
   </div>
 </div>

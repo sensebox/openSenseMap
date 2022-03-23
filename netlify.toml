@@ -3,7 +3,7 @@
   command = "grunt build --target=build"
 
 [context.branch-deploy]
-  environment = { OPENSENSEMAP_MAPTILES_URL = "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org" }
+  environment = { OPENSENSEMAP_STYLE_URL = "", OPENSENSEMAP_ACCESS_TOKEN = "", OPENSENSEMAP_API_URL = "https://api.testing.opensensemap.org", OPENSENSEMAP_CMS_URL = "https://coelho.opensensemap.org" }
 
 [[headers]]
   for = "/*"
@@ -66,8 +66,8 @@
   status=200
 
 [[redirects]]
-  from="/about" 
-  to="/" 
+  from="/about"
+  to="/"
   status=200
 
 [[redirects]]

@@ -27,11 +27,14 @@
     vm.submitData = submitData;
     vm.onFileSelect = onFileSelect;
 
+    var mimeTypes = ['text/csv', 'application/vnd.ms-excel', 'application/json'];
+
     activate();
 
     ////
 
     function activate () {
+      console.log(navigator);
       vm.fileReader = new FileReader();
       vm.fileReader.onload = function (e) {
         $scope.$apply(function () {
@@ -43,13 +46,25 @@
     function onFileSelect (event, $flow, file) {
       event.preventDefault();
       vm.error = '';
-      if (Object.keys(vm.dataTypes).indexOf(file.file.type) === -1) {
+      console.log(file);
+      if (mimeTypes.indexOf(file.file.type) === -1) {
         vm.error = { code: 'FORMAT' };
 
         return;
       }
-      vm.dataFormat = file.file.type;
 
+      switch (file.file.type) {
+      case 'text/csv':
+      case 'application/vnd.ms-excel':
+        vm.dataFormat = 'text/csv';
+        break;
+      case 'application/json':
+        vm.dataFormat = 'application/json';
+        break;
+      default:
+        vm.dataFormat = file.file.type;
+        break;
+      }
 
       vm.fileReader.readAsText(file.file);
     }
@@ -57,9 +72,8 @@
     function submitData () {
       vm.success = false;
       vm.error = '';
-
       OpenSenseMapAPI
-        .postMeasurements($state.params.id, vm.measurementData, vm.dataFormat)
+        .postMeasurements($state.params.id, vm.measurementData, vm.dataFormat, $state.params.box.access_token)
         .then(function () {
           vm.success = true;
         })

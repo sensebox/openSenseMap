@@ -40,7 +40,7 @@
 
       var map = new L.map(element[0], {
         minZoom: 2,
-        maxZoom: 18,
+        maxZoom: 25,
         worldCopyJump: true,
         scrollWheelZoom: true
       }).setView([51.04139389812637, 10.2172851562], 3);
@@ -51,7 +51,7 @@
       var mcg = L.markerClusterGroup({
         maxClusterRadius: 2 * rmax,
         iconCreateFunction: defineClusterIcon,
-        disableClusteringAtZoom: 17,
+        disableClusteringAtZoom: 24,
         spiderfyOnMaxZoom: false,
         showCoverageOnHover: false,
         chunkedLoading: true
@@ -95,15 +95,14 @@
         map.removeLayer(mapLayers['mouseOver']);
       });
 
-      var baselayer = L.tileLayer('@@OPENSENSEMAP_MAPTILES_URL', {
-        subdomains: 'abc',
-        attribution: '&copy; <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a> contributors | Tiles &copy; <a href="http://www.mapbox.com/" target="_blank">Mapbox</a>',
-        detectRetina: true,
-        reuseTiles: true,
-        maxZoom: 18
+      var gl = L.mapboxGL({
+        attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
+        accessToken: '@@OPENSENSEMAP_ACCESS_TOKEN',
+        style: '@@OPENSENSEMAP_STYLE_URL'
       }).addTo(map);
+      var mapboxMap = gl.getMapboxMap();
 
-      baselayer.on('load', layerLoaded);
+      mapboxMap.on('load', layerLoaded);
 
       L.control.scale().addTo(map);
 
@@ -153,7 +152,7 @@
       function layerLoaded () {
         $rootScope.$broadcast('layerloaded', {});
         $rootScope.$apply();
-        baselayer.off('load', layerLoaded);
+        mapboxMap.off('load', layerLoaded);
         for (var layerName in mapLayers) {
           mapLayers[layerName].on('add', function () {
             osemMapData.setLayer(layerName, mapLayers[layerName]);

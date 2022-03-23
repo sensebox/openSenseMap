@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxGeneralController', EditBoxGeneralController);
 
-  EditBoxGeneralController.$inject = ['$document', 'notifications', 'boxData', 'AccountService'];
+  EditBoxGeneralController.$inject = ['$document', 'notifications', 'boxData', 'AccountService', 'Box'];
 
-  function EditBoxGeneralController ($document, notifications, boxData, AccountService) {
+  function EditBoxGeneralController ($document, notifications, boxData, AccountService, Box) {
     var vm = this;
     vm.editingMarker = {};
     vm.password = '';
@@ -30,14 +30,14 @@
         name: vm.editingMarker.name,
         description: vm.editingMarker.description,
         weblink: vm.editingMarker.weblink,
-        grouptag: vm.editingMarker.grouptag,
+        grouptag: vm.editingMarker.grouptag.split(','),
         exposure: vm.editingMarker.exposure,
         image: imgsrc
       };
 
       return AccountService.updateBox(boxData._id, data)
         .then(function (response) {
-          angular.copy(response.data, boxData);
+          angular.copy(new Box(response.data), boxData);
           notifications.addAlert('info', 'NOTIFICATION_BOX_UPDATE_SUCCESS');
         })
         .catch(function () {

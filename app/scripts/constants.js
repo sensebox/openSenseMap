@@ -7,7 +7,8 @@
     .constant('app', {
       VERSION: '@@VERSION',
       REVISION: '@@REVISION',
-      NAME: 'Zahngold Bernd',
-      API_URL: '@@OPENSENSEMAP_API_URL'
+      NAME: '@@NAME',
+      API_URL: '@@OPENSENSEMAP_API_URL',
+      CMS_URL: '@@OPENSENSEMAP_CMS_URL'
     });
 })();

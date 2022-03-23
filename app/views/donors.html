@@ -1,0 +1,48 @@
+<div class="content-container">
+
+  <div ui-view="donate" style="margin-top: 50px;">
+    <div class="donation-wrapper inline-donation">
+      <div class="inner-wrapper-donation">
+        <div class="donation-text">
+          <!-- <h3>{{'INFO_SUPPORT' | translate}}</h3> -->
+          <div ng-bind-html="'INFO_SUPPORT_TEXT' | translate"></div>
+        </div>
+        <!-- <iframe
+          class="external-help"
+          ng-src="{{ help.iframeSrc }}"
+          sandbox="allow-same-origin"></iframe> -->
+
+        <div class="donation-footer">
+          <div class="small">
+          </div>
+          <div>
+            <a href="https://www.betterplace.org/de/projects/89947-opensensemap-org-die-freie-karte-fuer-umweltdaten" target="_blank" class="btn donation-button">{{'INFO_DONATE_NOW'|translate}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3 style="text-align: center;"> {{'THANKSDONATION' | translate}}</h3> <br>
+    <h4 style="text-align: center;" ng-bind-html="'DONATIONTHANKS_TEXT' | translate"></h4>
+    <br>
+    <p style="text-align: center;">{{'SPECIALTHANKS' | translate}}</p>
+    <br>
+    <br>
+    <div class="row">
+      <div class="column">
+      </div>
+      <div class="column" style="background-color:rgb(255, 255, 255);">
+        <img src="/images/logos/Stiftungen-SPK-MSLO.jpg" style="width: 100%;"></img>
+      </div>
+      <div class="column">
+      </div>
+    </div>
+    <br>
+    <ul class="donor-list">
+      <li>Jörg Richter</li>
+      <li>Alexander Zach</li>
+      <li>Dr. Mark Sakschewski</li>
+      <li>Andrej Shadura</li>
+      <li>Robert Welling</li>
+      <li>Sparkassen Stiftung Münsterland Ost</li>
+    </ul>
+</div>

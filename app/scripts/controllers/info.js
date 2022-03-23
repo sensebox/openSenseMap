@@ -11,6 +11,7 @@
     vm.app = app;
     vm.tabActive = {
       about: true,
+      faq: false,
       imprint: false,
       privacy: false
     };
@@ -32,6 +33,9 @@
       switch (tab) {
       case 'about':
         vm.tabActive.about = true;
+        break;
+      case 'faq':
+        vm.tabActive.faq = true;
         break;
       case 'imprint':
         vm.tabActive.imprint = true;

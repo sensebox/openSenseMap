@@ -33,14 +33,26 @@
         temp: false,
         pressure: false,
         light: false,
-        pollution: false
+        pollution: false,
+        bme680: false,
+        co2: false
       },
-      serialPort: 'Serial1'
+      serialPort: 'Serial1',
+      soilDigitalPort: 'A',
+      soundMeterPort: 'B',
+      windSpeedPort: 'C',
+      bmePhenomenon: 'tempHumiPress'
     };
-
+    vm.display_enabled = false;
     vm.wifi = {
       ssid: '',
       pasword: ''
+    };
+
+    vm.ttn = {
+      devEUI: '',
+      appEUI: '',
+      appKey: ''
     };
 
     // vm.radioModel = null;
@@ -70,6 +82,18 @@
     vm.extensions = {
       feinstaub: {
         id: ''
+      },
+      soilMoisture: {
+        id: '',
+        port: 'A'
+      },
+      soundLevelMeter: {
+        id: '',
+        port: 'B'
+      },
+      windSpeed: {
+        id: '',
+        port: 'C'
       }
     };
 
@@ -88,10 +112,11 @@
       profile: 'sensebox/home',
       app_id: '',
       dev_id: '',
-      decodeOptions: '[]'
+      decodeOptions: '[]',
+      cayenneLppDecoding: []
     };
     vm.open = {
-      sensebox: true,
+      sensebox: false,
       luftdaten: false,
       custom: false,
       mqtt: false,
@@ -119,6 +144,7 @@
     vm.stepIsValidChange = stepIsValidChange;
     vm.isSenseBoxModel = isSenseBoxModel;
     vm.stepIsValid = false;
+    vm.cayenneLppDecodingChanged = cayenneLppDecodingChanged;
     vm.senseBoxSetupValid = senseBoxSetupValid;
     vm.generateNewSecret = generateNewSecret;
     vm.addSensorTemplate = addSensorTemplate;
@@ -165,8 +191,15 @@
     function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
         serialPort: vm.newSenseBox.serialPort,
+        soilDigitalPort: vm.newSenseBox.soilDigitalPort,
+        soundMeterPort: vm.newSenseBox.soundMeterPort,
+        windSpeedPort: vm.newSenseBox.windSpeedPort,
         ssid: vm.wifi.ssid,
-        password: vm.wifi.password
+        password: vm.wifi.password,
+        devEUI: vm.ttn.devEUI,
+        appEUI: vm.ttn.appEUI,
+        appKey: vm.ttn.appKey,
+        display_enabled: vm.display_enabled
       })
         .then(function (response) {
           vm.boxScript = response;
@@ -279,6 +312,10 @@
       };
       vm.sensors.push(sensor);
       vm.sensorIncomplete = false;
+
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      }
     }
 
     function remove (index) {
@@ -288,6 +325,10 @@
       }
       if (vm.sensors.length === 0) {
         vm.sensorIncomplete = true;
+      }
+
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
       }
     }
 
@@ -299,6 +340,9 @@
       var data = {};
       if (model.startsWith('homeV2')) {
         data.serialPort = vm.newModel.serialPort;
+        data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
+        data.soundMeterPort = vm.newSenseBox.soundMeterPort;
+        data.windSpeedPort = vm.newSenseBox.windSpeedPort;
       }
       AccountService.getScript(boxId, data)
         .then(function (data) {
@@ -326,7 +370,7 @@
       vm.registering = true;
 
       if (vm.tag !== '') {
-        vm.newSenseBox.grouptag = vm.tag;
+        vm.newSenseBox.grouptag = vm.tag.split(',');
       }
 
       if (vm.modelSelected.id === 'custom' || vm.modelSelected.id === 'edu') {
@@ -354,6 +398,12 @@
                 vm.newSenseBox.sensorTemplates.push('veml6070');
                 vm.newSenseBox.sensorTemplates.push('tsl45315');
                 break;
+              case 'bme680':
+                vm.newSenseBox.sensorTemplates.push('bme680');
+                break;
+              case 'co2':
+                vm.newSenseBox.sensorTemplates.push('scd30');
+                break;
               }
             }
           }
@@ -361,6 +411,18 @@
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
           vm.newSenseBox.serialPort = vm.newModel.serialPort;
+        }
+        if (vm.extensions.soilMoisture.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('smt50');
+          vm.newSenseBox.soilDigitalPort = vm.extensions.soilMoisture.port;
+        }
+        if (vm.extensions.soundLevelMeter.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('soundlevelmeter');
+          vm.newSenseBox.soundMeterPort = vm.extensions.soundLevelMeter.port;
+        }
+        if (vm.extensions.windSpeed.id !== '') {
+          vm.newSenseBox.sensorTemplates.push('windspeed');
+          vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
       }
 
@@ -408,6 +470,12 @@
         });
     }
 
+    function cayenneLppDecodingChanged (sensor) {
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_title = sensor.title;
+      vm.ttn.cayenneLppDecoding[sensor.id].sensor_type = sensor.sensorType;
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
+    }
+
     function senseBoxSetupValid () {
       var validTTN = true;
       var validMQTT = true;
@@ -428,12 +496,13 @@
       return validTTN && validMQTT && !validSensorSetup;
     }
 
-    function addSensorTemplate (template) {
+    function generateSensorTemplate (templateName) {
       var icon = '';
       var title = '';
       var unit = '';
       var sensorType = '';
-      switch (template) {
+
+      switch (templateName) {
       case 'HDC1080_TEMPERATURE':
         icon = 'osem-thermometer';
         title = 'Temperatur';
@@ -470,6 +539,30 @@
         unit = 'μW/cm²';
         sensorType = 'VEML6070';
         break;
+      case 'BME680_TEMPERATURE':
+        icon = 'osem-thermometer';
+        title = 'Temperatur';
+        unit = '°C';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_HUMIDITY':
+        icon = 'osem-humidity';
+        title = 'rel. Luftfeuchte';
+        unit = '%';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_PRESSURE':
+        icon = 'osem-barometer';
+        title = 'Luftdruck';
+        unit = 'hPa';
+        sensorType = 'BME680';
+        break;
+      case 'BME680_VOC':
+        icon = 'osem-barometer';
+        title = 'VOC';
+        unit = 'kΩ';
+        sensorType = 'BME680';
+        break;
       case 'PM25':
         icon = 'osem-cloud';
         title = 'PM2.5';
@@ -482,13 +575,100 @@
         unit = 'µg/m³';
         sensorType = 'SDS 011';
         break;
+      case 'smt50_soilmoisture':
+        icon = 'osem-humidity';
+        title = 'Bodenfeuchte';
+        unit = '%';
+        sensorType = 'SMT50';
+        break;
+      case 'smt50_soiltemperature':
+        icon = 'osem-thermometer';
+        title = 'Bodentemperatur';
+        unit = '°C';
+        sensorType = 'SMT50';
+        break;
+      case 'soundlevelmeter':
+        icon = 'osem-microphone';
+        title = 'Lautstärke';
+        unit = 'dB';
+        sensorType = 'soundlevelmeter';
+        break;
+      case 'windspeed':
+        icon = 'osem-particulate-matter';
+        title = 'Windgeschwindigkeit';
+        unit = 'm/s';
+        sensorType = 'WINDSPEED';
+        break;
+      case 'scd30_co2':
+        icon = 'osem-co2';
+        title = 'CO₂';
+        unit = 'ppm';
+        sensorType = 'SCD30';
+        break;
       }
-      add(icon, title, unit, sensorType);
+
+      return {
+        icon: icon,
+        title: title,
+        unit: unit,
+        sensorType: sensorType
+      };
+    }
+
+
+    function removeSensorTemplate (template) {
+      if (template === '' || template === null || template === undefined) {
+        return;
+      }
+
+      // Remove specific sensor template
+      for (var index = 0; index < vm.sensors.length; index++) {
+        var element = vm.sensors[index];
+        if (element.sensorType === template.sensorType && element.title === template.title) {
+          vm.sensors.splice(index, 1);
+        }
+      }
+
+      // Rewrite sensor ids
+      var tempSensors = vm.sensors.map(function (sensor, idx) {
+        sensor.id = idx;
+
+        return sensor;
+      });
+
+      angular.copy(tempSensors, vm.sensors);
+
+    }
+
+    function addSensorTemplate (templateName) {
+      var template = generateSensorTemplate(templateName);
+      add(template.icon, template.title, template.unit, template.sensorType);
+    }
+
+    function generateMarkerIcon () {
+      var icon = 'circle';
+      var color = 'red';
+
+      if (vm.newSenseBox.exposure === 'indoor' || vm.newSenseBox.exposure === 'outdoor') {
+        icon = 'cube';
+        color = 'green';
+      } else if (vm.newSenseBox.exposure === 'mobile') {
+        icon = 'rocket';
+        color = 'blue';
+      }
+
+      return L.AwesomeMarkers.icon({
+        type: 'awesomeMarker',
+        prefix: 'fa',
+        icon: icon,
+        markerColor: color
+      });
     }
 
     ////
 
     $scope.$on('osemMapClick.map_register', function (e, args) {
+
       if (Object.keys(vm.markers).length === 0) {
         vm.markers = {
           box: {
@@ -499,7 +679,8 @@
             ],
             lat: parseFloat(args.latlng.lat.toFixed(6)),
             lng: parseFloat(args.latlng.lng.toFixed(6)),
-            draggable: true
+            draggable: true,
+            icon: generateMarkerIcon()
           }
         };
       } else {
@@ -537,7 +718,8 @@
             ],
             lat: parseFloat(args.latlng.lat.toFixed(6)),
             lng: parseFloat(args.latlng.lng.toFixed(6)),
-            draggable: true
+            draggable: true,
+            icon: generateMarkerIcon()
           }
         };
         if (args.latlng.altitude) {
@@ -631,6 +813,81 @@
       vm.modelSelected.name = false;
     });
 
+    // Watch selected sensors if model is homev2
+    $scope.$watch('register.newModel.sensors', function (newValue, oldValue) {
+      // Add sensor templates
+      if (newValue.temp && oldValue.temp === false) {
+        addSensorTemplate('HDC1080_TEMPERATURE');
+        addSensorTemplate('HDC1080_HUMIDITY');
+      } else if (newValue.pressure && oldValue.pressure === false) {
+        addSensorTemplate('BMP280_PRESSURE');
+      } else if (newValue.light && oldValue.light === false) {
+        addSensorTemplate('VEML6070');
+        addSensorTemplate('TSL45315');
+      } else if (newValue.bme680 && oldValue.bme680 === false) {
+        addSensorTemplate('BME680_TEMPERATURE');
+        addSensorTemplate('BME680_HUMIDITY');
+        addSensorTemplate('BME680_PRESSURE');
+        addSensorTemplate('BME680_VOC');
+      } else if (newValue.co2 && oldValue.co2 === false) {
+        addSensorTemplate('scd30_co2');
+      }
+
+      // Remove sensor templates
+      if (oldValue.temp && newValue.temp === false) {
+        removeSensorTemplate(generateSensorTemplate('HDC1080_TEMPERATURE'));
+        removeSensorTemplate(generateSensorTemplate('HDC1080_HUMIDITY'));
+      } else if (oldValue.pressure && newValue.pressure === false) {
+        removeSensorTemplate(generateSensorTemplate('BMP280_PRESSURE'));
+      } else if (oldValue.light && newValue.light === false) {
+        removeSensorTemplate(generateSensorTemplate('VEML6070'));
+        removeSensorTemplate(generateSensorTemplate('TSL45315'));
+      } else if (oldValue.bme680 && newValue.bme680 === '') {
+        removeSensorTemplate(generateSensorTemplate('BME680_TEMPERATURE'));
+        removeSensorTemplate(generateSensorTemplate('BME680_HUMIDITY'));
+        removeSensorTemplate(generateSensorTemplate('BME680_PRESSURE'));
+        removeSensorTemplate(generateSensorTemplate('BME680_VOC'));
+      } else if (oldValue.co2 && newValue.co2 === '') {
+        removeSensorTemplate(generateSensorTemplate('scd30_co2'));
+      }
+    }, true);
+
+    // Watch extensions because they also add sensors
+    $scope.$watch('register.extensions', function (newValue, oldValue) {
+      // Add sensor template
+      if (newValue.feinstaub.id !== '') {
+        addSensorTemplate('PM25');
+        addSensorTemplate('PM10');
+      } else if (newValue.soilMoisture.id !== '') {
+        addSensorTemplate('smt50_soilmoisture');
+        addSensorTemplate('smt50_soiltemperature');
+      } else if (newValue.soundLevelMeter.id !== '') {
+        addSensorTemplate('soundlevelmeter');
+      } else if (newValue.windSpeed.id !== '') {
+        addSensorTemplate('windspeed');
+      }
+
+      // Remove sensor template
+      if (newValue.feinstaub.id === '' && oldValue.feinstaub.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('PM25'));
+        removeSensorTemplate(generateSensorTemplate('PM10'));
+      } else if (newValue.soilMoisture.id === '' && oldValue.soilMoisture.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('smt50_soilmoisture'));
+        removeSensorTemplate(generateSensorTemplate('smt50_soiltemperature'));
+      } else if (newValue.soundLevelMeter.id === '' && oldValue.soundLevelMeter.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('soundlevelmeter'));
+      } else if (newValue.windSpeed.id === '' && oldValue.windSpeed.id !== '') {
+        removeSensorTemplate(generateSensorTemplate('windspeed'));
+      }
+    }, true);
+
+    // Watch added sensors if selected model is custom or edu
+    $scope.$watch('register.sensors', function () {
+      if (vm.ttn.profile === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      }
+    }, true);
+
     $scope.$watch('register.newModel.connection', function (newValue) {
       if (newValue === 'Lora') {
         vm.ttnEnabled = true;
@@ -640,6 +897,50 @@
         vm.open.ttn = false;
       }
     });
+
+    $scope.$watch('register.ttn.profile', function (newValue) {
+      if (newValue === 'cayenne-lpp') {
+        updateCayenneDecoding();
+      } else {
+        vm.ttn.cayenneLppDecoding = [];
+        vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
+      }
+    });
+
+    function updateCayenneDecoding () {
+      var tempCayenneLppDecoding = vm.sensors.map(function (sensor) {
+        var decoderGuess = 'analog_in';
+
+        var tempSubstr = ['temp'];
+        var humiSubstr = ['humi', 'feucht'];
+        var pressSubstr = ['press', 'druck'];
+        var illuSubstr = ['hell', 'illu', 'uv', 'beleuch'];
+
+        // Title could be undefined in manual configuration after adding a sensor
+        if (sensor.title) {
+          if (new RegExp(tempSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'temperature';
+          } else if (new RegExp(humiSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'relative_humidity';
+          } else if (new RegExp(pressSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'barometric_pressure';
+          } else if (new RegExp(illuSubstr.join('|')).test(sensor.title.toLowerCase())) {
+            decoderGuess = 'luminosity';
+          }
+        }
+
+        return Object.assign({
+          sensor_title: sensor.title,
+          sensor_type: sensor.sensorType,
+          decoder: decoderGuess,
+          channel: 1
+        });
+      });
+
+      // Copy and apply changes to scope variables
+      angular.copy(tempCayenneLppDecoding, vm.ttn.cayenneLppDecoding);
+      vm.ttn.decodeOptions = JSON.stringify(vm.ttn.cayenneLppDecoding);
+    }
 
     // check if valid json for ttn decodeOptions
     $scope.$watch('register.ttn.decodeOptions', function (newValue) {
@@ -678,15 +979,27 @@
       }
     });
 
-    $scope.$watchCollection('register.open', function (accordion) {
-      vm.tag = '';
-      vm.modelSelected.id = '';
-      if (accordion) {
-        if (accordion.custom) {
+    $scope.$watchCollection('register.open', function (
+      newAccordion,
+      oldAccordion
+    ) {
+      if (
+        vm.tag === 'edu' &&
+        newAccordion &&
+        oldAccordion &&
+        oldAccordion.edu === true &&
+        newAccordion.edu === false
+      ) {
+        vm.tag = '';
+      }
+      if (newAccordion) {
+        if (newAccordion.custom === true) {
           vm.modelSelected.id = 'custom';
-        } else if (accordion.edu) {
+        } else if (newAccordion.edu === true) {
           vm.modelSelected.id = 'edu';
-          vm.tag = 'edu';
+          if (vm.tag === '') {
+            vm.tag = 'edu';
+          }
         }
       }
     });
@@ -704,6 +1017,7 @@
         if (Object.keys(vm.markers).length === 0) {
           vm.markers = {
             box: {
+              layerName: 'registration',
               latLng: [
                 parseFloat(newValue.lat.toFixed(6)),
                 parseFloat(newValue.lng.toFixed(6))
@@ -711,7 +1025,8 @@
               lat: parseFloat(newValue.lat.toFixed(6)),
               lng: parseFloat(newValue.lng.toFixed(6)),
               height: newValue.height,
-              draggable: true
+              draggable: true,
+              icon: generateMarkerIcon()
             }
           };
         } else {
@@ -728,31 +1043,11 @@
       }
     });
 
-    $scope.$watchCollection('register.newSenseBox.exposure', function (
-      newValue
-    ) {
-      if (newValue === '') {
-        return;
+    $scope.$watchCollection('register.newSenseBox.exposure', function () {
+      if (vm.markers.box) {
+        vm.markers = angular.copy(vm.markers);
+        vm.markers.box.icon = generateMarkerIcon();
       }
-      var icon = '';
-      var color = '';
-
-      if (newValue === 'indoor' || newValue === 'outdoor') {
-        icon = 'cube';
-        color = 'green';
-      }
-
-      if (newValue === 'mobile') {
-        icon = 'rocket';
-        color = 'blue';
-      }
-      vm.markers = angular.copy(vm.markers);
-      vm.markers.box.icon = L.AwesomeMarkers.icon({
-        type: 'awesomeMarker',
-        prefix: 'fa',
-        icon: icon,
-        markerColor: color
-      });
     });
   }
 })();

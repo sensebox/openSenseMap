@@ -5,9 +5,9 @@
     .module('openSenseMapApp')
     .controller('EditBoxSensorsController', EditBoxSensorsController);
 
-  EditBoxSensorsController.$inject = ['boxData', 'notifications', 'SensorIcons', 'AccountService', 'OpenSenseMapAPI'];
+  EditBoxSensorsController.$inject = ['boxData', 'notifications', 'SensorIcons', 'AccountService'];
 
-  function EditBoxSensorsController (boxData, notifications, SensorIcons, AccountService, OpenSenseMapAPI) {
+  function EditBoxSensorsController (boxData, notifications, SensorIcons, AccountService) {
     var vm = this;
     vm.sensors = [];
     vm.icons = [];
@@ -218,10 +218,10 @@
       setDeleteMethod(vm.deleteOptions.method);
 
       return AccountService.deleteMeasurement(boxData._id, sensor._id, vm.deleteOptions.params)
-        .then(function (response) {
+        .then(function () {
           notifications.addAlert('info', 'NOTIFICATION_SUCCESSFULLY_DELETED', sensor._id);
         })
-        .catch(function (error) {
+        .catch(function () {
           notifications.addAlert('danger', 'NOTIFICATION_NO_MATCHING_MEASUREMENTS');
         });
     }

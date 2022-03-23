@@ -332,6 +332,36 @@
                                   <div style="text-align: left;">
                                     <div class="checkbox checkbox-success checkbox-inline"
                                       style="vertical-align: middle;">
+                                      <input type="checkbox" id="bmeSensor" ng-true-value="'BME680'" ng-false-value="''"
+                                        ng-model="register.newModel.sensors.bme680">
+                                      <label for="bmeSensor"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">BME680</span>
+                                  </div>
+                                </div>
+                                <!-- <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagBME">{{'PHENOMENON' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagBME" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.newModel.bmePhenomenon">
+                                        <option value="tempHumiPress">{{'TEMPERATURE_HUMIDITY_PRESSURE' | translate}}</option>
+                                        <option value="voc">VOC</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div> -->
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
                                       <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'"
                                         ng-false-value="''" ng-model="register.extensions.feinstaub.id">
                                       <label for="pollutionSensor"> </label>
@@ -354,6 +384,117 @@
                                         <option value="Serial2">Serial 2</option>
                                       </select>
                                     </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="soilMoistureSensor" ng-true-value="'Bodenfeuchte'"
+                                        ng-false-value="''" ng-model="register.extensions.soilMoisture.id">
+                                      <label for="soilMoistureSensor"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'SOIL_MOISTURE' | translate}}</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagSoilMoisture">{{'DIGITAL_PORT' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagSoilMoisture" class="form-control" style="border-radius: 4px;"
+                                        ng-model="register.extensions.soilMoisture.port">
+                                        <!---->
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="soundLevelMeter" ng-true-value="'Lautstärke'"
+                                        ng-false-value="''" ng-model="register.extensions.soundLevelMeter.id">
+                                      <label for="soundLevelMeter"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1579187023927-176092104_illustrator_02_gimp%20overlay_cropped.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'SOUND_LEVEL' | translate}}</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagSoundLevelMeter">{{'DIGITAL_PORT' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagSoundLevelMeter" class="form-control"
+                                        style="border-radius: 4px;" ng-model="register.extensions.soundLevelMeter.port">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="windSpeed" ng-true-value="'Windgeschwindigkeit'"
+                                        ng-false-value="''" ng-model="register.extensions.windSpeed.id">
+                                      <label for="windSpeed"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1591363857981-004_8-removebg-preview.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'WIND_SPEED' | translate}}</span>
+                                  </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+                                  style="height: 90px; text-align: left; margin-top: 15px;">
+                                  <div class="form-group">
+                                    <label for="groupTagWindSpeed">{{'DIGITAL_PORT' | translate}}</label>
+                                    <div class="input-group xxxl">
+                                      <select id="groupTagWindSpeed" class="form-control"
+                                        style="border-radius: 4px;" ng-model="register.extensions.windSpeed.port">
+                                        <option value="A">A</option>
+                                        <option value="B">B</option>
+                                        <option value="C">C</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="row">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
+                                  style="border-right: 1px solid #e1e4e8;">
+                                  <div style="text-align: left;">
+                                    <div class="checkbox checkbox-success checkbox-inline"
+                                      style="vertical-align: middle;">
+                                      <input type="checkbox" id="co2" ng-true-value="'CO₂'"
+                                        ng-false-value="''" ng-model="register.newModel.sensors.co2">
+                                      <label for="co2"> </label>
+                                    </div>
+                                    <img
+                                      src="https://sensebox.kaufen/api/public/uploads/1603979080866-scd30.png"
+                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">CO<sub>2</sub></span>
                                   </div>
                                 </div>
                               </div>
@@ -455,7 +596,7 @@
                         <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1524084036833-hds%20top.png"
                           style="vertical-align: middle; height: 90px; width: 90px;" alt="">
                         <div class="caption">
-                          <h4>{{'Humidity' | translate}}</h4>
+                          <h4>{{'HUMIDITY' | translate}}</h4>
                           <p>(HDC1080)</p>
                           <p>
                             <button type="button" class="btn btn-success"
@@ -556,6 +697,139 @@
                         </div>
                       </div>
                     </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'TEMPERATURE' | translate}}</h4>
+                          <p>(BME680)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_TEMPERATURE')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'HUMIDITY' | translate}}</h4>
+                          <p>(BME680)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_HUMIDITY')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'AIRPRESSURE' | translate}}</h4>
+                          <p>(BME680)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_PRESSURE')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1559804795021-bme_v2_top.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>VOC</h4>
+                          <p>(BME680)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('BME680_VOC')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>Bodenfeuchte</h4>
+                          <p>(SMT50)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('smt50_soilmoisture')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img src="https://sensebox.kaufen/api/public/uploads/1572259222502-SMT50_freigestellt_02.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>Bodentemperatur</h4>
+                          <p>(SMT50)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('smt50_soiltemperature')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api/public/uploads/1579187023927-176092104_illustrator_02_gimp%20overlay_cropped.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'SOUND_LEVEL'|translate}}</h4>
+                          <p>&nbsp;</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('soundlevelmeter')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api/public/uploads/1591363857981-004_8-removebg-preview.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>{{'WIND_SPEED'|translate}}</h4>
+                          <p>&nbsp;</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('windspeed')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                      <div class="thumbnail">
+                        <img
+                          src="https://sensebox.kaufen/api/public/uploads/1603979080866-scd30.png"
+                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
+                        <div class="caption">
+                          <h4>CO<sub>2</sub></h4>
+                          <p>(SCD30)</p>
+                          <p>
+                            <button type="button" class="btn btn-success"
+                              ng-click="register.addSensorTemplate('scd30_co2')">{{'ADD_SENSOR'|translate}}</button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                   <br>
                   <hr>
@@ -574,7 +848,7 @@
                         <td>
                           <input type="text" name="icon{{sensor.id}}" ng-hide="true" ng-model="sensor.icon" required>
                           <div class="form-group has-feedback"
-                            ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid}">
+                            ng-class="{ 'has-error' : senseboxForm.icon{{sensor.id}}.$invalid, 'has-success' : senseboxForm.icon{{sensor.id}}.$valid && sensor.icon!='' }">
                             <div class="btn-group xxxl" uib-dropdown>
                               <button id="btn-append-to-body" type="button" class="form-control btn btn-default xxxl"
                                 uib-dropdown-toggle>
@@ -597,6 +871,7 @@
                         <td>
                           <div class="form-group has-feedback"
                             ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!='' }">
+                            <!-- ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }"> -->
                             <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
                               ng-model="sensor.title" required>
                             <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
@@ -629,6 +904,8 @@
                         </td>
                         <td style="white-space: nowrap">
                           <button type="button" class="btn btn-danger" ng-click="register.remove(sensor.index);">
+                          <!-- <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]"
+                            ng-click="register.remove(sensor.id);"> -->
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
                         </td>
@@ -766,6 +1043,8 @@
                       {{'MANUAL_CONFIGURATION'|translate}}
                     </label>
                   </div>
+                  <textarea ng-hide="true" name="sensorsetup" id="" cols="30" rows="10" required
+                    ng-model="register.sensorSetup"></textarea>
                   <br>
                   <div uib-alert class="alert-info" ng-bind-html="'CUSTOMBOX'|translate">
                   </div>
@@ -807,10 +1086,10 @@
                         </td>
                         <td>
                           <div class="form-group has-feedback"
-                            ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!='' }">
+                            ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
                             <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
                               ng-model="sensor.title" required>
-                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!==''"
+                            <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
                               class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
                             <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid"
                               class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
@@ -840,6 +1119,8 @@
                         </td>
                         <td style="white-space: nowrap">
                           <button type="button" class="btn btn-danger" ng-click="register.remove(sensor.index);">
+                          <!-- <button type="button" class="btn btn-danger" ng-show="register.editing[sensor.id]"
+                            ng-click="register.remove(sensor.id);"> -->
                             <span class="glyphicon glyphicon-trash"></span>
                           </button>
                         </td>
@@ -958,6 +1239,7 @@
                       <option value="sensebox/home">senseBox:home</option>
                       <option value="lora-serialization">LoRa serialization</option>
                       <option value="json">JSON</option>
+                      <option value="cayenne-lpp">Cayenne LPP (beta)</option>
                     </select>
                   </div>
                   <!-- TTN app_id -->
@@ -985,6 +1267,68 @@
                   <!-- TTN Port -->
                   <div class="form-group">
                     <label class="control-label">{{ 'TTN_PORT' | translate }}</label>
+                      ng-required="register.ttn.profile !== 'sensebox/home'"
+                      ng-show="register.ttn.profile != 'cayenne-lpp'">
+                    <table class="table table-striped table-bordered" ng-show="register.ttn.profile == 'cayenne-lpp'">
+                      <thead>
+                        <tr style="font-weight: bold">
+                          <td style="width:30%">{{'CONFIG_PHENOMENON'|translate}}</td>
+                          <td style="width:25%">{{'CONFIG_TYPE'|translate}}</td>
+                          <td style="width:30%">Cayenne LPP {{'CONFIG_PHENOMENON'|translate}}</td>
+                          <td style="width:15%">Cayenne LPP Channel</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="sensor in register.sensors">
+                          <td>
+                            <div class="form-group has-feedback"
+                              ng-class="{ 'has-error' : senseboxForm.phenomenom{{sensor.id}}.$invalid, 'has-success' : senseboxForm.phenomenom{{sensor.id}}.$invalid && sensor.title!='' }">
+                              <input name="phenomenom{{sensor.id}}" class="form-control" type="text"
+                                ng-model="sensor.title" required>
+                              <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$valid && sensor.title!=''"
+                                class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                              <span ng-show="senseboxForm.phenomenom{{sensor.id}}.$invalid"
+                                class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group has-feedback"
+                              ng-class="{'has-error': senseboxForm.sensorType{{sensor.id}}.$invalid, 'has-success' : senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''}">
+                              <input name="sensorType{{sensor.id}}" class="form-control" type="text"
+                                ng-model="sensor.sensorType" required>
+                              <span ng-show="senseboxForm.sensorType{{sensor.id}}.$valid && sensor.sensorType!==''"
+                                class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+                              <span ng-show="senseboxForm.sensorType{{sensor.id}}.$invalid"
+                                class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <select name="cayenne_lpp_settings" class="form-control"
+                                ng-model="register.ttn.cayenneLppDecoding[sensor.id].decoder"
+                                ng-change="register.cayenneLppDecodingChanged(sensor)">
+                                <option value="temperature">{{'TEMPERATURE' | translate}}</option>
+                                <option value="relative_humidity">{{'HUMIDITY' | translate}}</option>
+                                <option value="barometric_pressure">{{'AIRPRESSURE' | translate}}</option>
+                                <option value="luminosity">{{'ILLUMINATION' | translate}}</option>
+                                <option value="analog_in">Analog In</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="form-group">
+                              <input class="form-control" type="number" min="0" max="64" value="1"
+                                ng-model="register.ttn.cayenneLppDecoding[sensor.id].channel"
+                                ng-change="register.cayenneLppDecodingChanged(sensor)">
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- TTN Port -->
+                  <div class="form-group">
+                    <label class="control-label">{{ 'TTN_PORT' | translate }} (optional)</label>
                     <input type="number" name="ttn_decodeoptions" class="form-control monospace"
                       ng-model="register.ttn.port" min="1" max="65535">
                   </div>
@@ -1052,7 +1396,7 @@
               <div class="well">
                 <ul>
                   <li ng-repeat="sensor in register.sensors">
-                    {{sensor.title}} ({{sensor.unit}})
+                    {{sensor.title}} ({{sensor.unit}}) - {{sensor.sensorType}}
                   </li>
                 </ul>
               </div>
@@ -1075,6 +1419,9 @@
         <wz-step wz-title="{{'STEP4' | translate}}" wz-data="{translation: 'STEP4'}">
           <hr>
           <form class="tab-pane" id="last" name="lastForm" rc-step>
+            <!-- Firefox workaround https://github.com/sensebox/openSenseMap/issues/295-->
+            <input type="password" style="display:none;">
+            <!-- Firefox workaround end -->
             <div uib-alert ng-repeat="alert in register.alerts" ng-class="'alert-' + (alert.type)">{{alert.msg}}</div>
 
             <h3>senseBox</h3>
@@ -1101,8 +1448,8 @@
                     <td style="width: 50%;">senseBox ID</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.id}}</strong></td>
                   </tr>
-                  <tr ng-if="register.newSenseBox.model == 'hackair_home_v2'">
-                    <td style="width: 50%;">senseBox access token</td>
+                  <tr ng-if="register.newSenseBox.access_token">
+                    <td style="width: 50%;">{{'ACCESS_TOKEN'|translate}}</td>
                     <td style="width: 50%;"><strong>{{register.newSenseBox.access_token}}</strong></td>
                   </tr>
                 </tbody>
@@ -1117,7 +1464,7 @@
               <table ng-show="register.registeredSensors" class="table table-striped table-bordered">
                 <tbody>
                   <tr ng-repeat="sensor in register.registeredSensors">
-                    <td style="width: 50%;">{{sensor.title}} ({{sensor.unit}})</td>
+                    <td style="width: 50%;">{{sensor.title}} ({{sensor.unit}}) - {{sensor.sensorType}}</td>
                     <td style="width: 50%;"><strong>{{sensor._id}}</strong></td>
                   </tr>
                 </tbody>
@@ -1125,10 +1472,25 @@
             </div>
             <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
             <div class="alert alert-success" role="alert"
-              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
-              <h5 ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
+              ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora' || register.newSenseBox.model === 'homeV2Ethernet'">
+              <!-- Check model to show correct compile hint -->
+              <h5 ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora'" ng-bind-html="'COMPILE_SKETCH'|translate"></h5>
+              <h5 ng-if="register.newSenseBox.model === 'homeV2Ethernet'" ng-bind-html="'COMPILE_ETHERNET_SKETCH'|translate"></h5>
               <div>
-                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub'">
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Lora'">
+                  <div style="text-align: left;">
+                    <div class="checkbox checkbox-success checkbox-inline"
+                      style="vertical-align: middle;">
+                      <input type="checkbox" id="display_enabled" ng-model="register.display_enabled" ng-change="register.generateScript()">
+                      <label for="display_enabled"> </label>
+                    </div>
+                    <img
+                      src="https://sensebox.kaufen/api/public/uploads/1524084885676-oled_top.png"
+                      style="vertical-align: middle; height: 60px; width: 80px;" />
+                    <span style="vertical-align: middle;">{{'DISPLAY_ENABLED' | translate}}</span>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('sds 011')">
                   <label for="serialport">{{'PORT'|translate}}</label>
                   <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
                     tooltip-trigger="'mouseenter'">
@@ -1142,7 +1504,50 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('smt50')">
+                  <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control" id="soilDigitalPort"
+                      ng-model="register.newSenseBox.soilDigitalPort" ng-change="register.generateScript()">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                    </select>
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('soundlevelmeter')">
+                  <label for="soundMeterPort">{{'SOUND_LEVEL'|translate}} {{'DIGITAL_PORT'|translate}}</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control" id="soundMeterPort"
+                      ng-model="register.newSenseBox.soundMeterPort" ng-change="register.generateScript()">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                    </select>
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('windspeed')">
+                  <label for="windSpeedPort">{{'WIND_SPEED'|translate}} {{'DIGITAL_PORT'|translate}}</label>
+                  <div class="input-group">
+                    <select type="text" class="form-control" id="windSpeedPort"
+                      ng-model="register.newSenseBox.windSpeedPort" ng-change="register.generateScript()">
+                      <option value="A">A</option>
+                      <option value="B">B</option>
+                      <option value="C">C</option>
+                    </select>
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group"
+                  ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
                   <label for="ssid">WiFi SSID</label>
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
@@ -1153,12 +1558,53 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group"
+                  ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi'">
                   <label for="password">WiFi {{'ACCOUNT_PASSWORD'|translate}}</label>
                   <div class="input-group" uib-tooltip="{{'DATA_NOT_STORED'|translate}}" tooltip-placement="top"
                     tooltip-trigger="'mouseenter'">
                     <input type="password" class="form-control" id="password" ng-model="register.wifi.password"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()" name="whatever"
+                      autocomplete="new-password">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="devEUI">Device EUI</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="devEUI" ng-model="register.ttn.devEUI"
                       ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="appEUI">Application EUI</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="appEUI" ng-model="register.ttn.appEUI"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
+                    <div class="input-group-addon">
+                      <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.model === 'homeV2Lora'">
+                  <label for="appKey">Application Key</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_ttn_keys.html'" tooltip-placement="top"
+                    tooltip-trigger="'mouseenter'">
+                    <input type="text" class="form-control" id="appKey" ng-model="register.ttn.appKey"
+                      ng-model-options="{ debounce: 500 }" ng-change="register.generateScript()">
+                    <!-- Chrome workaround https://github.com/sensebox/openSenseMap/issues/295 -->
+                    <!-- Set name attribute and autocomplete https://stackoverflow.com/a/15917221 -->
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
@@ -1190,3 +1636,12 @@
     </div>
   </div>
 </div>
+
+<script type="text/ng-template" id="tooltip_serialports.html">
+  <img src="/images/serialports.png" alt="" srcset="">
+</script>
+
+<script type="text/ng-template" id="tooltip_ttn_keys.html">
+  <b>{{'DATA_NOT_STORED'|translate}}</b>
+  <p>{{'TTN_KEYS'|translate}}</p>
+</script>

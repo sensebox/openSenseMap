@@ -21,6 +21,9 @@
     ////
 
     function activate () {
+      // Concat grouptags
+      boxData.grouptag = boxData.grouptag.join(',');
+
       angular.copy(boxData, vm.editingMarker);
     }
 

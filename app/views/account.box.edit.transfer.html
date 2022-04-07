@@ -1,0 +1,40 @@
+<form name="locationSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_TRANSFER'|translate}}</h2>
+    </div>
+  </div>
+
+  <hr>
+
+  <div uib-alert class="alert-warning">
+    <p>
+      <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+      Transfer this device to another user.
+    </p>
+    <hr>
+    <p>
+      Um den Transfer durchzuführen, klicke auf ___ und du bekommst einen <b>Token</b> angezeigt.
+      Diesen <b>Token</b> gibst du weiter an den neuen Besitzer. Der neue Besitzer muss in seinem Account auf ___ klicken und den <b>Token</b>
+      eingeben. Danach wird das Gerät in den neuen Account transferiert.
+      <br><br>
+      Der Transfer kann sich verzögern, bis der neue Eigentümer den <b>Token</b> eingegeben hat.
+    </p>
+  </div>
+
+  <div ng-show="(transfer.data | json) != '{}'">
+    <span>Transfer Token: {{transfer.data.token}}</span> - <span>Expires at: {{transfer.data.expiresAt}}</span>
+    <button ng-click="transfer.revokeToken()" class="btn btn-danger">Revoke</button>
+  </div>
+
+  <div>
+    <div class="form-group">
+      <label class="control-label">Gib <strong>{{transfer.device.name}}</strong> ein:</label>
+      <input type="text" name="name" id="name" class="form-control" ng-model="transfer.deviceName" required>
+    </div>
+    <div class="form-group">
+      <button ng-disabled="transfer.deviceName !== transfer.device.name" ng-click="transfer.transferDevice()" class="btn btn-danger col-md-6">Ich verstehe, übertragen Sie dieses Gerät.</button>
+    </div>
+  </div>
+
+</form>

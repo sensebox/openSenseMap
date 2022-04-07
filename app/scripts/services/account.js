@@ -27,7 +27,10 @@
       deleteMeasurement: deleteMeasurement,
       postNewBox: postNewBox,
       deleteAccount: deleteAccount,
-      compileSketch: compileSketch
+      compileSketch: compileSketch,
+      transferDevice: transferDevice,
+      revokeToken: revokeToken,
+      getTransferToken: getTransferToken
     };
 
     return service;
@@ -243,6 +246,42 @@
           var url = encodeURI('https://compiler.sensebox.de/download?id=' + response.data.data.id + '&board=sensebox-mcu');
 
           return $window.open(url, '_self');
+        })
+        .catch(failed);
+    }
+
+    function getTransferToken (boxId) {
+      return $http
+        .get(app.API_URL + '/boxes/transfer/' + boxId, {
+          auth: true,
+        })
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function transferDevice (data) {
+      return $http.post(app.API_URL + '/boxes/transfer', data, {
+        auth: true,
+      })
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function revokeToken (data) {
+      return $http
+        .delete(app.API_URL + '/boxes/transfer', {
+          auth: true,
+          data: data,
+          headers: {
+            'Content-type': 'application/json;charset=utf-8',
+          },
+        })
+        .then(function (response) {
+          return response;
         })
         .catch(failed);
     }

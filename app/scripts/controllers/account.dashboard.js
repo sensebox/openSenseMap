@@ -15,6 +15,9 @@
     vm.boxes = [];
     vm.listStyle = 'tiles';
     vm.orderByProperty = 'createdAt';
+    vm.claimToken = '';
+
+    vm.claimDevice = claimDevice;
 
     activate();
 
@@ -44,6 +47,20 @@
       return AccountService.getUsersBoxes()
         .then(function (boxes) {
           vm.boxes = boxes;
+        });
+    }
+
+    function claimDevice () {
+      var payload = {
+        token: vm.claimToken
+      };
+
+      return AccountService.claimDevice(payload)
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
         });
     }
 

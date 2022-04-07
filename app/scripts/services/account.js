@@ -30,7 +30,8 @@
       compileSketch: compileSketch,
       transferDevice: transferDevice,
       revokeToken: revokeToken,
-      getTransferToken: getTransferToken
+      getTransferToken: getTransferToken,
+      claimDevice: claimDevice
     };
 
     return service;
@@ -280,6 +281,16 @@
             'Content-type': 'application/json;charset=utf-8',
           },
         })
+        .then(function (response) {
+          return response;
+        })
+        .catch(failed);
+    }
+
+    function claimDevice (data) {
+      return $http.post(app.API_URL + '/boxes/claim', data, {
+        auth: true
+      })
         .then(function (response) {
           return response;
         })

@@ -56,7 +56,7 @@
       };
 
       return AccountService.claimDevice(payload)
-        .then(function (response) {
+        .then(function () {
           // console.log(response);
 
           return getUsersBoxes()

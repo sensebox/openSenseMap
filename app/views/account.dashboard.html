@@ -34,6 +34,12 @@
               <span class="help-block" ng-show="claimForm.token.$error.pattern">This is not a valid token!</span><br>
             </div>
           </form>
+          <div class="alert alert-danger alert-dismissible" role="alert" ng-show="dashboard.errorMessage">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" ng-click="dashboard.closeAlert()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{dashboard.errorMessage}}
+          </div>
         </div>
       </div>
     </div>

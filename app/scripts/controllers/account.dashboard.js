@@ -17,8 +17,10 @@
     vm.orderByProperty = 'createdAt';
     vm.claimToken = '';
     vm.claimPattern = /^[a-z0-9]*$/;
+    vm.errorMessage = '';
 
     vm.claimDevice = claimDevice;
+    vm.closeAlert = closeAlert;
 
     activate();
 
@@ -71,7 +73,12 @@
         })
         .catch(function (error) {
           console.log(error);
+          vm.errorMessage = error.message;
         });
+    }
+
+    function closeAlert () {
+      vm.errorMessage = '';
     }
 
     $scope.$watch('dashboard.listStyle', function (value) {

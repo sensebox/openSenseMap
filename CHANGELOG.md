@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.3](https://github.com/sensebox/openSenseMap/compare/v3.1.2...v3.1.3) (2022-04-08)
+
+
+### Bug Fixes
+
+* **edit:** fix saving general device info ([06cc5fb](https://github.com/sensebox/openSenseMap/commit/06cc5fbef06626141a77f646aca4cdbddcd46552))
+
 ### [3.1.2](https://github.com/sensebox/openSenseMap/compare/v3.1.0...v3.1.2) (2022-04-08)
 
 

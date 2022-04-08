@@ -22,13 +22,16 @@
           <h3>Du möchtest ein Gerät von einem anderen Benutzer übernehmen?</h3>
           <!-- <h3 translate="REGISTERED_BOXES" translate-values="{count: dashboard.boxes.length}"></h3> -->
           <!-- <p>{{'REGISTERED_BOXES_INFO' | translate}}</p> -->
-          <p>Gib hier den <kbd>Token</kbd> ein, den du bekommen hast:</p>
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="Token" ng-model="dashboard.claimToken" maxlength="12">
-            <span class="input-group-btn">
-              <button class="btn btn-primary" type="button" ng-click="dashboard.claimDevice()" ng-disabled="dashboard.claimToken === ''">Übernehmen</button>
-            </span>
-          </div><!-- /input-group -->
+          <form name="claimForm" novalidate>
+            <p>Gib hier den <kbd>Token</kbd> ein, den du bekommen hast:</p>
+            <div class="input-group">
+              <input type="text" name="token" class="form-control" placeholder="Token" ng-model="dashboard.claimToken" ng-pattern="dashboard.claimPattern" maxlength="12">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" ng-click="dashboard.claimDevice()" ng-disabled="dashboard.claimToken === ''">Übernehmen</button>
+              </span>
+            </div><!-- /input-group -->
+            <span ng-show="claimForm.token.$error.pattern">This is not a valid token!</span><br>
+          </form>
         </div>
       </div>
     </div>

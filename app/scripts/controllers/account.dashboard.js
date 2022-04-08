@@ -16,6 +16,7 @@
     vm.listStyle = 'tiles';
     vm.orderByProperty = 'createdAt';
     vm.claimToken = '';
+    vm.claimPattern = /^[a-z0-9]*$/;
 
     vm.claimDevice = claimDevice;
 
@@ -55,9 +56,13 @@
         token: vm.claimToken
       };
 
+
+
       return AccountService.claimDevice(payload)
         .then(function () {
-          // console.log(response);
+
+          // Clear token field
+          vm.claimToken = '';
 
           return getUsersBoxes()
             .then(function () {

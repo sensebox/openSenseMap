@@ -292,7 +292,7 @@
         auth: true
       })
         .then(function (response) {
-          return response;
+          return response.data;
         })
         .catch(failed);
     }

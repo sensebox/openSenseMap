@@ -57,7 +57,12 @@
 
       return AccountService.claimDevice(payload)
         .then(function (response) {
-          console.log(response);
+          // console.log(response);
+
+          return getUsersBoxes()
+            .then(function () {
+              // console.log('refreshed boxes');
+            });
         })
         .catch(function (error) {
           console.log(error);

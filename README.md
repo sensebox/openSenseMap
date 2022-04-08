@@ -11,6 +11,7 @@ The easiest way to get up and running with your own copy is clicking the Deploy 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/sensebox/openSenseMap)
 
 ## Configuration
+
 You can configure the API endpoint and/or map tiles using the following environmental variables:
 
 | ENV | Default value |
@@ -22,8 +23,8 @@ You can configure the API endpoint and/or map tiles using the following environm
 
 You can set them in your `terminal` or create a file called `.env` and set the values.
 
-
 ## Development
+
 - Have [Node.js] v10, [grunt]() and [bower]() installed
 - Check out a branch for your feature (`git checkout my-aweseome-feature`)
 - Run `npm install` and `npx bower install`
@@ -33,13 +34,23 @@ You can set them in your `terminal` or create a file called `.env` and set the v
 
 See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
 
+## Release
+
+To release a new version of the openSenseMap frontend do the following:
+
+- Run `npm run release` on `master` branch
+- Run `git push --follow-tags origin master`
+- Create new release on [Github Release](https://github.com/sensebox/openSenseMap/releases)
+
 ## Related projects
 
 ### Services
+
 - [openSenseMap Backend](https://github.com/sensebox/openSenseMap-API)
 - [openSenseMap translations](https://github.com/sensebox/openSenseMap-i18n)
 
 ### Deployment
+
 - [OSeM-compose](https://github.com/sensebox/OSeM-compose)
 - [openSenseMap-infrastructure](https://github.com/sensebox/openSenseMap-infrastructure)
 
@@ -50,6 +61,7 @@ See also: [CONTRIBUTING](.github/CONTRIBUTING.md)
 ## Organization
 
 ### Branches
+
 - master (runs on testing server)
   - Is used for production container build tags
 
@@ -72,7 +84,6 @@ Following ```build-args``` are availble:
 | OPENSENSEMAP_CMS_URL     | <YOUR_DIRECTUS_CMS_URL> |
 | OPENSENSEMAP_STYLE_URL |  <YOUR_MAPBOX_STYLE_URL> |
 | OPENSENSEMAP_ACCESS_TOKE | <YOUR_MAPBOX_ACCESS_TOKEN> |
-
 
 ## License
 

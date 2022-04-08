@@ -1,0 +1,13 @@
+<div class="ng-cloak input-group xxxl" style="display: table; padding: 0px 12px; z-index: 2000;">
+  <input id="searchField" type="text" style="border-radius: 4px;" class="form-control" ng-model="geocoder.searchString"
+    ng-change="geocoder.searchStringChanged()" ng-model-options="geocoder.modelOptions"
+    placeholder="{{ 'SEARCH' | translate }}"
+    uib-typeahead="address.display_name for address in geocoder.getLocations($viewValue)"
+    typeahead-on-select="geocoder.selectResult($item)" typeahead-loading="geocoder.loadingLocations"
+    typeahead-no-results="geocoder.noResults" typeahead-popup-template-url="/views/search.html"
+    typeahead-template-url="views/search.item.html" typeahead-min-length="3" />
+  <div id="reset_search" ng-show="geocoder.showClearSearch" ng-cloak>
+    <span class="helper"></span>
+    <i class="fa fa-times fa-lg" aria-hidden="true" ng-click="geocoder.clearSearch()"></i>
+  </div>
+</div>

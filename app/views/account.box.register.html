@@ -128,6 +128,13 @@
                 <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                 {{'STEP2_SUB2_DESCRIPTION' | translate}}
               </div>
+              <div style="margin-bottom: 15px;">
+                <form class="navbar-form search">
+                  <div class="form-group typeahead-search" style="display: inline;">
+                    <osem-geocoder select-box="register.selectBox"></osem-geocoder>
+                  </div>
+                </form>
+              </div>
               <div id="register-map" class="row" style="height: 400px;">
                 <osem-map id="map_register" markers="register.markers" events="register.events"></osem-map>
               </div>

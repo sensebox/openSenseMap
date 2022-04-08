@@ -231,6 +231,7 @@ module.exports = function (grunt) {
           "<%= yeoman.app %>/components/loader.directive.js",
           "<%= yeoman.app %>/components/clipboard.directive.js",
           "<%= yeoman.app %>/components/announcement.directive.js",
+          "<%= yeoman.app %>/components/geocoder.directive.js",
         ],
         tasks: [
           // 'newer:copy:api',

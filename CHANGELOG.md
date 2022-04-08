@@ -1,6 +1,20 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [3.1.3](https://github.com/sensebox/openSenseMap/compare/v3.1.2...v3.1.3) (2022-04-08)
+
+
+### Bug Fixes
+
+* **edit:** fix saving general device info ([06cc5fb](https://github.com/sensebox/openSenseMap/commit/06cc5fbef06626141a77f646aca4cdbddcd46552))
+
+### [3.1.2](https://github.com/sensebox/openSenseMap/compare/v3.1.0...v3.1.2) (2022-04-08)
+
+
+### Bug Fixes
+
+* **edit:** concat grouptags ([#445](https://github.com/sensebox/openSenseMap/issues/445)) ([36427f5](https://github.com/sensebox/openSenseMap/commit/36427f5f0282f0cb44f8132a4a0741a6212e15af))
 
 <a name="2.3.3"></a>
 ## [2.3.3](https://github.com/sensebox/openSenseMap/compare/v2.3.2...v2.3.3) (2020-10-29)

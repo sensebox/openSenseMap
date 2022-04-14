@@ -1,7 +1,8 @@
 <div class="container">
-  <div class="row">
-    <div class="col-lg-6 col-sm-12 col-md-12" style="padding-top: 15px;">
-      <div class="thumbnail">
+  <!-- First row with stats and token transfer -->
+  <div class="row" style="display: flex; flex-wrap: wrap;">
+    <div class="col-lg-6 col-sm-12 col-md-12" style="margin-bottom: 30px;">
+      <div class="thumbnail" style="height: 100%;">
         <div class="caption">
           <h3 translate="REGISTERED_BOXES" translate-values="{count: dashboard.boxes.length}"></h3>
           <p>{{'REGISTERED_BOXES_INFO' | translate}}</p>
@@ -16,12 +17,10 @@
       </div>
     </div>
 
-    <div class="col-lg-6 col-sm-12 col-md-12" style="padding-top: 15px;">
-      <div class="thumbnail">
+    <div class="col-lg-6 col-sm-12 col-md-12" style="margin-bottom: 30px;">
+      <div class="thumbnail" style="height: 100%;">
         <div class="caption">
           <h3>Du möchtest ein Gerät von einem anderen Benutzer übernehmen?</h3>
-          <!-- <h3 translate="REGISTERED_BOXES" translate-values="{count: dashboard.boxes.length}"></h3> -->
-          <!-- <p>{{'REGISTERED_BOXES_INFO' | translate}}</p> -->
           <form name="claimForm" novalidate>
             <div class="form-group">
               <label for="token">Gib hier den <kbd>Token</kbd> ein, den du bekommen hast:</label>
@@ -43,7 +42,10 @@
         </div>
       </div>
     </div>
+  </div>
 
+  <!-- Second row with options for device list -->
+  <div class="row">
     <div class="col-sm-4 col-sm-offset-8 clearfix">
       <div class="btn-group pull-right">
         <label class="btn btn-default" ng-model="dashboard.listStyle" uib-btn-radio="'tiles'">
@@ -65,8 +67,8 @@
         </button>
       </div>
     </div>
-
   </div>
+
   <div class="row" ng-show="dashboard.listStyle==='tiles'">
     <div class="col-lg-6" ng-repeat="box in dashboard.boxes | orderBy: dashboard.orderByProperty"
       style="padding-top: 15px;">

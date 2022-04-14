@@ -1,4 +1,4 @@
-<form name="locationSettings">
+<div class="transferSettings">
   <div class="row">
     <div class="col-md-6 col-lg-6">
       <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_TRANSFER'|translate}}</h2>
@@ -7,34 +7,63 @@
 
   <hr>
 
-  <div uib-alert class="alert-warning">
-    <p>
-      <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
-      Transfer this device to another user.
-    </p>
-    <hr>
-    <p>
-      Um den Transfer durchzuführen, klicke auf ___ und du bekommst einen <b>Token</b> angezeigt.
-      Diesen <b>Token</b> gibst du weiter an den neuen Besitzer. Der neue Besitzer muss in seinem Account auf ___ klicken und den <b>Token</b>
-      eingeben. Danach wird das Gerät in den neuen Account transferiert.
-      <br><br>
-      Der Transfer kann sich verzögern, bis der neue Eigentümer den <b>Token</b> eingegeben hat.
-    </p>
-  </div>
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
 
-  <div ng-show="(transfer.data | json) != '{}'">
-    <span>Transfer Token: {{transfer.data.token}}</span> - <span>Expires at: {{transfer.data.expiresAt}}</span>
-    <button ng-click="transfer.revokeToken()" class="btn btn-danger">Revoke</button>
-  </div>
+      <div uib-alert class="alert-warning">
+        <p>
+          <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+          Transfer this device to another user.
+        </p>
+        <hr>
+        <p>
+          Um den Transfer durchzuführen, klicke auf ___ und du bekommst einen <b>Token</b> angezeigt.
+          Diesen <b>Token</b> gibst du weiter an den neuen Besitzer. Der neue Besitzer muss in seinem Account auf ___ klicken
+          und den <b>Token</b>
+          eingeben. Danach wird das Gerät in den neuen Account transferiert.
+          <br><br>
+          Der Transfer kann sich verzögern, bis der neue Eigentümer den <b>Token</b> eingegeben hat.
+        </p>
+      </div>
 
-  <div>
-    <div class="form-group">
-      <label class="control-label">Gib <strong>{{transfer.device.name}}</strong> ein:</label>
-      <input type="text" name="name" id="name" class="form-control" ng-model="transfer.deviceName" required>
+      <div ng-show="transfer.tokenExists" style="border: 1px solid grey; border-radius: 6px;">
+        <div style="min-height: inherit; padding: 8px; box-sizing: border-box;">
+          <div style="display: flex; float: right; box-sizing: border-box;">
+            <button ng-click="transfer.revokeToken()" class="btn btn-danger">Revoke</button>
+          </div>
+          <small style="margin-right: 8px; float: right;">
+            Created at: {{transfer.data.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}
+          </small>
+          <span>Token:</span>
+          <code>{{transfer.data.token}} <button osem-clipboard class="btn-toClipboard" text="transfer.data.token" title="Copy to Clipboard"><i class="fa fa-clipboard"></i></button></code>
+          <div>
+            <span>Expires at: {{transfer.data.expiresAt | amUtc | amLocal | amDateFormat:'l LTS'}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div ng-hide="transfer.tokenExists">
+        <form name="tokenForm" novalidate>
+          <div class="form-group">
+            <label for="expiration">Expiration</label>
+            <select class="form-control" ng-model="transfer.expiration" ng-change="transfer.changeExpiration()" name="expiration" id="expiration">
+              <option value="1">1 day</option>
+              <option value="7">7 days</option>
+              <option value="30">30 days</option>
+              <option value="60">60 days</option>
+              <option value="90">90 days</option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <label class="control-label">Gib <strong>{{transfer.device.name}}</strong> ein:</label>
+            <input type="text" name="name" id="name" class="form-control" ng-model="transfer.deviceName" required>
+          </div>
+          <div class="form-group">
+            <button ng-disabled="transfer.deviceName !== transfer.device.name" ng-click="transfer.transferDevice()" class="btn btn-danger col-md-6">Ich verstehe, übertragen Sie dieses Gerät.</button>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="form-group">
-      <button ng-disabled="transfer.deviceName !== transfer.device.name" ng-click="transfer.transferDevice()" class="btn btn-danger col-md-6">Ich verstehe, übertragen Sie dieses Gerät.</button>
-    </div>
   </div>
 
-</form>
+</div>

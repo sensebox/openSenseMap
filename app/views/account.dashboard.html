@@ -20,17 +20,17 @@
     <div class="col-lg-6 col-sm-12 col-md-12" style="margin-bottom: 30px;">
       <div class="thumbnail" style="height: 100%;">
         <div class="caption">
-          <h3>Du möchtest ein Gerät von einem anderen Benutzer übernehmen?</h3>
+          <h3>{{'CLAIM_HEADER' | translate}}</h3>
           <form name="claimForm" novalidate>
             <div class="form-group">
-              <label for="token">Gib hier den <kbd>Token</kbd> ein, den du bekommen hast:</label>
+              <label for="token" ng-bind-html="'CLAIM_INFORMATION'|translate"></label>
               <div class="input-group">
                 <input type="text" name="token" id="token" class="form-control" placeholder="Token" ng-model="dashboard.claimToken" ng-pattern="dashboard.claimPattern" maxlength="12">
                 <span class="input-group-btn">
-                  <button class="btn btn-primary" type="button" ng-click="dashboard.claimDevice()" ng-disabled="dashboard.claimToken === ''">Übernehmen</button>
+                  <button class="btn btn-primary" type="button" ng-click="dashboard.claimDevice()" ng-disabled="dashboard.claimToken === ''">{{'CLAIM_DEVICE' | translate}}</button>
                 </span>
               </div><!-- /input-group -->
-              <span class="help-block" ng-show="claimForm.token.$error.pattern">This is not a valid token!</span><br>
+              <span class="help-block" ng-show="claimForm.token.$error.pattern">{{'CLAIM_VALID_TOKEN' | translate}}</span><br>
             </div>
           </form>
           <div class="alert alert-danger alert-dismissible" role="alert" ng-show="dashboard.errorMessage">

@@ -979,8 +979,7 @@
                   <!-- Hint for non predefined devices -->
                   <div class="alert alert-info" role="alert">
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
-                    If your sensor setup is not listed here. Go to manuel configuration and
-                    setup your device.
+                    {{'LD_INFO_PREDEF_DEVICES' | translate}}
                   </div>
 
                   <div class="radio radio-success">
@@ -1105,10 +1104,7 @@
                   <br>
                   <div uib-alert class="alert-info" ng-bind-html="'CUSTOMBOX'|translate">
                   </div>
-                  <div class="alert alert-info">
-                    If you want to setup a <strong>Sensor.Community</strong> device manually, check out this
-                    <a href="https://pad.sensebox.de/HXG0YeJMQw-D21hGGv_dPQ?both#Manuell-konfigurierte-Ger%C3%A4te" target="_blank" rel="noopener noreferrer">documentation</a>.
-                  </div>
+                  <div class="alert alert-info" ng-bind-html="'CUSTOMBOX_LD_DEVICE_INFO'|translate"></div>
                   <br>
                   <table class="table table-striped table-bordered">
                     <thead>

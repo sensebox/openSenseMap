@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/sensebox/openSenseMap/compare/v3.1.3...v3.2.0) (2022-09-06)
+
+
+### Features
+
+* **device:** add transfer capabilties ([#446](https://github.com/sensebox/openSenseMap/issues/446)) ([da4bc8d](https://github.com/sensebox/openSenseMap/commit/da4bc8d6307be977b72aef743d2d2d3027194215))
+
+
+### Bug Fixes
+
+* **chart:** render chart with one datapoint ([#452](https://github.com/sensebox/openSenseMap/issues/452)) ([05cd796](https://github.com/sensebox/openSenseMap/commit/05cd7969ab0533954e77b251f9f3aa73b6fa0937))
+
 ### [3.1.3](https://github.com/sensebox/openSenseMap/compare/v3.1.2...v3.1.3) (2022-04-08)
 
 

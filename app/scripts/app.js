@@ -347,6 +347,16 @@
               },
             },
           })
+          .state('account.edit.transfer', {
+            url: '/transfer',
+            views: {
+              edit: {
+                controller: 'EditBoxTransferController',
+                controllerAs: 'transfer',
+                templateUrl: 'views/account.box.edit.transfer.html',
+              },
+            },
+          })
           .state('account.dashboard', {
             url: '',
             views: {

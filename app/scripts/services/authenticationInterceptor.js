@@ -54,6 +54,7 @@
             });
 
             return deferred.promise;
+          case 400:
           case 404:
             return $q.reject(response);
           default:

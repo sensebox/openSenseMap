@@ -854,6 +854,35 @@
         vm.sensorSetup = '';
         vm.extensions.feinstaub.id = '';
         vm.newModel.connection = null;
+        vm.newModel.sensors = {
+          temp: false,
+          pressure: false,
+          light: false,
+          pollution: false,
+          bme680: false,
+          co2: false,
+        };
+        vm.modelSelected.name = 'Custom';
+
+        vm.invalidHardware = false;
+
+        return;
+      }
+
+      if (newValue === 'edu') {
+        vm.sensorSetup = '';
+        vm.sensors = [];
+        vm.extensions.feinstaub.id = '';
+        vm.newModel.connection = null;
+        vm.newModel.sensors = {
+          temp: false,
+          pressure: false,
+          light: false,
+          pollution: false,
+          bme680: false,
+          co2: false,
+        };
+        vm.modelSelected.name = 'senseBox Edu';
 
         vm.invalidHardware = false;
 

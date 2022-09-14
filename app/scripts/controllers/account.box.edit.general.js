@@ -21,16 +21,23 @@
     ////
 
     function activate () {
+      // Concat grouptags
+      boxData.grouptag = boxData.grouptag.join(',');
+
       angular.copy(boxData, vm.editingMarker);
     }
 
     function save () {
+      var grouptags = [];
+      if (vm.editingMarker.grouptag.length > 0) {
+        grouptags = vm.editingMarker.grouptag.split(',');
+      }
       var imgsrc = angular.element($document[0].getElementById('flowUploadImage')).attr('src');
       var data = {
         name: vm.editingMarker.name,
         description: vm.editingMarker.description,
         weblink: vm.editingMarker.weblink,
-        grouptag: vm.editingMarker.grouptag.split(','),
+        grouptag: grouptags,
         exposure: vm.editingMarker.exposure,
         image: imgsrc
       };

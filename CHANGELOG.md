@@ -1,6 +1,32 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.2.0](https://github.com/sensebox/openSenseMap/compare/v3.1.3...v3.2.0) (2022-09-06)
+
+
+### Features
+
+* **device:** add transfer capabilties ([#446](https://github.com/sensebox/openSenseMap/issues/446)) ([da4bc8d](https://github.com/sensebox/openSenseMap/commit/da4bc8d6307be977b72aef743d2d2d3027194215))
+
+
+### Bug Fixes
+
+* **chart:** render chart with one datapoint ([#452](https://github.com/sensebox/openSenseMap/issues/452)) ([05cd796](https://github.com/sensebox/openSenseMap/commit/05cd7969ab0533954e77b251f9f3aa73b6fa0937))
+
+### [3.1.3](https://github.com/sensebox/openSenseMap/compare/v3.1.2...v3.1.3) (2022-04-08)
+
+
+### Bug Fixes
+
+* **edit:** fix saving general device info ([06cc5fb](https://github.com/sensebox/openSenseMap/commit/06cc5fbef06626141a77f646aca4cdbddcd46552))
+
+### [3.1.2](https://github.com/sensebox/openSenseMap/compare/v3.1.0...v3.1.2) (2022-04-08)
+
+
+### Bug Fixes
+
+* **edit:** concat grouptags ([#445](https://github.com/sensebox/openSenseMap/issues/445)) ([36427f5](https://github.com/sensebox/openSenseMap/commit/36427f5f0282f0cb44f8132a4a0741a6212e15af))
 
 <a name="2.3.3"></a>
 ## [2.3.3](https://github.com/sensebox/openSenseMap/compare/v2.3.2...v2.3.3) (2020-10-29)

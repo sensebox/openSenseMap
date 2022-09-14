@@ -15,6 +15,12 @@
     vm.boxes = [];
     vm.listStyle = 'tiles';
     vm.orderByProperty = 'createdAt';
+    vm.claimToken = '';
+    vm.claimPattern = /^[a-z0-9]*$/;
+    vm.errorMessage = '';
+
+    vm.claimDevice = claimDevice;
+    vm.closeAlert = closeAlert;
 
     activate();
 
@@ -45,6 +51,34 @@
         .then(function (boxes) {
           vm.boxes = boxes;
         });
+    }
+
+    function claimDevice () {
+      var payload = {
+        token: vm.claimToken
+      };
+
+
+
+      return AccountService.claimDevice(payload)
+        .then(function () {
+
+          // Clear token field
+          vm.claimToken = '';
+
+          return getUsersBoxes()
+            .then(function () {
+              // console.log('refreshed boxes');
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
+          vm.errorMessage = error.message;
+        });
+    }
+
+    function closeAlert () {
+      vm.errorMessage = '';
     }
 
     $scope.$watch('dashboard.listStyle', function (value) {

@@ -1,0 +1,62 @@
+<div class="transferSettings">
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+      <h2 style="margin-top: 0px; margin-bottom: 0px">{{'EDIT_TRANSFER'|translate}}</h2>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+    <div class="col-md-6 col-lg-6">
+
+      <div uib-alert class="alert-warning">
+        <p>
+          <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
+          {{'TRANSFER_NOTICE' | translate}}
+        </p>
+        <hr>
+        <p ng-bind-html="'TRANSFER_INFORMATION'|translate"></p>
+      </div>
+
+      <div ng-show="transfer.tokenExists" style="border: 1px solid grey; border-radius: 6px;">
+        <div style="min-height: inherit; padding: 8px; box-sizing: border-box;">
+          <div style="display: flex; float: right; box-sizing: border-box;">
+            <button ng-click="transfer.revokeToken()" class="btn btn-danger">{{'REVOKE' | translate}}</button>
+          </div>
+          <small style="margin-right: 8px; float: right;">
+            {{'CREATED_AT' | translate}}: {{transfer.data.createdAt | amUtc | amLocal | amDateFormat:'l LTS'}}
+          </small>
+          <span>Token:</span>
+          <code>{{transfer.data.token}} <button osem-clipboard class="btn-toClipboard" text="transfer.data.token" title="Copy to Clipboard"><i class="fa fa-clipboard"></i></button></code>
+          <div>
+            <span>{{'EXPIRES_AT' | translate}}: {{transfer.data.expiresAt | amUtc | amLocal | amDateFormat:'l LTS'}}</span>
+          </div>
+        </div>
+      </div>
+
+      <div ng-hide="transfer.tokenExists">
+        <form name="tokenForm" novalidate>
+          <div class="form-group">
+            <label for="expiration">{{'EXPIRATION' | translate}}</label>
+            <select class="form-control" ng-model="transfer.expiration" ng-change="transfer.changeExpiration()" name="expiration" id="expiration">
+              <option value="1">1 {{'DAY' | translate}}</option>
+              <option value="7">7 {{'DAYS' | translate}}</option>
+              <option value="30">30 {{'DAYS' | translate}}</option>
+              <option value="60">60 {{'DAYS' | translate}}</option>
+              <option value="90">90 {{'DAYS' | translate}}</option>
+            </select>
+          </div>
+          <div class="form-group" >
+            <label class="control-label" translate="TRANSFER_INPUT_LABEL" translate-value-name="{{transfer.device.name}}"></label>
+            <input type="text" name="name" id="name" class="form-control" ng-model="transfer.deviceName" required>
+          </div>
+          <div class="form-group">
+            <button ng-disabled="transfer.deviceName !== transfer.device.name" ng-click="transfer.transferDevice()" class="btn btn-danger col-md-12">{{'TRANSFER_BUTTON_TEXT' | translate}}</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>

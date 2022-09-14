@@ -25,16 +25,18 @@
         tooltipPlaceholder: '@'
       }
     };
+
     return directive;
 
-    function link(scope, element, attrs, chartCtrl) {
-      var margin = {top: 20, right: 5, bottom: 30, left: 50, yAxis: 10};
-      var svg = d3.select(element[0]).select('.chart-container').append('svg')
-          .attr('width', '100%')
-          .attr('height', '215');
-      var width = +element.parent()[0].offsetWidth - margin.right;
-      var height = +svg.attr("height") - margin.top - margin.bottom;
-      var g = svg.append('g').attr('transform', 'translate(' + margin.left+','+margin.top+')');
+    function link (scope, element, attrs, chartCtrl) {
+      var margin = { top: 20, right: 5, bottom: 30, left: 50, yAxis: 10 };
+      var svg = d3.select(element[0]).select('.chart-container')
+        .append('svg')
+        .attr('width', '100%')
+        .attr('height', '215');
+      var width = Number(element.parent()[0].offsetWidth) - margin.right;
+      var height = Number(svg.attr('height')) - margin.top - margin.bottom;
+      var g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
       var config = {
         svg: svg,
@@ -68,8 +70,9 @@
       unit: '',
       tooltip: function () {
         if (this.showPlaceholder) {
-          return vm.tooltipPlaceholder
+          return vm.tooltipPlaceholder;
         }
+
         return this.date + ': ' + this.value + ' ' + this.unit;
       }
     };
@@ -87,22 +90,22 @@
       var config = vm._chartSVG;
 
       var g = vm._chartSVG.g
-          .attr('class', 'focus');
+        .attr('class', 'focus');
       var svg = vm._chartSVG.svg;
 
       //Scales for xAxis and yAxis
       vm.xScale = d3.scaleTime()
-          .rangeRound([0, config.width - 60]);
+        .rangeRound([0, config.width - 60]);
 
       vm.yScale = d3.scaleLinear()
-          .rangeRound([config.height, 0]);
+        .rangeRound([config.height, 0]);
 
       // //Setup zoom behaviour
       zoom = d3.zoom()
-          .extent([[0, config.height], [config.width - 60, 0]])
-          .scaleExtent([1, 64])
-          .translateExtent([[0, config.height], [config.width - 60, 0]])
-          .on('zoom', zoomed);
+        .extent([[0, config.height], [config.width - 60, 0]])
+        .scaleExtent([1, 64])
+        .translateExtent([[0, config.height], [config.width - 60, 0]])
+        .on('zoom', zoomed);
 
       g.call(zoom);
 
@@ -110,45 +113,45 @@
       vm.yAxis = d3.axisLeft();
 
       var zoomRect = g.append('rect')
-          .attr('class', 'zoom-panel')
-          .attr('width', config.width - 60)
-          .attr('height', config.height)
-          .attr('fill', 'none')
-          .attr("transform", "translate(" + config.margin.yAxis + ", 0)")
-          .attr('pointer-events', 'all');
+        .attr('class', 'zoom-panel')
+        .attr('width', config.width - 60)
+        .attr('height', config.height)
+        .attr('fill', 'none')
+        .attr('transform', 'translate(' + config.margin.yAxis + ', 0)')
+        .attr('pointer-events', 'all');
 
       svg.append('clipPath')
-          .attr('id', 'clip')
+        .attr('id', 'clip')
         .append('rect')
-          .attr('width', config.width - 60)
-          .attr('height', config.height);
+        .attr('width', config.width - 60)
+        .attr('height', config.height);
 
       // 3. Call the x axis in a group tag
-      vm.xAxisGroup = g.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(" + config.margin.yAxis + "," + config.height + ")");
+      vm.xAxisGroup = g.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(' + config.margin.yAxis + ',' + config.height + ')');
 
       // 4. Call the y axis in a group tag
-      vm.yAxisGroup = g.append("g")
-          .attr("class", "y axis")
-          .attr("transform", "translate(" + config.margin.yAxis + ", 0)");
+      vm.yAxisGroup = g.append('g')
+        .attr('class', 'y axis')
+        .attr('transform', 'translate(' + config.margin.yAxis + ', 0)');
 
       // text label for the y axis
       if (vm.yAxisTitle !== '') {
-        g.append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 0 - config.margin.left)
-          .attr("x",0 - (config.height / 2))
-          .attr("dy", "1em")
-          .style("font-size","12px")
-          .style("text-anchor", "middle")
+        g.append('text')
+          .attr('transform', 'rotate(-90)')
+          .attr('y', 0 - config.margin.left)
+          .attr('x', 0 - (config.height / 2))
+          .attr('dy', '1em')
+          .style('font-size', '12px')
+          .style('text-anchor', 'middle')
           .text(vm.yAxisTitle);
       }
 
       vm.dots = g.append('g')
-          .attr('class', 'dots')
-          .attr('clip-path', 'url('+$location.path()+'#clip)')
-          .attr("transform", "translate(" + config.margin.yAxis + ", 0)");
+        .attr('class', 'dots')
+        .attr('clip-path', 'url(' + $location.path() + '#clip)')
+        .attr('transform', 'translate(' + config.margin.yAxis + ', 0)');
 
       if ($scope.chart.chartData) {
 
@@ -201,10 +204,11 @@
       } else if (max.diff(min, 'hours') < 1) {
         tick = moment(d).format('LT');
       }
+
       return tick;
     }
 
-    function zoomed() {
+    function zoomed () {
       var transform = d3.event.transform;
       var xNewScale = transform.rescaleX(vm.xScale);
       vm.xAxis.scale(xNewScale);
@@ -216,7 +220,7 @@
       });
     }
 
-    function selectDatapoint(d) {
+    function selectDatapoint (d) {
       d3.select(this).attr('r', 5.5);
       vm.datapoint.id = d.id;
       vm.datapoint.date = moment(d.date).format('LLLL');
@@ -249,15 +253,15 @@
       var svg = vm._chartSVG.svg.transition();
       var g = vm._chartSVG.g;
 
-      //TODO set domain depending on amount of datapoints
+      // Set domain depending on amount of datapoints
       if (vm.chartData.length == 1) {
-        vm.x.domain([moment(vm.chartData[0][0]).subtract(1,'days'), moment(vm.chartData[0][0]).add(1,'days')]);
-        vm.y.domain([vm.chartData[0][1]+vm.chartData[0][1], vm.chartData[0][1]-vm.chartData[0][1]]);
+        vm.xScale.domain([moment(vm.chartData[0].date).subtract(1, 'days'), moment(vm.chartData[0].date).add(1, 'days')]);
+        vm.yScale.domain([vm.chartData[0].value - 1, vm.chartData[0].value + 1]);
       } else {
-        vm.xScale.domain(d3.extent(vm.chartData, function(d) {
+        vm.xScale.domain(d3.extent(vm.chartData, function (d) {
           return d.date;
         }));
-        var yExtent = d3.extent(vm.chartData, function(d) { return d.value; });
+        var yExtent = d3.extent(vm.chartData, function (d) { return d.value; });
         yExtent[0] = yExtent[0] - 1;
         yExtent[1] = yExtent[1] + 1;
         vm.yScale.domain(yExtent);
@@ -265,34 +269,34 @@
 
       // Update yAxis
       vm.yAxis.scale(vm.yScale);
-      vm.yAxisGroup.call(vm.yAxis.tickFormat(d3.format(".1f")));
+      vm.yAxisGroup.call(vm.yAxis.tickFormat(d3.format('.1f')));
 
       // Update xAxis
       vm.xAxis.scale(vm.xScale);
       vm.xAxisGroup.call(vm.xAxis);
 
-      var circle = vm.dots.selectAll('circle').data(vm.chartData)
+      var circle = vm.dots.selectAll('circle').data(vm.chartData);
 
       // Remove old data
       circle.exit().remove();
 
       // Append new and ...
       circle.enter().append('circle')
-          .attr('class', 'dot')
-          .attr('r', 2.5)
+        .attr('class', 'dot')
+        .attr('r', 2.5)
         .merge(circle) // ... with existing data
-          .on('mouseover', mouseover)
-          .on('mouseout', mouseout)
-          .attr('cy', function (d) {
-            return vm.yScale(d.value);
-          })
-          .attr('cx', function (d) {
-            return vm.xScale(d.date);
-          })
-          .transition()
-          .duration(750)
-          .ease(d3.easeLinear, 2)
-            .attr('r', 2.5);
+        .on('mouseover', mouseover)
+        .on('mouseout', mouseout)
+        .attr('cy', function (d) {
+          return vm.yScale(d.value);
+        })
+        .attr('cx', function (d) {
+          return vm.xScale(d.date);
+        })
+        .transition()
+        .duration(750)
+        .ease(d3.easeLinear, 2)
+        .attr('r', 2.5);
 
       // Format ticks
       g.selectAll('.x.axis .tick text')
@@ -308,27 +312,27 @@
     }
 
     function resetZoom () {
-      transition(zoom.scaleTo, 1)
+      transition(zoom.scaleTo, 1);
     }
 
-    function transition(zoomFunction, zoomLevel) {
+    function transition (zoomFunction, zoomLevel) {
       vm._chartSVG.g.transition()
         .delay(100)
         .duration(700)
         .call(zoomFunction, zoomLevel);
     }
 
-    function exportChart() {
+    function exportChart () {
       var svgString = getSVGString(vm._chartSVG.svg.node());
-      svgString2Image( svgString, 2*vm._chartSVG.width, 2*vm._chartSVG.height, 'png' ); // passes Blob and filesize String to the callback
+      svgString2Image(svgString, 2 * vm._chartSVG.width, 2 * vm._chartSVG.height, 'png'); // passes Blob and filesize String to the callback
     }
 
     // Below are the functions that handle actual exporting:
     // getSVGString ( svgNode ) and svgString2Image( svgString, width, height, format, callback )
-    function getSVGString( svgNode ) {
+    function getSVGString (svgNode) {
       svgNode.setAttribute('xlink', 'http://www.w3.org/1999/xlink');
-      var cssStyleText = getCSSStyles( svgNode );
-      appendCSS( cssStyleText, svgNode );
+      var cssStyleText = getCSSStyles(svgNode);
+      appendCSS(cssStyleText, svgNode);
 
       var serializer = new XMLSerializer();
       var svgString = serializer.serializeToString(svgNode);
@@ -337,83 +341,83 @@
 
       return svgString;
 
-      function getCSSStyles( parentElement ) {
+      function getCSSStyles (parentElement) {
         var selectorTextArr = [];
 
         // Add Parent element Id and Classes to the list
-        selectorTextArr.push( '#'+parentElement.id );
+        selectorTextArr.push('#' + parentElement.id);
         for (var c = 0; c < parentElement.classList.length; c++)
-            if ( !contains('.'+parentElement.classList[c], selectorTextArr) )
-              selectorTextArr.push( '.'+parentElement.classList[c] );
+        {if (!contains('.' + parentElement.classList[c], selectorTextArr))
+        {selectorTextArr.push('.' + parentElement.classList[c]);}}
 
         // Add Children element Ids and Classes to the list
-        var nodes = parentElement.getElementsByTagName("*");
+        var nodes = parentElement.getElementsByTagName('*');
         for (var i = 0; i < nodes.length; i++) {
           var id = nodes[i].id;
-          if ( !contains('#'+id, selectorTextArr) )
-            selectorTextArr.push( '#'+id );
+          if (!contains('#' + id, selectorTextArr))
+          {selectorTextArr.push('#' + id);}
 
           var classes = nodes[i].classList;
           for (var c = 0; c < classes.length; c++)
-            if ( !contains('.'+classes[c], selectorTextArr) )
-              selectorTextArr.push( '.'+classes[c] );
+          {if (!contains('.' + classes[c], selectorTextArr))
+          {selectorTextArr.push('.' + classes[c]);}}
         }
 
         // Extract CSS Rules
-        var extractedCSSText = "";
+        var extractedCSSText = '';
         for (var i = 0; i < document.styleSheets.length; i++) {
           var s = document.styleSheets[i];
 
           try {
-            if(!s.cssRules) continue;
-          } catch( e ) {
-            if(e.name !== 'SecurityError') throw e; // for Firefox
+            if (!s.cssRules) {continue;}
+          } catch (e) {
+            if (e.name !== 'SecurityError') {throw e;} // for Firefox
             continue;
           }
 
           var cssRules = s.cssRules;
           for (var r = 0; r < cssRules.length; r++) {
-            if ( contains( cssRules[r].selectorText, selectorTextArr ) )
-              extractedCSSText += cssRules[r].cssText;
+            if (contains(cssRules[r].selectorText, selectorTextArr))
+            {extractedCSSText = extractedCSSText + cssRules[r].cssText;}
           }
         }
 
         return extractedCSSText;
 
-        function contains(str,arr) {
-          return arr.indexOf( str ) === -1 ? false : true;
+        function contains (str, arr) {
+          return arr.indexOf(str) === -1 ? false : true;
         }
       }
-      function appendCSS( cssText, element ) {
-        var styleElement = document.createElement("style");
-        styleElement.setAttribute("type","text/css");
+      function appendCSS (cssText, element) {
+        var styleElement = document.createElement('style');
+        styleElement.setAttribute('type', 'text/css');
         styleElement.innerHTML = cssText;
         var refNode = element.hasChildNodes() ? element.children[0] : null;
-        element.insertBefore( styleElement, refNode );
+        element.insertBefore(styleElement, refNode);
       }
     }
 
-    function svgString2Image( svgString, width, height, format ) {
+    function svgString2Image (svgString, width, height, format) {
       var format = format ? format : 'png';
 
-      var imgsrc = 'data:image/svg+xml;base64,'+ btoa( unescape( encodeURIComponent( svgString ) ) ); // Convert SVG string to data URL
+      var imgsrc = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))); // Convert SVG string to data URL
 
-      var canvas = document.createElement("canvas");
-      var context = canvas.getContext("2d");
+      var canvas = document.createElement('canvas');
+      var context = canvas.getContext('2d');
 
       canvas.width = width;
       canvas.height = height;
 
       var image = new Image();
       image.src = imgsrc;
-      image.onload = function() {
-        context.clearRect ( 0, 0, width, height );
+      image.onload = function () {
+        context.clearRect(0, 0, width, height);
         context.drawImage(image, 0, 0, width, height);
 
-        var a = document.createElement("a");
-        a.addEventListener('click', function(ev) {
-          a.href = canvas.toDataURL("image/png");
-          a.download = "chart.png";
+        var a = document.createElement('a');
+        a.addEventListener('click', function (ev) {
+          a.href = canvas.toDataURL('image/png');
+          a.download = 'chart.png';
         }, false);
         document.body.appendChild(a);
         a.click();

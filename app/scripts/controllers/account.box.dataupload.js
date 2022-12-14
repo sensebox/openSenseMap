@@ -34,7 +34,6 @@
     ////
 
     function activate () {
-      console.log(navigator);
       vm.fileReader = new FileReader();
       vm.fileReader.onload = function (e) {
         $scope.$apply(function () {
@@ -46,7 +45,6 @@
     function onFileSelect (event, $flow, file) {
       event.preventDefault();
       vm.error = '';
-      console.log(file);
       if (mimeTypes.indexOf(file.file.type) === -1) {
         vm.error = { code: 'FORMAT' };
 

@@ -941,7 +941,7 @@
       } else if (newValue.dps310 && oldValue.dps310 === false) {
         addSensorTemplate('DPS310_AIRPRESSURE');
         addSensorTemplate('DPS310_TEMPERATURE');
-      } else if(newValue.sps30 && oldValue.sps30 === false) {
+      } else if (newValue.sps30 && oldValue.sps30 === false) {
         addSensorTemplate('SPS30_PM1');
         addSensorTemplate('SPS30_PM25');
         addSensorTemplate('SPS30_PM4');

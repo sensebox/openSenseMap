@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/sensebox/openSenseMap/compare/v3.2.0...v3.3.0) (2023-01-13)
+
+
+### Features
+
+* **registration:** show sensors regardless of the selected hardware ([#444](https://github.com/sensebox/openSenseMap/issues/444)) ([681ac68](https://github.com/sensebox/openSenseMap/commit/681ac68ffa65f3cdbe4d4fd6b78b12bbce69a87d)), closes [#374](https://github.com/sensebox/openSenseMap/issues/374)
+
 ## [3.2.0](https://github.com/sensebox/openSenseMap/compare/v3.1.3...v3.2.0) (2022-09-06)
 
 

@@ -36,7 +36,8 @@
         pollution: false,
         bme680: false,
         co2: false,
-        dps310: false
+        dps310: false,
+        sps30: false
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
@@ -440,6 +441,9 @@
               case 'dps310':
                 vm.newSenseBox.sensorTemplates.push('dps310');
                 break;
+              case 'sps30':
+                vm.newSenseBox.sensorTemplates.push('sps30');
+                break;
               }
             }
           }
@@ -647,6 +651,30 @@
         title = 'Temperatur';
         unit = '°C';
         sensorType = 'DPS310';
+        break;
+      case 'SPS30_PM1':
+        icon = 'osem-cloud';
+        title = 'PM1';
+        unit = 'µg/m³';
+        sensorType = 'SPS30';
+        break;
+      case 'SPS30_PM25':
+        icon = 'osem-cloud';
+        title = 'PM25';
+        unit = 'µg/m³';
+        sensorType = 'SPS30';
+        break;
+      case 'SPS30_PM4':
+        icon = 'osem-cloud';
+        title = 'PM4';
+        unit = 'µg/m³';
+        sensorType = 'SPS30';
+        break;
+      case 'SPS30_PM10':
+        icon = 'osem-cloud';
+        title = 'PM10';
+        unit = 'µg/m³';
+        sensorType = 'SPS30';
         break;
       }
 
@@ -913,6 +941,11 @@
       } else if (newValue.dps310 && oldValue.dps310 === false) {
         addSensorTemplate('DPS310_AIRPRESSURE');
         addSensorTemplate('DPS310_TEMPERATURE');
+      } else if (newValue.sps30 && oldValue.sps30 === false) {
+        addSensorTemplate('SPS30_PM1');
+        addSensorTemplate('SPS30_PM25');
+        addSensorTemplate('SPS30_PM4');
+        addSensorTemplate('SPS30_PM10');
       }
 
       // Remove sensor templates
@@ -934,6 +967,11 @@
       } else if (oldValue.dps310 && newValue.dps310 === '') {
         removeSensorTemplate(generateSensorTemplate('DPS310_AIRPRESSURE'));
         removeSensorTemplate(generateSensorTemplate('DPS310_TEMPERATURE'));
+      } else if (oldValue.sps30 && newValue.sps30 === '') {
+        removeSensorTemplate(generateSensorTemplate('SPS30_PM1'));
+        removeSensorTemplate(generateSensorTemplate('SPS30_P25'));
+        removeSensorTemplate(generateSensorTemplate('SPS30_PM4'));
+        removeSensorTemplate(generateSensorTemplate('SPS30_PM10'));
       }
 
       // Check on change for sensors with same address

@@ -11,6 +11,7 @@
     var vm = this;
     vm.box = boxData;
     vm.display_enabled = false;
+    vm.enable_debug = false;
     vm.serialPort = 'Serial1';
     vm.boxScript = '';
     vm.showConfiguration = false;
@@ -99,7 +100,8 @@
         devEUI: vm.ttn.devEUI,
         appEUI: vm.ttn.appEUI,
         appKey: vm.ttn.appKey,
-        display_enabled: vm.display_enabled
+        display_enabled: vm.display_enabled,
+        enable_debug: vm.enable_debug
       })
         .then(function (response) {
           vm.boxScript = response;

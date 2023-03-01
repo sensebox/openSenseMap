@@ -46,6 +46,7 @@
       bmePhenomenon: 'tempHumiPress',
     };
     vm.display_enabled = false;
+    vm.enable_debug = false;
     vm.wifi = {
       ssid: '',
       pasword: '',

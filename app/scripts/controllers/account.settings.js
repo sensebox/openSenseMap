@@ -21,6 +21,7 @@
     vm.updateDisabled = updateDisabled;
     vm.changeAttribute = changeAttribute;
     vm.deleteAccount = deleteAccount;
+    vm.resendEmailConfirmation = resendEmailConfirmation;
 
     activate();
 
@@ -39,6 +40,15 @@
           vm.backupDetails = data.data.me;
 
           return vm.backupDetails;
+        });
+    }
+
+    function resendEmailConfirmation () {
+      vm.alerts.pop();
+
+      return AccountService.resendEmailConfirmation()
+        .then(function (data) {
+          vm.alerts.push({ type: 'info', msg: data.message });
         });
     }
 

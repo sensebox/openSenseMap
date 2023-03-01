@@ -31,7 +31,8 @@
       transferDevice: transferDevice,
       revokeToken: revokeToken,
       getTransferToken: getTransferToken,
-      claimDevice: claimDevice
+      claimDevice: claimDevice,
+      resendEmailConfirmation: resendEmailConfirmation
     };
 
     return service;
@@ -289,6 +290,16 @@
 
     function claimDevice (data) {
       return $http.post(app.API_URL + '/boxes/claim', data, {
+        auth: true
+      })
+        .then(function (response) {
+          return response.data;
+        })
+        .catch(failed);
+    }
+
+    function resendEmailConfirmation (data) {
+      return $http.post(app.API_URL + '/users/me/resend-email-confirmation', data, {
         auth: true
       })
         .then(function (response) {

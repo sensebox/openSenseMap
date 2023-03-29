@@ -95,14 +95,15 @@
         map.removeLayer(mapLayers['mouseOver']);
       });
 
-      var gl = L.mapboxGL({
-        attribution: '© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>',
-        accessToken: '@@OPENSENSEMAP_ACCESS_TOKEN',
-        style: '@@OPENSENSEMAP_STYLE_URL'
+      const key = '@@OPENSENSEMAP_ACCESS_TOKEN';
+      const styleUrl = '@@OPENSENSEMAP_STYLE_URL'
+      const gl = L.maplibreGL({
+        attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+        style: styleUrl + "?key=" + key
       }).addTo(map);
-      var mapboxMap = gl.getMapboxMap();
+      var maplibreMap = gl.getMaplibreMap();
 
-      mapboxMap.on('load', layerLoaded);
+      maplibreMap.on('load', layerLoaded);
 
       L.control.scale().addTo(map);
 
@@ -152,7 +153,7 @@
       function layerLoaded () {
         $rootScope.$broadcast('layerloaded', {});
         $rootScope.$apply();
-        mapboxMap.off('load', layerLoaded);
+        maplibreMap.off('load', layerLoaded);
         for (var layerName in mapLayers) {
           mapLayers[layerName].on('add', function () {
             osemMapData.setLayer(layerName, mapLayers[layerName]);

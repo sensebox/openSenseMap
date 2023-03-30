@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.3.4](https://github.com/sensebox/openSenseMap/compare/v3.3.3...v3.3.4) (2023-03-30)
+
+
+### Bug Fixes
+
+* **ci:** specify docker platform ([542d0a9](https://github.com/sensebox/openSenseMap/commit/542d0a9d28071b916541951bb012eebdb62c21c0))
+* **ci:** specify docker platform ([#471](https://github.com/sensebox/openSenseMap/issues/471)) ([be733d8](https://github.com/sensebox/openSenseMap/commit/be733d88af7fc1a04ae084883b24e9e0f1e85ea0))
+
 ### [3.3.3](https://github.com/sensebox/openSenseMap/compare/v3.3.2...v3.3.3) (2023-03-30)
 
 ### [3.3.2](https://github.com/sensebox/openSenseMap/compare/v3.3.1...v3.3.2) (2023-03-30)

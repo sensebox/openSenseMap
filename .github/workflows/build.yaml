@@ -130,3 +130,4 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.branch_info.outputs.branch_name }}-${{ steps.branch_info.outputs.short_sha }}
           context: ./
           cache-to: type=local,dest=/tmp/.buildx-cache,mode=max
+          platforms: linux/amd64

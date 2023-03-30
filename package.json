@@ -1,6 +1,6 @@
 {
   "name": "opensensemap",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "dependencies": {
     "angular-i18n": "^1.6.7",
     "node": "^10.19.0"

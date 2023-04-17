@@ -100,7 +100,7 @@ jobs:
           else
             echo "OPENSENSEMAP_API_URL=https://api.testing.opensensemap.org" >> $GITHUB_ENV
             echo "OPENSENSEMAP_CMS_URL=${{ secrets.OPENSENSEMAP_CMS_URL }}" >> $GITHUB_ENV
-            echo "OPENSENSEMAP_STYLE_URL=${{ secrets.OPENSENSEMAP_STYLE_URL }}"" >> $GITHUB_ENV
+            echo "OPENSENSEMAP_STYLE_URL=${{ secrets.OPENSENSEMAP_STYLE_URL }}" >> $GITHUB_ENV
             echo "OPENSENSEMAP_ACCESS_TOKEN=${{ secrets.OPENSENSEMAP_ACCESS_TOKEN_TESTING }}" >> $GITHUB_ENV
           fi
 

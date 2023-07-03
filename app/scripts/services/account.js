@@ -134,15 +134,17 @@
       }
     }
 
-    function getUsersBoxes () {
-      return $http.get(app.API_URL + '/users/me/boxes', { auth: true })
+    function getUsersBoxes (page = 0) {
+      return $http.get(app.API_URL + '/users/me/boxes' + '?page=' + page, { auth: true })
         .then(getUsersBoxesComplete)
         .catch(getUsersBoxesFailed);
 
       function getUsersBoxesComplete (response) {
-        return response.data.data.boxes.map(function (b) {
+        response.data.data.boxes.map(function (b) {
           return new Box(b);
         });
+
+        return response.data;
       }
 
       function getUsersBoxesFailed (error) {

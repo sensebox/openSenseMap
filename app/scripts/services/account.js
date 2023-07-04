@@ -143,9 +143,11 @@
         .catch(getUsersBoxesFailed);
 
       function getUsersBoxesComplete (response) {
-        response.data.data.boxes.map(function (b) {
+        // Map response to Box model and replace it in response
+        const boxes = response.data.data.boxes.map(function (b) {
           return new Box(b);
         });
+        response.data.data.boxes = boxes;
 
         return response.data;
       }

@@ -13,14 +13,18 @@
     var localStorageOrderByKey = 'osem.dashboard.orderBy';
 
     vm.boxes = [];
+    vm.boxes_count = 0;
     vm.listStyle = 'tiles';
     vm.orderByProperty = 'createdAt';
+    vm.page = 0;
     vm.claimToken = '';
     vm.claimPattern = /^[a-z0-9]*$/;
     vm.errorMessage = '';
 
     vm.claimDevice = claimDevice;
     vm.closeAlert = closeAlert;
+    vm.nextPage = nextPage;
+    vm.previousPage = previousPage;
 
     activate();
 
@@ -47,9 +51,10 @@
     function getUsersBoxes () {
       vm.boxes = [];
 
-      return AccountService.getUsersBoxes()
-        .then(function (boxes) {
-          vm.boxes = boxes;
+      return AccountService.getUsersBoxes(vm.page)
+        .then(function (response) {
+          vm.boxes = response.data.boxes;
+          vm.boxes_count = response.data.boxes_count;
         });
     }
 
@@ -81,12 +86,24 @@
       vm.errorMessage = '';
     }
 
+    function nextPage () {
+      vm.page = vm.page + 1;
+    }
+
+    function previousPage () {
+      vm.page = vm.page - 1;
+    }
+
     $scope.$watch('dashboard.listStyle', function (value) {
       LocalStorageService.setValue(localStorageKey, value);
     });
 
     $scope.$watch('dashboard.orderByProperty', function (value) {
       LocalStorageService.setValue(localStorageOrderByKey, value);
+    });
+
+    $scope.$watch('dashboard.page', function () {
+      return getUsersBoxes();
     });
   }
 })();

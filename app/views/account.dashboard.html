@@ -71,7 +71,7 @@
         <button class="btn btn-default" ng-click="dashboard.previousPage()" ng-disabled="dashboard.page <= 0" title="Previous page">
           <i class="fa fa-angle-left" aria-hidden="true"></i>
         </button>
-        <button class="btn btn-default" ng-click="dashboard.nextPage()"  title="Next page">
+        <button class="btn btn-default" ng-click="dashboard.nextPage()" ng-disabled="dashboard.boxes_count === 25 || (dashboard.boxes_count >= 25 && dashboard.boxes.length < 25)"  title="Next page">
           <i class="fa fa-angle-right" aria-hidden="true"></i>
         </button>
       </div>

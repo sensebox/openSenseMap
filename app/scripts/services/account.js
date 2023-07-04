@@ -134,7 +134,10 @@
       }
     }
 
-    function getUsersBoxes (page = 0) {
+    function getUsersBoxes (page) {
+
+      page = (page === undefined) ? 0 : page;
+
       return $http.get(app.API_URL + '/users/me/boxes' + '?page=' + page, { auth: true })
         .then(getUsersBoxesComplete)
         .catch(getUsersBoxesFailed);

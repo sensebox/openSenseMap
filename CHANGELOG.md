@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/sensebox/openSenseMap/compare/v3.2.0...v3.4.0) (2023-07-06)
+
+
+### Features
+
+* **account:** dashboard boxes pagination ([#475](https://github.com/sensebox/openSenseMap/issues/475)) ([b032ba5](https://github.com/sensebox/openSenseMap/commit/b032ba514f1b5bba61e125c9caa9215a00bbe03e))
+* **registration:** show sensors regardless of the selected hardware ([#444](https://github.com/sensebox/openSenseMap/issues/444)) ([681ac68](https://github.com/sensebox/openSenseMap/commit/681ac68ffa65f3cdbe4d4fd6b78b12bbce69a87d)), closes [#374](https://github.com/sensebox/openSenseMap/issues/374)
+
+
+### Bug Fixes
+
+* **ci:** set `provenance: false` on docker/build-push-action ([#472](https://github.com/sensebox/openSenseMap/issues/472)) ([78d330b](https://github.com/sensebox/openSenseMap/commit/78d330ba81c89ac8f2be4b012dc0b2e004168626))
+* **ci:** specify docker platform ([542d0a9](https://github.com/sensebox/openSenseMap/commit/542d0a9d28071b916541951bb012eebdb62c21c0))
+* **ci:** specify docker platform ([#471](https://github.com/sensebox/openSenseMap/issues/471)) ([be733d8](https://github.com/sensebox/openSenseMap/commit/be733d88af7fc1a04ae084883b24e9e0f1e85ea0))
+
 ### [3.3.5](https://github.com/sensebox/openSenseMap/compare/v3.3.4...v3.3.5) (2023-03-30)
 
 

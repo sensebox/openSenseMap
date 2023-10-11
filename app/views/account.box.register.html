@@ -1150,6 +1150,20 @@
                       {{'LD_INFO_PMS1003_WITHOUT' | translate}}
                     </label>
                   </div>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sps30-bme280" value="luftdaten_sps30_bme280"
+                      ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sps30-bme280">
+                      {{'LD_INFO_SPS30_BME280' | translate}}
+                    </label>
+                  </div>
+                  <div class="radio radio-success">
+                    <input type="radio" name="model" id="luftdaten-sps30-sht3x" value="luftdaten_sps30_sht3x"
+                      ng-model="register.modelSelected.id" required>
+                    <label for="luftdaten-sps30-sht3x">
+                      {{'LD_INFO_SPS30_SHT3X' | translate}}
+                    </label>
+                  </div>
                 </div>
                 <div uib-accordion-group class="panel-default" is-open="register.open.hackair">
                   <uib-accordion-heading>

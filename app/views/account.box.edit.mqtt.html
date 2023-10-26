@@ -22,7 +22,15 @@
   <!-- MQTT URL -->
   <div ng-class="{'has-error': mqttSettings.mqttURL.$invalid, 'has-success': mqttSettings.mqttURL.$valid }">
     <label for="mqttURL">{{ 'MQTT_URL' | translate}}*</label>
-    <input type="url" name="mqttURL" class="form-control" ng-model="mqtt.settings.url" title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}" ng-required="mqtt.settings.enabled" ng-disabled="!mqtt.settings.enabled">
+    <input
+      type="text"
+      name="mqttURL"
+      class="form-control"
+      ng-model="mqtt.settings.url"
+      ng-pattern="mqtt.urlRegEx"
+      title="{{ 'PLEASE_SPECIFY_FIRSTNAME' | translate }}"
+      ng-required="mqtt.settings.enabled"
+      ng-disabled="!mqtt.settings.enabled">
   </div>
 
   <!-- MQTT TOPIC -->

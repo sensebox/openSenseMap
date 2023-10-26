@@ -16,11 +16,12 @@
       topic: '',
       messageFormat: '',
       decodeOptions: '',
-      connectionOptions: ''
+      connectionOptions: '',
     };
 
     vm.save = save;
-
+    // Inspired by https://regex101.com/r/mIA28O/1
+    vm.urlRegEx = /^((mqtt|ws)s?:\/\/)(([^:\s]+):([^:\s]+)@)?([a-zA-Z0-9.-]+)(:\d{1,5})?(\/[^?#\s]*)?$/;
     activate();
 
     ////

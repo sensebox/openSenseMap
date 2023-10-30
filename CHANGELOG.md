@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/sensebox/openSenseMap/compare/v3.3.0...v3.5.0) (2023-10-30)
+
+
+### Features
+
+* **account:** dashboard boxes pagination ([#475](https://github.com/sensebox/openSenseMap/issues/475)) ([b032ba5](https://github.com/sensebox/openSenseMap/commit/b032ba514f1b5bba61e125c9caa9215a00bbe03e))
+
+
+### Bug Fixes
+
+* **ci:** set `provenance: false` on docker/build-push-action ([#472](https://github.com/sensebox/openSenseMap/issues/472)) ([78d330b](https://github.com/sensebox/openSenseMap/commit/78d330ba81c89ac8f2be4b012dc0b2e004168626))
+* **ci:** specify docker platform ([542d0a9](https://github.com/sensebox/openSenseMap/commit/542d0a9d28071b916541951bb012eebdb62c21c0))
+* **ci:** specify docker platform ([#471](https://github.com/sensebox/openSenseMap/issues/471)) ([be733d8](https://github.com/sensebox/openSenseMap/commit/be733d88af7fc1a04ae084883b24e9e0f1e85ea0))
+* **edit:** validate MQTT Integration url ([#477](https://github.com/sensebox/openSenseMap/issues/477)) ([6bf2b59](https://github.com/sensebox/openSenseMap/commit/6bf2b59c0e12c80a76f505536537ec06cd07c061))
+
 ## [3.4.0](https://github.com/sensebox/openSenseMap/compare/v3.2.0...v3.4.0) (2023-07-06)
 
 

@@ -20,6 +20,7 @@
         <div class="form-group">
           <span class="badge sborange" ng-hide="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_NOT_CONFIRMED'|translate}}</span>
           <span class="badge sbgreen" ng-show="settings.details.emailIsConfirmed">{{'ACCOUNT_MAIL_CONFIRMED'|translate}}</span>
+          <button type="button" class="btn btn-default pull-right" ng-click="settings.resendEmailConfirmation()">{{'ACCOUNT_RESEND_EMAIL'|translate}}</button>
         </div>
         <hr>
         <div class="form-group">

@@ -195,6 +195,13 @@
             data: {
               requiresLogin: true,
             },
+            resolve: {
+              emailConfirmed: function (AccountService) {
+                return AccountService.getUserDetails().then(function (data) {
+                  return data.data.me.emailIsConfirmed;
+                });
+              }
+            }
           })
           .state('account.dataupload', {
             url: '/:id/dataupload',
@@ -366,6 +373,11 @@
                 templateUrl: 'views/account.dashboard.html',
               },
             },
+            onEnter: function ($state, emailConfirmed) {
+              if (!emailConfirmed) {
+                $state.go('account.settings');
+              }
+            }
           })
           .state('account.settings', {
             url: '/settings',
@@ -422,6 +434,11 @@
                 templateUrl: 'views/account.box.register.html',
               },
             },
+            onEnter: function ($state, emailConfirmed) {
+              if (!emailConfirmed) {
+                $state.go('account.settings');
+              }
+            }
           })
           .state('register', {
             url: '/register',

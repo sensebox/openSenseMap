@@ -232,8 +232,8 @@
         return 'homeV2';
       }
 
-      if (vm.modelSelected.id.startsWith('mcus2')) {
-        return 'mcus2';
+      if (vm.modelSelected.id.startsWith('homeV2MCUS2')) {
+        return 'homeV2MCUS2';
       }
 
       if (vm.modelSelected.id.startsWith('home')) {
@@ -448,6 +448,9 @@
                 break;
               case 'sps30':
                 vm.newSenseBox.sensorTemplates.push('sps30');
+                break;
+              case 'rg-15':
+                vm.newSenseBox.sensorTemplates.push('rain');
                 break;
               }
             }

@@ -245,9 +245,9 @@
                             <p>{{'BASED_MCU' | translate}}</p>
                             <p>
                               <div class="radio radio-success">
-                                <input type="radio" name="model" id="mcus2" value="mcus2"
+                                <input type="radio" name="model" id="homeV2MCUS2" value="homeV2MCUS2"
                                   ng-model="register.modelSelected.id" required>
-                                <label for="mcus2">
+                                <label for="homeV2MCUS2">
                                   {{'SELECT' | translate}}
                                 </label>
                               </div>
@@ -266,7 +266,7 @@
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-ethernet" value="Ethernet"
                             ng-model="register.newModel.connection"
-                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'mcus2' ">
+                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'homeV2MCUS2' ">
                           <label for="sensebox-ethernet">
                             Ethernet
                           </label>
@@ -277,17 +277,17 @@
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-wifi" value="Wifi"
                             ng-model="register.newModel.connection"
-                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'mcus2'">
+                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'homeV2MCUS2'">
                           <label for="sensebox-wifi">
                             WiFi
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'mcus2' ">
+                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'homeV2MCUS2' ">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-lora" value="Lora"
                             ng-model="register.newModel.connection"
-                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'mcus2'">
+                            ng-required="register.modelSelected.id === 'home' || register.modelSelected.id === 'homeV2' || register.modelSelected.id === 'homeV2MCUS2'">
                           <label for="sensebox-lora">
                             LoRa
                           </label>
@@ -580,7 +580,7 @@
                       </ul>
                     </div>
                   </div>
-                  <div class="row" ng-show="register.isSenseBoxModel() === 'mcus2' ">
+                  <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2MCUS2' ">
                     <div style="text-align: center;">
                       <h3>{{'SENSORS' | translate}}</h3>
                       <div uib-alert class="alert-warning" ng-show="register.showSameAddressWarning">{{'SAME_ADDRESS_WARNING' | translate}}</div>

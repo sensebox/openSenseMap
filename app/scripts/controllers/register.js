@@ -684,6 +684,24 @@
         unit = 'µg/m³';
         sensorType = 'SPS30';
         break;
+      case 'rg15_intensity':
+        icon = 'osem-cloud';
+        title = 'Regenintensität';
+        unit = 'mm/h';
+        sensorType = 'RG-15';
+        break;
+      case 'rg15_eventAcc':
+        icon = 'osem-cloud';
+        title = 'Regenereignis';
+        unit = 'mm';
+        sensorType = 'RG-15';
+        break;
+      case 'rg15_totalAcc':
+        icon = 'osem-cloud';
+        title = 'Regenmenge';
+        unit = 'mm';
+        sensorType = 'RG-15';
+        break;
       }
 
       return {
@@ -954,6 +972,10 @@
         addSensorTemplate('SPS30_PM25');
         addSensorTemplate('SPS30_PM4');
         addSensorTemplate('SPS30_PM10');
+      } else if (newValue.rg15 && oldValue.rg15 === false) {
+        addSensorTemplate('rg15_intensity');
+        addSensorTemplate('rg15_eventAcc');
+        addSensorTemplate('rg15_totalAcc');
       }
 
       // Remove sensor templates
@@ -980,6 +1002,10 @@
         removeSensorTemplate(generateSensorTemplate('SPS30_P25'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM4'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM10'));
+      } else if (oldValue.rg15 && newValue.rg15 === '') {
+        removeSensorTemplate(generateSensorTemplate('rg15_intensity'));
+        removeSensorTemplate(generateSensorTemplate('rg15_eventAcc'));
+        removeSensorTemplate(generateSensorTemplate('rg15_totalAcc'));
       }
 
       // Check on change for sensors with same address

@@ -232,6 +232,10 @@
         return 'homeV2';
       }
 
+      if (vm.modelSelected.id.startsWith('mcus2')) {
+        return 'mcus2';
+      }
+
       if (vm.modelSelected.id.startsWith('home')) {
         return 'home';
       }

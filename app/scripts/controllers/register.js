@@ -37,7 +37,8 @@
         bme680: false,
         co2: false,
         dps310: false,
-        sps30: false
+        sps30: false,
+        rg15: false
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
@@ -232,8 +233,8 @@
         return 'homeV2';
       }
 
-      if (vm.modelSelected.id.startsWith('homeV2MCUS2')) {
-        return 'homeV2MCUS2';
+      if (vm.modelSelected.id.startsWith('MCUS2')) {
+        return 'MCUS2';
       }
 
       if (vm.modelSelected.id.startsWith('home')) {
@@ -420,7 +421,7 @@
         vm.newSenseBox.model = vm.modelSelected.id;
       }
 
-      if (vm.modelSelected.id === 'homeV2') {
+      if (vm.modelSelected.id === 'homeV2' || vm.modelSelected.id === 'MCUS2') {
         vm.newSenseBox.sensorTemplates = [];
         for (var key in vm.newModel.sensors) {
           if (vm.newModel.sensors.hasOwnProperty(key)) {
@@ -449,8 +450,8 @@
               case 'sps30':
                 vm.newSenseBox.sensorTemplates.push('sps30');
                 break;
-              case 'rg-15':
-                vm.newSenseBox.sensorTemplates.push('rain');
+              case 'rg15':
+                vm.newSenseBox.sensorTemplates.push('rg15');
                 break;
               }
             }
@@ -867,12 +868,20 @@
       if (newValue.indexOf('home') === 0) {
         vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
         vm.sensorSetup = vm.modelSelected.id;
-
         vm.newModel.connection = null;
         vm.extensions.feinstaub.id = '';
 
         vm.invalidHardware = false;
 
+        return;
+      }
+      if (newValue === 'MCUS2') {
+        vm.modelSelected.name = 'senseBox MCU S2';
+        vm.sensorSetup = vm.modelSelected.id;
+        vm.newModel.connection = null;
+        vm.extensions.feinstaub.id = '';
+        vm.invalidHardware = false;
+        
         return;
       }
 

@@ -233,9 +233,6 @@
         return 'homeV2';
       }
 
-      if (vm.modelSelected.id.startsWith('MCUS2')) {
-        return 'MCUS2';
-      }
 
       if (vm.modelSelected.id.startsWith('home')) {
         return 'home';
@@ -421,7 +418,7 @@
         vm.newSenseBox.model = vm.modelSelected.id;
       }
 
-      if (vm.modelSelected.id === 'homeV2' || vm.modelSelected.id === 'MCUS2') {
+      if (vm.modelSelected.id === 'homeV2') {
         vm.newSenseBox.sensorTemplates = [];
         for (var key in vm.newModel.sensors) {
           if (vm.newModel.sensors.hasOwnProperty(key)) {
@@ -875,16 +872,6 @@
 
         return;
       }
-      if (newValue === 'MCUS2') {
-        vm.modelSelected.name = 'senseBox MCU S2';
-        vm.sensorSetup = vm.modelSelected.id;
-        vm.newModel.connection = null;
-        vm.extensions.feinstaub.id = '';
-        vm.invalidHardware = false;
-        
-        return;
-      }
-
       if (newValue.indexOf('luftdaten') === 0) {
         vm.sensorSetup = vm.modelSelected.id;
         vm.extensions.feinstaub.id = '';

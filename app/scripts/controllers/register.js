@@ -448,7 +448,7 @@
                 vm.newSenseBox.sensorTemplates.push('sps30');
                 break;
               case 'rg15':
-                vm.newSenseBox.sensorTemplates.push('rg15');
+                vm.newSenseBox.sensorTemplates.push('rg-15');
                 break;
               }
             }

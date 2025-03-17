@@ -379,35 +379,33 @@
                                 </div> -->
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
-                                  style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline"
-                                      style="vertical-align: middle;">
-                                      <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'"
-                                        ng-false-value="''" ng-model="register.extensions.feinstaub.id">
-                                      <label for="pollutionSensor"> </label>
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="pollutionSensor"
+                                             ng-true-value="'Feinstaub'" ng-false-value="''"
+                                             ng-model="register.extensions.feinstaub.id">
+                                      <label for="pollutionSensor"></label>
                                     </div>
-                                    <img
-                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                                         style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
                                   </div>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                  style="height: 90px; text-align: left; margin-top: 15px;">
-                                  <div class="form-group">
-                                    <label for="groupTag">{{'CONNECTION' | translate}}</label>
-                                    <div class="input-group xxxl">
-                                      <select id="groupTag" class="form-control" style="border-radius: 4px;"
-                                        ng-model="register.newModel.serialPort">
-                                        <!---->
-                                        <option value="Serial1">Serial 1</option>
-                                        <option value="Serial2">Serial 2</option>
-                                      </select>
-                                    </div>
+                              
+                                  <!-- Dropdown-Menü, das nur angezeigt wird, wenn die Checkbox ausgewählt ist -->
+                                  <div ng-show="register.extensions.feinstaub.id" style="margin-top: 10px;">
+                                    <label for="serialSelect" style="display: block; margin-bottom: 5px;">Wähle den Seriellen Port:</label>
+                                    <select id="serialSelect"
+                                            ng-model="register.extensions.feinstaub.sdsSerialPort"
+                                            ng-init="register.extensions.feinstaub.serial='serial1'"
+                                            class="form-control">
+                                      <option value="serial1">Serial 1</option>
+                                      <option value="serial2">Serial 2</option>
+                                    </select>
                                   </div>
                                 </div>
+                              
+
                               </div>
                               <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
@@ -521,21 +519,32 @@
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
-                                  style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline"
-                                      style="vertical-align: middle;">
-                                      <input type="checkbox" id="rg15" ng-true-value="'rg15'"
-                                        ng-false-value="''" ng-model="register.newModel.sensors.rg15">
-                                      <label for="rg15"> </label>
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="rg15"
+                                             ng-true-value="'rg15'" ng-false-value="''"
+                                             ng-model="register.newModel.sensors.rg15">
+                                      <label for="rg15"></label>
                                     </div>
-                                    <img
-                                      src="https://sensebox.kaufen/api/public/uploads/1742213560589-rg-15-small.png"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'SENSOR_RG_15'| translate }}</span>
+                                    <img src="https://sensebox.kaufen/api/public/uploads/1742213560589-rg-15-small.png"
+                                         style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;">{{'SENSOR_RG_15' | translate}}</span>
+                                  </div>
+                                
+                                  <!-- Dropdown-Menü, das nur angezeigt wird, wenn die Checkbox ausgewählt ist -->
+                                  <div ng-show="register.newModel.sensors.rg15" style="margin-top: 10px;">
+                                    <label for="rg15Select" style="display: block; margin-bottom: 5px;">Wähle Serial:</label>
+                                    <select id="rg15Select"
+                                            ng-model="register.newModel.sensors.rg15SerialPort"
+                                            ng-init="register.newModel.sensors.rg15Serial='serial1'"
+                                            class="form-control">
+                                      <option value="serial1">Serial 1</option>
+                                      <option value="serial2">Serial 2</option>
+                                    </select>
                                   </div>
                                 </div>
+                                
                               </div>
                               <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"

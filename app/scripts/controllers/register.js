@@ -40,7 +40,8 @@
         sps30: false,
         rg15: false
       },
-      serialPort: 'Serial1',
+      sdsSerialPort: 'Serial1',
+      rg15SerialPort: 'Serial1',
       soilDigitalPort: 'A',
       soundMeterPort: 'B',
       windSpeedPort: 'C',
@@ -449,6 +450,7 @@
                 break;
               case 'rg15':
                 vm.newSenseBox.sensorTemplates.push('rg-15');
+                vm.newSenseBox.rg15SerialPort = vm.newModel.rg15SerialPort;
                 break;
               }
             }
@@ -456,7 +458,7 @@
         }
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
-          vm.newSenseBox.serialPort = vm.newModel.serialPort;
+          vm.newSenseBox.serialPort = vm.newModel.sdsSerialPort;
         }
         if (vm.extensions.soilMoisture.id !== '') {
           vm.newSenseBox.sensorTemplates.push('smt50');
@@ -470,6 +472,7 @@
           vm.newSenseBox.sensorTemplates.push('windspeed');
           vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
+
       }
 
       if (vm.newModel.connection) {
@@ -483,6 +486,8 @@
         vm.newSenseBox.model =
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
+      console.log("finishing registration", vm.newSenseBox);
+      console.log("finishing model", vm.newModel);
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
@@ -686,12 +691,6 @@
         icon = 'osem-cloud';
         title = 'Regenintensität';
         unit = 'mm/h';
-        sensorType = 'RG-15';
-        break;
-      case 'rg15_eventAcc':
-        icon = 'osem-cloud';
-        title = 'Regenereignis';
-        unit = 'mm';
         sensorType = 'RG-15';
         break;
       case 'rg15_totalAcc':

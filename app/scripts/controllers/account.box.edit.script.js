@@ -71,7 +71,7 @@
       }
 
       if (boxData.sensorsArray.filter(function (s) {
-        return (s.sensorType === 'SPS30' || s.sensorType === 'SDS011');
+        return (s.sensorType === 'SPS30' || s.sensorType === 'SDS 011');
       }).length !== 0) {
         vm.showSdsPort = true;
       }

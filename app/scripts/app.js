@@ -491,7 +491,7 @@
       '$translateProvider',
       function ($translateProvider) {
         $translateProvider.useStaticFilesLoader({
-          prefix: 'https://unpkg.com/@sensebox/opensensemap-i18n@latest/dist/',
+          prefix: 'https://unpkg.com/@sensebox/opensensemap-i18n@4.3.0/dist/',
           suffix: '.json',
         });
         $translateProvider.use('de_DE');

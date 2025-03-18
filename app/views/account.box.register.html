@@ -391,18 +391,6 @@
                                          style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
                                   </div>
-                              
-                                  <!-- Dropdown-Menü, das nur angezeigt wird, wenn die Checkbox ausgewählt ist -->
-                                  <div ng-show="register.extensions.feinstaub.id" style="margin-top: 10px;">
-                                    <label for="serialSelect" style="display: block; margin-bottom: 5px;">Wähle den Seriellen Port:</label>
-                                    <select id="serialSelect"
-                                            ng-model="register.extensions.feinstaub.sdsSerialPort"
-                                            ng-init="register.extensions.feinstaub.serial='serial1'"
-                                            class="form-control">
-                                      <option value="serial1">Serial 1</option>
-                                      <option value="serial2">Serial 2</option>
-                                    </select>
-                                  </div>
                                 </div>
                               
 
@@ -531,18 +519,7 @@
                                          style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_RG_15' | translate}}</span>
                                   </div>
-                                
-                                  <!-- Dropdown-Menü, das nur angezeigt wird, wenn die Checkbox ausgewählt ist -->
-                                  <div ng-show="register.newModel.sensors.rg15" style="margin-top: 10px;">
-                                    <label for="rg15Select" style="display: block; margin-bottom: 5px;">Wähle Serial:</label>
-                                    <select id="rg15Select"
-                                            ng-model="register.newModel.sensors.rg15SerialPort"
-                                            ng-init="register.newModel.sensors.rg15Serial='serial1'"
-                                            class="form-control">
-                                      <option value="serial1">Serial 1</option>
-                                      <option value="serial2">Serial 2</option>
-                                    </select>
-                                  </div>
+                              
                                 </div>
                                 
                               </div>
@@ -1660,10 +1637,11 @@
                   </div>
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('sds 011')">
-                  <label for="serialport">{{'PORT'|translate}}</label>
+                  <label for="serialport">Serial Port (SDS011)</label>
                   <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
                     tooltip-trigger="'mouseenter'">
-                    <select type="text" class="form-control" id="serialport" ng-model="register.newSenseBox.serialPort"
+                    <select type="text" class="form-control" id="serialport" ng-init="register.newSenseBox.sdsSerialPort='Serial1'"
+                    ng-model="register.newSenseBox.sdsSerialPort"
                       ng-change="register.generateScript()">
                       <option value="Serial1">Serial 1</option>
                       <option value="Serial2">Serial 2</option>
@@ -1672,6 +1650,24 @@
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
                   </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('rg-15')">
+                  <label for="rg15Select">Serial Port (RG‑15)</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
+                  tooltip-trigger="'mouseenter'">
+                  <select id="rg15Select"
+                          ng-model="register.newSenseBox.rg15SerialPort"
+                          ng-init="register.newSenseBox.rg15SerialPort='Serial1'"
+                          class="form-control"
+                          ng-change="register.generateScript()">
+                      <option value="Serial1">Serial 1</option>
+                      <option value="Serial2">Serial 2</option>
+                  </select>
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                  </div>
+                </div>
+
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('smt50')">
                   <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>

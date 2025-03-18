@@ -12,10 +12,12 @@
     vm.box = boxData;
     vm.display_enabled = false;
     vm.enable_debug = false;
-    vm.serialPort = 'Serial1';
+    vm.sdsSerialPort = 'Serial1';
+    vm.rg15SerialPort = 'Serial1';
     vm.boxScript = '';
     vm.showConfiguration = false;
-    vm.showSerialPort = false;
+    vm.showSdsPort = false;
+    vm.showRG15Port = false;
     vm.soilDigitalPort = 'A';
     vm.showSoilDigitalPort = false;
     vm.soundMeterPort = 'B';
@@ -43,16 +45,11 @@
     ////
 
     function activate () {
+      console.log(boxData);
       if (boxData.model.startsWith('homeV2Wifi')) {
         vm.showConfiguration = true;
         vm.showWifiConfiguration = true;
       }
-      if (boxData.model === 'homeV2WifiFeinstaub' || boxData.sensorsArray.filter(function (s) {
-        return s.title === 'PM10';
-      }).length > 0) {
-        vm.showSerialPort = true;
-      }
-
       if (boxData.model === 'homeV2Lora') {
         vm.showConfiguration = true;
         vm.showTTNConfiguration = true;
@@ -66,6 +63,17 @@
         return s.sensorType === 'SMT50';
       }).length !== 0) {
         vm.showSoilDigitalPort = true;
+      }
+      if (boxData.sensorsArray.filter(function (s) {
+        return s.sensorType === 'RG-15';
+      }).length !== 0) {
+        vm.showRG15Port = true;
+      }
+
+      if (boxData.sensorsArray.filter(function (s) {
+        return (s.sensorType === 'SPS30' || s.sensorType === 'SDS011');
+      }).length !== 0) {
+        vm.showSdsPort = true;
       }
 
       if (boxData.sensorsArray.filter(function (s) {
@@ -91,8 +99,9 @@
 
     function getScript () {
       return AccountService.getScript(boxData._id, {
-        serialPort: vm.serialPort,
         soilDigitalPort: vm.soilDigitalPort,
+        sdsSerialPort: vm.sdsSerialPort,
+        rg15SerialPort: vm.rg15SerialPort,
         soundMeterPort: vm.soundMeterPort,
         windSpeedPort: vm.windSpeedPort,
         ssid: vm.wifi.ssid,

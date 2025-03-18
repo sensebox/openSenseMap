@@ -198,7 +198,9 @@
 
     function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
-        serialPort: vm.newSenseBox.serialPort,
+        model: vm.newSenseBox.model === 'homeV2WifiFeinstaub' ? 'homeV2' : vm.newSenseBox.model,
+        sdsSerialPort: vm.newSenseBox.sdsSerialPort,
+        rg15SerialPort: vm.newSenseBox.rg15SerialPort,
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
         soundMeterPort: vm.newSenseBox.soundMeterPort,
         windSpeedPort: vm.newSenseBox.windSpeedPort,
@@ -377,7 +379,8 @@
     function downloadArduino (boxId, model) {
       var data = {};
       if (model.startsWith('homeV2')) {
-        data.serialPort = vm.newModel.serialPort;
+        data.sdsSerialPort = vm.newSenseBox.sdsSerialPort;
+        data.rg15SerialPort = vm.newSenseBox.rg15SerialPort;
         data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
         data.soundMeterPort = vm.newSenseBox.soundMeterPort;
         data.windSpeedPort = vm.newSenseBox.windSpeedPort;
@@ -450,7 +453,6 @@
                 break;
               case 'rg15':
                 vm.newSenseBox.sensorTemplates.push('rg-15');
-                vm.newSenseBox.rg15SerialPort = vm.newModel.rg15SerialPort;
                 break;
               }
             }
@@ -458,7 +460,7 @@
         }
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
-          vm.newSenseBox.serialPort = vm.newModel.sdsSerialPort;
+          vm.newSenseBox.sdsSerialPort = vm.newModel.sdsSerialPort;
         }
         if (vm.extensions.soilMoisture.id !== '') {
           vm.newSenseBox.sensorTemplates.push('smt50');
@@ -486,8 +488,6 @@
         vm.newSenseBox.model =
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
-      console.log("finishing registration", vm.newSenseBox);
-      console.log("finishing model", vm.newModel);
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
@@ -969,7 +969,6 @@
         addSensorTemplate('SPS30_PM10');
       } else if (newValue.rg15 && oldValue.rg15 === false) {
         addSensorTemplate('rg15_intensity');
-        addSensorTemplate('rg15_eventAcc');
         addSensorTemplate('rg15_totalAcc');
       }
 

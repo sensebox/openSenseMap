@@ -452,7 +452,7 @@
                 vm.newSenseBox.sensorTemplates.push('sps30');
                 break;
               case 'rg15':
-                vm.newSenseBox.sensorTemplates.push('rg-15');
+                vm.newSenseBox.sensorTemplates.push('rg15');
                 break;
               }
             }
@@ -691,13 +691,13 @@
         icon = 'osem-cloud';
         title = 'Regenintensität';
         unit = 'mm/h';
-        sensorType = 'RG-15';
+        sensorType = 'RG15';
         break;
       case 'rg15_totalAcc':
         icon = 'osem-cloud';
         title = 'Regenmenge';
         unit = 'mm';
-        sensorType = 'RG-15';
+        sensorType = 'RG15';
         break;
       }
 

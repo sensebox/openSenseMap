@@ -65,7 +65,7 @@
         vm.showSoilDigitalPort = true;
       }
       if (boxData.sensorsArray.filter(function (s) {
-        return s.sensorType === 'RG-15';
+        return s.sensorType === 'RG15';
       }).length !== 0) {
         vm.showRG15Port = true;
       }

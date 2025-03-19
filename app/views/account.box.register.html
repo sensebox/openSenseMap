@@ -263,7 +263,7 @@
                           </label>
                         </div>
                       </div>
-                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'">
+                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'  ">
                         <div class="radio radio-success">
                           <input type="radio" name="connection" id="sensebox-lora" value="Lora"
                             ng-model="register.newModel.connection"
@@ -275,7 +275,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2'">
+                  <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2' ">
                     <div style="text-align: center;">
                       <h3>{{'SENSORS' | translate}}</h3>
                       <div uib-alert class="alert-warning" ng-show="register.showSameAddressWarning">{{'SAME_ADDRESS_WARNING' | translate}}</div>
@@ -379,35 +379,21 @@
                                 </div> -->
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
-                                  style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline"
-                                      style="vertical-align: middle;">
-                                      <input type="checkbox" id="pollutionSensor" ng-true-value="'Feinstaub'"
-                                        ng-false-value="''" ng-model="register.extensions.feinstaub.id">
-                                      <label for="pollutionSensor"> </label>
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="pollutionSensor"
+                                             ng-true-value="'Feinstaub'" ng-false-value="''"
+                                             ng-model="register.extensions.feinstaub.id">
+                                      <label for="pollutionSensor"></label>
                                     </div>
-                                    <img
-                                      src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <img src="https://sensebox.kaufen/api//public/uploads/thumbs/thumb--1525358769594-nova-fitness-sds011-laser-pm25-pm10-dust-feinstaub-sensor-modul-luft-qualitaet-detector-built-in-fan.jpg"
+                                         style="vertical-align: middle; height: 90px; width: 90px;" />
                                     <span style="vertical-align: middle;">{{'SENSOR_PM' | translate}}</span>
                                   </div>
                                 </div>
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-                                  style="height: 90px; text-align: left; margin-top: 15px;">
-                                  <div class="form-group">
-                                    <label for="groupTag">{{'CONNECTION' | translate}}</label>
-                                    <div class="input-group xxxl">
-                                      <select id="groupTag" class="form-control" style="border-radius: 4px;"
-                                        ng-model="register.newModel.serialPort">
-                                        <!---->
-                                        <option value="Serial1">Serial 1</option>
-                                        <option value="Serial2">Serial 2</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
+                              
+
                               </div>
                               <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
@@ -521,21 +507,21 @@
                                 </div>
                               </div>
                               <div class="row">
-                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6"
-                                  style="border-right: 1px solid #e1e4e8;">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
                                   <div style="text-align: left;">
-                                    <div class="checkbox checkbox-success checkbox-inline"
-                                      style="vertical-align: middle;">
-                                      <input type="checkbox" id="sps30" ng-true-value="'sps30'"
-                                        ng-false-value="''" ng-model="register.newModel.sensors.sps30">
-                                      <label for="sps30"> </label>
+                                    <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                                      <input type="checkbox" id="rg15"
+                                             ng-true-value="'rg15'" ng-false-value="''"
+                                             ng-model="register.newModel.sensors.rg15">
+                                      <label for="rg15"></label>
                                     </div>
-                                    <img
-                                      src="https://raw.githubusercontent.com/sensebox/resources/master/images/home/sps30.png"
-                                      style="vertical-align: middle; height: 90px; width: 90px;" />
-                                    <span style="vertical-align: middle;">{{'SENSOR_PM_SPS'| translate }}</span>
+                                    <img src="https://sensebox.kaufen/api/public/uploads/1742213560589-rg-15-small.png"
+                                         style="vertical-align: middle; height: 90px; width: 90px;" />
+                                    <span style="vertical-align: middle;"> {{'SENSOR_RG_15'| translate }}</span>
                                   </div>
+                              
                                 </div>
+                                
                               </div>
                             </div>
                           </div>
@@ -893,66 +879,6 @@
                           <p>
                             <button type="button" class="btn btn-success"
                               ng-click="register.addSensorTemplate('scd30_co2')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://raw.githubusercontent.com/sensebox/resources/master/images/home/sps30.png"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>Feinstaub PM1<sub></sub></h4>
-                          <p>(SPS30)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('SPS30_PM1')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://raw.githubusercontent.com/sensebox/resources/master/images/home/sps30.png"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>Feinstaub PM25<sub></sub></h4>
-                          <p>(SPS30)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('SPS30_PM25')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://raw.githubusercontent.com/sensebox/resources/master/images/home/sps30.png"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>Feinstaub PM4<sub></sub></h4>
-                          <p>(SPS30)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('SPS30_PM4')">{{'ADD_SENSOR'|translate}}</button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-3 col-md-3 col-lg-3">
-                      <div class="thumbnail">
-                        <img
-                          src="https://raw.githubusercontent.com/sensebox/resources/master/images/home/sps30.png"
-                          style="vertical-align: middle; height: 90px; width: 90px;" alt="">
-                        <div class="caption">
-                          <h4>Feinstaub PM10<sub></sub></h4>
-                          <p>(SPS30)</p>
-                          <p>
-                            <button type="button" class="btn btn-success"
-                              ng-click="register.addSensorTemplate('SPS30_PM10')">{{'ADD_SENSOR'|translate}}</button>
                           </p>
                         </div>
                       </div>
@@ -1634,10 +1560,11 @@
                   </div>
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('sds 011')">
-                  <label for="serialport">{{'PORT'|translate}}</label>
+                  <label for="serialport">Serial Port (SDS011)</label>
                   <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
                     tooltip-trigger="'mouseenter'">
-                    <select type="text" class="form-control" id="serialport" ng-model="register.newSenseBox.serialPort"
+                    <select type="text" class="form-control" id="serialport" ng-init="register.newSenseBox.sdsSerialPort='Serial1'"
+                    ng-model="register.newSenseBox.sdsSerialPort"
                       ng-change="register.generateScript()">
                       <option value="Serial1">Serial 1</option>
                       <option value="Serial2">Serial 2</option>
@@ -1646,6 +1573,24 @@
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
                   </div>
+                </div>
+                <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('rg15')">
+                  <label for="rg15Select">Serial Port (RG‑15)</label>
+                  <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
+                  tooltip-trigger="'mouseenter'">
+                  <select id="rg15Select"
+                          ng-model="register.newSenseBox.rg15SerialPort"
+                          ng-init="register.newSenseBox.rg15SerialPort='Serial1'"
+                          class="form-control"
+                          ng-change="register.generateScript()">
+                      <option value="Serial1">Serial 1</option>
+                      <option value="Serial2">Serial 2</option>
+                  </select>
+                  <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+                  </div>
+                </div>
+
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('smt50')">
                   <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>

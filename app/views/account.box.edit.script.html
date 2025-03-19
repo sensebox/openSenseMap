@@ -30,11 +30,25 @@
         <span style="vertical-align: middle;">{{'DISPLAY_ENABLED' | translate}}</span>
       </div>
     </div>
-    <div class="form-group break" ng-if="script.showSerialPort">
-      <label for="serialport">{{'PORT'|translate}}</label>
+    <div class="form-group break" ng-if="script.showSdsPort">
+      <label for="serialport">Serieller Port (SDS011)</label>
       <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
         tooltip-trigger="'mouseenter'">
-        <select type="text" class="form-control" id="serialport" ng-model="script.serialPort"
+        <select type="text" class="form-control" id="serialport" ng-model="script.sdsSerialPort"
+          ng-change="script.generateScript()">
+          <option value="Serial1">Serial 1</option>
+          <option value="Serial2">Serial 2</option>
+        </select>
+        <div class="input-group-addon">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group break" ng-if="script.showRG15Port">
+      <label for="serialport">Serieller Port (RG15)</label>
+      <div class="input-group" uib-tooltip-template="'tooltip_serialports.html'" tooltip-placement="bottom"
+        tooltip-trigger="'mouseenter'">
+        <select type="text" class="form-control" id="serialport" ng-model="script.rg15SerialPort"
           ng-change="script.generateScript()">
           <option value="Serial1">Serial 1</option>
           <option value="Serial2">Serial 2</option>

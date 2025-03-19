@@ -37,9 +37,11 @@
         bme680: false,
         co2: false,
         dps310: false,
-        sps30: false
+        sps30: false,
+        rg15: false
       },
-      serialPort: 'Serial1',
+      sdsSerialPort: 'Serial1',
+      rg15SerialPort: 'Serial1',
       soilDigitalPort: 'A',
       soundMeterPort: 'B',
       windSpeedPort: 'C',
@@ -196,7 +198,9 @@
 
     function getScript () {
       return AccountService.getScript(vm.newSenseBox.id, {
-        serialPort: vm.newSenseBox.serialPort,
+        model: vm.newSenseBox.model === 'homeV2WifiFeinstaub' ? 'homeV2' : vm.newSenseBox.model,
+        sdsSerialPort: vm.newSenseBox.sdsSerialPort,
+        rg15SerialPort: vm.newSenseBox.rg15SerialPort,
         soilDigitalPort: vm.newSenseBox.soilDigitalPort,
         soundMeterPort: vm.newSenseBox.soundMeterPort,
         windSpeedPort: vm.newSenseBox.windSpeedPort,
@@ -231,6 +235,7 @@
       if (vm.modelSelected.id.startsWith('homeV2')) {
         return 'homeV2';
       }
+
 
       if (vm.modelSelected.id.startsWith('home')) {
         return 'home';
@@ -374,7 +379,8 @@
     function downloadArduino (boxId, model) {
       var data = {};
       if (model.startsWith('homeV2')) {
-        data.serialPort = vm.newModel.serialPort;
+        data.sdsSerialPort = vm.newSenseBox.sdsSerialPort;
+        data.rg15SerialPort = vm.newSenseBox.rg15SerialPort;
         data.soilDigitalPort = vm.newSenseBox.soilDigitalPort;
         data.soundMeterPort = vm.newSenseBox.soundMeterPort;
         data.windSpeedPort = vm.newSenseBox.windSpeedPort;
@@ -445,13 +451,16 @@
               case 'sps30':
                 vm.newSenseBox.sensorTemplates.push('sps30');
                 break;
+              case 'rg15':
+                vm.newSenseBox.sensorTemplates.push('rg15');
+                break;
               }
             }
           }
         }
         if (vm.extensions.feinstaub.id !== '') {
           vm.newSenseBox.sensorTemplates.push('sds 011');
-          vm.newSenseBox.serialPort = vm.newModel.serialPort;
+          vm.newSenseBox.sdsSerialPort = vm.newModel.sdsSerialPort;
         }
         if (vm.extensions.soilMoisture.id !== '') {
           vm.newSenseBox.sensorTemplates.push('smt50');
@@ -465,6 +474,7 @@
           vm.newSenseBox.sensorTemplates.push('windspeed');
           vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
+
       }
 
       if (vm.newModel.connection) {
@@ -677,6 +687,18 @@
         unit = 'µg/m³';
         sensorType = 'SPS30';
         break;
+      case 'rg15_intensity':
+        icon = 'osem-cloud';
+        title = 'Niederschlagsintensität';
+        unit = 'mm/h';
+        sensorType = 'RG15';
+        break;
+      case 'rg15_totalAcc':
+        icon = 'osem-cloud';
+        title = 'Gesamtniederschlag';
+        unit = 'mm';
+        sensorType = 'RG15';
+        break;
       }
 
       return {
@@ -842,7 +864,6 @@
       if (newValue.indexOf('home') === 0) {
         vm.modelSelected.name = 'senseBox Home ' + newValue.substring(4);
         vm.sensorSetup = vm.modelSelected.id;
-
         vm.newModel.connection = null;
         vm.extensions.feinstaub.id = '';
 
@@ -850,7 +871,6 @@
 
         return;
       }
-
       if (newValue.indexOf('luftdaten') === 0) {
         vm.sensorSetup = vm.modelSelected.id;
         vm.extensions.feinstaub.id = '';
@@ -947,6 +967,9 @@
         addSensorTemplate('SPS30_PM25');
         addSensorTemplate('SPS30_PM4');
         addSensorTemplate('SPS30_PM10');
+      } else if (newValue.rg15 && oldValue.rg15 === false) {
+        addSensorTemplate('rg15_intensity');
+        addSensorTemplate('rg15_totalAcc');
       }
 
       // Remove sensor templates
@@ -973,6 +996,10 @@
         removeSensorTemplate(generateSensorTemplate('SPS30_P25'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM4'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM10'));
+      } else if (oldValue.rg15 && newValue.rg15 === '') {
+        removeSensorTemplate(generateSensorTemplate('rg15_intensity'));
+        removeSensorTemplate(generateSensorTemplate('rg15_eventAcc'));
+        removeSensorTemplate(generateSensorTemplate('rg15_totalAcc'));
       }
 
       // Check on change for sensors with same address

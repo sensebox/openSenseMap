@@ -689,13 +689,13 @@
         break;
       case 'rg15_intensity':
         icon = 'osem-cloud';
-        title = 'Regenintensität';
+        title = 'Niederschlagsintensität';
         unit = 'mm/h';
         sensorType = 'RG15';
         break;
       case 'rg15_totalAcc':
         icon = 'osem-cloud';
-        title = 'Regenmenge';
+        title = 'Gesamtniederschlag';
         unit = 'mm';
         sensorType = 'RG15';
         break;

@@ -422,7 +422,6 @@
       } else {
         vm.newSenseBox.model = vm.modelSelected.id;
       }
-      
       vm.newSenseBox.solar = vm.newModel.solar;
 
 

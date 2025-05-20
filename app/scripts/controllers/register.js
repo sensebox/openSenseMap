@@ -999,6 +999,10 @@
       } else if (newValue.rg15 && oldValue.rg15 === false) {
         addSensorTemplate('rg15_intensity');
         addSensorTemplate('rg15_totalAcc');
+      } else if (newValue.sb041 && oldValue.sb041 === false) {
+        addSensorTemplate('sb041_level');
+        addSensorTemplate('sb041_batteryvoltage');
+        addSensorTemplate('sb041_solarvoltage');
       }
 
       // Remove sensor templates
@@ -1029,7 +1033,13 @@
         removeSensorTemplate(generateSensorTemplate('rg15_intensity'));
         removeSensorTemplate(generateSensorTemplate('rg15_eventAcc'));
         removeSensorTemplate(generateSensorTemplate('rg15_totalAcc'));
+      } else if (oldValue.sb041 && newValue.sb041 === '') {
+        removeSensorTemplate(generateSensorTemplate('sb041_level'));
+        removeSensorTemplate(generateSensorTemplate('sb041_batteryvoltage'));
+        removeSensorTemplate(generateSensorTemplate('sb041_solarvoltage'));
       }
+
+
 
       // Check on change for sensors with same address
       if ([vm.newModel.sensors.bme680, vm.newModel.sensors.dps310, vm.newModel.sensors.pressure].filter(Boolean).length >= 2) {

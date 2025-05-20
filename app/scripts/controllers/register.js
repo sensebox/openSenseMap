@@ -38,7 +38,8 @@
         co2: false,
         dps310: false,
         sps30: false,
-        rg15: false
+        rg15: false,
+        sb041: false,
       },
       sdsSerialPort: 'Serial1',
       rg15SerialPort: 'Serial1',
@@ -421,6 +422,10 @@
       } else {
         vm.newSenseBox.model = vm.modelSelected.id;
       }
+      
+      vm.newSenseBox.solar = vm.newModel.solar;
+
+
 
       if (vm.modelSelected.id === 'homeV2') {
         vm.newSenseBox.sensorTemplates = [];
@@ -454,6 +459,9 @@
               case 'rg15':
                 vm.newSenseBox.sensorTemplates.push('rg15');
                 break;
+              case 'sb041':
+                vm.newSenseBox.sensorTemplates.push('sb041');
+                break;
               }
             }
           }
@@ -474,6 +482,9 @@
           vm.newSenseBox.sensorTemplates.push('windspeed');
           vm.newSenseBox.windSpeedPort = vm.extensions.windSpeed.port;
         }
+        if (vm.newModel.solar) {
+          vm.newSenseBox.sensorTemplates.push('solar');
+        }
 
       }
 
@@ -488,6 +499,7 @@
         vm.newSenseBox.model =
           vm.newSenseBox.model + vm.extensions.feinstaub.id;
       }
+
 
       AccountService.postNewBox(vm.newSenseBox)
         .then(function (data) {
@@ -698,6 +710,24 @@
         title = 'Gesamtniederschlag';
         unit = 'mm';
         sensorType = 'RG15';
+        break;
+      case 'sb041_level':
+        icon = 'osem-battery';
+        title = 'Ladelevel';
+        unit = 'V';
+        sensorType = 'SB041';
+        break;
+      case 'sb041_batteryvoltage':
+        icon = 'osem-battery';
+        title = 'Batteriespannung';
+        unit = 'V';
+        sensorType = 'SB041';
+        break;
+      case 'sb041_solarcurrent':
+        icon = 'osem-battery';
+        title = 'Solarspannung';
+        unit = 'V';
+        sensorType = 'SB041';
         break;
       }
 

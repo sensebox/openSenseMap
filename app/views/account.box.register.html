@@ -275,6 +275,30 @@
                       </div>
                     </div>
                   </div>
+                  <div class="row" ng-show="register.isSenseBoxModel() !== ''">
+                    <div style="text-align: center;">
+                      <h3>{{ 'POWERSUPPLY' | translate}}</h3>
+                      <hr>
+                      <div class="col-lg-4" ng-if="register.modelSelected.id === 'homeV2'  ">
+                        <div class="checkbox checkbox-success">
+
+                        </div>
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-8 col-xs-6" style="border-right: 1px solid #e1e4e8;">
+                      <div style="text-align: left;">
+                        <div class="checkbox checkbox-success checkbox-inline" style="vertical-align: middle;">
+                          <input type="checkbox" id="sb041"
+                                  ng-true-value="'sb041'" ng-false-value="''"
+                                  ng-model="register.newModel.sensors.sb041">
+                          <label for="sb041"></label>
+                        </div>
+                        <img src="../images/solarpanel2.png"
+                              style="vertical-align: middle; height: 120px; width: 80px;" />
+                        <span style="vertical-align: middle;"> {{'SOLARSET' | translate }}</span>
+                    </div>
+                  </div>
+                    </div>
+                  </div>
                   <div class="row" ng-show="register.isSenseBoxModel() === 'homeV2' ">
                     <div style="text-align: center;">
                       <h3>{{'SENSORS' | translate}}</h3>

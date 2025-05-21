@@ -722,7 +722,7 @@
         unit = 'V';
         sensorType = 'SB041';
         break;
-      case 'sb041_solarcurrent':
+      case 'sb041_solarvoltage':
         icon = 'osem-battery';
         title = 'Solarspannung';
         unit = 'V';

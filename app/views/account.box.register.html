@@ -1606,6 +1606,7 @@
                     <div class="input-group-addon">
                       <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                     </div>
+                    
                   </div>
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('rg15')">
@@ -1624,7 +1625,10 @@
                     <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
                   </div>
                 </div>
-
+                  <div class="text-danger"
+                       ng-show="register.newSenseBox.sdsSerialPort === register.newSenseBox.rg15SerialPort">
+                    {{ 'NOTSAMESERIALPORT' |translate}}
+                  </div>
                 </div>
                 <div class="form-group" ng-if="register.newSenseBox.sensorTemplates.includes('smt50')">
                   <label for="soilDigitalPort">{{'SOIL_MOISTURE'|translate}} {{'DIGITAL_PORT'|translate}}</label>
@@ -1733,7 +1737,7 @@
                   </div>
                 </div>
                 <button type="button" class="btn btn-success" ng-click="register.compile()"
-                  ng-disabled="register.compiling">
+                  ng-disabled="register.compiling || register.newSenseBox.sdsSerialPort === register.newSenseBox.rg15SerialPort">
                   <i class="fa fa-circle-o-notch fa-spin fa-fw" ng-if="register.compiling"></i> {{'COMPILE'|translate}}
                 </button>
               </div>

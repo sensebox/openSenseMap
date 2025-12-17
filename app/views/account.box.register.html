@@ -1178,6 +1178,33 @@
                     </label>
                   </div>
                 </div>
+
+                <div uib-accordion-group class="panel-default" is-open="register.open.noiseMonitor">
+                  <uib-accordion-heading>
+                    senseBox:noiseMonitor <i class="pull-right glyphicon"
+                      ng-class="{'glyphicon-chevron-down': register.open.collapse6, 'glyphicon-chevron-right': !register.open.collapse6}"></i>
+                  </uib-accordion-heading>
+                         <div class="col-sm-6 col-md-6 col-lg-6">
+                        <div class="thumbnail">
+                               <img src="/images/NoiseMonitor.png" alt=""
+                              style="vertical-align: middle; height: 210px; width: 420px;" />
+                          <div class="caption">
+                            <h3>Noise Monitor</h3>
+                            <p>{{'Ein DIY Messgerät mit Fokus auf Lautstärkemessungen.' | translate}}</p>
+                            <p>
+                              <div class="radio radio-success">
+                                <input type="radio" name="model" id="noiseMonitor" value="noiseMonitor"
+                                  ng-model="register.modelSelected.id" required>
+                                <label for="noiseMonitor">
+                                  {{'SELECT' | translate}}
+                                </label>
+                              </div>  
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div> 
+                  
                 <div uib-accordion-group class="panel-default" is-open="register.open.custom">
                   <uib-accordion-heading>
                     {{'MANUAL_CONFIGURATION'|translate}} <i class="pull-right glyphicon"
@@ -1613,7 +1640,7 @@
                 </tbody>
               </table>
             </div>
-            <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>
+            <h3 ng-if="register.tag != 'edu'">Arduino Code</h3>    
             <div class="alert alert-success" role="alert"
               ng-if="register.newSenseBox.model === 'homeV2WifiFeinstaub' || register.newSenseBox.model === 'homeV2Wifi' || register.newSenseBox.model === 'homeV2Lora' || register.newSenseBox.model === 'homeV2Ethernet'">
               <!-- Check model to show correct compile hint -->

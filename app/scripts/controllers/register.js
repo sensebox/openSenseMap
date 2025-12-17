@@ -37,7 +37,7 @@
         bme680: false,
         co2: false,
         dps310: false,
-        sps30: false
+        sps30: false,
       },
       serialPort: 'Serial1',
       soilDigitalPort: 'A',
@@ -125,6 +125,7 @@
       ttn: false,
       hackair: false,
       edu: false,
+      noiseMonitor: false,
     };
 
     vm.markers = {};
@@ -235,7 +236,6 @@
       if (vm.modelSelected.id.startsWith('home')) {
         return 'home';
       }
-
       return '';
     }
 
@@ -414,6 +414,10 @@
         }
       } else {
         vm.newSenseBox.model = vm.modelSelected.id;
+      }
+
+      if(vm.modelSelected.id === 'noiseMonitor'){
+        vm.newSenseBox.model = 'noiseMonitor';
       }
 
       if (vm.modelSelected.id === 'homeV2') {
@@ -628,6 +632,24 @@
         title = 'Lautstärke';
         unit = 'dB';
         sensorType = 'soundlevelmeter';
+        break;
+     case 'DNMS_MIN':
+        icon = 'osem-volume-up';
+        title = 'Lautstärke (min)';
+        unit = 'dB';
+        sensorType = 'DNMS';
+        break;
+     case 'DNMS_MAX':
+        icon = 'osem-volume-up';
+        title = 'Lautstärke (max)';
+        unit = 'dB';
+        sensorType = 'DNMS';
+        break;
+     case 'DNMS_AVG':
+        icon = 'osem-volume-up';
+        title = 'Lautstärke (avg)';
+        unit = 'dB';
+        sensorType = 'DNMS';
         break;
       case 'windspeed':
         icon = 'osem-particulate-matter';
@@ -879,6 +901,21 @@
         vm.newModel.connection = null;
       }
 
+       if (newValue === 'noiseMonitor') {
+        vm.sensorSetup = '';
+        vm.newModel.connection = null;
+    
+        vm.modelSelected.name = 'NoiseMonitor';
+
+          addSensorTemplate('DNMS_MIN');
+          addSensorTemplate('DNMS_MAX');
+          addSensorTemplate('DNMS_AVG');
+
+        vm.invalidHardware = false;
+
+        return;
+      }
+
       if (newValue === 'custom') {
         vm.sensorSetup = '';
         vm.extensions.feinstaub.id = '';
@@ -973,6 +1010,10 @@
         removeSensorTemplate(generateSensorTemplate('SPS30_P25'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM4'));
         removeSensorTemplate(generateSensorTemplate('SPS30_PM10'));
+      } else if (oldValue.noiseMonitor && newValue.noiseMonitor === false) {
+         removeSensorTemplate(generateSensorTemplate('DNMS_MIN'));
+         removeSensorTemplate(generateSensorTemplate('DNMS_MAX'));
+         removeSensorTemplate(generateSensorTemplate('DNMS_AVG'));
       }
 
       // Check on change for sensors with same address
